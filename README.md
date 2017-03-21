@@ -1,4 +1,4 @@
-Laravel Testing Helper for Packages Development
+Testing Helper for Laravel Development
 ==============
 
 [![Join the chat at https://gitter.im/orchestral/testbench](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/orchestral/testbench?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -12,11 +12,6 @@ Testbench Component is a simple package that has been designed to help you write
 [![Coverage Status](https://img.shields.io/coveralls/orchestral/testbench-core/3.5.svg?style=flat-square)](https://coveralls.io/r/orchestral/testbench-core?branch=3.5)
 
 * [Version Compatibility](#version-compatibility)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Example](#example)
-* [Alternative Testing](#alternative-testing)
-* [Troubleshoot](#troubleshoot)
 
 ## Version Compatibility
 
