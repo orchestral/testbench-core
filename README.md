@@ -12,11 +12,6 @@ Testbench Component is a simple package that has been designed to help you write
 [![Coverage Status](https://img.shields.io/coveralls/orchestral/testbench-core/master.svg?style=flat-square)](https://coveralls.io/r/orchestral/testbench-core?branch=master)
 
 * [Version Compatibility](#version-compatibility)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Example](#example)
-* [Alternative Testing](#alternative-testing)
-* [Troubleshoot](#troubleshoot)
 
 ## Version Compatibility
 
