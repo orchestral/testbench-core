@@ -1,6 +1,6 @@
 {
     "name": "orchestra/testbench-core",
-    "description": "Laravel Testing Helper for Packages Development",
+    "description": "Testing Helper for Laravel Development",
     "homepage": "http://orchestraplatform.com/docs/latest/components/testbench/",
     "keywords": ["laravel", "orchestral", "orchestra-platform", "testing", "tdd", "bdd"],
     "license": "MIT",
@@ -27,20 +27,20 @@
     },
     "require-dev": {
         "mockery/mockery": "^0.9.4",
-        "laravel/framework": "~5.5.0",
+        "laravel/framework": "dev-master",
         "phpunit/phpunit": "~6.0",
-        "orchestra/database": "~3.5.0"
+        "orchestra/database": "dev-master"
     },
     "suggest": {
-        "laravel/framework": "Required for testing (~5.5.0).",
+        "laravel/framework": "Required for testing (dev-master).",
         "mockery/mockery": "Allow to use Mockery for testing (^0.9.4).",
         "phpunit/phpunit": "Allow to use PHPUnit for testing (~6.0).",
-        "orchestra/database": "Allow to use --realpath migration for testing (~3.5).",
-        "orchestra/testbench-browser-kit": "Allow to use legacy BrowserKit for testing (~3.5)."
+        "orchestra/database": "Allow to use --realpath migration for testing (dev-master).",
+        "orchestra/testbench-browser-kit": "Allow to use legacy BrowserKit for testing (dev-master)."
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.5-dev"
+            "dev-master": "3.6-dev"
         }
     },
     "minimum-stability": "dev"
