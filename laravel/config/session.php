@@ -11,7 +11,7 @@ return [
     | requests. By default, we will use the lightweight native driver but
     | you may specify any of the other wonderful drivers provided here.
     |
-    | Supported: "native", "cookie", "database", "apc",
+    | Supported: "file", "cookie", "database", "apc",
     |            "memcached", "redis", "array"
     |
     */
@@ -31,7 +31,7 @@ return [
 
     'lifetime' => 120,
 
-    // 'expire_on_close' => false,
+    'expire_on_close' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -175,5 +175,20 @@ return [
     */
 
     'http_only' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Same-Site Cookies
+    |--------------------------------------------------------------------------
+    |
+    | This option determines how your cookies behave when cross-site requests
+    | take place, and can be used to mitigate CSRF attacks. By default, we
+    | do not enable this as other CSRF protection services are in place.
+    |
+    | Supported: "lax", "strict"
+    |
+    */
+
+    'same_site' => null,
 
 ];
