@@ -105,7 +105,7 @@ abstract class TestCase extends BaseTestCase implements TestCaseContract
     /**
      * Boot the testing helper traits.
      *
-     * @return void
+     * @return array
      */
     protected function setUpTraits()
     {
@@ -126,6 +126,8 @@ abstract class TestCase extends BaseTestCase implements TestCaseContract
         if (isset($uses[WithoutEvents::class])) {
             $this->disableEventsForAllTests();
         }
+
+        return $uses;
     }
 
     /**
@@ -199,5 +201,19 @@ abstract class TestCase extends BaseTestCase implements TestCaseContract
     protected function getEnvironmentSetUp($app)
     {
         // Define your environment setup.
+    }
+
+    /**
+     * Migrate Laravel's default migrations.
+     *
+     * @param  string $database
+     *
+     * @return void
+     *
+     * @deprecated v3.4.x
+     */
+    public function runLaravelDefaultMigrations($database = null)
+    {
+        $this->loadLaravelMigrations($database);
     }
 }

@@ -3,6 +3,7 @@ language: php
 sudo: false
 
 php:
+  - 5.6
   - 7.0
   - 7.1
 
@@ -27,11 +28,11 @@ after_script:
 
 matrix:
   include:
-    - php: 7.0
+    - php: 5.6
       env: setup=lowest
-    - php: 7.0
+    - php: 5.6
       env: setup=stable
-    - php: 7.0
+    - php: 5.6
       env: setup=coveralls coverage=yes
   allow_failures:
     - env: setup=coveralls coverage=yes
