@@ -74,7 +74,7 @@ trait CreatesApplication
      */
     protected function getBasePath()
     {
-        return __DIR__.'/../../fixture';
+        return __DIR__.'/../../laravel';
     }
 
     /**

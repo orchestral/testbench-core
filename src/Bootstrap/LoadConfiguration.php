@@ -53,7 +53,7 @@ class LoadConfiguration
     {
         $files = [];
 
-        $path = realpath(__DIR__.'/../../fixture/config');
+        $path = realpath(__DIR__.'/../../laravel/config');
 
         foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
             $files[basename($file->getRealPath(), '.php')] = $file->getRealPath();

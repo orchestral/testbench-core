@@ -202,18 +202,4 @@ abstract class TestCase extends BaseTestCase implements TestCaseContract
     {
         // Define your environment setup.
     }
-
-    /**
-     * Migrate Laravel's default migrations.
-     *
-     * @param  string $database
-     *
-     * @return void
-     *
-     * @deprecated v3.4.x
-     */
-    public function runLaravelDefaultMigrations($database = null)
-    {
-        $this->loadLaravelMigrations($database);
-    }
 }
