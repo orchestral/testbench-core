@@ -8,8 +8,8 @@ Testbench Component is a simple package that has been designed to help you write
 [![Latest Stable Version](https://img.shields.io/github/release/orchestral/testbench-core.svg?style=flat-square)](https://packagist.org/packages/orchestra/testbench-core)
 [![Total Downloads](https://img.shields.io/packagist/dt/orchestra/testbench-core.svg?style=flat-square)](https://packagist.org/packages/orchestra/testbench-core)
 [![MIT License](https://img.shields.io/packagist/l/orchestra/testbench-core.svg?style=flat-square)](https://packagist.org/packages/orchestra/testbench-core)
-[![Build Status](https://img.shields.io/travis/orchestral/testbench-core/3.5.svg?style=flat-square)](https://travis-ci.org/orchestral/testbench-core)
-[![Coverage Status](https://img.shields.io/coveralls/orchestral/testbench-core/3.5.svg?style=flat-square)](https://coveralls.io/r/orchestral/testbench-core?branch=3.5)
+[![Build Status](https://img.shields.io/travis/orchestral/testbench-core/3.4.svg?style=flat-square)](https://travis-ci.org/orchestral/testbench-core)
+[![Coverage Status](https://img.shields.io/coveralls/orchestral/testbench-core/3.4.svg?style=flat-square)](https://coveralls.io/r/orchestral/testbench-core?branch=3.4)
 
 * [Version Compatibility](#version-compatibility)
 
@@ -17,4 +17,4 @@ Testbench Component is a simple package that has been designed to help you write
 
  Laravel  | Testbench Core
 :---------|:----------
- 5.5.x    | 3.5.x@dev
+ 5.4.x    | 3.4.x
