@@ -4,6 +4,10 @@
     "homepage": "http://orchestraplatform.com/docs/latest/components/testbench/",
     "keywords": ["laravel", "orchestral", "orchestra-platform", "testing", "tdd", "bdd"],
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/orchestral/testbench/issues",
+        "source": "https://github.com/orchestral/testbench-core"
+    },
     "authors": [
         {
             "name": "Mior Muhammad Zaki",
