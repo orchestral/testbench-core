@@ -9,7 +9,7 @@ Testbench Component is a simple package that has been designed to help you write
 [![Total Downloads](https://poser.pugx.org/orchestra/testbench-core/downloads)](https://packagist.org/packages/orchestra/testbench-core)
 [![Latest Unstable Version](https://poser.pugx.org/orchestra/testbench-core/v/unstable)](https://packagist.org/packages/orchestra/testbench-core)
 [![License](https://poser.pugx.org/orchestra/testbench-core/license)](https://packagist.org/packages/orchestra/testbench-core)
-[![Build Status](https://travis-ci.org/orchestral/testbench-core.svg?branch=3.4)](https://travis-ci.org/orchestral/testbench-core)
+[![Build Status](https://travis-ci.org/orchestral/testbench-core.svg?branch=3.5)](https://travis-ci.org/orchestral/testbench-core)
 
 * [Version Compatibility](#version-compatibility)
 
