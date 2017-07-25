@@ -30,9 +30,9 @@
         "fzaninotto/faker": "~1.4"
     },
     "require-dev": {
-        "mockery/mockery": "^0.9.4",
         "laravel/framework": "~5.5.0",
-        "phpunit/phpunit": "~5.7",
+        "mockery/mockery": "^0.9.4",
+        "phpunit/phpunit": "~6.0",
         "orchestra/database": "~3.5.0"
     },
     "suggest": {
