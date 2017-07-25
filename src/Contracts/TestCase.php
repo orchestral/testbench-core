@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 
-interface TestCase
+interface TestCase extends Laravel
 {
     /**
      * Call the given URI and return the Response.
