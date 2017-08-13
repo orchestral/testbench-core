@@ -32,7 +32,7 @@
     "require-dev": {
         "mockery/mockery": "^0.9.4",
         "laravel/framework": "~5.4.17",
-        "phpunit/phpunit": "~5.7",
+        "phpunit/phpunit": "~5.7 || ~6.0",
         "orchestra/database": "~3.4.0"
     },
     "suggest": {
