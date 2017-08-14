@@ -50,12 +50,14 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Validation\ValidationException  $exception
+     *
      * @return \Illuminate\Http\Response
      */
     protected function invalid($request, ValidationException $exception)
     {
         $message = $exception->getMessage();
-        $errors = $exception->validator->errors()->messages();
+        $errors  = $exception->validator->errors()->messages();
+
         return $request->expectsJson()
                     ? response()->json(['message' => $message, 'errors' => $errors], 422)
                     : redirect()->back()->withInput()->withErrors(
