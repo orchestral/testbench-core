@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Traits;
 
+use Illuminate\Support\Collection;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Facade;
 
@@ -32,6 +33,41 @@ trait CreatesApplication
     }
 
     /**
+     * Override application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationAliases($app)
+    {
+        return [];
+    }
+
+    /**
+     * Resolve application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function resolveApplicationAliases($app)
+    {
+        $aliases   = new Collection($this->getApplicationAliases($app));
+        $overrides = $this->overrideApplicationAliases($app);
+
+        if (! empty($overrides)) {
+            $aliases->map(function ($alias, $name) use ($overrides) {
+                return array_key_exists($name, $overrides)
+                            ? $overrides[$name]
+                            : $alias;
+            });
+        }
+
+        return $aliases->merge($this->getPackageAliases($app))->all();
+    }
+
+    /**
      * Get package aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -53,6 +89,41 @@ trait CreatesApplication
     protected function getApplicationProviders($app)
     {
         return $app['config']['app.providers'];
+    }
+
+    /**
+     * Override application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationProviders($app)
+    {
+        return [];
+    }
+
+    /**
+     * Resolve application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function resolveApplicationProviders($app)
+    {
+        $providers = new Collection($this->getApplicationProviders($app));
+        $overrides = $this->overrideApplicationProviders($app);
+
+        if (! empty($overrides)) {
+            $providers->map(function ($provider) use ($providers) {
+                return array_key_exists($provider, $overrides)
+                            ? $overrides[$provider]
+                            : $provider;
+            });
+        }
+
+        return $providers->merge($this->getPackageProviders($app))->all();
     }
 
     /**
@@ -138,11 +209,8 @@ trait CreatesApplication
 
         ! is_null($timezone) && date_default_timezone_set($timezone);
 
-        $aliases   = array_merge($this->getApplicationAliases($app), $this->getPackageAliases($app));
-        $providers = array_merge($this->getApplicationProviders($app), $this->getPackageProviders($app));
-
-        $app['config']['app.aliases']   = $aliases;
-        $app['config']['app.providers'] = $providers;
+        $app['config']['app.aliases']   = $this->resolveApplicationAliases($app);
+        $app['config']['app.providers'] = $this->resolveApplicationProviders($app);
     }
 
     /**
