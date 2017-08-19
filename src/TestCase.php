@@ -17,6 +17,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
 use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
@@ -30,6 +31,7 @@ abstract class TestCase extends BaseTestCase implements TestCaseContract
         InteractsWithAuthentication,
         InteractsWithConsole,
         InteractsWithDatabase,
+        InteractsWithSession,
         MocksApplicationServices,
         WithFactories,
         WithLaravelMigrations,
