@@ -21,6 +21,32 @@ trait CreatesApplication
     }
 
     /**
+     * Override application bindings.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationBindings($app)
+    {
+        return [];
+    }
+
+    /**
+     * Resolve application bindings.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
+    protected function resolveApplicationBindings($app)
+    {
+        foreach ($this->overrideApplicationBindings($app) as $original => $replacement) {
+            $app->bind($original, $replacement);
+        }
+    }
+
+    /**
      * Get application aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -159,6 +185,7 @@ trait CreatesApplication
     {
         $app = $this->resolveApplication();
 
+        $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
         $this->resolveApplicationCore($app);
         $this->resolveApplicationConfiguration($app);
