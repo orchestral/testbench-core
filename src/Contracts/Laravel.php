@@ -14,6 +14,15 @@ interface Laravel
     protected function getApplicationTimezone($app);
 
     /**
+     * Override application bindings.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationBindings($app);
+
+    /**
      * Get application aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -21,6 +30,15 @@ interface Laravel
      * @return array
      */
     protected function getApplicationAliases($app);
+
+    /**
+     * Override application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationAliases($app);
 
     /**
      * Get package aliases.
@@ -39,6 +57,15 @@ interface Laravel
      * @return array
      */
     protected function getApplicationProviders($app);
+
+    /**
+     * Override application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationProviders($app);
 
     /**
      * Get package providers.
