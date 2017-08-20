@@ -50,6 +50,15 @@ interface Laravel
     protected function getPackageAliases($app);
 
     /**
+     * Get package bootstrapper.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function getPackageBootstrappers($app);
+
+    /**
      * Get application providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
