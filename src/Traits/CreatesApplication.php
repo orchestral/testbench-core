@@ -106,33 +106,6 @@ trait CreatesApplication
     }
 
     /**
-     * Resolve application bootstrapper.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return array
-     */
-    protected function resolveApplicationBootstrappers($app)
-    {
-        $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
-        $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
-        $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
-        $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
-
-        $this->getEnvironmentSetUp($app);
-
-        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
-
-        $app['router']->getRoutes()->refreshNameLookups();
-
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-
-        foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
-            $app->make($bootstrap)->bootstrap($app);
-        }
-    }
-
-    /**
      * Get package bootstrapper.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -318,5 +291,32 @@ trait CreatesApplication
     protected function resolveApplicationExceptionHandler($app)
     {
         $app->singleton('Illuminate\Contracts\Debug\ExceptionHandler', 'Orchestra\Testbench\Exceptions\Handler');
+    }
+
+    /**
+     * Resolve application bootstrapper.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
+    protected function resolveApplicationBootstrappers($app)
+    {
+        $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
+        $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
+        $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
+        $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
+
+        $this->getEnvironmentSetUp($app);
+
+        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
+
+        $app['router']->getRoutes()->refreshNameLookups();
+
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
+        foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
+            $app->make($bootstrap)->bootstrap($app);
+        }
     }
 }
