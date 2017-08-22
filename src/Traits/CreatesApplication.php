@@ -311,12 +311,16 @@ trait CreatesApplication
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
-        $app['router']->getRoutes()->refreshNameLookups();
-
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
             $app->make($bootstrap)->bootstrap($app);
         }
+
+        $app['router']->getRoutes()->refreshNameLookups();
+
+        $app->resolving('url', function ($url, $app) {
+            $app['router']->getRoutes()->refreshNameLookups();
+        });
     }
 }
