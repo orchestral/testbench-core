@@ -201,9 +201,13 @@ trait CreatesApplication
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
         $app['router']->getRoutes()->refreshNameLookups();
 
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+        $app->resolving('url', function ($url, $app) {
+            $app['router']->getRoutes()->refreshNameLookups();
+        });
 
         return $app;
     }
