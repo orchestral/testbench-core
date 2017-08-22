@@ -81,4 +81,21 @@ class RouteTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals('Controller@index', $response->getContent());
     }
+
+    /**
+     * Test GET foo/index route using call.
+     *
+     * @test
+     */
+    public function testGetByebyeRouteUsingCallResolvingNameRoute()
+    {
+        $this->app['router']->get('byebye', function () {
+            return route('bye');
+        })->name('bae');
+
+        $response = $this->call('GET', route('bae'));
+
+        $response->assertStatus(200);
+        $this->assertEquals('http://localhost/goodbye', $response->getContent());
+    }
 }
