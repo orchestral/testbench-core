@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Traits;
 
+use Illuminate\Support\Collection;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Facade;
 
@@ -20,6 +21,32 @@ trait CreatesApplication
     }
 
     /**
+     * Override application bindings.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationBindings($app)
+    {
+        return [];
+    }
+
+    /**
+     * Resolve application bindings.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
+    protected function resolveApplicationBindings($app)
+    {
+        foreach ($this->overrideApplicationBindings($app) as $original => $replacement) {
+            $app->bind($original, $replacement);
+        }
+    }
+
+    /**
      * Get application aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -29,6 +56,41 @@ trait CreatesApplication
     protected function getApplicationAliases($app)
     {
         return $app['config']['app.aliases'];
+    }
+
+    /**
+     * Override application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationAliases($app)
+    {
+        return [];
+    }
+
+    /**
+     * Resolve application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function resolveApplicationAliases($app)
+    {
+        $aliases   = new Collection($this->getApplicationAliases($app));
+        $overrides = $this->overrideApplicationAliases($app);
+
+        if (! empty($overrides)) {
+            $aliases->map(function ($alias, $name) use ($overrides) {
+                return array_key_exists($name, $overrides)
+                            ? $overrides[$name]
+                            : $alias;
+            });
+        }
+
+        return $aliases->merge($this->getPackageAliases($app))->all();
     }
 
     /**
@@ -44,6 +106,18 @@ trait CreatesApplication
     }
 
     /**
+     * Get package bootstrapper.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function getPackageBootstrappers($app)
+    {
+        return [];
+    }
+
+    /**
      * Get application providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -53,6 +127,41 @@ trait CreatesApplication
     protected function getApplicationProviders($app)
     {
         return $app['config']['app.providers'];
+    }
+
+    /**
+     * Override application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function overrideApplicationProviders($app)
+    {
+        return [];
+    }
+
+    /**
+     * Resolve application aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function resolveApplicationProviders($app)
+    {
+        $providers = new Collection($this->getApplicationProviders($app));
+        $overrides = $this->overrideApplicationProviders($app);
+
+        if (! empty($overrides)) {
+            $providers->map(function ($provider) use ($providers) {
+                return array_key_exists($provider, $overrides)
+                            ? $overrides[$provider]
+                            : $provider;
+            });
+        }
+
+        return $providers->merge($this->getPackageProviders($app))->all();
     }
 
     /**
@@ -88,24 +197,13 @@ trait CreatesApplication
     {
         $app = $this->resolveApplication();
 
+        $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
         $this->resolveApplicationCore($app);
         $this->resolveApplicationConfiguration($app);
         $this->resolveApplicationHttpKernel($app);
         $this->resolveApplicationConsoleKernel($app);
-
-        $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
-        $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
-        $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
-        $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
-
-        $this->getEnvironmentSetUp($app);
-
-        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
-
-        $app['router']->getRoutes()->refreshNameLookups();
-
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+        $this->resolveApplicationBootstrappers($app);
 
         return $app;
     }
@@ -138,11 +236,8 @@ trait CreatesApplication
 
         ! is_null($timezone) && date_default_timezone_set($timezone);
 
-        $aliases   = array_merge($this->getApplicationAliases($app), $this->getPackageAliases($app));
-        $providers = array_merge($this->getApplicationProviders($app), $this->getPackageProviders($app));
-
-        $app['config']['app.aliases']   = $aliases;
-        $app['config']['app.providers'] = $providers;
+        $app['config']['app.aliases']   = $this->resolveApplicationAliases($app);
+        $app['config']['app.providers'] = $this->resolveApplicationProviders($app);
     }
 
     /**
@@ -196,5 +291,36 @@ trait CreatesApplication
     protected function resolveApplicationExceptionHandler($app)
     {
         $app->singleton('Illuminate\Contracts\Debug\ExceptionHandler', 'Orchestra\Testbench\Exceptions\Handler');
+    }
+
+    /**
+     * Resolve application bootstrapper.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
+    protected function resolveApplicationBootstrappers($app)
+    {
+        $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
+        $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
+        $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
+        $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
+
+        $this->getEnvironmentSetUp($app);
+
+        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
+
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
+        foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
+            $app->make($bootstrap)->bootstrap($app);
+        }
+
+        $app['router']->getRoutes()->refreshNameLookups();
+
+        $app->resolving('url', function ($url, $app) {
+            $app['router']->getRoutes()->refreshNameLookups();
+        });
     }
 }

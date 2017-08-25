@@ -4,6 +4,10 @@
     "homepage": "http://orchestraplatform.com/docs/latest/components/testbench/",
     "keywords": ["laravel", "orchestral", "orchestra-platform", "testing", "tdd", "bdd"],
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/orchestral/testbench/issues",
+        "source": "https://github.com/orchestral/testbench-core"
+    },
     "authors": [
         {
             "name": "Mior Muhammad Zaki",
@@ -28,8 +32,8 @@
     "require-dev": {
         "mockery/mockery": "^0.9.4",
         "laravel/framework": "dev-master",
-        "phpunit/phpunit": "~6.0",
-        "orchestra/database": "dev-master"
+        "orchestra/database": "dev-master",
+        "phpunit/phpunit": "~6.0"
     },
     "suggest": {
         "laravel/framework": "Required for testing (dev-master).",

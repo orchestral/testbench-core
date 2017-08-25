@@ -5,11 +5,11 @@ Testing Helper for Laravel Development
 
 Testbench Component is a simple package that has been designed to help you write tests for your Laravel package, especially when there is routing involved.
 
-[![Latest Stable Version](https://img.shields.io/github/release/orchestral/testbench-core.svg?style=flat-square)](https://packagist.org/packages/orchestra/testbench-core)
-[![Total Downloads](https://img.shields.io/packagist/dt/orchestra/testbench-core.svg?style=flat-square)](https://packagist.org/packages/orchestra/testbench-core)
-[![MIT License](https://img.shields.io/packagist/l/orchestra/testbench-core.svg?style=flat-square)](https://packagist.org/packages/orchestra/testbench-core)
-[![Build Status](https://img.shields.io/travis/orchestral/testbench-core/master.svg?style=flat-square)](https://travis-ci.org/orchestral/testbench-core)
-[![Coverage Status](https://img.shields.io/coveralls/orchestral/testbench-core/master.svg?style=flat-square)](https://coveralls.io/r/orchestral/testbench-core?branch=master)
+[![Build Status](https://travis-ci.org/orchestral/testbench-core.svg?branch=master)](https://travis-ci.org/orchestral/testbench-core)
+[![Latest Stable Version](https://poser.pugx.org/orchestra/testbench-core/v/stable)](https://packagist.org/packages/orchestra/testbench-core)
+[![Total Downloads](https://poser.pugx.org/orchestra/testbench-core/downloads)](https://packagist.org/packages/orchestra/testbench-core)
+[![Latest Unstable Version](https://poser.pugx.org/orchestra/testbench-core/v/unstable)](https://packagist.org/packages/orchestra/testbench-core)
+[![License](https://poser.pugx.org/orchestra/testbench-core/license)](https://packagist.org/packages/orchestra/testbench-core)
 
 * [Version Compatibility](#version-compatibility)
 
@@ -17,4 +17,5 @@ Testbench Component is a simple package that has been designed to help you write
 
  Laravel  | Testbench Core
 :---------|:----------
+ 5.4.x    | 3.4.x
  5.5.x    | 3.5.x@dev
