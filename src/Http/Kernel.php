@@ -19,9 +19,10 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $middleware = [
-        Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        // Middleware\TrustProxies::class,
     ];
 
     /**
@@ -34,6 +35,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             \Illuminate\Cookie\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
+            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
