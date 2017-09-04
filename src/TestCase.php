@@ -115,6 +115,10 @@ abstract class TestCase extends BaseTestCase implements TestCaseContract
     {
         $uses = array_flip(class_uses_recursive(static::class));
 
+        if (isset($uses[RefreshDatabase::class])) {
+            $this->refreshDatabase();
+        }
+
         if (isset($uses[DatabaseMigrations::class])) {
             $this->runDatabaseMigrations();
         }
