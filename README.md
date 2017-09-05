@@ -18,4 +18,4 @@ Testbench Component is a simple package that has been designed to help you write
  Laravel  | Testbench Core
 :---------|:----------
  5.4.x    | 3.4.x
- 5.5.x    | 3.5.x@dev
+ 5.5.x    | 3.5.x

@@ -19,6 +19,16 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+    ];
+
+    /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
@@ -43,40 +53,5 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         return parent::render($request, $e);
-    }
-
-    /**
-     * Convert a validation exception into a response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Validation\ValidationException  $exception
-     *
-     * @return \Illuminate\Http\Response
-     */
-    protected function invalid($request, ValidationException $exception)
-    {
-        $message = $exception->getMessage();
-        $errors  = $exception->validator->errors()->messages();
-
-        return $request->expectsJson()
-                    ? response()->json(['message' => $message, 'errors' => $errors], 422)
-                    : redirect()->back()->withInput()->withErrors(
-                        $errors, $exception->errorBag
-                    );
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $e
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $e)
-    {
-        return $request->expectsJson()
-            ? response()->json(['message' => 'Unauthenticated.'], 401)
-            : redirect()->guest(route('login'));
     }
 }

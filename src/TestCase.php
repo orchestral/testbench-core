@@ -8,6 +8,7 @@ use Orchestra\Testbench\Traits\WithFactories;
 use Illuminate\Console\Application as Artisan;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithoutEvents;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\Traits\CreatesApplication;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -16,8 +17,8 @@ use Orchestra\Testbench\Traits\WithLoadMigrationsFrom;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
 use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
@@ -114,6 +115,10 @@ abstract class TestCase extends BaseTestCase implements TestCaseContract
     protected function setUpTraits()
     {
         $uses = array_flip(class_uses_recursive(static::class));
+
+        if (isset($uses[RefreshDatabase::class])) {
+            $this->refreshDatabase();
+        }
 
         if (isset($uses[DatabaseMigrations::class])) {
             $this->runDatabaseMigrations();
