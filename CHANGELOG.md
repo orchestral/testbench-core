@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.1
+
+Released: 2017-09-05
+
+### Changes
+
+* Update Laravel skeleton and `Orchestra\Testbench\Exceptions\Handler`.
+* Add `Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse` to `Orchestra\Testbench\Http\Kernel`. ([@kalfheim](https://github.com/kalfheim))
+* Allow to use `Illuminate\Foundation\Testing\RefreshDatabase`. ([@BertvanHoekelen](https://github.com/BertvanHoekelen))
+
 ## 3.5.0
 
 Released: 2017-08-30
