@@ -41,6 +41,14 @@ Released: 2017-08-30
 * Remove deprecated `Orchestra\Testbench\Traits\ApplicationTrait`, use `Orchestra\Testbench\Traits\CreatesApplication`.
 * Remove depreacted `Orchestra\Testbench\TestCase::runLaravelDefaultMigrations()` method, use `loadLaravelMigrations()`.
 
+## 3.4.2
+
+Released: 2017-09-19
+
+### Fixes
+
+* Refresh named routes when declaring new routes from within a test method.
+
 ## 3.4.1
 
 Released: 2017-08-19
