@@ -2,10 +2,17 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.4.2
+
+Released: 2017-09-17
+
+### Fixes
+
+* Refresh named routes when declaring new routes from within a test method.
+
 ## 3.4.1
 
 Released: 2017-08-19
-
 
 ### Added
 
