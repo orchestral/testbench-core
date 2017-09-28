@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.2
+
+*Unreleased*
+
+### Changes
+
+* Add mockery expectations to the assertion count. ([@scrubmx](https://github.com/scrubmx))
+
+### Fixes
+
+* Don't enable auto discovery for every package.
+
 ## 3.5.1
 
 Released: 2017-09-05
@@ -11,6 +23,10 @@ Released: 2017-09-05
 * Update Laravel skeleton and `Orchestra\Testbench\Exceptions\Handler`.
 * Add `Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse` to `Orchestra\Testbench\Http\Kernel`. ([@kalfheim](https://github.com/kalfheim))
 * Allow to use `Illuminate\Foundation\Testing\RefreshDatabase`. ([@BertvanHoekelen](https://github.com/BertvanHoekelen))
+
+### Fixes
+
+* Refresh named routes when declaring new routes from within a test method.
 
 ## 3.5.0
 
