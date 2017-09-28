@@ -29,7 +29,7 @@ class RouteTest extends TestCase
                 return 'hello boss';
             }]);
 
-             $router->get('goodbye', function () {
+            $router->get('goodbye', function () {
                 return 'goodbye boss';
             })->name('boss.bye');
         });
