@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests;
 
 use Carbon\Carbon;
-use Illuminate\Routing\Router;
 use Orchestra\Testbench\TestCase;
 
 class TimezoneTest extends TestCase

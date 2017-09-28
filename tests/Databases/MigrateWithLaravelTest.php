@@ -76,9 +76,9 @@ class MigrateWithLaravelTest extends TestCase
         $now = Carbon::now();
 
         \DB::table('users')->insert([
-            'name'       => 'Orchestra',
-            'email'      => 'hello@orchestraplatform.com',
-            'password'   => \Hash::make('456'),
+            'name' => 'Orchestra',
+            'email' => 'hello@orchestraplatform.com',
+            'password' => \Hash::make('456'),
             'created_at' => $now,
             'updated_at' => $now,
         ]);
