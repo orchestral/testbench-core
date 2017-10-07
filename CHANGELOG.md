@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.3
+
+Released: 2017-10-07
+
+### Changes
+
+* Load bootstrapper from `Orchestra\Testbench\Traits\CreateApplications::getPackageBootstrappers()` before bootstrapping service providers.
+
 ## 3.5.2
 
 Released: 2017-09-28
@@ -56,6 +64,14 @@ Released: 2017-08-30
 * Remove deprecated `Orchestra\Testbench\Exceptions\ApplicationHandler`, use `Orchestra\Testbench\Exceptions\Handler`.
 * Remove deprecated `Orchestra\Testbench\Traits\ApplicationTrait`, use `Orchestra\Testbench\Traits\CreatesApplication`.
 * Remove depreacted `Orchestra\Testbench\TestCase::runLaravelDefaultMigrations()` method, use `loadLaravelMigrations()`.
+
+## 3.4.3
+
+Released: 2017-10-07
+
+### Added
+
+* Add `Orchestra\Testbench\Traits\CreateApplications::getPackageBootstrappers()` and refactor loading methods to `Orchestra\Testbench\Traits\CreateApplications::resolveApplicationBootstrappers()`.
 
 ## 3.4.2
 
