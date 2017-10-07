@@ -57,6 +57,14 @@ Released: 2017-08-30
 * Remove deprecated `Orchestra\Testbench\Traits\ApplicationTrait`, use `Orchestra\Testbench\Traits\CreatesApplication`.
 * Remove depreacted `Orchestra\Testbench\TestCase::runLaravelDefaultMigrations()` method, use `loadLaravelMigrations()`.
 
+## 3.4.3
+
+Released: 2017-10-07
+
+### Added
+
+* Add `Orchestra\Testbench\Traits\CreateApplications::getPackageBootstrappers()` and refactor loading methods to `Orchestra\Testbench\Traits\CreateApplications::resolveApplicationBootstrappers()`.
+
 ## 3.4.2
 
 Released: 2017-09-19
