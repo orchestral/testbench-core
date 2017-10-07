@@ -3,8 +3,6 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\TestCase;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\AggregateServiceProvider;
 
 class AggregateServiceProviderTest extends TestCase
 {

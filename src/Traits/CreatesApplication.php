@@ -79,7 +79,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationAliases($app)
     {
-        $aliases   = new Collection($this->getApplicationAliases($app));
+        $aliases = new Collection($this->getApplicationAliases($app));
         $overrides = $this->overrideApplicationAliases($app);
 
         if (! empty($overrides)) {
@@ -236,7 +236,7 @@ trait CreatesApplication
 
         ! is_null($timezone) && date_default_timezone_set($timezone);
 
-        $app['config']['app.aliases']   = $this->resolveApplicationAliases($app);
+        $app['config']['app.aliases'] = $this->resolveApplicationAliases($app);
         $app['config']['app.providers'] = $this->resolveApplicationProviders($app);
     }
 
