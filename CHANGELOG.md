@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.3
+
+Released: 2017-10-07
+
+### Changes
+
+* Load bootstrapper from `Orchestra\Testbench\Traits\CreateApplications::getPackageBootstrappers()` before bootstrapping service providers.
+
 ## 3.5.2
 
 Released: 2017-09-28
