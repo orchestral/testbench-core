@@ -65,6 +65,14 @@ Released: 2017-08-30
 * Remove deprecated `Orchestra\Testbench\Traits\ApplicationTrait`, use `Orchestra\Testbench\Traits\CreatesApplication`.
 * Remove depreacted `Orchestra\Testbench\TestCase::runLaravelDefaultMigrations()` method, use `loadLaravelMigrations()`.
 
+## 3.4.4
+
+Released: 2017-10-08
+
+### Changes
+
+* Revert loading custom bootstrapper before bootstrapping service provider. This is to allow configuration properly be configured from service provider before initiating custom bootstrapper.
+
 ## 3.4.3
 
 Released: 2017-10-07
