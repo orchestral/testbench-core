@@ -309,11 +309,11 @@ trait CreatesApplication
 
         $this->getEnvironmentSetUp($app);
 
+        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
+
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
             $app->make($bootstrap)->bootstrap($app);
         }
-
-        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
