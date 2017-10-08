@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.4.4
+
+Released: 2017-10-08
+
+### Changes
+
+* Revert loading custom bootstrapper before bootstrapping service provider. This is to allow configuration properly be configured from service provider before initiating custom bootstrapper.
+
 ## 3.4.3
 
 Released: 2017-10-07
