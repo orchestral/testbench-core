@@ -11,14 +11,13 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
-use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
 use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
 
-abstract class TestCase extends BaseTestCase implements TestCaseContract
+abstract class TestCase extends BaseTestCase implements Contracts\TestCase
 {
     use InteractsWithContainer,
         MakesHttpRequests,
