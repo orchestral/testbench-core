@@ -4,15 +4,11 @@ namespace Orchestra\Testbench;
 
 use Mockery;
 use Illuminate\Database\Eloquent\Model;
-use Orchestra\Testbench\Traits\WithFactories;
 use Illuminate\Console\Application as Artisan;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithoutEvents;
-use Orchestra\Testbench\Traits\CreatesApplication;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Orchestra\Testbench\Traits\WithLaravelMigrations;
-use Orchestra\Testbench\Traits\WithLoadMigrationsFrom;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
@@ -24,16 +20,16 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
 
 abstract class TestCase extends BaseTestCase implements TestCaseContract
 {
-    use CreatesApplication,
-        InteractsWithContainer,
+    use InteractsWithContainer,
         MakesHttpRequests,
         InteractsWithAuthentication,
         InteractsWithConsole,
         InteractsWithDatabase,
         MocksApplicationServices,
-        WithFactories,
-        WithLaravelMigrations,
-        WithLoadMigrationsFrom;
+        Traits\CreatesApplication,
+        Traits\WithFactories,
+        Traits\WithLaravelMigrations,
+        Traits\WithLoadMigrationsFrom;
 
     /**
      * The Illuminate application instance.
