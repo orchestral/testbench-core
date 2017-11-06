@@ -4,19 +4,14 @@ namespace Orchestra\Testbench;
 
 use Mockery;
 use Illuminate\Database\Eloquent\Model;
-use Orchestra\Testbench\Traits\WithFactories;
 use Illuminate\Console\Application as Artisan;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Orchestra\Testbench\Traits\CreatesApplication;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Orchestra\Testbench\Traits\WithLaravelMigrations;
-use Orchestra\Testbench\Traits\WithLoadMigrationsFrom;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
-use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
@@ -25,10 +20,9 @@ use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 
-abstract class TestCase extends BaseTestCase implements TestCaseContract
+abstract class TestCase extends BaseTestCase implements Contracts\TestCase
 {
-    use CreatesApplication,
-        InteractsWithContainer,
+    use InteractsWithContainer,
         MakesHttpRequests,
         InteractsWithAuthentication,
         InteractsWithConsole,
@@ -36,9 +30,10 @@ abstract class TestCase extends BaseTestCase implements TestCaseContract
         InteractsWithExceptionHandling,
         InteractsWithSession,
         MocksApplicationServices,
-        WithFactories,
-        WithLaravelMigrations,
-        WithLoadMigrationsFrom;
+        Traits\CreatesApplication,
+        Traits\WithFactories,
+        Traits\WithLaravelMigrations,
+        Traits\WithLoadMigrationsFrom;
 
     /**
      * The Illuminate application instance.
