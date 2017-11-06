@@ -40,7 +40,8 @@
         "mockery/mockery": "Allow to use Mockery for testing (~1.0).",
         "phpunit/phpunit": "Allow to use PHPUnit for testing (~6.0).",
         "orchestra/database": "Allow to use --realpath migration for testing (~3.5).",
-        "orchestra/testbench-browser-kit": "Allow to use legacy BrowserKit for testing (~3.5)."
+        "orchestra/testbench-browser-kit": "Allow to use legacy BrowserKit for testing (~3.5).",
+        "orchestra/testbench-dusk": "Allow to use Laravel Dusk for testing (~3.5)."
     },
     "extra": {
         "branch-alias": {
