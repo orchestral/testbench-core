@@ -2,7 +2,6 @@ language: php
 sudo: false
 
 php:
-  - 7.0
   - 7.1
   - 7.2
 
@@ -27,11 +26,11 @@ after_script:
 
 matrix:
   include:
-    - php: 7.0
+    - php: 7.1
       env: setup=lowest
-    - php: 7.0
+    - php: 7.1
       env: setup=stable
-    - php: 7.0
+    - php: 7.1
       env: setup=coveralls coverage=yes
   allow_failures:
     - env: setup=coveralls coverage=yes
