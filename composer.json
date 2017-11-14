@@ -48,5 +48,8 @@
             "dev-master": "3.5-dev"
         }
     },
+    "config": {
+        "sort-packages": true
+    },
     "minimum-stability": "dev"
 }
