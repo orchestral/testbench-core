@@ -4,8 +4,8 @@ namespace Orchestra\Testbench;
 
 use Mockery;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\TestCase as PHPUnit;
 use Illuminate\Console\Application as Artisan;
-use PHPUnit\Framework\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -20,7 +20,7 @@ use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 
-abstract class TestCase extends BaseTestCase implements Contracts\TestCase
+abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
     use InteractsWithContainer,
         MakesHttpRequests,
@@ -178,7 +178,7 @@ abstract class TestCase extends BaseTestCase implements Contracts\TestCase
      *
      * @return void
      */
-    protected function afterApplicationCreated(callable $callback)
+    protected function afterApplicationCreated(callable $callback): void
     {
         $this->afterApplicationCreatedCallbacks[] = $callback;
 
@@ -194,7 +194,7 @@ abstract class TestCase extends BaseTestCase implements Contracts\TestCase
      *
      * @return void
      */
-    protected function beforeApplicationDestroyed(callable $callback)
+    protected function beforeApplicationDestroyed(callable $callback): void
     {
         array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
     }

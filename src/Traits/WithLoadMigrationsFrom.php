@@ -15,7 +15,7 @@ trait WithLoadMigrationsFrom
      *
      * @return void
      */
-    protected function loadMigrationsFrom($realpath)
+    protected function loadMigrationsFrom($realpath): void
     {
         if (! class_exists(ConsoleServiceProvider::class)) {
             throw new Exception('Missing `orchestra/database` in composer.json');

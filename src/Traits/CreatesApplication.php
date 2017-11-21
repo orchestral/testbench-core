@@ -39,7 +39,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationBindings($app)
+    protected function resolveApplicationBindings($app): void
     {
         foreach ($this->overrideApplicationBindings($app) as $original => $replacement) {
             $app->bind($original, $replacement);
@@ -77,7 +77,7 @@ trait CreatesApplication
      *
      * @return array
      */
-    protected function resolveApplicationAliases($app)
+    protected function resolveApplicationAliases($app): array
     {
         $aliases = new Collection($this->getApplicationAliases($app));
         $overrides = $this->overrideApplicationAliases($app);
@@ -148,7 +148,7 @@ trait CreatesApplication
      *
      * @return array
      */
-    protected function resolveApplicationProviders($app)
+    protected function resolveApplicationProviders($app): array
     {
         $providers = new Collection($this->getApplicationProviders($app));
         $overrides = $this->overrideApplicationProviders($app);
