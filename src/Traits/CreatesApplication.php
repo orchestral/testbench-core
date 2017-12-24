@@ -205,6 +205,8 @@ trait CreatesApplication
         $this->resolveApplicationConsoleKernel($app);
         $this->resolveApplicationBootstrappers($app);
 
+        $app->make('hash')->setRounds(4);
+
         return $app;
     }
 
