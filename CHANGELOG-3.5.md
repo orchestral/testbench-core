@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.5
+
+Released: 2017-12-25
+
+### Changes
+
+* Update Laravel 5.5 skeleton.
+* Reduce hash computations by setting the default rounds to `4`.
+
 ## 3.5.4
 
 Released: 2017-10-08
