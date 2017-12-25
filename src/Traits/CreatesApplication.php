@@ -205,8 +205,6 @@ trait CreatesApplication
         $this->resolveApplicationConsoleKernel($app);
         $this->resolveApplicationBootstrappers($app);
 
-        $app->make('hash')->setRounds(4);
-
         return $app;
     }
 
@@ -318,6 +316,8 @@ trait CreatesApplication
         }
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
+        $app['hash']->setRounds(4);
 
         $app['router']->getRoutes()->refreshNameLookups();
 
