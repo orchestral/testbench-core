@@ -166,9 +166,7 @@ abstract class TestCase extends BaseTestCase implements Contracts\TestCase
             Mockery::close();
         }
         
-        if (class_exists(Carbon::class)) {
-            Carbon::setTestNow();   
-        }
+        Carbon::setTestNow();
 
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
