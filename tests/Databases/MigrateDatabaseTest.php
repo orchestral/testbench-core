@@ -41,7 +41,7 @@ class MigrateDatabaseTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Orchestra\Testbench\Tests\Stubs\ServiceProvider::class,
+            \Orchestra\Testbench\Tests\Stubs\Providers\ServiceProvider::class,
             //'Cartalyst\Sentry\SentryServiceProvider',
             //'YourProject\YourPackage\YourPackageServiceProvider',
         ];
