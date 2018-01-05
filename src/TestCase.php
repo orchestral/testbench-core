@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Mockery;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Framework\TestCase as PHPUnit;
 use Illuminate\Console\Application as Artisan;
@@ -164,6 +165,8 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
 
             Mockery::close();
         }
+        
+        Carbon::setTestNow();
 
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
