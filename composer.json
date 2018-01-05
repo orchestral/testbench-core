@@ -30,22 +30,22 @@
         "fzaninotto/faker": "~1.4"
     },
     "require-dev": {
-        "laravel/framework": "~5.6.0",
+        "laravel/framework": "~5.7.0",
         "mockery/mockery": "~1.0",
-        "orchestra/database": "~3.6.0",
+        "orchestra/database": "~3.7.0",
         "phpunit/phpunit": "~6.0"
     },
     "suggest": {
-        "laravel/framework": "Required for testing (~5.6.0).",
+        "laravel/framework": "Required for testing (~5.7.0).",
         "mockery/mockery": "Allow to use Mockery for testing (~1.0).",
-        "orchestra/database": "Allow to use --realpath migration for testing (~3.6).",
-        "orchestra/testbench-browser-kit": "Allow to use legacy Laravel BrowserKit for testing (~3.6).",
-        "orchestra/testbench-dusk": "Allow to use Laravel Dusk for testing (~3.6).",
+        "orchestra/database": "Allow to use --realpath migration for testing (~3.7).",
+        "orchestra/testbench-browser-kit": "Allow to use legacy Laravel BrowserKit for testing (~3.7).",
+        "orchestra/testbench-dusk": "Allow to use Laravel Dusk for testing (~3.7).",
         "phpunit/phpunit": "Allow to use PHPUnit for testing (~6.0)."
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.6-dev"
+            "dev-master": "3.7-dev"
         }
     },
     "config": {
