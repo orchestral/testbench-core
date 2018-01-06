@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.6
+
+Released: 2018-01-06
+
+### Changes
+
+* Update `Orchestra\Testbench\TestCase` to match `Illuminate\Foundation\Testing\TestCase`.
+
 ## 3.5.5
 
 Released: 2017-12-25
