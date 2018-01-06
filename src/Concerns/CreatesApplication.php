@@ -181,7 +181,7 @@ trait CreatesApplication
      *
      * @return string
      */
-    protected function getBasePath()
+    protected function getBasePath(): string
     {
         return __DIR__.'/../../laravel';
     }
