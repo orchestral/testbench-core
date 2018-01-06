@@ -6,6 +6,7 @@ use Mockery;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Console\Application as Artisan;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithoutEvents;
