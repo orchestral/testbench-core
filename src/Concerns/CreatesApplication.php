@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Traits;
+namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Application;
@@ -229,7 +229,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationConfiguration($app)
+    protected function resolveApplicationConfiguration($app): void
     {
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
         $timezone = $this->getApplicationTimezone($app);
@@ -247,7 +247,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationCore($app)
+    protected function resolveApplicationCore($app): void
     {
         Facade::clearResolvedInstances();
         Facade::setFacadeApplication($app);
@@ -264,7 +264,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationConsoleKernel($app)
+    protected function resolveApplicationConsoleKernel($app): void
     {
         $app->singleton('Illuminate\Contracts\Console\Kernel', 'Orchestra\Testbench\Console\Kernel');
     }
@@ -276,7 +276,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationHttpKernel($app)
+    protected function resolveApplicationHttpKernel($app): void
     {
         $app->singleton('Illuminate\Contracts\Http\Kernel', 'Orchestra\Testbench\Http\Kernel');
     }
@@ -288,7 +288,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationExceptionHandler($app)
+    protected function resolveApplicationExceptionHandler($app): void
     {
         $app->singleton('Illuminate\Contracts\Debug\ExceptionHandler', 'Orchestra\Testbench\Exceptions\Handler');
     }
@@ -300,7 +300,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationBootstrappers($app)
+    protected function resolveApplicationBootstrappers($app): void
     {
         $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
