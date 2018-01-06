@@ -28,14 +28,14 @@ trait Testing
         Concerns\WithFactories,
         Concerns\WithLaravelMigrations,
         Concerns\WithLoadMigrationsFrom,
-        InteractsWithContainer,
-        MakesHttpRequests,
         InteractsWithAuthentication,
+        InteractsWithContainer,
         InteractsWithConsole,
         InteractsWithDatabase,
         InteractsWithExceptionHandling,
         InteractsWithSession,
-        MocksApplicationServices;
+        MocksApplicationServices,
+        MakesHttpRequests;
 
     /**
      * The Illuminate application instance.
