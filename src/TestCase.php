@@ -56,7 +56,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      *
      * @return array
      */
-    protected function setUpTraits(): array
+    protected function setUpTraits()
     {
         return $this->setUpTheTestEnvironmentTraits();
     }
@@ -66,7 +66,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      *
      * @return void
      */
-    protected function refreshApplication(): void
+    protected function refreshApplication()
     {
         $this->app = $this->createApplication();
     }

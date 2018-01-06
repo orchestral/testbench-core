@@ -185,12 +185,12 @@ trait Testing
      *
      * @return array
      */
-    abstract protected function setUpTraits(): array;
+    abstract protected function setUpTraits();
 
     /**
      * Refresh the application instance.
      *
      * @return void
      */
-    abstract protected function refreshApplication(): void;
+    abstract protected function refreshApplication();
 }
