@@ -54,7 +54,7 @@ trait Testing
      *
      * @return void
      */
-    protected function setUpTheTestEnvironment(): void
+    final protected function setUpTheTestEnvironment(): void
     {
         if (! $this->app) {
             $this->refreshApplication();
@@ -78,7 +78,7 @@ trait Testing
      *
      * @return void
      */
-    protected function tearDownTheTestEnvironment(): void
+    final protected function tearDownTheTestEnvironment(): void
     {
         if ($this->app) {
             foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
@@ -121,7 +121,7 @@ trait Testing
      *
      * @return array
      */
-    protected function setUpTraits(): array
+    final protected function setUpTheTestEnvironmentTraits(): array
     {
         $uses = array_flip(class_uses_recursive(static::class));
 
@@ -153,16 +153,6 @@ trait Testing
     }
 
     /**
-     * Refresh the application instance.
-     *
-     * @return void
-     */
-    protected function refreshApplication(): void
-    {
-        $this->app = $this->createApplication();
-    }
-
-    /**
      * Register a callback to be run after the application is created.
      *
      * @param  callable  $callback
@@ -189,4 +179,18 @@ trait Testing
     {
         array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
     }
+
+    /**
+     * Boot the testing helper traits.
+     *
+     * @return array
+     */
+    abstract protected function setUpTraits();
+
+    /**
+     * Refresh the application instance.
+     *
+     * @return void
+     */
+    abstract protected function refreshApplication();
 }
