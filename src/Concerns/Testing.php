@@ -185,7 +185,7 @@ trait Testing
      *
      * @return array
      */
-    abstract function setUpTraits(): array;
+    abstract protected function setUpTraits(): array;
 
     /**
      * Refresh the application instance.
