@@ -4,8 +4,10 @@ namespace Orchestra\Testbench;
 
 use Mockery;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Framework\TestCase as PHPUnit;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -88,6 +90,8 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             call_user_func($callback);
         }
 
+        Facade::clearResolvedInstances();
+
         Model::setEventDispatcher($this->app['events']);
 
         $this->setUpHasRun = true;
@@ -132,6 +136,10 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             $this->disableEventsForAllTests();
         }
 
+        if (isset($uses[WithFaker::class])) {
+            $this->setUpFaker();
+        }
+
         return $uses;
     }
 
@@ -158,6 +166,10 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             $this->serverVariables = [];
         }
 
+        if (property_exists($this, 'defaultHeaders')) {
+            $this->defaultHeaders = [];
+        }
+
         if (class_exists('Mockery')) {
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
@@ -165,7 +177,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
 
             Mockery::close();
         }
-        
+
         Carbon::setTestNow();
 
         $this->afterApplicationCreatedCallbacks = [];
