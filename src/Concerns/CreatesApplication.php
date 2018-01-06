@@ -39,7 +39,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationBindings($app): void
+    final protected function resolveApplicationBindings($app): void
     {
         foreach ($this->overrideApplicationBindings($app) as $original => $replacement) {
             $app->bind($original, $replacement);
@@ -77,7 +77,7 @@ trait CreatesApplication
      *
      * @return array
      */
-    protected function resolveApplicationAliases($app): array
+    final protected function resolveApplicationAliases($app): array
     {
         $aliases = new Collection($this->getApplicationAliases($app));
         $overrides = $this->overrideApplicationAliases($app);
@@ -148,7 +148,7 @@ trait CreatesApplication
      *
      * @return array
      */
-    protected function resolveApplicationProviders($app): array
+    final protected function resolveApplicationProviders($app): array
     {
         $providers = new Collection($this->getApplicationProviders($app));
         $overrides = $this->overrideApplicationProviders($app);
@@ -181,7 +181,7 @@ trait CreatesApplication
      *
      * @return string
      */
-    protected function getBasePath(): string
+    protected function getBasePath()
     {
         return __DIR__.'/../../laravel';
     }
@@ -229,7 +229,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationConfiguration($app): void
+    protected function resolveApplicationConfiguration($app)
     {
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
         $timezone = $this->getApplicationTimezone($app);
@@ -247,7 +247,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationCore($app): void
+    protected function resolveApplicationCore($app)
     {
         Facade::clearResolvedInstances();
         Facade::setFacadeApplication($app);
@@ -264,7 +264,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationConsoleKernel($app): void
+    protected function resolveApplicationConsoleKernel($app)
     {
         $app->singleton('Illuminate\Contracts\Console\Kernel', 'Orchestra\Testbench\Console\Kernel');
     }
@@ -276,7 +276,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationHttpKernel($app): void
+    protected function resolveApplicationHttpKernel($app)
     {
         $app->singleton('Illuminate\Contracts\Http\Kernel', 'Orchestra\Testbench\Http\Kernel');
     }
@@ -288,7 +288,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationExceptionHandler($app): void
+    protected function resolveApplicationExceptionHandler($app)
     {
         $app->singleton('Illuminate\Contracts\Debug\ExceptionHandler', 'Orchestra\Testbench\Exceptions\Handler');
     }
@@ -300,7 +300,7 @@ trait CreatesApplication
      *
      * @return void
      */
-    protected function resolveApplicationBootstrappers($app): void
+    protected function resolveApplicationBootstrappers($app)
     {
         $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);

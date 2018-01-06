@@ -54,7 +54,7 @@ trait Testing
      *
      * @return void
      */
-    protected function setUpTheTestEnvironment(): void
+    final protected function setUpTheTestEnvironment(): void
     {
         if (! $this->app) {
             $this->refreshApplication();
@@ -78,7 +78,7 @@ trait Testing
      *
      * @return void
      */
-    protected function tearDownTheTestEnvironment(): void
+    final protected function tearDownTheTestEnvironment(): void
     {
         if ($this->app) {
             foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
@@ -121,7 +121,7 @@ trait Testing
      *
      * @return array
      */
-    protected function setUpTheTestEnvironmentTraits(): array
+    final protected function setUpTheTestEnvironmentTraits(): array
     {
         $uses = array_flip(class_uses_recursive(static::class));
 
