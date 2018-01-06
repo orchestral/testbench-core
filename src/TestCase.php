@@ -52,11 +52,21 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     }
 
     /**
+     * Boot the testing helper traits.
+     *
+     * @return array
+     */
+    protected function setUpTraits(): array
+    {
+        return $this->setUpTheTestEnvironmentTraits();
+    }
+
+    /**
      * Refresh the application instance.
      *
      * @return void
      */
-    protected function refreshApplication()
+    protected function refreshApplication(): void
     {
         $this->app = $this->createApplication();
     }

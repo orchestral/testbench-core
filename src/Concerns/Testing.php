@@ -121,7 +121,7 @@ trait Testing
      *
      * @return array
      */
-    protected function setUpTraits(): array
+    protected function setUpTheTestEnvironmentTraits(): array
     {
         $uses = array_flip(class_uses_recursive(static::class));
 
@@ -179,4 +179,18 @@ trait Testing
     {
         array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
     }
+
+    /**
+     * Boot the testing helper traits.
+     *
+     * @return array
+     */
+    abstract function setUpTraits(): array;
+
+    /**
+     * Refresh the application instance.
+     *
+     * @return void
+     */
+    abstract protected function refreshApplication(): void;
 }
