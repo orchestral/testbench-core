@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench;
+namespace Orchestra\Testbench\Concerns;
 
 use Mockery;
 use Illuminate\Support\Carbon;
@@ -13,29 +13,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
-use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 
 trait Testing
 {
-    use Concerns\CreatesApplication,
-        Concerns\WithFactories,
-        Concerns\WithLaravelMigrations,
-        Concerns\WithLoadMigrationsFrom,
-        InteractsWithAuthentication,
-        InteractsWithContainer,
-        InteractsWithConsole,
-        InteractsWithDatabase,
-        InteractsWithExceptionHandling,
-        InteractsWithSession,
-        MocksApplicationServices,
-        MakesHttpRequests;
+    use CreatesApplication,
+        WithFactories,
+        WithLaravelMigrations,
+        WithLoadMigrationsFrom;
 
     /**
      * The Illuminate application instance.
