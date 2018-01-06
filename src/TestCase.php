@@ -52,6 +52,16 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     }
 
     /**
+     * Refresh the application instance.
+     *
+     * @return void
+     */
+    protected function refreshApplication()
+    {
+        $this->app = $this->createApplication();
+    }
+
+    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application   $app

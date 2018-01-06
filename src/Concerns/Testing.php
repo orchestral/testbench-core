@@ -153,16 +153,6 @@ trait Testing
     }
 
     /**
-     * Refresh the application instance.
-     *
-     * @return void
-     */
-    protected function refreshApplication(): void
-    {
-        $this->app = $this->createApplication();
-    }
-
-    /**
      * Register a callback to be run after the application is created.
      *
      * @param  callable  $callback
