@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Traits;
+namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 
