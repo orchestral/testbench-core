@@ -66,8 +66,6 @@ trait Testing
             call_user_func($callback);
         }
 
-        Facade::clearResolvedInstances();
-
         Model::setEventDispatcher($this->app['events']);
 
         $this->setUpHasRun = true;
