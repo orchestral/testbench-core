@@ -2,21 +2,9 @@
 
 namespace Orchestra\Testbench\Traits;
 
-use Illuminate\Database\Eloquent\Factory as ModelFactory;
+use Orchestra\Testbench\Concerns\WithFactories as Concern;
 
 trait WithFactories
 {
-    /**
-     * Load model factories from path.
-     *
-     * @param  string  $path
-     *
-     * @return $this
-     */
-    protected function withFactories($path)
-    {
-        $this->app->make(ModelFactory::class)->load($path);
-
-        return $this;
-    }
+    use Concern;
 }
