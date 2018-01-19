@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench;
 
-use PHPUnit\Framework\TestCase as BaseTestCase;
+use PHPUnit\Framework\TestCase as PHPUnit;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 
-abstract class TestCase extends BaseTestCase implements Contracts\TestCase
+abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
     use Concerns\Testing,
         InteractsWithAuthentication,
