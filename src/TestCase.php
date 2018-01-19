@@ -42,13 +42,13 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     }
 
     /**
-     * Refresh the application instance.
+     * Clean up the testing environment before the next test.
      *
      * @return void
      */
-    protected function refreshApplication()
+    protected function tearDown()
     {
-        $this->app = $this->createApplication();
+        $this->tearDownTheTestEnvironment();
     }
 
     /**
@@ -62,13 +62,13 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     }
 
     /**
-     * Clean up the testing environment before the next test.
+     * Refresh the application instance.
      *
      * @return void
      */
-    protected function tearDown()
+    protected function refreshApplication()
     {
-        $this->tearDownTheTestEnvironment();
+        $this->app = $this->createApplication();
     }
 
     /**
