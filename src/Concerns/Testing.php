@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Concerns;
 
 use Mockery;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Console\Application as Artisan;
