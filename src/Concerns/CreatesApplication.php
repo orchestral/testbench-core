@@ -215,11 +215,12 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        $app = new Application($this->getBasePath());
-
-        $app->bind('Illuminate\Foundation\Bootstrap\LoadConfiguration', 'Orchestra\Testbench\Bootstrap\LoadConfiguration');
-
-        return $app;
+        return tap(new Application($this->getBasePath()), function ($app) {
+            $app->bind(
+                'Illuminate\Foundation\Bootstrap\LoadConfiguration',
+                'Orchestra\Testbench\Bootstrap\LoadConfiguration'
+            );
+        });
     }
 
     /**
@@ -232,9 +233,10 @@ trait CreatesApplication
     protected function resolveApplicationConfiguration($app)
     {
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
-        $timezone = $this->getApplicationTimezone($app);
 
-        ! is_null($timezone) && date_default_timezone_set($timezone);
+        tap($this->getApplicationTimezone($app), function ($timezone) {
+            ! is_null($timezone) && date_default_timezone_set($timezone);
+        });
 
         $app['config']['app.aliases'] = $this->resolveApplicationAliases($app);
         $app['config']['app.providers'] = $this->resolveApplicationProviders($app);

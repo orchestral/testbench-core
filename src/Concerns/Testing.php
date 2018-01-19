@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Concerns;
 
 use Mockery;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Console\Application as Artisan;
@@ -65,8 +64,6 @@ trait Testing
         foreach ($this->afterApplicationCreatedCallbacks as $callback) {
             call_user_func($callback);
         }
-
-        Facade::clearResolvedInstances();
 
         Model::setEventDispatcher($this->app['events']);
 
