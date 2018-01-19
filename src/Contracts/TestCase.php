@@ -26,7 +26,7 @@ interface TestCase
      *
      * Needs to be implemented by subclasses.
      *
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function createApplication();
 
