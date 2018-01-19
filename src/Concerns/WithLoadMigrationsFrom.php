@@ -2,9 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Exception;
-use Orchestra\Database\ConsoleServiceProvider;
-use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
+use Orchestra\Testbench\Database\Migrator;
 
 trait WithLoadMigrationsFrom
 {
@@ -17,18 +15,14 @@ trait WithLoadMigrationsFrom
      */
     protected function loadMigrationsFrom($realpath): void
     {
-        if (! class_exists(ConsoleServiceProvider::class)) {
-            throw new Exception('Missing `orchestra/database` in composer.json');
-        }
+        $options = is_array($realpath) ? $realpath : ['--path' => $realpath];
 
-        $options = is_array($realpath) ? $realpath : ['--realpath' => $realpath];
+        $migrator = tap(new Migrator($this->app->make('migrator')), function ($schema) use ($options) {
+            $schema->up($options);
+        });
 
-        $this->artisan('migrate', $options);
-
-        $this->app[ConsoleKernel::class]->setArtisan(null);
-
-        $this->beforeApplicationDestroyed(function () use ($options) {
-            $this->artisan('migrate:rollback', $options);
+        $this->beforeApplicationDestroyed(function () use ($migrator, $options) {
+            $migrator->rollback($options);
         });
     }
 }

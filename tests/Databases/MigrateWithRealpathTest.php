@@ -26,10 +26,7 @@ class MigrateWithRealpathTest extends TestCase
         // call migrations specific to our tests, e.g. to seed the db
         // the path option should be relative to the 'path.database'
         // path unless `--path` option is available.
-        $this->loadMigrationsFrom([
-            '--database' => 'testing',
-            '--realpath' => realpath(__DIR__.'/../migrations'),
-        ]);
+        $this->loadMigrationsFrom(realpath(__DIR__.'/../migrations'));
     }
 
     /**
@@ -57,7 +54,6 @@ class MigrateWithRealpathTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Orchestra\Database\ConsoleServiceProvider::class,
             //'Cartalyst\Sentry\SentryServiceProvider',
             //'YourProject\YourPackage\YourPackageServiceProvider',
         ];

@@ -31,7 +31,7 @@ class MigrateWithRealpathAndLaravelTest extends TestCase
         // path unless `--path` option is available.
         $this->loadMigrationsFrom([
             '--database' => 'testing',
-            '--realpath' => realpath(__DIR__.'/../migrations'),
+            '--path' => realpath(__DIR__.'/../migrations'),
         ]);
     }
 
@@ -60,7 +60,6 @@ class MigrateWithRealpathAndLaravelTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Orchestra\Database\ConsoleServiceProvider::class,
             //'Cartalyst\Sentry\SentryServiceProvider',
             //'YourProject\YourPackage\YourPackageServiceProvider',
         ];
