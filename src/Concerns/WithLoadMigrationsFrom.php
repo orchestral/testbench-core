@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Orchestra\Testbench\Database\Migrator;
+use Orchestra\Testbench\Database\MigrateProcessor;
 
 trait WithLoadMigrationsFrom
 {
@@ -17,12 +17,11 @@ trait WithLoadMigrationsFrom
     {
         $options = is_array($realpath) ? $realpath : ['--path' => $realpath];
 
-        $migrator = tap(new Migrator($this->app->make('migrator')), function ($schema) use ($options) {
-            $schema->up($options);
-        });
+        $migrator = new MigrateProcessor($this->app->make('migrator'), $options);
+        $migrator->up();
 
-        $this->beforeApplicationDestroyed(function () use ($migrator, $options) {
-            $migrator->rollback($options);
+        $this->beforeApplicationDestroyed(function () use ($migrator) {
+            $migrator->rollback();
         });
     }
 }
