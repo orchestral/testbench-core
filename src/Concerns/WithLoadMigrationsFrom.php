@@ -9,13 +9,13 @@ trait WithLoadMigrationsFrom
     /**
      * Define hooks to migrate the database before and after each test.
      *
-     * @param  string|array  $realpah
+     * @param  string|array  $paths
      *
      * @return void
      */
-    protected function loadMigrationsFrom($realpath): void
+    protected function loadMigrationsFrom($paths): void
     {
-        $options = is_array($realpath) ? $realpath : ['--path' => $realpath];
+        $options = is_array($paths) ? $paths : ['--path' => $paths];
 
         $migrator = new MigrateProcessor($this->app->make('migrator'), $options);
         $migrator->up();
