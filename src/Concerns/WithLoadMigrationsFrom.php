@@ -17,7 +17,13 @@ trait WithLoadMigrationsFrom
     {
         $options = is_array($paths) ? $paths : ['--path' => $paths];
 
-        $migrator = new MigrateProcessor($this->app->make('migrator'), $options);
+        if (isset($options['--realpath']) && is_string($options['--realpath'])) {
+            $options['--path'] = [$options['--realpath']];
+        }
+
+        $options['--realpath'] = true;
+
+        $migrator = new MigrateProcessor($this, $options);
         $migrator->up();
 
         $this->beforeApplicationDestroyed(function () use ($migrator) {

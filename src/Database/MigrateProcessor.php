@@ -3,16 +3,17 @@
 namespace Orchestra\Testbench\Database;
 
 use Illuminate\Support\Arr;
+use Orchestra\Testbench\Contracts\TestCase;
 use Illuminate\Database\Migrations\Migrator;
 
 class MigrateProcessor
 {
     /**
-     * The migrator instance.
+     * The testbench instance.
      *
-     * @var \Illuminate\Database\Migrations\Migrator
+     * @var \Orchestra\Testbench\Contracts\TestCase
      */
-    protected $migrator;
+    protected $testbench;
 
     /**
      * The migrator options.
@@ -24,15 +25,13 @@ class MigrateProcessor
     /**
      * Construct a new schema migrator.
      *
-     * @param \Illuminate\Database\Migrations\Migrator  $migrator
+     * @param \Orchestra\Testbench\Contracts\TestCase  $testbench
      * @param array  $options
      */
-    public function __construct(Migrator $migrator, array $options = [])
+    public function __construct(TestCase $testbench, array $options = [])
     {
-        $this->migrator = $migrator;
+        $this->testbench = $testbench;
         $this->options = $options;
-
-        $this->setDatabaseConnection();
     }
 
     /**
@@ -42,9 +41,7 @@ class MigrateProcessor
      */
     public function up(): self
     {
-        $this->install();
-
-        $this->migrator->run($this->getMigrationPaths(), Arr::only($this->options, ['pretend', 'step']));
+        $this->testbench->artisan('migrate', $this->options);
 
         return $this;
     }
@@ -56,50 +53,8 @@ class MigrateProcessor
      */
     public function rollback(): self
     {
-        $this->migrator->rollback($this->getMigrationPaths(), Arr::only($this->options, ['pretend', 'step']));
+        $this->testbench->artisan('migrate:rollback', $this->options);
 
         return $this;
-    }
-
-    /**
-     * Install migration dependency.
-     *
-     * @return void
-     */
-    protected function install(): void
-    {
-        if (! $this->migrator->repositoryExists()) {
-            $this->migrator->getRepository()->createRepository();
-        }
-    }
-
-    /**
-     * Get the migration paths.
-     *
-     * @return array|null
-     */
-    protected function getMigrationPaths(): ?array
-    {
-        $paths = $this->options['--path'] ?? $this->options['--realpath'] ?? null;
-
-        if (is_string($paths)) {
-            return [$paths];
-        }
-
-        return $paths;
-    }
-
-    /**
-     * Set database migration.
-     *
-     * @return void
-     */
-    protected function setDatabaseConnection(): void
-    {
-        $database = $this->options['--database'] ?? null;
-
-        if (! is_null($database)) {
-            $this->migrator->setConnection($database);
-        }
     }
 }
