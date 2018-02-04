@@ -10,7 +10,7 @@ class MigrateWithLaravelTest extends TestCase
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
