@@ -9,7 +9,7 @@ class MigrateDatabaseTest extends TestCase
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -60,17 +60,13 @@ class MigrateDatabaseTest extends TestCase
     protected function getPackageAliases($app)
     {
         return [
-            //'Sentry'      => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+            //'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
             //'YourPackage' => 'YourProject\YourPackage\Facades\YourPackage',
         ];
     }
 
-    /**
-     * Test running migration.
-     *
-     * @test
-     */
-    public function testRunningMigration()
+    /** @test */
+    public function it_runs_the_migrations()
     {
         $users = \DB::table('testbench_users')->where('id', '=', 1)->first();
 
