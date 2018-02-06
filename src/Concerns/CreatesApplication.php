@@ -327,4 +327,13 @@ trait CreatesApplication
             $app['router']->getRoutes()->refreshNameLookups();
         });
     }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application   $app
+     *
+     * @return void
+     */
+    abstract protected function getEnvironmentSetUp($app);
 }

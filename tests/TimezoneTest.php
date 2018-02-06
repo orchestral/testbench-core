@@ -19,10 +19,8 @@ class TimezoneTest extends TestCase
         return 'Asia/Kuala_Lumpur';
     }
 
-    /**
-     * @test
-     */
-    public function testOverridingTimezone()
+    /** @test */
+    public function it_can_override_timezone()
     {
         $this->assertEquals('Asia/Kuala_Lumpur', Carbon::now()->timezoneName);
     }

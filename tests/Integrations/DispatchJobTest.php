@@ -7,12 +7,8 @@ use Orchestra\Testbench\Tests\Stubs\Jobs\RegisterUser;
 
 class DispatchJobTest extends TestCase
 {
-    /**
-     * Test job is expected.
-     *
-     * @test
-     */
-    public function testJobIsExpected()
+    /** @test */
+    public function it_can_triggers_expected_jobs()
     {
         $this->expectsJobs(RegisterUser::class);
 

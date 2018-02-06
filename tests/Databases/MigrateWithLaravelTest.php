@@ -10,7 +10,7 @@ class MigrateWithLaravelTest extends TestCase
     /**
      * Setup the test environment.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -60,17 +60,13 @@ class MigrateWithLaravelTest extends TestCase
     protected function getPackageAliases($app)
     {
         return [
-            //'Sentry'      => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+            //'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
             //'YourPackage' => 'YourProject\YourPackage\Facades\YourPackage',
         ];
     }
 
-    /**
-     * Test running migration.
-     *
-     * @test
-     */
-    public function testRunningMigration()
+    /** @test */
+    public function it_runs_the_migrations()
     {
         $now = Carbon::now();
 

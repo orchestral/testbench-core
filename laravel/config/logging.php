@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'single'),
+    'default' => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
@@ -24,15 +24,15 @@ return [
     | the box, Laravel uses the Monolog PHP logging library. This gives
     | you a variety of powerful log handlers / formatters to utilize.
     |
-    | Available Drivers: "single", "daily", "syslog",
-    |                    "errorlog", "custom"
+    | Available Drivers: "single", "daily", "slack", "syslog",
+    |                    "errorlog", "custom", "stack"
     |
     */
 
     'channels' => [
-        'aggregate' => [
-            'driver' => 'aggregate',
-            'channels' => ['single', 'daily'],
+        'stack' => [
+            'driver' => 'stack',
+            'channels' => ['single'],
         ],
 
         'single' => [
@@ -46,6 +46,14 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
             'days' => 7,
+        ],
+
+        'slack' => [
+            'driver' => 'slack',
+            'url' => env('LOG_SLACK_WEBHOOK_URL'),
+            'username' => 'Laravel Log',
+            'emoji' => ':boom:',
+            'level' => 'critical',
         ],
 
         'syslog' => [
