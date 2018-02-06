@@ -37,12 +37,8 @@ class RouteTest extends TestCase
         $app['router']->resource('foo', 'Orchestra\Testbench\Tests\Stubs\Controller');
     }
 
-    /**
-     * Test GET routes.
-     *
-     * @test
-     */
-    public function testGetRoutes()
+    /** @test */
+    public function it_can_resolve_get_routes()
     {
         $crawler = $this->call('GET', 'hello');
 
@@ -53,12 +49,8 @@ class RouteTest extends TestCase
         $this->assertEquals('goodbye world', $crawler->getContent());
     }
 
-    /**
-     * Test GET routes with prefix.
-     *
-     * @test
-     */
-    public function testGetPrefixedRoutes()
+    /** @test */
+    public function it_can_resolve_get_routes_with_prefixes()
     {
         $crawler = $this->call('GET', 'boss/hello');
 
@@ -69,12 +61,8 @@ class RouteTest extends TestCase
         $this->assertEquals('goodbye boss', $crawler->getContent());
     }
 
-    /**
-     * Test GET foo/index route using call.
-     *
-     * @test
-     */
-    public function testGetFooIndexRouteUsingCall()
+    /** @test */
+    public function it_can_resolve_resource_controller()
     {
         $response = $this->call('GET', 'foo');
 
@@ -82,12 +70,8 @@ class RouteTest extends TestCase
         $this->assertEquals('Controller@index', $response->getContent());
     }
 
-    /**
-     * Test GET foo/index route using call.
-     *
-     * @test
-     */
-    public function testGetByebyeRouteUsingCallResolvingNameRoute()
+    /** @test */
+    public function it_can_resolve_name_routes()
     {
         $this->app['router']->get('byebye', function () {
             return route('bye');

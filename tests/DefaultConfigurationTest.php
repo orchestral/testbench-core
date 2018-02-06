@@ -6,22 +6,14 @@ use Orchestra\Testbench\TestCase;
 
 class DefaultConfigurationTest extends TestCase
 {
-    /**
-     * `cache.default` value is set to array.
-     *
-     * @test
-     */
-    public function testDefaultCacheConfiguration()
+    /** @test */
+    public function it_populate_expected_cache_defaults()
     {
         $this->assertEquals('array', $this->app['config']['cache.default']);
     }
 
-    /**
-     * `session.driver` value is set to array.
-     *
-     * @test
-     */
-    public function testDefaultSessionConfiguration()
+    /** @test */
+    public function it_populate_expected_session_defaults()
     {
         $this->assertEquals('array', $this->app['config']['session.driver']);
     }

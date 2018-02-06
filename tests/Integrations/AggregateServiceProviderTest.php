@@ -20,12 +20,8 @@ class AggregateServiceProviderTest extends TestCase
         ];
     }
 
-    /**
-     * Test able to load aggregate service providers.
-     *
-     * @test
-     */
-    public function testServiceIsAvailable()
+    /** @test */
+    public function it_populate_expected_services()
     {
         $this->assertTrue($this->app->bound('parent.loaded'));
         $this->assertTrue($this->app->bound('child.loaded'));
