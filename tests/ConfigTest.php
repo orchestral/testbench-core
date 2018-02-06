@@ -7,14 +7,6 @@ use Orchestra\Testbench\TestCase;
 class ConfigTest extends TestCase
 {
     /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
-    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -26,22 +18,14 @@ class ConfigTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    /**
-     * Test \Illuminate\Support\Facades\Config facade is usable.
-     *
-     * @test
-     */
-    public function testConfigFacadeIsLoaded()
+    /** @test */
+    public function it_loads_config_facade()
     {
         $this->assertEquals('testing', \Config::get('database.default'));
     }
 
-    /**
-     * Test config() helper is usable.
-     *
-     * @test
-     */
-    public function testConfigHelperIsLoaded()
+    /** @test */
+    public function it_loads_config_helper()
     {
         $this->assertEquals('testing', config('database.default'));
     }

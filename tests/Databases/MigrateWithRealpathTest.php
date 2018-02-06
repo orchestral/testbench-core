@@ -13,16 +13,6 @@ class MigrateWithRealpathTest extends TestCase
     {
         parent::setUp();
 
-        // call migrations for packages upon which our package depends, e.g. Cartalyst/Sentry
-        // not necessary if your package doesn't depend on another package that requires
-        // running migrations for proper installation
-        /* uncomment as necessary
-        $this->loadMigrationsFrom([
-            '--database' => 'testbench',
-            '--path'     => '../vendor/cartalyst/sentry/src/migrations',
-        ]);
-        */
-
         // call migrations specific to our tests, e.g. to seed the db
         // the path option should be relative to the 'path.database'
         // path unless `--path` option is available.
@@ -72,17 +62,13 @@ class MigrateWithRealpathTest extends TestCase
     protected function getPackageAliases($app)
     {
         return [
-            //'Sentry'      => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+            //'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
             //'YourPackage' => 'YourProject\YourPackage\Facades\YourPackage',
         ];
     }
 
-    /**
-     * Test running migration.
-     *
-     * @test
-     */
-    public function testRunningMigration()
+    /** @test */
+    public function it_runs_the_migrations()
     {
         $users = \DB::table('testbench_users')->where('id', '=', 1)->first();
 
