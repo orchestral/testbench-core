@@ -12,11 +12,7 @@ class DefaultConfigurationTest extends TestCase
         $this->assertEquals('array', $this->app['config']['cache.default']);
     }
 
-    /**
-     * `session.driver` value is set to array.
-     *
-     * @test
-     */
+    /** @test */
     public function it_populate_expected_session_defaults()
     {
         $this->assertEquals('array', $this->app['config']['session.driver']);
