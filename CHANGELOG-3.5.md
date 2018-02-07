@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.7
+
+Released: 2018-02-07
+
+### Added
+
+* Add `Orchestra\Testbench\Concerns\Testing` trait for generic testing `setUp` and `tearDown` helpers.
+
+### Changes
+
+* Moves `Orchestra\Testbench\Traits` to `Orchestra\Testbench\Concerns` for match Laravel coding style.
+
 ## 3.5.6
 
 Released: 2018-01-06
