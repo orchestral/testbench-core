@@ -31,7 +31,6 @@ It loads Laravel apps and enable you to run artisan commands, migrations, factor
 
 [![Latest Stable Version](https://poser.pugx.org/orchestra/testbench/v/stable)](https://packagist.org/packages/orchestra/testbench)
 [![Total Downloads](https://poser.pugx.org/orchestra/testbench/downloads)](https://packagist.org/packages/orchestra/testbench)
-[![License](https://poser.pugx.org/orchestra/testbench/license)](https://packagist.org/packages/orchestra/testbench)
 
 ### [Testbench BrowserKit](https://github.com/orchestral/testbench-dusk)
 
@@ -39,7 +38,6 @@ It extends **Testbench** and allows you to interact with views using CSS selecto
 
 [![Latest Stable Version](https://poser.pugx.org/orchestra/testbench-dusk/v/stable)](https://packagist.org/packages/orchestra/testbench-browser-kit)
 [![Total Downloads](https://poser.pugx.org/orchestra/testbench-browser-kit/downloads)](https://packagist.org/packages/orchestra/testbench-browser-kit)
-[![License](https://poser.pugx.org/orchestra/testbench-browser-kit/license)](https://packagist.org/packages/orchestra/testbench-browser-kit)
 
 ### [Testbench Dusk](https://github.com/orchestral/testbench-dusk)
 
@@ -47,4 +45,3 @@ It extends **Testbench** and allows you to interact with views using CSS selecto
 
 [![Latest Stable Version](https://poser.pugx.org/orchestra/testbench-dusk/v/stable)](https://packagist.org/packages/orchestra/testbench-dusk)
 [![Total Downloads](https://poser.pugx.org/orchestra/testbench-dusk/downloads)](https://packagist.org/packages/orchestra/testbench-dusk)
-[![License](https://poser.pugx.org/orchestra/testbench-dusk/license)](https://packagist.org/packages/orchestra/testbench-dusk)
