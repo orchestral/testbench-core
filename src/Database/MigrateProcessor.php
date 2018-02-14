@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Database;
 
-use Illuminate\Support\Arr;
 use Orchestra\Testbench\Contracts\TestCase;
 use Illuminate\Database\Migrations\Migrator;
 
