@@ -154,7 +154,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationProviders($app);
 
         if (! empty($overrides)) {
-            $providers->map(function ($provider) use ($providers) {
+            $providers->map(function ($provider) use ($overrides) {
                 return array_key_exists($provider, $overrides)
                             ? $overrides[$provider]
                             : $provider;
