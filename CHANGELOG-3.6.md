@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.6.2
+
+Released: 2018-02-18
+
+### Fixes
+
+* Fixes invalid reference to `$overrides` on `Orchestra\Testbench\Concerns\CreatesApplication::resolveApplicationProviders()`.
+
 ## 3.6.1
 
 Released: 2018-02-15
