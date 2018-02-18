@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.8
+
+Released: 2018-02-18
+
+### Added
+
+* Add `create-sqlite-db` command helper to assist using sqlite with Testbench.
+
+### Changes
+
+* Allow to use `TestCase::loadLaravelMigrations()` without adding any parameters to use default database connection.
+
+### Fixes
+
+* Fixes invalid reference to `$overrides` on `Orchestra\Testbench\Concerns\CreatesApplication::resolveApplicationProviders()`.
+
 ## 3.5.7
 
 Released: 2018-02-07
