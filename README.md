@@ -24,20 +24,23 @@ Testbench Component is a simple package that has been designed to help you write
 
 **Testbench Core** is being built to enable [Laravel Framework](https://github.com/laravel/framework) to build and run integration tests for the framework itself. For package developers please use any of the following testbench projects:
 
-### Testbench
+### [Testbench](https://github.com/orchestral/testbench)
 
 It loads Laravel apps and enable you to run artisan commands, migrations, factories and basic routing from within your tests.
 
-[GitHub](https://github.com/orchestral/testbench)
+[![Latest Stable Version](https://poser.pugx.org/orchestra/testbench/v/stable)](https://packagist.org/packages/orchestra/testbench)
+[![Total Downloads](https://poser.pugx.org/orchestra/testbench/downloads)](https://packagist.org/packages/orchestra/testbench)
 
-### Testbench BrowserKit
+### [Testbench BrowserKit](https://github.com/orchestral/testbench-browser-kit)
 
 It extends **Testbench** and allows you to interact with views using CSS selectors (interacting with form, button, link etc) but without JavaScript being loaded.
 
-[GitHub](https://github.com/orchestral/testbench-browser-kit)
+[![Latest Stable Version](https://poser.pugx.org/orchestra/testbench-browser-kit/v/stable)](https://packagist.org/packages/orchestra/testbench-browser-kit)
+[![Total Downloads](https://poser.pugx.org/orchestra/testbench-browser-kit/downloads)](https://packagist.org/packages/orchestra/testbench-browser-kit)
 
-### Testbench Dusk
+### [Testbench Dusk](https://github.com/orchestral/testbench-dusk)
 
 It extends **Testbench** and allows you to interact with views using CSS selectors (interacting with form, button, link etc). By loading the pages using Google Chrome it enable you to interacts with JavaScript powered content.
 
-[GitHub](https://github.com/orchestral/testbench-dusk)
+[![Latest Stable Version](https://poser.pugx.org/orchestra/testbench-dusk/v/stable)](https://packagist.org/packages/orchestra/testbench-dusk)
+[![Total Downloads](https://poser.pugx.org/orchestra/testbench-dusk/downloads)](https://packagist.org/packages/orchestra/testbench-dusk)
