@@ -16,13 +16,13 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
     use Concerns\Testing,
         InteractsWithAuthentication,
-        InteractsWithContainer,
         InteractsWithConsole,
+        InteractsWithContainer,
         InteractsWithDatabase,
         InteractsWithExceptionHandling,
         InteractsWithSession,
-        MocksApplicationServices,
-        MakesHttpRequests;
+        MakesHttpRequests,
+        MocksApplicationServices;
 
     /**
      * The base URL to use while testing the application.
