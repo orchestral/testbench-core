@@ -19,11 +19,11 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
 
 abstract class TestCase extends BaseTestCase implements Contracts\TestCase
 {
-    use InteractsWithContainer,
-        MakesHttpRequests,
-        InteractsWithAuthentication,
+    use InteractsWithAuthentication,
         InteractsWithConsole,
+        InteractsWithContainer,
         InteractsWithDatabase,
+        MakesHttpRequests,
         MocksApplicationServices,
         Traits\CreatesApplication,
         Traits\WithFactories,
