@@ -16,7 +16,7 @@ Released: 2018-02-18
 
 ### Fixes
 
-* Fixes invalid reference to `$overrides` on `Orchestra\Testbench\Traits\CreatesApplication::resolveApplicationProviders()`.
+* Fixes invalid reference to `$overrides` on `Orchestra\Testbench\Concerns\CreatesApplication::resolveApplicationProviders()`.
 
 ## 3.5.7
 
