@@ -4,6 +4,8 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 3.4.6
 
+Released: 2017-02-20
+
 ### Fixes
 
 * Fixes binding not overriden when trying to resolve providers and aliases.
