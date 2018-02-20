@@ -2,6 +2,12 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.4.6
+
+### Fixes
+
+* Fixes binding not overriden when trying to resolve providers and aliases.
+
 ## 3.4.5
 
 Released: 2017-02-17
