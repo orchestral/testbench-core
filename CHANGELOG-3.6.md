@@ -8,7 +8,7 @@ Released: 2017-02-20
 
 ### Fixes
 
-* Fixes binding not overriden when trying to resolve providers and aliases.
+* Fixes binding not overridden when trying to resolve providers and aliases.
 
 ## 3.6.2
 
