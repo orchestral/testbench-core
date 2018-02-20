@@ -83,7 +83,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationAliases($app);
 
         if (! empty($overrides)) {
-            $aliases->map(function ($alias, $name) use ($overrides) {
+            $aliases->transform(function ($alias, $name) use ($overrides) {
                 return array_key_exists($name, $overrides)
                             ? $overrides[$name]
                             : $alias;
@@ -154,7 +154,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationProviders($app);
 
         if (! empty($overrides)) {
-            $providers->map(function ($provider) use ($overrides) {
+            $providers->transform(function ($provider) use ($overrides) {
                 return array_key_exists($provider, $overrides)
                             ? $overrides[$provider]
                             : $provider;
