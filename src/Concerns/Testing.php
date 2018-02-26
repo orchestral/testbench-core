@@ -116,11 +116,12 @@ trait Testing
     /**
      * Boot the testing helper traits.
      *
+     * @param  array|null  $uses
      * @return array
      */
-    final protected function setUpTheTestEnvironmentTraits(): array
+    final protected function setUpTheTestEnvironmentTraits(array $uses = null): array
     {
-        $uses = array_flip(class_uses_recursive(static::class));
+        $uses = $uses ?? array_flip(class_uses_recursive(static::class));
 
         if (isset($uses[RefreshDatabase::class])) {
             $this->refreshDatabase();
