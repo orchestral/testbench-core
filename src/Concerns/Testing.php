@@ -117,6 +117,7 @@ trait Testing
      * Boot the testing helper traits.
      *
      * @param  array|null  $uses
+     *
      * @return array
      */
     final protected function setUpTheTestEnvironmentTraits(array $uses = null): array
