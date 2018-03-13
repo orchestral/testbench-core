@@ -14,8 +14,7 @@ class MigrateWithRealpathTest extends TestCase
         parent::setUp();
 
         // call migrations specific to our tests, e.g. to seed the db
-        // the path option should be relative to the 'path.database'
-        // path unless `--path` option is available.
+        // the path option should be an absolute path.
         $this->loadMigrationsFrom(realpath(__DIR__.'/../migrations'));
     }
 
