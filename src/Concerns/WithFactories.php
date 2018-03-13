@@ -26,7 +26,7 @@ trait WithFactories
      *
      * @return $this
      */
-    protected function loadFactoriesUsing($app, string $path)
+    protected function loadFactoriesUsing($app, $path)
     {
         $app->make(ModelFactory::class)->load($path);
 
