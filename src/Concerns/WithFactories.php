@@ -16,9 +16,7 @@ trait WithFactories
      */
     protected function withFactories(string $path): self
     {
-        $this->loadFactoriesUsing($this->app, $path);
-
-        return $this;
+        return $this->loadFactoriesUsing($this->app, $path);
     }
 
     /**
