@@ -15,7 +15,20 @@ trait WithFactories
      */
     protected function withFactories($path)
     {
-        $this->app->make(ModelFactory::class)->load($path);
+        return $this->loadFactoriesUsing($this->app, $path);
+    }
+
+    /**
+     * Load model factories from path using Application.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  string  $path
+     *
+     * @return $this
+     */
+    protected function loadFactoriesUsing($app, string $path)
+    {
+        $app->make(ModelFactory::class)->load($path);
 
         return $this;
     }
