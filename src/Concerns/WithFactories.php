@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Factory as ModelFactory;
 
 trait WithFactories
