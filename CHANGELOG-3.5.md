@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.5.10
+
+Released: 2018-03-13
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\WithFactories::loadFactoriesUsing()` helper to load factories before `$this->app` is available.
+
 ## 3.5.9
 
 Released: 2017-02-20
