@@ -2,9 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.6.4
+
+Released: 2018-03-13
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\WithFactories::loadFactoriesUsing()` helper to load factories before `$this->app` is available.
+
+### Changes
+
+* Allow `Orchestra\Testbench\Concerns\Testing::setUpTheTestEnvironmentTraits()` to access `$uses`.
+* Update validation language file to include `not_regex`.
+
 ## 3.6.3
 
-Released: 2017-02-20
+Released: 2018-02-20
 
 ### Fixes
 
