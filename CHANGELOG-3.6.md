@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.6.5
+
+Released: 2018-03-27
+
+### Changes
+
+* Bump minimum Laravel Framework `v5.6.13+` which support signed route URL.
+* Update Laravel skeleton structure.
+
 ## 3.6.4
 
 Released: 2018-03-13
