@@ -13,7 +13,7 @@ trait WithFactories
      *
      * @return $this
      */
-    protected function withFactories(string $path): self
+    protected function withFactories(string $path)
     {
         return $this->loadFactoriesUsing($this->app, $path);
     }
@@ -26,7 +26,7 @@ trait WithFactories
      *
      * @return $this
      */
-    protected function loadFactoriesUsing($app, string $path): self
+    protected function loadFactoriesUsing($app, string $path)
     {
         $app->make(ModelFactory::class)->load($path);
 
