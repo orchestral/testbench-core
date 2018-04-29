@@ -21,6 +21,10 @@
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="false">
             <directory suffix=".php">src/</directory>
+            <exclude>
+                <file>src/Console/Kernel.php</file>
+                <file>src/Exceptions/Handler.php</file>
+            </exclude>
         </whitelist>
     </filter>
 
