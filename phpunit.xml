@@ -9,7 +9,6 @@
      convertWarningsToExceptions="true"
      processIsolation="false"
      stopOnFailure="false"
-     syntaxCheck="true"
      verbose="true">
 
     <testsuites>
