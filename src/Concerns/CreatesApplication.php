@@ -234,6 +234,8 @@ trait CreatesApplication
             ! is_null($timezone) && date_default_timezone_set($timezone);
         });
 
+        $this->resolveServiceProviderConfiguration($app);
+
         $app['config']['app.aliases'] = $this->resolveApplicationAliases($app);
         $app['config']['app.providers'] = $this->resolveApplicationProviders($app);
     }
@@ -325,6 +327,17 @@ trait CreatesApplication
     }
 
     /**
+     * Resolve configuration before service providers are registered.
+     *
+     * @param  \Illuminate\Foundation\Application   $app
+     *
+     * @return void
+     */
+    protected function resolveServiceProviderConfiguration($app) {
+        // Empty implementation which can be overridden.
+    }
+
+    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application   $app
@@ -332,4 +345,5 @@ trait CreatesApplication
      * @return void
      */
     abstract protected function getEnvironmentSetUp($app);
+
 }
