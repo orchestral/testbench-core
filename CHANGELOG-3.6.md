@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.6.6
+
+Released: 2018-07-12
+
+### Changes
+
+* Update Laravel 5.6 skeleton.
+* Avoid returning `self` unless the method is `final`.
+
 ## 3.6.5
 
 Released: 2018-03-27
