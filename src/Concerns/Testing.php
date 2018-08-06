@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Mockery;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Console\Application as Artisan;
