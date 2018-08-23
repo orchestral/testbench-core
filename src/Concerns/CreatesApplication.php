@@ -315,8 +315,6 @@ trait CreatesApplication
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
-        $app['hash']->driver('bcrypt')->setRounds(4);
-
         $app['router']->getRoutes()->refreshNameLookups();
 
         $app->resolving('url', function ($url, $app) {
