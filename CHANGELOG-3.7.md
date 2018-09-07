@@ -6,6 +6,8 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 Released: 2018-09-07
 
+### Changes
+
 * Update Laravel 5.7 skeleton.
 
 ### 3.7.0
