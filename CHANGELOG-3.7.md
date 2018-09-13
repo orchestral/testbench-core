@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+### 3.7.3
+
+Released: 2018-09-12
+
+### Changes
+
+* Always run artisan commands instead of getting an instance of `Illuminate\Foundation\Testing\PendingCommand`.
+
 ### 3.7.2
 
 Released: 2018-09-12

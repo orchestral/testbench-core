@@ -19,12 +19,12 @@ trait WithLaravelMigrations
 
         $options['--path'] = 'migrations';
 
-        $this->artisan('migrate', $options);
+        $this->artisan('migrate', $options)->run();
 
         $this->app[ConsoleKernel::class]->setArtisan(null);
 
         $this->beforeApplicationDestroyed(function () use ($options) {
-            $this->artisan('migrate:rollback', $options);
+            $this->artisan('migrate:rollback', $options)->run();
         });
     }
 }

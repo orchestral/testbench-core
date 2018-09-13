@@ -55,7 +55,7 @@ interface TestCase
      * @param string  $command
      * @param array   $parameters
      *
-     * @return int
+     * @return \Illuminate\Foundation\Testing\PendingCommand|int
      */
     public function artisan($command, $parameters = []);
 }
