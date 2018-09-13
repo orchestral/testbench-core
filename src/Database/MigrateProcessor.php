@@ -40,7 +40,7 @@ class MigrateProcessor
      */
     public function up()
     {
-        $this->testbench->artisan('migrate', $this->options);
+        $this->testbench->artisan('migrate', $this->options)->run();
 
         return $this;
     }
@@ -52,7 +52,7 @@ class MigrateProcessor
      */
     public function rollback()
     {
-        $this->testbench->artisan('migrate:rollback', $this->options);
+        $this->testbench->artisan('migrate:rollback', $this->options)->run();
 
         return $this;
     }
