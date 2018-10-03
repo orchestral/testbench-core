@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -11,7 +13,7 @@ return [
     | requests. By default, we will use the lightweight native driver but
     | you may specify any of the other wonderful drivers provided here.
     |
-    | Supported: "native", "cookie", "database", "apc",
+    | Supported: "file", "cookie", "database", "apc",
     |            "memcached", "redis", "array"
     |
     */
@@ -124,7 +126,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        str_slug(env('APP_NAME', 'laravel'), '_').'_session'
+        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
     ),
 
     /*
