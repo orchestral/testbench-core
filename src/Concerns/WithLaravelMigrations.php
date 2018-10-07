@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Orchestra\Testbench\Database\MigrateProcessor;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 
 trait WithLaravelMigrations
@@ -19,12 +20,14 @@ trait WithLaravelMigrations
 
         $options['--path'] = 'migrations';
 
-        $this->artisan('migrate', $options)->run();
+        $migrator = new MigrateProcessor($this, $options);
+
+        $migrator->up();
 
         $this->app[ConsoleKernel::class]->setArtisan(null);
 
-        $this->beforeApplicationDestroyed(function () use ($options) {
-            $this->artisan('migrate:rollback', $options)->run();
+        $this->beforeApplicationDestroyed(function () use ($migrator) {
+            $migrator->rollback();
         });
     }
 }
