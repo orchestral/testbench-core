@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Database;
 
 use Orchestra\Testbench\Contracts\TestCase;
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Foundation\Testing\PendingCommand;
 
 class MigrateProcessor
 {
@@ -40,7 +41,7 @@ class MigrateProcessor
      */
     public function up()
     {
-        $this->testbench->artisan('migrate', $this->options)->run();
+        $this->dispatch('migrate');
 
         return $this;
     }
@@ -52,8 +53,24 @@ class MigrateProcessor
      */
     public function rollback()
     {
-        $this->testbench->artisan('migrate:rollback', $this->options)->run();
+        $this->dispatch('migrate:rollback');
 
         return $this;
+    }
+
+    /**
+     * Dispatch artisan command.
+     *
+     * @param  string $command
+     *
+     * @return void
+     */
+    protected function dispatch(string $command): void
+    {
+        $console = $this->testbench->artisan($command, $this->options);
+
+        if ($console instanceof PendingCommand) {
+            $console->run();
+        }
     }
 }
