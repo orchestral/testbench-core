@@ -14,7 +14,7 @@ class Authenticate extends Middleware
      *
      * @return string
      */
-    protected function redirectTo($request, $guards)
+    protected function redirectTo($request, array $guards)
     {
         return route('login');
     }
