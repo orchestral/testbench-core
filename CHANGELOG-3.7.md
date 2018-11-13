@@ -4,7 +4,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 3.7.6
 
-Released: 2018-10-28
+Released: 2018-11-13
 
 ### Changes
 
