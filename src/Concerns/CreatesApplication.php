@@ -300,12 +300,12 @@ trait CreatesApplication
      */
     protected function resolveApplicationBootstrappers($app)
     {
+        $this->getEnvironmentSetUp($app);
+        
         $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
-
-        $this->getEnvironmentSetUp($app);
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
