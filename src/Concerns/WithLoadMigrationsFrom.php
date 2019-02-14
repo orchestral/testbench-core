@@ -15,9 +15,9 @@ trait WithLoadMigrationsFrom
      */
     protected function loadMigrationsFrom($paths): void
     {
-        $options = is_array($paths) ? $paths : ['--path' => $paths];
+        $options = \is_array($paths) ? $paths : ['--path' => $paths];
 
-        if (isset($options['--realpath']) && is_string($options['--realpath'])) {
+        if (isset($options['--realpath']) && \is_string($options['--realpath'])) {
             $options['--path'] = [$options['--realpath']];
         }
 
