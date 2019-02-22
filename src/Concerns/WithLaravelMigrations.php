@@ -16,7 +16,7 @@ trait WithLaravelMigrations
      */
     protected function loadLaravelMigrations($database = []): void
     {
-        $options = is_array($database) ? $database : ['--database' => $database];
+        $options = \is_array($database) ? $database : ['--database' => $database];
 
         $options['--path'] = 'migrations';
 

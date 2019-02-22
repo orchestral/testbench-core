@@ -62,7 +62,7 @@ trait Testing
         $this->setUpTraits();
 
         foreach ($this->afterApplicationCreatedCallbacks as $callback) {
-            call_user_func($callback);
+            \call_user_func($callback);
         }
 
         Model::setEventDispatcher($this->app['events']);
@@ -79,7 +79,7 @@ trait Testing
     {
         if ($this->app) {
             foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
-                call_user_func($callback);
+                \call_user_func($callback);
             }
 
             $this->app->flush();
@@ -89,15 +89,15 @@ trait Testing
 
         $this->setUpHasRun = false;
 
-        if (property_exists($this, 'serverVariables')) {
+        if (\property_exists($this, 'serverVariables')) {
             $this->serverVariables = [];
         }
 
-        if (property_exists($this, 'defaultHeaders')) {
+        if (\property_exists($this, 'defaultHeaders')) {
             $this->defaultHeaders = [];
         }
 
-        if (class_exists('Mockery')) {
+        if (\class_exists('Mockery')) {
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }
@@ -161,7 +161,7 @@ trait Testing
         $this->afterApplicationCreatedCallbacks[] = $callback;
 
         if ($this->setUpHasRun) {
-            call_user_func($callback);
+            \call_user_func($callback);
         }
     }
 
@@ -174,7 +174,7 @@ trait Testing
      */
     protected function beforeApplicationDestroyed(callable $callback): void
     {
-        array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
+        \array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
     }
 
     /**
