@@ -3,7 +3,8 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Mockery;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Console\Application as Artisan;
@@ -106,6 +107,10 @@ trait Testing
         }
 
         Carbon::setTestNow();
+
+        if (class_exists(CarbonImmutable::class)) {
+            CarbonImmutable::setTestNow();
+        }
 
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
