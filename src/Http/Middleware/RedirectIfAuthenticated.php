@@ -12,16 +12,14 @@ class RedirectIfAuthenticated
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string[] ...$guards
+     * @param  string|null  $guards
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, ...$guards)
+    public function handle($request, Closure $next, $guards = null)
     {
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return \redirect('/home');
-            }
+        if (Auth::guard($guard)->check()) {
+            return redirect('/home');
         }
 
         return $next($request);
