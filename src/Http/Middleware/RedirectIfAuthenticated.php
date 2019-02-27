@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+
 class RedirectIfAuthenticated
 {
     /**
@@ -20,6 +21,7 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
             return redirect('/home');
         }
+
         return $next($request);
     }
 }
