@@ -8,7 +8,7 @@ Released: 2019-02-28
 
 ### Changes
 
-* Update Laravel 5.7 skeleton.
+* Update Laravel 5.8 skeleton.
     - Uncomment `session.expire_on_close`.
     - Use `AWS_DEFAULT_REGION` environment variable instead of `AWS_REGION` for consistency.
 
