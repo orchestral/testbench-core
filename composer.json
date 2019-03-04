@@ -31,6 +31,7 @@
     },
     "require-dev": {
         "laravel/framework": "~5.9.0",
+        "laravel/laravel": "dev-develop",
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^7.5 || ^8.0"
     },
