@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.7.8
+
+Released: 2019-03-16
+
+### Changes
+
+* Update Laravel 5.7 skeleton.
+* Recommend to be used with Laravel Framework v5.7.28+.
+
 ## 3.7.7
 
 Released: 2018-12-04
