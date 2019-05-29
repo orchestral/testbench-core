@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.8.4
+
+Released: 2019-05-30
+
+### Changes
+
+* Update Laravel 5.8 skeleton.
+* Bump suggested minimum Laravel Framework version to `5.8.19`.
+
 ## 3.8.3
 
 Released: 2019-05-13
