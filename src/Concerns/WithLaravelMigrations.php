@@ -24,7 +24,7 @@ trait WithLaravelMigrations
 
         $migrator->up();
 
-        $this->app[ConsoleKernel::class]->setArtisan(null);
+        $this->resetApplicationArtisanCommands($this->app);
 
         $this->beforeApplicationDestroyed(function () use ($migrator) {
             $migrator->rollback();
