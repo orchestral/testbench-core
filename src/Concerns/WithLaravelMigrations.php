@@ -21,7 +21,7 @@ trait WithLaravelMigrations
 
         $this->artisan('migrate', $options);
 
-        $this->app[ConsoleKernel::class]->setArtisan(null);
+        $this->resetApplicationArtisanCommands($this->app);
 
         $this->beforeApplicationDestroyed(function () use ($options) {
             $this->artisan('migrate:rollback', $options);
