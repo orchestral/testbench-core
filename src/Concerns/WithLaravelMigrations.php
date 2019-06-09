@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Database\MigrateProcessor;
-use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 
 trait WithLaravelMigrations
 {
