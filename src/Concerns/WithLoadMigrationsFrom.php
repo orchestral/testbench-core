@@ -26,6 +26,8 @@ trait WithLoadMigrationsFrom
         $migrator = new MigrateProcessor($this, $options);
         $migrator->up();
 
+        $this->resetApplicationArtisanCommands($this->app);
+
         $this->beforeApplicationDestroyed(function () use ($migrator) {
             $migrator->rollback();
         });

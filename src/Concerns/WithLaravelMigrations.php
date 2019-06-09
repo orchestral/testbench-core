@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Database\MigrateProcessor;
-use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 
 trait WithLaravelMigrations
 {
@@ -24,7 +23,7 @@ trait WithLaravelMigrations
 
         $migrator->up();
 
-        $this->app[ConsoleKernel::class]->setArtisan(null);
+        $this->resetApplicationArtisanCommands($this->app);
 
         $this->beforeApplicationDestroyed(function () use ($migrator) {
             $migrator->rollback();

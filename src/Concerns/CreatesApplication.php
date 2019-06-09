@@ -323,6 +323,18 @@ trait CreatesApplication
     }
 
     /**
+     * Reset artisan commands for the application.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
+    final protected function resetApplicationArtisanCommands($app)
+    {
+        $app['Illuminate\Contracts\Console\Kernel']->setArtisan(null);
+    }
+
+    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application   $app
