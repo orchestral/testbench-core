@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Database\MigrateProcessor;
-use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 
 trait WithLaravelMigrations
 {
@@ -21,7 +20,6 @@ trait WithLaravelMigrations
         $options['--path'] = 'migrations';
 
         $migrator = new MigrateProcessor($this, $options);
-
         $migrator->up();
 
         $this->resetApplicationArtisanCommands($this->app);
