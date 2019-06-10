@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
-
 trait WithLaravelMigrations
 {
     /**

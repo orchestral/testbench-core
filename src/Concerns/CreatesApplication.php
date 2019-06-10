@@ -336,7 +336,6 @@ trait CreatesApplication
         $app['Illuminate\Contracts\Console\Kernel']->setArtisan(null);
     }
 
-
     /**
      * Define environment setup.
      *
