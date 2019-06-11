@@ -20,7 +20,6 @@ trait WithLaravelMigrations
         $options['--path'] = 'migrations';
 
         $migrator = new MigrateProcessor($this, $options);
-
         $migrator->up();
 
         $this->resetApplicationArtisanCommands($this->app);

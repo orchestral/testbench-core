@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.8.5
+
+Released: 2019-06-10
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\CreatesApplication::resetApplicationArtisanCommands()`.
+
+### Changes
+
+* Reset registered artisan commands when running migration from `Orchestra\Testbench\Concerns\WithLoadMigrationsFrom::loadMigrationsFrom()`.
+
 ## 3.8.4
 
 Released: 2019-05-30
