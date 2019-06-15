@@ -30,13 +30,13 @@
         "fzaninotto/faker": "^1.4"
     },
     "require-dev": {
-        "laravel/framework": "~5.9.0",
+        "laravel/framework": "dev-master",
         "laravel/laravel": "dev-develop",
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^7.5 || ^8.0"
     },
     "suggest": {
-        "laravel/framework": "Required for testing (~5.9.0).",
+        "laravel/framework": "Required for testing (~5.10.0).",
         "mockery/mockery": "Allow to use Mockery for testing (^1.0).",
         "orchestra/testbench-browser-kit": "Allow to use legacy Laravel BrowserKit for testing (^3.9).",
         "orchestra/testbench-dusk": "Allow to use Laravel Dusk for testing (^3.9).",
@@ -44,7 +44,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.9-dev"
+            "dev-master": "3.10-dev"
         }
     },
     "config": {
