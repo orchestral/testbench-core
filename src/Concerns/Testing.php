@@ -87,15 +87,17 @@ trait Testing
     {
         try {
             if ($this->app) {
-                foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
-                    \call_user_func($callback);
-                }
+                try {
+                    foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
+                        \call_user_func($callback);
+                    }
+                } finally {
+                    $this->app->flush();
+                    $this->app = null;
 
-                $this->app->flush();
-                $this->app = null;
-
-                foreach ($this->afterApplicationDestroyedCallbacks as $callback) {
-                    call_user_func($callback);
+                    foreach ($this->afterApplicationDestroyedCallbacks as $callback) {
+                        \call_user_func($callback);
+                    }
                 }
             }
         } finally {
