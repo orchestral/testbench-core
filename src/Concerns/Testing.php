@@ -43,6 +43,13 @@ trait Testing
     protected $beforeApplicationDestroyedCallbacks = [];
 
     /**
+     * The callbacks that should be run after the application is destroyed.
+     *
+     * @var array
+     */
+    protected $afterApplicationDestroyedCallbacks = [];
+
+    /**
      * Indicates if we have made it through the base setUp function.
      *
      * @var bool
@@ -78,44 +85,50 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
-        if ($this->app) {
-            foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
-                \call_user_func($callback);
+        try {
+            if ($this->app) {
+                foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
+                    \call_user_func($callback);
+                }
+
+                $this->app->flush();
+                $this->app = null;
+
+                foreach ($this->afterApplicationDestroyedCallbacks as $callback) {
+                    call_user_func($callback);
+                }
+            }
+        } finally {
+            $this->setUpHasRun = false;
+
+            if (\property_exists($this, 'serverVariables')) {
+                $this->serverVariables = [];
             }
 
-            $this->app->flush();
-
-            $this->app = null;
-        }
-
-        $this->setUpHasRun = false;
-
-        if (\property_exists($this, 'serverVariables')) {
-            $this->serverVariables = [];
-        }
-
-        if (\property_exists($this, 'defaultHeaders')) {
-            $this->defaultHeaders = [];
-        }
-
-        if (\class_exists('Mockery')) {
-            if ($container = Mockery::getContainer()) {
-                $this->addToAssertionCount($container->mockery_getExpectationCount());
+            if (\property_exists($this, 'defaultHeaders')) {
+                $this->defaultHeaders = [];
             }
 
-            Mockery::close();
+            if (\class_exists('Mockery')) {
+                if ($container = Mockery::getContainer()) {
+                    $this->addToAssertionCount($container->mockery_getExpectationCount());
+                }
+
+                Mockery::close();
+            }
+
+            Carbon::setTestNow();
+
+            if (class_exists(CarbonImmutable::class)) {
+                CarbonImmutable::setTestNow();
+            }
+
+            $this->afterApplicationCreatedCallbacks = [];
+            $this->beforeApplicationDestroyedCallbacks = [];
+            $this->afterApplicationDestroyedCallbacks = [];
+
+            Artisan::forgetBootstrappers();
         }
-
-        Carbon::setTestNow();
-
-        if (class_exists(CarbonImmutable::class)) {
-            CarbonImmutable::setTestNow();
-        }
-
-        $this->afterApplicationCreatedCallbacks = [];
-        $this->beforeApplicationDestroyedCallbacks = [];
-
-        Artisan::forgetBootstrappers();
     }
 
     /**
@@ -180,6 +193,17 @@ trait Testing
     protected function beforeApplicationDestroyed(callable $callback): void
     {
         \array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
+    }
+
+    /**
+     * Register a callback to be run after the application is destroyed.
+     *
+     * @param  callable  $callback
+     * @return void
+     */
+    protected function afterApplicationDestroyed(callable $callback)
+    {
+        $this->afterApplicationDestroyedCallbacks[] = $callback;
     }
 
     /**
