@@ -111,7 +111,7 @@ trait Testing
                 $this->defaultHeaders = [];
             }
 
-            if (\class_exists('Mockery')) {
+            if (\class_exists(Mockery::class)) {
                 if ($container = Mockery::getContainer()) {
                     $this->addToAssertionCount($container->mockery_getExpectationCount());
                 }
