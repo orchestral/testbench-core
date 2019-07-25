@@ -43,6 +43,13 @@ trait Testing
     protected $beforeApplicationDestroyedCallbacks = [];
 
     /**
+     * The exception thrown while running an application destruction callback.
+     *
+     * @var \Throwable
+     */
+    protected $callbackException;
+
+    /**
      * Indicates if we have made it through the base setUp function.
      *
      * @var bool
@@ -79,9 +86,7 @@ trait Testing
     final protected function tearDownTheTestEnvironment(): void
     {
         if ($this->app) {
-            foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
-                \call_user_func($callback);
-            }
+            $this->callBeforeApplicationDestroyedCallbacks();
 
             $this->app->flush();
 
@@ -116,6 +121,10 @@ trait Testing
         $this->beforeApplicationDestroyedCallbacks = [];
 
         Artisan::forgetBootstrappers();
+
+        if ($this->callbackException) {
+            throw $this->callbackException;
+        }
     }
 
     /**
@@ -181,6 +190,24 @@ trait Testing
     {
         \array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
     }
+
+     /**
+      * Execute the application's pre-destruction callbacks.
+      *
+      * @return void
+      */
+     protected function callBeforeApplicationDestroyedCallbacks()
+     {
+         foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
+             try {
+                 call_user_func($callback);
+             } catch (\Throwable $e) {
+                 if (! $this->callbackException) {
+                     $this->callbackException = $e;
+                 }
+             }
+         }
+     }
 
     /**
      * Boot the testing helper traits.
