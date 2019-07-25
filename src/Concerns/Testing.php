@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Mockery;
+use Throwable;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
@@ -103,7 +104,7 @@ trait Testing
             $this->defaultHeaders = [];
         }
 
-        if (\class_exists('Mockery')) {
+        if (\class_exists(Mockery::class)) {
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }
@@ -113,7 +114,7 @@ trait Testing
 
         Carbon::setTestNow();
 
-        if (class_exists(CarbonImmutable::class)) {
+        if (\class_exists(CarbonImmutable::class)) {
             CarbonImmutable::setTestNow();
         }
 
@@ -208,6 +209,24 @@ trait Testing
              }
          }
      }
+
+    /**
+     * Execute the application's pre-destruction callbacks.
+     *
+     * @return void
+     */
+    protected function callBeforeApplicationDestroyedCallbacks()
+    {
+        foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
+            try {
+                \call_user_func($callback);
+            } catch (Throwable $e) {
+                if (! $this->callbackException) {
+                    $this->callbackException = $e;
+                }
+            }
+        }
+    }
 
     /**
      * Boot the testing helper traits.
