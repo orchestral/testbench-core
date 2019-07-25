@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Mockery;
+use Throwable;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
@@ -43,6 +44,13 @@ trait Testing
     protected $beforeApplicationDestroyedCallbacks = [];
 
     /**
+     * The exception thrown while running an application destruction callback.
+     *
+     * @var \Throwable
+     */
+    protected $callbackException;
+
+    /**
      * Indicates if we have made it through the base setUp function.
      *
      * @var bool
@@ -79,9 +87,7 @@ trait Testing
     final protected function tearDownTheTestEnvironment(): void
     {
         if ($this->app) {
-            foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
-                \call_user_func($callback);
-            }
+            $this->callBeforeApplicationDestroyedCallbacks();
 
             $this->app->flush();
 
@@ -98,7 +104,7 @@ trait Testing
             $this->defaultHeaders = [];
         }
 
-        if (\class_exists('Mockery')) {
+        if (\class_exists(Mockery::class)) {
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }
@@ -108,7 +114,7 @@ trait Testing
 
         Carbon::setTestNow();
 
-        if (class_exists(CarbonImmutable::class)) {
+        if (\class_exists(CarbonImmutable::class)) {
             CarbonImmutable::setTestNow();
         }
 
@@ -116,6 +122,10 @@ trait Testing
         $this->beforeApplicationDestroyedCallbacks = [];
 
         Artisan::forgetBootstrappers();
+
+        if ($this->callbackException) {
+            throw $this->callbackException;
+        }
     }
 
     /**
@@ -180,6 +190,24 @@ trait Testing
     protected function beforeApplicationDestroyed(callable $callback): void
     {
         \array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
+    }
+
+    /**
+     * Execute the application's pre-destruction callbacks.
+     *
+     * @return void
+     */
+    protected function callBeforeApplicationDestroyedCallbacks()
+    {
+        foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
+            try {
+                \call_user_func($callback);
+            } catch (Throwable $e) {
+                if (! $this->callbackException) {
+                    $this->callbackException = $e;
+                }
+            }
+        }
     }
 
     /**
