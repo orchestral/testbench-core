@@ -211,7 +211,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return \tap(new Application($this->getBasePath()), function ($app) {
+        return \tap(new Application($this->getBasePath()), static function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
@@ -230,7 +230,7 @@ trait CreatesApplication
     {
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
 
-        \tap($this->getApplicationTimezone($app), function ($timezone) {
+        \tap($this->getApplicationTimezone($app), static function ($timezone) {
             ! \is_null($timezone) && \date_default_timezone_set($timezone);
         });
 
@@ -317,7 +317,7 @@ trait CreatesApplication
 
         $app['router']->getRoutes()->refreshNameLookups();
 
-        $app->resolving('url', function ($url, $app) {
+        $app->resolving('url', static function ($url, $app) {
             $app['router']->getRoutes()->refreshNameLookups();
         });
     }
