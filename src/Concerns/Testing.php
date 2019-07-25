@@ -192,24 +192,6 @@ trait Testing
         \array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
     }
 
-     /**
-      * Execute the application's pre-destruction callbacks.
-      *
-      * @return void
-      */
-     protected function callBeforeApplicationDestroyedCallbacks()
-     {
-         foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
-             try {
-                 call_user_func($callback);
-             } catch (\Throwable $e) {
-                 if (! $this->callbackException) {
-                     $this->callbackException = $e;
-                 }
-             }
-         }
-     }
-
     /**
      * Execute the application's pre-destruction callbacks.
      *
