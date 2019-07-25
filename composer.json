@@ -33,7 +33,7 @@
         "laravel/framework": "dev-master",
         "laravel/laravel": "dev-develop",
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^7.5 || ^8.0"
+        "phpunit/phpunit": "^8.0"
     },
     "suggest": {
         "laravel/framework": "Required for testing (^6.0).",
