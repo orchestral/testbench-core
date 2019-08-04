@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.8.6
+
+Released: 2019-08-04
+
+### Changes
+
+* Teardown test suite after using `fail()` method.
+* Use `static function` rather than `function` whenever possible, the PHP engine does not need to instantiate and later GC a `$this` variable for said closure.
+
 ## 3.8.5
 
 Released: 2019-06-10
