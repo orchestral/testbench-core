@@ -83,7 +83,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationAliases($app);
 
         if (! empty($overrides)) {
-            $aliases->transform(function ($alias, $name) use ($overrides) {
+            $aliases->transform(static function ($alias, $name) use ($overrides) {
                 return $overrides[$name] ?? $alias;
             });
         }
@@ -152,7 +152,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationProviders($app);
 
         if (! empty($overrides)) {
-            $providers->transform(function ($provider) use ($overrides) {
+            $providers->transform(static function ($provider) use ($overrides) {
                 return $overrides[$provider] ?? $provider;
             });
         }
@@ -211,7 +211,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return \tap(new Application($this->getBasePath()), function ($app) {
+        return \tap(new Application($this->getBasePath()), static function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
@@ -230,7 +230,7 @@ trait CreatesApplication
     {
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
 
-        \tap($this->getApplicationTimezone($app), function ($timezone) {
+        \tap($this->getApplicationTimezone($app), static function ($timezone) {
             ! \is_null($timezone) && \date_default_timezone_set($timezone);
         });
 
@@ -250,7 +250,7 @@ trait CreatesApplication
         Facade::clearResolvedInstances();
         Facade::setFacadeApplication($app);
 
-        $app->detectEnvironment(function () {
+        $app->detectEnvironment(static function () {
             return 'testing';
         });
     }
@@ -317,7 +317,7 @@ trait CreatesApplication
 
         $app['router']->getRoutes()->refreshNameLookups();
 
-        $app->resolving('url', function ($url, $app) {
+        $app->resolving('url', static function ($url, $app) {
             $app['router']->getRoutes()->refreshNameLookups();
         });
     }
