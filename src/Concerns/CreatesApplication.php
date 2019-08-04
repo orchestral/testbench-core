@@ -83,7 +83,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationAliases($app);
 
         if (! empty($overrides)) {
-            $aliases->transform(function ($alias, $name) use ($overrides) {
+            $aliases->transform(static function ($alias, $name) use ($overrides) {
                 return $overrides[$name] ?? $alias;
             });
         }
@@ -152,7 +152,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationProviders($app);
 
         if (! empty($overrides)) {
-            $providers->transform(function ($provider) use ($overrides) {
+            $providers->transform(static function ($provider) use ($overrides) {
                 return $overrides[$provider] ?? $provider;
             });
         }
@@ -250,7 +250,7 @@ trait CreatesApplication
         Facade::clearResolvedInstances();
         Facade::setFacadeApplication($app);
 
-        $app->detectEnvironment(function () {
+        $app->detectEnvironment(static function () {
             return 'testing';
         });
     }
