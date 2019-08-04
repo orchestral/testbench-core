@@ -28,7 +28,7 @@ trait WithLoadMigrationsFrom
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(function () use ($migrator) {
+        $this->beforeApplicationDestroyed(static function () use ($migrator) {
             $migrator->rollback();
         });
     }
