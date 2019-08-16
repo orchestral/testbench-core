@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
 
 trait WithLoadMigrationsFrom
@@ -17,8 +18,8 @@ trait WithLoadMigrationsFrom
     {
         $options = \is_array($paths) ? $paths : ['--path' => $paths];
 
-        if (isset($options['--realpath']) && \is_string($options['--realpath'])) {
-            $options['--path'] = [$options['--realpath']];
+        if (isset($options['--realpath']) && ! \is_bool($options['--realpath'])) {
+            throw new InvalidArgumentException('Expect --realpath to be a boolean.');
         }
 
         $options['--realpath'] = true;
