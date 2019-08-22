@@ -30,7 +30,7 @@
         "fzaninotto/faker": "^1.4"
     },
     "require-dev": {
-        "laravel/framework": "^6.0",
+        "laravel/framework": "dev-master",
         "laravel/laravel": "dev-develop",
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^8.0"
@@ -44,7 +44,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.1-dev"
+            "dev-master": "5.0-dev"
         }
     },
     "config": {
