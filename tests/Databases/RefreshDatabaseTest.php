@@ -3,9 +3,12 @@
 namespace Orchestra\Testbench\Tests\Databases;
 
 use Orchestra\Testbench\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class MigrateDatabaseTest extends TestCase
+class RefreshDatabaseTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Setup the test environment.
      */
