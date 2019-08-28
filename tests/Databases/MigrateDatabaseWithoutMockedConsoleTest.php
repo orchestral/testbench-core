@@ -75,13 +75,12 @@ class MigrateDatabaseWithoutMockedConsoleTest extends TestCase
         $this->assertEquals('hello@orchestraplatform.com', $users->email);
         $this->assertTrue(\Hash::check('123', $users->password));
 
-        $columns = \Schema::getColumnListing('testbench_users');
         $this->assertEquals([
             'id',
             'email',
             'password',
             'created_at',
             'updated_at',
-        ], $columns);
+        ], \Schema::getColumnListing('testbench_users'));
     }
 }
