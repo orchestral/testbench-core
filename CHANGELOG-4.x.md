@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.0.1
+
+Released: 2019-09-11
+
+### Changes
+
+* Update Laravel 6 skeleton.
+* Test againsts PHP `7.4snapshot` build.
+
 ## 4.0.0
 
 Released: 2019-09-03
