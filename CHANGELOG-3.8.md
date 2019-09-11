@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.8.7
+
+Released: 2019-09-11
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\Database\WithSqlite` trait.
+
+### Changes
+
+* Update Laravel 5.8 skeleton.
+* Recommend to be used with Laravel Framework v5.8.35+.
+
 ## 3.8.6
 
 Released: 2019-08-04
