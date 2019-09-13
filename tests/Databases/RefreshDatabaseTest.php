@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Tests\Databases;
 
-use Orchestra\Testbench\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\TestCase;
 
 class RefreshDatabaseTest extends TestCase
 {
