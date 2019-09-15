@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.9.2
+
+Released: 2019-09-15
+
+### Changes
+
+* Update Laravel 6 skeleton:
+    - Add `logging.channels.null` configuration.
+    - Revert Argon2 memory configuration made in v3.9.1.
+
 ## 3.9.1
 
 Released: 2019-09-11
