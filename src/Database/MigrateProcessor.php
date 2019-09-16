@@ -2,9 +2,9 @@
 
 namespace Orchestra\Testbench\Database;
 
-use Orchestra\Testbench\Contracts\TestCase;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Foundation\Testing\PendingCommand;
+use Orchestra\Testbench\Contracts\TestCase;
 
 class MigrateProcessor
 {

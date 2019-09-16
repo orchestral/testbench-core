@@ -1,8 +1,6 @@
 Testing Helper for Laravel Development
 ==============
 
-[![Join the chat at https://gitter.im/orchestral/testbench](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/orchestral/testbench?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 Testbench Component is a simple package that has been designed to help you write tests for your Laravel package.
 
 [![Build Status](https://travis-ci.org/orchestral/testbench-core.svg?branch=master)](https://travis-ci.org/orchestral/testbench-core)

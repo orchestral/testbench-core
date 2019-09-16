@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Illuminate\Support\Collection;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 
 trait CreatesApplication
