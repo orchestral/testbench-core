@@ -37,7 +37,7 @@
     },
     "suggest": {
         "laravel/framework": "Required for testing (^6.0).",
-        "mockery/mockery": "Allow to use Mockery for testing (^1.0).",
+        "mockery/mockery": "Allow to use Mockery for testing (^1.2).",
         "orchestra/testbench-browser-kit": "Allow to use legacy Laravel BrowserKit for testing (^3.9).",
         "orchestra/testbench-dusk": "Allow to use Laravel Dusk for testing (^3.9).",
         "phpunit/phpunit": "Allow to use PHPUnit for testing (^8.0)."
