@@ -68,10 +68,10 @@ class MigrateDatabaseTest extends TestCase
     /** @test */
     public function it_runs_the_migrations()
     {
-        $users = \DB::table('testbench_users')->where('id', '=', 1)->first();
+        $user = \DB::table('testbench_users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $users->email);
-        $this->assertTrue(\Hash::check('123', $users->password));
+        $this->assertEquals('hello@orchestraplatform.com', $user->email);
+        $this->assertTrue(\Hash::check('123', $user->password));
 
         $this->assertEquals([
             'id',
