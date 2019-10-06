@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.1.0 
+
+Unreleased
+
+### Changes
+
+* Rename default `Redis` alias under `app.aliases` to `RedisManager` to avoid incompatibility when running tests using `phpredis` extension.
+
 ## 4.0.2
 
 Released: 2019-09-15
