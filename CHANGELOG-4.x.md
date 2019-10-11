@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.2.0
+
+Released: 2019-10-11
+
+### Changes
+
+* Update support for Laravel Framework v6.2.
+* Update `Orchestra\Testbench\Http\Kernel::$routeMiddleware` to include `password.confirm` middleware.
+* Update Laravel 6 skeleton:
+    - Add `auth.password_timeout` configuration.
+    - Add `password` value for `validation` language file.
+
 ## 4.1.0 
 
 Released: 2019-10-06
