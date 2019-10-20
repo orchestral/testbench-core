@@ -179,7 +179,7 @@ trait CreatesApplication
      */
     protected function getBasePath()
     {
-        return __DIR__.'/../../laravel';
+        return \realpath(__DIR__.'/../../laravel');
     }
 
     /**
