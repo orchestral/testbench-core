@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.9.4
+
+Released: 2019-10-24
+
+### Changes
+
+* Update Laravel 6 skeleton:
+    - Add `auth.passwords.users.throttle` configuration.
+
 ## 3.9.3
 
 Released: 2019-10-11
