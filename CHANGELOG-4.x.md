@@ -2,6 +2,17 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.3.0
+
+Released: 2019-10-24
+
+### Changes
+
+* Update support for Laravel Framework v6.4.
+* Update to use `realpath()` when resolving application base path. ([#31](https://github.com/orchestral/testbench-core/pull/31))
+* Update Laravel 6 skeleton:
+    - Add `auth.passwords.users.throttle` configuration.
+
 ## 4.2.0
 
 Released: 2019-10-11
