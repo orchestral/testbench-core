@@ -305,6 +305,16 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
+        Collection::make($this->getAnnotations())->each(function ($location) use ($app) {
+            $methods = $location['environment-setup'] ?? [];
+
+            foreach ($methods as $method) {
+                if (! \is_null($method) && \method_exists($this, $method)) {
+                    $this->{$method}($app);
+                }
+            }
+        });
+
         $this->getEnvironmentSetUp($app);
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);

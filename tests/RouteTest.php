@@ -11,10 +11,8 @@ class RouteTest extends TestCase
      * Define environment setup.
      *
      * @param  Illuminate\Foundation\Application  $app
-     *
-     * @return void
      */
-    protected function getEnvironmentSetUp($app)
+    protected function routes($app)
     {
         $app['router']->get('hello', ['as' => 'hi', 'uses' => function () {
             return 'hello world';
@@ -37,7 +35,10 @@ class RouteTest extends TestCase
         $app['router']->resource('foo', 'Orchestra\Testbench\Tests\Stubs\Controllers\Controller');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @environment-setup routes
+     */
     public function it_can_resolve_get_routes()
     {
         $crawler = $this->call('GET', 'hello');
@@ -49,7 +50,10 @@ class RouteTest extends TestCase
         $this->assertEquals('goodbye world', $crawler->getContent());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @environment-setup routes
+     */
     public function it_can_resolve_get_routes_with_prefixes()
     {
         $crawler = $this->call('GET', 'boss/hello');
@@ -61,7 +65,10 @@ class RouteTest extends TestCase
         $this->assertEquals('goodbye boss', $crawler->getContent());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @environment-setup routes
+     */
     public function it_can_resolve_resource_controller()
     {
         $response = $this->call('GET', 'foo');
@@ -70,7 +77,10 @@ class RouteTest extends TestCase
         $this->assertEquals('Controller@index', $response->getContent());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @environment-setup routes
+     */
     public function it_can_resolve_name_routes()
     {
         $this->app['router']->get('byebye', function () {
