@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.4.1
+
+Released: 2019-11-23
+
+### Fixes
+
+* Check if `Orchestra\Testbench\Concerns\CreatesApplication` is being used by `PHPUnit\Framework\TestCase` before trying to uses @environment-setup
+annotation support.
+
 ## 4.4.0
 
 Released: 2019-11-22
