@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.4.0
+
+Released: 2019-11-22
+
+### Added
+
+* Added annotation based environment setup using `@environment-setup`, the annotation accept the method name string to be used for environment setup, you can call `@environment-setup` multiple times to load multiple setup per test.
+
 ## 4.3.0
 
 Released: 2019-10-24

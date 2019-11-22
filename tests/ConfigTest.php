@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\TestCase;
+namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\TestCase;
 
@@ -15,18 +15,18 @@ class ConfigTest extends TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'testing');
+        $app['config']->set('database.default', 'testbench');
     }
 
     /** @test */
     public function it_loads_config_facade()
     {
-        $this->assertEquals('testing', \Config::get('database.default'));
+        $this->assertEquals('testbench', \Config::get('database.default'));
     }
 
     /** @test */
     public function it_loads_config_helper()
     {
-        $this->assertEquals('testing', config('database.default'));
+        $this->assertEquals('testbench', config('database.default'));
     }
 }
