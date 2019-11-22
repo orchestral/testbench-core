@@ -306,13 +306,12 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
         Collection::make($this->getAnnotations())->each(function ($location) use ($app) {
-            $methods = $location['environment-setup'] ?? [];
-
-            foreach ($methods as $method) {
-                if (! \is_null($method) && \method_exists($this, $method)) {
+            Collection::make($location['environment-setup'] ?? [])
+                ->filter(function ($method) {
+                    return ! \is_null($method) && \method_exists($this, $method);
+                })->each(function ($method) use ($app) {
                     $this->{$method}($app);
-                }
-            }
+                });
         });
 
         $this->getEnvironmentSetUp($app);

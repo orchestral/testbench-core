@@ -9,7 +9,7 @@ class AnnotationEnvironmentSetupTest extends TestCase
     /**
      * @test
      * @environment-setup firstConfig
-    */
+     */
     public function it_loads_first_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
@@ -20,7 +20,7 @@ class AnnotationEnvironmentSetupTest extends TestCase
     /**
      * @test
      * @environment-setup secondConfig
-    */
+     */
     public function it_loads_second_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
@@ -32,7 +32,7 @@ class AnnotationEnvironmentSetupTest extends TestCase
      * @test
      * @environment-setup firstConfig
      * @environment-setup secondConfig
-    */
+     */
     public function it_loads_both_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
