@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.4.2
+
+Released: 2019-12-10
+
+### Added
+
+* Add `storage/app/public` folder on skeleton directory.
+
 ## 4.4.1
 
 Released: 2019-11-23
