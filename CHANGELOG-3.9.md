@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.9.5
+
+Released: 2019-12-10
+
+### Added
+
+* Add `storage/app/public` folder on skeleton directory.
+
 ## 3.9.4
 
 Released: 2019-10-24
