@@ -8,17 +8,21 @@ php:
 
 env:
   global:
-    - coverage=no
+    - coverage=no phpunit=^8.3
   matrix:
     - setup=basic
-    - setup=lowest
+    - setup=basic phpunit=^9.0
     - setup=stable
+    - setup=stable phpunit=^9.0
+    - setup=lowest
+    - setup=lowest phpunit=^9.0
 
 before_install:
   - travis_retry composer self-update
   - composer config discard-changes true
 
 before_script:
+  - composer require "phpunit/phpunit=${phpunit}" --prefer-dist --no-interaction --no-suggest
   - if [[ $setup = 'basic' ]]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest; fi
   - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-stable; fi
   - if [[ $setup = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-lowest --prefer-stable; fi
