@@ -11,11 +11,8 @@ env:
     - coverage=no phpunit=^8.3
   matrix:
     - setup=basic
-    - setup=basic phpunit=^9.0
     - setup=stable
-    - setup=stable phpunit=^9.0
     - setup=lowest
-    - setup=lowest phpunit=^9.0
 
 before_install:
   - travis_retry composer self-update
@@ -37,6 +34,18 @@ after_script:
 
 matrix:
   include:
+    - php: 7.3
+      env: setup=basic phpunit=^9.0
+    - php: 7.4
+      env: setup=basic phpunit=^9.0
+    - php: 7.3
+      env: setup=stable phpunit=^9.0
+    - php: 7.4
+      env: setup=stable phpunit=^9.0
+    - php: 7.3
+      env: setup=lowest phpunit=^9.0
+    - php: 7.4
+      env: setup=lowest phpunit=^9.0
     - php: 7.2
       env: setup=coveralls coverage=yes
   allow_failures:
