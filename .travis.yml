@@ -8,17 +8,18 @@ php:
 
 env:
   global:
-    - coverage=no
+    - coverage=no phpunit=^8.3
   matrix:
     - setup=basic
-    - setup=lowest
     - setup=stable
+    - setup=lowest
 
 before_install:
   - travis_retry composer self-update
   - composer config discard-changes true
 
 before_script:
+  - composer require "phpunit/phpunit=${phpunit}" --prefer-dist --no-interaction --no-suggest
   - if [[ $setup = 'basic' ]]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest; fi
   - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-stable; fi
   - if [[ $setup = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --no-suggest --prefer-lowest --prefer-stable; fi
@@ -33,6 +34,18 @@ after_script:
 
 matrix:
   include:
+    - php: 7.3
+      env: setup=basic phpunit=^9.0
+    - php: 7.4
+      env: setup=basic phpunit=^9.0
+    - php: 7.3
+      env: setup=stable phpunit=^9.0
+    - php: 7.4
+      env: setup=stable phpunit=^9.0
+    - php: 7.3
+      env: setup=lowest phpunit=^9.0
+    - php: 7.4
+      env: setup=lowest phpunit=^9.0
     - php: 7.2
       env: setup=coveralls coverage=yes
   allow_failures:
