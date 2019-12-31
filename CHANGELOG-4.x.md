@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.5.0
+
+Released: 2019-12-31
+
+### Added
+
+* Added support for PHPUnit v9.
+
+### Changes
+
+* Update support for Laravel Framework v6.9.
+
 ## 4.4.2
 
 Released: 2019-12-10
@@ -16,7 +28,7 @@ Released: 2019-11-23
 
 ### Fixes
 
-* Check if `Orchestra\Testbench\Concerns\CreatesApplication` is being used by `PHPUnit\Framework\TestCase` before trying to uses @environment-setup
+* Check if `Orchestra\Testbench\Concerns\CreatesApplication` is being used by `PHPUnit\Framework\TestCase` before trying to uses `@environment-setup`
 annotation support.
 
 ## 4.4.0
