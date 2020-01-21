@@ -2,6 +2,21 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.9.6
+
+Released: 2020-01-21
+
+* Update Laravel 6 skeleton:
+    - Update redis configurations under `database`.
+    - Update `logging` to use `single` channel under `stack`.
+    - Add `emergency` channel to `logging`.
+    - Ensure validation text ends with `.`.
+
+### Changes
+
+* Update Laravel 6 skeleton:
+    - Add `auth.passwords.users.throttle` configuration.
+
 ## 3.9.5
 
 Released: 2019-12-10
