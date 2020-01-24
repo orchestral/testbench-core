@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.5.1
+
+Released: 2020-01-21
+
+### Changes
+
+* Update Laravel 6 skeleton:
+    - Ensure validation text ends with `.`.
+
 ## 4.5.0
 
 Released: 2019-12-31
