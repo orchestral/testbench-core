@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.6.0
+
+Released: 2020-01-30
+
+### Changes
+
+* Bump minimum `fzaninotto/faker` version to `1.9.1`+ to properly support PHP 7.4.
+
 ## 4.5.1
 
 Released: 2020-01-21
