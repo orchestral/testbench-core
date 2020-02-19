@@ -38,13 +38,13 @@
     "suggest": {
         "laravel/framework": "Required for testing (^7.0).",
         "mockery/mockery": "Allow using Mockery for testing (^1.3.1).",
-        "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^5.0).",
-        "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^5.0).",
+        "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^6.0).",
+        "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^6.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^8.4 || ^9.0)."
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.0-dev"
+            "dev-master": "6.0-dev"
         }
     },
     "config": {
