@@ -2,7 +2,6 @@ dist: bionic
 language: php
 
 php:
-  - 7.2
   - 7.3
   - 7.4
 
@@ -46,7 +45,7 @@ matrix:
       env: setup=lowest phpunit=^9.0
     - php: 7.4
       env: setup=lowest phpunit=^9.0
-    - php: 7.2
+    - php: 7.3
       env: setup=coveralls coverage=yes
   allow_failures:
     - env: setup=coveralls coverage=yes
