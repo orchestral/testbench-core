@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+$workingPath = getcwd();
+
+if (file_exists(__DIR__.'/vendor/autoload.php')) {
+    // Development environment.
+    require __DIR__.'/vendor/autoload.php';
+} else {
+    // Installation environment.
+    require __DIR__.'/../../autoload.php';
+}
+
+$app = new Symfony\Component\Console\Application('Testbench for Laravel', '5.0');
+
+$app->add(new Orchestra\Testbench\Console\Commands\TestRunnerCommand($workingPath));
+
+$app->run();
