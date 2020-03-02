@@ -2,38 +2,15 @@
 
 namespace Orchestra\Testbench\Console\Commands;
 
-use Illuminate\Console\Concerns\HasParameters;
-use Illuminate\Console\Concerns\InteractsWithIO;
-use Illuminate\Console\OutputStyle;
-use Illuminate\Support\Str;
 use Orchestra\Testbench\TestRunner;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Exception\ProcessSignaledException;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Console\Style\SymfonyStyle as OutputStyle;
 
 class TestRunnerCommand extends Command
 {
-    use HasParameters,
-        InteractsWithIO;
-
-    /**
-     * The name of the console command.
-     *
-     * @var string
-     */
-    protected $name = 'run';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Run the package tests';
-
     /**
      * Test working path.
      *
@@ -62,24 +39,9 @@ class TestRunnerCommand extends Command
     {
         $this->ignoreValidationErrors();
 
-        $this->setName($this->name)
-            ->setDescription($this->description);
-
-        $this->specifyParameters();
-    }
-
-     /**
-     * Run the console command.
-     *
-     * @return int
-     */
-    public function run(InputInterface $input, OutputInterface $output)
-    {
-        $this->setOutput(new OutputStyle($input, $output));
-
-        return parent::run(
-            $this->input = $input, $this->output
-        );
+        $this->setName('run')
+            ->setDescription('Run the tests.')
+            ->addOption('without-tty', null, InputOption::VALUE_NONE, 'Disable output to TTY.');
     }
 
     /**
@@ -91,24 +53,14 @@ class TestRunnerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $options = \array_slice($_SERVER['argv'], $this->option('without-tty') ? 3 : 2);
+        $withoutTty = $input->getOption('without-tty');
+
+        $options = \array_slice($_SERVER['argv'], $withoutTty ? 3 : 2);
 
         $runner = new TestRunner(
-            $this->output, $this->workingPath, $this->option('without-tty')
+            new OutputStyle($input, $output), $this->workingPath, $withoutTty
         );
 
         return $runner($options);
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['without-tty', null, InputOption::VALUE_NONE, 'Disable output to TTY.'],
-        ];
     }
 }

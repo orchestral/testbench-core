@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench;
 
-use Illuminate\Support\Str;
 use RuntimeException;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
@@ -117,7 +116,7 @@ class TestRunner
     protected function phpunitArguments(array $options): array
     {
         $options = array_values(array_filter($options, function ($option) {
-            return ! Str::startsWith($option, '--env=');
+            return strpos($option, '--env=') !== 0;
         }));
 
         if (! file_exists($file = "{$this->workingPath}/phpunit.xml")) {
