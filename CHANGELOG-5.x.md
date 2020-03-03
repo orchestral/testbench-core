@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.0.1
+
+Released: 2020-03-03
+
+### Changes
+
+* Update Laravel skeleton:
+    - Add missing `array` mail transport.
+
 ## 5.0.0
 
 Released: 2020-03-02
