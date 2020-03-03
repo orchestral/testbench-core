@@ -1,0 +1,13 @@
+preset: package
+
+namespace: Orchestra\Testbench
+
+paths:
+  src: src
+
+migration:
+  path: tests/migrations
+  prefix: ''
+
+console:
+  namespace: Orchestra\Testbench\Console\Commands
