@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.0.2
+
+Released: 2020-03-07
+
+### Changes
+
+* Update Laravel 6.x skeleton.
+    - Cast `app.debug` value to `boolean`.
+    - Add `queue.connections.sqs.suffix` configuration, use `SQS_SUFFIX` from environment variable.
+    - Remove `view.expires`, feature has been reverted.
+* Recommend to be used with Laravel Framework v7.0.6+.
+
 ## 5.0.1
 
 Released: 2020-03-03
