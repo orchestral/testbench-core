@@ -8,7 +8,7 @@ Released: 2020-03-07
 
 ### Changes
 
-* Update Laravel 5.8 skeleton.
+* Update Laravel 6.x skeleton.
 * Recommend to be used with Laravel Framework v6.18.0+.
 
 ## 3.9.6
