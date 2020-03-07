@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Foundation\Application;
+use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use PHPUnit\Framework\TestCase;
@@ -327,10 +328,18 @@ trait CreatesApplication
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
-        $app['router']->getRoutes()->refreshNameLookups();
+        $refreshNameLookups = static function ($app) {
+            \tap($app['router']->getRoutes(), static function ($routes) {
+                if ($routes instanceof RouteCollection) {
+                    $routes->refreshNameLookups();
+                }
+            });
+        };
 
-        $app->resolving('url', static function ($url, $app) {
-            $app['router']->getRoutes()->refreshNameLookups();
+        $refreshNameLookups($app);
+
+        $app->resolving('url', static function ($url, $app) use ($refreshNameLookups) {
+            $refreshNameLookups($app);
         });
     }
 
