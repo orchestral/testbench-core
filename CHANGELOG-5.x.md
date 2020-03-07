@@ -8,7 +8,7 @@ Released: 2020-03-07
 
 ### Changes
 
-* Update Laravel 6.x skeleton.
+* Update Laravel 7.x skeleton.
     - Cast `app.debug` value to `boolean`.
     - Add `queue.connections.sqs.suffix` configuration, use `SQS_SUFFIX` from environment variable.
     - Remove `view.expires`, feature has been reverted.
