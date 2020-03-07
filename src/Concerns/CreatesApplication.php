@@ -339,7 +339,7 @@ trait CreatesApplication
         $refreshNameLookups($app);
 
         $app->resolving('url', static function ($url, $app) use ($refreshNameLookups) {
-           $refreshNameLookups($app);
+            $refreshNameLookups($app);
         });
     }
 
