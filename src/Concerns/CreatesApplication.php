@@ -329,11 +329,7 @@ trait CreatesApplication
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
         $refreshNameLookups = static function ($app) {
-            \tap($app['router']->getRoutes(), static function ($routes) {
-                if ($routes instanceof RouteCollection) {
-                    $routes->refreshNameLookups();
-                }
-            });
+            $app['router']->getRoutes()->refreshNameLookups();
         };
 
         $refreshNameLookups($app);
