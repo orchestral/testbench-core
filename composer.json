@@ -37,7 +37,7 @@
         "phpunit/phpunit": "^8.4 || ^9.0"
     },
     "suggest": {
-        "laravel/framework": "Required for testing (^7.0.6).",
+        "laravel/framework": "Required for testing (^7.0.8).",
         "mockery/mockery": "Allow using Mockery for testing (^1.3.1).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^5.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^5.0).",
