@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Foundation\Application;
-use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use PHPUnit\Framework\TestCase;
