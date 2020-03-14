@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.1.0
+
+Released: 2020-03-11
+
+### Changes
+
+* Recommend to be used with Laravel Framework v7.1.0+.
+
 ## 5.0.2
 
 Released: 2020-03-07
