@@ -2,13 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.1.2
+
+Released: 2020-03-31
+
+### Changes
+
+* Update Laravel 7.x skeleton:
+    - Rename `filesystems.disk.s3.url` to `filesystems.disk.s3.endpoint`.
+
 ## 5.1.1
 
 Released: 2020-03-16
 
 ### Changes
 
-* Update Laravel 7.x skeleton.
+* Update Laravel 7.x skeleton:
     - Update `cors.exposed_headers` and `cors.max_age` default configuration value.
     - Add `mailers.smtp.timeout` configuration options.
     - Update `session` configuration file.
