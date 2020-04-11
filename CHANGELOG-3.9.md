@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 3.9.8
+
+Released: 2020-04-11
+
+### Changes
+
+* Update Laravel 6.x skeleton.
+
 ## 3.9.7
 
 Released: 2020-03-07
