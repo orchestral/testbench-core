@@ -306,6 +306,10 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
+        if (\class_exists('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider')) {
+            $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
+        }
+
         if ($this instanceof TestCase) {
             Collection::make($this->getAnnotations())->each(function ($location) use ($app) {
                 Collection::make($location['environment-setup'] ?? [])
