@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.1.4
+
+Released: 2020-05-05
+
+### Changes
+
+* Update Laravel 7.x skeleton:
+    - Add `mail.mailers.stmp.auth_mode` configuration.
+
 ## 5.1.3
 
 Released: 2020-04-11
