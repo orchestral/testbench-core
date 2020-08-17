@@ -1,4 +1,4 @@
-# Change for 4.x
+# Changes for 4.x
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
