@@ -1,6 +1,14 @@
-# Change for 5.x
+# Changes for 5.x
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
+
+## 5.2.0
+
+Released: 2020-08-18
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\WithLaravelMigrations::runLaravelMigrations()` to run all registered Laravel migrations on `setUp` and make a clean rollback on `tearDown`.
 
 ## 5.1.4
 

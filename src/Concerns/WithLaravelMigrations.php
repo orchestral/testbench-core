@@ -28,4 +28,25 @@ trait WithLaravelMigrations
             $migrator->rollback();
         });
     }
+
+    /**
+     * Migrate all Laravel's migrations.
+     *
+     * @param  array|string  $database
+     *
+     * @return void
+     */
+    protected function runLaravelMigrations($database = []): void
+    {
+        $options = \is_array($database) ? $database : ['--database' => $database];
+
+        $migrator = new MigrateProcessor($this, $options);
+        $migrator->up();
+
+        $this->resetApplicationArtisanCommands($this->app);
+
+        $this->beforeApplicationDestroyed(static function () use ($migrator) {
+            $migrator->rollback();
+        });
+    }
 }
