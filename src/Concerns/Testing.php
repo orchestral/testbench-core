@@ -29,12 +29,20 @@ trait Testing
      */
     protected $app;
 
+
     /**
      * The callbacks that should be run after the application is created.
      *
      * @var array
      */
     protected $afterApplicationCreatedCallbacks = [];
+
+    /**
+     * The callbacks that should be run after the application is refreshed.
+     *
+     * @var array
+     */
+    protected $afterApplicationRefreshedCallbacks = [];
 
     /**
      * The callbacks that should be run before the application is destroyed.
@@ -66,6 +74,10 @@ trait Testing
     {
         if (! $this->app) {
             $this->refreshApplication();
+        }
+
+        foreach ($this->afterApplicationRefreshedCallbacks as $callback) {
+            \call_user_func($callback);
         }
 
         $this->setUpTraits();
@@ -162,6 +174,22 @@ trait Testing
         }
 
         return $uses;
+    }
+
+    /**
+     * Register a callback to be run after the application is refreshed.
+     *
+     * @param  callable  $callback
+     *
+     * @return void
+     */
+    protected function afterApplicationRefreshed(callable $callback): void
+    {
+        $this->afterApplicationRefreshedCallbacks[] = $callback;
+
+        if ($this->setUpHasRun) {
+            \call_user_func($callback);
+        }
     }
 
     /**
