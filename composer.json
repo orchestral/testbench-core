@@ -30,10 +30,10 @@
         "fzaninotto/faker": "^1.9.1"
     },
     "require-dev": {
-        "laravel/framework": "^8.0",
+        "laravel/framework": "dev-master",
         "laravel/laravel": "dev-develop",
         "mockery/mockery": "^1.3.1",
-        "orchestra/canvas": "^6.0",
+        "orchestra/canvas": "dev-master",
         "phpunit/phpunit": "^8.4 || ^9.0"
     },
     "suggest": {
@@ -45,7 +45,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "6.0-dev"
+            "dev-master": "7.0-dev"
         }
     },
     "config": {
