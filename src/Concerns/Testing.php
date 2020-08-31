@@ -29,7 +29,6 @@ trait Testing
      */
     protected $app;
 
-
     /**
      * The callbacks that should be run after the application is created.
      *
