@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns\Database;
 
+use Closure;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\SQLiteBuilder;
