@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.3.0
+
+Released: 2020-08-31
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\Testing::afterApplicationRefreshed()` callback.
+
+### Fixes
+
+* Add missing `Closure` import to `Orchestra\Testbench\Concerns\Database\WithSqlite`.
+
 ## 5.2.0
 
 Released: 2020-08-18
