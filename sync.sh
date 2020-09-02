@@ -14,4 +14,3 @@ awk '{sub(/\x27SESSION_DRIVER\x27, \x27file\x27/,"'\''SESSION_DRIVER'\'', '\''ar
 awk '{sub(/class Create/,"class TestbenchCreate")}1' laravel/migrations/2014_10_12_000000_testbench_create_users_table.php > laravel/migrations/temp.stub && mv laravel/migrations/temp.stub laravel/migrations/2014_10_12_000000_testbench_create_users_table.php
 awk '{sub(/class Create/,"class TestbenchCreate")}1' laravel/migrations/2014_10_12_100000_testbench_create_password_resets_table.php > laravel/migrations/temp.stub && mv laravel/migrations/temp.stub laravel/migrations/2014_10_12_100000_testbench_create_password_resets_table.php
 awk '{sub(/class Create/,"class TestbenchCreate")}1' laravel/migrations/2019_08_19_000000_testbench_create_failed_jobs_table.php > laravel/migrations/temp.stub && mv laravel/migrations/temp.stub laravel/migrations/2019_08_19_000000_testbench_create_failed_jobs_table.php
-
