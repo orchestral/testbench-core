@@ -8,7 +8,7 @@ Released: 2020-08-31
 
 ### Changes
 
-* Avoid migration class name collision with Laravel default migrations by prefixing it with `tesbench_`.
+* Avoid migration class name collision with Laravel default migrations by prefixing it with `testbench_`.
 
 ## 5.3.0
 
