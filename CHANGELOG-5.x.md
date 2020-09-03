@@ -2,6 +2,26 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.3.1
+
+Released: 2020-08-31
+
+### Changes
+
+* Avoid migration class name collision with Laravel default migrations by prefixing it with `testbench_`.
+
+## 5.3.0
+
+Released: 2020-08-31
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\Testing::afterApplicationRefreshed()` callback.
+
+### Fixes
+
+* Add missing `Closure` import to `Orchestra\Testbench\Concerns\Database\WithSqlite`.
+
 ## 5.2.0
 
 Released: 2020-08-18
