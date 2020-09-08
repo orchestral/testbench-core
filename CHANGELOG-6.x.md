@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.0.1
+
+Released: 2020-09-09
+
+### Changes
+
+* Throw explicit exception when using `withFactories()` without `laravel/legacy-factories`.
+
 ## 6.0.0
 
 Released: 2020-09-08
