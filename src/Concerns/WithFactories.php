@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factory as ModelFactory;
 
 trait WithFactories
@@ -28,6 +29,10 @@ trait WithFactories
      */
     protected function loadFactoriesUsing($app, string $path)
     {
+        if (! \class_exists(ModelFactory::class)) {
+            throw new Exception('Missing `laravel/legacy-factories` in composer.json');
+        }
+
         $app->make(ModelFactory::class)->load($path);
 
         return $this;
