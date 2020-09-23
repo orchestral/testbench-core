@@ -27,7 +27,8 @@
     },
     "require": {
         "php": ">=7.2.5",
-        "fzaninotto/faker": "^1.9.1"
+        "fzaninotto/faker": "^1.9.1",
+        "symfony/yaml": "^4.3 || ^5.0"
     },
     "require-dev": {
         "laravel/framework": "^7.24",
