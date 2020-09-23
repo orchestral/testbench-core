@@ -10,12 +10,12 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
 }
 
 $workingPath = getcwd();
-$config = ['providers' => []];
+$config = ['env' => [], 'providers' => []];
 
 if (file_exists("{$workingPath}/testbench.yaml")) {
     $config = Symfony\Component\Yaml\Yaml::parseFile("{$workingPath}/testbench.yaml");
 }
 
-$commander = new Orchestra\Testbench\Console\Commander($config['providers'] ?? []);
+$commander = new Orchestra\Testbench\Console\Commander($config);
 
 $commander->handle();

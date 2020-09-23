@@ -2,14 +2,21 @@
 
 namespace Orchestra\Testbench\Console;
 
+use Dotenv\Dotenv;
+use Dotenv\Loader\Loader;
+use Dotenv\Parser\Parser;
+use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Commander
 {
-    use CreatesApplication;
+    use CreatesApplication {
+        resolveApplication as protected resolveApplicationFromTrait;
+    }
 
     /**
      * Application instance.
@@ -19,32 +26,20 @@ class Commander
     protected $app;
 
     /**
-     * List of command providers.
+     * List of configurations.
      *
      * @var array
      */
-    protected $providers = [];
+    protected $config = [];
 
     /**
      * Construct a new Commander.
      *
-     * @param array $providers
+     * @param array $config
      */
-    public function __construct(array $providers = [])
+    public function __construct(array $config = [])
     {
-        $this->providers = $providers;
-    }
-
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return array
-     */
-    protected function getPackageProviders($app)
-    {
-        return $this->providers;
+        $this->config = $config;
     }
 
     /**
@@ -64,6 +59,42 @@ class Commander
         $kernel->terminate($input, $status);
 
         exit($status);
+    }
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function getPackageProviders($app)
+    {
+        return $this->config['providers'] ?? [];
+    }
+
+    /**
+     * Resolve application implementation.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    protected function resolveApplication()
+    {
+        return \tap($this->resolveApplicationFromTrait(), function () {
+            $this->createDotenv();
+        });
+    }
+
+    /**
+     * Create a Dotenv instance.
+     */
+    protected function createDotenv()
+    {
+        (new Dotenv(
+            new StringStore(implode("\n", $this->config['env'])),
+            new Parser(),
+            new Loader(),
+            Env::getRepository()
+        ))->load();
     }
 
     /**
