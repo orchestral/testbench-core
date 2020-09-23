@@ -25,6 +25,9 @@
             "Orchestra\\Testbench\\Tests\\": "tests/"
         }
     },
+    "bin": [
+        "testbench"
+    ],
     "require": {
         "php": ">=7.3",
         "fzaninotto/faker": "^1.9.1",
