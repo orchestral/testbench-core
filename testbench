@@ -10,7 +10,7 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
 }
 
 $workingPath = getcwd();
-$config = ['env' => [], 'providers' => []];
+$config = ['env' => ['APP_KEY="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"', 'DB_CONNECTION="testing"'], 'providers' => []];
 
 if (file_exists("{$workingPath}/testbench.yaml")) {
     $config = Symfony\Component\Yaml\Yaml::parseFile("{$workingPath}/testbench.yaml");
