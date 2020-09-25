@@ -92,7 +92,7 @@ class Commander
         (new Dotenv(
             new Loader(),
             Env::getRepository(),
-            new Dotenv\StringStore(implode("\n", $this->config['env'] ?? []))
+            new StringStore(implode("\n", $this->config['env'] ?? []))
         ))->load();
     }
 
