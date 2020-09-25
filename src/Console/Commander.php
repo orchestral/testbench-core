@@ -5,10 +5,10 @@ namespace Orchestra\Testbench\Console;
 use Dotenv\Dotenv;
 use Dotenv\Loader\Loader;
 use Dotenv\Parser\Parser;
-use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use Orchestra\Testbench\Console\Dotenv\StringStore;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -90,10 +90,9 @@ class Commander
     protected function createDotenv()
     {
         (new Dotenv(
-            new StringStore(implode("\n", $this->config['env'])),
-            new Parser(),
             new Loader(),
-            Env::getRepository()
+            Env::getRepository(),
+            new StringStore(implode("\n", $this->config['env'] ?? []))
         ))->load();
     }
 
