@@ -90,10 +90,9 @@ class Commander
     protected function createDotenv()
     {
         (new Dotenv(
-            new StringStore(implode("\n", $this->config['env'])),
-            new Parser(),
             new Loader(),
-            Env::getRepository()
+            Env::getRepository(),
+            new Dotenv\StringStore(implode("\n", $this->config['env']))
         ))->load();
     }
 
