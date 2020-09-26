@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.1.1
+
+Released: 2020-09-26
+
+### Fixes
+
+* Allows to skipped `env` key from `testbench.yaml`.
+
 ## 6.1.0
 
 Released: 2020-09-24
