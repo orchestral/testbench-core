@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.4.1
+
+Released: 2020-09-26
+
+### Fixes
+
+* Fixes Dotenv usage with `testbench` command.
+
 ## 5.4.0
 
 Released: 2020-09-25
