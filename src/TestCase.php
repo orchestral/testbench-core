@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithTime;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 use PHPUnit\Framework\TestCase as PHPUnit;
@@ -21,6 +22,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         InteractsWithDatabase,
         InteractsWithExceptionHandling,
         InteractsWithSession,
+        InteractsWithTime,
         MakesHttpRequests,
         MocksApplicationServices;
 
