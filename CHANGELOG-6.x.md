@@ -2,6 +2,21 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.2.0
+
+Released: 2020-09-28
+
+### Added
+
+* Add following folders to Laravel skeleton:
+  - `app/Console`
+  - `app/Exceptions`
+  - `app/Http/Controllers`
+  - `app/Http/Middleware`
+  - `app/Models`
+  - `app/Providers`
+  - `database/seeds`
+
 ## 6.1.1
 
 Released: 2020-09-26
