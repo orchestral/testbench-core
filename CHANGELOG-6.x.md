@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.3.0
+
+Released: 2020-10-11
+
+### Added
+
+* Added `drop-sqlite-db` command.
+
+### Changes
+
+* Configuration changes:
+  - Add `LOG_LEVEL` environment configuration.
+
 ## 6.2.0
 
 Released: 2020-09-28
