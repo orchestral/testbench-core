@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Console;
 
 use Dotenv\Dotenv;
 use Dotenv\Loader\Loader;
-use Dotenv\Parser\Parser;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
@@ -53,13 +52,14 @@ class Commander
         $kernel = $laravel->make(ConsoleKernel::class);
 
         $status = $kernel->handle(
-            $input = new ArgvInput, new ConsoleOutput
+            $input = new ArgvInput(), new ConsoleOutput()
         );
 
         $kernel->terminate($input, $status);
 
         exit($status);
     }
+
     /**
      * Get package providers.
      *
