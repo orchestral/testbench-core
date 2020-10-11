@@ -53,13 +53,14 @@ class Commander
         $kernel = $laravel->make(ConsoleKernel::class);
 
         $status = $kernel->handle(
-            $input = new ArgvInput, new ConsoleOutput
+            $input = new ArgvInput(), new ConsoleOutput()
         );
 
         $kernel->terminate($input, $status);
 
         exit($status);
     }
+
     /**
      * Get package providers.
      *
