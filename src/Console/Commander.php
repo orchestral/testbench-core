@@ -15,6 +15,7 @@ class Commander
 {
     use CreatesApplication {
         resolveApplication as protected resolveApplicationFromTrait;
+        getBasePath as protected getBasePathFromTrait;
     }
 
     /**
@@ -32,13 +33,21 @@ class Commander
     protected $config = [];
 
     /**
+     * Working path.
+     *
+     * @var string|null
+     */
+    protected $workingPath;
+
+    /**
      * Construct a new Commander.
      *
      * @param array $config
      */
-    public function __construct(array $config = [])
+    public function __construct(array $config = [], ?string $workingPath)
     {
         $this->config = $config;
+        $this->workingPath = $workingPath;
     }
 
     /**
@@ -94,6 +103,22 @@ class Commander
             Env::getRepository(),
             new StringStore(implode("\n", $this->config['env'] ?? []))
         ))->load();
+    }
+
+    /**
+     * Get base path.
+     *
+     * @return string
+     */
+    protected function getBasePath()
+    {
+        $laravelBasePath = $this->config['laravel'] ?? null;
+
+        if (! is_null($laravelBasePath)) {
+            return \str_replace('./', $this->workingPath.'/', $laravelBasePath);
+        }
+
+        return $this->getBasePathFromTrait();
     }
 
     /**
