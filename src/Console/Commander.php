@@ -43,7 +43,8 @@ class Commander
     /**
      * Construct a new Commander.
      *
-     * @param array $config
+     * @param array  $config
+     * @param string|null  $workingPath
      */
     public function __construct(array $config = [], ?string $workingPath)
     {
