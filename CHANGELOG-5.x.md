@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.7.0 
+
+Released: 2020-10-20
+
+### Added
+
+* Added ability to use custom Laravel path for `testbench` CLI.
+
 ## 5.6.0
 
 Released: 2020-10-11
