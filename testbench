@@ -16,6 +16,6 @@ if (file_exists("{$workingPath}/testbench.yaml")) {
     $config = Symfony\Component\Yaml\Yaml::parseFile("{$workingPath}/testbench.yaml");
 }
 
-$commander = new Orchestra\Testbench\Console\Commander($config);
+$commander = new Orchestra\Testbench\Console\Commander($config, $workingPath);
 
 $commander->handle();

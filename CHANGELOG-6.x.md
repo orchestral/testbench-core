@@ -2,6 +2,42 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.4.0 
+
+Released: 2020-10-20
+
+### Added
+
+* Added ability to use custom Laravel path for `testbench` CLI.
+
+## 6.3.0
+
+Released: 2020-10-11
+
+### Added
+
+* Added `drop-sqlite-db` command.
+
+### Changes
+
+* Configuration changes:
+  - Add `LOG_LEVEL` environment configuration.
+
+## 6.2.0
+
+Released: 2020-09-28
+
+### Added
+
+* Add following folders to Laravel skeleton:
+  - `app/Console`
+  - `app/Exceptions`
+  - `app/Http/Controllers`
+  - `app/Http/Middleware`
+  - `app/Models`
+  - `app/Providers`
+  - `database/seeds`
+
 ## 6.1.1
 
 Released: 2020-09-26
