@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.7.1
+
+Released: 2020-10-27
+
+### Changes
+
+* Added support for PHP 8.
+
 ## 5.7.0 
 
 Released: 2020-10-20
