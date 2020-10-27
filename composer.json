@@ -27,7 +27,7 @@
     },
     "require": {
         "php": ">=7.2 || >=8.0",
-        "fzaninotto/faker": "^1.9.1"
+        "fakerphp/faker": "^1.9.1"
     },
     "require-dev": {
         "laravel/framework": "^6.18.0",
