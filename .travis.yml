@@ -19,8 +19,8 @@ before_install:
   - composer config discard-changes true
 
 before_script:
-  - composer require "phpunit/phpunit=${phpunit}" --prefer-dist --no-interaction
-  - if [[ $setup = 'basic' ]]; then travis_retry composer install --prefer-dist --no-interaction; fi
+  - composer require "phpunit/phpunit=${phpunit}" --prefer-dist --no-interaction --no-update
+  - if [[ ($setup = 'basic') || ($setup = 'coveralls') ]]; then travis_retry composer install --prefer-dist --no-interaction; fi
   - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable; fi
   - if [[ $setup = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable; fi
   - if [[ $setup = 'coveralls' ]]; then wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.2.0/php-coveralls.phar; chmod +x php-coveralls.phar; fi
