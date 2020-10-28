@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.5.0
+
+Released: 2020-10-28
+
+### Changes
+
+* Replace `fzaninotto/faker` with `fakerphp/faker`.
+
 ## 6.4.1
 
 Released: 2020-10-27
