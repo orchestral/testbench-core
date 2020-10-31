@@ -9,7 +9,6 @@ before_install:
   - composer config discard-changes true
 
 before_script:
-  - composer require "phpunit/phpunit=${phpunit}" --prefer-dist --no-interaction --no-update
   - composer install --prefer-dist --no-interaction
   - wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.2.0/php-coveralls.phar
   - chmod +x php-coveralls.phar
