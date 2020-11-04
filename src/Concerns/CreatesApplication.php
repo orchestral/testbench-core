@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Util\Test as TestUtil;
 
 trait CreatesApplication
 {
@@ -307,7 +308,11 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
         if ($this instanceof TestCase) {
-            Collection::make($this->getAnnotations())->each(function ($location) use ($app) {
+            $annotations = TestUtil::parseTestMethodAnnotations(
+                static::class, $this->getName()
+            );
+
+            Collection::make($annotations)->each(function ($location) use ($app) {
                 Collection::make($location['environment-setup'] ?? [])
                     ->filter(function ($method) {
                         return ! \is_null($method) && \method_exists($this, $method);
