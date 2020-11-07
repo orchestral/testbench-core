@@ -14,7 +14,6 @@ jobs:
       matrix:
         os:
           - "ubuntu-latest"
-          - "windows-latest"
         php:
           - "7.3"
           - "7.4"
@@ -32,12 +31,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.composer/cache/files
-          key: dependencies-${{ matrix.php }}-${{ matrix.os }}-${{ matrix.dependencies }}-composer-${{ hashFiles('composer.json') }}
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -47,5 +40,7 @@ jobs:
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v1"
+        with:
+          composer-options: "--prefer-dist"
       - name: Execute tests
         run: vendor/bin/phpunit

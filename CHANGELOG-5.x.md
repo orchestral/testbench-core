@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.9.0
+
+Released: 2020-11-07
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait.
+
+### Changes
+
+* Uses `PHPUnit\Util\Test` to parse annotations instead of relying on deprecated `TestCase::getAnnotations()`.
+
 ## 5.8.0
 
 Released: 2020-10-28
