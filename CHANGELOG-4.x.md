@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.9.1
+
+Released: 2020-11-17
+
+### Fixes
+
+* Use `TestCase::getName(false)` when resolving annotations for PHPUnit.
+
 ## 4.9.0
 
 Released: 2020-11-07
