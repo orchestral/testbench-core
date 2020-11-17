@@ -309,7 +309,7 @@ trait CreatesApplication
 
         if ($this instanceof TestCase) {
             $annotations = TestUtil::parseTestMethodAnnotations(
-                static::class, $this->getName()
+                static::class, $this->getName(false)
             );
 
             Collection::make($annotations)->each(function ($location) use ($app) {
