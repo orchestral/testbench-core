@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.6.1
+
+Released: 2020-11-17
+
+### Changes
+
+* Update Laravel app skeleton.
+
+### Fixes
+
+* Use `TestCase::getName(false)` when resolving annotations for PHPUnit.
+
 ## 6.6.0
 
 Released: 2020-11-07
