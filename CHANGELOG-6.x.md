@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.6.2
+
+Released: 2020-11-25
+
+### Changes
+
+* Update Laravel skeleton.
+
 ## 6.6.1
 
 Released: 2020-11-17

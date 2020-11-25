@@ -14,6 +14,13 @@ class RouteTest extends TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $app['router']->domain('api.localhost')
+            ->group(function (Router $router) {
+                $router->get('hello', function () {
+                    return 'hello from api';
+                });
+            });
+
         $app['router']->get('hello', ['as' => 'hi', 'uses' => function () {
             return 'hello world';
         }]);
@@ -66,6 +73,14 @@ class RouteTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertEquals('Controller@index', $response->getContent());
+    }
+    /** @test */
+    public function it_can_resolve_domain_route()
+    {
+        $response = $this->get('http://api.localhost/hello');
+
+        $response->assertStatus(200);
+        $this->assertEquals('hello from api', $response->getContent());
     }
 
     /** @test */
