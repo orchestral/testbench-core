@@ -12,7 +12,7 @@ class RouteTest extends TestCase
      *
      * @param  Illuminate\Foundation\Application  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app)
     {
         $app['router']->get('hello', ['as' => 'hi', 'uses' => function () {
             return 'hello world';
