@@ -247,10 +247,17 @@ trait Testing
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        $this->defineDatabaseSchema($this->app);
+        $this->defineDatabaseMigrations();
 
         $callback();
     }
+
+    /**
+     * Define database migrations.
+     *
+     * @return void
+     */
+    abstract protected function defineDatabaseMigrations();
 
     /**
      * Boot the testing helper traits.

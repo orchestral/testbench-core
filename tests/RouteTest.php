@@ -74,6 +74,7 @@ class RouteTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals('Controller@index', $response->getContent());
     }
+
     /** @test */
     public function it_can_resolve_domain_route()
     {
