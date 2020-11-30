@@ -326,6 +326,7 @@ trait CreatesApplication
             });
         }
 
+        $this->defineEnvironment($app);
         $this->getEnvironmentSetUp($app);
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
@@ -357,6 +358,30 @@ trait CreatesApplication
     final protected function resetApplicationArtisanCommands($app)
     {
         $app['Illuminate\Contracts\Console\Kernel']->setArtisan(null);
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application   $app
+     *
+     * @return void
+     */
+    protected function defineEnvironment($app)
+    {
+        //
+    }
+
+    /**
+     * Define database schema.
+     *
+     * @param  \Illuminate\Foundation\Application   $app
+     *
+     * @return void
+     */
+    protected function defineDatabaseSchema($app)
+    {
+        //
     }
 
     /**

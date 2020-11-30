@@ -12,7 +12,7 @@ class RouteTest extends TestCase
      *
      * @param  Illuminate\Foundation\Application  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app)
     {
         $app['router']->domain('api.localhost')
             ->group(function (Router $router) {

@@ -65,7 +65,7 @@ class AnnotationEnvironmentSetupTest extends TestCase
      *
      * @param  Illuminate\Foundation\Application  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testbench');
     }

@@ -23,7 +23,7 @@ class MigrateDatabaseTest extends TestCase
      *
      * @return void
      */
-    protected function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testing');
     }
