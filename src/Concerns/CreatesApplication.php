@@ -365,18 +365,6 @@ trait CreatesApplication
     }
 
     /**
-     * Define database schema.
-     *
-     * @param  \Illuminate\Foundation\Application   $app
-     *
-     * @return void
-     */
-    protected function defineDatabaseSchema($app)
-    {
-        //
-    }
-
-    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application   $app
