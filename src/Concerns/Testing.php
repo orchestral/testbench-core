@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -137,13 +138,15 @@ trait Testing
      */
     final protected function setUpTheTestEnvironmentTraits(array $uses): array
     {
-        if (isset($uses[RefreshDatabase::class])) {
-            $this->refreshDatabase();
-        }
+        $this->setUpDatabaseRequirements(function () use ($uses) {
+            if (isset($uses[RefreshDatabase::class])) {
+                $this->refreshDatabase();
+            }
 
-        if (isset($uses[DatabaseMigrations::class])) {
-            $this->runDatabaseMigrations();
-        }
+            if (isset($uses[DatabaseMigrations::class])) {
+                $this->runDatabaseMigrations();
+            }
+        });
 
         if (isset($uses[DatabaseTransactions::class])) {
             $this->beginDatabaseTransaction();
@@ -208,6 +211,18 @@ trait Testing
                 }
             }
         }
+    }
+
+    /**
+     * Setup database requirements.
+     *
+     * @param  \Closure  $callback
+     */
+    protected function setUpDatabaseRequirements(Closure $callback): void
+    {
+        $this->defineDatabaseSchema($this->app);
+
+        $callback();
     }
 
     /**
