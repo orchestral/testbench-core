@@ -7,15 +7,6 @@ use Orchestra\Testbench\TestCase;
 
 class MigrateWithLaravelTest extends TestCase
 {
-    /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadLaravelMigrations(['--database' => 'testing']);
-    }
 
     /**
      * Define environment setup.
@@ -27,6 +18,16 @@ class MigrateWithLaravelTest extends TestCase
     protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testing');
+    }
+
+    /**
+     * Define database migrations.
+     *
+     * @return void
+     */
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testing']);
     }
 
     /**
