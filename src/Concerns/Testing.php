@@ -257,7 +257,10 @@ trait Testing
      *
      * @return void
      */
-    abstract protected function defineDatabaseMigrations();
+    protected function defineDatabaseMigrations()
+    {
+        // Define database migrations.
+    }
 
     /**
      * Boot the testing helper traits.

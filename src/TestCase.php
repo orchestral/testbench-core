@@ -72,38 +72,4 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     {
         $this->app = $this->createApplication();
     }
-
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
-    protected function defineDatabaseMigrations()
-    {
-        // Define database migrations.
-    }
-
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application   $app
-     *
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        // Define environment.
-    }
-
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application   $app
-     *
-     * @return void
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        // Define your environment setup.
-    }
 }
