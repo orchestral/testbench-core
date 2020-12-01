@@ -91,31 +91,29 @@ class Commander
     protected function resolveApplication()
     {
         return \tap($this->resolveApplicationFromTrait(), function () {
-            $this->createDotenv();
+            $this->createDotenv()->load();
         });
     }
 
     /**
      * Create a Dotenv instance.
      */
-    protected function createDotenv()
+    protected function createDotenv(): Dotenv
     {
         $laravelBasePath = $this->getBasePath();
 
-        if (file_exists($laravelBasePath.'/.env')) {
-            Dotenv::create(
+        if (\file_exists($laravelBasePath.'/.env')) {
+            return Dotenv::create(
                 Env::getRepository(), $laravelBasePath.'/', '.env'
-            )->load();
-
-            return;
+            );
         }
 
-        (new Dotenv(
+        return (new Dotenv(
             new StringStore(\implode("\n", $this->config['env'] ?? [])),
             new Parser(),
             new Loader(),
             Env::getRepository()
-        ))->load();
+        ));
     }
 
     /**
@@ -127,7 +125,7 @@ class Commander
     {
         $laravelBasePath = $this->config['laravel'] ?? null;
 
-        if (! is_null($laravelBasePath)) {
+        if (! \is_null($laravelBasePath)) {
             return \str_replace('./', $this->workingPath.'/', $laravelBasePath);
         }
 
