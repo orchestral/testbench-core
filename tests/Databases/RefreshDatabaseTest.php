@@ -10,16 +10,6 @@ class RefreshDatabaseTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->artisan('migrate', ['--database' => 'testing']);
-    }
-
-    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -29,6 +19,16 @@ class RefreshDatabaseTest extends TestCase
     protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testing');
+    }
+
+    /**
+     * Define database migrations.
+     *
+     * @return void
+     */
+    protected function defineDatabaseMigrations()
+    {
+        $this->artisan('migrate', ['--database' => 'testing']);
     }
 
     /**
