@@ -72,16 +72,4 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     {
         $this->app = $this->createApplication();
     }
-
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application   $app
-     *
-     * @return void
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        // Define your environment setup.
-    }
 }

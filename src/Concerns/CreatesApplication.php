@@ -371,5 +371,8 @@ trait CreatesApplication
      *
      * @return void
      */
-    abstract protected function getEnvironmentSetUp($app);
+    protected function getEnvironmentSetUp($app)
+    {
+        // Define your environment setup.
+    }
 }
