@@ -12,7 +12,7 @@ class RouteTest extends TestCase
      *
      * @param  Illuminate\Foundation\Application  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app)
     {
         $app['router']->domain('api.localhost')
             ->group(function (Router $router) {
@@ -74,6 +74,7 @@ class RouteTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals('Controller@index', $response->getContent());
     }
+
     /** @test */
     public function it_can_resolve_domain_route()
     {

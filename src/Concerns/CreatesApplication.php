@@ -326,6 +326,7 @@ trait CreatesApplication
             });
         }
 
+        $this->defineEnvironment($app);
         $this->getEnvironmentSetUp($app);
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
@@ -366,5 +367,20 @@ trait CreatesApplication
      *
      * @return void
      */
-    abstract protected function getEnvironmentSetUp($app);
+    protected function defineEnvironment($app)
+    {
+        // Define environment.
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application   $app
+     *
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        // Define your environment setup.
+    }
 }
