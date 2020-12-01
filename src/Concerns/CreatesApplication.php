@@ -361,7 +361,7 @@ trait CreatesApplication
      */
     protected function defineEnvironment($app)
     {
-        //
+        // Define environment.
     }
 
     /**
