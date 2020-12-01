@@ -100,6 +100,16 @@ class Commander
      */
     protected function createDotenv()
     {
+        $laravelBasePath = $this->getBasePath();
+
+        if (file_exists($laravelBasePath.'/.env')) {
+            Dotenv::create(
+                Env::getRepository(), $laravelBasePath.'/', '.env'
+            )->load();
+
+            return;
+        }
+
         (new Dotenv(
             new StringStore(\implode("\n", $this->config['env'] ?? [])),
             new Parser(),
