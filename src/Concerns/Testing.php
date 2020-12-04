@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Concerns;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -19,6 +18,7 @@ use Throwable;
 trait Testing
 {
     use CreatesApplication,
+        HandlesDatabases,
         HandlesRoutes,
         WithFactories,
         WithLaravelMigrations,
@@ -78,7 +78,7 @@ trait Testing
 
         Model::setEventDispatcher($this->app['events']);
 
-        $this->setupApplicationRoutes();
+        $this->setUpApplicationRoutes();
 
         $this->setUpHasRun = true;
     }
@@ -214,28 +214,6 @@ trait Testing
                 }
             }
         }
-    }
-
-    /**
-     * Setup database requirements.
-     *
-     * @param  \Closure  $callback
-     */
-    protected function setUpDatabaseRequirements(Closure $callback): void
-    {
-        $this->defineDatabaseMigrations();
-
-        $callback();
-    }
-
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
-    protected function defineDatabaseMigrations()
-    {
-        // Define database migrations.
     }
 
     /**

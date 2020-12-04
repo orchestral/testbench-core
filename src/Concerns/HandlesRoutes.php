@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 trait HandlesRoutes
 {
-    protected function setupApplicationRoutes(): void
+    protected function setUpApplicationRoutes(): void
     {
         if (! $this->app->eventsAreCached()) {
             $this->defineRoutes($this->app['router']);
