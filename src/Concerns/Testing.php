@@ -275,4 +275,18 @@ trait Testing
      * @return void
      */
     abstract protected function refreshApplication();
+
+    /**
+     * Refresh the application instance with cached routes.
+     *
+     * @return void
+     */
+    protected function refreshApplicationWithCachedRoutes()
+    {
+        $this->refreshApplication();
+
+        $this->app->booted(function () {
+            require $this->app->getCachedRoutesPath();
+        });
+    }
 }

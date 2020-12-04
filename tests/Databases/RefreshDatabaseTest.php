@@ -44,7 +44,7 @@ class RefreshDatabaseTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Orchestra\Testbench\Tests\Stubs\Providers\ServiceProvider::class,
+            \Orchestra\Testbench\Tests\Fixtures\Providers\ServiceProvider::class,
             //'Cartalyst\Sentry\SentryServiceProvider',
             //'YourProject\YourPackage\YourPackageServiceProvider',
         ];

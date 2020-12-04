@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Stubs\Providers;
+namespace Orchestra\Testbench\Tests\Fixtures\Providers;
 
 class CustomConfigServiceProvider extends \Illuminate\Support\ServiceProvider
 {

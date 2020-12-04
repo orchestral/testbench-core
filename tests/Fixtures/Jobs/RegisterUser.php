@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Stubs\Jobs;
+namespace Orchestra\Testbench\Tests\Fixtures\Jobs;
 
 class RegisterUser
 {

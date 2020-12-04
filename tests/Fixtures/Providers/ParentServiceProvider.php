@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Stubs\Providers;
+namespace Orchestra\Testbench\Tests\Fixtures\Providers;
 
 use Illuminate\Support\AggregateServiceProvider;
 
