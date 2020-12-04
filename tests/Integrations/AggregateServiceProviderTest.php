@@ -16,7 +16,7 @@ class AggregateServiceProviderTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            'Orchestra\Testbench\Tests\Stubs\Providers\ParentServiceProvider',
+            'Orchestra\Testbench\Tests\Fixtures\Providers\ParentServiceProvider',
         ];
     }
 

@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\TestCase;
-use Orchestra\Testbench\Tests\Stubs\Jobs\RegisterUser;
+use Orchestra\Testbench\Tests\Fixtures\Jobs\RegisterUser;
 
 class DispatchJobTest extends TestCase
 {

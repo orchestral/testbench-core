@@ -32,7 +32,7 @@ class RouteTest extends TestCase
             })->name('boss.bye');
         });
 
-        $app['router']->resource('foo', 'Orchestra\Testbench\Tests\Stubs\Controllers\Controller');
+        $app['router']->resource('foo', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller');
     }
 
     /** @test */

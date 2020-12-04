@@ -30,7 +30,7 @@ class CacheRouteTest extends TestCase
         $route = <<<PHP
 <?php
 
-Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Stubs\Controllers\Controller@index');
+Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');
 PHP;
 
         file_put_contents(base_path('routes/testbench.php'), $route);
