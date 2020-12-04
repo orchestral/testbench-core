@@ -9,6 +9,8 @@ trait HandlesRoutes
         if (! $this->app->eventsAreCached()) {
             $this->defineRoutes($this->app['router']);
 
+            $this->parseTestMethodAnnotations($this->app, 'define-route');
+
             $this->app['router']->getRoutes()->refreshNameLookups();
         }
     }
@@ -24,4 +26,12 @@ trait HandlesRoutes
     {
         // Define routes.
     }
+
+    /**
+     * Parse test method annotations.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @param  string  $name
+     */
+    abstract protected function parseTestMethodAnnotations($app, string $name): void;
 }

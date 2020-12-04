@@ -18,6 +18,7 @@ use Throwable;
 trait Testing
 {
     use CreatesApplication,
+        HandlesAnnotations,
         HandlesDatabases,
         HandlesRoutes,
         WithFactories,

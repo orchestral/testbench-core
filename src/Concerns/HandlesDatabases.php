@@ -29,4 +29,12 @@ trait HandlesDatabases
     {
         // Define database migrations.
     }
+
+    /**
+     * Parse test method annotations.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @param  string  $name
+     */
+    abstract protected function parseTestMethodAnnotations($app, string $name): void;
 }

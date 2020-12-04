@@ -5,13 +5,9 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Util\Test as TestUtil;
 
 trait CreatesApplication
 {
-    use HandlesAnnotations;
-
     /**
      * Get application timezone.
      *
@@ -363,4 +359,12 @@ trait CreatesApplication
     {
         // Define your environment setup.
     }
+
+    /**
+     * Parse test method annotations.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @param  string  $name
+     */
+    abstract protected function parseTestMethodAnnotations($app, string $name): void;
 }
