@@ -305,8 +305,10 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
-        $this->parseTestMethodAnnotations($app, 'environment-setup');
-        $this->parseTestMethodAnnotations($app, 'define-env');
+        if (\method_exists($this, 'parseTestMethodAnnotations')) {
+            $this->parseTestMethodAnnotations($app, 'environment-setup');
+            $this->parseTestMethodAnnotations($app, 'define-env');
+        }
 
         $this->defineEnvironment($app);
         $this->getEnvironmentSetUp($app);
