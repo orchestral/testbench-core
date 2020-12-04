@@ -253,6 +253,27 @@ trait Testing
     }
 
     /**
+     * Reload the application instance with cached routes.
+     */
+    protected function reloadApplication(): void
+    {
+        $this->tearDownTheTestEnvironment();
+        $this->setUpTheTestEnvironment();
+    }
+
+    /**
+     * Reload the application instance with cached routes.
+     */
+    protected function reloadApplicationWithCachedRoutes(): void
+    {
+        $this->reloadApplication();
+
+        $this->app->booted(function () {
+            require $this->app->getCachedRoutesPath();
+        });
+    }
+
+    /**
      * Define database migrations.
      *
      * @return void
@@ -275,18 +296,4 @@ trait Testing
      * @return void
      */
     abstract protected function refreshApplication();
-
-    /**
-     * Refresh the application instance with cached routes.
-     *
-     * @return void
-     */
-    protected function refreshApplicationWithCachedRoutes()
-    {
-        $this->refreshApplication();
-
-        $this->app->booted(function () {
-            require $this->app->getCachedRoutesPath();
-        });
-    }
 }
