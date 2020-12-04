@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Concerns;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -19,6 +18,9 @@ use Throwable;
 trait Testing
 {
     use CreatesApplication,
+        HandlesAnnotations,
+        HandlesDatabases,
+        HandlesRoutes,
         WithFactories,
         WithLaravelMigrations,
         WithLoadMigrationsFrom;
@@ -87,6 +89,8 @@ trait Testing
         }
 
         Model::setEventDispatcher($this->app['events']);
+
+        $this->setUpApplicationRoutes();
 
         $this->setUpHasRun = true;
     }
@@ -241,44 +245,12 @@ trait Testing
     }
 
     /**
-     * Setup database requirements.
-     *
-     * @param  \Closure  $callback
-     */
-    protected function setUpDatabaseRequirements(Closure $callback): void
-    {
-        $this->defineDatabaseMigrations();
-
-        $callback();
-    }
-
-    /**
      * Reload the application instance with cached routes.
      */
     protected function reloadApplication(): void
     {
         $this->tearDownTheTestEnvironment();
         $this->setUpTheTestEnvironment();
-    }
-
-    /**
-     * Require application cached routes.
-     */
-    protected function requireApplicationCachedRoutes(): void
-    {
-        $this->app->booted(function () {
-            require $this->app->getCachedRoutesPath();
-        });
-    }
-
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
-    protected function defineDatabaseMigrations()
-    {
-        // Define database migrations.
     }
 
     /**

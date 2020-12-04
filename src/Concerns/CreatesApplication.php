@@ -5,8 +5,6 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Util\Test as TestUtil;
 
 trait CreatesApplication
 {
@@ -311,19 +309,9 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        if ($this instanceof TestCase) {
-            $annotations = TestUtil::parseTestMethodAnnotations(
-                static::class, $this->getName(false)
-            );
-
-            Collection::make($annotations)->each(function ($location) use ($app) {
-                Collection::make($location['environment-setup'] ?? [])
-                    ->filter(function ($method) {
-                        return ! \is_null($method) && \method_exists($this, $method);
-                    })->each(function ($method) use ($app) {
-                        $this->{$method}($app);
-                    });
-            });
+        if (\method_exists($this, 'parseTestMethodAnnotations')) {
+            $this->parseTestMethodAnnotations($app, 'environment-setup');
+            $this->parseTestMethodAnnotations($app, 'define-env');
         }
 
         $this->defineEnvironment($app);
@@ -363,7 +351,7 @@ trait CreatesApplication
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application   $app
+     * @param  \Illuminate\Foundation\Application  $app
      *
      * @return void
      */
@@ -375,7 +363,7 @@ trait CreatesApplication
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application   $app
+     * @param  \Illuminate\Foundation\Application  $app
      *
      * @return void
      */
