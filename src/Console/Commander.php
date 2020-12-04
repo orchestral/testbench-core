@@ -45,7 +45,7 @@ class Commander
      * @param  array  $config
      * @param  string  $workingPath
      */
-    public function __construct(array $config = [], string $workingPath = '.')
+    public function __construct(array $config, string $workingPath)
     {
         $this->config = $config;
         $this->workingPath = $workingPath;
