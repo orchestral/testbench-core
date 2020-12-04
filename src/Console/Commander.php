@@ -44,7 +44,7 @@ class Commander
      *
      * @param array $config
      */
-    public function __construct(array $config = [], ?string $workingPath)
+    public function __construct(array $config = [], ?string $workingPath = null)
     {
         $this->config = $config;
         $this->workingPath = $workingPath;
@@ -137,7 +137,9 @@ class Commander
         $laravelBasePath = $this->config['laravel'] ?? null;
 
         if (! \is_null($laravelBasePath)) {
-            return \str_replace('./', $this->workingPath.'/', $laravelBasePath);
+            return \is_null($this->workingPath)
+                ? $laravelBasePath
+                : \str_replace('./', $this->workingPath.'/', $laravelBasePath);
         }
 
         return $this->getBasePathFromTrait();
