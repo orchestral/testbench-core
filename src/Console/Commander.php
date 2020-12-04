@@ -35,16 +35,17 @@ class Commander
     /**
      * Working path.
      *
-     * @var string|null
+     * @var string
      */
     protected $workingPath;
 
     /**
      * Construct a new Commander.
      *
-     * @param array $config
+     * @param  array  $config
+     * @param  string  $workingPath
      */
-    public function __construct(array $config = [], ?string $workingPath = null)
+    public function __construct(array $config = [], string $workingPath = '.')
     {
         $this->config = $config;
         $this->workingPath = $workingPath;
@@ -137,9 +138,7 @@ class Commander
         $laravelBasePath = $this->config['laravel'] ?? null;
 
         if (! \is_null($laravelBasePath)) {
-            return \is_null($this->workingPath)
-                ? $laravelBasePath
-                : \str_replace('./', $this->workingPath.'/', $laravelBasePath);
+            return \str_replace('./', $this->workingPath.'/', $laravelBasePath);
         }
 
         return $this->getBasePathFromTrait();
