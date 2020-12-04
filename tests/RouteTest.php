@@ -8,21 +8,23 @@ use Orchestra\Testbench\TestCase;
 class RouteTest extends TestCase
 {
     /**
-     * Define environment setup.
+     * Define routes setup.
      *
-     * @param  Illuminate\Foundation\Application  $app
+     * @param  \Illuminate\Routing\Router  $router
+     *
+     * @return void
      */
-    protected function defineEnvironment($app)
+    protected function defineRoutes($router)
     {
-        $app['router']->get('hello', ['as' => 'hi', 'uses' => function () {
+        $router->get('hello', ['as' => 'hi', 'uses' => function () {
             return 'hello world';
         }]);
 
-        $app['router']->get('goodbye', function () {
+        $router->get('goodbye', function () {
             return 'goodbye world';
         })->name('bye');
 
-        $app['router']->group(['prefix' => 'boss'], function (Router $router) {
+        $router->group(['prefix' => 'boss'], function (Router $router) {
             $router->get('hello', ['as' => 'boss.hi', 'uses' => function () {
                 return 'hello boss';
             }]);
@@ -32,7 +34,7 @@ class RouteTest extends TestCase
             })->name('boss.bye');
         });
 
-        $app['router']->resource('foo', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller');
+        $router->resource('foo', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller');
     }
 
     /** @test */

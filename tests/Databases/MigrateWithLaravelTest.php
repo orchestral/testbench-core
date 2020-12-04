@@ -7,7 +7,6 @@ use Orchestra\Testbench\TestCase;
 
 class MigrateWithLaravelTest extends TestCase
 {
-
     /**
      * Define environment setup.
      *
