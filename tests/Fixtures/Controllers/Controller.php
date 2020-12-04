@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Stubs\Controllers;
+namespace Orchestra\Testbench\Tests\Fixtures\Controllers;
 
 use Closure;
 use PHPUnit\Framework\Assert;

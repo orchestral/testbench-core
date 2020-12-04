@@ -8,19 +8,10 @@ use Illuminate\Support\Str;
 trait InteractsWithPublishedFiles
 {
     /**
-     * The filesystem implementation.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * Setup Interacts with Published Files environment.
      */
     protected function setUpInteractsWithPublishedFiles(): void
     {
-        $this->filesystem = $this->app['files'];
-
         $this->cleanUpFiles();
         $this->cleanUpMigrationFiles();
     }
@@ -32,8 +23,6 @@ trait InteractsWithPublishedFiles
     {
         $this->cleanUpFiles();
         $this->cleanUpMigrationFiles();
-
-        unset($this->filesystem);
     }
 
     /**
@@ -43,7 +32,7 @@ trait InteractsWithPublishedFiles
     {
         $this->assertFilenameExists($file);
 
-        $haystack = $this->filesystem->get(
+        $haystack = $this->app['files']->get(
             $this->app->basePath($file)
         );
 
@@ -59,7 +48,7 @@ trait InteractsWithPublishedFiles
     {
         $this->assertFilenameExists($file);
 
-        $haystack = $this->filesystem->get(
+        $haystack = $this->app['files']->get(
             $this->app->basePath($file)
         );
 
@@ -73,7 +62,7 @@ trait InteractsWithPublishedFiles
      */
     protected function assertMigrationFileContains(array $contains, string $file, string $message = ''): void
     {
-        $haystack = $this->filesystem->get($this->getMigrationFile($file));
+        $haystack = $this->app['files']->get($this->getMigrationFile($file));
 
         foreach ($contains as $needle) {
             $this->assertStringContainsString($needle, $haystack, $message);
@@ -85,7 +74,7 @@ trait InteractsWithPublishedFiles
      */
     protected function assertMigrationFileNotContains(array $contains, string $file, string $message = ''): void
     {
-        $haystack = $this->filesystem->get($this->getMigrationFile($file));
+        $haystack = $this->app['files']->get($this->getMigrationFile($file));
 
         foreach ($contains as $needle) {
             $this->assertStringNotContainsString($needle, $haystack, $message);
@@ -99,7 +88,7 @@ trait InteractsWithPublishedFiles
     {
         $appFile = $this->app->basePath($file);
 
-        $this->assertTrue($this->filesystem->exists($appFile), "Assert file {$file} does exist");
+        $this->assertTrue($this->app['files']->exists($appFile), "Assert file {$file} does exist");
     }
 
     /**
@@ -109,7 +98,7 @@ trait InteractsWithPublishedFiles
     {
         $appFile = $this->app->basePath($file);
 
-        $this->assertTrue(! $this->filesystem->exists($appFile), "Assert file {$file} doesn't exist");
+        $this->assertTrue(! $this->app['files']->exists($appFile), "Assert file {$file} doesn't exist");
     }
 
     /**
@@ -117,13 +106,13 @@ trait InteractsWithPublishedFiles
      */
     protected function cleanUpFiles(): void
     {
-        $this->filesystem->delete(
+        $this->app['files']->delete(
             Collection::make($this->files ?? [])
                 ->transform(function ($file) {
                     return $this->app->basePath($file);
                 })
                 ->filter(function ($file) {
-                    return $this->filesystem->exists($file);
+                    return $this->app['files']->exists($file);
                 })->all()
         );
     }
@@ -135,7 +124,7 @@ trait InteractsWithPublishedFiles
     {
         $migrationPath = $this->app->databasePath('migrations');
 
-        return $this->filesystem->glob("{$migrationPath}/*{$filename}")[0];
+        return $this->app['files']->glob("{$migrationPath}/*{$filename}")[0];
     }
 
     /**
@@ -143,8 +132,8 @@ trait InteractsWithPublishedFiles
      */
     protected function cleanUpMigrationFiles(): void
     {
-        $this->filesystem->delete(
-            Collection::make($this->filesystem->files($this->app->databasePath('migrations')))
+        $this->app['files']->delete(
+            Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
                 ->filter(function ($file) {
                     return Str::endsWith($file, '.php');
                 })->all()

@@ -16,7 +16,7 @@ class CustomConfigurationTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            'Orchestra\Testbench\Tests\Stubs\Providers\CustomConfigServiceProvider',
+            'Orchestra\Testbench\Tests\Fixtures\Providers\CustomConfigServiceProvider',
         ];
     }
 

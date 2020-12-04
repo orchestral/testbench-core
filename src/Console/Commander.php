@@ -36,17 +36,17 @@ class Commander
     /**
      * Working path.
      *
-     * @var string|null
+     * @var string
      */
     protected $workingPath;
 
     /**
      * Construct a new Commander.
      *
-     * @param array  $config
-     * @param string|null  $workingPath
+     * @param  array  $config
+     * @param  string  $workingPath
      */
-    public function __construct(array $config = [], ?string $workingPath)
+    public function __construct(array $config, string $workingPath)
     {
         $this->config = $config;
         $this->workingPath = $workingPath;
@@ -59,7 +59,7 @@ class Commander
      */
     public function handle()
     {
-        $laravel = $this->createApplication();
+        $laravel = $this->laravel();
         $kernel = $laravel->make(ConsoleKernel::class);
 
         $status = $kernel->handle(
@@ -69,6 +69,20 @@ class Commander
         $kernel->terminate($input, $status);
 
         exit($status);
+    }
+
+    /**
+     * Create Laravel application.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    public function laravel()
+    {
+        if (! $this->app) {
+            $this->app = $this->createApplication();
+        }
+
+        return $this->app;
     }
 
     /**
