@@ -262,12 +262,10 @@ trait Testing
     }
 
     /**
-     * Reload the application instance with cached routes.
+     * Require application cached routes.
      */
-    protected function reloadApplicationWithCachedRoutes(): void
+    protected function requireApplicationCachedRoutes(): void
     {
-        $this->reloadApplication();
-
         $this->app->booted(function () {
             require $this->app->getCachedRoutesPath();
         });
