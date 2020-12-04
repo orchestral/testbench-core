@@ -37,7 +37,8 @@ PHP;
 
         $this->artisan('route:cache')->run();
 
-        $this->reloadApplicationWithCachedRoutes();
+        $this->reloadApplication();
+        $this->requireApplicationCachedRoutes();
 
         $this->assertFilenameExists('routes/testbench.php');
         $this->assertFilenameExists('bootstrap/cache/routes-v7.php');
