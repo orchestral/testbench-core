@@ -57,7 +57,7 @@ class Commander
      */
     public function handle()
     {
-        $laravel = $this->createApplication();
+        $laravel = $this->laravel();
         $kernel = $laravel->make(ConsoleKernel::class);
 
         $status = $kernel->handle(
@@ -67,6 +67,20 @@ class Commander
         $kernel->terminate($input, $status);
 
         exit($status);
+    }
+
+    /**
+     * Create Laravel application.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    public function laravel()
+    {
+        if (! $this->app) {
+            $this->app = $this->createApplication();
+        }
+
+        return $this->app;
     }
 
     /**
