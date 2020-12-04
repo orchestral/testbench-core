@@ -24,18 +24,6 @@ class CacheRouteTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        $app['router']->get('/', 'Orchestra\Testbench\Tests\Stubs\Controllers\Controller@index');
-    }
-
     /** @test */
     public function it_can_cache_route()
     {
