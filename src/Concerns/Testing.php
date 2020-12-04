@@ -19,6 +19,7 @@ use Throwable;
 trait Testing
 {
     use CreatesApplication,
+        HandlesRoutes,
         WithFactories,
         WithLaravelMigrations,
         WithLoadMigrationsFrom;
@@ -76,6 +77,8 @@ trait Testing
         }
 
         Model::setEventDispatcher($this->app['events']);
+
+        $this->setupApplicationRoutes();
 
         $this->setUpHasRun = true;
     }

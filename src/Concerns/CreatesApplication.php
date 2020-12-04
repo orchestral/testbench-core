@@ -333,8 +333,6 @@ trait CreatesApplication
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
-        $app['router']->getRoutes()->refreshNameLookups();
-
         $app->resolving('url', static function ($url, $app) {
             $app['router']->getRoutes()->refreshNameLookups();
         });
@@ -355,7 +353,7 @@ trait CreatesApplication
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application   $app
+     * @param  \Illuminate\Foundation\Application  $app
      *
      * @return void
      */
@@ -367,7 +365,7 @@ trait CreatesApplication
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application   $app
+     * @param  \Illuminate\Foundation\Application  $app
      *
      * @return void
      */
