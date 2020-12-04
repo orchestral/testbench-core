@@ -36,17 +36,17 @@ class Commander
     /**
      * Working path.
      *
-     * @var string|null
+     * @var string
      */
     protected $workingPath;
 
     /**
      * Construct a new Commander.
      *
-     * @param array  $config
-     * @param string|null  $workingPath
+     * @param  array  $config
+     * @param  string  $workingPath
      */
-    public function __construct(array $config = [], ?string $workingPath)
+    public function __construct(array $config, string $workingPath)
     {
         $this->config = $config;
         $this->workingPath = $workingPath;
