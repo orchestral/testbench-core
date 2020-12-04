@@ -10,6 +10,8 @@ use PHPUnit\Util\Test as TestUtil;
 
 trait CreatesApplication
 {
+    use HandlesAnnotations;
+
     /**
      * Get application timezone.
      *
@@ -307,20 +309,8 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
-        if ($this instanceof TestCase) {
-            $annotations = TestUtil::parseTestMethodAnnotations(
-                static::class, $this->getName(false)
-            );
-
-            Collection::make($annotations)->each(function ($location) use ($app) {
-                Collection::make($location['environment-setup'] ?? [])
-                    ->filter(function ($method) {
-                        return ! \is_null($method) && \method_exists($this, $method);
-                    })->each(function ($method) use ($app) {
-                        $this->{$method}($app);
-                    });
-            });
-        }
+        $this->parseTestMethodAnnotations($app, 'environment-setup');
+        $this->parseTestMethodAnnotations($app, 'define-env');
 
         $this->defineEnvironment($app);
         $this->getEnvironmentSetUp($app);

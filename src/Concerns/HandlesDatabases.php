@@ -15,6 +15,8 @@ trait HandlesDatabases
     {
         $this->defineDatabaseMigrations();
 
+        $this->parseTestMethodAnnotations($this->app, 'define-db');
+
         $callback();
     }
 
