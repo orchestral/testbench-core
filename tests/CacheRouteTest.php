@@ -27,21 +27,11 @@ class CacheRouteTest extends TestCase
     /** @test */
     public function it_can_cache_route()
     {
-        $route = <<<PHP
+        $this->defineCacheRoutes(<<<PHP
 <?php
 
 Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');
-PHP;
-
-        file_put_contents(base_path('routes/testbench.php'), $route);
-
-        $this->artisan('route:cache')->run();
-
-        $this->reloadApplication();
-        $this->requireApplicationCachedRoutes();
-
-        $this->assertFilenameExists('routes/testbench.php');
-        $this->assertFilenameExists('bootstrap/cache/routes-v7.php');
+PHP);
 
         $this->get('stubs-controller')
             ->assertOk()
