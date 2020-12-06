@@ -53,9 +53,8 @@ trait HandlesRoutes
         $this->requireApplicationCachedRoutes();
 
         $this->beforeApplicationDestroyed(function () use ($files) {
-            $this->artisan('route:clear')->run();
-
             $files->delete(
+                \base_path('bootstrap/cache/routes-v7.php'),
                 \base_path('routes/testbench.php')
             );
         });
