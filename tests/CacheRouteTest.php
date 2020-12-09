@@ -27,11 +27,9 @@ class CacheRouteTest extends TestCase
     /** @test */
     public function it_can_cache_route()
     {
-        $this->defineCacheRoutes(<<<PHP
-<?php
+        $this->defineCacheRoutes("<?php
 
-Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');
-PHP);
+Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');");
 
         $this->get('stubs-controller')
             ->assertOk()
