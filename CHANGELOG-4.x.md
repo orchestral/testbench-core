@@ -12,7 +12,7 @@ Released: 2020-12-09
     - `Orchestra\Testbench\Concerns\HandlesAnnotations`.
     - `Orchestra\Testbench\Concerns\HandlesDatabases`.
     - `Orchestra\Testbench\Concerns\HandlesRoutes`.
-* Use `defineRoutes()` to group dedicated tests routing.
+* Added `defineRoutes()` to group dedicated tests routing.
 
  ## 4.10.0
 

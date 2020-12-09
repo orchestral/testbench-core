@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.11.0
+
+Released: 2020-12-09
+
+### Added
+
+* Added following traits:
+    - `Orchestra\Testbench\Concerns\HandlesAnnotations`.
+    - `Orchestra\Testbench\Concerns\HandlesDatabases`.
+    - `Orchestra\Testbench\Concerns\HandlesRoutes`.
+* Added `defineRoutes()` and `defineCacheRoutes()` to group dedicated tests routing.
+
 ## 5.10.0
 
 Released: 2020-12-01
