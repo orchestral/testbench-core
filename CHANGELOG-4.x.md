@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.11.1
+
+Released: 2020-12-10
+
+### Fixes
+
+* Removed `abstract` method `parseTestMethodAnnotations()` to revert breaking changes.
+
 ## 4.11.0
 
 Released: 2020-12-09
