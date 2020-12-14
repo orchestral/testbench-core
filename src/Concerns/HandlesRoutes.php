@@ -30,7 +30,7 @@ trait HandlesRoutes
     /**
      * Define cache routes setup.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  string  $route
      *
      * @return void
      */
