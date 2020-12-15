@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
@@ -18,9 +19,7 @@ class LoadConfiguration
      */
     public function bootstrap(Application $app): void
     {
-        $items = [];
-
-        $app->instance('config', $config = new Repository($items));
+        $app->instance('config', $config = new Repository([]));
 
         $this->loadConfigurationFiles($app, $config);
 
@@ -47,18 +46,14 @@ class LoadConfiguration
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      *
-     * @return array
+     * @return \Generator
      */
-    protected function getConfigurationFiles(Application $app): array
+    protected function getConfigurationFiles(Application $app): Generator
     {
-        $files = [];
-
         $path = \realpath(__DIR__.'/../../laravel/config');
 
         foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-            $files[\basename($file->getRealPath(), '.php')] = $file->getRealPath();
+            yield \basename($file->getRealPath(), '.php') => $file->getRealPath();
         }
-
-        return $files;
     }
 }

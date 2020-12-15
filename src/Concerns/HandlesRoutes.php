@@ -6,13 +6,17 @@ trait HandlesRoutes
 {
     protected function setUpApplicationRoutes(): void
     {
-        if (! $this->app->eventsAreCached()) {
-            $this->defineRoutes($this->app['router']);
-
-            $this->parseTestMethodAnnotations($this->app, 'define-route');
-
-            $this->app['router']->getRoutes()->refreshNameLookups();
+        if ($this->app->eventsAreCached()) {
+            return;
         }
+
+        $this->defineRoutes($this->app['router']);
+
+        if (\method_exists($this, 'parseTestMethodAnnotations')) {
+            $this->parseTestMethodAnnotations($this->app, 'define-route');
+        }
+
+        $this->app['router']->getRoutes()->refreshNameLookups();
     }
 
     /**
@@ -69,12 +73,4 @@ trait HandlesRoutes
             require $this->app->getCachedRoutesPath();
         });
     }
-
-    /**
-     * Parse test method annotations.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @param  string  $name
-     */
-    abstract protected function parseTestMethodAnnotations($app, string $name): void;
 }

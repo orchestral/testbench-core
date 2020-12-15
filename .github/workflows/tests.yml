@@ -14,6 +14,7 @@ jobs:
       matrix:
         os:
           - "ubuntu-latest"
+          - "windows-latest"
         php:
           - "7.2"
           - "7.3"
@@ -42,6 +43,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v1"
         with:
+          dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
       - name: Execute tests
         run: vendor/bin/phpunit
