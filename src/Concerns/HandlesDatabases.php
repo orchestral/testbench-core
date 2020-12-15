@@ -15,7 +15,9 @@ trait HandlesDatabases
     {
         $this->defineDatabaseMigrations();
 
-        $this->parseTestMethodAnnotations($this->app, 'define-db');
+        if (\method_exists($this, 'parseTestMethodAnnotations')) {
+            $this->parseTestMethodAnnotations($this->app, 'define-db');
+        }
 
         $callback();
     }
@@ -29,12 +31,4 @@ trait HandlesDatabases
     {
         // Define database migrations.
     }
-
-    /**
-     * Parse test method annotations.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @param  string  $name
-     */
-    abstract protected function parseTestMethodAnnotations($app, string $name): void;
 }

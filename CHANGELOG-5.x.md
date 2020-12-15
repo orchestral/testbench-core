@@ -2,6 +2,24 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.12.1
+
+Released: 2020-12-15
+
+### Fixes
+
+* Hardcode `vlucas/phpdotenv` dependencies to avoid missing `Dotenv\Store\StoreInterface` interface.
+
+## 5.12.0
+
+Released: 2020-12-15
+
+### Changes
+
+* Bump `mockery/mockery` to `v1.3.2` and above.
+* Opt to use `method_exists()` to detect support for `parseTestMethodAnnotations()` under `HandlesDatabases` and `HandlesRoutes` trait.
+* Update `Orchestra\Testbench\Bootstrap\LoadConfiguration::getConfigurationFiles()` to return `Generator` instead of array.
+
 ## 5.11.0
 
 Released: 2020-12-09
