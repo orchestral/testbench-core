@@ -31,7 +31,8 @@
     "require": {
         "php": ">=7.2.5 || >=8.0",
         "fakerphp/faker": "^1.9.1",
-        "symfony/yaml": "^4.3 || ^5.0"
+        "symfony/yaml": "^4.3 || ^5.0",
+        "vlucas/phpdotenv": "^5.1"
     },
     "require-dev": {
         "laravel/framework": "^8.0",
