@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.9.1
+
+Released: 2020-12-15
+
+### Fixes
+
+* Hardcode `vlucas/phpdotenv` dependencies to avoid missing `Dotenv\Store\StoreInterface` interface.
+
 ## 6.9.0
 
 Released: 2020-12-15
