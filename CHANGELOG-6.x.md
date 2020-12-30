@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.9.2
+
+Released: 2020-12-30
+
+### Changes
+
+* Update Laravel skeleton.
+    - Add `caches.stores.database.lock_connection` and `caches.stores.redis.lock_connection` configuration.
+
+### Fixes
+
+* Fixes `database/seeders` folder.
+
 ## 6.9.1
 
 Released: 2020-12-15
