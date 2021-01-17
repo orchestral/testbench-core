@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
+use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\TestCase;
 
 class PackageManifest extends IlluminatePackageManifest
@@ -65,16 +66,39 @@ class PackageManifest extends IlluminatePackageManifest
     }
 
     /**
+     * Get the current package manifest.
+     *
+     * @return array
+     */
+    protected function getManifest()
+    {
+        $ignore = ($this->testbench instanceof TestCase
+            ? $this->testbench->ignorePackageDiscoveriesFrom()
+            : null) ?? [];
+
+        $ignoreAll = \in_array('*', $ignore);
+
+        return Collection::make(parent::getManifest())
+            ->reject(function ($configuration, $package) use ($ignore, $ignoreAll) {
+                return $ignoreAll || in_array($package, $ignore);
+            })->map(static function ($configuration) {
+                foreach ($configuration['providers'] ?? [] as $provider) {
+                    if (! \class_exists($provider)) {
+                        return null;
+                    }
+                }
+
+                return $configuration;
+            })->filter()->all();
+    }
+
+    /**
      * Get all of the package names that should be ignored.
      *
      * @return array
      */
     protected function packagesToIgnore()
     {
-        if (! $this->testbench instanceof TestCase) {
-            return [];
-        }
-
-        return $this->testbench->ignorePackageDiscoveriesFrom();
+        return [];
     }
 }
