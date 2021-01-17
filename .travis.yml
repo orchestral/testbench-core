@@ -12,6 +12,7 @@ before_script:
   - composer install --prefer-dist --no-interaction
   - wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.2.0/php-coveralls.phar
   - chmod +x php-coveralls.phar
+  - composer run prepare
 
 script:
   - ./vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml
