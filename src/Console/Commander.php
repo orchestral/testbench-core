@@ -83,9 +83,11 @@ class Commander
             $this->app = \tap($this->createApplication(), function ($laravel) {
                 $filesystem = new Filesystem();
 
-                if (! $filesystem->isDirectory($laravelVendorPath = $laravel->basePath('vendor'))) {
-                    $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
+                if ($filesystem->isDirectory($laravelVendorPath = $laravel->basePath('vendor'))) {
+                    $filesystem->delete($laravelVendorPath);
                 }
+
+                $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
             });
         }
 

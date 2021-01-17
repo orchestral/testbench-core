@@ -21,9 +21,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "*"
-            ]
+            "dont-discover": []
         }
     },
     "minimum-stability": "dev"
