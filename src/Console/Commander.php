@@ -79,7 +79,7 @@ class Commander
     public function laravel()
     {
         if (! $this->app) {
-            $this->createSymlinkOnVendorPath();
+            $this->createSymlinkToVendorPath();
 
             $this->app = $this->createApplication();
         }
@@ -160,7 +160,7 @@ class Commander
     /**
      * Create symlink on vendor path.
      */
-    protected function createSymlinkOnVendorPath(): void
+    protected function createSymlinkToVendorPath(): void
     {
         \tap($this->resolveApplication(), function ($laravel) {
             $filesystem = new Filesystem();
