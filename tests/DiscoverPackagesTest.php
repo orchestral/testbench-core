@@ -19,10 +19,10 @@ class DiscoverPackagesTest extends TestCase
 
     public function test_it_can_auto_detect_packages()
     {
-        $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();
+        $loadedProviders = \collect($this->app->getLoadedProviders())->keys()->all();
 
-        $this->assertTrue(in_array('Fideloper\Proxy\TrustedProxyServiceProvider', $loadedProviders));
-        $this->assertTrue(in_array('Fruitcake\Cors\CorsServiceProvider', $loadedProviders));
-        $this->assertTrue(in_array('Carbon\Laravel\ServiceProvider', $loadedProviders));
+        $this->assertTrue(\in_array('Fideloper\Proxy\TrustedProxyServiceProvider', $loadedProviders));
+        $this->assertTrue(\in_array('Fruitcake\Cors\CorsServiceProvider', $loadedProviders));
+        $this->assertTrue(\in_array('Carbon\Laravel\ServiceProvider', $loadedProviders));
     }
 }
