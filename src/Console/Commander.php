@@ -85,6 +85,16 @@ class Commander
     }
 
     /**
+     * Ignore package discovery from.
+     *
+     * @return array
+     */
+    public function ignorePackageDiscoveriesFrom()
+    {
+        return [];
+    }
+
+    /**
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
