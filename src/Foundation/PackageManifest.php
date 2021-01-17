@@ -37,6 +37,7 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  \Orchestra\Testbench\Contracts\TestCase|null  $testbench
+     *
      * @return static
      */
     public static function swap($app, $testbench = null)
@@ -62,7 +63,6 @@ class PackageManifest extends IlluminatePackageManifest
     {
         $this->testbench = $testbench;
     }
-
 
     /**
      * Get all of the package names that should be ignored.
