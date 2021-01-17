@@ -8,7 +8,7 @@ Released: 2021-01-17
 
 ### Added
 
-* Added `ignorePackageDiscoveriesFrom()` method to `Orchestra\Testbench\Concerns\CreatesApplication` trait to allow enable package discoveries during tests.
+* Added `ignorePackageDiscoveriesFrom()` method to `Orchestra\Testbench\Concerns\CreatesApplication` trait. Package discovery however doesn't work properly in Testbench 4.x due to missing `testbench` command.
 
 ## 4.12.0
 
