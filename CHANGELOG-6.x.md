@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.10.0
+
+Released: 2021-01-17
+
+### Added
+
+* Added `ignorePackageDiscoveriesFrom()` method to `Orchestra\Testbench\Concerns\CreatesApplication` trait to allow enable package discoveries during tests.
+* `Orchestra\Testbench\Console\Commander` will automatically discover packages.
+
 ## 6.9.2
 
 Released: 2020-12-30
