@@ -12,6 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\ParallelTesting;
 use Mockery;
 use Throwable;
 
@@ -76,6 +77,8 @@ trait Testing
     {
         if (! $this->app) {
             $this->refreshApplication();
+
+            ParallelTesting::callSetUpTestCaseCallbacks($this);
         }
 
         foreach ($this->afterApplicationRefreshedCallbacks as $callback) {
@@ -104,6 +107,8 @@ trait Testing
     {
         if ($this->app) {
             $this->callBeforeApplicationDestroyedCallbacks();
+
+            ParallelTesting::callTearDownTestCaseCallbacks($this);
 
             $this->app->flush();
 
