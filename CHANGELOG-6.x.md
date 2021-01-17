@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.11.0
+
+Released: 2021-01-17
+
+### Changes
+
+* Improves support for Package Discovery support on test environment and also `testbench` command.
+
 ## 6.10.0
 
 Released: 2021-01-17
