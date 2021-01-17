@@ -22,4 +22,5 @@ class ParallelServiceProvider extends ServiceProvider
 
             return $applicationCreator->createApplication();
         });
+    }
 }
