@@ -79,15 +79,7 @@ class Commander
     public function laravel()
     {
         if (! $this->app) {
-            \tap($this->resolveApplication(), function ($laravel) {
-                $filesystem = new Filesystem();
-
-                if ($filesystem->isDirectory($laravelVendorPath = $laravel->basePath('vendor'))) {
-                    $filesystem->delete($laravelVendorPath);
-                }
-
-                $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
-            });
+            $this->createSymlinkOnVendorPath();
 
             $this->app = $this->createApplication();
         }
@@ -163,5 +155,21 @@ class Commander
         }
 
         return $this->getBasePathFromTrait();
+    }
+
+    /**
+     * Create symlink on vendor path.
+     */
+    protected function createSymlinkOnVendorPath(): void
+    {
+        \tap($this->resolveApplication(), function ($laravel) {
+            $filesystem = new Filesystem();
+
+            if ($filesystem->isDirectory($laravelVendorPath = $laravel->basePath('vendor'))) {
+                $filesystem->delete($laravelVendorPath);
+            }
+
+            $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
+        });
     }
 }
