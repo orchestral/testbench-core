@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
+use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\TestCase;
 
 class PackageManifest extends IlluminatePackageManifest
@@ -62,6 +63,25 @@ class PackageManifest extends IlluminatePackageManifest
     public function setTestbench(TestCase $testbench): void
     {
         $this->testbench = $testbench;
+    }
+
+    /**
+     * Get the current package manifest.
+     *
+     * @return array
+     */
+    protected function getManifest()
+    {
+        return Collection::make(parent::getManifest())
+            ->map(function ($package) {
+                foreach ($package['providers'] ?? [] as $provider) {
+                    if (! class_exists($provider)) {
+                        return null;
+                    }
+                }
+
+                return $package;
+            })->filter()->all();
     }
 
     /**
