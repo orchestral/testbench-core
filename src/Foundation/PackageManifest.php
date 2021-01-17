@@ -79,8 +79,8 @@ class PackageManifest extends IlluminatePackageManifest
         $ignoreAll = \in_array('*', $ignore);
 
         return Collection::make(parent::getManifest())
-            ->reject(function ($configuration, $package) use ($ignore, $ignoreAll) {
-                return $ignoreAll || in_array($package, $ignore);
+            ->reject(static function ($configuration, $package) use ($ignore, $ignoreAll) {
+                return $ignoreAll || \in_array($package, $ignore);
             })->map(static function ($configuration) {
                 foreach ($configuration['providers'] ?? [] as $provider) {
                     if (! \class_exists($provider)) {
