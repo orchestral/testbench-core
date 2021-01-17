@@ -11,8 +11,6 @@ class DontDiscoverPackagesTest extends TestCase
     {
         $loadedProviders = \collect($this->app->getLoadedProviders())->keys()->all();
 
-        $this->assertFalse(\in_array('Fideloper\Proxy\TrustedProxyServiceProvider', $loadedProviders));
-        $this->assertFalse(\in_array('Fruitcake\Cors\CorsServiceProvider', $loadedProviders));
         $this->assertFalse(\in_array('Carbon\Laravel\ServiceProvider', $loadedProviders));
     }
 }
