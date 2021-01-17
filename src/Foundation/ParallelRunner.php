@@ -13,14 +13,10 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
-        $applicationResolver = static::$applicationResolver ?: function () {
-            $applicationCreator = new class {
-                use CreatesApplication;
-            };
-
-            return $applicationCreator->createApplication();
+        $applicationCreator = new class {
+            use CreatesApplication;
         };
 
-        return call_user_func($applicationResolver);
+        return $applicationCreator->createApplication();
     }
 }
