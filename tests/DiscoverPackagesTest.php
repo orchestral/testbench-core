@@ -17,7 +17,8 @@ class DiscoverPackagesTest extends TestCase
         return [];
     }
 
-    public function test_it_can_auto_detect_packages()
+    /** @test */
+    public function it_can_auto_detect_packages()
     {
         $loadedProviders = \collect($this->app->getLoadedProviders())->keys()->all();
 
