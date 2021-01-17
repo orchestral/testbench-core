@@ -73,9 +73,9 @@ class PackageManifest extends IlluminatePackageManifest
     protected function getManifest()
     {
         return Collection::make(parent::getManifest())
-            ->map(function ($package) {
+            ->map(static function ($package) {
                 foreach ($package['providers'] ?? [] as $provider) {
-                    if (! class_exists($provider)) {
+                    if (! \class_exists($provider)) {
                         return null;
                     }
                 }
