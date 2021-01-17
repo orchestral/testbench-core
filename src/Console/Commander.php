@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Console;
 use Dotenv\Dotenv;
 use Dotenv\Loader\Loader;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Console\Dotenv\StringStore;
@@ -78,7 +79,13 @@ class Commander
     public function laravel()
     {
         if (! $this->app) {
-            $this->app = $this->createApplication();
+            $this->app = \tap($this->createApplication(), function ($laravel) {
+                $filesystem = new Filesystem();
+
+                if (! $filesystem->isDirectory($laravelVendorPath = $laravel->basePath('vendor'))) {
+                    $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
+                }
+            });
         }
 
         return $this->app;
