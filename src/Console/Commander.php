@@ -79,7 +79,7 @@ class Commander
     public function laravel()
     {
         if (! $this->app) {
-            $this->app = \tap($this->createApplication(), function ($laravel) {
+            \tap($this->resolveApplication(), function ($laravel) {
                 $filesystem = new Filesystem();
 
                 if ($filesystem->isDirectory($laravelVendorPath = $laravel->basePath('vendor'))) {
@@ -88,6 +88,8 @@ class Commander
 
                 $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
             });
+
+            $this->app = $this->createApplication();
         }
 
         return $this->app;
