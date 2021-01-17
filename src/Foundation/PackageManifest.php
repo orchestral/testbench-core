@@ -72,15 +72,23 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function getManifest()
     {
+        $ignore = ($this->testbench instanceof TestCase
+            ? $this->testbench->ignorePackageDiscoveriesFrom()
+            : null) ?? [];
+
+        $ignoreAll = \in_array('*', $ignore);
+
         return Collection::make(parent::getManifest())
-            ->map(function ($package) {
-                foreach ($package['providers'] ?? [] as $provider) {
-                    if (! class_exists($provider)) {
+            ->reject(function ($configuration, $package) use ($ignore, $ignoreAll) {
+                return $ignoreAll || in_array($package, $ignore);
+            })->map(static function ($configuration) {
+                foreach ($configuration['providers'] ?? [] as $provider) {
+                    if (! \class_exists($provider)) {
                         return null;
                     }
                 }
 
-                return $package;
+                return $configuration;
             })->filter()->all();
     }
 
@@ -91,10 +99,6 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function packagesToIgnore()
     {
-        if (! $this->testbench instanceof TestCase) {
-            return [];
-        }
-
-        return $this->testbench->ignorePackageDiscoveriesFrom();
+        return [];
     }
 }
