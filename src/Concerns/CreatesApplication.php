@@ -2,12 +2,24 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Orchestra\Testbench\Foundation\PackageManifest;
 
 trait CreatesApplication
 {
+    /**
+     * Ignore package discovery from.
+     *
+     * @return array
+     */
+    public function ignorePackageDiscoveriesFrom()
+    {
+        return ['*'];
+    }
+
     /**
      * Get application timezone.
      *
@@ -211,11 +223,13 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return \tap(new Application($this->getBasePath()), static function ($app) {
+        return \tap(new Application($this->getBasePath()), function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
             );
+
+            PackageManifest::swap($app, $this);
         });
     }
 
