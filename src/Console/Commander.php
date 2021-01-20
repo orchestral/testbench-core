@@ -5,12 +5,15 @@ namespace Orchestra\Testbench\Console;
 use Dotenv\Dotenv;
 use Dotenv\Loader\Loader;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Console\Dotenv\StringStore;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class Commander
 {
@@ -62,9 +65,14 @@ class Commander
         $laravel = $this->laravel();
         $kernel = $laravel->make(ConsoleKernel::class);
 
-        $status = $kernel->handle(
-            $input = new ArgvInput(), new ConsoleOutput()
-        );
+        $input = new ArgvInput();
+        $output = new ConsoleOutput();
+
+        try {
+            $status = $kernel->handle($input, $output);
+        } catch (Throwable $error) {
+            $status = $this->handleException($output, $error);
+        }
 
         $kernel->terminate($input, $status);
 
@@ -171,5 +179,25 @@ class Commander
 
             $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
         });
+    }
+
+    /**
+     * Render an exception to the console.
+     *
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param  \Throwable  $error
+     *
+     * @return int
+     */
+    protected function handleException(OutputInterface $output, Throwable $error)
+    {
+        $laravel = $this->laravel();
+
+        \tap($laravel->make(ExceptionHandler::class), function ($handler) use ($error, $output) {
+            $handler->report($error);
+            $handler->renderForConsole($output, $error);
+        });
+
+        return 1;
     }
 }
