@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.14.2
+
+Released: 2021-01-21
+
+### Fixes
+
+* Handle exception on `Orchestra\Testbench\Console\Commander`.
+
 ## 5.14.1
 
 Released: 2021-01-18
