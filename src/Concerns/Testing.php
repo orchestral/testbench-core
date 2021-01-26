@@ -78,13 +78,7 @@ trait Testing
         if (! $this->app) {
             $this->refreshApplication();
 
-<<<<<<< HEAD
             ParallelTesting::callSetUpTestCaseCallbacks($this);
-=======
-            if (\class_exists(ParallelTesting::class)) {
-                ParallelTesting::callSetUpTestCaseCallbacks($this);
-            }
->>>>>>> 6.x
         }
 
         foreach ($this->afterApplicationRefreshedCallbacks as $callback) {
@@ -114,13 +108,7 @@ trait Testing
         if ($this->app) {
             $this->callBeforeApplicationDestroyedCallbacks();
 
-<<<<<<< HEAD
             ParallelTesting::callTearDownTestCaseCallbacks($this);
-=======
-            if (\class_exists(ParallelTesting::class)) {
-                ParallelTesting::callTearDownTestCaseCallbacks($this);
-            }
->>>>>>> 6.x
 
             $this->app->flush();
 
