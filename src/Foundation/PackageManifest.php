@@ -80,7 +80,8 @@ class PackageManifest extends IlluminatePackageManifest
 
         return Collection::make(parent::getManifest())
             ->reject(static function ($configuration, $package) use ($ignore, $ignoreAll) {
-                return $ignoreAll || \in_array($package, $ignore);
+                return ($ignoreAll && ! \in_array($package, ['spatie/laravel-ray']))
+                    || \in_array($package, $ignore);
             })->map(static function ($configuration) {
                 foreach ($configuration['providers'] ?? [] as $provider) {
                     if (! \class_exists($provider)) {
