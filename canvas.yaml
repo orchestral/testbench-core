@@ -10,4 +10,4 @@ migration:
   prefix: ''
 
 console:
-  namespace: Orchestra\Testbench\Console\Commands
+  namespace: Orchestra\Testbench\Foundation\Console
