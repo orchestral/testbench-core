@@ -35,14 +35,13 @@ class TestCommand extends Command
      */
     protected function phpunitArguments($options)
     {
-        $options = array_merge(['--printer=NunoMaduro\\Collision\\Adapters\\Phpunit\\Printer'], $options);
-
         $options = Collection::make($options)
+            ->merge(['--printer=NunoMaduro\\Collision\\Adapters\\Phpunit\\Printer'])
             ->reject(function ($option) {
                 return Str::startsWith($option, '--env=');
             })->values()->all();
 
-        return array_merge(["--configuration=./"], $options);
+        return \array_merge(["--configuration=./"], $options);
     }
 
     /**
