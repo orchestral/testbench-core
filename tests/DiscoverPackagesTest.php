@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Illuminate\Testing\Assert;
 use Orchestra\Testbench\TestCase;
 
 class DiscoverPackagesTest extends TestCase
