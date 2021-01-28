@@ -65,6 +65,9 @@
         "test": [
             "@composer run prepare",
             "@php vendor/bin/phpunit -c ./ --color"
+        ],
+        "post-autoload-dump": [
+            "@composer run prepare"
         ]
     },
     "config": {
