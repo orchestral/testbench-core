@@ -4,6 +4,9 @@ namespace Orchestra\Testbench\Concerns;
 
 trait HandlesRoutes
 {
+    /**
+     * Setup routes requirements.
+     */
     protected function setUpApplicationRoutes(): void
     {
         if ($this->app->eventsAreCached()) {
