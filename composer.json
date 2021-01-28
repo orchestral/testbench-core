@@ -60,7 +60,7 @@
     },
     "scripts": {
         "prepare": [
-            "@php testbench package:discover"
+            "@php testbench package:discover --ansi"
         ],
         "test": [
             "@composer run prepare",
