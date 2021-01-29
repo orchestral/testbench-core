@@ -33,7 +33,7 @@ class TestFallbackCommand extends Command
      */
     public function handle()
     {
-        if (!$this->confirm('Running tests requires "nunomaduro/collision". Do you wish to install it as a dev dependency?')) {
+        if (! $this->confirm('Running tests requires "nunomaduro/collision". Do you wish to install it as a dev dependency?')) {
             return 1;
         }
 
@@ -49,7 +49,7 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $command = $this->findComposer() . ' require "nunomaduro/collision:^5.3" --dev';
+        $command = $this->findComposer().' require "nunomaduro/collision:^5.3" --dev';
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
 
@@ -57,7 +57,7 @@ class TestFallbackCommand extends Command
             try {
                 $process->setTty(true);
             } catch (RuntimeException $e) {
-                $this->output->writeln('Warning: ' . $e->getMessage());
+                $this->output->writeln('Warning: '.$e->getMessage());
             }
         }
 
@@ -79,10 +79,10 @@ class TestFallbackCommand extends Command
      */
     protected function findComposer()
     {
-        $composerPath = \getcwd() . '/composer.phar';
+        $composerPath = \getcwd().'/composer.phar';
 
         if (\file_exists($composerPath)) {
-            return '"' . PHP_BINARY . '" ' . $composerPath;
+            return '"'.PHP_BINARY.'" '.$composerPath;
         }
 
         return 'composer';

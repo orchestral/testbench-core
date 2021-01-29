@@ -41,7 +41,7 @@ class TestCommand extends Command
                 return Str::startsWith($option, '--env=');
             })->values()->all();
 
-        return \array_merge(["--configuration=./"], $options);
+        return \array_merge(['--configuration=./'], $options);
     }
 
     /**
@@ -61,7 +61,7 @@ class TestCommand extends Command
             })->values()->all();
 
         return \array_merge([
-            "--configuration=./",
+            '--configuration=./',
             "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
         ], $options);
     }

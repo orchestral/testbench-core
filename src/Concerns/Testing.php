@@ -189,7 +189,7 @@ trait Testing
     }
 
     /**
-     * Setup parallel testing callback
+     * Setup parallel testing callback.
      */
     protected function setUpParallelTestingCallbacks(): void
     {
@@ -199,7 +199,7 @@ trait Testing
     }
 
     /**
-     * Teardown parallel testing callback
+     * Teardown parallel testing callback.
      */
     protected function tearDownParallelTestingCallbacks(): void
     {
