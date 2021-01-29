@@ -102,7 +102,7 @@ class Commander
      */
     public function ignorePackageDiscoveriesFrom()
     {
-        return [];
+        return $this->config['dont-discover'] ?? [];
     }
 
     /**
