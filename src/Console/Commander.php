@@ -103,7 +103,7 @@ class Commander
      */
     public function ignorePackageDiscoveriesFrom()
     {
-        return [];
+        return $this->config['dont-discover'] ?? [];
     }
 
     /**
@@ -180,6 +180,8 @@ class Commander
             }
 
             $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
+
+            $laravel->flush();
         });
     }
 
