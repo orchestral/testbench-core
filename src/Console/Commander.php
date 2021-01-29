@@ -178,6 +178,8 @@ class Commander
             }
 
             $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
+
+            $laravel->flush();
         });
     }
 

@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\Contracts\TestCase;
 
 class PackageManifest extends IlluminatePackageManifest
@@ -17,27 +18,34 @@ class PackageManifest extends IlluminatePackageManifest
     protected $testbench;
 
     /**
+     * List of required packages.
+     *
+     * @var array
+     */
+    protected $requiredPackages = [
+        'spatie/laravel-ray',
+    ];
+
+    /**
      * Create a new package manifest instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  string  $basePath
      * @param  string  $manifestPath
-     * @param  \Orchestra\Testbench\Contracts\TestCase|null  $testbench
+     * @param  object|null  $testbench
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
     {
         parent::__construct($files, $basePath, $manifestPath);
 
-        if ($testbench instanceof TestCase) {
-            $this->setTestbench($testbench);
-        }
+        $this->setTestbench($testbench);
     }
 
     /**
      * Create a new package manifest instance from base.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Orchestra\Testbench\Contracts\TestCase|null  $testbench
+     * @param  object|null  $testbench
      *
      * @return static
      */
@@ -54,15 +62,15 @@ class PackageManifest extends IlluminatePackageManifest
     }
 
     /**
-     * Set Testbench.
+     * Set Testbench instance.
      *
-     * @param  \Orchestra\Testbench\Contracts\TestCase  $testbench
+     * @param  object|null  $testbench
      *
      * @return void
      */
-    public function setTestbench(TestCase $testbench): void
+    public function setTestbench($testbench): void
     {
-        $this->testbench = $testbench;
+        $this->testbench = \is_object($testbench) ? $testbench : null;
     }
 
     /**
@@ -72,17 +80,17 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function getManifest()
     {
-        $ignore = ($this->testbench instanceof TestCase
-            ? $this->testbench->ignorePackageDiscoveriesFrom()
-            : null) ?? [];
+        $ignore = ! \is_null($this->testbench) && \method_exists($this->testbench, 'ignorePackageDiscoveriesFrom')
+                ? ($this->testbench->ignorePackageDiscoveriesFrom() ?? [])
+                : [];
 
         $ignoreAll = \in_array('*', $ignore);
 
         return Collection::make(parent::getManifest())
-            ->reject(static function ($configuration, $package) use ($ignore, $ignoreAll) {
-                return ($ignoreAll && ! \in_array($package, ['spatie/laravel-ray']))
+            ->reject(function ($configuration, $package) use ($ignore, $ignoreAll) {
+                return ($ignoreAll && ! \in_array($package, $this->requiredPackages))
                     || \in_array($package, $ignore);
-            })->map(static function ($configuration) {
+            })->map(static function ($configuration, $key) {
                 foreach ($configuration['providers'] ?? [] as $provider) {
                     if (! \class_exists($provider)) {
                         return null;
