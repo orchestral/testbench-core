@@ -37,7 +37,7 @@ class TestCommand extends Command
     {
         $options = Collection::make($options)
             ->merge(['--printer=NunoMaduro\\Collision\\Adapters\\Phpunit\\Printer'])
-            ->reject(function ($option) {
+            ->reject(static function ($option) {
                 return Str::startsWith($option, '--env=');
             })->values()->all();
 
@@ -54,7 +54,7 @@ class TestCommand extends Command
     protected function paratestArguments($options)
     {
         $options = Collection::make($options)
-            ->reject(function ($option) {
+            ->reject(static function ($option) {
                 return Str::startsWith($option, '--env=')
                     || Str::startsWith($option, '--parallel')
                     || Str::startsWith($option, '--recreate-databases');
