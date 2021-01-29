@@ -8,9 +8,11 @@ class TestbenchServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        if ($this->app->runningInConsole() && $this->isCollisionDependenciesInstalled()) {
+        if ($this->app->runningInConsole()) {
             $this->commands([
-                Console\TestCommand::class,
+                $this->isCollisionDependenciesInstalled()
+                    ? Console\TestCommand::class
+                    : Console\TestFallbackCommand::class,
             ]);
         }
     }
