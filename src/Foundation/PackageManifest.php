@@ -17,6 +17,15 @@ class PackageManifest extends IlluminatePackageManifest
     protected $testbench;
 
     /**
+     * List of required packages.
+     *
+     * @var array
+     */
+    protected $requiredPackages = [
+        'spatie/laravel-ray',
+    ];
+
+    /**
      * Create a new package manifest instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
@@ -76,11 +85,12 @@ class PackageManifest extends IlluminatePackageManifest
             ? $this->testbench->ignorePackageDiscoveriesFrom()
             : null) ?? [];
 
+
         $ignoreAll = \in_array('*', $ignore);
 
         return Collection::make(parent::getManifest())
-            ->reject(static function ($configuration, $package) use ($ignore, $ignoreAll) {
-                return ($ignoreAll && ! \in_array($package, ['spatie/laravel-ray']))
+            ->reject(function ($configuration, $package) use ($ignore, $ignoreAll) {
+                return ($ignoreAll && ! \in_array($package, $this->requiredPackages))
                     || \in_array($package, $ignore);
             })->map(static function ($configuration) {
                 foreach ($configuration['providers'] ?? [] as $provider) {
