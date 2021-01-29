@@ -1,7 +1,7 @@
 {
     "name": "orchestra/testbench-core",
     "description": "Testing Helper for Laravel Development",
-    "homepage": "http://orchestraplatform.com/docs/latest/components/testbench/",
+    "homepage": "https://packages.tools/testbench",
     "keywords": ["laravel", "orchestral", "orchestra-platform", "testing", "tdd", "bdd"],
     "license": "MIT",
     "support": {
