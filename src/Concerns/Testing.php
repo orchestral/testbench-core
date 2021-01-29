@@ -14,6 +14,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\ParallelTesting;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 use Throwable;
 
 trait Testing
@@ -78,9 +79,7 @@ trait Testing
         if (! $this->app) {
             $this->refreshApplication();
 
-            if (\class_exists(ParallelTesting::class)) {
-                ParallelTesting::callSetUpTestCaseCallbacks($this);
-            }
+            $this->setUpParallelTestingCallbacks();
         }
 
         foreach ($this->afterApplicationRefreshedCallbacks as $callback) {
@@ -110,9 +109,7 @@ trait Testing
         if ($this->app) {
             $this->callBeforeApplicationDestroyedCallbacks();
 
-            if (\class_exists(ParallelTesting::class)) {
-                ParallelTesting::callTearDownTestCaseCallbacks($this);
-            }
+            $this->tearDownParallelTestingCallbacks();
 
             $this->app->flush();
 
@@ -189,6 +186,26 @@ trait Testing
         }
 
         return $uses;
+    }
+
+    /**
+     * Setup parallel testing callback
+     */
+    protected function setUpParallelTestingCallbacks(): void
+    {
+        if (\class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+            ParallelTesting::callSetUpTestCaseCallbacks($this);
+        }
+    }
+
+    /**
+     * Teardown parallel testing callback
+     */
+    protected function tearDownParallelTestingCallbacks(): void
+    {
+        if (\class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+            ParallelTesting::callTearDownTestCaseCallbacks($this);
+        }
     }
 
     /**
