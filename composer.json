@@ -1,7 +1,7 @@
 {
     "name": "orchestra/testbench-core",
     "description": "Testing Helper for Laravel Development",
-    "homepage": "http://orchestraplatform.com/docs/latest/components/testbench/",
+    "homepage": "https://packages.tools/testbench",
     "keywords": ["laravel", "orchestral", "orchestra-platform", "testing", "tdd", "bdd"],
     "license": "MIT",
     "support": {
@@ -29,12 +29,17 @@
         "testbench"
     ],
     "require": {
+<<<<<<< HEAD
         "php": "^7.4 || ^8.0",
+=======
+        "php": "^7.3 || ^8.0",
+>>>>>>> 6.x
         "fakerphp/faker": "^1.9.1",
         "symfony/yaml": "^5.2",
         "vlucas/phpdotenv": "^5.2"
     },
     "require-dev": {
+<<<<<<< HEAD
         "laravel/framework": "^9.0",
         "laravel/laravel": "dev-master",
         "mockery/mockery": "^1.4.2",
@@ -43,6 +48,16 @@
     },
     "suggest": {
         "laravel/framework": "Required for testing (^9.0).",
+=======
+        "laravel/framework": "^8.25",
+        "laravel/laravel": "8.x-dev",
+        "mockery/mockery": "^1.4.2",
+        "orchestra/canvas": "^6.1",
+        "phpunit/phpunit": "^8.4 || ^9.3"
+    },
+    "suggest": {
+        "laravel/framework": "Required for testing (^8.25).",
+>>>>>>> 6.x
         "mockery/mockery": "Allow using Mockery for testing (^1.4.2).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
@@ -50,16 +65,28 @@
     },
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
             "dev-master": "7.0-dev"
+=======
+            "dev-master": "6.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Orchestra\\Testbench\\Foundation\\TestbenchServiceProvider"
+            ]
+>>>>>>> 6.x
         }
     },
     "scripts": {
         "prepare": [
-            "@php testbench package:discover"
+            "@php testbench package:discover --ansi"
         ],
         "test": [
             "@composer run prepare",
             "@php vendor/bin/phpunit -c ./ --color"
+        ],
+        "post-autoload-dump": [
+            "@composer run prepare"
         ]
     },
     "config": {

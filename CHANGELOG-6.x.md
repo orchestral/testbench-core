@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.12.0
+
+Released: 2021-01-29
+
+### Added
+
+* Added support for Laravel 8 parallel testing:
+  - Added `package:test` command.
+  - Added `Orchestra\Testbench\Foundation\TestbenchServiceProvider` class.
+
 ## 6.11.2
 
 Released: 2021-01-21

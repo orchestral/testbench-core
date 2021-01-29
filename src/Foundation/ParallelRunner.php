@@ -13,7 +13,7 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
-        $applicationCreator = new class {
+        $applicationCreator = new class() {
             use CreatesApplication;
         };
 
