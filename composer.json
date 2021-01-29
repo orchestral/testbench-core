@@ -1,7 +1,7 @@
 {
     "name": "orchestra/testbench-core",
     "description": "Testing Helper for Laravel Development",
-    "homepage": "http://orchestraplatform.com/docs/latest/components/testbench/",
+    "homepage": "https://packages.tools/testbench",
     "keywords": ["laravel", "orchestral", "orchestra-platform", "testing", "tdd", "bdd"],
     "license": "MIT",
     "support": {
@@ -38,8 +38,8 @@
         "laravel/framework": "^8.25",
         "laravel/laravel": "8.x-dev",
         "mockery/mockery": "^1.4.2",
-        "orchestra/canvas": "^6.0",
-        "phpunit/phpunit": "^8.4 || ^9.0"
+        "orchestra/canvas": "^6.1",
+        "phpunit/phpunit": "^8.4 || ^9.3"
     },
     "suggest": {
         "laravel/framework": "Required for testing (^8.25).",
