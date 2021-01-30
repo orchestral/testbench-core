@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.16.0
+
+Released: 2021-01-30
+
+### Added
+
+* Added `dont-discover` configuration to `testbench.yaml`.
+
 ## 5.15.0
 
 Released: 2021-01-29
