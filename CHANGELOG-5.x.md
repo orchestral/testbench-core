@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.17.0 
+
+Released: 2021-02-07
+
+### Added
+
+* Added `$loadEnvironmentVariables` property options to toggle loading `.env` file if available.
+
 ## 5.16.0
 
 Released: 2021-01-30

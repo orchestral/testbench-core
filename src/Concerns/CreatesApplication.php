@@ -241,7 +241,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationConfiguration($app)
     {
-        if (property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
+        if (\property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
             $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
         }
 
