@@ -34,6 +34,13 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected $baseUrl = 'http://localhost';
 
     /**
+     * Automatically loads environment file if available.
+     *
+     * @var bool
+     */
+    protected $loadEnvironmentVariables = true;
+
+    /**
      * Setup the test environment.
      *
      * @return void
