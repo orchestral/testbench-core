@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.14.0
+
+Released: 2021-02-09
+
+### Added
+
+* Add `defineWebRoutes()` to automatically define routes under `web` middleware.
+
 ## 4.13.0
 
 Released: 2021-01-17
