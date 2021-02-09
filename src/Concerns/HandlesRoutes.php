@@ -15,6 +15,11 @@ trait HandlesRoutes
 
         $this->defineRoutes($this->app['router']);
 
+        $this->app['router']->middleware('web')
+            ->group(function ($router) {
+                $this->defineWebRoutes($router);
+            });
+
         if (\method_exists($this, 'parseTestMethodAnnotations')) {
             $this->parseTestMethodAnnotations($this->app, 'define-route');
         }
@@ -30,6 +35,18 @@ trait HandlesRoutes
      * @return void
      */
     protected function defineRoutes($router)
+    {
+        // Define routes.
+    }
+
+    /**
+     * Define web routes setup.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     *
+     * @return void
+     */
+    protected function defineWebRoutes($router)
     {
         // Define routes.
     }
