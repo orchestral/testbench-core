@@ -16,6 +16,10 @@ class ConfigTest extends TestCase
     protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+        ]);
     }
 
     /** @test */
