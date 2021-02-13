@@ -175,10 +175,7 @@ class Commander
         \tap($this->resolveApplication(), function ($laravel) {
             $filesystem = new Filesystem();
 
-            if ($filesystem->isDirectory($laravelVendorPath = $laravel->basePath('vendor'))) {
-                $filesystem->delete($laravelVendorPath);
-            }
-
+            $filesystem->delete($laravelVendorPath = $laravel->basePath('vendor'));
             $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
 
             $laravel->flush();
