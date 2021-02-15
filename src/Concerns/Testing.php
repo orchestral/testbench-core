@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Queue\Queue;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -144,6 +145,8 @@ trait Testing
         $this->beforeApplicationDestroyedCallbacks = [];
 
         Artisan::forgetBootstrappers();
+
+        Queue::createPayloadUsing(null);
 
         if ($this->callbackException) {
             throw $this->callbackException;
