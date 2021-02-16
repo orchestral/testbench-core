@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.18.1
+
+Released: 2021-02-13
+
+### Fixes
+
+* Always attempt to delete `laravel/vendor` symlink folder.
+
 ## 5.18.0
 
 Released: 2021-02-09
