@@ -46,7 +46,6 @@
         "mockery/mockery": "Allow using Mockery for testing (^1.4.2).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.4).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^9.4|^10.0)."
     },
     "extra": {
