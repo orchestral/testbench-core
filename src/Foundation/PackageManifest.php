@@ -5,8 +5,6 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Console\Commander;
-use Orchestra\Testbench\Contracts\TestCase;
 
 class PackageManifest extends IlluminatePackageManifest
 {
