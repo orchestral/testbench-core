@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.15.0
+
+Released: 2021-02-20
+
+### Changes
+
+* Readd support for PHPUnit 7.
+
 ## 4.14.0
 
 Released: 2021-02-09
