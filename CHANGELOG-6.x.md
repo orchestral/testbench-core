@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.16.0
+
+Released: 2021-02-21
+
+### Changes
+
+* Flush `Queue::createPayloadUsing()` on `Orchestra\Testbench\TestCase::tearDown()`.
+
 ## 6.15.2
 
 Released: 2021-02-13
