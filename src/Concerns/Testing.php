@@ -14,7 +14,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\ParallelTesting;
-use Illuminate\Queue\Queue;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Throwable;
