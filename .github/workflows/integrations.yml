@@ -56,4 +56,4 @@ jobs:
         run: composer run prepare
 
       - name: Execute tests
-        run: testbench package:test
+        run: ./testbench package:test
