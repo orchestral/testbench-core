@@ -1,4 +1,4 @@
-name: integrations
+name: parallel-tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  tests-collision:
+  tests:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
@@ -45,6 +45,7 @@ jobs:
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
           composer require "nunomaduro/collision" --dev --no-interaction --no-update
+          composer require "brianium/paratest" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v1"
