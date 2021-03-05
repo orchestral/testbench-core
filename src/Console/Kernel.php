@@ -3,16 +3,10 @@
 namespace Orchestra\Testbench\Console;
 
 use Throwable;
+use Orchestra\Testbench\Foundation\Console\Kernel as ConsoleKernel;
 
-class Kernel extends \Illuminate\Foundation\Console\Kernel
+class Kernel extends ConsoleKernel
 {
-    /**
-     * The bootstrap classes for the application.
-     *
-     * @return void
-     */
-    protected $bootstrappers = [];
-
     /**
      * The Artisan commands provided by your application.
      *
