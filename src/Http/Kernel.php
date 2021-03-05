@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Http;
 
 use Orchestra\Testbench\Foundation\Http\Kernel as HttpKernel;
 
-class Kernel extends HttpKernel
+final class Kernel extends HttpKernel
 {
     /**
      * The application's middleware stack.

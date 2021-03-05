@@ -8,7 +8,7 @@ use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\Finder\Finder;
 
-class LoadConfiguration
+final class LoadConfiguration
 {
     /**
      * Bootstrap the given application.
