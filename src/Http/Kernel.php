@@ -2,15 +2,10 @@
 
 namespace Orchestra\Testbench\Http;
 
-class Kernel extends \Illuminate\Foundation\Http\Kernel
-{
-    /**
-     * The bootstrap classes for the application.
-     *
-     * @return void
-     */
-    protected $bootstrappers = [];
+use Orchestra\Testbench\Foundation\Http\Kernel as HttpKernel;
 
+class Kernel extends HttpKernel
+{
     /**
      * The application's middleware stack.
      *
