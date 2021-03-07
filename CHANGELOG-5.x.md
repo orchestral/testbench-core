@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.20.0
+
+Released: 2021-03-08
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Console\Kernel` and `Orchestra\Testbench\Foundation\Http\Kernel`.
+
 ## 5.19.0
 
 Released: 2021-02-21
