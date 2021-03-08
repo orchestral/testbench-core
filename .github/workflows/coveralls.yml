@@ -13,11 +13,9 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - "7.3"
+          - "7.4"
         dependencies:
           - "locked"
-        laravel:
-          - "8.x"
         experimental:
           - false
 
