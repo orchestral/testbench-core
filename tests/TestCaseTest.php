@@ -9,7 +9,7 @@ class TestCaseTest extends TestCase
     /** @test */
     public function it_can_create_the_testcase()
     {
-        $testbench = new class() extends \Orchestra\Testbench\TestCase {
+        $testbench = new class($this->getName()) extends \Orchestra\Testbench\TestCase {
             //
         };
 
