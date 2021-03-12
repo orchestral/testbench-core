@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.17.1
+
+Released: 2021-03-10
+
+### Changes
+
+* Update Laravel skeleton.
+  - Update `queue` configuration.
+  - Update `validation` language file.
+
 ## 6.17.0
 
 Released: 2021-03-08

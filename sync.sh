@@ -6,6 +6,8 @@ cp -rf vendor/laravel/laravel/database/migrations/2014_10_12_100000_create_passw
 cp -rf vendor/laravel/laravel/database/migrations/2019_08_19_000000_create_failed_jobs_table.php laravel/migrations/2019_08_19_000000_testbench_create_failed_jobs_table.php
 cp -rf vendor/laravel/laravel/resources/lang/en/*.php laravel/resources/lang/en/
 cp -rf vendor/laravel/laravel/database/factories/*.php src/Factories/
+cp -rf vendor/laravel/laravel/server.php laravel/server.php
+cp -rf vendor/laravel/laravel/public/index.php laravel/public/index.php
 
 awk '{sub(/production/,"testing")}1' laravel/config/app.php > laravel/config/temp.stub && mv laravel/config/temp.stub laravel/config/app.php
 awk '{sub(/App\\Providers/,"// App\\Providers")}1' laravel/config/app.php > laravel/config/temp.stub && mv laravel/config/temp.stub laravel/config/app.php
