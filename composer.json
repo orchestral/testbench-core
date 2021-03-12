@@ -30,11 +30,11 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "fakerphp/faker": "^1.9.1",
         "symfony/yaml": "^5.2",
         "vlucas/phpdotenv": "^5.2"
     },
     "require-dev": {
+        "fakerphp/faker": "^1.9.1",
         "laravel/framework": "^9.0",
         "laravel/laravel": "dev-master",
         "mockery/mockery": "^1.4.2",
@@ -42,6 +42,7 @@
         "phpunit/phpunit": "^9.4 || ^10.0"
     },
     "suggest": {
+        "fakerphp/faker": "Allow using Faker for testing (^1.9.1)",
         "laravel/framework": "Required for testing (^9.0).",
         "mockery/mockery": "Allow using Mockery for testing (^1.4.2).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
