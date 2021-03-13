@@ -106,7 +106,7 @@ jobs:
       - name: Execute tests
         run: vendor/bin/phpunit
 
-  tests-on-phpunit-9:
+  tests-on-phpunit-10:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
