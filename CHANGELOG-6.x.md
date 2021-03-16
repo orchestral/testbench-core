@@ -2,6 +2,21 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.18.0
+
+Released: 2021-03-16
+
+### Added
+
+* Added support for PHPUnit 10.
+
+### Changes
+
+* Update Laravel skeleton.
+  - Add `Date` aliases.
+  - Update `logging` configuration.
+  - Update `validation` language file.
+
 ## 6.17.1
 
 Released: 2021-03-10
