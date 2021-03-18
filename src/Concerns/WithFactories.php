@@ -13,6 +13,8 @@ trait WithFactories
      * @param  string  $path
      *
      * @return $this
+     *
+     * @throws \Exception
      */
     protected function withFactories(string $path)
     {
@@ -26,6 +28,8 @@ trait WithFactories
      * @param  string  $path
      *
      * @return $this
+     *
+     * @throws \Exception
      */
     protected function loadFactoriesUsing($app, string $path)
     {

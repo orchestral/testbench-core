@@ -24,9 +24,7 @@ trait WithLaravelMigrations
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(static function () use ($migrator) {
-            $migrator->rollback();
-        });
+        $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
     }
 
     /**
@@ -45,8 +43,6 @@ trait WithLaravelMigrations
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(static function () use ($migrator) {
-            $migrator->rollback();
-        });
+        $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
     }
 }

@@ -163,9 +163,9 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationProviders($app);
 
         if (! empty($overrides)) {
-            $providers->transform(static function ($provider) use ($overrides) {
-                return $overrides[$provider] ?? $provider;
-            });
+            $providers->transform(
+                fn ($provider) => $overrides[$provider] ?? $provider
+            );
         }
 
         return $providers->merge($this->getPackageProviders($app))->all();
@@ -267,9 +267,7 @@ trait CreatesApplication
         Facade::clearResolvedInstances();
         Facade::setFacadeApplication($app);
 
-        $app->detectEnvironment(static function () {
-            return 'testing';
-        });
+        $app->detectEnvironment(fn () => 'testing');
     }
 
     /**
@@ -348,9 +346,7 @@ trait CreatesApplication
 
         $refreshNameLookups($app);
 
-        $app->resolving('url', static function ($url, $app) use ($refreshNameLookups) {
-            $refreshNameLookups($app);
-        });
+        $app->resolving('url', fn ($url, $app) => $refreshNameLookups($app));
     }
 
     /**

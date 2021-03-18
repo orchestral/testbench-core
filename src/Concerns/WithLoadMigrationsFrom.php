@@ -13,6 +13,8 @@ trait WithLoadMigrationsFrom
      * @param  string|array  $paths
      *
      * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     protected function loadMigrationsFrom($paths): void
     {
@@ -29,8 +31,6 @@ trait WithLoadMigrationsFrom
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(static function () use ($migrator) {
-            $migrator->rollback();
-        });
+        $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
     }
 }
