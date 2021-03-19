@@ -6,6 +6,11 @@ use Illuminate\Support\ServiceProvider;
 
 class TestbenchServiceProvider extends ServiceProvider
 {
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
     public function boot()
     {
         if ($this->app->runningInConsole()) {

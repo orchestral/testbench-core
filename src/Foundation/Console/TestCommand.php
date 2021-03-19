@@ -27,6 +27,20 @@ class TestCommand extends Command
     protected $description = 'Run the package tests';
 
     /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        if (! defined('TESTBENCH_WORKING_PATH')) {
+            $this->setHidden(true);
+        }
+    }
+
+    /**
      * Get the array of arguments for running PHPUnit.
      *
      * @param array $options

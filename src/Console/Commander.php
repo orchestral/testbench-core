@@ -11,6 +11,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -64,6 +65,7 @@ class Commander
     public function handle()
     {
         $laravel = $this->laravel();
+
         $kernel = $laravel->make(ConsoleKernel::class);
 
         $input = new ArgvInput();
@@ -125,8 +127,10 @@ class Commander
      */
     protected function resolveApplication()
     {
-        return \tap($this->resolveApplicationFromTrait(), function () {
+        return \tap($this->resolveApplicationFromTrait(), function ($app) {
             $this->createDotenv()->load();
+
+            $app->register(TestbenchServiceProvider::class);
         });
     }
 

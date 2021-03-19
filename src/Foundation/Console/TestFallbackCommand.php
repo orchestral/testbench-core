@@ -28,6 +28,20 @@ class TestFallbackCommand extends Command
     protected $description = 'Run the package tests';
 
     /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        if (! defined('TESTBENCH_WORKING_PATH')) {
+            $this->setHidden(true);
+        }
+    }
+
+    /**
      * Execute the console command.
      *
      * @return int
@@ -80,7 +94,7 @@ class TestFallbackCommand extends Command
      */
     protected function findComposer()
     {
-        $composerPath = \getcwd().'/composer.phar';
+        $composerPath = TESTBENCH_WORKING_PATH.'/composer.phar';
 
         if (\file_exists($composerPath)) {
             return '"'.PHP_BINARY.'" '.$composerPath;

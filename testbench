@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+define('TESTBENCH_WORKING_PATH', $workingPath = getcwd());
+
 if (file_exists(__DIR__.'/vendor/autoload.php')) {
     // Development environment.
     require __DIR__.'/vendor/autoload.php';
@@ -8,8 +10,6 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
     // Installation environment.
     require __DIR__.'/../../autoload.php';
 }
-
-$workingPath = getcwd();
 
 $config = [
     'env' => ['APP_KEY="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"', 'DB_CONNECTION="testing"'],
