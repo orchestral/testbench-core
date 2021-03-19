@@ -11,3 +11,6 @@ migration:
 
 console:
   namespace: Orchestra\Testbench\Console\Commands
+
+provider:
+  namespace: Orchestra\Testbench\Foundation

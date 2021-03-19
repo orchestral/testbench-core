@@ -63,6 +63,7 @@ class Commander
     public function handle()
     {
         $laravel = $this->laravel();
+
         $kernel = $laravel->make(ConsoleKernel::class);
 
         $input = new ArgvInput();
