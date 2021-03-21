@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.19.0
+
+Released: 2021-03-21
+
+### Added
+
+* Added `TESTBENCH_WORKING_DIRECTORY` constant.
+
+### Removed
+
+* Remove package discovery for `Orchestra\Testbench\Foundation\TestbenchServiceProvider`, the service provider will only be registered from CLI Commander.
+
 ## 6.18.0
 
 Released: 2021-03-16
