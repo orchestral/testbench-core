@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Console;
 
-use Throwable;
 use Orchestra\Testbench\Foundation\Console\Kernel as ConsoleKernel;
+use Throwable;
 
 final class Kernel extends ConsoleKernel
 {
