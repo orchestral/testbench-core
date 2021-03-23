@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.19.1
+
+Released: 2021-03-24
+
+### Changes
+
+* Update Laravel skeleton.
+  - Update `validation` language file.
+
 ## 6.19.0
 
 Released: 2021-03-21
