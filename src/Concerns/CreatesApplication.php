@@ -190,7 +190,7 @@ trait CreatesApplication
      */
     protected function getBasePath()
     {
-        return \realpath(__DIR__.'/../../laravel');
+        return $_ENV['APP_BASE_PATH'] ?? \realpath(__DIR__.'/../../laravel');
     }
 
     /**
