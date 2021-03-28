@@ -39,7 +39,8 @@
         "laravel/laravel": "8.x-dev",
         "mockery/mockery": "^1.4.2",
         "orchestra/canvas": "^6.1",
-        "phpunit/phpunit": "^8.4 || ^9.3.3 || ^10.0"
+        "phpunit/phpunit": "^8.4 || ^9.3.3 || ^10.0",
+        "symfony/process": "^5.0"
     },
     "suggest": {
         "laravel/framework": "Required for testing (^8.26).",
