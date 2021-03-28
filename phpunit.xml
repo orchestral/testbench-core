@@ -17,6 +17,7 @@
             <directory suffix=".php">src/</directory>
         </include>
         <exclude>
+            <file>src/Console/Commander.php</file>
             <file>src/Console/Kernel.php</file>
             <file>src/Exceptions/Handler.php</file>
         </exclude>
