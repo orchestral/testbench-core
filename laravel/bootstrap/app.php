@@ -7,7 +7,7 @@ $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ??  'testin
 
 $config = ['env' => ['APP_KEY="'.$APP_KEY.'"', 'DB_CONNECTION="'.$DB_CONNECTION.'"'], 'providers' => []];
 
-$app = (new Commander($config, realpath(__DIR__.'/../../')))->laravel();
+$app = (new Commander($config, getcwd()))->laravel();
 
 unset($APP_KEY, $DB_CONNECTION, $config);
 

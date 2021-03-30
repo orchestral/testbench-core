@@ -38,6 +38,7 @@
         "mockery/mockery": "^1.4.2",
         "orchestra/canvas": "^7.0",
         "phpunit/phpunit": "^9.4 || ^10.0",
+        "symfony/process": "^5.3",
         "symfony/yaml": "^5.3",
         "vlucas/phpdotenv": "^5.3"
     },
