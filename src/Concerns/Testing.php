@@ -276,7 +276,6 @@ trait Testing
         }
     }
 
-
     /**
      * Resolve application core configuration implementation.
      *
