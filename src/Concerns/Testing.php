@@ -20,11 +20,8 @@ use Throwable;
 
 trait Testing
 {
-    use CreatesApplication {
-        resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
-    }
-    use HandlesAnnotations,
-        Database\HandlesConnections,
+    use CreatesApplication,
+        HandlesAnnotations,
         HandlesDatabases,
         HandlesRoutes,
         WithFactories,
@@ -274,24 +271,6 @@ trait Testing
                 }
             }
         }
-    }
-
-    /**
-     * Resolve application core configuration implementation.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return void
-     */
-    protected function resolveApplicationConfiguration($app)
-    {
-        $this->resolveApplicationConfigurationFromTrait($app);
-
-        \tap($app['config'], function ($config) {
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'pgsql', 'POSTGRES');
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'sqlsrv', 'MSSQL');
-        });
     }
 
     /**

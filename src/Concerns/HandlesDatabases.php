@@ -6,6 +6,8 @@ use Closure;
 
 trait HandlesDatabases
 {
+    use Database\HandlesConnections;
+
     /**
      * Setup database requirements.
      *
@@ -13,6 +15,12 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
+        \tap($this->app['config'], function ($config) {
+            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
+            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'pgsql', 'POSTGRES');
+            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'sqlsrv', 'MSSQL');
+        });
+
         $this->defineDatabaseMigrations();
 
         if (\method_exists($this, 'parseTestMethodAnnotations')) {
