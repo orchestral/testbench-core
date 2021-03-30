@@ -17,7 +17,7 @@ class CommanderTest extends TestCase
         $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
         $commander->mustRun();
 
-        $this->assertSame("Laravel Framework ".Application::VERSION.PHP_EOL, $commander->getOutput());
+        $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $commander->getOutput());
     }
 
     /**
