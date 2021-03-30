@@ -1,11 +1,11 @@
 <?php
 
-namespace Orchestra\Testbench\Concerns;
+namespace Orchestra\Testbench\Concerns\Database;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Str;
 
-trait DatabaseConnections
+trait HandlesConnections
 {
     /**
      * Allow to use database connections environment variables.

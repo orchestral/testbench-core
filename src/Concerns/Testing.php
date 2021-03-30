@@ -23,8 +23,8 @@ trait Testing
     use CreatesApplication {
         resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
     }
-    use DatabaseConnections,
-        HandlesAnnotations,
+    use HandlesAnnotations,
+        Database\HandlesConnections,
         HandlesDatabases,
         HandlesRoutes,
         WithFactories,
