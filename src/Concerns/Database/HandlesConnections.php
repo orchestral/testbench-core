@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench\Concerns\Database;
 
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 trait HandlesConnections
@@ -14,13 +16,26 @@ trait HandlesConnections
     {
         $keyword = Str::upper($keyword);
 
-        $config->set([
-            "database.connections.{$driver}.url" => env("{$keyword}_URL", $config->get("database.connections.{$driver}.url")),
-            "database.connections.{$driver}.host" => env("{$keyword}_HOST", $config->get("database.connections.{$driver}.host")),
-            "database.connections.{$driver}.port" => env("{$keyword}_PORT", $config->get("database.connections.{$driver}.port")),
-            "database.connections.{$driver}.database" => env("{$keyword}_DATABASE", $config->get("database.connections.{$driver}.database")),
-            "database.connections.{$driver}.username" => env("{$keyword}_USERNAME", $config->get("database.connections.{$driver}.username")),
-            "database.connections.{$driver}.password" => env("{$keyword}_PASSWORD", $config->get("database.connections.{$driver}.password")),
-        ]);
+        $configurations = [];
+        $options = [
+            'url' => 'URL',
+            'host' => 'HOST',
+            'port' => 'PORT',
+            'database' => ['DB', 'DATABASE'],
+            'username' => ['USER', 'USERNAME'],
+            'password' => 'password',
+        ];
+
+        foreach ($options as $key => $value) {
+            $configurations["database.connections.{$driver}.{$key}"] = Collection::make(
+                Arr::wrap($value)
+            )->transform(function ($value) use ($keyword) {
+                return env("{$keyword}_{$value}");
+            })->first(function ($value) {
+                return ! is_null($value);
+            }) ?? $config->get("database.connections.{$driver}.{$key}");
+        }
+
+        $config->set($configurations);
     }
 }
