@@ -34,7 +34,7 @@ final class LoadConfiguration
      *
      * @return void
      */
-    protected function loadConfigurationFiles(Application $app, RepositoryContract $config): void
+    private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
         foreach ($this->getConfigurationFiles($app) as $key => $path) {
             $config->set($key, require $path);
@@ -48,7 +48,7 @@ final class LoadConfiguration
      *
      * @return \Generator
      */
-    protected function getConfigurationFiles(Application $app): Generator
+    private function getConfigurationFiles(Application $app): Generator
     {
         $path = \realpath(__DIR__.'/../../laravel/config');
 

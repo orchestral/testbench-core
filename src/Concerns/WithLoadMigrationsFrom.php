@@ -12,9 +12,9 @@ trait WithLoadMigrationsFrom
      *
      * @param  string|array  $paths
      *
-     * @return void
-     *
      * @throws \InvalidArgumentException
+     *
+     * @return void
      */
     protected function loadMigrationsFrom($paths): void
     {

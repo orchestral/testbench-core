@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Carbon\Carbon;
-use Carbon\CarbonImmutable;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -13,6 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\ParallelTesting;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -136,10 +135,6 @@ trait Testing
         }
 
         Carbon::setTestNow();
-
-        if (\class_exists(CarbonImmutable::class)) {
-            CarbonImmutable::setTestNow();
-        }
 
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
