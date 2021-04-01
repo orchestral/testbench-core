@@ -12,7 +12,7 @@ Released: 2021-03-31
 
 ### Changes
 
-* Use `getcwd()` instead of relative path when setting up `TESTBENCH_WORKING_PATH` when executing it via `bootstrap/app.php`.
+* Use `getcwd()` instead of relative path to setup `TESTBENCH_WORKING_PATH` constant when executing it via `bootstrap/app.php`.
 * Accept `APP_BASE_PATH` environment variable to configure `getBasePath()`.
 
 ## 6.19.1
