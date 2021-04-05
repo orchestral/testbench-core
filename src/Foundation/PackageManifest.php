@@ -72,36 +72,6 @@ class PackageManifest extends IlluminatePackageManifest
     }
 
     /**
-     * Build the manifest and write it to disk.
-     *
-     * @return void
-     */
-    public function build()
-    {
-        $packages = [];
-
-        if ($this->files->exists($path = $this->vendorPath.'/composer/installed.json')) {
-            $installed = \json_decode($this->files->get($path), true);
-
-            $packages = $installed['packages'] ?? $installed;
-        }
-
-        $ignore = $this->packagesToIgnore();
-
-        $this->write(
-            Collection::make($packages)->mapWithKeys(function ($package) {
-                return [$this->format($package['name']) => $package['extra']['laravel'] ?? []];
-            })
-            ->merge($this->providersFromRoot())
-            ->each(static function ($configuration) use (&$ignore) {
-                $ignore = \array_merge($ignore, $configuration['dont-discover'] ?? []);
-            })->reject(static function ($configuration, $package) use ($ignore) {
-                return \in_array($package, $ignore);
-            })->filter()->all()
-        );
-    }
-
-    /**
      * Get the current package manifest.
      *
      * @return array
@@ -158,5 +128,20 @@ class PackageManifest extends IlluminatePackageManifest
         return [
             $this->format($package['name']) => $package['extra']['laravel'] ?? [],
         ];
+    }
+
+    /**
+     * Write the given manifest array to disk.
+     *
+     * @param  array  $manifest
+     * @return void
+     *
+     * @throws \Exception
+     */
+    protected function write(array $manifest)
+    {
+        parent::write(
+            Collection::make($manifest)->merge($this->providersFromRoot())->filter()->all()
+        );
     }
 }
