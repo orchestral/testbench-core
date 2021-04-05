@@ -72,6 +72,36 @@ class PackageManifest extends IlluminatePackageManifest
     }
 
     /**
+     * Build the manifest and write it to disk.
+     *
+     * @return void
+     */
+    public function build()
+    {
+        $packages = [];
+
+        if ($this->files->exists($path = $this->vendorPath.'/composer/installed.json')) {
+            $installed = \json_decode($this->files->get($path), true);
+
+            $packages = $installed['packages'] ?? $installed;
+        }
+
+        $ignore = $this->packagesToIgnore();
+
+        $this->write(
+            Collection::make($packages)->mapWithKeys(function ($package) {
+                return [$this->format($package['name']) => $package['extra']['laravel'] ?? []];
+            })
+            ->merge($this->providersFromRoot())
+            ->each(static function ($configuration) use (&$ignore) {
+                $ignore = \array_merge($ignore, $configuration['dont-discover'] ?? []);
+            })->reject(static function ($configuration, $package) use ($ignore) {
+                return \in_array($package, $ignore);
+            })->filter()->all()
+        );
+    }
+
+    /**
      * Get the current package manifest.
      *
      * @return array
@@ -82,10 +112,10 @@ class PackageManifest extends IlluminatePackageManifest
                 ? ($this->testbench->ignorePackageDiscoveriesFrom() ?? [])
                 : [];
 
-
         $ignoreAll = \in_array('*', $ignore);
 
         return Collection::make(parent::getManifest())
+            ->merge($this->providersFromRoot())
             ->reject(function ($configuration, $package) use ($ignore, $ignoreAll) {
                 return ($ignoreAll && ! \in_array($package, $this->requiredPackages))
                     || \in_array($package, $ignore);
@@ -108,5 +138,25 @@ class PackageManifest extends IlluminatePackageManifest
     protected function packagesToIgnore()
     {
         return [];
+    }
+
+    /**
+     * Get all of the package names from root.
+     *
+     * @return array
+     */
+    protected function providersFromRoot()
+    {
+        if (! \defined('TESTBENCH_WORKING_PATH') || ! \is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
+            return [];
+        }
+
+        $package = \json_decode(\file_get_contents(
+            TESTBENCH_WORKING_PATH.'/composer.json'
+        ), true);
+
+        return [
+            $this->format($package['name']) => $package['extra']['laravel'] ?? [],
+        ];
     }
 }
