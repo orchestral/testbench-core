@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Support\Collection;
+use Illuminate\Testing\Assert;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use Orchestra\Testbench\TestCase;
 
@@ -15,15 +16,17 @@ class PackageManifestTest extends TestCase
             \define('TESTBENCH_WORKING_PATH', \realpath(__DIR__.'/../'));
         }
 
+        $manifestPath = \realpath(__DIR__.'/tmp').'/manifest.php';
+
         $packageManifest = new PackageManifest(
-            $this->app['files'], $this->app->basePath(), $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php', $this
+            $this->app['files'], $this->app->basePath(), $manifestPath, $this
         );
 
         $packageManifest->build();
 
         $packages = Collection::make(require $manifestPath);
 
-        $this->assertSame([
+        $installedPackages = [
             'fideloper/proxy',
             'fruitcake/laravel-cors',
             'laravel/laravel',
@@ -32,7 +35,11 @@ class PackageManifestTest extends TestCase
             'orchestra/canvas',
             'orchestra/canvas-core',
             'spatie/laravel-ray',
-        ], $packages->keys()->all());
+        ];
+
+        foreach ($installedPackages as $installedPackage) {
+            $this->assertTrue(\in_array($installedPackage, $packages->keys()->all()));
+        }
 
         $this->app['files']->delete($manifestPath);
     }
