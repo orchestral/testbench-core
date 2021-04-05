@@ -50,7 +50,10 @@ class LoadConfiguration
      */
     protected function getConfigurationFiles(Application $app): Generator
     {
-        $path = \realpath(__DIR__.'/../../laravel/config');
+        ray($app->basePath('config'));
+        if (! \is_dir($path = $app->basePath('config'))) {
+            $path = \realpath(__DIR__.'/../../laravel/config');
+        }
 
         foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
             yield \basename($file->getRealPath(), '.php') => $file->getRealPath();
