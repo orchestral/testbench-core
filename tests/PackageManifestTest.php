@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Support\Collection;
-use Illuminate\Testing\Assert;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use Orchestra\Testbench\TestCase;
 

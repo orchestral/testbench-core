@@ -133,9 +133,10 @@ class PackageManifest extends IlluminatePackageManifest
      * Write the given manifest array to disk.
      *
      * @param  array  $manifest
-     * @return void
      *
      * @throws \Exception
+     *
+     * @return void
      */
     protected function write(array $manifest)
     {
