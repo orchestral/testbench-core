@@ -50,7 +50,6 @@ class LoadConfiguration
      */
     protected function getConfigurationFiles(Application $app): Generator
     {
-        ray($app->basePath('config'));
         if (! \is_dir($path = $app->basePath('config'))) {
             $path = \realpath(__DIR__.'/../../laravel/config');
         }
