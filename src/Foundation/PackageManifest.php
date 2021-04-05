@@ -140,7 +140,7 @@ class PackageManifest extends IlluminatePackageManifest
     protected function write(array $manifest)
     {
         parent::write(
-            Collection::make($manifest)->merge($this->providersFromRoot())->filter()->all()
+            Collection::make($manifest)->merge($this->providersFromRoot())->tap(fn ($c) => ray($c))->filter()->all()
         );
     }
 }
