@@ -2,6 +2,17 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Added capability to fetch package discovery from root project.
+* Added database specific environment variables based on ChipperCI.
+
+### Changes
+
+* Allow configuration to be loaded from `Application::basePath()` instead of hardcoded value.
+
 ## 6.20.0
 
 Released: 2021-03-31
