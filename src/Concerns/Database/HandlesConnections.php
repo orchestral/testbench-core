@@ -23,7 +23,7 @@ trait HandlesConnections
             'port' => 'PORT',
             'database' => ['DB', 'DATABASE'],
             'username' => ['USER', 'USERNAME'],
-            'password' => 'password',
+            'password' => 'PASSWORD',
         ];
 
         foreach ($options as $key => $value) {
