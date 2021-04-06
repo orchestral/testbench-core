@@ -7,7 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 ### Added
 
 * Added capability to fetch package discovery from root project.
-* Added database specific environment variables based on ChipperCI.
+* Added database-specific environment variables based on ChipperCI.
 
 ### Changes
 
