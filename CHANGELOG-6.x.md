@@ -2,7 +2,9 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 6.21.0
+
+Released: 2021-04-06
 
 ### Added
 
