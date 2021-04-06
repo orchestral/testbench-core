@@ -8,7 +8,10 @@ use Orchestra\Testbench\TestCase;
 
 class PackageManifestTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @group core
+     */
     public function it_can_build_manifest()
     {
         if (! \defined('TESTBENCH_WORKING_PATH')) {
