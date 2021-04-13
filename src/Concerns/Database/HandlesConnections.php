@@ -23,16 +23,16 @@ trait HandlesConnections
             'port' => 'PORT',
             'database' => ['DB', 'DATABASE'],
             'username' => ['USER', 'USERNAME'],
-            'password' => 'password',
+            'password' => 'PASSWORD',
         ];
 
         foreach ($options as $key => $value) {
             $configurations["database.connections.{$driver}.{$key}"] = Collection::make(
                 Arr::wrap($value)
-            )->transform(function ($value) use ($keyword) {
-                return env("{$keyword}_{$value}");
-            })->first(function ($value) {
-                return ! is_null($value);
+            )->transform(static function ($value) use ($keyword) {
+                return \env("{$keyword}_{$value}");
+            })->first(static function ($value) {
+                return ! \is_null($value);
             }) ?? $config->get("database.connections.{$driver}.{$key}");
         }
 

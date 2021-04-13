@@ -82,7 +82,6 @@ class PackageManifest extends IlluminatePackageManifest
                 ? ($this->testbench->ignorePackageDiscoveriesFrom() ?? [])
                 : [];
 
-
         $ignoreAll = \in_array('*', $ignore);
 
         return Collection::make(parent::getManifest())
@@ -108,5 +107,41 @@ class PackageManifest extends IlluminatePackageManifest
     protected function packagesToIgnore()
     {
         return [];
+    }
+
+    /**
+     * Get all of the package names from root.
+     *
+     * @return array
+     */
+    protected function providersFromRoot()
+    {
+        if (! \defined('TESTBENCH_WORKING_PATH') || ! \is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
+            return [];
+        }
+
+        $package = \json_decode(\file_get_contents(
+            TESTBENCH_WORKING_PATH.'/composer.json'
+        ), true);
+
+        return [
+            $this->format($package['name']) => $package['extra']['laravel'] ?? [],
+        ];
+    }
+
+    /**
+     * Write the given manifest array to disk.
+     *
+     * @param  array  $manifest
+     *
+     * @throws \Exception
+     *
+     * @return void
+     */
+    protected function write(array $manifest)
+    {
+        parent::write(
+            Collection::make($manifest)->merge($this->providersFromRoot())->filter()->all()
+        );
     }
 }

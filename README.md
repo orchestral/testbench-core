@@ -9,8 +9,6 @@ Testbench Component is a simple package that has been designed to help you write
 [![Latest Unstable Version](https://poser.pugx.org/orchestra/testbench-core/v/unstable)](https://packagist.org/packages/orchestra/testbench-core)
 [![License](https://poser.pugx.org/orchestra/testbench-core/license)](https://packagist.org/packages/orchestra/testbench-core)
 
-* [Version Compatibility](#version-compatibility)
-
 ## Version Compatibility
 
  Laravel  | Testbench Core

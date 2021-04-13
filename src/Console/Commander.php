@@ -165,7 +165,9 @@ class Commander
         $laravelBasePath = $this->config['laravel'] ?? null;
 
         if (! \is_null($laravelBasePath)) {
-            return \str_replace('./', $this->workingPath.'/', $laravelBasePath);
+            return \tap(\str_replace('./', $this->workingPath.'/', $laravelBasePath), static function ($path) {
+                $_ENV['APP_BASE_PATH'] = $path;
+            });
         }
 
         return $this->getBasePathFromTrait();

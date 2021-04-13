@@ -2,11 +2,14 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Tests\Fixtures\Jobs\RegisterUser;
 
 class DispatchJobTest extends TestCase
 {
+    use MocksApplicationServices;
+
     /** @test */
     public function it_can_triggers_expected_jobs()
     {
