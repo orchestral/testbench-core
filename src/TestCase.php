@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithTime;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
-use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 use PHPUnit\Framework\TestCase as PHPUnit;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
@@ -23,8 +22,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         InteractsWithExceptionHandling,
         InteractsWithSession,
         InteractsWithTime,
-        MakesHttpRequests,
-        MocksApplicationServices;
+        MakesHttpRequests;
 
     /**
      * The base URL to use while testing the application.
