@@ -181,8 +181,15 @@ class Commander
         \tap($this->resolveApplication(), function ($laravel) {
             $filesystem = new Filesystem();
 
-            $filesystem->delete($laravelVendorPath = $laravel->basePath('vendor'));
-            $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
+            $laravelVendorPath = $laravel->basePath('vendor');
+            $workingVendorPath = $this->workingPath.'/vendor';
+
+            if (
+                "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
+            ) {
+                $filesystem->delete($laravelVendorPath);
+                $filesystem->link($workingVendorPath, $laravelVendorPath);
+            }
 
             $laravel->flush();
         });
