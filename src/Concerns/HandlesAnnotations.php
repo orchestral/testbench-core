@@ -4,9 +4,9 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Metadata\Annotation\Parser\Registry as AnnotationRegistry;
+use PHPUnit\Metadata\Annotation\Parser\Registry as MetadataAnnotationRegistry;
 use PHPUnit\Runner\Version;
-use PHPUnit\Util\Test as TestUtil;
+use PHPUnit\Util\Annotation\Registry as UtilAnnotationRegistry;
 
 trait HandlesAnnotations
 {
@@ -23,30 +23,19 @@ trait HandlesAnnotations
         }
 
         if (\class_exists(Version::class) && \version_compare(Version::id(), '10', '>=')) {
-            $annotations = \rescue(function () {
-                return AnnotationRegistry::getInstance()->forMethod(static::class, $this->getName(false))->symbolAnnotations();
-            }, [], false);
-
-            Collection::make($annotations)->filter(function ($location, $key) use ($name) {
-                return $key === $name;
-            })->each(function ($location) use ($app) {
-                Collection::make($location ?? [])
-                    ->filter(function ($method) {
-                        return ! \is_null($method) && \method_exists($this, $method);
-                    })->each(function ($method) use ($app) {
-                        $this->{$method}($app);
-                    });
-            });
-
-            return;
+            $registry = MetadataAnnotationRegistry::getInstance();
+        } else {
+            $registry = UtilAnnotationRegistry::getInstance();
         }
 
-        $annotations = TestUtil::parseTestMethodAnnotations(
-            static::class, $this->getName(false)
-        );
-
-        Collection::make($annotations)->each(function ($location) use ($name, $app) {
-            Collection::make($location[$name] ?? [])
+        Collection::make(
+            \rescue(function () use ($registry) {
+                return $registry->forMethod(static::class, $this->getName(false))->symbolAnnotations();
+            }, [], false)
+        )->filter(function ($actions, $key) use ($name) {
+            return $key === $name;
+        })->each(function ($actions) use ($app) {
+            Collection::make($actions ?? [])
                 ->filter(function ($method) {
                     return ! \is_null($method) && \method_exists($this, $method);
                 })->each(function ($method) use ($app) {
