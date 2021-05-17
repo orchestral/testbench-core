@@ -4,9 +4,8 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Metadata\Annotation\Parser\Registry as MetadataAnnotationRegistry;
 use PHPUnit\Runner\Version;
-use PHPUnit\Util\Annotation\Registry as UtilAnnotationRegistry;
+use ReflectionClass;
 
 trait HandlesAnnotations
 {
@@ -18,14 +17,16 @@ trait HandlesAnnotations
      */
     protected function parseTestMethodAnnotations($app, string $name): void
     {
-        if (! $this instanceof TestCase) {
+        $instance = new ReflectionClass($this);
+
+        if (! $this instanceof TestCase || $instance->isAnonymous()) {
             return;
         }
 
         if (\class_exists(Version::class) && \version_compare(Version::id(), '10', '>=')) {
-            $registry = MetadataAnnotationRegistry::getInstance();
+            $registry = \PHPUnit\Metadata\Annotation\Parser\Registry::getInstance();
         } else {
-            $registry = UtilAnnotationRegistry::getInstance();
+            $registry = \PHPUnit\Util\Annotation\Registry::getInstance();
         }
 
         Collection::make(
