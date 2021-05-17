@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.21.2
+
+Released: 2021-05-12
+
+### Changes
+
+* Check whether skeleton `vendor` is an actual directory before trying to symlink with base directory `vendor`.
+
+## 6.21.1
+
+Released: 2021-04-21
+
+### Changes
+
+* Update skeleton to match v8.5.16.
+
 ## 6.21.0
 
 Released: 2021-04-06
