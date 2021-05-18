@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.21.3
+
+Released: 2021-05-18
+
+### Changes
+
+* Update skeleton.
+
+### Fixes
+
+* Fixes missing `PHPUnit\Util\Test::parseTestMethodAnnotations()` on PHPUnit 10.
+
 ## 6.21.2
 
 Released: 2021-05-12
