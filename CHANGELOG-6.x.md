@@ -8,7 +8,7 @@ Released: 2021-05-18
 
 ### Changes
 
-* Update skeleton.
+* Update skeleton to match v8.5.18.
 
 ### Fixes
 
