@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.17.0
+
+Released: 2021-05-25
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Application` to allow creating remote application using Testbench.
+* Added static public method `Orchestra\Testbench\Concerns\CreatesApplication::applicationBasePath()` to replace `getBasePath()`.
+
 ## 4.16.0
 
 Released: 2021-03-06
