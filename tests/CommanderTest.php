@@ -9,7 +9,10 @@ use Symfony\Component\Process\Process;
 
 class CommanderTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @group commander
+     */
     public function it_can_call_commander_using_cli()
     {
         $command = [$this->phpBinary(), 'testbench', '--version'];

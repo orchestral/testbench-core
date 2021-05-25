@@ -160,7 +160,9 @@ class Commander
         $laravelBasePath = $this->config['laravel'] ?? null;
 
         if (! \is_null($laravelBasePath)) {
-            return \str_replace('./', $this->workingPath.'/', $laravelBasePath);
+            return \tap(\str_replace('./', $this->workingPath.'/', $laravelBasePath), static function ($path) {
+                $_ENV['APP_BASE_PATH'] = $path;
+            });
         }
 
         return $this->getBasePathFromTrait();
@@ -174,8 +176,15 @@ class Commander
         \tap($this->resolveApplication(), function ($laravel) {
             $filesystem = new Filesystem();
 
-            $filesystem->delete($laravelVendorPath = $laravel->basePath('vendor'));
-            $filesystem->link($this->workingPath.'/vendor', $laravelVendorPath);
+            $laravelVendorPath = $laravel->basePath('vendor');
+            $workingVendorPath = $this->workingPath.'/vendor';
+
+            if (
+                "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
+            ) {
+                $filesystem->delete($laravelVendorPath);
+                $filesystem->link($workingVendorPath, $laravelVendorPath);
+            }
 
             $laravel->flush();
         });
