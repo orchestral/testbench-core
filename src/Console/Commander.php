@@ -11,6 +11,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -19,11 +20,6 @@ use Throwable;
 
 class Commander
 {
-    use CreatesApplication {
-        resolveApplication as protected resolveApplicationFromTrait;
-        getBasePath as protected getBasePathFromTrait;
-    }
-
     /**
      * Application instance.
      *
@@ -92,7 +88,7 @@ class Commander
         if (! $this->app) {
             $this->createSymlinkToVendorPath();
 
-            $this->app = $this->createApplication();
+            $this->app = Application::create($this->getBasePath(), $this->resolveApplicationCallback());
         }
 
         return $this->app;
@@ -123,15 +119,15 @@ class Commander
     /**
      * Resolve application implementation.
      *
-     * @return \Illuminate\Foundation\Application
+     * @return \Closure
      */
-    protected function resolveApplication()
+    protected function resolveApplicationCallback()
     {
-        return \tap($this->resolveApplicationFromTrait(), function ($app) {
+        return function ($app) {
             $this->createDotenv()->load();
 
             $app->register(TestbenchServiceProvider::class);
-        });
+        };
     }
 
     /**
@@ -170,7 +166,7 @@ class Commander
             });
         }
 
-        return $this->getBasePathFromTrait();
+        return CreatesApplication::applicationBasePath();
     }
 
     /**
@@ -178,7 +174,7 @@ class Commander
      */
     protected function createSymlinkToVendorPath(): void
     {
-        \tap($this->resolveApplication(), function ($laravel) {
+        \tap(Application::create($this->getBasePath(), $this->resolveApplicationCallback()), function ($laravel) {
             $filesystem = new Filesystem();
 
             $laravelVendorPath = $laravel->basePath('vendor');
