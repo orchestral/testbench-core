@@ -7,7 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 class ApplicationTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @group core
+     */
     public function it_can_create_an_application()
     {
         $app = Application::create(realpath(__DIR__.'/../laravel'));

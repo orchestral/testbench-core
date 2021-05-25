@@ -10,7 +10,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
 trait CreatesApplication
 {
     /**
-     * Get Application base path.
+     * Get Application's base path.
      *
      * @return string
      */
