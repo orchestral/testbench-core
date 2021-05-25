@@ -10,6 +10,16 @@ use Orchestra\Testbench\Foundation\PackageManifest;
 trait CreatesApplication
 {
     /**
+     * Get Application's base path.
+     *
+     * @return string
+     */
+    public static function applicationBasePath()
+    {
+        return $_ENV['APP_BASE_PATH'] ?? \realpath(__DIR__.'/../../laravel');
+    }
+
+    /**
      * Ignore package discovery from.
      *
      * @return array
@@ -190,7 +200,7 @@ trait CreatesApplication
      */
     protected function getBasePath()
     {
-        return realpath(__DIR__.'/../../laravel');
+        return static::applicationBasePath();
     }
 
     /**
