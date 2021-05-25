@@ -2,6 +2,20 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 5.21.0
+
+Released: 2021-05-25
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Application` to allow creating remote application using Testbench.
+* Added static public method `Orchestra\Testbench\Concerns\CreatesApplication::applicationBasePath()` to replace `getBasePath()`.
+
+### Changes
+
+* Use `getcwd()` instead of relative path to setup `TESTBENCH_WORKING_PATH` constant when executing it via `bootstrap/app.php`.
+* Accept `APP_BASE_PATH` environment variable to configure application base path.
+
 ## 5.20.0
 
 Released: 2021-03-08
