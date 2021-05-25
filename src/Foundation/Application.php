@@ -10,7 +10,18 @@ class Application
         resolveApplication as protected resolveApplicationFromTrait;
     }
 
+    /**
+     * The application base path.
+     *
+     * @var string
+     */
     protected $basePath;
+
+    /**
+     * The application resolving callback.
+     *
+     * @var callable|nulls
+     */
     protected $resolvingCallback;
 
     /**
@@ -18,8 +29,6 @@ class Application
      *
      * @param  string  $basePath
      * @param  callable|null  $resolvingCallback
-     *
-     * @return \Illuminate\Foundation\Application
      */
     public function __construct(string $basePath, ?callable $resolvingCallback = null)
     {
