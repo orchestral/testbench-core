@@ -61,6 +61,7 @@ class Application
      * Configure the application options.
      *
      * @param  array  $options
+     *
      * @return $this
      */
     public function configure(array $options)
@@ -79,7 +80,7 @@ class Application
      */
     protected function resolveApplication()
     {
-        return \tap($this->resolveApplicationFromTrait(), function ($app) {
+        return tap($this->resolveApplicationFromTrait(), function ($app) {
             if (\is_callable($this->resolvingCallback)) {
                 \call_user_func($this->resolvingCallback, $app);
             }

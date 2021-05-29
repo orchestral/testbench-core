@@ -30,7 +30,7 @@ trait HandlesConnections
             $configurations["database.connections.{$driver}.{$key}"] = Collection::make(
                 Arr::wrap($value)
             )->transform(static function ($value) use ($keyword) {
-                return \env("{$keyword}_{$value}");
+                return env("{$keyword}_{$value}");
             })->first(static function ($value) {
                 return ! \is_null($value);
             }) ?? $config->get("database.connections.{$driver}.{$key}");

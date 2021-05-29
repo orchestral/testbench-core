@@ -119,15 +119,15 @@ trait Testing
 
         $this->setUpHasRun = false;
 
-        if (\property_exists($this, 'serverVariables')) {
+        if (property_exists($this, 'serverVariables')) {
             $this->serverVariables = [];
         }
 
-        if (\property_exists($this, 'defaultHeaders')) {
+        if (property_exists($this, 'defaultHeaders')) {
             $this->defaultHeaders = [];
         }
 
-        if (\class_exists(Mockery::class)) {
+        if (class_exists(Mockery::class)) {
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }
@@ -137,7 +137,7 @@ trait Testing
 
         Carbon::setTestNow();
 
-        if (\class_exists(CarbonImmutable::class)) {
+        if (class_exists(CarbonImmutable::class)) {
             CarbonImmutable::setTestNow();
         }
 
@@ -196,7 +196,7 @@ trait Testing
      */
     protected function setUpParallelTestingCallbacks(): void
     {
-        if (\class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+        if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
             ParallelTesting::callSetUpTestCaseCallbacks($this);
         }
     }
@@ -206,7 +206,7 @@ trait Testing
      */
     protected function tearDownParallelTestingCallbacks(): void
     {
-        if (\class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+        if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
             ParallelTesting::callTearDownTestCaseCallbacks($this);
         }
     }
@@ -252,7 +252,7 @@ trait Testing
      */
     protected function beforeApplicationDestroyed(callable $callback): void
     {
-        \array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
+        array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
     }
 
     /**

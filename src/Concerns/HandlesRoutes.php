@@ -20,7 +20,7 @@ trait HandlesRoutes
                 $this->defineWebRoutes($router);
             });
 
-        if (\method_exists($this, 'parseTestMethodAnnotations')) {
+        if (method_exists($this, 'parseTestMethodAnnotations')) {
             $this->parseTestMethodAnnotations($this->app, 'define-route');
         }
 
@@ -63,7 +63,7 @@ trait HandlesRoutes
         $files = $this->app['files'];
 
         $files->put(
-            \base_path('routes/testbench.php'), $route
+            base_path('routes/testbench.php'), $route
         );
 
         $this->artisan('route:cache')->run();
@@ -71,15 +71,15 @@ trait HandlesRoutes
         $this->reloadApplication();
 
         $this->assertTrue(
-            $files->exists(\base_path('bootstrap/cache/routes-v7.php'))
+            $files->exists(base_path('bootstrap/cache/routes-v7.php'))
         );
 
         $this->requireApplicationCachedRoutes();
 
         $this->beforeApplicationDestroyed(function () use ($files) {
             $files->delete(
-                \base_path('bootstrap/cache/routes-v7.php'),
-                \base_path('routes/testbench.php')
+                base_path('bootstrap/cache/routes-v7.php'),
+                base_path('routes/testbench.php')
             );
         });
     }

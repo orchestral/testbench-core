@@ -127,7 +127,7 @@ class Commander
      */
     protected function resolveApplication()
     {
-        return \tap($this->resolveApplicationFromTrait(), function ($app) {
+        return tap($this->resolveApplicationFromTrait(), function ($app) {
             $this->createDotenv()->load();
 
             $app->register(TestbenchServiceProvider::class);
@@ -141,14 +141,14 @@ class Commander
     {
         $laravelBasePath = $this->getBasePath();
 
-        if (\file_exists($laravelBasePath.'/.env')) {
+        if (file_exists($laravelBasePath.'/.env')) {
             return Dotenv::create(
                 Env::getRepository(), $laravelBasePath.'/', '.env'
             );
         }
 
         return (new Dotenv(
-            new StringStore(\implode("\n", $this->config['env'] ?? [])),
+            new StringStore(implode("\n", $this->config['env'] ?? [])),
             new Parser(),
             new Loader(),
             Env::getRepository()
@@ -165,7 +165,7 @@ class Commander
         $laravelBasePath = $this->config['laravel'] ?? null;
 
         if (! \is_null($laravelBasePath)) {
-            return \tap(\str_replace('./', $this->workingPath.'/', $laravelBasePath), static function ($path) {
+            return tap(str_replace('./', $this->workingPath.'/', $laravelBasePath), static function ($path) {
                 $_ENV['APP_BASE_PATH'] = $path;
             });
         }
@@ -178,11 +178,12 @@ class Commander
      */
     protected function createSymlinkToVendorPath(): void
     {
-        \tap($this->resolveApplication(), function ($laravel) {
+        $workingVendorPath = $this->workingPath.'/vendor';
+
+        tap($this->resolveApplication(), static function ($laravel) use ($workingVendorPath) {
             $filesystem = new Filesystem();
 
             $laravelVendorPath = $laravel->basePath('vendor');
-            $workingVendorPath = $this->workingPath.'/vendor';
 
             if (
                 "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
@@ -207,7 +208,7 @@ class Commander
     {
         $laravel = $this->laravel();
 
-        \tap($laravel->make(ExceptionHandler::class), function ($handler) use ($error, $output) {
+        tap($laravel->make(ExceptionHandler::class), static function ($handler) use ($error, $output) {
             $handler->report($error);
             $handler->renderForConsole($output, $error);
         });

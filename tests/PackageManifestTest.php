@@ -15,10 +15,10 @@ class PackageManifestTest extends TestCase
     public function it_can_build_manifest()
     {
         if (! \defined('TESTBENCH_WORKING_PATH')) {
-            \define('TESTBENCH_WORKING_PATH', \realpath(__DIR__.'/../'));
+            \define('TESTBENCH_WORKING_PATH', realpath(__DIR__.'/../'));
         }
 
-        $manifestPath = \realpath(__DIR__.'/tmp').'/manifest.php';
+        $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
 
         $packageManifest = new PackageManifest(
             $this->app['files'], $this->app->basePath(), $manifestPath, $this

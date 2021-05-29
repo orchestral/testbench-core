@@ -28,10 +28,10 @@ class CommanderTest extends TestCase
      */
     protected function phpBinary(): string
     {
-        if (defined('PHP_BINARY')) {
+        if (\defined('PHP_BINARY')) {
             return PHP_BINARY;
         }
 
-        return defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find();
+        return \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find();
     }
 }

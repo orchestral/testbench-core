@@ -16,7 +16,7 @@ trait CreatesApplication
      */
     public static function applicationBasePath()
     {
-        return $_ENV['APP_BASE_PATH'] ?? \realpath(__DIR__.'/../../laravel');
+        return $_ENV['APP_BASE_PATH'] ?? realpath(__DIR__.'/../../laravel');
     }
 
     /**
@@ -232,7 +232,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return \tap(new Application($this->getBasePath()), function ($app) {
+        return tap(new Application($this->getBasePath()), function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
@@ -251,14 +251,14 @@ trait CreatesApplication
      */
     protected function resolveApplicationConfiguration($app)
     {
-        if (\property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
+        if (property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
             $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
         }
 
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
 
-        \tap($this->getApplicationTimezone($app), static function ($timezone) {
-            ! \is_null($timezone) && \date_default_timezone_set($timezone);
+        tap($this->getApplicationTimezone($app), static function ($timezone) {
+            ! \is_null($timezone) && date_default_timezone_set($timezone);
         });
 
         $app['config']['app.aliases'] = $this->resolveApplicationAliases($app);
@@ -332,11 +332,11 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
-        if (\class_exists('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider')) {
+        if (class_exists('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider')) {
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        if (\method_exists($this, 'parseTestMethodAnnotations')) {
+        if (method_exists($this, 'parseTestMethodAnnotations')) {
             $this->parseTestMethodAnnotations($app, 'environment-setup');
             $this->parseTestMethodAnnotations($app, 'define-env');
         }
