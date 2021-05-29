@@ -10,6 +10,7 @@ return PhpCsFixer\Config::create()
                 '@Symfony' => true,
                 'array_syntax' => ['syntax' => 'short'],
                 'binary_operator_spaces' => ['align_double_arrow' => false, 'align_equals' => false],
+                'native_function_invocation' => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => true],
                 'no_extra_blank_lines' => false,
                 'no_empty_comment' => false,
                 'no_extra_consecutive_blank_lines' => false,
