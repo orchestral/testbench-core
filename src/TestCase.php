@@ -2,27 +2,20 @@
 
 namespace Orchestra\Testbench;
 
-use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithTime;
-use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
+use Illuminate\Foundation\Testing;
 use PHPUnit\Framework\TestCase as PHPUnit;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
     use Concerns\Testing,
-        InteractsWithAuthentication,
-        InteractsWithConsole,
-        InteractsWithContainer,
-        InteractsWithDatabase,
-        InteractsWithExceptionHandling,
-        InteractsWithSession,
-        InteractsWithTime,
-        MakesHttpRequests;
+        Testing\Concerns\InteractsWithAuthentication,
+        Testing\Concerns\InteractsWithConsole,
+        Testing\Concerns\InteractsWithContainer,
+        Testing\Concerns\InteractsWithDatabase,
+        Testing\Concerns\InteractsWithExceptionHandling,
+        Testing\Concerns\InteractsWithSession,
+        Testing\Concerns\InteractsWithTime,
+        Testing\Concerns\MakesHttpRequests;
 
     /**
      * The base URL to use while testing the application.
