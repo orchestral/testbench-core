@@ -29,6 +29,6 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     protected function isCollisionDependenciesInstalled(): bool
     {
-        return \class_exists(\NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand::class);
+        return class_exists(\NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand::class);
     }
 }

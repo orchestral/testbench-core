@@ -36,7 +36,7 @@ class TestFallbackCommand extends Command
     {
         parent::__construct();
 
-        if (! defined('TESTBENCH_WORKING_PATH')) {
+        if (! \defined('TESTBENCH_WORKING_PATH')) {
             $this->setHidden(true);
         }
     }
@@ -68,7 +68,7 @@ class TestFallbackCommand extends Command
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
 
-        if ('\\' !== DIRECTORY_SEPARATOR && \file_exists('/dev/tty') && is_readable('/dev/tty')) {
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
             try {
                 $process->setTty(true);
             } catch (RuntimeException $e) {
@@ -96,7 +96,7 @@ class TestFallbackCommand extends Command
     {
         $composerPath = TESTBENCH_WORKING_PATH.'/composer.phar';
 
-        if (\file_exists($composerPath)) {
+        if (file_exists($composerPath)) {
             return '"'.PHP_BINARY.'" '.$composerPath;
         }
 

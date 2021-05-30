@@ -35,7 +35,7 @@ class TestCommand extends Command
     {
         parent::__construct();
 
-        if (! defined('TESTBENCH_WORKING_PATH')) {
+        if (! \defined('TESTBENCH_WORKING_PATH')) {
             $this->setHidden(true);
         }
     }
@@ -55,7 +55,7 @@ class TestCommand extends Command
                 return Str::startsWith($option, '--env=');
             })->values()->all();
 
-        return \array_merge(['--configuration=./'], $options);
+        return array_merge(['--configuration=./'], $options);
     }
 
     /**
@@ -74,7 +74,7 @@ class TestCommand extends Command
                     || Str::startsWith($option, '--recreate-databases');
             })->values()->all();
 
-        return \array_merge([
+        return array_merge([
             '--configuration=./',
             "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
         ], $options);

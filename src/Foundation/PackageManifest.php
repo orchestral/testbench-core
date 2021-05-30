@@ -78,7 +78,7 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function getManifest()
     {
-        $ignore = ! \is_null($this->testbench) && \method_exists($this->testbench, 'ignorePackageDiscoveriesFrom')
+        $ignore = ! \is_null($this->testbench) && method_exists($this->testbench, 'ignorePackageDiscoveriesFrom')
                 ? ($this->testbench->ignorePackageDiscoveriesFrom() ?? [])
                 : [];
 
@@ -90,7 +90,7 @@ class PackageManifest extends IlluminatePackageManifest
                     || \in_array($package, $ignore);
             })->map(static function ($configuration, $key) {
                 foreach ($configuration['providers'] ?? [] as $provider) {
-                    if (! \class_exists($provider)) {
+                    if (! class_exists($provider)) {
                         return null;
                     }
                 }
@@ -116,11 +116,11 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromRoot()
     {
-        if (! \defined('TESTBENCH_WORKING_PATH') || ! \is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
+        if (! \defined('TESTBENCH_WORKING_PATH') || ! is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
             return [];
         }
 
-        $package = \json_decode(\file_get_contents(
+        $package = json_decode(file_get_contents(
             TESTBENCH_WORKING_PATH.'/composer.json'
         ), true);
 

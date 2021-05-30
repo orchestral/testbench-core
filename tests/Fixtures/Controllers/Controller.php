@@ -13,7 +13,7 @@ class Controller extends \Illuminate\Routing\Controller
             $route = app('router')->getCurrentRoute();
 
             Assert::assertSame('index', $route->getActionMethod());
-            Assert::assertSame(Controller::class, get_class($route->getController()));
+            Assert::assertSame(Controller::class, \get_class($route->getController()));
 
             return $next($request);
         });

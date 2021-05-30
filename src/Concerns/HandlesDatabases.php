@@ -15,7 +15,7 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        \tap($this->app['config'], function ($config) {
+        tap($this->app['config'], function ($config) {
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'pgsql', 'POSTGRES');
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'sqlsrv', 'MSSQL');
@@ -23,7 +23,7 @@ trait HandlesDatabases
 
         $this->defineDatabaseMigrations();
 
-        if (\method_exists($this, 'parseTestMethodAnnotations')) {
+        if (method_exists($this, 'parseTestMethodAnnotations')) {
             $this->parseTestMethodAnnotations($this->app, 'define-db');
         }
 

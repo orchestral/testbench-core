@@ -23,14 +23,14 @@ trait HandlesAnnotations
             return;
         }
 
-        if (\class_exists(Version::class) && \version_compare(Version::id(), '10', '>=')) {
+        if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
             $registry = \PHPUnit\Metadata\Annotation\Parser\Registry::getInstance();
         } else {
             $registry = \PHPUnit\Util\Annotation\Registry::getInstance();
         }
 
         Collection::make(
-            \rescue(function () use ($registry) {
+            rescue(function () use ($registry) {
                 return $registry->forMethod(static::class, $this->getName(false))->symbolAnnotations();
             }, [], false)
         )->filter(function ($actions, $key) use ($name) {
@@ -38,7 +38,7 @@ trait HandlesAnnotations
         })->each(function ($actions) use ($app) {
             Collection::make($actions ?? [])
                 ->filter(function ($method) {
-                    return ! \is_null($method) && \method_exists($this, $method);
+                    return ! \is_null($method) && method_exists($this, $method);
                 })->each(function ($method) use ($app) {
                     $this->{$method}($app);
                 });
