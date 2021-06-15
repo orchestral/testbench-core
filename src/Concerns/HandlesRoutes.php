@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Orchestra\Testbench\Foundation\Application;
-
 trait HandlesRoutes
 {
     /**
