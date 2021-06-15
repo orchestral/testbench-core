@@ -9,7 +9,7 @@ trait HandlesRoutes
      */
     protected function setUpApplicationRoutes(): void
     {
-        if ($this->app->eventsAreCached()) {
+        if ($this->app->routesAreCached()) {
             return;
         }
 
