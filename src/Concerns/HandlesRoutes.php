@@ -2,6 +2,11 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
+use Illuminate\Routing\RouteCollection;
+use Illuminate\Support\Env;
+use Orchestra\Testbench\Foundation\Application;
+
 trait HandlesRoutes
 {
     /**
@@ -9,7 +14,7 @@ trait HandlesRoutes
      */
     protected function setUpApplicationRoutes(): void
     {
-        if ($this->app->eventsAreCached()) {
+        if ($this->app->routesAreCached()) {
             return;
         }
 
@@ -20,7 +25,7 @@ trait HandlesRoutes
                 $this->defineWebRoutes($router);
             });
 
-        if (method_exists($this, 'parseTestMethodAnnotations')) {
+        if (\method_exists($this, 'parseTestMethodAnnotations')) {
             $this->parseTestMethodAnnotations($this->app, 'define-route');
         }
 
@@ -62,25 +67,28 @@ trait HandlesRoutes
     {
         $files = $this->app['files'];
 
+        $time = time();
+
         $files->put(
-            base_path('routes/testbench.php'), $route
+            base_path("routes/testbench-{$time}.php"), $route
         );
 
         $this->artisan('route:cache')->run();
-
         $this->reloadApplication();
 
         $this->assertTrue(
-            $files->exists(base_path('bootstrap/cache/routes-v7.php'))
+            $this->app['files']->exists(\base_path('bootstrap/cache/routes-v7.php'))
         );
 
         $this->requireApplicationCachedRoutes();
 
-        $this->beforeApplicationDestroyed(function () use ($files) {
+        $this->beforeApplicationDestroyed(function () use ($files, $time) {
             $files->delete(
                 base_path('bootstrap/cache/routes-v7.php'),
-                base_path('routes/testbench.php')
+                ...$files->glob(base_path('routes/testbench-*.php'))
             );
+
+            sleep(1);
         });
     }
 
