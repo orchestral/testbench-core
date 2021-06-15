@@ -72,7 +72,7 @@ trait HandlesRoutes
         $this->reloadApplication();
 
         $this->assertTrue(
-            $this->app['files']->exists(base_path('bootstrap/cache/routes-v7.php'))
+            $files->exists(base_path('bootstrap/cache/routes-v7.php'))
         );
 
         $this->requireApplicationCachedRoutes();
