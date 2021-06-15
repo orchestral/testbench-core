@@ -2,9 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
-use Illuminate\Routing\RouteCollection;
-use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
 
 trait HandlesRoutes
@@ -25,7 +22,7 @@ trait HandlesRoutes
                 $this->defineWebRoutes($router);
             });
 
-        if (\method_exists($this, 'parseTestMethodAnnotations')) {
+        if (method_exists($this, 'parseTestMethodAnnotations')) {
             $this->parseTestMethodAnnotations($this->app, 'define-route');
         }
 
@@ -77,12 +74,12 @@ trait HandlesRoutes
         $this->reloadApplication();
 
         $this->assertTrue(
-            $this->app['files']->exists(\base_path('bootstrap/cache/routes-v7.php'))
+            $this->app['files']->exists(base_path('bootstrap/cache/routes-v7.php'))
         );
 
         $this->requireApplicationCachedRoutes();
 
-        $this->beforeApplicationDestroyed(function () use ($files, $time) {
+        $this->beforeApplicationDestroyed(function () use ($files) {
             $files->delete(
                 base_path('bootstrap/cache/routes-v7.php'),
                 ...$files->glob(base_path('routes/testbench-*.php'))
