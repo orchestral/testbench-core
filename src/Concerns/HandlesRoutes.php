@@ -62,12 +62,13 @@ trait HandlesRoutes
     {
         $files = $this->app['files'];
 
+        $time = time();
+
         $files->put(
-            base_path('routes/testbench.php'), $route
+            base_path("routes/testbench-{$time}.php"), $route
         );
 
         $this->artisan('route:cache')->run();
-
         $this->reloadApplication();
 
         $this->assertTrue(
@@ -79,8 +80,10 @@ trait HandlesRoutes
         $this->beforeApplicationDestroyed(function () use ($files) {
             $files->delete(
                 base_path('bootstrap/cache/routes-v7.php'),
-                base_path('routes/testbench.php')
+                ...$files->glob(base_path('routes/testbench-*.php'))
             );
+
+            sleep(1);
         });
     }
 
