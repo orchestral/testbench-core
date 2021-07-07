@@ -16,7 +16,6 @@ jobs:
           - "ubuntu-latest"
           - "windows-latest"
         php:
-          - "7.4"
           - "8.0"
         phpunit:
           - "^9.4"

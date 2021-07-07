@@ -16,7 +16,6 @@ jobs:
           - "ubuntu-latest"
           - "windows-latest"
         php:
-          - "7.4"
           - "8.0"
         phpunit:
           - "^9.4"
@@ -25,7 +24,7 @@ jobs:
           - "lowest"
           - "highest"
         experimental:
-          - false
+          - true
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 

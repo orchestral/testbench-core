@@ -29,10 +29,10 @@ class PackageManifestTest extends TestCase
         $packages = Collection::make(require $manifestPath);
 
         $installedPackages = [
-            'fideloper/proxy',
-            'fruitcake/laravel-cors',
-            'laravel/laravel',
-            'laravel/tinker',
+            // 'fideloper/proxy',
+            // 'fruitcake/laravel-cors',
+            // 'laravel/laravel',
+            // 'laravel/tinker',
             'nesbot/carbon',
             'orchestra/canvas',
             'orchestra/canvas-core',
@@ -40,7 +40,7 @@ class PackageManifestTest extends TestCase
         ];
 
         foreach ($installedPackages as $installedPackage) {
-            $this->assertTrue(\in_array($installedPackage, $packages->keys()->all()));
+            $this->assertTrue(\in_array($installedPackage, $packages->keys()->all()), "Unable to discover {$installedPackage}");
         }
 
         $this->app['files']->delete($manifestPath);
