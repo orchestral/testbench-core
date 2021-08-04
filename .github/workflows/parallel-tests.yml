@@ -23,7 +23,6 @@ jobs:
           - "^9.5.4"
         dependencies:
           - "locked"
-          - "lowest"
           - "highest"
         experimental:
           - false
