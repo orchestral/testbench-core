@@ -23,7 +23,6 @@ jobs:
           - "^9.5.4"
         dependencies:
           - "locked"
-          - "lowest"
           - "highest"
         experimental:
           - false
@@ -44,8 +43,8 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision" --dev --no-interaction --no-update
-          composer require "brianium/paratest" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:@stable" --dev --no-interaction --no-update
+          composer require "brianium/paratest:@stable" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v1"
