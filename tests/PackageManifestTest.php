@@ -29,7 +29,6 @@ class PackageManifestTest extends TestCase
         $packages = Collection::make(require $manifestPath);
 
         $installedPackages = [
-            'fideloper/proxy',
             'fruitcake/laravel-cors',
             'laravel/laravel',
             'laravel/tinker',
