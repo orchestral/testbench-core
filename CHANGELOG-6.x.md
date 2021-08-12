@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.24.0
+
+Released: 2021-08-12
+
+### Changes
+
+* Bump minimum `laravel/framework` to `8.54`.
+* Update skeleton to match v8.5.24.
+
 ## 6.23.1
 
 Released: 2021-07-14
