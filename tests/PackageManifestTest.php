@@ -39,7 +39,7 @@ class PackageManifestTest extends TestCase
         ];
 
         foreach ($installedPackages as $installedPackage) {
-            $this->assertTrue(\in_array($installedPackage, $packages->keys()->all()));
+            $this->assertTrue(\in_array($installedPackage, $packages->keys()->all()), "Unable to discover {$installedPackage}");
         }
 
         $this->app['files']->delete($manifestPath);
