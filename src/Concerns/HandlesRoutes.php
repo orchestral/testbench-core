@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Testing\PendingCommand;
+
 trait HandlesRoutes
 {
     /**
@@ -68,7 +70,12 @@ trait HandlesRoutes
             base_path("routes/testbench-{$time}.php"), $route
         );
 
-        $this->artisan('route:cache')->run();
+        tap($this->artisan('route:cache'), function ($command) {
+            if ($command instanceof PendingCommand) {
+                $command->run();
+            }
+        });
+
         $this->reloadApplication();
 
         $this->assertTrue(
