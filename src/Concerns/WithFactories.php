@@ -31,7 +31,7 @@ trait WithFactories
     {
         if (! class_exists(ModelFactory::class)) {
             throw new Exception(<<<'requirement'
-Missing `laravel/legacy-factories` in composer.json. Please refer to <https://github.com/orchestral/testbench/blob/6.x/README.md#using-legacy-factories>
+Missing `laravel/legacy-factories` in composer.json. Please refer to <https://github.com/orchestral/testbench/blob/master/README.md#using-legacy-factories>
 requirement);
         }
 
