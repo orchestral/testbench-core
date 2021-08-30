@@ -18,7 +18,10 @@
     "autoload": {
         "psr-4": {
             "Orchestra\\Testbench\\" : "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

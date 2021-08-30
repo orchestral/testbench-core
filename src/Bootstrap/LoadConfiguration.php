@@ -54,7 +54,7 @@ class LoadConfiguration
             $path = realpath(__DIR__.'/../../laravel/config');
         }
 
-        if (is_string($path)) {
+        if (\is_string($path)) {
             foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
                 yield basename($file->getRealPath(), '.php') => $file->getRealPath();
             }
