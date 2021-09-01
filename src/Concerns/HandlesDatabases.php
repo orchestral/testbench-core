@@ -42,7 +42,6 @@ trait HandlesDatabases
         // Define database migrations.
     }
 
-
     /**
      * Define database seeders.
      *
