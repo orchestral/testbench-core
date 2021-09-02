@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 4.18.0
+
+Released: 2021-09-02
+
+### Added
+
+* Add ability to define database seeder using `TestCase::defineDatabaseSeeders()` method.
+
 ## 4.17.0
 
 Released: 2021-05-25

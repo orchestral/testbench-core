@@ -20,6 +20,8 @@ trait HandlesDatabases
         }
 
         $callback();
+
+        $this->defineDatabaseSeeders();
     }
 
     /**
@@ -30,5 +32,15 @@ trait HandlesDatabases
     protected function defineDatabaseMigrations()
     {
         // Define database migrations.
+    }
+
+    /**
+     * Define database seeders.
+     *
+     * @return void
+     */
+    protected function defineDatabaseSeeders()
+    {
+        // Define database seeders.
     }
 }
