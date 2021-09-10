@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Testing\PendingCommand;
+use Orchestra\Testbench\Contracts\TestCase;
 
 function artisan(TestCase $testbench, string $command, array $parameters = [])
 {
