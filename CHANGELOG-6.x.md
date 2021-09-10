@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.25.1
+
+Released: 2021-09-11
+
+### Fixes
+
+* Fixes missing `Orchestra\Testbench\Contracts\TestCase` to `artisan()` helper function.
+
 ## 6.25.0
 
 Released: 2021-09-08
