@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.25.2
+
+Released: 2021-09-18
+
+### Changes
+
+* Ability to use `App\Http\Kernel` and `App\Console\Kernel` via Commander if the class exists.
+
 ## 6.25.1
 
 Released: 2021-09-11
@@ -210,7 +218,7 @@ Released: 2021-02-09
 
 * Add `defineWebRoutes()` to automatically define routes under `web` middleware.
 
-## 6.14.0 
+## 6.14.0
 
 Released: 2021-02-07
 
@@ -376,7 +384,7 @@ Released: 2020-10-27
 
 * Added support for PHP 8.
 
-## 6.4.0 
+## 6.4.0
 
 Released: 2020-10-20
 
