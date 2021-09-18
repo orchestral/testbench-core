@@ -15,6 +15,18 @@ class Kernel extends ConsoleKernel
     protected $commands = [];
 
     /**
+     * Register the commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        if (file_exists($console = base_path('routes/console.php'))) {
+            require $console;
+        }
+    }
+
+    /**
      * Report the exception to the exception handler.
      *
      * @param  \Throwable  $e

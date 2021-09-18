@@ -207,7 +207,7 @@ class Commander
     {
         $kernel = 'Orchestra\Testbench\Console\Kernel';
 
-        if ($app->basePath('app/Console/Kernel.php') && class_exists('App\Console\Kernel')) {
+        if (file_exists($app->basePath('app/Console/Kernel.php')) && class_exists('App\Console\Kernel')) {
             $kernel = 'App\Console\Kernel';
         }
 
@@ -225,7 +225,7 @@ class Commander
     {
         $kernel = 'Orchestra\Testbench\Http\Kernel';
 
-        if ($app->basePath('app/Http/Kernel.php') && class_exists('App\Http\Kernel')) {
+        if (file_exists($app->basePath('app/Http/Kernel.php')) && class_exists('App\Http\Kernel')) {
             $kernel = 'App\Http\Kernel';
         }
 
