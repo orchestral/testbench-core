@@ -68,6 +68,7 @@ jobs:
           - "7.3"
           - "7.4"
           - "8.0"
+          - "8.1"
         phpunit:
           - "^9.3.3"
         dependencies:
@@ -115,6 +116,7 @@ jobs:
           - "ubuntu-latest"
         php:
           - "8.0"
+          - "8.1"
         phpunit:
           - "^10.0"
         dependencies:
