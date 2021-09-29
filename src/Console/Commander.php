@@ -60,7 +60,11 @@ class Commander
      */
     public static function applicationBasePath()
     {
-        return CreatesApplication::applicationBasePath();
+        $app = new class {
+            use CreatesApplication;
+        };
+
+        return $app::applicationBasePath();
     }
 
     /**
