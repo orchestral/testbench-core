@@ -10,7 +10,7 @@ trait WithLoadMigrationsFrom
     /**
      * Define hooks to migrate the database before and after each test.
      *
-     * @param  string|array  $paths
+     * @param  string|array<string, mixed>  $paths
      *
      * @throws \InvalidArgumentException
      *

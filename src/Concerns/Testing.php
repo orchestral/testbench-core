@@ -156,9 +156,9 @@ trait Testing
     /**
      * Boot the testing helper traits.
      *
-     * @param  array  $uses
+     * @param  array<string, string>  $uses
      *
-     * @return array
+     * @return array<string, string>
      */
     final protected function setUpTheTestEnvironmentTraits(array $uses): array
     {
@@ -285,7 +285,7 @@ trait Testing
     /**
      * Boot the testing helper traits.
      *
-     * @return array
+     * @return array<string, string>
      */
     abstract protected function setUpTraits();
 
