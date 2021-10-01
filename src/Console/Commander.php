@@ -10,7 +10,7 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Env;
-use Orchestra\Testbench\Concerns\CreatesApplication;
+use function Orchestra\Testbench\container;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -60,11 +60,7 @@ class Commander
      */
     public static function applicationBasePath()
     {
-        $app = new class {
-            use CreatesApplication;
-        };
-
-        return $app::applicationBasePath();
+        return container()::applicationBasePath();
     }
 
     /**
