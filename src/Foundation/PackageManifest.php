@@ -11,7 +11,7 @@ class PackageManifest extends IlluminatePackageManifest
     /**
      * Testbench Class.
      *
-     * @var \Orchestra\Testbench\Contracts\TestCase|null
+     * @var \Orchestra\Testbench\Contracts\TestCase|object|null
      */
     protected $testbench;
 
@@ -45,7 +45,7 @@ class PackageManifest extends IlluminatePackageManifest
      * @param  \Illuminate\Foundation\Application  $app
      * @param  object|null  $testbench
      *
-     * @return static
+     * @return void
      */
     public static function swap($app, $testbench = null)
     {
@@ -120,9 +120,9 @@ class PackageManifest extends IlluminatePackageManifest
             return [];
         }
 
-        $package = json_decode(file_get_contents(
-            TESTBENCH_WORKING_PATH.'/composer.json'
-        ), true);
+        $package = transform(file_get_contents(TESTBENCH_WORKING_PATH.'/composer.json'), function ($json) {
+            return json_decode($json, true);
+        });
 
         return [
             $this->format($package['name']) => $package['extra']['laravel'] ?? [],

@@ -20,7 +20,7 @@ class Application
     /**
      * The application resolving callback.
      *
-     * @var callable|nulls
+     * @var callable|null
      */
     protected $resolvingCallback;
 

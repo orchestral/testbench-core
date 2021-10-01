@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Database;
 
 use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Testing\PendingCommand;
+use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\Contracts\TestCase;
 
 class MigrateProcessor
@@ -67,10 +67,6 @@ class MigrateProcessor
      */
     protected function dispatch(string $command): void
     {
-        $console = $this->testbench->artisan($command, $this->options);
-
-        if ($console instanceof PendingCommand) {
-            $console->run();
-        }
+        artisan($this->testbench, $command, $this->options);
     }
 }

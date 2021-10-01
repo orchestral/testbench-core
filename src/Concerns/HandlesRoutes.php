@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use function Orchestra\Testbench\artisan;
+
 trait HandlesRoutes
 {
     /**
@@ -66,7 +68,9 @@ trait HandlesRoutes
             base_path("routes/testbench-{$time}.php"), $route
         );
 
-        $this->artisan('route:cache')->run();
+
+        artisan($this, 'route:cache');
+
         $this->reloadApplication();
 
         $this->assertTrue(
