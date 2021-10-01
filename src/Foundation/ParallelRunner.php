@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation;
 
-use Orchestra\Testbench\Concerns\CreatesApplication;
+use function Orchestra\Testbench\container;
 
 class ParallelRunner extends \Illuminate\Testing\ParallelRunner
 {
@@ -13,10 +13,6 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
-        $applicationCreator = new class() {
-            use CreatesApplication;
-        };
-
-        return $applicationCreator->createApplication();
+        return container()->createApplication();
     }
 }
