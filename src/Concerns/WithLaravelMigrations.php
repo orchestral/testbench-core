@@ -9,7 +9,7 @@ trait WithLaravelMigrations
     /**
      * Migrate Laravel's default migrations.
      *
-     * @param  array|string  $database
+     * @param  string|array<string, mixed>  $database
      *
      * @return void
      */
@@ -32,7 +32,7 @@ trait WithLaravelMigrations
     /**
      * Migrate all Laravel's migrations.
      *
-     * @param  array|string  $database
+     * @param  string|array<string, mixed>  $database
      *
      * @return void
      */

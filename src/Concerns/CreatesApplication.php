@@ -22,7 +22,7 @@ trait CreatesApplication
     /**
      * Ignore package discovery from.
      *
-     * @return array
+     * @return array<int, string>
      */
     public function ignorePackageDiscoveriesFrom()
     {
@@ -46,7 +46,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function overrideApplicationBindings($app)
     {
@@ -72,7 +72,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function getApplicationAliases($app)
     {
@@ -84,7 +84,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function overrideApplicationAliases($app)
     {
@@ -96,7 +96,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<string, string>
      */
     final protected function resolveApplicationAliases($app): array
     {
@@ -117,7 +117,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function getPackageAliases($app)
     {
@@ -129,7 +129,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<int, string>
      */
     protected function getPackageBootstrappers($app)
     {
@@ -141,7 +141,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<int, string>
      */
     protected function getApplicationProviders($app)
     {
@@ -153,7 +153,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<int, string>
      */
     protected function overrideApplicationProviders($app)
     {
@@ -165,7 +165,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<int, string>
      */
     final protected function resolveApplicationProviders($app): array
     {
@@ -186,7 +186,7 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return array<int, string>
      */
     protected function getPackageProviders($app)
     {

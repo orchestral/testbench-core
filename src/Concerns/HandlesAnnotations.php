@@ -33,7 +33,7 @@ trait HandlesAnnotations
             rescue(function () use ($registry) {
                 return $registry->forMethod(static::class, $this->getName(false))->symbolAnnotations();
             }, [], false)
-        )->filter(function ($actions, $key) use ($name) {
+        )->filter(static function ($actions, $key) use ($name) {
             return $key === $name;
         })->each(function ($actions) use ($app) {
             Collection::make($actions ?? [])
