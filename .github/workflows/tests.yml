@@ -68,11 +68,11 @@ jobs:
           - "7.3"
           - "7.4"
           - "8.0"
+          - "8.1"
         phpunit:
           - "^9.5.8"
         dependencies:
           - "locked"
-          - "lowest"
           - "highest"
         experimental:
           - false
@@ -115,11 +115,11 @@ jobs:
           - "ubuntu-latest"
         php:
           - "8.0"
+          - "8.1"
         phpunit:
           - "^10.0"
         dependencies:
           - "locked"
-          - "lowest"
           - "highest"
         experimental:
           - true
