@@ -18,7 +18,7 @@ jobs:
         php:
           - "8.0"
         phpunit:
-          - "^9.4"
+          - "^9.5.10"
         dependencies:
           - "locked"
           - "highest"

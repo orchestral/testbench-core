@@ -17,11 +17,11 @@ jobs:
           - "windows-latest"
         php:
           - "8.0"
+          - "8.1"
         phpunit:
-          - "^9.4"
+          - "^9.5.10"
         dependencies:
           - "locked"
-          - "lowest"
           - "highest"
         experimental:
           - false
@@ -64,11 +64,11 @@ jobs:
           - "ubuntu-latest"
         php:
           - "8.0"
+          - "8.1"
         phpunit:
           - "^10.0"
         dependencies:
           - "locked"
-          - "lowest"
           - "highest"
         experimental:
           - true
