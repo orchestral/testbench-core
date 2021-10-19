@@ -17,7 +17,7 @@ jobs:
         php:
           - "8.2"
         phpunit:
-          - "^9.5.8"
+          - "^9.5.10"
           - "^10.0"
         dependencies:
           - "highest"

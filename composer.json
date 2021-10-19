@@ -38,20 +38,20 @@
         "vlucas/phpdotenv": "^5.1"
     },
     "require-dev": {
-        "laravel/framework": "^8.63",
+        "laravel/framework": "^8.65",
         "laravel/laravel": "8.x-dev",
         "mockery/mockery": "^1.4.4",
         "orchestra/canvas": "^6.1",
-        "phpunit/phpunit": "^8.5.19 || ^9.5.8 || ^10.0",
+        "phpunit/phpunit": "^8.5.19 || ^9.5.10 || ^10.0",
         "spatie/laravel-ray": "^1.7.1",
         "symfony/process": "^5.0"
     },
     "suggest": {
-        "laravel/framework": "Required for testing (^8.54).",
-        "mockery/mockery": "Allow using Mockery for testing (^1.4.2).",
+        "laravel/framework": "Required for testing (^8.65).",
+        "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^6.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^6.0).",
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^8.4|^9.3.3)."
+        "phpunit/phpunit": "Allow using PHPUnit for testing (^8.5.19|^9.5.10|^10.0)."
     },
     "extra": {
         "branch-alias": {

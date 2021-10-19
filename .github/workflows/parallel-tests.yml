@@ -20,7 +20,7 @@ jobs:
           - "7.4"
           - "8.0"
         phpunit:
-          - "^9.5.8"
+          - "^9.5.10"
         dependencies:
           - "locked"
           - "highest"

@@ -70,7 +70,7 @@ jobs:
           - "8.0"
           - "8.1"
         phpunit:
-          - "^9.5.8"
+          - "^9.5.10"
         dependencies:
           - "locked"
           - "highest"
