@@ -2,6 +2,20 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.26.0
+
+Released: 2021-10-21
+
+### Added
+
+* Added draft support for PHP 8.1.
+* Added `Orchestra\Testbench\container()` function to easily create an application instance.
+
+### Changes
+
+* Update skeleton to match v8.6.4.
+* Improves docblock.
+
 ## 6.25.2
 
 Released: 2021-09-18
