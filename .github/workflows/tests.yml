@@ -19,7 +19,7 @@ jobs:
           - "7.3"
           - "7.4"
         phpunit:
-          - "^8.5.19"
+          - "^8.5.21"
         dependencies:
           - "locked"
           - "lowest"
