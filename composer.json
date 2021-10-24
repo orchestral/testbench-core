@@ -51,7 +51,7 @@
         "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.4|^10.0).",
+        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.10|^10.0).",
         "symfony/yaml": "Required for CLI Commander (^6.0).",
         "vlucas/phpdotenv": "Required for CLI Commander (^5.3)."
     },
