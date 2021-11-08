@@ -30,6 +30,10 @@ trait HandlesDatabases
         $callback();
 
         $this->defineDatabaseSeeders();
+
+        $this->beforeApplicationDestroyed(function () {
+            $this->destroyDatabaseMigrations();
+        });
     }
 
     /**
@@ -40,6 +44,16 @@ trait HandlesDatabases
     protected function defineDatabaseMigrations()
     {
         // Define database migrations.
+    }
+
+    /**
+     * Destroy database migrations.
+     *
+     * @return void
+     */
+    protected function destroyDatabaseMigrations()
+    {
+        // Destroy database migrations.
     }
 
     /**
