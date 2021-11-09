@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Closure;
+use Illuminate\Database\Events\DatabaseRefreshed;
 
 trait HandlesDatabases
 {
@@ -19,6 +20,10 @@ trait HandlesDatabases
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'pgsql', 'POSTGRES');
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'sqlsrv', 'MSSQL');
+        });
+
+        $this->app['events']->listen(DatabaseRefreshed::class, function () {
+            $this->defineDatabaseMigrationsOnRefreshed();
         });
 
         $this->defineDatabaseMigrations();
@@ -44,6 +49,16 @@ trait HandlesDatabases
     protected function defineDatabaseMigrations()
     {
         // Define database migrations.
+    }
+
+    /**
+     * Define database migrations on database refreshed.
+     *
+     * @return void
+     */
+    protected function defineDatabaseMigrationsOnRefreshed()
+    {
+        // Define database migrations on database refreshed.
     }
 
     /**
