@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.27.0
+
+Released: 2021-11-10
+
+### Added
+
+* Add ability to define database migrations using `TestCase::defineDatabaseMigrationsAfterDatabaseRefreshed()` method, the method will only be executed via `Illuminate\Database\Events\DatabaseRefreshed` event.
+* Add ability to destroy database migrations using `TestCase::destroyDatabaseMigrations()`.
+
 ## 6.26.0
 
 Released: 2021-10-21
