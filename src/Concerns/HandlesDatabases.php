@@ -23,7 +23,7 @@ trait HandlesDatabases
         });
 
         $this->app['events']->listen(DatabaseRefreshed::class, function () {
-            $this->defineDatabaseMigrationsOnRefreshed();
+            $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
         });
 
         $this->defineDatabaseMigrations();
@@ -52,13 +52,13 @@ trait HandlesDatabases
     }
 
     /**
-     * Define database migrations on database refreshed.
+     * Define database migrations after database refreshed.
      *
      * @return void
      */
-    protected function defineDatabaseMigrationsOnRefreshed()
+    protected function defineDatabaseMigrationsAfterDatabaseRefreshed()
     {
-        // Define database migrations on database refreshed.
+        // Define database migrations after database refreshed.
     }
 
     /**
