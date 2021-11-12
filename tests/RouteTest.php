@@ -89,11 +89,11 @@ class RouteTest extends TestCase
     /** @test */
     public function it_can_resolve_name_routes()
     {
-        $this->app['router']->get('bad-route', function () {
+        $this->app['router']->get('passthrough', function () {
             return route('bye');
-        })->name('bae');
+        })->name('pass');
 
-        $response = $this->call('GET', route('bae'));
+        $response = $this->call('GET', route('pass'));
 
         $response->assertStatus(200);
         $this->assertEquals('http://localhost/goodbye', $response->getContent());
