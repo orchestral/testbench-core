@@ -21,7 +21,7 @@ function container()
  *
  * @param  \Orchestra\Testbench\Contracts\TestCase  $testbench
  * @param  string  $command
- * @param  array  $parameters
+ * @param  array<string, mixed>  $parameters
  *
  * @return \Illuminate\Testing\PendingCommand|int
  */
