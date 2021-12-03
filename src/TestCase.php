@@ -56,7 +56,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     /**
      * Boot the testing helper traits.
      *
-     * @return array<string, string>
+     * @return array<class-string, class-string>
      */
     protected function setUpTraits()
     {
