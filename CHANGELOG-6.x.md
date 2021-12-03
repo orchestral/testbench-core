@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.27.3
+
+Released: 2021-12-04
+
+### Changes
+
+* Improves docblock.
+
 ## 6.27.2
 
 Released: 2021-12-02
