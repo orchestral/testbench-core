@@ -38,21 +38,21 @@ trait Testing
     /**
      * The callbacks that should be run after the application is created.
      *
-     * @var array
+     * @var array<int, callable>
      */
     protected $afterApplicationCreatedCallbacks = [];
 
     /**
      * The callbacks that should be run after the application is refreshed.
      *
-     * @var array
+     * @var array<int, callable>
      */
     protected $afterApplicationRefreshedCallbacks = [];
 
     /**
      * The callbacks that should be run before the application is destroyed.
      *
-     * @var array
+     * @var array<int, callable>
      */
     protected $beforeApplicationDestroyedCallbacks = [];
 
@@ -156,9 +156,9 @@ trait Testing
     /**
      * Boot the testing helper traits.
      *
-     * @param  array<string, string>  $uses
+     * @param  array<class-string, class-string>  $uses
      *
-     * @return array<string, string>
+     * @return array<class-string, class-string>
      */
     final protected function setUpTheTestEnvironmentTraits(array $uses): array
     {
@@ -285,7 +285,11 @@ trait Testing
     /**
      * Boot the testing helper traits.
      *
+<<<<<<< HEAD
      * @return array<string, string>
+=======
+     * @return array<class-string, class-string>
+>>>>>>> 6.x
      */
     abstract protected function setUpTraits();
 
