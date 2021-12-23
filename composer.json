@@ -38,7 +38,7 @@
         "vlucas/phpdotenv": "^5.1"
     },
     "require-dev": {
-        "laravel/framework": "^8.71",
+        "laravel/framework": "^8.75",
         "laravel/laravel": "8.x-dev",
         "mockery/mockery": "^1.4.4",
         "orchestra/canvas": "^6.1",
@@ -47,7 +47,7 @@
         "symfony/process": "^5.0"
     },
     "suggest": {
-        "laravel/framework": "Required for testing (^8.71).",
+        "laravel/framework": "Required for testing (^8.75).",
         "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^6.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^6.0).",
