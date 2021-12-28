@@ -38,21 +38,21 @@ trait Testing
     /**
      * The callbacks that should be run after the application is created.
      *
-     * @var array<int, callable>
+     * @var array<int, callable():void>
      */
     protected $afterApplicationCreatedCallbacks = [];
 
     /**
      * The callbacks that should be run after the application is refreshed.
      *
-     * @var array<int, callable>
+     * @var array<int, callable():void>
      */
     protected $afterApplicationRefreshedCallbacks = [];
 
     /**
      * The callbacks that should be run before the application is destroyed.
      *
-     * @var array<int, callable>
+     * @var array<int, callable():void>
      */
     protected $beforeApplicationDestroyedCallbacks = [];
 
@@ -214,7 +214,7 @@ trait Testing
     /**
      * Register a callback to be run after the application is refreshed.
      *
-     * @param  callable  $callback
+     * @param  callable():void  $callback
      *
      * @return void
      */
@@ -230,7 +230,7 @@ trait Testing
     /**
      * Register a callback to be run after the application is created.
      *
-     * @param  callable  $callback
+     * @param  callable():void  $callback
      *
      * @return void
      */
@@ -246,7 +246,7 @@ trait Testing
     /**
      * Register a callback to be run before the application is destroyed.
      *
-     * @param  callable  $callback
+     * @param  callable():void  $callback
      *
      * @return void
      */
