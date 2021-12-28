@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use Orchestra\Testbench\TestCase;
 
-class CacheRouteTest extends TestCase
+class InlineCacheRouteTest extends TestCase
 {
     use InteractsWithPublishedFiles;
 
@@ -13,20 +13,6 @@ class CacheRouteTest extends TestCase
         'routes/testbench.php',
         'bootstrap/cache/routes-v7.php',
     ];
-
-    /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        $this->defineCacheRoutes(<<<PHP
-<?php
-
-Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');
-PHP);
-
-        parent::setUp();
-    }
 
     /**
      * Teardown the test environment.
@@ -41,6 +27,12 @@ PHP);
     /** @test */
     public function it_can_cache_route()
     {
+        $this->defineCacheRoutes(<<<PHP
+<?php
+
+Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');
+PHP);
+
         $this->get('stubs-controller')
             ->assertOk()
             ->assertSee('Controller@index');
