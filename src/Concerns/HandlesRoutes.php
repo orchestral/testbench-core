@@ -73,20 +73,11 @@ trait HandlesRoutes
         Application::create(
             $this->getBasePath(),
         )->make(Kernel::class)->call('route:cache');
-<<<<<<< HEAD
-
-        if (isset($this->app)) {
-            $this->reloadApplication();
-        }
-=======
->>>>>>> 6.x
 
         $this->assertTrue(
             $files->exists(base_path('bootstrap/cache/routes-v7.php'))
         );
 
-<<<<<<< HEAD
-=======
         if (isset($this->app)) {
             $this->reloadApplication();
         }
@@ -99,7 +90,6 @@ trait HandlesRoutes
      */
     protected function requireApplicationCachedRoutes(Filesystem $files): void
     {
->>>>>>> 6.x
         $this->afterApplicationCreated(function () {
             require $this->app->getCachedRoutesPath();
         });
