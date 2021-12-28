@@ -15,6 +15,20 @@ class CacheRouteTest extends TestCase
     ];
 
     /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        $this->defineCacheRoutes(<<<PHP
+<?php
+
+Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');
+PHP);
+
+        parent::setUp();
+    }
+
+    /**
      * Teardown the test environment.
      */
     protected function tearDown(): void
@@ -27,12 +41,6 @@ class CacheRouteTest extends TestCase
     /** @test */
     public function it_can_cache_route()
     {
-        $this->defineCacheRoutes(<<<PHP
-<?php
-
-Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');
-PHP);
-
         $this->get('stubs-controller')
             ->assertOk()
             ->assertSee('Controller@index');

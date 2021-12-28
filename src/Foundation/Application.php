@@ -78,6 +78,10 @@ class Application
             $this->loadEnvironmentVariables = $options['load_environment_variables'];
         }
 
+        if (isset($options['enables_package_discoveries']) && \is_bool($options['enables_package_discoveries'])) {
+            Arr::set($options, 'extra.dont-discover', []);
+        }
+
         $this->config = Arr::only($options['extra'] ?? [], ['dont-discover', 'providers']);
 
         return $this;
