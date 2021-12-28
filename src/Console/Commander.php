@@ -98,32 +98,15 @@ class Commander
         if (! $this->app) {
             $this->createSymlinkToVendorPath();
 
-            $this->app = Application::create($this->getBasePath(), $this->resolveApplicationCallback());
+            $this->app = Application::create($this->getBasePath(), $this->resolveApplicationCallback(), [
+                'extra' => [
+                    'providers' => $this->config['providers'] ?? [],
+                    'dont-discover' => $this->config['dont-discover'] ?? [],
+                ],
+            ]);
         }
 
         return $this->app;
-    }
-
-    /**
-     * Ignore package discovery from.
-     *
-     * @return array
-     */
-    public function ignorePackageDiscoveriesFrom()
-    {
-        return $this->config['dont-discover'] ?? [];
-    }
-
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return array
-     */
-    protected function getPackageProviders($app)
-    {
-        return $this->config['providers'] ?? [];
     }
 
     /**
