@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
 class Application
@@ -18,9 +19,16 @@ class Application
     protected $basePath;
 
     /**
+     * List of configurations.
+     *
+     * @var array<string, mixed>
+     */
+    protected $config = [];
+
+    /**
      * The application resolving callback.
      *
-     * @var callable|null
+     * @var callable(\Illuminate\Foundation\Application):void|null
      */
     protected $resolvingCallback;
 
@@ -35,7 +43,7 @@ class Application
      * Create new application resolver.
      *
      * @param  string  $basePath
-     * @param  callable|null  $resolvingCallback
+     * @param  callable(\Illuminate\Foundation\Application):void|null  $resolvingCallback
      */
     public function __construct(string $basePath, ?callable $resolvingCallback = null)
     {
@@ -47,7 +55,7 @@ class Application
      * Create new application instance.
      *
      * @param  string  $basePath
-     * @param  callable|null  $resolvingCallback
+     * @param  callable(\Illuminate\Foundation\Application):void|null  $resolvingCallback
      * @param  array  $options
      *
      * @return \Illuminate\Foundation\Application
@@ -60,7 +68,7 @@ class Application
     /**
      * Configure the application options.
      *
-     * @param  array  $options
+     * @param  array<string, mixed>  $options
      *
      * @return $this
      */
@@ -70,7 +78,35 @@ class Application
             $this->loadEnvironmentVariables = $options['load_environment_variables'];
         }
 
+        if (isset($options['enables_package_discoveries']) && \is_bool($options['enables_package_discoveries'])) {
+            Arr::set($options, 'extra.dont-discover', []);
+        }
+
+        $this->config = Arr::only($options['extra'] ?? [], ['dont-discover', 'providers']);
+
         return $this;
+    }
+
+    /**
+     * Ignore package discovery from.
+     *
+     * @return array
+     */
+    public function ignorePackageDiscoveriesFrom()
+    {
+        return $this->config['dont-discover'] ?? [];
+    }
+
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function getPackageProviders($app)
+    {
+        return $this->config['providers'] ?? [];
     }
 
     /**

@@ -7,12 +7,40 @@ use Illuminate\Testing\PendingCommand;
 /**
  * Create Laravel application instance.
  *
+ * @param  string|null  $basePath
  * @return object
  */
-function container()
+function container(?string $basePath = null)
 {
-    return new class() {
+    return new class($basePath) {
         use Concerns\CreatesApplication;
+
+        /**
+         * The default base path.
+         *
+         * @var string|null
+         */
+        protected $basePath;
+
+        /**
+         * Construc a new container.
+         *
+         * @param  string|null  $basePath
+         */
+        public function __construct(?string $basePath)
+        {
+            $this->basePath = $basePath;
+        }
+
+        /**
+         * Get base path.
+         *
+         * @return string
+         */
+        protected function getBasePath()
+        {
+            return $this->basePath ?? static::applicationBasePath();
+        }
     };
 }
 
