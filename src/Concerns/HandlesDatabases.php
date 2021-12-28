@@ -12,7 +12,7 @@ trait HandlesDatabases
     /**
      * Setup database requirements.
      *
-     * @param  \Closure  $callback
+     * @param  \Closure():void  $callback
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
