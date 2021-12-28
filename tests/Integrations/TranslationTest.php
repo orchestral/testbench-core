@@ -9,7 +9,7 @@ class TranslationTest extends TestCase
     /** @test */
     public function it_can_resolve_default_language_path()
     {
-        $this->assertSame(base_path('resources/lang'), $this->app->langPath());
+        $this->assertSame(base_path('resources'.DIRECTORY_SEPARATOR.'lang'), $this->app->langPath());
     }
 
     /** @test */
