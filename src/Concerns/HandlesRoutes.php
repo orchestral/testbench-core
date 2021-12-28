@@ -75,6 +75,10 @@ trait HandlesRoutes
             $this->getBasePath(),
         )->make(Kernel::class)->call('route:cache');
 
+        if (isset($this->app)) {
+            $this->reloadApplication();
+        }
+
         $this->assertTrue(
             $files->exists(base_path('bootstrap/cache/routes-v7.php'))
         );
