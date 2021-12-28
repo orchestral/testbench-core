@@ -285,11 +285,7 @@ trait Testing
     /**
      * Boot the testing helper traits.
      *
-<<<<<<< HEAD
-     * @return array<string, string>
-=======
      * @return array<class-string, class-string>
->>>>>>> 6.x
      */
     abstract protected function setUpTraits();
 
