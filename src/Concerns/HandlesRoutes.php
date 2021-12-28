@@ -66,13 +66,13 @@ trait HandlesRoutes
 
         $time = time();
 
+        $laravel = Application::create($this->getBasePath());
+
         $files->put(
-            base_path("routes/testbench-{$time}.php"), $route
+            $laravel->basePath("routes/testbench-{$time}.php"), $route
         );
 
-        Application::create(
-            $this->getBasePath(),
-        )->make(Kernel::class)->call('route:cache');
+        $laravel->make(Kernel::class)->call('route:cache');
 
         $this->assertTrue(
             $files->exists(base_path('bootstrap/cache/routes-v7.php'))
