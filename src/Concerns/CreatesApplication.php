@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
-use Orchestra\Testbench\Contracts\EnablesPackageDiscoveries;
 use Orchestra\Testbench\Foundation\PackageManifest;
 
 /**

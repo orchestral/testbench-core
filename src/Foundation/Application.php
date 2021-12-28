@@ -21,7 +21,7 @@ class Application
     /**
      * List of configurations.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $config = [];
 
