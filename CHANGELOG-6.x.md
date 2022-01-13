@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.28.0
+
+Released: 2021-01-13
+
+### Changes
+
+* Allow package discoveries by adding `$enablesPacakgeDiscoveries = true` property.
+* Allow to run `defineCacheRoute()` before application is ready.
+* Support defining custom `$basePath` when using `Orchestra\Testbench\container` function.
+
 ## 6.27.4
 
 Released: 2021-12-23
