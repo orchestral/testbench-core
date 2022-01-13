@@ -43,7 +43,7 @@
         "phpunit/phpunit": "^9.5.10 || ^10.0",
         "symfony/process": "^6.0",
         "symfony/yaml": "^6.0",
-        "vlucas/phpdotenv": "^5.3"
+        "vlucas/phpdotenv": "^5.4.1"
     },
     "suggest": {
         "fakerphp/faker": "Allow using Faker for testing (^1.9.2).",
@@ -53,7 +53,7 @@
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.10|^10.0).",
         "symfony/yaml": "Required for CLI Commander (^6.0).",
-        "vlucas/phpdotenv": "Required for CLI Commander (^5.3)."
+        "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
     },
     "extra": {
         "branch-alias": {
