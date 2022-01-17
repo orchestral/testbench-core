@@ -31,11 +31,11 @@ class PackageManifestTest extends TestCase
         $installedPackages = [
             'fruitcake/laravel-cors',
             'laravel/laravel',
-            //'laravel/tinker',
+            'laravel/tinker',
             'nesbot/carbon',
             'orchestra/canvas',
             'orchestra/canvas-core',
-            //'spatie/laravel-ray',
+            // 'spatie/laravel-ray',
         ];
 
         foreach ($installedPackages as $installedPackage) {
