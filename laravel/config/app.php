@@ -190,7 +190,7 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
+    'aliases' => Facade::aliases()->merge([
         // ...
     ])->toArray(),
 
