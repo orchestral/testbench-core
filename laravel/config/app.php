@@ -191,8 +191,6 @@ return [
     |
     */
 
-    'aliases' => with(Facade::defaultAliases(), function ($aliases) {
-        return $aliases instanceof Arrayable ? $aliases->toArray() : $aliases;
-    }),
+    'aliases' => with(Facade::defaultAliases(), fn ($aliases) => $aliases instanceof Arrayable ? $aliases->toArray() : $aliases),
 
 ];
