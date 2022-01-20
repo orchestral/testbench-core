@@ -32,6 +32,13 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected $loadEnvironmentVariables = true;
 
     /**
+     * Automatically enables package discoveries.
+     *
+     * @var bool
+     */
+    protected $enablesPackageDiscoveries = false;
+
+    /**
      * Setup the test environment.
      *
      * @return void

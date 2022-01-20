@@ -23,6 +23,7 @@ jobs:
         dependencies:
           - "locked"
           - "highest"
+          - "lowest"
         experimental:
           - false
 
@@ -70,6 +71,7 @@ jobs:
         dependencies:
           - "locked"
           - "highest"
+          - "lowest"
         experimental:
           - true
 

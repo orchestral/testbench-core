@@ -2,9 +2,12 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Foundation\PackageManifest;
 
 /**
@@ -350,6 +353,8 @@ trait CreatesApplication
         $this->defineEnvironment($app);
         $this->getEnvironmentSetUp($app);
 
+        $this->resolveApplicationRateLimiting($app);
+
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
@@ -365,6 +370,20 @@ trait CreatesApplication
         $refreshNameLookups($app);
 
         $app->resolving('url', fn ($url, $app) => $refreshNameLookups($app));
+    }
+
+    /**
+     * Resolve application rate limiting configuration.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
+    protected function resolveApplicationRateLimiting($app)
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
     }
 
     /**
