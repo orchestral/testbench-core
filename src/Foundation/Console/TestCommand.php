@@ -55,9 +55,9 @@ class TestCommand extends Command
         $options = Collection::make($options)
             ->merge(['--printer=NunoMaduro\\Collision\\Adapters\\Phpunit\\Printer'])
             ->reject(static function ($option) {
-                return ! Str::startsWith($option, '--env=')
-                    && $option != '--coverage'
-                    && ! Str::startsWith($option, '--min');
+                return Str::startsWith($option, '--env=')
+                    || $option == '--coverage'
+                    || Str::startsWith($option, '--min');
             })->values()->all();
 
         return array_merge($this->commonArguments(), ['--configuration=./'], $options);
@@ -74,12 +74,12 @@ class TestCommand extends Command
     {
         $options = Collection::make($options)
             ->reject(static function ($option) {
-                return ! Str::startsWith($option, '--env=')
-                    && $option != '--coverage'
-                    && ! Str::startsWith($option, '--min')
-                    && ! Str::startsWith($option, '-p')
-                    && ! Str::startsWith($option, '--parallel')
-                    && ! Str::startsWith($option, '--recreate-databases');
+                return Str::startsWith($option, '--env=')
+                    || $option == '--coverage'
+                    || Str::startsWith($option, '--min')
+                    || Str::startsWith($option, '-p')
+                    || Str::startsWith($option, '--parallel')
+                    || Str::startsWith($option, '--recreate-databases');
             })->values()->all();
 
         return array_merge([
