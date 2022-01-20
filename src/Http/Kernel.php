@@ -14,10 +14,12 @@ final class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        // Middleware\TrustHosts::class,
+        // Middleware\TrustProxies::class,
+        Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        // \Illuminate\Http\Middleware\TrustProxies::class,
     ];
 
     /**
@@ -37,7 +39,7 @@ final class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
+            'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
