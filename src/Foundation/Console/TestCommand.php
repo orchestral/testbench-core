@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use NunoMaduro\Collision\Coverage;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 
 class TestCommand extends Command
@@ -15,6 +16,8 @@ class TestCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
+        {--coverage : Indicates whether the coverage information should be collected}
+        {--min= : Indicates the minimum threshold enforcement for coverage}
         {--parallel : Indicates if the tests should run in parallel}
         {--recreate-databases : Indicates if the test databases should be re-created}
     ';
@@ -52,10 +55,12 @@ class TestCommand extends Command
         $options = Collection::make($options)
             ->merge(['--printer=NunoMaduro\\Collision\\Adapters\\Phpunit\\Printer'])
             ->reject(static function ($option) {
-                return Str::startsWith($option, '--env=');
+                return ! Str::startsWith($option, '--env=')
+                    && $option != '--coverage'
+                    && ! Str::startsWith($option, '--min');
             })->values()->all();
 
-        return array_merge(['--configuration=./'], $options);
+        return array_merge($this->commonArguments(), ['--configuration=./'], $options);
     }
 
     /**
@@ -69,9 +74,12 @@ class TestCommand extends Command
     {
         $options = Collection::make($options)
             ->reject(static function ($option) {
-                return Str::startsWith($option, '--env=')
-                    || Str::startsWith($option, '--parallel')
-                    || Str::startsWith($option, '--recreate-databases');
+                return ! Str::startsWith($option, '--env=')
+                    && $option != '--coverage'
+                    && ! Str::startsWith($option, '--min')
+                    && ! Str::startsWith($option, '-p')
+                    && ! Str::startsWith($option, '--parallel')
+                    && ! Str::startsWith($option, '--recreate-databases');
             })->values()->all();
 
         return array_merge([
