@@ -15,7 +15,7 @@ use Orchestra\Testbench\Foundation\Application;
  */
 function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
 {
-    return Application::create($basePath, $resolvingCallback, $options);
+    return tap(new Application($basePath, $resolvingCallback))->configure($options);
 }
 
 /**
