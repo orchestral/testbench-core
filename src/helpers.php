@@ -9,11 +9,13 @@ use Orchestra\Testbench\Foundation\Application;
  * Create Laravel application instance.
  *
  * @param  string|null  $basePath
+ * @param  callable(\Illuminate\Foundation\Application):void|null  $resolvingCallback
+ * @param  array  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null)
+function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
 {
-    return new Application($basePath);
+    return Application::create($basePath, $resolvingCallback, $options);
 }
 
 /**
