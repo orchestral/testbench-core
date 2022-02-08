@@ -13,6 +13,8 @@ Released: 2022-02-08
 
 ### Changes
 
+* Update support for Laravel Framework v9.
+* Increase minimum PHP version to 8.0 and above (tested with 8.0 and 8.1).
 * `$loadEnvironmentVariables` property is now set to `true` by default.
 * Following internal classes has been marked as `final`:
     - `Orchestra\Testbench\Bootstrap\LoadConfiguration`
