@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.28.1
+
+Released: 2022-02-08
+
+### Changes
+
+* Update skeleton to match v8.6.11.
+
 ## 6.28.0
 
 Released: 2022-01-13
