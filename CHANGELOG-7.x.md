@@ -6,7 +6,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ### Changes
 
-* `$loadEnvironmentVariables` property is not set to `true` by default.
+* `$loadEnvironmentVariables` property is now set to `true` by default.
 
 ### Removed
 
