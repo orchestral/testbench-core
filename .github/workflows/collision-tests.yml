@@ -21,7 +21,7 @@ jobs:
         phpunit:
           - "^9.5.10"
         dependencies:
-          - "locked"
+          - "lowest"
           - "highest"
         experimental:
           - false
@@ -70,12 +70,12 @@ jobs:
         phpunit:
           - "^9.5.10"
         dependencies:
-          - "locked"
+          - "lowest"
           - "highest"
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
 
     steps:
       - name: Checkout code
