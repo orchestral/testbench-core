@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase;
+use function Orchestra\Testbench\artisan;
 
 class RefreshDatabaseTest extends TestCase
 {
@@ -28,7 +29,7 @@ class RefreshDatabaseTest extends TestCase
      */
     protected function defineDatabaseMigrations()
     {
-        $this->artisan('migrate', ['--database' => 'testing']);
+        artisan($this, 'migrate', ['--database' => 'testing']);
     }
 
     /**

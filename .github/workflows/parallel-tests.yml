@@ -17,13 +17,14 @@ jobs:
           - "windows-latest"
         php:
           - "8.0"
+          - "8.1"
         phpunit:
           - "^9.5.10"
         dependencies:
-          - "locked"
           - "highest"
+          - "lowest"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -41,8 +42,7 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.0" --dev --no-interaction --no-update
-          composer require "brianium/paratest:@stable" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:^6.1" "brianium/paratest:^6.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v1"

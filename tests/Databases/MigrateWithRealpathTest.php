@@ -7,12 +7,12 @@ use Orchestra\Testbench\TestCase;
 class MigrateWithRealpathTest extends TestCase
 {
     /**
-     * Setup the test environment.
+     * Define database migrations.
+     *
+     * @return void
      */
-    protected function setUp(): void
+    protected function defineDatabaseMigrations()
     {
-        parent::setUp();
-
         // call migrations specific to our tests, e.g. to seed the db
         // the path option should be an absolute path.
         $this->loadMigrationsFrom(realpath(__DIR__.'/../migrations'));

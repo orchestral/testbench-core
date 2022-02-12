@@ -15,7 +15,7 @@ class CommanderTest extends TestCase
      */
     public function it_can_call_commander_using_cli()
     {
-        $command = [$this->phpBinary(), 'testbench', '--version'];
+        $command = [$this->phpBinary(), 'testbench', '--version', '--no-ansi'];
 
         $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
         $commander->mustRun();
