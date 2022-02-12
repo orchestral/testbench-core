@@ -41,8 +41,8 @@
         "mockery/mockery": "^1.4.4",
         "orchestra/canvas": "^8.0",
         "phpunit/phpunit": "^9.5.10 || ^10.0",
-        "symfony/process": "^6.0",
-        "symfony/yaml": "^6.0",
+        "symfony/process": "^6.1",
+        "symfony/yaml": "^6.1",
         "vlucas/phpdotenv": "^5.4.1"
     },
     "suggest": {
