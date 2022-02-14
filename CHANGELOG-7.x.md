@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.0.1
+
+Released: 2022-02-14
+
+### Changes
+
+* Add missing `lang/en.json` skeleton file.
+
 ## 7.0.0
 
 Released: 2022-02-08
