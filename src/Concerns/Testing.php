@@ -149,9 +149,7 @@ trait Testing
 
         Queue::createPayloadUsing(null);
 
-        if (method_exists(HandleExceptions::class, 'forgetApp')) {
-            HandleExceptions::forgetApp();
-        }
+        HandleExceptions::forgetApp();
 
         if ($this->callbackException) {
             throw $this->callbackException;
