@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Tests\Databases;
 
-use Orchestra\Testbench\TestCase;
 use function Orchestra\Testbench\artisan;
+use Orchestra\Testbench\TestCase;
 
 class MigrateDatabaseWithoutMockedConsoleTest extends TestCase
 {
