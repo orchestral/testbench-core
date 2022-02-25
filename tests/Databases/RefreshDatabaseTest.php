@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Orchestra\Testbench\TestCase;
 use function Orchestra\Testbench\artisan;
+use Orchestra\Testbench\TestCase;
 
 class RefreshDatabaseTest extends TestCase
 {

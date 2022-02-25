@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use NunoMaduro\Collision\Coverage;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 
 class TestCommand extends Command

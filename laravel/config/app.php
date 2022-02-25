@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -57,7 +56,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL'),
+    'asset_url' => env('ASSET_URL', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -191,6 +190,8 @@ return [
     |
     */
 
-    'aliases' => with(Facade::defaultAliases(), fn ($aliases) => $aliases instanceof Arrayable ? $aliases->toArray() : $aliases),
+    'aliases' => Facade::defaultAliases()->merge([
+        // ...
+    ])->toArray(),
 
 ];
