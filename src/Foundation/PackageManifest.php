@@ -75,6 +75,7 @@ class PackageManifest extends IlluminatePackageManifest
      * Requires packages.
      *
      * @param  string[]  $packages
+     *
      * @return $this
      */
     public function requires(...$packages)
