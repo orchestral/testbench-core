@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.3.0
+
+Released: 2022-03-30
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.6.0`.
+* Update skeleton to match v9.1.3.
+
 ## 7.2.0
 
 Released: 2022-03-20
