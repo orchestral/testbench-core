@@ -20,6 +20,7 @@ class TestFallbackCommand extends Command
         {--min= : Indicates the minimum threshold enforcement for coverage}
         {--parallel : Indicates if the tests should run in parallel}
         {--recreate-databases : Indicates if the test databases should be re-created}
+        {--drop-databases : Indicates if the test databases should be dropped}
     ';
 
     /**
@@ -66,7 +67,7 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $command = $this->findComposer().' require "nunomaduro/collision:^6.1" --dev';
+        $command = $this->findComposer().' require "nunomaduro/collision:^6.2" --dev';
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
 
