@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.4.0
+
+Released: 2022-04-13
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.6.0`.
+* Add support for `--drop-databases` on `package:test` command.
+
 ## 7.3.0
 
 Released: 2022-03-30
