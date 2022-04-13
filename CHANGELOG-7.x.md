@@ -8,8 +8,9 @@ Released: 2022-04-13
 
 ### Changes
 
-* Bump minimum `laravel/framework` to `9.6.0`.
+* Bump minimum `laravel/framework` to `9.7.0`.
 * Add support for `--drop-databases` on `package:test` command.
+* Update skeleton to match v9.1.5.
 
 ## 7.3.0
 

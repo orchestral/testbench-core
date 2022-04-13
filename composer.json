@@ -48,7 +48,7 @@
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^6.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.9.2).",
-        "laravel/framework": "Required for testing (^9.6).",
+        "laravel/framework": "Required for testing (^9.7).",
         "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.2).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
