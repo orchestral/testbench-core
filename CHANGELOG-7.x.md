@@ -10,7 +10,7 @@ Released: 2022-05-11
 
 * Bump minimum `laravel/framework` to `9.12.0`.
 * Update skeleton to match v9.1.8.
-* 
+
 ## 7.4.0
 
 Released: 2022-04-13
