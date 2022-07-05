@@ -72,6 +72,20 @@ class PackageManifest extends IlluminatePackageManifest
     }
 
     /**
+     * Requires packages.
+     *
+     * @param  string[]  $packages
+     *
+     * @return $this
+     */
+    public function requires(...$packages)
+    {
+        $this->requiredPackages = array_merge($this->requiredPackages, $packages);
+
+        return $this;
+    }
+
+    /**
      * Get the current package manifest.
      *
      * @return array
