@@ -57,7 +57,6 @@ class Application
      * @param  string|null  $basePath
      * @param  callable(\Illuminate\Foundation\Application):void|null  $resolvingCallback
      * @param  array  $options
-     *
      * @return \Illuminate\Foundation\Application
      */
     public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
@@ -69,7 +68,6 @@ class Application
      * Configure the application options.
      *
      * @param  array<string, mixed>  $options
-     *
      * @return $this
      */
     public function configure(array $options)
@@ -101,7 +99,6 @@ class Application
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return array
      */
     protected function getPackageProviders($app)

@@ -160,7 +160,6 @@ trait Testing
      * Boot the testing helper traits.
      *
      * @param  array<class-string, class-string>  $uses
-     *
      * @return array<class-string, class-string>
      */
     final protected function setUpTheTestEnvironmentTraits(array $uses): array
@@ -218,7 +217,6 @@ trait Testing
      * Register a callback to be run after the application is refreshed.
      *
      * @param  callable():void  $callback
-     *
      * @return void
      */
     protected function afterApplicationRefreshed(callable $callback): void
@@ -234,7 +232,6 @@ trait Testing
      * Register a callback to be run after the application is created.
      *
      * @param  callable():void  $callback
-     *
      * @return void
      */
     protected function afterApplicationCreated(callable $callback): void
@@ -250,7 +247,6 @@ trait Testing
      * Register a callback to be run before the application is destroyed.
      *
      * @param  callable():void  $callback
-     *
      * @return void
      */
     protected function beforeApplicationDestroyed(callable $callback): void

@@ -33,7 +33,6 @@ trait HandlesRoutes
      * Define routes setup.
      *
      * @param  \Illuminate\Routing\Router  $router
-     *
      * @return void
      */
     protected function defineRoutes($router)
@@ -45,7 +44,6 @@ trait HandlesRoutes
      * Define web routes setup.
      *
      * @param  \Illuminate\Routing\Router  $router
-     *
      * @return void
      */
     protected function defineWebRoutes($router)
@@ -57,7 +55,6 @@ trait HandlesRoutes
      * Define cache routes setup.
      *
      * @param  string  $route
-     *
      * @return void
      */
     protected function defineCacheRoutes(string $route)

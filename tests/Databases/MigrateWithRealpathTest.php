@@ -22,7 +22,6 @@ class MigrateWithRealpathTest extends TestCase
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return void
      */
     protected function defineEnvironment($app)

@@ -11,10 +11,9 @@ trait WithLoadMigrationsFrom
      * Define hooks to migrate the database before and after each test.
      *
      * @param  string|array<string, mixed>  $paths
+     * @return void
      *
      * @throws \InvalidArgumentException
-     *
-     * @return void
      */
     protected function loadMigrationsFrom($paths): void
     {

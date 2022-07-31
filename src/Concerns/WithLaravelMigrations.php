@@ -10,7 +10,6 @@ trait WithLaravelMigrations
      * Migrate Laravel's default migrations.
      *
      * @param  string|array<string, mixed>  $database
-     *
      * @return void
      */
     protected function loadLaravelMigrations($database = []): void
@@ -31,7 +30,6 @@ trait WithLaravelMigrations
      * Migrate all Laravel's migrations.
      *
      * @param  string|array<string, mixed>  $database
-     *
      * @return void
      */
     protected function runLaravelMigrations($database = []): void

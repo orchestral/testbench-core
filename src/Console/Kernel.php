@@ -30,10 +30,9 @@ final class Kernel extends ConsoleKernel
      * Report the exception to the exception handler.
      *
      * @param  \Throwable  $e
+     * @return void
      *
      * @throws \Throwable
-     *
-     * @return void
      */
     protected function reportException(Throwable $e)
     {
