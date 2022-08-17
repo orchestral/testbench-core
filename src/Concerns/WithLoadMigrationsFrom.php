@@ -15,13 +15,10 @@ trait WithLoadMigrationsFrom
      */
     protected function loadMigrationsFrom($paths): void
     {
-        $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
-        $migrator->up();
+        $this->loadMigrationsWithoutRollbackFrom($paths);
 
-        $this->resetApplicationArtisanCommands($this->app);
-
-        $this->beforeApplicationDestroyed(static function () use ($migrator) {
-            $migrator->rollback();
+        $this->beforeApplicationDestroyed(function () use ($paths) {
+            (new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths)))->rollback();
         });
     }
 
