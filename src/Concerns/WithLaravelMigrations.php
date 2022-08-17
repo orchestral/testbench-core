@@ -10,9 +10,10 @@ trait WithLaravelMigrations
      * Migrate Laravel's default migrations.
      *
      * @param  string|array<string, mixed>  $database
+     * @param  bool                         $rollback
      * @return void
      */
-    protected function loadLaravelMigrations($database = []): void
+    protected function loadLaravelMigrations($database = [], bool $rollback = true): void
     {
         $options = \is_array($database) ? $database : ['--database' => $database];
 
@@ -23,16 +24,19 @@ trait WithLaravelMigrations
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
+        if ($rollback) {
+            $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
+        }
     }
 
     /**
      * Migrate all Laravel's migrations.
      *
      * @param  string|array<string, mixed>  $database
+     * @param  bool                         $rollback
      * @return void
      */
-    protected function runLaravelMigrations($database = []): void
+    protected function runLaravelMigrations($database = [], bool $rollback = true): void
     {
         $options = \is_array($database) ? $database : ['--database' => $database];
 
@@ -41,6 +45,8 @@ trait WithLaravelMigrations
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
+        if ($rollback) {
+            $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
+        }
     }
 }

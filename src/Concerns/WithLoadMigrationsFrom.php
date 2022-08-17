@@ -11,11 +11,12 @@ trait WithLoadMigrationsFrom
      * Define hooks to migrate the database before and after each test.
      *
      * @param  string|array<string, mixed>  $paths
+     * @param  bool                         $rollback
      * @return void
      *
      * @throws \InvalidArgumentException
      */
-    protected function loadMigrationsFrom($paths): void
+    protected function loadMigrationsFrom($paths, bool $rollback = true): void
     {
         $options = \is_array($paths) ? $paths : ['--path' => $paths];
 
@@ -30,6 +31,8 @@ trait WithLoadMigrationsFrom
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
+        if ($rollback) {
+            $this->beforeApplicationDestroyed(fn () => $migrator->rollback());
+        }
     }
 }
