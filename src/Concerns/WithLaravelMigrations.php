@@ -10,7 +10,6 @@ trait WithLaravelMigrations
      * Migrate Laravel's default migrations.
      *
      * @param  string|array<string, mixed>  $database
-     *
      * @return void
      */
     protected function loadLaravelMigrations($database = []): void
@@ -29,7 +28,6 @@ trait WithLaravelMigrations
      * Migrate Laravel's default migrations without rollback.
      *
      * @param  string|array<string, mixed>  $database
-     *
      * @return void
      */
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
@@ -44,7 +42,6 @@ trait WithLaravelMigrations
      * Migrate all Laravel's migrations.
      *
      * @param  string|array<string, mixed>  $database
-     *
      * @return void
      */
     protected function runLaravelMigrations($database = []): void
@@ -63,7 +60,6 @@ trait WithLaravelMigrations
      * Migrate all Laravel's migrations without rollback.
      *
      * @param  string|array<string, mixed>  $database
-     *
      * @return void
      */
     protected function runLaravelMigrationsWithoutRollback($database = []): void
@@ -78,7 +74,6 @@ trait WithLaravelMigrations
      * Resolve Laravel Migrations Artisan command options.
      *
      * @param  string|array<string, mixed>  $database
-     *
      * @return array
      */
     protected function resolveLaravelMigrationsOptions($database = []): array

@@ -11,7 +11,6 @@ trait WithLoadMigrationsFrom
      * Define hooks to migrate the database before and after each test.
      *
      * @param  string|array<string, mixed>  $paths
-     *
      * @return void
      */
     protected function loadMigrationsFrom($paths): void
@@ -30,7 +29,6 @@ trait WithLoadMigrationsFrom
      * Define hooks to migrate the database before each test without rollback after.
      *
      * @param  string|array<string, mixed>  $paths
-     *
      * @return void
      */
     protected function loadMigrationsWithoutRollbackFrom($paths): void
@@ -45,7 +43,6 @@ trait WithLoadMigrationsFrom
      * Resolve Package Migrations Artisan command options.
      *
      * @param  string|array<string, mixed>  $paths
-     *
      * @return array
      */
     protected function resolvePackageMigrationsOptions($paths = []): array

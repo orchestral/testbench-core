@@ -43,8 +43,7 @@ class TestCommand extends Command
     /**
      * Get the array of arguments for running PHPUnit.
      *
-     * @param array $options
-     *
+     * @param  array  $options
      * @return array
      */
     protected function phpunitArguments($options)
@@ -61,8 +60,7 @@ class TestCommand extends Command
     /**
      * Get the array of arguments for running Paratest.
      *
-     * @param array $options
-     *
+     * @param  array  $options
      * @return array
      */
     protected function paratestArguments($options)

@@ -44,7 +44,6 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  object|null  $testbench
-     *
      * @return void
      */
     public static function swap($app, $testbench = null)
@@ -63,7 +62,6 @@ class PackageManifest extends IlluminatePackageManifest
      * Set Testbench instance.
      *
      * @param  object|null  $testbench
-     *
      * @return void
      */
     public function setTestbench($testbench): void
@@ -146,10 +144,9 @@ class PackageManifest extends IlluminatePackageManifest
      * Write the given manifest array to disk.
      *
      * @param  array  $manifest
+     * @return void
      *
      * @throws \Exception
-     *
-     * @return void
      */
     protected function write(array $manifest)
     {

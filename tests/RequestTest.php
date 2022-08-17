@@ -10,7 +10,6 @@ class RequestTest extends TestCase
      * Define routes setup.
      *
      * @param  \Illuminate\Routing\Router  $router
-     *
      * @return void
      */
     protected function defineRoutes($router)
@@ -24,7 +23,6 @@ class RequestTest extends TestCase
      * Define web routes setup.
      *
      * @param  \Illuminate\Routing\Router  $router
-     *
      * @return void
      */
     protected function defineWebRoutes($router)

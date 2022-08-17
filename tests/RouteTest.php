@@ -11,7 +11,6 @@ class RouteTest extends TestCase
      * Define routes setup.
      *
      * @param  \Illuminate\Routing\Router  $router
-     *
      * @return void
      */
     protected function defineRoutes($router)

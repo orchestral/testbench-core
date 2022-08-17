@@ -14,7 +14,6 @@ class LoadConfiguration
      * Bootstrap the given application.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     *
      * @return void
      */
     public function bootstrap(Application $app): void
@@ -31,7 +30,6 @@ class LoadConfiguration
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Illuminate\Contracts\Config\Repository  $config
-     *
      * @return void
      */
     protected function loadConfigurationFiles(Application $app, RepositoryContract $config): void
@@ -45,7 +43,6 @@ class LoadConfiguration
      * Get all of the configuration files for the application.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     *
      * @return \Generator
      */
     protected function getConfigurationFiles(Application $app): Generator

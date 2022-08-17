@@ -10,7 +10,6 @@ class MigrateDatabaseTest extends TestCase
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return void
      */
     protected function defineEnvironment($app)
@@ -32,7 +31,6 @@ class MigrateDatabaseTest extends TestCase
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return array
      */
     protected function getPackageProviders($app)

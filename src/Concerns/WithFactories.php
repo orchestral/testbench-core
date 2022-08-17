@@ -11,7 +11,6 @@ trait WithFactories
      * Load model factories from path.
      *
      * @param  string  $path
-     *
      * @return $this
      */
     protected function withFactories(string $path)
@@ -24,7 +23,6 @@ trait WithFactories
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  string  $path
-     *
      * @return $this
      */
     protected function loadFactoriesUsing($app, string $path)

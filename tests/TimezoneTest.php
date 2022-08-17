@@ -11,7 +11,6 @@ class TimezoneTest extends TestCase
      * Get application timezone.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return string|null
      */
     protected function getApplicationTimezone($app)

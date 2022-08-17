@@ -12,7 +12,8 @@ use Illuminate\Testing\PendingCommand;
  */
 function container(?string $basePath = null)
 {
-    return new class($basePath) {
+    return new class($basePath)
+    {
         use Concerns\CreatesApplication;
 
         /**
@@ -50,7 +51,6 @@ function container(?string $basePath = null)
  * @param  \Orchestra\Testbench\Contracts\TestCase  $testbench
  * @param  string  $command
  * @param  array<string, mixed>  $parameters
- *
  * @return \Illuminate\Testing\PendingCommand|int
  */
 function artisan(Contracts\TestCase $testbench, string $command, array $parameters = [])
