@@ -16,7 +16,10 @@ trait WithLoadMigrationsFrom
      */
     protected function loadMigrationsFrom($paths): void
     {
-        $migrator = $this->loadMigrationsWithoutRollbackFrom($paths);
+        $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
+        $migrator->up();
+
+        $this->resetApplicationArtisanCommands($this->app);
 
         $this->beforeApplicationDestroyed(static function () use ($migrator) {
             $migrator->rollback();
@@ -28,9 +31,24 @@ trait WithLoadMigrationsFrom
      *
      * @param  string|array<string, mixed>  $paths
      *
-     * @return MigrateProcessor
+     * @return void
      */
-    protected function loadMigrationsWithoutRollbackFrom($paths): MigrateProcessor
+    protected function loadMigrationsWithoutRollbackFrom($paths): void
+    {
+        $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
+        $migrator->up();
+
+        $this->resetApplicationArtisanCommands($this->app);
+    }
+
+    /**
+     * Resolve Package Migrations Artisan command options.
+     *
+     * @param  string|array<string, mixed>  $paths
+     *
+     * @return array
+     */
+    protected function resolvePackageMigrationsOptions($paths = []): array
     {
         $options = \is_array($paths) ? $paths : ['--path' => $paths];
 
@@ -40,11 +58,6 @@ trait WithLoadMigrationsFrom
 
         $options['--realpath'] = true;
 
-        $migrator = new MigrateProcessor($this, $options);
-        $migrator->up();
-
-        $this->resetApplicationArtisanCommands($this->app);
-
-        return $migrator;
+        return $options;
     }
 }

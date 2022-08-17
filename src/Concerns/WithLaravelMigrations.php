@@ -15,7 +15,10 @@ trait WithLaravelMigrations
      */
     protected function loadLaravelMigrations($database = []): void
     {
-        $migrator = $this->loadLaravelMigrationsWithoutRollback($database);
+        $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
+        $migrator->up();
+
+        $this->resetApplicationArtisanCommands($this->app);
 
         $this->beforeApplicationDestroyed(static function () use ($migrator) {
             $migrator->rollback();
@@ -27,20 +30,14 @@ trait WithLaravelMigrations
      *
      * @param  string|array<string, mixed>  $database
      *
-     * @return MigrateProcessor
+     * @return void
      */
-    protected function loadLaravelMigrationsWithoutRollback($database = []): MigrateProcessor
+    protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
-        $options = \is_array($database) ? $database : ['--database' => $database];
-
-        $options['--path'] = 'migrations';
-
-        $migrator = new MigrateProcessor($this, $options);
+        $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
         $migrator->up();
 
         $this->resetApplicationArtisanCommands($this->app);
-
-        return $migrator;
     }
 
     /**
@@ -52,7 +49,10 @@ trait WithLaravelMigrations
      */
     protected function runLaravelMigrations($database = []): void
     {
-        $migrator = $this->runLaravelMigrationsWithoutRollback($database);
+        $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
+        $migrator->up();
+
+        $this->resetApplicationArtisanCommands($this->app);
 
         $this->beforeApplicationDestroyed(static function () use ($migrator) {
             $migrator->rollback();
@@ -64,17 +64,29 @@ trait WithLaravelMigrations
      *
      * @param  string|array<string, mixed>  $database
      *
-     * @return MigrateProcessor
+     * @return void
      */
-    protected function runLaravelMigrationsWithoutRollback($database = []): MigrateProcessor
+    protected function runLaravelMigrationsWithoutRollback($database = []): void
     {
-        $options = \is_array($database) ? $database : ['--database' => $database];
-
-        $migrator = new MigrateProcessor($this, $options);
+        $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
         $migrator->up();
 
         $this->resetApplicationArtisanCommands($this->app);
+    }
 
-        return $migrator;
+    /**
+     * Resolve Laravel Migrations Artisan command options.
+     *
+     * @param  string|array<string, mixed>  $database
+     *
+     * @return array
+     */
+    protected function resolveLaravelMigrationsOptions($database = []): array
+    {
+        $options = \is_array($database) ? $database : ['--database' => $database];
+
+        $options['--path'] = 'migrations';
+
+        return $options;
     }
 }
