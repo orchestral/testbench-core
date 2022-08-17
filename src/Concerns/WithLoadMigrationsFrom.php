@@ -16,6 +16,22 @@ trait WithLoadMigrationsFrom
      */
     protected function loadMigrationsFrom($paths): void
     {
+        $migrator = $this->loadMigrationsWithoutRollbackFrom($paths);
+
+        $this->beforeApplicationDestroyed(static function () use ($migrator) {
+            $migrator->rollback();
+        });
+    }
+
+    /**
+     * Define hooks to migrate the database before each test without rollback after.
+     *
+     * @param  string|array<string, mixed>  $paths
+     *
+     * @return MigrateProcessor
+     */
+    protected function loadMigrationsWithoutRollbackFrom($paths): MigrateProcessor
+    {
         $options = \is_array($paths) ? $paths : ['--path' => $paths];
 
         if (isset($options['--realpath']) && ! \is_bool($options['--realpath'])) {
@@ -29,8 +45,6 @@ trait WithLoadMigrationsFrom
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(static function () use ($migrator) {
-            $migrator->rollback();
-        });
+        return $migrator;
     }
 }
