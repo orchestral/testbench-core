@@ -15,6 +15,22 @@ trait WithLaravelMigrations
      */
     protected function loadLaravelMigrations($database = []): void
     {
+        $migrator = $this->loadLaravelMigrationsWithoutRollback($database);
+
+        $this->beforeApplicationDestroyed(static function () use ($migrator) {
+            $migrator->rollback();
+        });
+    }
+
+    /**
+     * Migrate Laravel's default migrations without rollback.
+     *
+     * @param  string|array<string, mixed>  $database
+     *
+     * @return MigrateProcessor
+     */
+    protected function loadLaravelMigrationsWithoutRollback($database = []): MigrateProcessor
+    {
         $options = \is_array($database) ? $database : ['--database' => $database];
 
         $options['--path'] = 'migrations';
@@ -24,9 +40,7 @@ trait WithLaravelMigrations
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(static function () use ($migrator) {
-            $migrator->rollback();
-        });
+        return $migrator;
     }
 
     /**
@@ -38,6 +52,22 @@ trait WithLaravelMigrations
      */
     protected function runLaravelMigrations($database = []): void
     {
+        $migrator = $this->runLaravelMigrationsWithoutRollback($database);
+
+        $this->beforeApplicationDestroyed(static function () use ($migrator) {
+            $migrator->rollback();
+        });
+    }
+
+    /**
+     * Migrate all Laravel's migrations without rollback.
+     *
+     * @param  string|array<string, mixed>  $database
+     *
+     * @return MigrateProcessor
+     */
+    protected function runLaravelMigrationsWithoutRollback($database = []): MigrateProcessor
+    {
         $options = \is_array($database) ? $database : ['--database' => $database];
 
         $migrator = new MigrateProcessor($this, $options);
@@ -45,8 +75,6 @@ trait WithLaravelMigrations
 
         $this->resetApplicationArtisanCommands($this->app);
 
-        $this->beforeApplicationDestroyed(static function () use ($migrator) {
-            $migrator->rollback();
-        });
+        return $migrator;
     }
 }
