@@ -4,7 +4,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 6.29.0
 
-Released: 2022-07-24
+Released: 2022-08-24
 
 ### Added
 
