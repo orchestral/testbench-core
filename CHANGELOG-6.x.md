@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.29.0
+
+Released: 2022-07-24
+
+### Added
+
+* Added `loadLaravelMigrationsWithoutRollback()` and `runLaravelMigrationsWithoutRollback()` helpers.
+
 ## 6.28.1
 
 Released: 2022-02-08
