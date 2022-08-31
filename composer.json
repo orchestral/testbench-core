@@ -38,6 +38,7 @@
         "fakerphp/faker": "^1.9.2",
         "laravel/framework": "^10.0",
         "laravel/laravel": "dev-master",
+        "laravel/pint": "^1.1",
         "mockery/mockery": "^1.4.4",
         "orchestra/canvas": "^8.0",
         "phpunit/phpunit": "^9.5.10",

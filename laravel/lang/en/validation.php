@@ -43,6 +43,7 @@ return [
     'digits_between' => 'The :attribute must be between :min and :max digits.',
     'dimensions' => 'The :attribute has invalid image dimensions.',
     'distinct' => 'The :attribute field has a duplicate value.',
+    'doesnt_end_with' => 'The :attribute may not end with one of the following: :values.',
     'doesnt_start_with' => 'The :attribute may not start with one of the following: :values.',
     'email' => 'The :attribute must be a valid email address.',
     'ends_with' => 'The :attribute must end with one of the following: :values.',
@@ -89,6 +90,7 @@ return [
         'string' => 'The :attribute must not be greater than :max characters.',
         'array' => 'The :attribute must not have more than :max items.',
     ],
+    'max_digits' => 'The :attribute must not have more than :max digits.',
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
@@ -97,6 +99,7 @@ return [
         'string' => 'The :attribute must be at least :min characters.',
         'array' => 'The :attribute must have at least :min items.',
     ],
+    'min_digits' => 'The :attribute must have at least :min digits.',
     'multiple_of' => 'The :attribute must be a multiple of :value.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',

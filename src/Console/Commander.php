@@ -136,12 +136,12 @@ class Commander
             );
         }
 
-        return (new Dotenv(
+        return new Dotenv(
             new StringStore(implode("\n", $this->config['env'] ?? [])),
             new Parser(),
             new Loader(),
             Env::getRepository()
-        ));
+        );
     }
 
     /**
@@ -189,7 +189,6 @@ class Commander
      * Resolve application Console Kernel implementation.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return void
      */
     protected function resolveApplicationConsoleKernel($app)
@@ -207,7 +206,6 @@ class Commander
      * Resolve application HTTP Kernel implementation.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return void
      */
     protected function resolveApplicationHttpKernel($app)
@@ -226,7 +224,6 @@ class Commander
      *
      * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @param  \Throwable  $error
-     *
      * @return int
      */
     protected function handleException(OutputInterface $output, Throwable $error)
