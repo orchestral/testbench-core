@@ -8,7 +8,8 @@ use PHPUnit\Util\Annotation\Registry;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
-    use Concerns\Testing,
+    use Concerns\HandlesTestFailures,
+        Concerns\Testing,
         Testing\Concerns\InteractsWithAuthentication,
         Testing\Concerns\InteractsWithConsole,
         Testing\Concerns\InteractsWithContainer,
@@ -46,6 +47,8 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     protected function setUp(): void
     {
+        static::$latestResponse = null;
+
         $this->setUpTheTestEnvironment();
     }
 
