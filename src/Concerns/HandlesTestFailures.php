@@ -2,6 +2,13 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Testing\AssertableJsonString;
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Util\Annotation\Registry;
+use ReflectionProperty;
+use Throwable;
+
 trait HandlesTestFailures
 {
     /**
