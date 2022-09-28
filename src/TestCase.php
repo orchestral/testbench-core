@@ -4,6 +4,7 @@ namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
 use PHPUnit\Framework\TestCase as PHPUnit;
+use PHPUnit\Util\Annotation\Registry;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
@@ -78,5 +79,20 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected function refreshApplication()
     {
         $this->app = $this->createApplication();
+    }
+
+    /**
+     * Clean up the testing environment before the next test case.
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass(): void
+    {
+        static::$latestResponse = null;
+
+        (function () {
+            $this->classDocBlocks = [];
+            $this->methodDocBlocks = [];
+        })->call(Registry::getInstance());
     }
 }
