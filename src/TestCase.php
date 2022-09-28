@@ -47,7 +47,9 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     protected function setUp(): void
     {
-        static::$latestResponse = null;
+        if (property_exists(TestCase::class, 'latestResponse')) {
+            static::$latestResponse = null;
+        }
 
         $this->setUpTheTestEnvironment();
     }
@@ -91,7 +93,9 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     public static function tearDownAfterClass(): void
     {
-        static::$latestResponse = null;
+        if (property_exists(TestCase::class, 'latestResponse')) {
+            static::$latestResponse = null;
+        }
 
         (function () {
             $this->classDocBlocks = [];
