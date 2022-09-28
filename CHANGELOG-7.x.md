@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.7.1
+
+Released: 2022-09-28
+
+### Changes
+
+* Update skeleton to match v9.3.8.
+
 ## 7.7.0
 
 Released: 2022-08-24
@@ -9,6 +17,9 @@ Released: 2022-08-24
 ### Added
 
 * Added `loadLaravelMigrationsWithoutRollback()` and `runLaravelMigrationsWithoutRollback()` helpers.
+
+### Changes
+
 * Update skeleton to match v9.3.5.
 
 ## 7.6.1
