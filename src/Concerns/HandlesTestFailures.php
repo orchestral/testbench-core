@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Testing\AssertableJsonString;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Util\Annotation\Registry;
