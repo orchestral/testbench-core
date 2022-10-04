@@ -49,6 +49,10 @@ jobs:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
 
+      - name: Audit dependencies
+        run: |
+          composer audit
+
       - name: Prepare Testbench
         run: composer run prepare
 
