@@ -6,7 +6,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Testing\AssertableJsonString;
 use PHPUnit\Framework\ExpectationFailedException;
-use PHPUnit\Util\Annotation\Registry;
 use ReflectionProperty;
 use Throwable;
 
@@ -75,6 +74,7 @@ trait HandlesTestFailures
 
         return $this->appendMessageToException($message, $exception);
     }
+
     /**
      * Append errors to an exception message.
      *
