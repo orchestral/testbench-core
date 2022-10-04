@@ -50,6 +50,7 @@ jobs:
           composer-options: "--prefer-dist --no-cache"
 
       - name: Audit dependencies
+        continue-on-error: true
         run: |
           composer audit
 
