@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.2",
-        "laravel/framework": "^9.32",
+        "laravel/framework": "^9.33",
         "laravel/laravel": "9.x-dev",
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",
@@ -49,13 +49,13 @@
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^6.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.9.2).",
-        "laravel/framework": "Required for testing (^9.32).",
-        "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
+        "laravel/framework": "Required for testing (^9.33).",
+        "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.2).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.10).",
-        "symfony/yaml": "Required for CLI Commander (^6.0).",
+        "symfony/yaml": "Required for CLI Commander (^6.0.9).",
         "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
     },
     "extra": {
