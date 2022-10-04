@@ -22,7 +22,7 @@ jobs:
         dependencies:
           - "highest"
         experimental:
-          - false
+          - true
 
     name: PHP${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
