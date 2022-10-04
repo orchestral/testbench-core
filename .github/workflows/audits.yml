@@ -19,12 +19,10 @@ jobs:
           - "7.4"
           - "8.0"
           - "8.1"
-        dependencies:
-          - "highest"
         experimental:
           - true
 
-    name: PHP${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP${{ matrix.php }} on ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -40,7 +38,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v1"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
+          dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
