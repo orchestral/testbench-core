@@ -39,11 +39,11 @@
         "laravel/framework": "^9.32",
         "laravel/laravel": "9.x-dev",
         "laravel/pint": "^1.1",
-        "mockery/mockery": "^1.4.4",
+        "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^7.0",
         "phpunit/phpunit": "^9.5.10",
-        "symfony/process": "^6.0",
-        "symfony/yaml": "^6.0",
+        "symfony/process": "^6.0.9",
+        "symfony/yaml": "^6.0.9",
         "vlucas/phpdotenv": "^5.4.1"
     },
     "suggest": {
