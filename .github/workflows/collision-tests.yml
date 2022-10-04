@@ -18,8 +18,9 @@ jobs:
         php:
           - "8.0"
           - "8.1"
+          - "8.2"
         phpunit:
-          - "^9.5.10"
+          - "9.x"
         dependencies:
           - "highest"
           - "lowest"
@@ -42,13 +43,17 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:~6.2" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
 
       - name: Prepare Testbench
         run: composer run prepare
