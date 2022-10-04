@@ -41,15 +41,9 @@
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^7.0",
-<<<<<<< HEAD
         "phpunit/phpunit": "^9.5.10 || ^10.0",
-        "symfony/process": "^6.0",
-        "symfony/yaml": "^6.0",
-=======
-        "phpunit/phpunit": "^9.5.10",
         "symfony/process": "^6.0.9",
         "symfony/yaml": "^6.0.9",
->>>>>>> 7.x
         "vlucas/phpdotenv": "^5.4.1"
     },
     "suggest": {
@@ -60,13 +54,8 @@
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.2).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
-<<<<<<< HEAD
         "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.10 || ^10.0).",
-        "symfony/yaml": "Required for CLI Commander (^6.0).",
-=======
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.10).",
         "symfony/yaml": "Required for CLI Commander (^6.0.9).",
->>>>>>> 7.x
         "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
     },
     "extra": {
