@@ -26,8 +26,10 @@ jobs:
         experimental:
           - false
         include:
-          - php: "8.2"
-            os: "ubuntu-latest"
+          - os: "ubuntu-latest"
+            php: "8.2"
+            phpunit: "9.x"
+            dependencies: "highest"
             experimental: true
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
