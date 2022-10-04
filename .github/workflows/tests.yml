@@ -29,7 +29,7 @@ jobs:
           - os: "ubuntu-latest"
             php: "8.2"
             phpunit: "9.x"
-            dependencies: "highest"
+            dependencies: ["highest", "lowest"]
             experimental: true
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
