@@ -18,7 +18,6 @@ jobs:
         php:
           - "8.0"
           - "8.1"
-          - "8.2"
         phpunit:
           - "9.x"
         dependencies:
@@ -26,6 +25,9 @@ jobs:
           - "lowest"
         experimental:
           - false
+        include:
+          - php: "8.2"
+          - experimental: true
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
