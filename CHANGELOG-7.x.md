@@ -2,6 +2,20 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.9.0
+
+Released: 2022-10-05
+
+### Added
+
+* Added draft support for PHP 8.2.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.34.0`.
+* Bump minimum `mockery/mockery` to `1.5.1`.
+* Bump minimum `symfony` dependencies to `6.0.9`.
+
 ## 7.8.1
 
 Released: 2022-10-03
