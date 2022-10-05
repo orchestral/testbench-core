@@ -28,7 +28,7 @@ class Application
     /**
      * The application resolving callback.
      *
-     * @var callable(\Illuminate\Foundation\Application):void|null
+     * @var (callable(\Illuminate\Foundation\Application):void)|null
      */
     protected $resolvingCallback;
 
@@ -43,7 +43,7 @@ class Application
      * Create new application resolver.
      *
      * @param  string  $basePath
-     * @param  callable(\Illuminate\Foundation\Application):void|null  $resolvingCallback
+     * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
      */
     public function __construct(?string $basePath = null, ?callable $resolvingCallback = null)
     {
@@ -55,7 +55,7 @@ class Application
      * Create new application instance.
      *
      * @param  string|null  $basePath
-     * @param  callable(\Illuminate\Foundation\Application):void|null  $resolvingCallback
+     * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
      * @param  array  $options
      * @return \Illuminate\Foundation\Application
      */
