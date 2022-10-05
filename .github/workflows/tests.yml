@@ -54,11 +54,6 @@ jobs:
         run: |
           composer show -D
 
-      - name: Audit dependencies
-        continue-on-error: true
-        run: |
-          composer audit
-
       - name: Prepare Testbench
         run: composer run prepare
 
