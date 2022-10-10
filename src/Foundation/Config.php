@@ -10,11 +10,10 @@ class Config extends Fluent
 {
     public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml')
     {
-        $defaultBasePath = Application::applicationBasePath();
-
         $config = [
-            'laravel' => $defaultBasePath,
             'env' => ['APP_KEY="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"', 'DB_CONNECTION="testing"'],
+            'providers' => [],
+            'dont-discover' => [],
         ];
 
         if (file_exists("{$workingPath}/{$filename}")) {
@@ -22,7 +21,7 @@ class Config extends Fluent
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($basePath) use ($defaultBasePath, $workingPath) {
                 return str_replace('./', $workingPath.'/', $basePath);
-            }, $defaultBasePath);
+            });
         }
 
         return new static($config);
