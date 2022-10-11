@@ -18,5 +18,12 @@ class ConfigTest extends TestCase
             'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
         ], $config['providers']);
         $this->assertSame([], $config['dont-discover']);
+
+        $this->assertSame([
+            'providers' => [
+                'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
+            ],
+            'dont-discover' => [],
+        ], $config->getExtraAttributes());
     }
 }
