@@ -31,7 +31,7 @@ class Commander
     /**
      * List of configurations.
      *
-     * @var array
+     * @var array{laravel: string|null, env: array, providers: array, dont-discover: array}
      */
     protected $config = [];
 
@@ -45,7 +45,7 @@ class Commander
     /**
      * Construct a new Commander.
      *
-     * @param  array  $config
+     * @param  array{laravel: string|null, env: array, providers: array, dont-discover: array}  $config
      * @param  string  $workingPath
      */
     public function __construct(array $config, string $workingPath)
