@@ -11,7 +11,11 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
     require __DIR__.'/../../autoload.php';
 }
 
-$config = Orchestra\Testbench\Foundation\Config::loadFromYaml($workingPath);
+$config = Orchestra\Testbench\Foundation\Config::loadFromYaml($workingPath, 'testbench.yaml', [
+    'env' => ['APP_KEY="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"', 'DB_CONNECTION="testing"'],
+    'providers' => [],
+    'dont-discover' => [],
+]);
 
 $commander = new Orchestra\Testbench\Console\Commander($config->getAttributes(), $workingPath);
 

@@ -13,15 +13,12 @@ class Config extends Fluent
      *
      * @param  string $workingPath
      * @param  string $filename
+     * @param  array<string, mixed>  $defaults
      * @return static
      */
-    public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml')
+    public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
-        $config = [
-            'env' => ['APP_KEY="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"', 'DB_CONNECTION="testing"'],
-            'providers' => [],
-            'dont-discover' => [],
-        ];
+        $config = $defaults;
 
         if (file_exists("{$workingPath}/{$filename}")) {
             $config = Yaml::parseFile("{$workingPath}/{$filename}");
