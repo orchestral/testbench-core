@@ -178,6 +178,10 @@ class Commander
             if (
                 "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
             ) {
+                if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
+                    $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
+                }
+
                 $filesystem->delete($laravelVendorPath);
                 $filesystem->link($workingVendorPath, $laravelVendorPath);
             }
