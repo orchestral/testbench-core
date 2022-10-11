@@ -6,13 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * @template TKey of string
- * @template TValue
- *
- * @implements \Illuminate\Contracts\Support\Arrayable<TKey, TValue>
- * @implements \ArrayAccess<TKey, TValue>
- */
 class Config extends Fluent
 {
     /**
