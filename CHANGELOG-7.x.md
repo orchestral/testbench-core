@@ -2,6 +2,61 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.10.1
+
+Released: 2022-10-11
+
+### Fixes
+
+* Remove `bootstrap/cache/packages.php` on vendor symlink event.
+
+## 7.10.0
+
+Released: 2022-10-11
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Config` to read Yaml file from `testbench.yaml`.
+
+## 7.9.0
+
+Released: 2022-10-05
+
+### Added
+
+* Added draft support for PHP 8.2.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.34.0`.
+* Bump minimum `mockery/mockery` to `1.5.1`.
+* Bump minimum `symfony` dependencies to `6.0.9`.
+
+## 7.8.1
+
+Released: 2022-10-03
+
+### Fixes
+
+* Fixes missing `Illuminate\Support\Arr` import on `HandlesTestFailures` trait.
+
+## 7.8.0
+
+Released: 2022-09-28
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.32.0`.
+* Improves PHPUnit memory leaks.
+
+## 7.7.1
+
+Released: 2022-09-28
+
+### Changes
+
+* Update skeleton to match v9.3.8.
+
 ## 7.7.0
 
 Released: 2022-08-24
@@ -9,6 +64,9 @@ Released: 2022-08-24
 ### Added
 
 * Added `loadLaravelMigrationsWithoutRollback()` and `runLaravelMigrationsWithoutRollback()` helpers.
+
+### Changes
+
 * Update skeleton to match v9.3.5.
 
 ## 7.6.1

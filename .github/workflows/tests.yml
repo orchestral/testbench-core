@@ -17,8 +17,9 @@ jobs:
           - "windows-latest"
         php:
           - "8.1"
+          - "8.2"
         phpunit:
-          - "^9.5.10"
+          - "9.x"
         dependencies:
           - "highest"
           - "lowest"
@@ -48,8 +49,9 @@ jobs:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
 
-      - name: Prepare Testbench
-        run: composer run prepare
+      - name: Installed dependencies
+        run: |
+          composer show -D
 
       - name: Execute tests
         run: vendor/bin/phpunit
@@ -93,9 +95,6 @@ jobs:
   #       with:
   #         dependency-versions: "${{ matrix.dependencies }}"
   #         composer-options: "--prefer-dist --no-cache"
-
-  #     - name: Prepare Testbench
-  #       run: composer run prepare
 
   #     - name: Execute tests
   #       run: vendor/bin/phpunit

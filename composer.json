@@ -39,7 +39,7 @@
         "laravel/framework": "^10.0",
         "laravel/laravel": "dev-master",
         "laravel/pint": "^1.1",
-        "mockery/mockery": "^1.4.4",
+        "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^8.0",
         "phpunit/phpunit": "^9.5.10",
         "symfony/process": "^6.1",
@@ -50,7 +50,7 @@
         "brianium/paratest": "Allow using parallel tresting (^6.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.9.2).",
         "laravel/framework": "Required for testing (^10.0).",
-        "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
+        "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.2).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
@@ -64,15 +64,11 @@
         }
     },
     "scripts": {
-        "prepare": [
-            "@php testbench package:discover --ansi"
-        ],
+        "post-autoload-dump": "@composer run prepare",
+        "prepare": "@php testbench package:discover --ansi",
         "test": [
             "@composer run prepare",
             "@php vendor/bin/phpunit -c ./ --color"
-        ],
-        "post-autoload-dump": [
-            "@composer run prepare"
         ]
     },
     "config": {

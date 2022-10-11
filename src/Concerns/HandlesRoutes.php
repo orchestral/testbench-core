@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Orchestra\Testbench\Foundation\Application;
 
 trait HandlesRoutes
@@ -75,7 +76,7 @@ trait HandlesRoutes
             $files->exists(base_path('bootstrap/cache/routes-v7.php'))
         );
 
-        if (isset($this->app)) {
+        if ($this->app instanceof LaravelApplication) {
             $this->reloadApplication();
         }
 

@@ -1,4 +1,4 @@
-name: parallel-tests
+name: audits
 
 on:
   push:
@@ -7,26 +7,21 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  tests:
+  audit-dependencies:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         os:
           - "ubuntu-latest"
-          - "windows-latest"
         php:
+          - "8.0"
           - "8.1"
           - "8.2"
-        phpunit:
-          - "9.x"
-        dependencies:
-          - "highest"
-          - "lowest"
         experimental:
           - true
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP${{ matrix.php }} on ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -39,20 +34,14 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
-        run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:~6.2" "brianium/paratest:~6.4" --dev --no-interaction --no-update
-
       - name: Install dependencies
         uses: "ramsey/composer-install@v1"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+          dependency-versions: "highest"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
-        run: |
-          composer show -D
+        run: composer show -D
 
-      - name: Execute tests
-        run: ./testbench package:test --parallel
+      - name: Audit dependencies
+        run: composer audit

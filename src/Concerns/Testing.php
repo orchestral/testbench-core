@@ -145,6 +145,14 @@ trait Testing
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
 
+        if (property_exists($this, 'originalExceptionHandler')) {
+            $this->originalExceptionHandler = null;
+        }
+
+        if (property_exists($this, 'originalDeprecationHandler')) {
+            $this->originalDeprecationHandler = null;
+        }
+
         Artisan::forgetBootstrappers();
 
         Queue::createPayloadUsing(null);
