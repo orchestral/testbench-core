@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.10.0
+
+Released: 2022-10-11
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Config` to read Yaml file from `testbench.yaml`.
+
 ## 7.9.0
 
 Released: 2022-10-05
