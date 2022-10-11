@@ -35,7 +35,7 @@ class Config extends Fluent
      * @param  string|null  $filename
      * @return static
      */
-    public static function loadFromYaml(string $workingPath, array $defaults = [], ?string $filename)
+    public static function loadFromYaml(string $workingPath, array $defaults = [], ?string $filename = 'testbench.yaml')
     {
         $filename ??= 'testbench.yaml';
         $config = $defaults;
