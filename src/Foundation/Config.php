@@ -36,7 +36,7 @@ class Config extends Fluent
         if (file_exists("{$workingPath}/{$filename}")) {
             $config = Yaml::parseFile("{$workingPath}/{$filename}");
 
-            $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($basePath) use ($defaultBasePath, $workingPath) {
+            $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($basePath) use ($workingPath) {
                 return str_replace('./', $workingPath.'/', $basePath);
             });
         }
