@@ -9,6 +9,7 @@ use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Env;
 use function Orchestra\Testbench\container;
 use Orchestra\Testbench\Foundation\Application;
@@ -95,7 +96,7 @@ class Commander
      */
     public function laravel()
     {
-        if (! $this->app) {
+        if (! $this->app instanceof LaravelApplication) {
             $this->createSymlinkToVendorPath();
 
             $this->app = Application::create($this->getBasePath(), $this->resolveApplicationCallback(), [

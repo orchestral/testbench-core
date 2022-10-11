@@ -154,7 +154,7 @@ trait CreatesApplication
      * Override application aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array<int, class-string>
+     * @return array<class-string, class-string>
      */
     protected function overrideApplicationProviders($app)
     {

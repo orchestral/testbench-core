@@ -52,10 +52,6 @@ class Config extends Fluent
      */
     public function addProviders(array $providers)
     {
-        if (! isset($this->attributes['providers'])) {
-            $this->attributes['providers'] = [];
-        }
-
         $this->attributes['providers'] = array_unique($this->attributes['providers'] + $providers);
 
         return $this;
