@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.29.1
+
+Released: 2022-10-11
+
+### Fixes
+
+* Remove `bootstrap/cache/packages.php` on vendor symlink event.
+
 ## 6.29.0
 
 Released: 2022-08-24
