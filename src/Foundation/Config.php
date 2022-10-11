@@ -6,8 +6,27 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @template TKey of string
+ * @template TValue
+ *
+ * @implements \Illuminate\Contracts\Support\Arrayable<TKey, TValue>
+ * @implements \ArrayAccess<TKey, TValue>
+ */
 class Config extends Fluent
 {
+    /**
+     * All of the attributes set on the fluent instance.
+     *
+     * @var array{laravel: string|null, env: array, providers: array, dont-discover: array}
+     */
+    protected $attributes = [
+        'laravel' => null,
+        'env' => [],
+        'providers' => [],
+        'dont-discover' => [],
+    ];
+
     /**
      * Load configuration from Yaml file.
      *
