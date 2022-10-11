@@ -24,11 +24,11 @@ class Config extends Fluent
      * Load configuration from Yaml file.
      *
      * @param  string $workingPath
-     * @param  array<string, mixed>  $defaults
      * @param  string|null  $filename
+     * @param  array<string, mixed>  $defaults
      * @return static
      */
-    public static function loadFromYaml(string $workingPath, array $defaults = [], ?string $filename = 'testbench.yaml')
+    public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
         $filename ??= 'testbench.yaml';
         $config = $defaults;
