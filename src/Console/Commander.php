@@ -9,6 +9,7 @@ use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Env;
 use function Orchestra\Testbench\container;
 use Orchestra\Testbench\Foundation\Application;
@@ -30,7 +31,7 @@ class Commander
     /**
      * List of configurations.
      *
-     * @var array
+     * @var array{laravel: string|null, env: array, providers: array, dont-discover: array}
      */
     protected $config = [];
 
@@ -44,7 +45,7 @@ class Commander
     /**
      * Construct a new Commander.
      *
-     * @param  array  $config
+     * @param  array{laravel: string|null, env: array, providers: array, dont-discover: array}  $config
      * @param  string  $workingPath
      */
     public function __construct(array $config, string $workingPath)
@@ -95,7 +96,7 @@ class Commander
      */
     public function laravel()
     {
-        if (! $this->app) {
+        if (! $this->app instanceof LaravelApplication) {
             $this->createSymlinkToVendorPath();
 
             $this->app = Application::create($this->getBasePath(), $this->resolveApplicationCallback(), [
@@ -177,6 +178,10 @@ class Commander
             if (
                 "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
             ) {
+                if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
+                    $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
+                }
+
                 $filesystem->delete($laravelVendorPath);
                 $filesystem->link($workingVendorPath, $laravelVendorPath);
             }

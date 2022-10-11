@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.2",
-        "laravel/framework": "^9.334",
+        "laravel/framework": "^9.34",
         "laravel/laravel": "9.x-dev",
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",
@@ -64,16 +64,9 @@
         }
     },
     "scripts": {
-        "prepare": [
-            "@php testbench package:discover --ansi"
-        ],
-        "test": [
-            "@composer run prepare",
-            "@php vendor/bin/phpunit -c ./ --color"
-        ],
-        "post-autoload-dump": [
-            "@composer run prepare"
-        ]
+        "post-autoload-dump": "@composer run prepare",
+        "prepare": "@php testbench package:discover --ansi",
+        "test": "@php vendor/bin/phpunit -c ./ --color"
     },
     "config": {
         "sort-packages": true

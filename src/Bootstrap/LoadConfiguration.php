@@ -43,7 +43,7 @@ final class LoadConfiguration
      * Get all of the configuration files for the application.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return \Generator
+     * @return \Generator<string, mixed>
      */
     private function getConfigurationFiles(Application $app): Generator
     {
