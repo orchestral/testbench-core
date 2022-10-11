@@ -54,9 +54,6 @@ jobs:
         run: |
           composer show -D
 
-      - name: Prepare Testbench
-        run: composer run prepare
-
       - name: Execute tests
         run: vendor/bin/phpunit
 
