@@ -61,7 +61,7 @@ class Commander
      */
     public static function applicationBasePath()
     {
-        return container()::applicationBasePath();
+        return Application::applicationBasePath();
     }
 
     /**
