@@ -23,7 +23,7 @@ class Config extends Fluent
     /**
      * Load configuration from Yaml file.
      *
-     * @param  string $workingPath
+     * @param  string  $workingPath
      * @param  string|null  $filename
      * @param  array<string, mixed>  $defaults
      * @return static
@@ -47,7 +47,7 @@ class Config extends Fluent
     /**
      * Add additional service providers.
      *
-     * @param array<int, class-string<\Illuminate\Support\ServiceProvider>>  $providers
+     * @param  array<int, class-string<\Illuminate\Support\ServiceProvider>>  $providers
      * @return $this
      */
     public function addProviders(array $providers)
