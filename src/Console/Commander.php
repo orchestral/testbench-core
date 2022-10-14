@@ -169,24 +169,23 @@ class Commander
     {
         $workingVendorPath = $this->workingPath.'/vendor';
 
-        tap(Application::create(basePath: $this->getBasePath(), options: ['extra' => ['dont-discover' => ['*']]]), static function ($laravel) use ($workingVendorPath) {
-            $filesystem = new Filesystem();
+        $laravel = Application::create(basePath: $this->getBasePath(), options: ['extra' => ['dont-discover' => ['*']]]);
+        $filesystem = new Filesystem();
 
-            $laravelVendorPath = $laravel->basePath('vendor');
+        $laravelVendorPath = $laravel->basePath('vendor');
 
-            if (
-                "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
-            ) {
-                if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
-                    $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
-                }
-
-                $filesystem->delete($laravelVendorPath);
-                $filesystem->link($workingVendorPath, $laravelVendorPath);
+        if (
+            "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
+        ) {
+            if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
+                $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
             }
 
-            $laravel->flush();
-        });
+            $filesystem->delete($laravelVendorPath);
+            $filesystem->link($workingVendorPath, $laravelVendorPath);
+        }
+
+        $laravel->flush();
     }
 
     /**
