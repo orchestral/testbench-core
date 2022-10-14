@@ -169,7 +169,7 @@ class Commander
     {
         $workingVendorPath = $this->workingPath.'/vendor';
 
-        tap(Application::create($this->getBasePath(), $this->resolveApplicationCallback()), static function ($laravel) use ($workingVendorPath) {
+        tap(Application::create(basePath: $this->getBasePath(), options: ['extra' => ['dont-discover' => ['*']]]), static function ($laravel) use ($workingVendorPath) {
             $filesystem = new Filesystem();
 
             $laravelVendorPath = $laravel->basePath('vendor');
