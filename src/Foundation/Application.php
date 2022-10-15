@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
