@@ -8,7 +8,6 @@ use Dotenv\Parser\Parser;
 use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
@@ -164,28 +163,15 @@ class Commander
 
     /**
      * Create symlink on vendor path.
+     *
+     * @deprecated Use `Orchestra\Testbench\Foundation\Application::createSymlinkPathToVendor()` insteads
      */
     protected function createSymlinkToVendorPath(): void
     {
-        $workingVendorPath = $this->workingPath.'/vendor';
-
-        $laravel = Application::create(basePath: $this->getBasePath(), options: ['extra' => ['dont-discover' => ['*']]]);
-        $filesystem = new Filesystem();
-
-        $laravelVendorPath = $laravel->basePath('vendor');
-
-        if (
-            "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
-        ) {
-            if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
-                $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
-            }
-
-            $filesystem->delete($laravelVendorPath);
-            $filesystem->link($workingVendorPath, $laravelVendorPath);
-        }
-
-        $laravel->flush();
+        Application::createSymlinkPathToVendor(
+            $this->getBasePath(),
+            $this->workingPath.'/vendor'
+        );
     }
 
     /**
