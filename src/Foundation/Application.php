@@ -52,6 +52,34 @@ class Application
     }
 
     /**
+     * Create symlink to vendor path via new application instance.
+     *
+     * @param  string|null  $basePath
+     * @param  string  $workingVendorPath
+     * @return void
+     */
+    public static function createSymlinkPathToVendor(?string $basePath, string $workingVendorPath): void
+    {
+        $laravel = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
+        $filesystem = new Filesystem();
+
+        $laravelVendorPath = $laravel->basePath('vendor');
+
+        if (
+            "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
+        ) {
+            if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
+                $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
+            }
+
+            $filesystem->delete($laravelVendorPath);
+            $filesystem->link($workingVendorPath, $laravelVendorPath);
+        }
+
+        $laravel->flush();
+    }
+
+    /**
      * Create new application instance.
      *
      * @param  string|null  $basePath
