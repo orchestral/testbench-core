@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use ErrorException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
@@ -73,8 +74,15 @@ class Application
                 $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
             }
 
-            $filesystem->delete($laravelVendorPath);
-            $filesystem->link($workingVendorPath, $laravelVendorPath);
+            if (is_link($laravelVendorPath)) {
+                $filesystem->delete($laravelVendorPath);
+            }
+
+            try {
+                $filesystem->link($workingVendorPath, $laravelVendorPath);
+            } catch (ErrorException $e) {
+                //
+            }
         }
 
         $laravel->flush();
