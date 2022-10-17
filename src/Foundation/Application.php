@@ -74,7 +74,7 @@ class Application
                 $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
             }
 
-            if (is_link($laravelVendorPath)) {
+            if (\is_link($laravelVendorPath)) {
                 $filesystem->delete($laravelVendorPath);
             }
 
