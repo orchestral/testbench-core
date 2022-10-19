@@ -4,6 +4,8 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 7.11.0
 
+Released: 2022-10-19
+
 ### Added
 
 * Added `Orchestra\Testbench\Foundation\Application::createVendorSymlink()` method.
