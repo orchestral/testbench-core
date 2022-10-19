@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Foundation;
 
-use ErrorException;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
@@ -60,33 +58,12 @@ class Application
      * @param  string  $workingVendorPath
      * @return void
      */
-    public static function createSymlinkPathToVendor(?string $basePath, string $workingVendorPath): void
+    public static function createVendorSymlink(?string $basePath, string $workingVendorPath): void
     {
-        $laravel = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
-        $filesystem = new Filesystem();
-
-        $laravelVendorPath = $laravel->basePath('vendor');
-
-        if (
-            ! $filesystem->isFile("{$laravelVendorPath}/autoload.php") ||
-            $filesystem->hash("{$laravelVendorPath}/autoload.php") !== $filesystem->hash("{$workingVendorPath}/autoload.php")
-        ) {
-            if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
-                $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
-            }
-
-            if (\is_link($laravelVendorPath)) {
-                $filesystem->delete($laravelVendorPath);
-            }
-
-            try {
-                $filesystem->link($workingVendorPath, $laravelVendorPath);
-            } catch (ErrorException $e) {
-                //
-            }
-        }
-
-        $laravel->flush();
+        (new Bootstrap\CreateVendorSymlink($workingVendorPath))
+            ->bootstrap(
+                static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]])
+            );
     }
 
     /**

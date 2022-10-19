@@ -164,11 +164,11 @@ class Commander
     /**
      * Create symlink on vendor path.
      *
-     * @deprecated Use `Orchestra\Testbench\Foundation\Application::createSymlinkPathToVendor()` insteads
+     * @deprecated Use `Orchestra\Testbench\Foundation\Application::createVendorSymlink()` insteads
      */
     protected function createSymlinkToVendorPath(): void
     {
-        Application::createSymlinkPathToVendor(
+        Application::createVendorSymlink(
             $this->getBasePath(),
             $this->workingPath.'/vendor'
         );
