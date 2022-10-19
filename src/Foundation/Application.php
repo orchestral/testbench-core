@@ -67,8 +67,10 @@ class Application
 
         $laravelVendorPath = $laravel->basePath('vendor');
 
+        $
+
         if (
-            $filesystem->isFile("{$laravelVendorPath}/autoload.php") &&
+            ! $filesystem->isFile("{$laravelVendorPath}/autoload.php") ||
             $filesystem->hash("{$laravelVendorPath}/autoload.php") !== $filesystem->hash("{$workingVendorPath}/autoload.php")
         ) {
             if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
