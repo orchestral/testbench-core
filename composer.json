@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.2",
-        "laravel/framework": "^9.34",
+        "laravel/framework": "^9.36",
         "laravel/laravel": "9.x-dev",
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",
