@@ -155,12 +155,11 @@ trait Testing
         }
 
         Artisan::forgetBootstrappers();
+        Component::flushCache();
+        Component::forgetComponentsResolver();
+        Component::forgetFactory();
         Queue::createPayloadUsing(null);
         HandleExceptions::forgetApp();
-
-        Component::flushCache();
-        Component::forgetFactory();
-        Component::forgetComponentsResolver();
 
         if ($this->callbackException) {
             throw $this->callbackException;
