@@ -1,103 +1,103 @@
 name: collision-tests
 
-on:
-  push:
-  pull_request:
-  schedule:
-    - cron: '0 0 * * *'
+# on:
+#   push:
+#   pull_request:
+#   schedule:
+#     - cron: '0 0 * * *'
 
-jobs:
-  tests:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
-    strategy:
-      matrix:
-        os:
-          - "ubuntu-latest"
-          - "windows-latest"
-        php:
-          - "8.1"
-          - "8.2"
-        phpunit:
-          - "9.x"
-        dependencies:
-          - "highest"
-          - "lowest"
-        experimental:
-          - true
+# jobs:
+#   tests:
+#     runs-on: ${{ matrix.os }}
+#     continue-on-error: ${{ matrix.experimental }}
+#     strategy:
+#       matrix:
+#         os:
+#           - "ubuntu-latest"
+#           - "windows-latest"
+#         php:
+#           - "8.1"
+#           - "8.2"
+#         phpunit:
+#           - "9.x"
+#         dependencies:
+#           - "highest"
+#           - "lowest"
+#         experimental:
+#           - true
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+#     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v1
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
-          coverage: none
+#       - name: Setup PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: ${{ matrix.php }}
+#           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
+#           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
-        run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:~6.2" --dev --no-interaction --no-update
+#       - name: Install PHPUnit ${{ matrix.phpunit }}
+#         run: |
+#           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+#           composer require "nunomaduro/collision:~6.2" --dev --no-interaction --no-update
 
-      - name: Install dependencies
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+#       - name: Install dependencies
+#         uses: "ramsey/composer-install@v1"
+#         with:
+#           dependency-versions: "${{ matrix.dependencies }}"
+#           composer-options: "--prefer-dist --no-cache"
 
-      - name: Installed dependencies
-        run: |
-          composer show -D
+#       - name: Installed dependencies
+#         run: |
+#           composer show -D
 
-      - name: Execute tests
-        run: ./testbench package:test
+#       - name: Execute tests
+#         run: ./testbench package:test
 
-  tests-with-coverage:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
-    strategy:
-      matrix:
-        os:
-          - "ubuntu-latest"
-          - "windows-latest"
-        php:
-          - "8.1"
-        phpunit:
-          - "^9.5.10"
-        dependencies:
-          - "highest"
-          - "lowest"
-        experimental:
-          - false
+#   tests-with-coverage:
+#     runs-on: ${{ matrix.os }}
+#     continue-on-error: ${{ matrix.experimental }}
+#     strategy:
+#       matrix:
+#         os:
+#           - "ubuntu-latest"
+#           - "windows-latest"
+#         php:
+#           - "8.1"
+#         phpunit:
+#           - "^9.5.10"
+#         dependencies:
+#           - "highest"
+#           - "lowest"
+#         experimental:
+#           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
+#     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v1
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
-          coverage: xdebug
+#       - name: Setup PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: ${{ matrix.php }}
+#           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
+#           coverage: xdebug
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
-        run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.1" --dev --no-interaction --no-update
+#       - name: Install PHPUnit ${{ matrix.phpunit }}
+#         run: |
+#           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+#           composer require "nunomaduro/collision:^6.1" --dev --no-interaction --no-update
 
-      - name: Install dependencies
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+#       - name: Install dependencies
+#         uses: "ramsey/composer-install@v1"
+#         with:
+#           dependency-versions: "${{ matrix.dependencies }}"
+#           composer-options: "--prefer-dist --no-cache"
 
-      - name: Execute tests
-        run: ./testbench package:test --coverage
+#       - name: Execute tests
+#         run: ./testbench package:test --coverage
