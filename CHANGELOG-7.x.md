@@ -2,6 +2,28 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.11.0
+
+Released: 2022-10-19
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Application::createVendorSymlink()` method.
+  - The feature uses `Orchestra\Testbench\Foundation\Bootstrap\CreateVendorSymlink`.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.36.0`
+  - Forget View Component's cache and factory between tests.
+
+## 7.10.2
+
+Released: 2022-10-14
+
+### Fixes
+
+* Don't attempt to discover any packages on vendor symlink event.
+
 ## 7.10.1
 
 Released: 2022-10-11

@@ -15,6 +15,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\View\Component;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Throwable;
@@ -154,9 +155,10 @@ trait Testing
         }
 
         Artisan::forgetBootstrappers();
-
+        Component::flushCache();
+        Component::forgetComponentsResolver();
+        Component::forgetFactory();
         Queue::createPayloadUsing(null);
-
         HandleExceptions::forgetApp();
 
         if ($this->callbackException) {

@@ -52,6 +52,21 @@ class Application
     }
 
     /**
+     * Create symlink to vendor path via new application instance.
+     *
+     * @param  string|null  $basePath
+     * @param  string  $workingVendorPath
+     * @return void
+     */
+    public static function createVendorSymlink(?string $basePath, string $workingVendorPath): void
+    {
+        (new Bootstrap\CreateVendorSymlink($workingVendorPath))
+            ->bootstrap(
+                static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]])
+            );
+    }
+
+    /**
      * Create new application instance.
      *
      * @param  string|null  $basePath
