@@ -327,12 +327,13 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
+        $this->defineEnvironment($app);
+
         if (method_exists($this, 'parseTestMethodAnnotations')) {
             $this->parseTestMethodAnnotations($app, 'environment-setup');
             $this->parseTestMethodAnnotations($app, 'define-env');
         }
 
-        $this->defineEnvironment($app);
         $this->getEnvironmentSetUp($app);
 
         $this->resolveApplicationRateLimiting($app);
