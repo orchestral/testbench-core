@@ -22,7 +22,6 @@ $createApp = function (string $workingPath) {
 
     $hasEnvironmentFile = file_exists("{$workingPath}/.env");
 
-    /** @var \Illuminate\Foundation\Application $app */
     return Application::create(
         basePath: $config['laravel'],
         resolvingCallback: function ($app) use ($config, $hasEnvironmentFile) {
