@@ -36,7 +36,7 @@ trait HandlesAnnotations
             fn () => $registry->forMethod(static::class, $this->getName(false))->symbolAnnotations(), [], false
         );
 
-        (new Collection($annotations))
+        Collection::make($annotations)
             ->filter(fn ($actions, $key) => $key === $name)
             ->each(function ($actions) use ($app) {
                 (new Collection($actions ?? []))
