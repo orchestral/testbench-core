@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Console\ServeCommand as Command;
+use Illuminate\Support\Collection;
 
 class ServeCommand extends Command
 {
@@ -36,7 +37,7 @@ class ServeCommand extends Command
      */
     protected function copyTestbenchConfigurationFile(Filesystem $filesystem, string $workingPath): void
     {
-        $configurationFile = collect([
+        $configurationFile = Collection::make([
             'testbench.yaml',
             'testbench.yaml.example',
             'testbench.yaml.dist',
@@ -58,7 +59,7 @@ class ServeCommand extends Command
      */
     protected function copyTestbenchDotEnvFile(Filesystem $filesystem, string $workingPath): void
     {
-        $configurationFile = collect([
+        $configurationFile = Collection::make([
             '.env',
             '.env.example',
             '.env.dist',
