@@ -6,9 +6,7 @@ use Dotenv\Dotenv;
 use Dotenv\Loader\Loader;
 use Dotenv\Parser\Parser;
 use Dotenv\Store\StringStore;
-use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Env;
 
 final class LoadEnvironmentVariablesFromArray
@@ -47,7 +45,7 @@ final class LoadEnvironmentVariablesFromArray
     protected function createDotenvFromString(): Dotenv
     {
         return new Dotenv(
-            new StringStore(implode("\n", $this->environmentVariables ?? [])),
+            new StringStore(implode("\n", $this->environmentVariables)),
             new Parser(),
             new Loader(),
             Env::getRepository()
