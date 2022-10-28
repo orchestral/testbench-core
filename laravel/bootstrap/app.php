@@ -34,7 +34,7 @@ $createApp = function () {
     );
 };
 
-$app = call_user_func($createApp);
+$app = $createApp();
 
 unset($createApp);
 
