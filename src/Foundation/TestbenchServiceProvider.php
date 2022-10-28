@@ -18,6 +18,7 @@ class TestbenchServiceProvider extends ServiceProvider
                 $this->isCollisionDependenciesInstalled()
                     ? Console\TestCommand::class
                     : Console\TestFallbackCommand::class,
+                Console\ServeCommand::class,
             ]);
         }
     }
