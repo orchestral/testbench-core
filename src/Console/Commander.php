@@ -144,7 +144,6 @@ class Commander
         };
     }
 
-
     /**
      * Get base path.
      *

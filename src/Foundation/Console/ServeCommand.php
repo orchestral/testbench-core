@@ -3,8 +3,9 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Console\ServeCommand as Command;
 
-class ServeCommand extends \Illuminate\Foundation\Console\ServeCommand
+class ServeCommand extends Command
 {
     /**
      * Execute the console command.
