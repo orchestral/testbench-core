@@ -11,14 +11,14 @@ use Orchestra\Testbench\Foundation\Config;
  */
 $createApp = function () {
     $workingPath = realpath(__DIR__.'/../');
+    $config = Config::loadFromYaml($workingPath);
 
-    $APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
-    $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? 'testing';
+    if (empty($config['env'])) {
+        $APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
+        $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? 'testing';
 
-    $config = Config::loadFromYaml(
-        workingPath: $workingPath,
-        defaults: ['env' => ['APP_KEY="'.$APP_KEY.'"', 'DB_CONNECTION="'.$DB_CONNECTION.'"'], 'providers' => []]
-    );
+        $config['env'] = ['APP_KEY="'.$APP_KEY.'"', 'APP_DEBUG=(true)', 'DB_CONNECTION="'.$DB_CONNECTION.'"'];
+    }
 
     $hasEnvironmentFile = file_exists("{$workingPath}/.env");
 
