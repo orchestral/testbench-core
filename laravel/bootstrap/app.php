@@ -36,9 +36,10 @@ $createApp = function () {
 
 $app = $createApp();
 
-unset($createApp);
-
+/** @var \Illuminate\Routing\Router $router */
 $router = $app->make('router');
+
+unset($createApp);
 
 collect(glob(__DIR__.'/../routes/testbench-*.php'))
     ->each(function ($routeFile) use ($app, $router) {
