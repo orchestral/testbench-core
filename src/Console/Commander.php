@@ -17,6 +17,9 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
+/**
+ * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null}
+ */
 class Commander
 {
     /**
@@ -29,9 +32,14 @@ class Commander
     /**
      * List of configurations.
      *
-     * @var array{laravel: string|null, env: array, providers: array, dont-discover: array}
+     * @var TConfig
      */
-    protected $config = [];
+    protected $config = [
+        'laravel' => null,
+        'env' => [],
+        'providers' => [],
+        'dont-discover' => [],
+    ];
 
     /**
      * Working path.
@@ -43,7 +51,7 @@ class Commander
     /**
      * Construct a new Commander.
      *
-     * @param  array{laravel: string|null, env: array, providers: array, dont-discover: array}  $config
+     * @param  TConfig  $config
      * @param  string  $workingPath
      */
     public function __construct(array $config, string $workingPath)

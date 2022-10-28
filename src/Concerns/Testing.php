@@ -33,7 +33,7 @@ trait Testing
     /**
      * The Illuminate application instance.
      *
-     * @var \Illuminate\Foundation\Application
+     * @var \Illuminate\Foundation\Application|null
      */
     protected $app;
 
@@ -61,7 +61,7 @@ trait Testing
     /**
      * The exception thrown while running an application destruction callback.
      *
-     * @var \Throwable
+     * @var \Throwable|null
      */
     protected $callbackException;
 
@@ -130,6 +130,7 @@ trait Testing
         }
 
         if (class_exists(Mockery::class)) {
+            /** @phpstan-ignore-next-line */
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }
@@ -176,27 +177,33 @@ trait Testing
     {
         $this->setUpDatabaseRequirements(function () use ($uses) {
             if (isset($uses[RefreshDatabase::class])) {
+                /** @phpstan-ignore-next-line */
                 $this->refreshDatabase();
             }
 
             if (isset($uses[DatabaseMigrations::class])) {
+                /** @phpstan-ignore-next-line */
                 $this->runDatabaseMigrations();
             }
         });
 
         if (isset($uses[DatabaseTransactions::class])) {
+            /** @phpstan-ignore-next-line */
             $this->beginDatabaseTransaction();
         }
 
         if (isset($uses[WithoutMiddleware::class])) {
+            /** @phpstan-ignore-next-line */
             $this->disableMiddlewareForAllTests();
         }
 
         if (isset($uses[WithoutEvents::class])) {
+            /** @phpstan-ignore-next-line */
             $this->disableEventsForAllTests();
         }
 
         if (isset($uses[WithFaker::class])) {
+            /** @phpstan-ignore-next-line */
             $this->setUpFaker();
         }
 
@@ -209,6 +216,7 @@ trait Testing
     protected function setUpParallelTestingCallbacks(): void
     {
         if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+            /** @phpstan-ignore-next-line */
             ParallelTesting::callSetUpTestCaseCallbacks($this);
         }
     }
@@ -219,6 +227,7 @@ trait Testing
     protected function tearDownParallelTestingCallbacks(): void
     {
         if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+            /** @phpstan-ignore-next-line */
             ParallelTesting::callTearDownTestCaseCallbacks($this);
         }
     }

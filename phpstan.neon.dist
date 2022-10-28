@@ -1,0 +1,20 @@
+includes:
+  - ./phpstan-baseline.neon
+
+parameters:
+  paths:
+    - src
+
+  # The level 8 is the highest level
+  level: 6
+
+  ignoreErrors:
+    - '#Unsafe usage of new static#'
+
+  excludePaths:
+    - src/Foundation/Console/TestCommand.php
+    - src/Foundation/Console/TestFallbackCommand.php
+
+  checkGenericClassInNonGenericObjectType: false
+  checkMissingIterableValueType: false
+  treatPhpDocTypesAsCertain: false

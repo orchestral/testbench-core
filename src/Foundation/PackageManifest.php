@@ -48,6 +48,7 @@ class PackageManifest extends IlluminatePackageManifest
      */
     public static function swap($app, $testbench = null)
     {
+        /** @var \Illuminate\Foundation\PackageManifest $base */
         $base = $app->make(IlluminatePackageManifest::class);
 
         $app->instance(

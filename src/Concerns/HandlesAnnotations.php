@@ -24,24 +24,26 @@ trait HandlesAnnotations
         }
 
         if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
+            /** @phpstan-ignore-next-line */
             $registry = \PHPUnit\Metadata\Annotation\Parser\Registry::getInstance();
         } else {
+            /** @phpstan-ignore-next-line */
             $registry = \PHPUnit\Util\Annotation\Registry::getInstance();
         }
 
-        Collection::make(
-            rescue(function () use ($registry) {
-                return $registry->forMethod(static::class, $this->getName(false))->symbolAnnotations();
-            }, [], false)
-        )->filter(static function ($actions, $key) use ($name) {
-            return $key === $name;
-        })->each(function ($actions) use ($app) {
-            Collection::make($actions ?? [])
-                ->filter(function ($method) {
-                    return ! \is_null($method) && method_exists($this, $method);
-                })->each(function ($method) use ($app) {
-                    $this->{$method}($app);
-                });
-        });
+        /** @var array<string, mixed> $annotations */
+        $annotations = rescue(
+            fn () => $registry->forMethod(static::class, $this->getName(false))->symbolAnnotations(), [], false
+        );
+
+        (new Collection($annotations))
+            ->filter(fn ($actions, $key) => $key === $name)
+            ->each(function ($actions) use ($app) {
+                (new Collection($actions ?? []))
+                    ->filter(fn ($method) => is_string($method) && method_exists($this, $method))
+                    ->each(function ($method) use ($app) {
+                        $this->{$method}($app);
+                    });
+            });
     }
 }
