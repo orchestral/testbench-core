@@ -6,7 +6,6 @@ use Illuminate\Filesystem\Filesystem;
 
 class ServeCommand extends \Illuminate\Foundation\Console\ServeCommand
 {
-
     /**
      * Execute the console command.
      *
