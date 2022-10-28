@@ -6,8 +6,8 @@ use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
 /**
- * @phpstan-type TExtraConfig array{providers: array, dont-discover: array}
- * @phpstan-type TConfig array{extra: TExtraConfig, load_environment_variable?: bool, enabled_package_discoveries?: bool}
+ * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array}
+ * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variable?: bool, enabled_package_discoveries?: bool}
  */
 class Application
 {
@@ -103,7 +103,7 @@ class Application
         }
 
         $this->config = Arr::only(
-            Arr::get($options, 'extra', ['dont-discover' => [], 'providers' => []]), ['dont-discover', 'providers']
+            $options['extra'] ?? [], ['dont-discover', 'providers']
         );
 
         return $this;
@@ -116,7 +116,7 @@ class Application
      */
     public function ignorePackageDiscoveriesFrom()
     {
-        return $this->config['dont-discover'];
+        return $this->config['dont-discover'] ?? [];
     }
 
     /**
@@ -127,7 +127,7 @@ class Application
      */
     protected function getPackageProviders($app)
     {
-        return $this->config['providers'];
+        return $this->config['providers'] ?? [];
     }
 
     /**
