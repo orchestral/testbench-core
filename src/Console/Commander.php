@@ -100,9 +100,12 @@ class Commander
     public function laravel()
     {
         if (! $this->app instanceof LaravelApplication) {
-            $this->createSymlinkToVendorPath();
-
             $laravelBasePath = $this->getBasePath();
+
+            Application::createVendorSymlink(
+                $laravelBasePath, $this->workingPath.'/vendor'
+            );
+
             $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
 
             $options = array_filter([
@@ -145,19 +148,6 @@ class Commander
         }
 
         return static::applicationBasePath();
-    }
-
-    /**
-     * Create symlink on vendor path.
-     *
-     * @deprecated Use `Orchestra\Testbench\Foundation\Application::createVendorSymlink()` insteads
-     */
-    protected function createSymlinkToVendorPath(): void
-    {
-        Application::createVendorSymlink(
-            $this->getBasePath(),
-            $this->workingPath.'/vendor'
-        );
     }
 
     /**
