@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Constant TESTBENCH_WORKING_PATH not found\\.$#"
+			count: 1
+			path: src/Foundation/Console/TestFallbackCommand.php
+
+		-
 			message: "#^Instanceof between Illuminate\\\\Http\\\\Response and Illuminate\\\\Http\\\\RedirectResponse will always evaluate to false\\.$#"
 			count: 1
 			path: src/TestCase.php

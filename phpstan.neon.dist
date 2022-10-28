@@ -13,7 +13,6 @@ parameters:
 
   excludePaths:
     - src/Foundation/Console/TestCommand.php
-    - src/Foundation/Console/TestFallbackCommand.php
 
   checkGenericClassInNonGenericObjectType: false
   checkMissingIterableValueType: false
