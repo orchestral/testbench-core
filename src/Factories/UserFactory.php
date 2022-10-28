@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Illuminate\Foundation\Auth\User>
+ * @phpstan-type TModel \Illuminate\Foundation\Auth\User
+ *
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
  */
 class UserFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<TModel>
      */
     protected $model = \Illuminate\Foundation\Auth\User::class;
 
