@@ -123,7 +123,7 @@ class Commander
                         (new LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
                     }
 
-                    $app->register(TestbenchServiceProvider::class);
+                    call_user_func($this->resolveApplicationCallback(), $app);
                 },
                 options: $options
             );
@@ -131,6 +131,19 @@ class Commander
 
         return $this->app;
     }
+
+    /**
+     * Resolve application implementation.
+     *
+     * @return \Closure
+     */
+    protected function resolveApplicationCallback()
+    {
+        return function ($app) {
+            $app->register(TestbenchServiceProvider::class);
+        };
+    }
+
 
     /**
      * Get base path.
