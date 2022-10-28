@@ -42,7 +42,7 @@ class Application
     /**
      * Create new application resolver.
      *
-     * @param  string  $basePath
+     * @param  string|null  $basePath
      * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
      */
     public function __construct(?string $basePath = null, ?callable $resolvingCallback = null)
