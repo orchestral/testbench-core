@@ -9,6 +9,7 @@ use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
@@ -107,8 +108,8 @@ class Commander
 
             $this->app = Application::create($this->getBasePath(), $this->resolveApplicationCallback(), [
                 'extra' => [
-                    'providers' => $this->config['providers'] ?? [],
-                    'dont-discover' => $this->config['dont-discover'] ?? [],
+                    'providers' => Arr::get($this->config, 'providers', []),
+                    'dont-discover' => Arr::get($this->config, 'dont-discover', []),
                 ],
             ]);
         }
