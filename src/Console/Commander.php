@@ -2,16 +2,12 @@
 
 namespace Orchestra\Testbench\Console;
 
-use Dotenv\Dotenv;
-use Dotenv\Loader\Loader;
-use Dotenv\Parser\Parser;
-use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -57,7 +53,7 @@ class Commander
      */
     public function __construct(array $config, string $workingPath)
     {
-        $this->config = array_merge($this->config, $config);
+        $this->config = $config;
         $this->workingPath = $workingPath;
     }
 
@@ -106,50 +102,31 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $this->createSymlinkToVendorPath();
 
-            $this->app = Application::create($this->getBasePath(), $this->resolveApplicationCallback(), [
+            $laravelBasePath = $this->getBasePath();
+            $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
+
+            $options = array_filter([
+                'load_environment_variable' => $hasEnvironmentFile,
                 'extra' => [
                     'providers' => Arr::get($this->config, 'providers', []),
                     'dont-discover' => Arr::get($this->config, 'dont-discover', []),
                 ],
             ]);
-        }
 
-        return $this->app;
-    }
+            $this->app = Application::create(
+                basePath: $this->getBasePath(),
+                resolvingCallback: function ($app) use ($hasEnvironmentFile) {
+                    if ($hasEnvironmentFile === false) {
+                        (new LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
+                    }
 
-    /**
-     * Resolve application implementation.
-     *
-     * @return \Closure
-     */
-    protected function resolveApplicationCallback()
-    {
-        return function ($app) {
-            $this->createDotenv()->load();
-
-            $app->register(TestbenchServiceProvider::class);
-        };
-    }
-
-    /**
-     * Create a Dotenv instance.
-     */
-    protected function createDotenv(): Dotenv
-    {
-        $laravelBasePath = $this->getBasePath();
-
-        if (file_exists($laravelBasePath.'/.env')) {
-            return Dotenv::create(
-                Env::getRepository(), $laravelBasePath.'/', '.env'
+                    $app->register(TestbenchServiceProvider::class);
+                },
+                options: $options
             );
         }
 
-        return new Dotenv(
-            new StringStore(implode("\n", $this->config['env'] ?? [])),
-            new Parser(),
-            new Loader(),
-            Env::getRepository()
-        );
+        return $this->app;
     }
 
     /**
