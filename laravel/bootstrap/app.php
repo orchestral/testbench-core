@@ -7,10 +7,10 @@ use Orchestra\Testbench\Foundation\Config;
 /**
  * Create Laravel application.
  *
+ * @param  string  $workingPath
  * @return \Illuminate\Foundation\Application
  */
-$createApp = function () {
-    $workingPath = realpath(__DIR__.'/../');
+$createApp = function (string $workingPath) {
     $config = Config::loadFromYaml($workingPath);
 
     if (empty($config['env'])) {
@@ -34,7 +34,7 @@ $createApp = function () {
     );
 };
 
-$app = $createApp();
+$app = $createApp(realpath(__DIR__.'/../'));
 
 /** @var \Illuminate\Routing\Router $router */
 $router = $app->make('router');
