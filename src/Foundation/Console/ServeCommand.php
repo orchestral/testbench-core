@@ -18,17 +18,30 @@ class ServeCommand extends Command
      */
     public function handle()
     {
-        Signals::resolveAvailabilityUsing(function () {
-            return extension_loaded('pcntl');
-        });
-
         $filesystem = new Filesystem();
+
+        $this->prepareCommandSignals($filesystem);
 
         /** @phpstan-ignore-next-line */
         $workingPath = TESTBENCH_WORKING_PATH;
 
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
+
+        return parent::handle();
+    }
+
+    /**
+     * Prepare command signals.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @return void
+     */
+    protected function prepareCommandSignals(Filesystem $filesystem): void
+    {
+        Signals::resolveAvailabilityUsing(function () {
+            return extension_loaded('pcntl');
+        });
 
         $this->trap([SIGINT], function ($signal) use ($filesystem) {
             if ($filesystem->exists($this->laravel->basePath('testbench.yaml'))) {
@@ -39,8 +52,6 @@ class ServeCommand extends Command
                 $filesystem->delete($this->laravel->basePath('.env'));
             }
         });
-
-        return parent::handle();
     }
 
     /**
