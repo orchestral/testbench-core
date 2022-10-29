@@ -14,14 +14,14 @@ final class LoadEnvironmentVariablesFromArray
     /**
      * The environment variables.
      *
-     * @var array
+     * @var array<int, mixed>
      */
     public $environmentVariables;
 
     /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
-     * @param  array  $environmentVariables
+     * @param  array<int, mixed>  $environmentVariables
      */
     public function __construct(array $environmentVariables)
     {
