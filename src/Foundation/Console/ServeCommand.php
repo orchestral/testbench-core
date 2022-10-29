@@ -2,12 +2,22 @@
 
 namespace Orchestra\Testbench\Foundation\Console;
 
+use Illuminate\Console\Signals;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Console\ServeCommand as Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Env;
+use Symfony\Component\Process\Process;
 
 class ServeCommand extends Command
 {
+    /**
+     * The running process instance.
+     *
+     * @var \Symfony\Component\Process\Process|null
+     */
+    protected $runningProcess;
+
     /**
      * Execute the console command.
      *
@@ -17,6 +27,10 @@ class ServeCommand extends Command
      */
     public function handle()
     {
+        Signals::resolveAvailabilityUsing(function () {
+            return extension_loaded('pcntl');
+        });
+
         $filesystem = new Filesystem();
 
         /** @phpstan-ignore-next-line */
@@ -24,6 +38,16 @@ class ServeCommand extends Command
 
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
+
+        $this->trap([SIGINT], function ($signal) use ($filesystem) {
+            if ($filesystem->exists($this->laravel->basePath('testbench.yaml'))) {
+                $filesystem->delete($this->laravel->basePath('testbench.yaml'));
+            }
+
+            if ($filesystem->exists($this->laravel->basePath('.env'))) {
+                $filesystem->delete($this->laravel->basePath('.env'));
+            }
+        });
 
         return parent::handle();
     }
@@ -70,5 +94,20 @@ class ServeCommand extends Command
         if (! is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $this->laravel->basePath('.env'));
         }
+    }
+
+    /**
+     * Get the value of a command option.
+     *
+     * @param  string|null  $key
+     * @return string|array|bool|null
+     */
+    public function option($key = null)
+    {
+        if ($key === 'no-reload') {
+            return true;
+        }
+
+        return parent::option($key);
     }
 }
