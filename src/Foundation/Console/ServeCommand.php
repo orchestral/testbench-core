@@ -6,18 +6,9 @@ use Illuminate\Console\Signals;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Console\ServeCommand as Command;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Env;
-use Symfony\Component\Process\Process;
 
 class ServeCommand extends Command
 {
-    /**
-     * The running process instance.
-     *
-     * @var \Symfony\Component\Process\Process|null
-     */
-    protected $runningProcess;
-
     /**
      * Execute the console command.
      *
