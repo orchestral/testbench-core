@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cp -f vendor/laravel/laravel/.env.example laravel/
 cp -rf vendor/laravel/laravel/config/*.php laravel/config/
 cp -rf vendor/laravel/laravel/database/.gitignore laravel/database/.gitignore
 cp -rf vendor/laravel/laravel/database/migrations/2014_10_12_000000_create_users_table.php laravel/migrations/2014_10_12_000000_testbench_create_users_table.php
