@@ -66,7 +66,10 @@
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "prepare": "@php testbench package:discover --ansi",
+        "prepare": [
+            "@php testbench package:create-sqlite-db --ansi",
+            "@php testbench package:discover --ansi"
+        ],
         "test": "@php vendor/bin/phpunit -c ./ --color"
     },
     "config": {
