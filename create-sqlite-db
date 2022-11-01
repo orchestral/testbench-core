@@ -22,5 +22,5 @@ $config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
 $directory = ($config['laravel'] ? $config['laravel'] : realpath(__DIR__)).'/laravel/database';
 
 if (! file_exists("{$directory}/database.sqlite")) {
-    copy("{$workingPath}/laravel/database.sqlite.example", "{$directory}/database.sqlite");
+    copy("{$workingPath}/laravel/database/database.sqlite.example", "{$directory}/database.sqlite");
 }
