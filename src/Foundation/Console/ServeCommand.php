@@ -21,7 +21,7 @@ class ServeCommand extends Command
      *
      * @var array<int, (callable(\Illuminate\Filesystem\Filesystem):void)>
      */
-    protected $terminatingCallbacks = [];
+    protected $beforeTerminatingCallbacks = [];
 
     /**
      * Execute the console command.
@@ -58,7 +58,7 @@ class ServeCommand extends Command
         });
 
         $this->trap([SIGINT], function ($signal) use ($filesystem) {
-            collect($this->terminatingCallbacks)
+            collect($this->beforeTerminatingCallbacks)
                 ->each(function ($callback) use ($filesystem) {
                     call_user_func($callback, $filesystem);
                 });
@@ -84,14 +84,22 @@ class ServeCommand extends Command
 
         $testbenchFile = $this->laravel->basePath('testbench.yaml');
 
+        if ($filesystem->exists($testbenchFile)) {
+            $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
+
+            $this->beforeTerminating(function (Filesystem $filesystem) use ($testbenchFile) {
+                $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
+            });
+        }
+
         if (! is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $testbenchFile);
 
-            $this->terminatingCallbacks[] = function (Filesystem $filesystem) use ($testbenchFile) {
+            $this->beforeTerminating(function (Filesystem $filesystem) use ($testbenchFile) {
                 if ($filesystem->exists($testbenchFile)) {
                     $filesystem->delete($testbenchFile);
                 }
-            };
+            });
         }
     }
 
@@ -114,15 +122,37 @@ class ServeCommand extends Command
 
         $environmentFile = $this->laravel->basePath('.env');
 
+
+        if ($filesystem->exists($environmentFile)) {
+            $filesystem->copy($environmentFile, "{$this->environmentFile}.backup");
+
+            $this->beforeTerminating(function (Filesystem $filesystem) use ($environmentFile) {
+                $filesystem->move("{$this->environmentFile}.backup", $environmentFile);
+            });
+        }
+
         if (! is_null($configurationFile) && ! $filesystem->exists($environmentFile)) {
             $filesystem->copy($configurationFile, $environmentFile);
 
-            $this->terminatingCallbacks[] = function (Filesystem $filesystem) use ($environmentFile) {
+            $this->beforeTerminating(function (Filesystem $filesystem) use ($environmentFile) {
                 if ($filesystem->exists($environmentFile)) {
                     $filesystem->delete($environmentFile);
                 }
-            };
+            });
         }
+    }
+
+
+
+    /**
+     * Register a callback to be run before terminating the command.
+     *
+     * @param  callable(\Illuminate\Filesystem\Filesystem):void  $callback
+     * @return void
+     */
+    protected function beforeTerminating(callable $callback): void
+    {
+        array_unshift($this->beforeTerminatingCallbacks, $callback);
     }
 
     /**
