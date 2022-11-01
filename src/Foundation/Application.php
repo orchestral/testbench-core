@@ -63,14 +63,15 @@ class Application
      *
      * @param  string|null  $basePath
      * @param  string  $workingVendorPath
-     * @return void
+     * @return \Illuminate\Foundation\Application
      */
-    public static function createVendorSymlink(?string $basePath, string $workingVendorPath): void
+    public static function createVendorSymlink(?string $basePath, string $workingVendorPath)
     {
-        (new Bootstrap\CreateVendorSymlink($workingVendorPath))
-            ->bootstrap(
-                static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]])
-            );
+        $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
+
+        (new Bootstrap\CreateVendorSymlink($workingVendorPath))->bootstrap($app);
+
+        return $app;
     }
 
     /**

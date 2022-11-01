@@ -2,17 +2,23 @@
 
 namespace Orchestra\Testbench\Console;
 
+use Illuminate\Console\Concerns\InteractsWithSignals;
+use Illuminate\Console\Signals;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
+use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
 /**
@@ -20,6 +26,9 @@ use Throwable;
  */
 class Commander
 {
+    use CopyTestbenchFiles,
+        InteractsWithSignals;
+
     /**
      * Application instance.
      *
@@ -45,6 +54,13 @@ class Commander
      * @var string
      */
     protected $workingPath;
+
+    /**
+     * The environment file name.
+     *
+     * @var string
+     */
+    protected $environmentFile = '.env';
 
     /**
      * Construct a new Commander.
@@ -79,6 +95,8 @@ class Commander
 
         $kernel = $laravel->make(ConsoleKernel::class);
 
+        $this->prepareCommandSignals();
+
         $input = new ArgvInput();
         $output = new ConsoleOutput();
 
@@ -87,6 +105,8 @@ class Commander
         } catch (Throwable $error) {
             $status = $this->handleException($output, $error);
         }
+
+        $this->handleTerminatingConsole();
 
         $kernel->terminate($input, $status);
 
@@ -103,9 +123,15 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $laravelBasePath = $this->getBasePath();
 
-            Application::createVendorSymlink(
-                $laravelBasePath, $this->workingPath.'/vendor'
-            );
+            tap(Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor'), function ($app) use ($laravelBasePath) {
+                $filesystem = new Filesystem();
+
+                $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
+
+                if (! file_exists("{$laravelBasePath}/.env")) {
+                    $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+                }
+            });
 
             $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
 
@@ -216,5 +242,26 @@ class Commander
         });
 
         return 1;
+    }
+
+    /**
+     * Prepare command signals.
+     *
+     * @return void
+     */
+    protected function prepareCommandSignals(): void
+    {
+        Signals::resolveAvailabilityUsing(function () {
+            return extension_loaded('pcntl');
+        });
+
+        Signals::whenAvailable(function () {
+            $this->signals ??= new Signals(new SignalRegistry());
+
+            Collection::make(Arr::wrap([SIGINT]))
+                ->each(
+                    fn ($signal) => $this->signals->register($signal, fn () => $this->handleTerminatingConsole())
+                );
+        });
     }
 }
