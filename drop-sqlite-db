@@ -19,7 +19,7 @@ $config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
     ],
 );
 
-$directory = ($config['laravel'] ? $config['laravel'] : realpath(__DIR__)).'/laravel/database';
+$directory = ($config['laravel'] ? $config['laravel'] : realpath(__DIR__).'/laravel').'/database';
 
 if (file_exists("{$directory}/database.sqlite")) {
     @unlink("{$directory}/database.sqlite");
