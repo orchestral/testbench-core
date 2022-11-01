@@ -14,6 +14,7 @@ cp -rf vendor/laravel/laravel/public/index.php laravel/public/index.php
 rm laravel/config/sanctum.php
 
 awk '{sub(/getcwd\(\)/,"__DIR__.'\''/public'\''")}1' laravel/server.php > laravel/server.stub && mv laravel/server.stub laravel/server.php
+awk '{sub(/DB_CONNECTION=mysql/,"DB_CONNECTION=sqlite")}1' laravel/.env.example > laravel/.env.example.stub && mv laravel/.env.example.stub laravel/.env.example
 awk '{sub(/production/,"testing")}1' laravel/config/app.php > laravel/config/app.stub && mv laravel/config/app.stub laravel/config/app.php
 awk '{sub(/App\\Providers/,"// App\\Providers")}1' laravel/config/app.php > laravel/config/app.stub && mv laravel/config/app.stub laravel/config/app.php
 # awk '{sub(/\x27Redis\x27/,"'\''RedisManager'\''")}1' laravel/config/app.php > laravel/config/temp.stub && mv laravel/config/temp.stub laravel/config/app.php
