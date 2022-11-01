@@ -10,6 +10,20 @@ use Illuminate\Support\Collection;
 class ServeCommand extends Command
 {
     /**
+     * The environment file name.
+     *
+     * @var string
+     */
+    protected $environmentFile = '.env';
+
+    /**
+     * The terminating callbacks.
+     *
+     * @var array<int, (callable(\Illuminate\Filesystem\Filesystem):void)>
+     */
+    protected $terminatingCallbacks = [];
+
+    /**
      * Execute the console command.
      *
      * @return int
@@ -44,13 +58,10 @@ class ServeCommand extends Command
         });
 
         $this->trap([SIGINT], function ($signal) use ($filesystem) {
-            if ($filesystem->exists($this->laravel->basePath('testbench.yaml'))) {
-                $filesystem->delete($this->laravel->basePath('testbench.yaml'));
-            }
-
-            if ($filesystem->exists($this->laravel->basePath('.env'))) {
-                $filesystem->delete($this->laravel->basePath('.env'));
-            }
+            collect($this->terminatingCallbacks)
+                ->each(function ($callback) use ($filesystem) {
+                    call_user_func($callback, $filesystem);
+                });
         });
     }
 
@@ -71,8 +82,16 @@ class ServeCommand extends Command
         ->filter(fn ($file) => $filesystem->exists($file))
         ->first();
 
+        $testbenchFile = $this->laravel->basePath('testbench.yaml');
+
         if (! is_null($configurationFile)) {
-            $filesystem->copy($configurationFile, $this->laravel->basePath('testbench.yaml'));
+            $filesystem->copy($configurationFile, $testbenchFile);
+
+            $this->terminatingCallbacks[] = function (Filesystem $filesystem) use ($testbenchFile) {
+                if ($filesystem->exists($testbenchFile)) {
+                    $filesystem->delete($testbenchFile);
+                }
+            };
         }
     }
 
@@ -86,15 +105,23 @@ class ServeCommand extends Command
     protected function copyTestbenchDotEnvFile(Filesystem $filesystem, string $workingPath): void
     {
         $configurationFile = Collection::make([
-            '.env',
-            '.env.example',
-            '.env.dist',
+            $this->environmentFile,
+            "{$this->environmentFile}.example",
+            "{$this->environmentFile}.dist",
         ])->map(fn ($file) => "{$workingPath}/{$file}")
         ->filter(fn ($file) => $filesystem->exists($file))
         ->first();
 
-        if (! is_null($configurationFile)) {
-            $filesystem->copy($configurationFile, $this->laravel->basePath('.env'));
+        $environmentFile = $this->laravel->basePath('.env');
+
+        if (! is_null($configurationFile) && ! $filesystem->exists($environmentFile)) {
+            $filesystem->copy($configurationFile, $environmentFile);
+
+            $this->terminatingCallbacks[] = function (Filesystem $filesystem) use ($environmentFile) {
+                if ($filesystem->exists($environmentFile)) {
+                    $filesystem->delete($environmentFile);
+                }
+            };
         }
     }
 
