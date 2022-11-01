@@ -40,6 +40,7 @@
         "laravel/laravel": "9.x-dev",
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",
+        "nunomaduro/collision": "^6.2",
         "orchestra/canvas": "^7.0",
         "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5.10",
