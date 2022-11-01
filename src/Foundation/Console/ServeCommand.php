@@ -120,6 +120,10 @@ class ServeCommand extends Command
         ->filter(fn ($file) => $filesystem->exists($file))
         ->first();
 
+        if (is_null($configurationFile) && $filesystem->exists($this->laravel->basePath("{$this->environmentFile}.example"))) {
+            $configurationFile = $this->laravel->basePath("{$this->environmentFile}.example");
+        }
+
         $environmentFile = $this->laravel->basePath('.env');
 
         if ($filesystem->exists($environmentFile)) {
