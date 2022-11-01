@@ -10,7 +10,7 @@ use Orchestra\Testbench\Foundation\Application;
  *
  * @param  string|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
- * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variable?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
 function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])

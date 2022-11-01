@@ -7,7 +7,7 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 
 /**
  * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array}
- * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variable?: bool, enabled_package_discoveries?: bool}
+ * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variables?: bool, enabled_package_discoveries?: bool}
  */
 class Application
 {

@@ -110,7 +110,7 @@ class Commander
             $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
 
             $options = array_filter([
-                'load_environment_variable' => $hasEnvironmentFile,
+                'load_environment_variables' => $hasEnvironmentFile,
                 'extra' => [
                     'providers' => Arr::get($this->config, 'providers', []),
                     'dont-discover' => Arr::get($this->config, 'dont-discover', []),
