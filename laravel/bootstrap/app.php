@@ -29,7 +29,7 @@ $createApp = function (string $workingPath) {
                 (new LoadEnvironmentVariablesFromArray($config['env'] ?? []))->bootstrap($app);
             }
         },
-        options: ['enables_package_discoveries' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
+        options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
     );
 };
 
