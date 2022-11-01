@@ -34,3 +34,20 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
         }
     });
 }
+
+/**
+ * Get default environment variables.
+ *
+ * @return array<int, string>
+ */
+function default_environment_variables(): array
+{
+    $APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
+    $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? 'testing';
+
+    return [
+        'APP_KEY="'.$APP_KEY.'"',
+        'APP_DEBUG=(true)',
+        'DB_CONNECTION="'.$DB_CONNECTION.'"',
+    ];
+}

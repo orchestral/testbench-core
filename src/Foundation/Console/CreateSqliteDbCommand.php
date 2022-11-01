@@ -36,7 +36,6 @@ class CreateSqliteDbCommand extends Command
         return Command::SUCCESS;
     }
 
-
     /**
      * Copy the "database.sqlite" file.
      *
@@ -63,5 +62,4 @@ class CreateSqliteDbCommand extends Command
             );
         }
     }
-
 }

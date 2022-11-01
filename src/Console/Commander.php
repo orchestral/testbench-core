@@ -6,6 +6,7 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
+use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
@@ -120,7 +121,9 @@ class Commander
                 basePath: $this->getBasePath(),
                 resolvingCallback: function ($app) use ($hasEnvironmentFile) {
                     if ($hasEnvironmentFile === false) {
-                        (new LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
+                        (new LoadEnvironmentVariablesFromArray(
+                            ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables()
+                        ))->bootstrap($app);
                     }
 
                     call_user_func($this->resolveApplicationCallback(), $app);
