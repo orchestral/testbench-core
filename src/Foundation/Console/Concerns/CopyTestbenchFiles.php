@@ -64,12 +64,9 @@ trait CopyTestbenchFiles
             "{$this->environmentFile}.example",
             "{$this->environmentFile}.dist",
         ])->map(fn ($file) => "{$workingPath}/{$file}")
+        ->push($app->basePath(".env.example"))
         ->filter(fn ($file) => $filesystem->exists($file))
         ->first();
-
-        if (is_null($configurationFile) && $filesystem->exists($app->basePath("{$this->environmentFile}.example"))) {
-            $configurationFile = $app->basePath("{$this->environmentFile}.example");
-        }
 
         $environmentFile = $app->basePath('.env');
 
