@@ -104,9 +104,9 @@ class Commander
             $status = $kernel->handle($input, $output);
         } catch (Throwable $error) {
             $status = $this->handleException($output, $error);
+        } finally {
+            $this->handleTerminatingConsole();
         }
-
-        $this->handleTerminatingConsole();
 
         $kernel->terminate($input, $status);
 
