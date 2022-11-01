@@ -64,7 +64,7 @@ trait CopyTestbenchFiles
             "{$this->environmentFile}.example",
             "{$this->environmentFile}.dist",
         ])->map(fn ($file) => "{$workingPath}/{$file}")
-        ->push($app->basePath(".env.example"))
+        ->push($app->basePath('.env.example'))
         ->filter(fn ($file) => $filesystem->exists($file))
         ->first();
 
