@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 
 class DevToolCommand extends Command
 {
+    use Concerns\InteractsWithIO;
+
     /**
      * The name and signature of the console command.
      *
@@ -42,7 +44,8 @@ class DevToolCommand extends Command
 
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
-        $this->copySqliteDatabaseFile($filesystem);
+
+        $this->call('package:create-sqlite-db');
 
         return Command::SUCCESS;
     }
@@ -124,58 +127,5 @@ class DevToolCommand extends Command
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
         }
-    }
-
-    /**
-     * Copy the "database.sqlite" file.
-     *
-     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
-     * @return void
-     */
-    protected function copySqliteDatabaseFile(Filesystem $filesystem): void
-    {
-        $from = $this->laravel->databasePath('database.sqlite.example');
-        $to = $this->laravel->databasePath('database.sqlite');
-
-        if (! $filesystem->exists($from)) {
-            return;
-        }
-
-        if ($this->option('force') || ! $filesystem->exists($to)) {
-            $filesystem->copy($from, $to);
-
-            $this->status($from, $to, 'file');
-        } else {
-            $this->components->twoColumnDetail(
-                sprintf('File [%s] already exists', $to),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
-        }
-    }
-
-
-    /**
-     * Write a status message to the console.
-     *
-     * @param  string  $from
-     * @param  string  $to
-     * @param  string  $type
-     * @return void
-     */
-    protected function status(string $from, string $to, string $type): void
-    {
-        /** @phpstan-ignore-next-line */
-        $workingPath = TESTBENCH_WORKING_PATH;
-
-        $from = str_replace($workingPath.'/', '', realpath($from));
-
-        $to = str_replace($workingPath.'/', '', realpath($to));
-
-        $this->components->task(sprintf(
-            'Copying %s [%s] to [%s]',
-            $type,
-            $from,
-            $to,
-        ));
     }
 }

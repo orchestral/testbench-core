@@ -22,6 +22,7 @@ class TestbenchServiceProvider extends ServiceProvider
                 $this->isCollisionDependenciesInstalled()
                     ? Console\TestCommand::class
                     : Console\TestFallbackCommand::class,
+                Console\CreateSqliteDbCommand::class,
                 Console\DevToolCommand::class,
                 Console\ServeCommand::class,
             ]);
