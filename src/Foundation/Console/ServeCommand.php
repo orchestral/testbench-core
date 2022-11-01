@@ -122,7 +122,6 @@ class ServeCommand extends Command
 
         $environmentFile = $this->laravel->basePath('.env');
 
-
         if ($filesystem->exists($environmentFile)) {
             $filesystem->copy($environmentFile, "{$this->environmentFile}.backup");
 
@@ -141,8 +140,6 @@ class ServeCommand extends Command
             });
         }
     }
-
-
 
     /**
      * Register a callback to be run before terminating the command.
