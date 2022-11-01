@@ -1,3 +1,2 @@
 env:
   - APP_ENV=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF
-  - DB_CONNECTION=sqlite

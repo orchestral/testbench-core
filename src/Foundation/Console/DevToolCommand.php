@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 
 class DevToolCommand extends Command
 {
@@ -55,8 +56,18 @@ class DevToolCommand extends Command
      */
     protected function copyTestbenchConfigurationFile(Filesystem $filesystem, string $workingPath): void
     {
-        if ($this->option('force') || ! $filesystem->exists("{$workingPath}/testbench.yaml")) {
-            $filesystem->copy(__DIR__.'/stubs/testbench.yaml', "{$workingPath}/testbench.yaml");
+        $from = realpath(__DIR__.'/stubs/testbench.yaml');
+        $to = "{$workingPath}/testbench.yaml";
+
+        if ($this->option('force') || ! $filesystem->exists($to)) {
+            $filesystem->copy($from, $to);
+
+            $this->status($from, $to, 'file');
+        } else {
+            $this->components->twoColumnDetail(
+                sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
+                '<fg=yellow;options=bold>SKIPPED</>'
+            );
         }
     }
 
@@ -69,14 +80,49 @@ class DevToolCommand extends Command
      */
     protected function copyTestbenchDotEnvFile(Filesystem $filesystem, string $workingPath): void
     {
-        $environmentFile = $this->laravel->basePath('.env.example');
+        $from = $this->laravel->basePath('.env.example');
 
-        if (! $filesystem->exists($environmentFile)) {
+        if (! $filesystem->exists($from)) {
             return;
         }
 
-        if ($this->option('force') || ! $filesystem->exists("{$workingPath}/{$this->environmentFile}")) {
-            $filesystem->copy($environmentFile, "{$workingPath}/{$this->environmentFile}");
+        $choices = Collection::make([
+            $this->environmentFile,
+            "{$this->environmentFile}.example",
+            "{$this->environmentFile}.dist",
+        ])->filter(fn ($file) => ! $filesystem->exists("{$workingPath}/{$file}"))
+        ->values()
+        ->prepend('Skip exporting .env')
+        ->all();
+
+        if (! $this->option('force') && empty($choices)) {
+            $this->components->twoColumnDetail(
+                'File [.env] already exists', '<fg=yellow;options=bold>SKIPPED</>'
+            );
+
+            return;
+        }
+
+        $choice = $this->components->choice(
+            "Export '.env' file as?",
+            $choices,
+        );
+
+        if ($choice === 'Skip exporting .env') {
+            return;
+        }
+
+        $to = "{$workingPath}/{$choice}";
+
+        if ($this->option('force') || ! $filesystem->exists($to)) {
+            $filesystem->copy($from, $to);
+
+            $this->status($from, $to, 'file');
+        } else {
+            $this->components->twoColumnDetail(
+                sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
+                '<fg=yellow;options=bold>SKIPPED</>'
+            );
         }
     }
 
@@ -88,15 +134,48 @@ class DevToolCommand extends Command
      */
     protected function copySqliteDatabaseFile(Filesystem $filesystem): void
     {
-        $database = $this->laravel->databasePath('database.sqlite');
-        $exampleDatabase = $this->laravel->databasePath('database.sqlite.example');
+        $from = $this->laravel->databasePath('database.sqlite.example');
+        $to = $this->laravel->databasePath('database.sqlite');
 
-        if (! $filesystem->exists($exampleDatabase)) {
+        if (! $filesystem->exists($from)) {
             return;
         }
 
-        if ($this->option('force') || ! $filesystem->exists($database)) {
-            $filesystem->copy($exampleDatabase, $database);
+        if ($this->option('force') || ! $filesystem->exists($to)) {
+            $filesystem->copy($from, $to);
+
+            $this->status($from, $to, 'file');
+        } else {
+            $this->components->twoColumnDetail(
+                sprintf('File [%s] already exists', $to),
+                '<fg=yellow;options=bold>SKIPPED</>'
+            );
         }
+    }
+
+
+    /**
+     * Write a status message to the console.
+     *
+     * @param  string  $from
+     * @param  string  $to
+     * @param  string  $type
+     * @return void
+     */
+    protected function status(string $from, string $to, string $type): void
+    {
+        /** @phpstan-ignore-next-line */
+        $workingPath = TESTBENCH_WORKING_PATH;
+
+        $from = str_replace($workingPath.'/', '', realpath($from));
+
+        $to = str_replace($workingPath.'/', '', realpath($to));
+
+        $this->components->task(sprintf(
+            'Copying %s [%s] to [%s]',
+            $type,
+            $from,
+            $to,
+        ));
     }
 }
