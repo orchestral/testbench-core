@@ -34,13 +34,6 @@ return [
     */
 
     'connections' => [
-
-        'testing' => [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', false),
-        ],
-
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
