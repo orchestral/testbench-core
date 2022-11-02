@@ -91,24 +91,23 @@ class Commander
      */
     public function handle()
     {
-        $laravel = $this->laravel();
-
-        $kernel = $laravel->make(ConsoleKernel::class);
-
-        $this->prepareCommandSignals();
-
         $input = new ArgvInput();
         $output = new ConsoleOutput();
 
         try {
+            $laravel = $this->laravel();
+            $kernel = $laravel->make(ConsoleKernel::class);
+
+            $this->prepareCommandSignals();
+
             $status = $kernel->handle($input, $output);
+
+            $kernel->terminate($input, $status);
         } catch (Throwable $error) {
             $status = $this->handleException($output, $error);
         } finally {
             $this->handleTerminatingConsole();
         }
-
-        $kernel->terminate($input, $status);
 
         exit($status);
     }
