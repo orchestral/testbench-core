@@ -75,16 +75,6 @@ class Commander
     }
 
     /**
-     * Get Application base path.
-     *
-     * @return string
-     */
-    public static function applicationBasePath()
-    {
-        return Application::applicationBasePath();
-    }
-
-    /**
      * Handle the command.
      *
      * @return void
@@ -187,7 +177,7 @@ class Commander
             });
         }
 
-        return static::applicationBasePath();
+        return Application::applicationBasePath();
     }
 
     /**
