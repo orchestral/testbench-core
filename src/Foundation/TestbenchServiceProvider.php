@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\ServiceProvider;
+use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
 
 class TestbenchServiceProvider extends ServiceProvider
 {
@@ -49,6 +50,6 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     protected function isCollisionDependenciesInstalled(): bool
     {
-        return class_exists(\NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand::class);
+        return class_exists(CollisionTestCommand::class);
     }
 }
