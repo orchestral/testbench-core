@@ -22,7 +22,7 @@ final class LoadConfiguration
 
         $this->loadConfigurationFiles($app, $config);
 
-        if( \is_null($config->get('database.connections.testing'))) {
+        if (\is_null($config->get('database.connections.testing'))) {
             $config->set('database.connections.testing', [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
