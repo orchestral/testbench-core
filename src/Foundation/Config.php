@@ -7,7 +7,7 @@ use Illuminate\Support\Fluent;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @phpstan-type TConfig array{laravel: string|null, env: array, providers: array, dont-discover: array}
+ * @phpstan-type TConfig array{laravel?: string|null, env?: array, providers?: array, dont-discover?: array}
  */
 class Config extends Fluent
 {

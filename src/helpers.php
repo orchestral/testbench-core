@@ -10,7 +10,7 @@ use Orchestra\Testbench\Foundation\Application;
  *
  * @param  string|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
- * @param  array  $options
+ * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
 function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
@@ -33,4 +33,21 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
             $artisan->run();
         }
     });
+}
+
+/**
+ * Get default environment variables.
+ *
+ * @return array<int, string>
+ */
+function default_environment_variables(): array
+{
+    $APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
+    $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? 'testing';
+
+    return array_filter([
+        'APP_KEY="'.$APP_KEY.'"',
+        'APP_DEBUG=(true)',
+        ! defined('TESTBENCH_DUSK') ? 'DB_CONNECTION="'.$DB_CONNECTION.'"' : null,
+    ]);
 }

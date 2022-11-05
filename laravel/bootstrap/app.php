@@ -1,16 +1,24 @@
 <?php
 
 use Orchestra\Testbench\Console\Commander;
+use function Orchestra\Testbench\default_environment_variables;
 
-$APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
-$DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? 'testing';
+/**
+ * Create Laravel application.
+ *
+ * @return \Illuminate\Foundation\Application
+ */
+$createApp = function () {
+    $config = ['env' => default_environment_variables(), 'providers' => []];
 
-$config = ['env' => ['APP_KEY="'.$APP_KEY.'"', 'DB_CONNECTION="'.$DB_CONNECTION.'"'], 'providers' => []];
+    return (new Commander($config, getcwd()))->laravel();
+};
 
-$app = (new Commander($config, getcwd()))->laravel();
+$app = $createApp();
 
-unset($APP_KEY, $DB_CONNECTION, $config);
+unset($createApp);
 
+/** @var \Illuminate\Routing\Router $router */
 $router = $app->make('router');
 
 collect(glob(__DIR__.'/../routes/testbench-*.php'))
