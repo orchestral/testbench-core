@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.11.2
+
+Released: 2022-11-05
+
+### Changes
+
+* Improves `create-sqlite-db` and `drop-sqlite-db` command.
+* Improves `Orchestra\Testbench\Foundation\Application` to allow uses `App\Http\Kernel` and `App\Console\Kernel` when available.
+
 ## 7.11.1
 
 Released: 2022-11-05
