@@ -79,7 +79,7 @@ class Application
      *
      * @param  string|null  $basePath
      * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
-     * @param  array  $options
+     * @param  TConfig  $options
      * @return \Illuminate\Foundation\Application
      */
     public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
