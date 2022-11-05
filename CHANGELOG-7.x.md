@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.11.1
+
+Released: 2022-11-05
+
+### Changes
+
+* Improves PHPStan support.
+
 ## 7.11.0
 
 Released: 2022-10-19
