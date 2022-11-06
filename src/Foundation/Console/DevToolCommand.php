@@ -45,6 +45,8 @@ class DevToolCommand extends Command
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
 
+        $this->call('package:create-sqlite-db', ['--force' => true]);
+
         return Command::SUCCESS;
     }
 
