@@ -177,6 +177,17 @@ class Commander
             });
         }
 
+        return static::applicationBasePath();
+    }
+
+
+    /**
+     * Get Application base path.
+     *
+     * @return string
+     */
+    public static function applicationBasePath()
+    {
         return Application::applicationBasePath();
     }
 
