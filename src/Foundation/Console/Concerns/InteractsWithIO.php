@@ -10,12 +10,13 @@ trait InteractsWithIO
      * @param  string  $from
      * @param  string  $to
      * @param  string  $type
+     * @param  string|null  $workingPath
      * @return void
      */
-    protected function status(string $from, string $to, string $type): void
+    protected function status(string $from, string $to, string $type, ?string $workingPath = null): void
     {
         /** @phpstan-ignore-next-line */
-        $workingPath = TESTBENCH_WORKING_PATH;
+        $workingPath = $workingPath ?? TESTBENCH_WORKING_PATH;
 
         $from = str_replace($workingPath.'/', '', realpath($from));
 
