@@ -180,7 +180,6 @@ class Commander
         return static::applicationBasePath();
     }
 
-
     /**
      * Get Application base path.
      *
