@@ -16,8 +16,7 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /** @phpstan-ignore-next-line */
-        $workingPath = TESTBENCH_WORKING_PATH;
+        $workingPath = defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
 
         AboutCommand::add('Testbench', fn () => [
             'Core Version' => class_exists(InstalledVersions::class) ? InstalledVersions::getPrettyVersion('orchestra/testbench-core') : '<fg=yellow;options=bold>-</>',
