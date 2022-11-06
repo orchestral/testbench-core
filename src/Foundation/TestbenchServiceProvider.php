@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Composer\InstalledVersions;
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
 
@@ -14,7 +16,13 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        /** @phpstan-ignore-next-path */
+        $workingPath = TESTBENCH_WORKING_PATH;
+
+        AboutCommand::add('Testbench', fn () => [
+            'Core Version' => class_exists(InstalledVersions::class) ? InstalledVersions::getPrettyVersion('orchestra/testbench-core') : '<fg=yellow;options=bold>-</>',
+            'Skeleton Path' => str_replace($workingPath, '', $this->app->basePath()),
+        ]);
     }
 
     /**
