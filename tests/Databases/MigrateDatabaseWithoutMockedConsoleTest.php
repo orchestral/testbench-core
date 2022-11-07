@@ -25,8 +25,6 @@ class MigrateDatabaseWithoutMockedConsoleTest extends TestCase
      */
     protected function defineDatabaseMigrations()
     {
-        $this->withoutMockingConsoleOutput();
-
         artisan($this, 'migrate', ['--database' => 'testing']);
     }
 

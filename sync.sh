@@ -6,6 +6,7 @@ cp -rf vendor/laravel/laravel/database/migrations/2014_10_12_000000_create_users
 cp -rf vendor/laravel/laravel/database/migrations/2014_10_12_100000_create_password_resets_table.php laravel/migrations/2014_10_12_100000_testbench_create_password_resets_table.php
 cp -rf vendor/laravel/laravel/database/migrations/2019_08_19_000000_create_failed_jobs_table.php laravel/migrations/2019_08_19_000000_testbench_create_failed_jobs_table.php
 cp -rf vendor/laravel/laravel/resources/lang/en/*.php laravel/resources/lang/en/
+cp -rf vendor/laravel/laravel/resources/views/* laravel/resources/views/
 cp -rf vendor/laravel/laravel/database/factories/*.php src/Factories/
 cp -rf vendor/laravel/laravel/server.php laravel/server.php
 cp -rf vendor/laravel/laravel/public/index.php laravel/public/index.php
