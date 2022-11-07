@@ -16,5 +16,6 @@ class ApplicationTest extends TestCase
         $app = Application::create(realpath(__DIR__.'/../laravel'));
 
         $this->assertInstanceOf('Illuminate\Foundation\Application', $app);
+        $this->assertSame('App\\', $app->getNamespace());
     }
 }
