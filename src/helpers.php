@@ -12,7 +12,6 @@ use Orchestra\Testbench\Foundation\Application;
  * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
  * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
- * @return object
  */
 function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
 {

@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Databases;
 
+use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\TestCase;
 
 class MigrateDatabaseWithoutMockedConsoleTest extends TestCase
@@ -26,7 +27,7 @@ class MigrateDatabaseWithoutMockedConsoleTest extends TestCase
     {
         $this->withoutMockingConsoleOutput();
 
-        $this->artisan('migrate', ['--database' => 'testing']);
+        artisan($this, 'migrate', ['--database' => 'testing']);
     }
 
     /**
