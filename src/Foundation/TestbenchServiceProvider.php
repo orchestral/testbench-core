@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\ServiceProvider;
+use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
 
 class TestbenchServiceProvider extends ServiceProvider
 {
@@ -13,6 +14,14 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (! file_exists($this->app->databasePath('database.sqlite')) && config('database.default') === 'sqlite') {
+            config(['database.default' => 'testing']);
+        }
+
+        if (file_exists($this->app->basePath('migrations'))) {
+            $this->loadMigrationsFrom($this->app->basePath('migrations'));
+        }
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 $this->isCollisionDependenciesInstalled()
@@ -29,6 +38,6 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     protected function isCollisionDependenciesInstalled(): bool
     {
-        return class_exists(\NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand::class);
+        return class_exists(CollisionTestCommand::class);
     }
 }
