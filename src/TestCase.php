@@ -12,6 +12,7 @@ use Illuminate\Foundation\Testing\Concerns\InteractsWithTime;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
 use PHPUnit\Framework\TestCase as PHPUnit;
+use PHPUnit\Util\Annotation\Registry;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
@@ -73,5 +74,18 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected function refreshApplication()
     {
         $this->app = $this->createApplication();
+    }
+
+    /**
+     * Clean up the testing environment before the next test case.
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass(): void
+    {
+        (function () {
+            $this->classDocBlocks = [];
+            $this->methodDocBlocks = [];
+        })->call(Registry::getInstance());
     }
 }
