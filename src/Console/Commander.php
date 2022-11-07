@@ -114,8 +114,8 @@ class Commander
             ]);
 
             $this->app = Application::create(
-                basePath: $this->getBasePath(),
-                resolvingCallback: function ($app) use ($hasEnvironmentFile) {
+                $this->getBasePath(),
+                function ($app) use ($hasEnvironmentFile) {
                     if ($hasEnvironmentFile === false) {
                         (new LoadEnvironmentVariablesFromArray(
                             ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables()
@@ -124,7 +124,7 @@ class Commander
 
                     call_user_func($this->resolveApplicationCallback(), $app);
                 },
-                options: $options
+                $options
             );
         }
 
