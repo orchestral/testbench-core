@@ -67,7 +67,7 @@ class Application
      */
     public static function createVendorSymlink(?string $basePath, string $workingVendorPath)
     {
-        $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
+        $app = static::create($basePath, null, ['extra' => ['dont-discover' => ['*']]]);
 
         (new Bootstrap\CreateVendorSymlink($workingVendorPath))->bootstrap($app);
 

@@ -2,28 +2,26 @@
 
 namespace Orchestra\Testbench\Console;
 
-use Dotenv\Dotenv;
-use Dotenv\Loader\Loader;
-use Dotenv\Parser\Parser;
-use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Env;
-use Orchestra\Testbench\Concerns\CreatesApplication;
+use Illuminate\Foundation\Application as LaravelApplication;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use function Orchestra\Testbench\default_environment_variables;
+use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
+/**
+ * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null}
+ */
 class Commander
 {
-    use CreatesApplication {
-        resolveApplication as protected resolveApplicationFromTrait;
-        getBasePath as protected getBasePathFromTrait;
-    }
-
     /**
      * Application instance.
      *
@@ -34,9 +32,14 @@ class Commander
     /**
      * List of configurations.
      *
-     * @var array
+     * @var TConfig
      */
-    protected $config = [];
+    protected $config = [
+        'laravel' => null,
+        'env' => [],
+        'providers' => [],
+        'dont-discover' => [],
+    ];
 
     /**
      * Working path.
@@ -46,9 +49,16 @@ class Commander
     protected $workingPath;
 
     /**
+     * The environment file name.
+     *
+     * @var string
+     */
+    protected $environmentFile = '.env';
+
+    /**
      * Construct a new Commander.
      *
-     * @param  array  $config
+     * @param  TConfig  $config
      * @param  string  $workingPath
      */
     public function __construct(array $config, string $workingPath)
@@ -64,20 +74,19 @@ class Commander
      */
     public function handle()
     {
-        $laravel = $this->laravel();
-
-        $kernel = $laravel->make(ConsoleKernel::class);
-
         $input = new ArgvInput();
         $output = new ConsoleOutput();
 
         try {
+            $laravel = $this->laravel();
+            $kernel = $laravel->make(ConsoleKernel::class);
+
             $status = $kernel->handle($input, $output);
+
+            $kernel->terminate($input, $status);
         } catch (Throwable $error) {
             $status = $this->handleException($output, $error);
         }
-
-        $kernel->terminate($input, $status);
 
         exit($status);
     }
@@ -89,69 +98,49 @@ class Commander
      */
     public function laravel()
     {
-        if (! $this->app) {
-            $this->createSymlinkToVendorPath();
+        if (! $this->app instanceof LaravelApplication) {
+            $laravelBasePath = $this->getBasePath();
 
-            $this->app = $this->createApplication();
+            Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor');
+
+            $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
+
+            $options = array_filter([
+                'load_environment_variables' => $hasEnvironmentFile,
+                'extra' => [
+                    'providers' => Arr::get($this->config, 'providers', []),
+                    'dont-discover' => Arr::get($this->config, 'dont-discover', []),
+                ],
+            ]);
+
+            $this->app = Application::create(
+                basePath: $this->getBasePath(),
+                resolvingCallback: function ($app) use ($hasEnvironmentFile) {
+                    if ($hasEnvironmentFile === false) {
+                        (new LoadEnvironmentVariablesFromArray(
+                            ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables()
+                        ))->bootstrap($app);
+                    }
+
+                    call_user_func($this->resolveApplicationCallback(), $app);
+                },
+                options: $options
+            );
         }
 
         return $this->app;
     }
 
     /**
-     * Ignore package discovery from.
-     *
-     * @return array
-     */
-    public function ignorePackageDiscoveriesFrom()
-    {
-        return $this->config['dont-discover'] ?? [];
-    }
-
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array
-     */
-    protected function getPackageProviders($app)
-    {
-        return $this->config['providers'] ?? [];
-    }
-
-    /**
      * Resolve application implementation.
      *
-     * @return \Illuminate\Foundation\Application
+     * @return \Closure
      */
-    protected function resolveApplication()
+    protected function resolveApplicationCallback()
     {
-        return tap($this->resolveApplicationFromTrait(), function ($app) {
-            $this->createDotenv()->load();
-
+        return function ($app) {
             $app->register(TestbenchServiceProvider::class);
-        });
-    }
-
-    /**
-     * Create a Dotenv instance.
-     */
-    protected function createDotenv(): Dotenv
-    {
-        $laravelBasePath = $this->getBasePath();
-
-        if (file_exists($laravelBasePath.'/.env')) {
-            return Dotenv::create(
-                Env::getRepository(), $laravelBasePath.'/', '.env'
-            );
-        }
-
-        return new Dotenv(
-            new StringStore(implode("\n", $this->config['env'] ?? [])),
-            new Parser(),
-            new Loader(),
-            Env::getRepository()
-        );
+        };
     }
 
     /**
@@ -169,68 +158,17 @@ class Commander
             });
         }
 
-        return $this->getBasePathFromTrait();
+        return static::applicationBasePath();
     }
 
     /**
-     * Create symlink on vendor path.
-     */
-    protected function createSymlinkToVendorPath(): void
-    {
-        $workingVendorPath = $this->workingPath.'/vendor';
-
-        tap($this->resolveApplication(), static function ($laravel) use ($workingVendorPath) {
-            $filesystem = new Filesystem();
-
-            $laravelVendorPath = $laravel->basePath('vendor');
-
-            if (
-                "{$laravelVendorPath}/autoload.php" !== "{$workingVendorPath}/autoload.php"
-            ) {
-                if ($filesystem->exists($laravel->basePath('bootstrap/cache/packages.php'))) {
-                    $filesystem->delete($laravel->basePath('bootstrap/cache/packages.php'));
-                }
-
-                $filesystem->delete($laravelVendorPath);
-                $filesystem->link($workingVendorPath, $laravelVendorPath);
-            }
-
-            $laravel->flush();
-        });
-    }
-
-    /**
-     * Resolve application Console Kernel implementation.
+     * Get Application base path.
      *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
+     * @return string
      */
-    protected function resolveApplicationConsoleKernel($app)
+    public static function applicationBasePath()
     {
-        $kernel = 'Orchestra\Testbench\Console\Kernel';
-
-        if (file_exists($app->basePath('app/Console/Kernel.php')) && class_exists('App\Console\Kernel')) {
-            $kernel = 'App\Console\Kernel';
-        }
-
-        $app->singleton('Illuminate\Contracts\Console\Kernel', $kernel);
-    }
-
-    /**
-     * Resolve application HTTP Kernel implementation.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function resolveApplicationHttpKernel($app)
-    {
-        $kernel = 'Orchestra\Testbench\Http\Kernel';
-
-        if (file_exists($app->basePath('app/Http/Kernel.php')) && class_exists('App\Http\Kernel')) {
-            $kernel = 'App\Http\Kernel';
-        }
-
-        $app->singleton('Illuminate\Contracts\Http\Kernel', $kernel);
+        return Application::applicationBasePath();
     }
 
     /**
