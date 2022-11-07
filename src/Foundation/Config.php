@@ -33,7 +33,7 @@ class Config extends Fluent
      */
     public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
-        $filename ??= 'testbench.yaml';
+        $filename = $filename ?? 'testbench.yaml';
         $config = $defaults;
 
         if (file_exists("{$workingPath}/{$filename}")) {
