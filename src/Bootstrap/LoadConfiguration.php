@@ -22,6 +22,14 @@ class LoadConfiguration
 
         $this->loadConfigurationFiles($app, $config);
 
+        if (\is_null($config->get('database.connections.testing'))) {
+            $config->set('database.connections.testing', [
+                'driver' => 'sqlite',
+                'database' => ':memory:',
+                'foreign_key_constraints' => env('DB_FOREIGN_KEYS', false),
+            ]);
+        }
+
         mb_internal_encoding('UTF-8');
     }
 
