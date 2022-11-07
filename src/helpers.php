@@ -3,46 +3,20 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Testing\PendingCommand;
+use Orchestra\Testbench\Foundation\Application;
 
 /**
  * Create Laravel application instance.
  *
  * @param  string|null  $basePath
+ * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
+ * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @return \Orchestra\Testbench\Foundation\Application
  * @return object
  */
-function container(?string $basePath = null)
+function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
 {
-    return new class($basePath)
-    {
-        use Concerns\CreatesApplication;
-
-        /**
-         * The default base path.
-         *
-         * @var string|null
-         */
-        protected $basePath;
-
-        /**
-         * Construc a new container.
-         *
-         * @param  string|null  $basePath
-         */
-        public function __construct(?string $basePath)
-        {
-            $this->basePath = $basePath;
-        }
-
-        /**
-         * Get base path.
-         *
-         * @return string
-         */
-        protected function getBasePath()
-        {
-            return $this->basePath ?? static::applicationBasePath();
-        }
-    };
+    return (new Application($basePath, $resolvingCallback))->configure($options);
 }
 
 /**
@@ -60,4 +34,21 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
             $artisan->run();
         }
     });
+}
+
+/**
+ * Get default environment variables.
+ *
+ * @return array<int, string>
+ */
+function default_environment_variables(): array
+{
+    $APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
+    $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? 'testing';
+
+    return array_filter([
+        'APP_KEY="'.$APP_KEY.'"',
+        'APP_DEBUG=(true)',
+        ! defined('TESTBENCH_DUSK') ? 'DB_CONNECTION="'.$DB_CONNECTION.'"' : null,
+    ]);
 }

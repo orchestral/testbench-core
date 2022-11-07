@@ -5,6 +5,10 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
+/**
+ * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array}
+ * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variables?: bool, enabled_package_discoveries?: bool}
+ */
 class Application
 {
     use CreatesApplication {
@@ -14,21 +18,24 @@ class Application
     /**
      * The application base path.
      *
-     * @var string
+     * @var string|null
      */
     protected $basePath;
 
     /**
      * List of configurations.
      *
-     * @var array<string, mixed>
+     * @var TExtraConfig
      */
-    protected $config = [];
+    protected $config = [
+        'providers' => [],
+        'dont-discover' => [],
+    ];
 
     /**
      * The application resolving callback.
      *
-     * @var callable(\Illuminate\Foundation\Application):void|null
+     * @var (callable(\Illuminate\Foundation\Application):void)|null
      */
     protected $resolvingCallback;
 
@@ -42,24 +49,40 @@ class Application
     /**
      * Create new application resolver.
      *
-     * @param  string  $basePath
-     * @param  callable(\Illuminate\Foundation\Application):void|null  $resolvingCallback
+     * @param  string|null  $basePath
+     * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
      */
-    public function __construct(string $basePath, ?callable $resolvingCallback = null)
+    public function __construct(?string $basePath = null, ?callable $resolvingCallback = null)
     {
         $this->basePath = $basePath;
         $this->resolvingCallback = $resolvingCallback;
     }
 
     /**
-     * Create new application instance.
+     * Create symlink to vendor path via new application instance.
      *
-     * @param  string  $basePath
-     * @param  callable(\Illuminate\Foundation\Application):void|null  $resolvingCallback
-     * @param  array  $options
+     * @param  string|null  $basePath
+     * @param  string  $workingVendorPath
      * @return \Illuminate\Foundation\Application
      */
-    public static function create(string $basePath, ?callable $resolvingCallback = null, array $options = [])
+    public static function createVendorSymlink(?string $basePath, string $workingVendorPath)
+    {
+        $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
+
+        (new Bootstrap\CreateVendorSymlink($workingVendorPath))->bootstrap($app);
+
+        return $app;
+    }
+
+    /**
+     * Create new application instance.
+     *
+     * @param  string|null  $basePath
+     * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
+     * @param  TConfig  $options
+     * @return \Illuminate\Foundation\Application
+     */
+    public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
     {
         return (new static($basePath, $resolvingCallback))->configure($options)->createApplication();
     }
@@ -67,7 +90,7 @@ class Application
     /**
      * Configure the application options.
      *
-     * @param  array<string, mixed>  $options
+     * @param  TConfig  $options
      * @return $this
      */
     public function configure(array $options)
@@ -80,7 +103,9 @@ class Application
             Arr::set($options, 'extra.dont-discover', []);
         }
 
-        $this->config = Arr::only($options['extra'] ?? [], ['dont-discover', 'providers']);
+        $this->config = Arr::only(
+            $options['extra'] ?? [], ['dont-discover', 'providers']
+        );
 
         return $this;
     }
@@ -127,7 +152,7 @@ class Application
      */
     protected function getBasePath()
     {
-        return $this->basePath;
+        return $this->basePath ?? static::applicationBasePath();
     }
 
     /**
