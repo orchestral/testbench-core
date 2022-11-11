@@ -12,7 +12,9 @@ use Orchestra\Testbench\Foundation\Config;
  * @return \Illuminate\Foundation\Application
  */
 $createApp = function (string $workingPath) {
-    $config = Config::loadFromYaml($workingPath);
+    $config = Config::loadFromYaml(
+        defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
+    );
 
     $hasEnvironmentFile = file_exists("{$workingPath}/.env");
 

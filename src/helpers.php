@@ -43,7 +43,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 function default_environment_variables(): array
 {
     $APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
-    $APP_DEBUG = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'false';
+    $APP_DEBUG = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'true';
     $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? 'testing';
 
     return array_filter([
