@@ -8,7 +8,7 @@ Released: 2022-11-12
 
 ### Fixes
 
-* Fixes where default database connection as `sqlite` causes an exception when database file isn't available. Loaded application should revert to `testing` database connection for the state.
+* Fixes where the default database connection as `sqlite` causes an exception when the database file isn't available. The loaded application should revert to `testing` database connection for the state.
 
 ## 7.12.0
 
