@@ -30,6 +30,10 @@ final class LoadConfiguration
             ]);
         }
 
+        if (! file_exists($app->databasePath('database.sqlite')) && $config->get('database.default') === 'sqlite') {
+            $config->set('database.default', 'testing');
+        }
+
         mb_internal_encoding('UTF-8');
     }
 
@@ -59,7 +63,7 @@ final class LoadConfiguration
             ? $app->basePath('config')
             : realpath(__DIR__.'/../../laravel/config');
 
-        if (\is_string($path)) {
+        if (is_string($path)) {
             foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
                 yield basename($file->getRealPath(), '.php') => $file->getRealPath();
             }
