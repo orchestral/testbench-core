@@ -86,4 +86,28 @@ class TestCommand extends Command
             "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
         ], $options);
     }
+
+    /**
+     * Get the array of environment variables for running PHPUnit.
+     *
+     * @return array
+     */
+    protected function phpunitEnvironmentVariables()
+    {
+        return array_merge([
+            'TESTBENCH_PACKAGE_TESTER' => 1,
+        ], parent::phpunitEnvironmentVariables());
+    }
+
+    /**
+     * Get the array of environment variables for running Paratest.
+     *
+     * @return array
+     */
+    protected function paratestEnvironmentVariables()
+    {
+        return array_merge([
+            'TESTBENCH_PACKAGE_TESTER' => 1,
+        ], parent::paratestEnvironmentVariables());
+    }
 }

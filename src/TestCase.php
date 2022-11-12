@@ -5,6 +5,7 @@ namespace Orchestra\Testbench;
 use Illuminate\Foundation\Testing;
 use PHPUnit\Framework\TestCase as PHPUnit;
 use PHPUnit\Util\Annotation\Registry;
+use Throwable;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
@@ -97,5 +98,20 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             $this->classDocBlocks = [];
             $this->methodDocBlocks = [];
         })->call(Registry::getInstance());
+    }
+
+    /**
+     * This method is called when a test method did not execute successfully.
+     *
+     * @param  \Throwable  $exception
+     * @return void
+     */
+    protected function onNotSuccessfulTest(Throwable $exception): void
+    {
+        parent::onNotSuccessfulTest(
+            (is_null(static::$latestResponse) || ! method_exists(static::$latestResponse, 'transformNotSuccessfulException'))
+                ? $this->transformNotSuccessfulException($exception)
+                : static::$latestResponse->transformNotSuccessfulException($exception)
+        );
     }
 }

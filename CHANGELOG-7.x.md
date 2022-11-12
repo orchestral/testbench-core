@@ -2,6 +2,34 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.12.0
+
+Released: 2022-11-12
+
+### Added
+
+* Added support for `about` artisan command.
+* Added `package:devtool` to generate `.env`, `testbench.yaml` and `database.sqlite` file.
+* Added `package:create-sqlite-db` and `package:drop-sqlite-db` command.
+* Improves support for `serve` command.
+
+## 7.11.2
+
+Released: 2022-11-05
+
+### Changes
+
+* Improves `create-sqlite-db` and `drop-sqlite-db` command.
+* Improves `Orchestra\Testbench\Foundation\Application` to allow uses `App\Http\Kernel` and `App\Console\Kernel` when available.
+
+## 7.11.1
+
+Released: 2022-11-05
+
+### Changes
+
+* Improves PHPStan support.
+
 ## 7.11.0
 
 Released: 2022-10-19

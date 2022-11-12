@@ -14,7 +14,6 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
 $config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
     workingPath: $workingPath,
     defaults: [
-        'env' => ['APP_KEY="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"', 'DB_CONNECTION="testing"'],
         'providers' => [],
         'dont-discover' => [],
     ],

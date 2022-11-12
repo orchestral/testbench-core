@@ -41,6 +41,7 @@
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^8.0",
+        "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5.10",
         "symfony/process": "^6.1",
         "symfony/yaml": "^6.1",
@@ -66,6 +67,12 @@
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
         "prepare": "@php testbench package:discover --ansi",
+        "ci": [
+            "@composer run prepare",
+            "php vendor/bin/phpstan analyse",
+            "php vendor/bin/pint",
+            "@composer run test"
+        ],
         "test": "@php vendor/bin/phpunit -c ./ --color"
     },
     "config": {

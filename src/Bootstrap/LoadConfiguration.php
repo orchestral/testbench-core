@@ -22,6 +22,14 @@ final class LoadConfiguration
 
         $this->loadConfigurationFiles($app, $config);
 
+        if (\is_null($config->get('database.connections.testing'))) {
+            $config->set('database.connections.testing', [
+                'driver' => 'sqlite',
+                'database' => ':memory:',
+                'foreign_key_constraints' => env('DB_FOREIGN_KEYS', false),
+            ]);
+        }
+
         mb_internal_encoding('UTF-8');
     }
 
@@ -47,9 +55,9 @@ final class LoadConfiguration
      */
     private function getConfigurationFiles(Application $app): Generator
     {
-        if (! is_dir($path = $app->basePath('config'))) {
-            $path = realpath(__DIR__.'/../../laravel/config');
-        }
+        $path = is_dir($app->basePath('config'))
+            ? $app->basePath('config')
+            : realpath(__DIR__.'/../../laravel/config');
 
         if (\is_string($path)) {
             foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
