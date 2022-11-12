@@ -30,7 +30,7 @@ final class LoadConfiguration
             ]);
         }
 
-        if (! file_exists($app->databasePath('database.sqlite')) && $config->get('database.default') === 'sqlite') {
+        if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
             $config->set('database.default', 'testing');
         }
 

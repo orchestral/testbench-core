@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.12.1
+
+Released: 2022-11-12
+
+### Fixes
+
+* Fixes where default database connection as `sqlite` causes an exception when database file isn't available. Loaded application should revert to `testing` database connection for the state.
+
 ## 7.12.0
 
 Released: 2022-11-12
