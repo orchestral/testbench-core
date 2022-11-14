@@ -3,10 +3,25 @@
 namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationTest extends TestCase
 {
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array<int, \Illuminate\Support\ServiceProvider>
+     */
+    protected function getPackageProviders($app)
+    {
+        return [
+            TestbenchServiceProvider::class,
+        ];
+    }
+
     /**
      * @test
      * @group core
