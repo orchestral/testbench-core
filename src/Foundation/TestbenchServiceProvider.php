@@ -6,6 +6,7 @@ use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
+use Orchestra\Testbench\Foundation\Bootstrap\ConfigureRay;
 use Spatie\Ray\Settings\Settings;
 
 class TestbenchServiceProvider extends ServiceProvider
@@ -24,18 +25,7 @@ class TestbenchServiceProvider extends ServiceProvider
             'Skeleton Path' => str_replace($workingPath, '', $this->app->basePath()),
         ]);
 
-        $this->callAfterResolving(Settings::class, function ($settings, $app) {
-            /** @var \Illuminate\Contracts\Config\Repository $config */
-            $config = $app->make('config');
-
-            if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
-                $config->set('database.default', 'testing');
-
-                $settings->send_queries_to_ray = false;
-                $settings->send_duplicate_queries_to_ray = false;
-                $settings->send_slow_queries_to_ray = false;
-            }
-        });
+        (new ConfigureRay())->bootstrap($this->app);
     }
 
     /**
