@@ -6,7 +6,6 @@ use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
-use Orchestra\Testbench\Foundation\Bootstrap\ConfigureRay;
 
 class TestbenchServiceProvider extends ServiceProvider
 {
@@ -23,8 +22,6 @@ class TestbenchServiceProvider extends ServiceProvider
             'Core Version' => class_exists(InstalledVersions::class) ? InstalledVersions::getPrettyVersion('orchestra/testbench-core') : '<fg=yellow;options=bold>-</>',
             'Skeleton Path' => str_replace($workingPath, '', $this->app->basePath()),
         ]);
-
-        (new ConfigureRay())->bootstrap($this->app);
     }
 
     /**
