@@ -7,7 +7,6 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
 use Orchestra\Testbench\Foundation\Bootstrap\ConfigureRay;
-use Spatie\Ray\Settings\Settings;
 
 class TestbenchServiceProvider extends ServiceProvider
 {
