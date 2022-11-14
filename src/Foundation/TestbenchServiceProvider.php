@@ -6,6 +6,7 @@ use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
+use Spatie\Ray\Settings\Settings;
 
 class TestbenchServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,21 @@ class TestbenchServiceProvider extends ServiceProvider
             'Core Version' => class_exists(InstalledVersions::class) ? InstalledVersions::getPrettyVersion('orchestra/testbench-core') : '<fg=yellow;options=bold>-</>',
             'Skeleton Path' => str_replace($workingPath, '', $this->app->basePath()),
         ]);
+
+        $this->callAfterResolving(Settings::class, function ($settings, $app) {
+            /** @var \Illuminate\Contracts\Config\Repository $config */
+            $config = $app->make('config');
+
+            if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
+                $config->set('database.default', 'testing');
+            }
+
+            $settings->setDefaultSettings([
+                'send_queries_to_ray' => false,
+                'send_duplicate_queries_to_ray' => false,
+                'send_slow_queries_to_ray' => false,
+            ]);
+        });
     }
 
     /**

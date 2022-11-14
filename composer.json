@@ -43,6 +43,7 @@
         "orchestra/canvas": "^7.0",
         "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ray": "^1.28",
         "symfony/process": "^6.0.9",
         "symfony/yaml": "^6.0.9",
         "vlucas/phpdotenv": "^5.4.1"
