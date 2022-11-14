@@ -5,12 +5,15 @@ namespace Orchestra\Testbench\Foundation\Bootstrap;
 use Illuminate\Contracts\Foundation\Application;
 use Spatie\Ray\Settings\Settings;
 
+/**
+ * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
+ */
 class ConfigureRay
 {
     /**
      * Bootstrap the given application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  TLaravel  $app
      * @return void
      */
     public function bootstrap(Application $app): void
@@ -30,12 +33,12 @@ class ConfigureRay
     /**
      * Setup an after resolving listener, or fire immediately if already resolved.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  string  $name
-     * @param  callable  $callback
+     * @param  TLaravel  $app
+     * @param  class-string|string  $name
+     * @param  (callable(object, TLaravel):void)  $callback
      * @return void
      */
-    protected function callAfterResolving($app, $name, $callback)
+    protected function callAfterResolving(Application $app, string $name, $callback)
     {
         $app->afterResolving($name, $callback);
 
