@@ -18,7 +18,7 @@ class ConfigureRay
      */
     public function bootstrap(Application $app): void
     {
-        $this->callAfterResolving($app, Settings::class, function ($settings, $app) {
+        $this->callAfterResolvingSettings($app, function ($settings, $app) {
             /** @var \Illuminate\Contracts\Config\Repository $config */
             $config = $app->make('config');
 
@@ -34,16 +34,15 @@ class ConfigureRay
      * Setup an after resolving listener, or fire immediately if already resolved.
      *
      * @param  TLaravel  $app
-     * @param  class-string|string  $name
      * @param  (callable(object, TLaravel):void)  $callback
      * @return void
      */
-    protected function callAfterResolving(Application $app, string $name, $callback)
+    protected function callAfterResolvingSettings(Application $app, callable $callback): void
     {
-        $app->afterResolving($name, $callback);
+        $app->afterResolving(Settings::class, $callback);
 
-        if ($app->resolved($name)) {
-            $callback($app->make($name), $app);
+        if ($app->resolved(Settings::class)) {
+            $callback($app->make(Settings::class), $app);
         }
     }
 }
