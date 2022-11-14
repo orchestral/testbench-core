@@ -12,7 +12,6 @@ class ApplicationTest extends TestCase
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return array<int, \Illuminate\Support\ServiceProvider>
      */
     protected function getPackageProviders($app)
