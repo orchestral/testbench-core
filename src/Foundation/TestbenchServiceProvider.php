@@ -29,6 +29,8 @@ class TestbenchServiceProvider extends ServiceProvider
             $config = $app->make('config');
 
             if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
+                $config->set('database.default', 'testing');
+
                 $settings->send_queries_to_ray = false;
                 $settings->send_duplicate_queries_to_ray = false;
                 $settings->send_slow_queries_to_ray = false;
