@@ -30,6 +30,10 @@ final class LoadConfiguration
             ]);
         }
 
+        if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
+            $config->set('database.default', 'testing');
+        }
+
         mb_internal_encoding('UTF-8');
     }
 
