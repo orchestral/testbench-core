@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Testing\PendingCommand;
-use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 
 /**
  * Create Laravel application instance.
@@ -13,9 +13,9 @@ use Orchestra\Testbench\Foundation\Application;
  * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
+function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Testbench
 {
-    return (new Application($basePath, $resolvingCallback))->configure($options);
+    return (new Testbench($basePath, $resolvingCallback))->configure($options);
 }
 
 /**
@@ -24,15 +24,17 @@ function container(?string $basePath = null, ?callable $resolvingCallback = null
  * @param  \Orchestra\Testbench\Contracts\TestCase  $testbench
  * @param  string  $command
  * @param  array<string, mixed>  $parameters
- * @return \Illuminate\Testing\PendingCommand|int
+ * @return int
  */
 function artisan(Contracts\TestCase $testbench, string $command, array $parameters = [])
 {
-    return tap($testbench->artisan($command, $parameters), function ($artisan) {
-        if ($artisan instanceof PendingCommand) {
-            $artisan->run();
-        }
-    });
+    $command = $testbench->artisan($command, $parameters);
+
+    if ($command instanceof PendingCommand) {
+        return $command->run();
+    }
+
+    return $command;
 }
 
 /**

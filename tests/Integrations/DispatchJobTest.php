@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
 use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Tests\Fixtures\Jobs\RegisterUser;
 

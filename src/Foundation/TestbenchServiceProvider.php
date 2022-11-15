@@ -14,7 +14,7 @@ class TestbenchServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $workingPath = defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
 
@@ -29,7 +29,7 @@ class TestbenchServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         if (file_exists($this->app->basePath('migrations'))) {
             $this->loadMigrationsFrom($this->app->basePath('migrations'));
