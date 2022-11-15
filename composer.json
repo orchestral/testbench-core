@@ -36,12 +36,14 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.2",
-        "laravel/framework": "^9.34",
+        "laravel/framework": "^9.36",
         "laravel/laravel": "9.x-dev",
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^7.0",
+        "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5.10 || ^10.0",
+        "spatie/laravel-ray": "^1.28",
         "symfony/process": "^6.0.9",
         "symfony/yaml": "^6.0.9",
         "vlucas/phpdotenv": "^5.4.1"
@@ -66,6 +68,12 @@
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
         "prepare": "@php testbench package:discover --ansi",
+        "ci": [
+            "@composer run prepare",
+            "@php vendor/bin/phpstan analyse",
+            "@php vendor/bin/pint",
+            "@composer run test"
+        ],
         "test": "@php vendor/bin/phpunit -c ./ --color"
     },
     "config": {

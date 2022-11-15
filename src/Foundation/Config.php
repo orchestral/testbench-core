@@ -6,12 +6,15 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @phpstan-type TConfig array{laravel?: string|null, env?: array, providers?: array, dont-discover?: array}
+ */
 class Config extends Fluent
 {
     /**
      * All of the attributes set on the fluent instance.
      *
-     * @var array{laravel: string|null, env: array, providers: array, dont-discover: array}
+     * @var TConfig
      */
     protected $attributes = [
         'laravel' => null,
@@ -34,6 +37,7 @@ class Config extends Fluent
         $config = $defaults;
 
         if (file_exists("{$workingPath}/{$filename}")) {
+            /** @var TConfig $config */
             $config = Yaml::parseFile("{$workingPath}/{$filename}");
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($basePath) use ($workingPath) {

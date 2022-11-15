@@ -15,27 +15,23 @@ trait HandlesTestFailures
      * This method is called when a test method did not execute successfully.
      *
      * @param  \Throwable  $exception
-     * @return void
+     * @return \Throwable
      */
-    protected function onNotSuccessfulTest(Throwable $exception): void
+    protected function transformNotSuccessfulException(Throwable $exception)
     {
         if (! $exception instanceof ExpectationFailedException || is_null(static::$latestResponse)) {
-            parent::onNotSuccessfulTest($exception);
+            return $exception;
         }
 
         if ($lastException = static::$latestResponse->exceptions->last()) {
-            parent::onNotSuccessfulTest($this->appendExceptionToException($lastException, $exception));
-
-            return;
+            return $this->appendExceptionToException($lastException, $exception);
         }
 
         if (static::$latestResponse->baseResponse instanceof RedirectResponse) {
             $session = static::$latestResponse->baseResponse->getSession();
 
             if (! is_null($session) && $session->has('errors')) {
-                parent::onNotSuccessfulTest($this->appendErrorsToException($session->get('errors')->all(), $exception));
-
-                return;
+                return $this->appendErrorsToException($session->get('errors')->all(), $exception);
             }
         }
 
@@ -43,13 +39,11 @@ trait HandlesTestFailures
             $testJson = new AssertableJsonString(static::$latestResponse->getContent());
 
             if (isset($testJson['errors'])) {
-                parent::onNotSuccessfulTest($this->appendErrorsToException($testJson->json(), $exception, true));
-
-                return;
+                return $this->appendErrorsToException($testJson->json(), $exception, true);
             }
         }
 
-        parent::onNotSuccessfulTest($exception);
+        return $exception;
     }
 
     /**

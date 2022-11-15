@@ -2,6 +2,72 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.13.0
+
+Released: 2022-11-14
+
+### Added
+
+* Added `Orchestra\Testbench\Bootstrap\ConfigureRay` and use it when creating Application.
+
+## 7.12.1
+
+Released: 2022-11-12
+
+### Fixes
+
+* Fixes where the default database connection as `sqlite` causes an exception when the database file isn't available. The loaded application should revert to `testing` database connection for the state.
+
+## 7.12.0
+
+Released: 2022-11-12
+
+### Added
+
+* Added support for `about` artisan command.
+* Added `package:devtool` to generate `.env`, `testbench.yaml` and `database.sqlite` file.
+* Added `package:create-sqlite-db` and `package:drop-sqlite-db` command.
+* Improves support for `serve` command.
+
+## 7.11.2
+
+Released: 2022-11-05
+
+### Changes
+
+* Improves `create-sqlite-db` and `drop-sqlite-db` command.
+* Improves `Orchestra\Testbench\Foundation\Application` to allow uses `App\Http\Kernel` and `App\Console\Kernel` when available.
+
+## 7.11.1
+
+Released: 2022-11-05
+
+### Changes
+
+* Improves PHPStan support.
+
+## 7.11.0
+
+Released: 2022-10-19
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Application::createVendorSymlink()` method.
+  - The feature uses `Orchestra\Testbench\Foundation\Bootstrap\CreateVendorSymlink`.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.36.0`
+  - Forget View Component's cache and factory between tests.
+
+## 7.10.2
+
+Released: 2022-10-14
+
+### Fixes
+
+* Don't attempt to discover any packages on vendor symlink event.
+
 ## 7.10.1
 
 Released: 2022-10-11

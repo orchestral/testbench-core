@@ -1,13 +1,11 @@
-name: audits
+name: analyse
 
 on:
   push:
   pull_request:
-  schedule:
-    - cron: '0 0 1 * *'
 
 jobs:
-  audit-dependencies:
+  analyse:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
@@ -16,10 +14,8 @@ jobs:
           - "ubuntu-latest"
         php:
           - "8.0"
-          - "8.1"
-          - "8.2"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} on ${{ matrix.os }}
 
@@ -38,10 +34,13 @@ jobs:
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "highest"
-          composer-options: "--prefer-dist --prefer-stable --no-cache"
+          composer-options: "--prefer-dist --no-cache"
 
       - name: Installed dependencies
         run: composer show -D
 
-      - name: Audit dependencies
-        run: composer audit
+      - name: Execute Code Style Analysis
+        run: vendor/bin/pint --test
+
+      - name: Execute Static Code Analysis
+        run: vendor/bin/phpstan analyse
