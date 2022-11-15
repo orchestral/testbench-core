@@ -12,6 +12,7 @@ cp -rf vendor/laravel/laravel/resources/views/* laravel/resources/views/
 cp -rf vendor/laravel/laravel/database/factories/*.php src/Factories/
 cp -rf vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php laravel/server.php
 cp -rf vendor/laravel/laravel/public/index.php laravel/public/index.php
+cp -rf vendor/laravel/laravel/tests/CreatesApplication.php laravel/tests/CreatesApplication.php
 rm laravel/config/sanctum.php
 
 awk '{sub(/getcwd\(\)/,"__DIR__.'\''/public'\''")}1' laravel/server.php > laravel/server.stub && mv laravel/server.stub laravel/server.php
