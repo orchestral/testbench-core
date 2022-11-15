@@ -12,13 +12,17 @@ class ServeCommand extends Command
      *
      * @param  string|null  $key
      * @return string|array|bool|null
+     *
+     * @throws \RuntimeException
      */
     public function option($key = null)
     {
-        if ($key === 'no-reload') {
+        $value = parent::option($key);
+
+        if ($key === 'no-reload' && $value === true) {
             throw new RuntimeException('Unable to use "no-reload" option on Serve command running within Testbench');
         }
 
-        return parent::option($key);
+        return $value;
     }
 }
