@@ -24,15 +24,13 @@ function container(?string $basePath = null, ?callable $resolvingCallback = null
  * @param  \Orchestra\Testbench\Contracts\TestCase  $testbench
  * @param  string  $command
  * @param  array<string, mixed>  $parameters
- * @return \Illuminate\Testing\PendingCommand|int
+ * @return int
  */
 function artisan(Contracts\TestCase $testbench, string $command, array $parameters = [])
 {
-    return tap($testbench->artisan($command, $parameters), function ($artisan) {
-        if ($artisan instanceof PendingCommand) {
-            $artisan->run();
-        }
-    });
+    $command = $testbench->artisan($command, $parameters);
+
+    return $command instanceof PendingCommand ? $command->run() : $command;
 }
 
 /**
