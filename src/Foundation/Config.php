@@ -7,7 +7,8 @@ use Illuminate\Support\Fluent;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @phpstan-type TConfig array{laravel?: string|null, env?: array, providers?: array, dont-discover?: array}
+ * @phpstan-type TConfig array{laravel: string|null, env: array, providers: array, dont-discover: array}
+ * @phpstan-type TOptionalConfig array{laravel?: string|null, env?: array, providers?: array, dont-discover?: array}
  */
 class Config extends Fluent
 {
@@ -37,7 +38,7 @@ class Config extends Fluent
         $config = $defaults;
 
         if (file_exists("{$workingPath}/{$filename}")) {
-            /** @var TConfig $config */
+            /** @var TOptionalConfig $config */
             $config = Yaml::parseFile("{$workingPath}/{$filename}");
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($basePath) use ($workingPath) {
@@ -68,6 +69,9 @@ class Config extends Fluent
      */
     public function getExtraAttributes(): array
     {
-        return Arr::only($this->attributes, ['providers', 'dont-discover']);
+        /** @var array{providers: array, dont-discover: array} $extra */
+        $extra = Arr::only($this->attributes, ['providers', 'dont-discover']);
+
+        return $extra;
     }
 }

@@ -59,7 +59,7 @@ class DevToolCommand extends Command
      */
     protected function copyTestbenchConfigurationFile(Filesystem $filesystem, string $workingPath): void
     {
-        $from = realpath(__DIR__.'/stubs/testbench.yaml');
+        $from = (string) realpath(__DIR__.'/stubs/testbench.yaml');
         $to = "{$workingPath}/testbench.yaml";
 
         if ($this->option('force') || ! $filesystem->exists($to)) {

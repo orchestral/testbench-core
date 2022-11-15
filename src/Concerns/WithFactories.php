@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Exception;
 use Illuminate\Database\Eloquent\Factory as ModelFactory;
+use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 trait WithFactories
 {
@@ -17,6 +18,10 @@ trait WithFactories
      */
     protected function withFactories(string $path)
     {
+        if (is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         return $this->loadFactoriesUsing($this->app, $path);
     }
 
