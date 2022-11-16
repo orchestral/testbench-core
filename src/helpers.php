@@ -47,6 +47,6 @@ function default_environment_variables(): array
     return array_filter([
         'APP_KEY="'.$APP_KEY.'"',
         "APP_DEBUG=({$APP_DEBUG})",
-        ! defined('TESTBENCH_DUSK') ? 'DB_CONNECTION="'.$DB_CONNECTION.'"' : null,
+        ! \defined('TESTBENCH_DUSK') ? 'DB_CONNECTION="'.$DB_CONNECTION.'"' : null,
     ]);
 }

@@ -110,7 +110,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected function onNotSuccessfulTest(Throwable $exception): void
     {
         parent::onNotSuccessfulTest(
-            (is_null(static::$latestResponse) || ! method_exists(static::$latestResponse, 'transformNotSuccessfulException'))
+            (\is_null(static::$latestResponse) || ! method_exists(static::$latestResponse, 'transformNotSuccessfulException'))
                 ? $this->transformNotSuccessfulException($exception)
                 : static::$latestResponse->transformNotSuccessfulException($exception)
         );

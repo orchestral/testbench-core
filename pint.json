@@ -1,0 +1,10 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "native_function_invocation": {
+            "include": ["@compiler_optimized"],
+            "scope": "namespaced",
+            "strict": true
+        }
+    }
+}

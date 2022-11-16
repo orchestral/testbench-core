@@ -38,7 +38,7 @@ trait CopyTestbenchFiles
             });
         }
 
-        if (! is_null($configurationFile)) {
+        if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $testbenchFile);
 
             $this->beforeTerminating(function () use ($filesystem, $testbenchFile) {
@@ -78,7 +78,7 @@ trait CopyTestbenchFiles
             });
         }
 
-        if (! is_null($configurationFile) && ! $filesystem->exists($environmentFile)) {
+        if (! \is_null($configurationFile) && ! $filesystem->exists($environmentFile)) {
             $filesystem->copy($configurationFile, $environmentFile);
 
             $this->beforeTerminating(function () use ($filesystem, $environmentFile) {
