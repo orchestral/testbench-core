@@ -5,6 +5,8 @@
             "include": ["@compiler_optimized"],
             "scope": "namespaced",
             "strict": true
-        }
+        },
+        "no_superfluous_phpdoc_tags": false,
+        "php_unit_method_casing": false
     }
 }
