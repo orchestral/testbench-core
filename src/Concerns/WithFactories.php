@@ -18,7 +18,7 @@ trait WithFactories
      */
     protected function withFactories(string $path)
     {
-        if (is_null($this->app)) {
+        if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 

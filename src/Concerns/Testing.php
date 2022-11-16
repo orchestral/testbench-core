@@ -112,12 +112,12 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
-        if (! is_null($this->app)) {
+        if ($this->app) {
             $this->callBeforeApplicationDestroyedCallbacks();
 
             $this->tearDownParallelTestingCallbacks();
 
-            $this->app->flush();
+            $this->app?->flush();
 
             $this->app = null;
         }

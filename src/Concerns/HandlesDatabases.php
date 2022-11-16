@@ -17,7 +17,7 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        if (is_null($app = $this->app)) {
+        if (\is_null($app = $this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 

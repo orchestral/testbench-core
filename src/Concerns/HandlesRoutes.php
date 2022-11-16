@@ -15,7 +15,7 @@ trait HandlesRoutes
      */
     protected function setUpApplicationRoutes(): void
     {
-        if (is_null($app = $this->app)) {
+        if (\is_null($app = $this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 

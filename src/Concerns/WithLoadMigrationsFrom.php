@@ -33,7 +33,7 @@ trait WithLoadMigrationsFrom
      */
     protected function loadMigrationsWithoutRollbackFrom($paths): void
     {
-        if (is_null($this->app)) {
+        if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 

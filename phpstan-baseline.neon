@@ -14,8 +14,3 @@ parameters:
 			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_slow_queries_to_ray\\.$#"
 			count: 1
 			path: src/Bootstrap/ConfigureRay.php
-
-		-
-			message: "#^Cannot call method flush\\(\\) on Illuminate\\\\Foundation\\\\Application\\|null\\.$#"
-			count: 1
-			path: src/TestCase.php

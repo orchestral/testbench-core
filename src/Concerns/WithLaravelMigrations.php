@@ -33,7 +33,7 @@ trait WithLaravelMigrations
      */
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
-        if (is_null($this->app)) {
+        if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 
@@ -68,7 +68,7 @@ trait WithLaravelMigrations
      */
     protected function runLaravelMigrationsWithoutRollback($database = []): void
     {
-        if (is_null($this->app)) {
+        if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 
