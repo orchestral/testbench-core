@@ -41,11 +41,12 @@ class Handler extends ExceptionHandler
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
      * @param  \Throwable  $e
+     * @param  array  $context
      * @return void
      */
-    public function report(Throwable $e)
+    public function report(Throwable $e, array $context = [])
     {
-        parent::report($e);
+        parent::report($e, $context);
     }
 
     /**
