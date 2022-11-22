@@ -4,7 +4,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 7.14.0
 
-Releawsed: 2022-11-22
+Released: 2022-11-22
 
 ### Added
 
