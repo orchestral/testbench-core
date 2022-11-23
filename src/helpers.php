@@ -30,11 +30,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 {
     $command = $testbench->artisan($command, $parameters);
 
-    if ($command instanceof PendingCommand) {
-        return $command->run();
-    }
-
-    return $command;
+    return $command instanceof PendingCommand ? $command->run() : $command;
 }
 
 /**
@@ -51,6 +47,6 @@ function default_environment_variables(): array
     return array_filter([
         'APP_KEY="'.$APP_KEY.'"',
         "APP_DEBUG=({$APP_DEBUG})",
-        ! defined('TESTBENCH_DUSK') ? 'DB_CONNECTION="'.$DB_CONNECTION.'"' : null,
+        ! \defined('TESTBENCH_DUSK') ? 'DB_CONNECTION="'.$DB_CONNECTION.'"' : null,
     ]);
 }

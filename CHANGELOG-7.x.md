@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.14.0
+
+Released: 2022-11-22
+
+### Added
+
+* Added `Orchestra\Testbench\Exceptions\ApplicationNotAvailableException` exception when trying to access `$this->app` outside of booted application.
+* Added `tests/CreatesApplication.php` to skeleton.
+
+### Changes
+
+* Update skeleton to match v9.3.11.
+
 ## 7.13.0
 
 Released: 2022-11-14

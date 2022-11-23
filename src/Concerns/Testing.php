@@ -85,6 +85,9 @@ trait Testing
             $this->setUpParallelTestingCallbacks();
         }
 
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = $this->app;
+
         foreach ($this->afterApplicationRefreshedCallbacks as $callback) {
             \call_user_func($callback);
         }
@@ -95,7 +98,7 @@ trait Testing
             \call_user_func($callback);
         }
 
-        Model::setEventDispatcher($this->app['events']);
+        Model::setEventDispatcher($app['events']);
 
         $this->setUpApplicationRoutes();
 
@@ -114,7 +117,7 @@ trait Testing
 
             $this->tearDownParallelTestingCallbacks();
 
-            $this->app->flush();
+            $this->app?->flush();
 
             $this->app = null;
         }

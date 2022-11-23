@@ -1,6 +1,16 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Instanceof between Illuminate\\\\Http\\\\Response and Illuminate\\\\Http\\\\RedirectResponse will always evaluate to false\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_duplicate_queries_to_ray\\.$#"
 			count: 1
-			path: src/TestCase.php
+			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_queries_to_ray\\.$#"
+			count: 1
+			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_slow_queries_to_ray\\.$#"
+			count: 1
+			path: src/Bootstrap/ConfigureRay.php

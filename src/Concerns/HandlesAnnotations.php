@@ -40,7 +40,7 @@ trait HandlesAnnotations
             ->filter(fn ($actions, $key) => $key === $name)
             ->each(function ($actions) use ($app) {
                 (new Collection($actions ?? []))
-                    ->filter(fn ($method) => is_string($method) && method_exists($this, $method))
+                    ->filter(fn ($method) => \is_string($method) && method_exists($this, $method))
                     ->each(function ($method) use ($app) {
                         $this->{$method}($app);
                     });

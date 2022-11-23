@@ -16,7 +16,7 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $workingPath = defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
+        $workingPath = \defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
 
         AboutCommand::add('Testbench', fn () => [
             'Core Version' => class_exists(InstalledVersions::class) ? InstalledVersions::getPrettyVersion('orchestra/testbench-core') : '<fg=yellow;options=bold>-</>',

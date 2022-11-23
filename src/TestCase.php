@@ -70,6 +70,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     protected function setUpTraits()
     {
+        /** @var array<class-string, class-string> $uses */
         $uses = array_flip(class_uses_recursive(static::class));
 
         return $this->setUpTheTestEnvironmentTraits($uses);
@@ -109,7 +110,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected function onNotSuccessfulTest(Throwable $exception): void
     {
         parent::onNotSuccessfulTest(
-            (is_null(static::$latestResponse) || ! method_exists(static::$latestResponse, 'transformNotSuccessfulException'))
+            (\is_null(static::$latestResponse) || ! method_exists(static::$latestResponse, 'transformNotSuccessfulException'))
                 ? $this->transformNotSuccessfulException($exception)
                 : static::$latestResponse->transformNotSuccessfulException($exception)
         );
