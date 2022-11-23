@@ -35,7 +35,7 @@ class TestbenchTest extends \Orchestra\Testbench\TestCase
         });
     }
 
-    public function customQueuePayloadDataProvider()
+    public static function customQueuePayloadDataProvider()
     {
         yield ['laravel.com'];
         yield ['blog.laravel.com'];
