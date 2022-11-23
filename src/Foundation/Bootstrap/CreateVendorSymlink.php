@@ -45,7 +45,7 @@ final class CreateVendorSymlink
                 $filesystem->delete($app->basePath('bootstrap/cache/packages.php'));
             }
 
-            if (\is_link($appVendorPath)) {
+            if (is_link($appVendorPath)) {
                 $filesystem->delete($appVendorPath);
             }
 

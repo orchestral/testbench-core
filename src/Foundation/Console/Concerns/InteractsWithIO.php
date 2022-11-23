@@ -18,9 +18,9 @@ trait InteractsWithIO
         /** @phpstan-ignore-next-line */
         $workingPath = $workingPath ?? TESTBENCH_WORKING_PATH;
 
-        $from = str_replace($workingPath.'/', '', realpath($from));
+        $from = str_replace($workingPath.'/', '', (string) realpath($from));
 
-        $to = str_replace($workingPath.'/', '', realpath($to));
+        $to = str_replace($workingPath.'/', '', (string) realpath($to));
 
         $this->components->task(sprintf(
             'Copying %s [%s] to [%s]',

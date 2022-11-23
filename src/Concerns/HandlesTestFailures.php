@@ -19,7 +19,7 @@ trait HandlesTestFailures
      */
     protected function transformNotSuccessfulException(Throwable $exception)
     {
-        if (! $exception instanceof ExpectationFailedException || is_null(static::$latestResponse)) {
+        if (! $exception instanceof ExpectationFailedException || \is_null(static::$latestResponse)) {
             return $exception;
         }
 
@@ -30,7 +30,7 @@ trait HandlesTestFailures
         if (static::$latestResponse->baseResponse instanceof RedirectResponse) {
             $session = static::$latestResponse->baseResponse->getSession();
 
-            if (! is_null($session) && $session->has('errors')) {
+            if (! \is_null($session) && $session->has('errors')) {
                 return $this->appendErrorsToException($session->get('errors')->all(), $exception);
             }
         }

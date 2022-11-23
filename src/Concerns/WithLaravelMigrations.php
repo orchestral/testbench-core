@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Database\MigrateProcessor;
+use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 trait WithLaravelMigrations
 {
@@ -32,6 +33,10 @@ trait WithLaravelMigrations
      */
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         $options = $this->resolveLaravelMigrationsOptions($database);
         $options['--path'] = 'migrations';
 
@@ -63,6 +68,10 @@ trait WithLaravelMigrations
      */
     protected function runLaravelMigrationsWithoutRollback($database = []): void
     {
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         (new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database)))->up();
 
         $this->resetApplicationArtisanCommands($this->app);

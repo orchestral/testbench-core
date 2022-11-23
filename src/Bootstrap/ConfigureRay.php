@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Spatie\Ray\Settings\Settings;
 
@@ -19,6 +20,7 @@ class ConfigureRay
     public function bootstrap(Application $app): void
     {
         $this->callAfterResolvingSettings($app, function ($settings, $app) {
+            /** @var \Spatie\Ray\Settings\Settings $settings */
             /** @var \Illuminate\Contracts\Config\Repository $config */
             $config = $app->make('config');
 
@@ -34,15 +36,17 @@ class ConfigureRay
      * Setup an after resolving listener, or fire immediately if already resolved.
      *
      * @param  TLaravel  $app
-     * @param  (callable(object, TLaravel):void)  $callback
+     * @param  \Closure  $callback
      * @return void
      */
-    protected function callAfterResolvingSettings(Application $app, callable $callback): void
+    protected function callAfterResolvingSettings(Application $app, Closure $callback): void
     {
-        $app->afterResolving(Settings::class, $callback);
+        $settings = Settings::class;
 
-        if ($app->resolved(Settings::class)) {
-            $callback($app->make(Settings::class), $app);
+        $app->afterResolving($settings, $callback);
+
+        if ($app->resolved($settings)) {
+            $callback($app->make($settings), $app);
         }
     }
 }

@@ -141,7 +141,7 @@ class Commander
                         ))->bootstrap($app);
                     }
 
-                    call_user_func($this->resolveApplicationCallback(), $app);
+                    \call_user_func($this->resolveApplicationCallback(), $app);
                 },
                 options: $options
             );
@@ -217,7 +217,7 @@ class Commander
     protected function prepareCommandSignals(): void
     {
         Signals::resolveAvailabilityUsing(function () {
-            return extension_loaded('pcntl');
+            return \extension_loaded('pcntl');
         });
 
         Signals::whenAvailable(function () {

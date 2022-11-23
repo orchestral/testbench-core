@@ -6,12 +6,13 @@ parameters:
     - src
 
   # The level 8 is the highest level
-  level: 6
+  level: 8
 
   ignoreErrors:
     - '#Unsafe usage of new static#'
 
   excludePaths:
+    - src/Concerns/HandlesTestFailures.php
     - src/Foundation/Console/TestCommand.php
 
   checkGenericClassInNonGenericObjectType: false

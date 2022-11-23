@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Foundation\Application;
 
 trait HandlesRoutes
@@ -14,20 +15,27 @@ trait HandlesRoutes
      */
     protected function setUpApplicationRoutes(): void
     {
-        if ($this->app->routesAreCached()) {
+        if (\is_null($app = $this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
+        if ($app->routesAreCached()) {
             return;
         }
 
-        $this->defineRoutes($this->app['router']);
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $app['router'];
 
-        $this->app['router']->middleware('web')
+        $this->defineRoutes($router);
+
+        $router->middleware('web')
             ->group(fn ($router) => $this->defineWebRoutes($router));
 
         if (method_exists($this, 'parseTestMethodAnnotations')) {
-            $this->parseTestMethodAnnotations($this->app, 'define-route');
+            $this->parseTestMethodAnnotations($app, 'define-route');
         }
 
-        $this->app['router']->getRoutes()->refreshNameLookups();
+        $router->getRoutes()->refreshNameLookups();
     }
 
     /**
@@ -89,7 +97,9 @@ trait HandlesRoutes
     protected function requireApplicationCachedRoutes(Filesystem $files): void
     {
         $this->afterApplicationCreated(function () {
-            require $this->app->getCachedRoutesPath();
+            if ($this->app instanceof LaravelApplication) {
+                require $this->app->getCachedRoutesPath();
+            }
         });
 
         $this->beforeApplicationDestroyed(function () use ($files) {
