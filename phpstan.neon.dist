@@ -12,7 +12,6 @@ parameters:
     - '#Unsafe usage of new static#'
 
   excludePaths:
-    - src/Concerns/HandlesTestFailures.php
     - src/Foundation/Console/TestCommand.php
 
   checkGenericClassInNonGenericObjectType: false

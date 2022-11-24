@@ -9,8 +9,7 @@ use Throwable;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
-    use Concerns\HandlesTestFailures,
-        Concerns\Testing,
+    use Concerns\Testing,
         Testing\Concerns\InteractsWithAuthentication,
         Testing\Concerns\InteractsWithConsole,
         Testing\Concerns\InteractsWithContainer,
@@ -110,9 +109,9 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected function onNotSuccessfulTest(Throwable $exception): void
     {
         parent::onNotSuccessfulTest(
-            (\is_null(static::$latestResponse) || ! method_exists(static::$latestResponse, 'transformNotSuccessfulException'))
-                ? $this->transformNotSuccessfulException($exception)
-                : static::$latestResponse->transformNotSuccessfulException($exception)
+            ! \is_null(static::$latestResponse)
+                ? static::$latestResponse->transformNotSuccessfulException($exception)
+                : $exception
         );
     }
 }
