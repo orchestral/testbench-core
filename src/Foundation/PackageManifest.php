@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class PackageManifest extends IlluminatePackageManifest
@@ -18,7 +19,7 @@ class PackageManifest extends IlluminatePackageManifest
     /**
      * List of required packages.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $requiredPackages = [
         'spatie/laravel-ray',
@@ -78,7 +79,7 @@ class PackageManifest extends IlluminatePackageManifest
      */
     public function requires(...$packages)
     {
-        $this->requiredPackages = array_merge($this->requiredPackages, $packages);
+        $this->requiredPackages = array_merge($this->requiredPackages, Arr::wrap($packages));
 
         return $this;
     }

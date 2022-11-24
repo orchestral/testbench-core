@@ -13,7 +13,7 @@ use Orchestra\Testbench\Foundation\Application;
  * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
+function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Application
 {
     return (new Application($basePath, $resolvingCallback))->configure($options);
 }
@@ -26,7 +26,7 @@ function container(?string $basePath = null, ?callable $resolvingCallback = null
  * @param  array<string, mixed>  $parameters
  * @return int
  */
-function artisan(Contracts\TestCase $testbench, string $command, array $parameters = [])
+function artisan(Contracts\TestCase $testbench, string $command, array $parameters = []): int
 {
     $command = $testbench->artisan($command, $parameters);
 
