@@ -4,6 +4,8 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 7.15.0
 
+Released: 2022-11-30
+
 ### Changes
 
 * Bump minimum `laravel/framework` to `9.41.0`.
