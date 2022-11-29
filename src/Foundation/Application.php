@@ -35,7 +35,7 @@ class Application
     /**
      * The application resolving callback.
      *
-     * @var (callable(\Illuminate\Foundation\Application):void)|null
+     * @var (callable(\Illuminate\Foundation\Application):(void))|null
      */
     protected $resolvingCallback;
 
@@ -50,7 +50,7 @@ class Application
      * Create new application resolver.
      *
      * @param  string|null  $basePath
-     * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
+     * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      */
     public function __construct(?string $basePath = null, ?callable $resolvingCallback = null)
     {
@@ -78,9 +78,11 @@ class Application
      * Create new application instance.
      *
      * @param  string|null  $basePath
-     * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
-     * @param  TConfig  $options
+     * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
+     * @param  array  $options
      * @return \Illuminate\Foundation\Application
+     *
+     * @phpstan-param TConfig  $options
      */
     public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
     {
@@ -90,8 +92,10 @@ class Application
     /**
      * Configure the application options.
      *
-     * @param  TConfig  $options
+     * @param  array  $options
      * @return $this
+     *
+     * @phpstan-param TConfig  $options
      */
     public function configure(array $options)
     {

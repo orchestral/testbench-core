@@ -9,7 +9,7 @@ use Orchestra\Testbench\Foundation\Application;
  * Create Laravel application instance.
  *
  * @param  string|null  $basePath
- * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
+ * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
  * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
