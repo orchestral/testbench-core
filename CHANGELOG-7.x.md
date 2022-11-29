@@ -2,6 +2,12 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.15.0
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.41.0`.
+
 ## 7.14.1
 
 Released: 2022-11-29
