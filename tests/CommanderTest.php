@@ -2,7 +2,10 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Facade;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -14,6 +17,9 @@ class CommanderTest extends TestCase
      */
     protected function setUp(): void
     {
+        Container::getInstance()->flush();
+        Facade::clearResolvedInstances();
+
         $this->dropSqliteDatabase();
     }
 
@@ -22,6 +28,9 @@ class CommanderTest extends TestCase
      */
     protected function tearDown(): void
     {
+        Container::getInstance()->flush();
+        Facade::clearResolvedInstances();
+
         $this->dropSqliteDatabase();
     }
 
@@ -37,31 +46,17 @@ class CommanderTest extends TestCase
         $commander->mustRun();
 
         $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $commander->getOutput());
+
+        unset($commander);
     }
 
     /**
      * @test
      * @group commander
      */
-    public function it_default_to_testing_when_database_isnt_available()
+    public function it_output_correct_defaults()
     {
-        $command = [$this->phpBinary(), 'testbench', 'about', '--json'];
-
-        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
-        $commander->mustRun();
-
-        $output = json_decode($commander->getOutput(), true);
-
-        $this->assertSame('testing', $output['drivers']['database']);
-    }
-
-    /**
-     * @test
-     * @group commander
-     */
-    public function it_default_to_sqlite_when_database_is_available()
-    {
-        $this->createSqliteDatabase();
+        $this->assertFalse(file_exists(__DIR__.'/../laravel/database/database.sqlite'));
 
         $command = [$this->phpBinary(), 'testbench', 'about', '--json'];
 
@@ -71,6 +66,8 @@ class CommanderTest extends TestCase
         $output = json_decode($commander->getOutput(), true);
 
         $this->assertSame('testing', $output['drivers']['database']);
+
+        unset($commander);
     }
 
     /**
@@ -78,10 +75,13 @@ class CommanderTest extends TestCase
      */
     protected function createSqliteDatabase(): void
     {
-        $command = [$this->phpBinary(), 'testbench', 'package:create-sqlite-db'];
+        $filesystem = new Filesystem();
 
-        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
-        $commander->mustRun();
+        $database = __DIR__.'/../laravel/database/database.sqlite';
+
+        if (! $filesystem->exists($database)) {
+            $filesystem->copy("{$database}.example", $database);
+        }
     }
 
     /**
@@ -89,16 +89,19 @@ class CommanderTest extends TestCase
      */
     protected function dropSqliteDatabase(): void
     {
-        $command = [$this->phpBinary(), 'testbench', 'package:drop-sqlite-db'];
+        $filesystem = new Filesystem();
 
-        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
-        $commander->mustRun();
+        $database = __DIR__.'/../laravel/database/database.sqlite';
+
+        if ($filesystem->exists($database)) {
+            $filesystem->delete($database);
+        }
     }
 
     /**
      * PHP Binary path.
      */
-    protected function phpBinary(): string
+    public static function phpBinary(): string
     {
         if (\defined('PHP_BINARY')) {
             return PHP_BINARY;

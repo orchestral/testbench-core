@@ -112,6 +112,8 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $laravelBasePath = $this->getBasePath();
 
+            clearstatcache(true, $laravelBasePath);
+
             tap(Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor'), function ($app) use ($laravelBasePath) {
                 $filesystem = new Filesystem();
 
