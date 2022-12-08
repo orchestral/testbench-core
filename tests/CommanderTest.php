@@ -2,10 +2,12 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Illuminate\Console\Application as Artisan;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Facade;
+use Orchestra\Testbench\Console\Commander;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -19,6 +21,7 @@ class CommanderTest extends TestCase
     {
         Container::getInstance()->flush();
         Facade::clearResolvedInstances();
+        Artisan::forgetBootstrappers();
 
         $this->dropSqliteDatabase();
     }
@@ -28,8 +31,11 @@ class CommanderTest extends TestCase
      */
     protected function tearDown(): void
     {
+        unset($_SERVER['argv']);
+
         Container::getInstance()->flush();
         Facade::clearResolvedInstances();
+        Artisan::forgetBootstrappers();
 
         $this->dropSqliteDatabase();
     }
@@ -40,7 +46,7 @@ class CommanderTest extends TestCase
      */
     public function it_can_call_commander_using_cli()
     {
-        $command = [$this->phpBinary(), 'testbench', '--version', '--no-ansi'];
+        $command = [static::phpBinary(), 'testbench', '--version', '--no-ansi'];
 
         $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
         $commander->mustRun();
@@ -56,9 +62,9 @@ class CommanderTest extends TestCase
      */
     public function it_output_correct_defaults()
     {
-        $this->assertFalse(file_exists(__DIR__.'/../laravel/database/database.sqlite'));
+        $this->assertFalse(file_exists(realpath(__DIR__.'/../').'/laravel/database/database.sqlite'));
 
-        $command = [$this->phpBinary(), 'testbench', 'about', '--json'];
+        $command = [static::phpBinary(), 'testbench', 'about', '--json'];
 
         $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
         $commander->mustRun();
@@ -77,7 +83,7 @@ class CommanderTest extends TestCase
     {
         $filesystem = new Filesystem();
 
-        $database = __DIR__.'/../laravel/database/database.sqlite';
+        $database = realpath(__DIR__.'/../').'/laravel/database/database.sqlite';
 
         if (! $filesystem->exists($database)) {
             $filesystem->copy("{$database}.example", $database);
