@@ -15,12 +15,18 @@ use Symfony\Component\Process\Process;
 
 class CommanderTest extends TestCase
 {
+    protected static array $variables = [
+        'DB_CONNECTION',
+    ];
+
     /**
      * Setup the test environment.
      */
     protected function setUp(): void
     {
-        unset($_ENV['DB_CONNECTION'], $_SERVER['DB_CONNECTION']);
+        collect(static::$variables)->each(function ($variable) {
+            unset($_ENV[$variable], $_SERVER[$variable]);
+        });
 
         Env::disablePutenv();
         Container::getInstance()->flush();
@@ -35,6 +41,11 @@ class CommanderTest extends TestCase
      */
     protected function tearDown(): void
     {
+        collect(static::$variables)->each(function ($variable) {
+            unset($_ENV[$variable], $_SERVER[$variable]);
+        });
+
+        Env::enablePutenv();
         Container::getInstance()->flush();
         Facade::clearResolvedInstances();
         Artisan::forgetBootstrappers();
@@ -95,6 +106,30 @@ class CommanderTest extends TestCase
         $output = json_decode($commander->getOutput(), true);
 
         $this->assertSame('sqlite', $output['drivers']['database']);
+
+        unset($commander);
+    }
+
+    /**
+     * @test
+     * @group commander
+     */
+    public function it_output_correct_defaults_with_environment_overrides()
+    {
+        $this->createSqliteDatabase();
+
+        $this->assertTrue(file_exists(realpath(__DIR__.'/../').'/laravel/database/database.sqlite'));
+
+        $command = [static::phpBinary(), 'testbench', 'about', '--json'];
+
+        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../', [
+            'DB_CONNECTION' => 'testing',
+        ]);
+        $commander->mustRun();
+
+        $output = json_decode($commander->getOutput(), true);
+
+        $this->assertSame('testing', $output['drivers']['database']);
 
         unset($commander);
     }
