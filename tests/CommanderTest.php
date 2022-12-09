@@ -6,6 +6,7 @@ use Illuminate\Console\Application as Artisan;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Facade;
 use Orchestra\Testbench\Console\Commander;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +20,9 @@ class CommanderTest extends TestCase
      */
     protected function setUp(): void
     {
+        unset($_ENV['DB_CONNECTION'], $_SERVER['DB_CONNECTION']);
+
+        Env::disablePutenv();
         Container::getInstance()->flush();
         Facade::clearResolvedInstances();
         Artisan::forgetBootstrappers();
@@ -31,8 +35,6 @@ class CommanderTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($_SERVER['argv']);
-
         Container::getInstance()->flush();
         Facade::clearResolvedInstances();
         Artisan::forgetBootstrappers();
@@ -48,7 +50,7 @@ class CommanderTest extends TestCase
     {
         $command = [static::phpBinary(), 'testbench', '--version', '--no-ansi'];
 
-        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
+        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../', []);
         $commander->mustRun();
 
         $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $commander->getOutput());
@@ -66,12 +68,33 @@ class CommanderTest extends TestCase
 
         $command = [static::phpBinary(), 'testbench', 'about', '--json'];
 
+        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../', []);
+        $commander->mustRun();
+
+        $output = json_decode($commander->getOutput(), true);
+        $this->assertSame('testing', $output['drivers']['database']);
+
+        unset($commander);
+    }
+
+    /**
+     * @test
+     * @group commander
+     */
+    public function it_output_correct_defaults_with_database_file()
+    {
+        $this->createSqliteDatabase();
+
+        $this->assertTrue(file_exists(realpath(__DIR__.'/../').'/laravel/database/database.sqlite'));
+
+        $command = [static::phpBinary(), 'testbench', 'about', '--json'];
+
         $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
         $commander->mustRun();
 
         $output = json_decode($commander->getOutput(), true);
 
-        $this->assertSame('testing', $output['drivers']['database']);
+        $this->assertSame('sqlite', $output['drivers']['database']);
 
         unset($commander);
     }
