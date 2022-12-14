@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Foundation\PackageManifest;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * @property bool|null $enablesPackageDiscoveries
@@ -319,7 +320,12 @@ trait CreatesApplication
      */
     protected function resolveApplicationBootstrappers($app)
     {
-        $app->make('Orchestra\Testbench\Bootstrap\HandleExceptions')->bootstrap($app);
+        if ($this instanceof PHPUnitTestCase) {
+            $app->make('Orchestra\Testbench\Bootstrap\HandleExceptions', ['testbench' => $this])->bootstrap($app);
+        } else {
+            $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
+        }
+
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
