@@ -8,23 +8,6 @@ use Illuminate\Log\LogManager;
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
     /**
-     * Testbench Class.
-     *
-     * @var \Orchestra\Testbench\Contracts\TestCase|object|null
-     */
-    protected $testbench;
-
-    /**
-     * Create a new handle exceptions instance.
-     *
-     * @param  \Orchestra\Testbench\Contracts\TestCase|object|null  $testbench
-     */
-    public function __construct($testbench = null)
-    {
-        $this->testbench = \is_object($testbench) ? $testbench : null;
-    }
-
-    /**
      * Reports a deprecation to the "deprecations" logger.
      *
      * @param  string  $message
@@ -62,16 +45,5 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
                 ));
             }
         });
-    }
-
-    /**
-     * Determine if deprecations should be converted to exceptions.
-     *
-     * @return bool
-     */
-    protected function convertDeprecationsToExceptions()
-    {
-        /** @phpstan-ignore-next-line */
-        return $this->testbench?->getTestResultObject()?->getConvertDeprecationsToExceptions() ?? false;
     }
 }
