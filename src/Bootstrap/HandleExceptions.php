@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use ErrorException;
+use Exception;
 use Illuminate\Log\LogManager;
 
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
@@ -32,6 +33,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
         $this->ensureDeprecationLoggerIsConfigured();
 
+        /** @phpstan-ignore-next-line */
         $options = static::$app['config']->get('logging.deprecations') ?? [];
 
         with($logger->channel('deprecations'), function ($log) use ($message, $file, $line, $level, $options) {
