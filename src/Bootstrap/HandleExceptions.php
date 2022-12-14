@@ -11,7 +11,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      *
      * @return bool
      */
-    protected function shouldIgnoresDeprecationError()
+    protected function shouldIgnoreDeprecationErrors()
     {
         return ! class_exists(LogManager::class)
             || ! static::$app->hasBeenBootstrapped();
