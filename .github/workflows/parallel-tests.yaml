@@ -55,4 +55,6 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: ./testbench package:test --parallel --exclude-group=deprecations
+        run: ./testbench package:test --parallel
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
