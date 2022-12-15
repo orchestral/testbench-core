@@ -2,9 +2,9 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use ErrorException;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
-use PHPUnit\Framework\Error\Deprecated;
 
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
@@ -16,13 +16,15 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      * @param  int  $line
      * @param  int  $level
      * @return void
+     *
+     * @throws \ErrorException
      */
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
         parent::handleDeprecationError($message, $file, $line, $level);
 
         if (Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS')) {
-            throw new Deprecated($message, 0, $file, $line);
+            throw new ErrorException($message, 0, $level, $file, $line);
         }
     }
 

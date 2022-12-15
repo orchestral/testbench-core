@@ -14,7 +14,6 @@ jobs:
       matrix:
         os:
           - "ubuntu-latest"
-          - "windows-latest"
         php:
           - '8.0'
           - 8.1
@@ -26,7 +25,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code

@@ -31,8 +31,8 @@ class PhpDeprecationsTest extends TestCase
      */
     public function handle_php81_deprecations_using_exception()
     {
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage('zzz');
+        $this->expectException('ErrorException');
+        $this->expectExceptionMessage('zzz');
 
         trigger_error('zzz', E_USER_DEPRECATED);
     }
