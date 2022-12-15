@@ -13,6 +13,8 @@ class PhpDeprecationsTest extends TestCase
     /** @test */
     public function handle_php81_deprecations_using_logs()
     {
+        $this->expectDeprecation();
+
         Log::shouldReceive('channel')
             ->once()->with('deprecations')
             ->andReturnSelf()
@@ -27,9 +29,20 @@ class PhpDeprecationsTest extends TestCase
 
     /**
      * @test
+     */
+    public function handle_php81_deprecations_using_phpunit_exception()
+    {
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage('zzz');
+
+        trigger_error('zzz', E_USER_DEPRECATED);
+    }
+
+    /**
+     * @test
      * @define-env defineConvertDeprecationsToExceptions
      */
-    public function handle_php81_deprecations_using_exception()
+    public function handle_php81_deprecations_using_laravel_exception()
     {
         $this->expectException('ErrorException');
         $this->expectExceptionMessage('zzz');

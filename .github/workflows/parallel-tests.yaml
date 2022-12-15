@@ -15,9 +15,9 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - "8.0"
-          - "8.1"
-          - "8.2"
+          - '8.0'
+          - 8.1
+          - 8.2
         phpunit:
           - "9.x"
         dependencies:
@@ -56,3 +56,10 @@ jobs:
 
       - name: Execute tests
         run: ./testbench package:test --parallel
+        if: matrix.dependencies == 'highest'
+
+      - name: Execute tests
+        run: ./testbench package:test --parallel --exclude-group=deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.dependencies != 'highest'
