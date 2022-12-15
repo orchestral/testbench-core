@@ -20,13 +20,6 @@ $createApp = function (string $workingPath) {
 
     return Application::create(
         basePath: $config['laravel'],
-        resolvingCallback: function ($app) use ($config, $hasEnvironmentFile) {
-            if ($hasEnvironmentFile === false) {
-                (new LoadEnvironmentVariablesFromArray(
-                    ! empty($config['env']) ? $config['env'] : default_environment_variables()
-                ))->bootstrap($app);
-            }
-        },
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
     );
 };
