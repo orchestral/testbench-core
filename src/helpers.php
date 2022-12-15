@@ -40,7 +40,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
  */
 function default_environment_variables(): array
 {
-    return collect(['APP_KEY' => null, 'APP_DEBUG' => 'true', 'DB_CONNECTION' => null])
+    return collect(['APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', 'APP_DEBUG' => 'true', 'DB_CONNECTION' => null])
         ->transform(fn ($value, $key) => ($_SERVER[$key] ?? $_ENV[$key] ?? $value))
         ->filter(fn ($value) => ! \is_null($value))
         ->transform(function ($value, $key) {
