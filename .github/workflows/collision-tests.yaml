@@ -56,7 +56,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: ./testbench package:test
+        run: ./testbench package:test --exclude-group=commander
 
   tests-with-coverage:
     runs-on: ${{ matrix.os }}
@@ -102,4 +102,4 @@ jobs:
           composer-options: "--prefer-dist --no-cache"
 
       - name: Execute tests
-        run: ./testbench package:test --coverage
+        run: ./testbench package:test --coverage --exclude-group=commander

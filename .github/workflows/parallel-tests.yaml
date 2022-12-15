@@ -56,4 +56,4 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: ./testbench package:test --parallel
+        run: ./testbench package:test --parallel --exclude-group=commander

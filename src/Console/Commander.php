@@ -10,9 +10,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
-use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -129,18 +127,13 @@ class Commander
                 'extra' => [
                     'providers' => Arr::get($this->config, 'providers', []),
                     'dont-discover' => Arr::get($this->config, 'dont-discover', []),
+                    'env' => Arr::get($this->config, 'env', []),
                 ],
             ]);
 
             $this->app = Application::create(
                 basePath: $this->getBasePath(),
-                resolvingCallback: function ($app) use ($hasEnvironmentFile) {
-                    if ($hasEnvironmentFile === false) {
-                        (new LoadEnvironmentVariablesFromArray(
-                            ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables()
-                        ))->bootstrap($app);
-                    }
-
+                resolvingCallback: function ($app) {
                     \call_user_func($this->resolveApplicationCallback(), $app);
                 },
                 options: $options
