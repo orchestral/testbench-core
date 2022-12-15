@@ -10,7 +10,6 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
@@ -128,7 +127,7 @@ class Commander
                 'extra' => [
                     'providers' => Arr::get($this->config, 'providers', []),
                     'dont-discover' => Arr::get($this->config, 'dont-discover', []),
-                    'env' => ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables(),
+                    'env' => Arr::get($this->config, 'env', []),
                 ],
             ]);
 

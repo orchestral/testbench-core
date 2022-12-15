@@ -36,17 +36,18 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 /**
  * Get default environment variables.
  *
- * @return array<int, string>
+ * @return array<int, string|null>
  */
 function default_environment_variables(): array
 {
-    $APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
-    $APP_DEBUG = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'true';
-    $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? null;
+    return collect(['APP_KEY' => null, 'APP_DEBUG' => 'true', 'DB_CONNECTION' => null])
+        ->transform(function ($value, $key) {
+            return $_SERVER[$key] ?? $_ENV[$key] ?? $value;
+        })->filter(function ($value) {
+            return ! \is_null($value);
+        })->transform(function ($value, $key) {
+            $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
 
-    return array_filter([
-        'APP_KEY="'.$APP_KEY.'"',
-        "APP_DEBUG=({$APP_DEBUG})",
-        ! \defined('TESTBENCH_DUSK') && ! \is_null($DB_CONNECTION) ? 'DB_CONNECTION="'.$DB_CONNECTION.'"' : null,
-    ]);
+            return "{$key}={$value}";
+        })->values()->all();
 }

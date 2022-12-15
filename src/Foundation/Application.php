@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use function Orchestra\Testbench\default_environment_variables;
 
 /**
  * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array, env?: array}
@@ -170,7 +171,9 @@ class Application
     {
         $this->resolveApplicationEnvironmentVariablesFromTrait($app);
 
-        (new Bootstrap\LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
+        $variables = array_merge(default_environment_variables(), ($this->config['env'] ?? []));
+
+        (new Bootstrap\LoadEnvironmentVariablesFromArray($variables))->bootstrap($app);
     }
 
     /**
