@@ -56,13 +56,8 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit
-        if: matrix.dependencies == 'highest'
-
-      - name: Execute tests
-        run: vendor/bin/phpunit
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
 
   # tests-on-phpunit-10:
   #   runs-on: ${{ matrix.os }}
