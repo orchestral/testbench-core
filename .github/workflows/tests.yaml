@@ -54,8 +54,13 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests
+      - name: Execute tests (${{ matrix.os}})
         run: vendor/bin/phpunit
+        if: matrix.os === 'ubuntu-latest'
+
+      - name: Execute tests (${{ matrix.os}})
+        run: vendor/bin/phpunit --exclude-group=deprecations
+        if: matrix.os === 'window-latest'
 
   # tests-on-phpunit-10:
   #   runs-on: ${{ matrix.os }}
