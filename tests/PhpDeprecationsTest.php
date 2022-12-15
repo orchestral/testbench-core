@@ -62,7 +62,7 @@ class PhpDeprecationsTest extends TestCase
         $_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS'] = true;
 
         $this->beforeApplicationDestroyed(function () use ($value) {
-            if (is_null($value)) {
+            if (\is_null($value)) {
                 unset($_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS']);
             } else {
                 $_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS'] = $value;
