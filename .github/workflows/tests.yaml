@@ -54,11 +54,11 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests
+      - name: Execute tests (with deprecations)
         run: vendor/bin/phpunit
         if: matrix.dependencies == 'highest'
 
-      - name: Execute tests
+      - name: Execute tests (without deprecations)
         run: vendor/bin/phpunit --exclude-group=deprecations
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
