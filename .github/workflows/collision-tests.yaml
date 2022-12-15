@@ -55,7 +55,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: ./testbench package:test --exclude-group commander
+        run: ./testbench package:test --exclude-group commander,deprecations
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
 
@@ -104,6 +104,6 @@ jobs:
           composer-options: "--prefer-dist --no-cache"
 
       - name: Execute tests
-        run: ./testbench package:test --coverage --exclude-group commander
+        run: ./testbench package:test --coverage --exclude-group commander,deprecations
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
