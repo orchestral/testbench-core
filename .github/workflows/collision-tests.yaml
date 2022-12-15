@@ -109,11 +109,4 @@ jobs:
           composer-options: "--prefer-dist --no-cache"
 
       - name: Execute tests
-        run: ./testbench package:test --coverage --exclude-group commander
-        if: matrix.dependencies == 'highest'
-
-      - name: Execute tests
         run: ./testbench package:test --coverage --exclude-group commander,deprecations
-        env:
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
