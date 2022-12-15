@@ -83,6 +83,8 @@ class CommanderTest extends TestCase
         $commander->mustRun();
 
         $output = json_decode($commander->getOutput(), true);
+
+        $this->assertSame('Testbench', $output['environment']['application_name']);
         $this->assertSame('testing', $output['drivers']['database']);
 
         unset($commander);
@@ -105,6 +107,7 @@ class CommanderTest extends TestCase
 
         $output = json_decode($commander->getOutput(), true);
 
+        $this->assertSame('Testbench', $output['environment']['application_name']);
         $this->assertSame('sqlite', $output['drivers']['database']);
 
         unset($commander);
@@ -123,12 +126,14 @@ class CommanderTest extends TestCase
         $command = [static::phpBinary(), 'testbench', 'about', '--json'];
 
         $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../', [
+            'APP_NAME' => 'Testbench Tests',
             'DB_CONNECTION' => 'testing',
         ]);
         $commander->mustRun();
 
         $output = json_decode($commander->getOutput(), true);
 
+        $this->assertSame('Testbench Tests', $output['environment']['application_name']);
         $this->assertSame('testing', $output['drivers']['database']);
 
         unset($commander);

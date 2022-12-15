@@ -129,18 +129,13 @@ class Commander
                 'extra' => [
                     'providers' => Arr::get($this->config, 'providers', []),
                     'dont-discover' => Arr::get($this->config, 'dont-discover', []),
+                    'env' => ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables(),
                 ],
             ]);
 
             $this->app = Application::create(
                 basePath: $this->getBasePath(),
-                resolvingCallback: function ($app) use ($hasEnvironmentFile) {
-                    if ($hasEnvironmentFile === false) {
-                        (new LoadEnvironmentVariablesFromArray(
-                            ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables()
-                        ))->bootstrap($app);
-                    }
-
+                resolvingCallback: function ($app) {
                     \call_user_func($this->resolveApplicationCallback(), $app);
                 },
                 options: $options
