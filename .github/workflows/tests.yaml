@@ -56,13 +56,11 @@ jobs:
 
       - name: Execute tests (${{ matrix.os}})
         run: vendor/bin/phpunit
-        env:
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: true
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.dependencies == 'highest'
 
       - name: Execute tests (${{ matrix.os}})
         run: vendor/bin/phpunit --exclude-group=deprecations
-        if: matrix.os == 'window-latest'
+        if: matrix.dependencies != 'highest'
 
   # tests-on-phpunit-10:
   #   runs-on: ${{ matrix.os }}
