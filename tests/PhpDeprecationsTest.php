@@ -5,10 +5,13 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Support\Facades\Log;
 use Orchestra\Testbench\TestCase;
 
+/**
+ * @group deprecations
+ */
 class PhpDeprecationsTest extends TestCase
 {
     /** @test */
-    public function handle_php81_deprecations()
+    public function handle_php81_deprecations_using_logs()
     {
         Log::shouldReceive('channel')
             ->once()->with('deprecations')
@@ -20,5 +23,32 @@ class PhpDeprecationsTest extends TestCase
             });
 
         trigger_error('zzz', E_USER_DEPRECATED);
+    }
+
+    /**
+     * @test
+     * @define-env defineConvertDeprecationsToExceptions
+     */
+    public function handle_php81_deprecations_using_exception()
+    {
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage('zzz');
+
+        trigger_error('zzz', E_USER_DEPRECATED);
+    }
+
+    /**
+     * Define environment.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function defineConvertDeprecationsToExceptions($app)
+    {
+        $_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTION'] = true;
+
+        $this->beforeApplicationDestroyed(function () {
+            unset($_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTION']);
+        });
     }
 }
