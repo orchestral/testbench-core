@@ -56,4 +56,4 @@ jobs:
       - name: Execute tests
         run: vendor/bin/phpunit --exclude-group=deprecations
         env:
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTION: true
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: true

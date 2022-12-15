@@ -8,7 +8,6 @@ use PHPUnit\Framework\Error\Deprecated;
 
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
-
     /**
      * Reports a deprecation to the "deprecations" logger.
      *
@@ -22,10 +21,11 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     {
         parent::handleDeprecationError($message, $file, $line, $level);
 
-        if (Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTION')) {
+        if (Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS')) {
             throw new Deprecated($message, 0, $file, $line);
         }
     }
+
     /**
      * Determine if deprecation error should be ignored.
      *
@@ -35,4 +35,5 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     {
         return ! class_exists(LogManager::class)
             || ! static::$app->hasBeenBootstrapped();
+    }
 }

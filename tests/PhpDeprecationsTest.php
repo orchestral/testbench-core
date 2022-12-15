@@ -45,10 +45,10 @@ class PhpDeprecationsTest extends TestCase
      */
     protected function defineConvertDeprecationsToExceptions($app)
     {
-        $_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTION'] = true;
+        $_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS'] = true;
 
         $this->beforeApplicationDestroyed(function () {
-            unset($_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTION']);
+            unset($_ENV['TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS']);
         });
     }
 }
