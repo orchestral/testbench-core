@@ -60,6 +60,8 @@ jobs:
 
       - name: Execute tests (${{ matrix.os}})
         run: vendor/bin/phpunit --exclude-group=deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.dependencies != 'highest'
 
   # tests-on-phpunit-10:

@@ -42,18 +42,18 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     {
         parent::handleDeprecationError($message, $file, $line, $level);
 
-        if (Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS')) {
+        $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS');
+
+        /** @var \PHPUnit\Framework\TestResult|null $testResult */
+        $testResult = $this->testbench?->getTestResultObject();
+
+        /** @var bool $convertDeprecationsToExceptions */
+        $convertDeprecationsToExceptions = $testResult?->getConvertDeprecationsToExceptions() ?? false;
+
+        if ($convertDeprecationsToExceptions === true && \is_null($testbenchConvertDeprecationsToExceptions)) {
+            throw new Deprecated($message, $level, $file, $line);
+        } elseif ($testbenchConvertDeprecationsToExceptions === true) {
             throw new ErrorException($message, 0, $level, $file, $line);
-        } else {
-            /** @var \PHPUnit\Framework\TestResult|null $testResult */
-            $testResult = $this->testbench?->getTestResultObject();
-
-            /** @var bool $convertDeprecationsToExceptions */
-            $convertDeprecationsToExceptions = $testResult?->getConvertDeprecationsToExceptions() ?? false;
-
-            if ($convertDeprecationsToExceptions === true) {
-                throw new Deprecated($message, $level, $file, $line);
-            }
         }
     }
 
