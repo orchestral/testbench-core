@@ -133,9 +133,7 @@ class Commander
 
             $this->app = Application::create(
                 basePath: $this->getBasePath(),
-                resolvingCallback: function ($app) {
-                    \call_user_func($this->resolveApplicationCallback(), $app);
-                },
+                resolvingCallback: $this->resolveApplicationCallback(),
                 options: $options
             );
         }
