@@ -34,7 +34,6 @@
     <php>
         <server name="APP_ENV" value="testing"/>
         <server name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
-        <server name="LOG_DEPRECATIONS_CHANNEL" value="stderr"/>
         <server name="SEND_DEPRECATED_NOTICES_TO_RAY" value="(true)"/>
     </php>
 </phpunit>
