@@ -51,10 +51,10 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         $convertDeprecationsToExceptions = $testResult?->getConvertDeprecationsToExceptions() ?? false;
 
         if ($testbenchConvertDeprecationsToExceptions !== false) {
-            if ($convertDeprecationsToExceptions === true) {
-                throw new Deprecated($message, $level, $file, $line);
-            } elseif ($testbenchConvertDeprecationsToExceptions === true) {
+            if ($testbenchConvertDeprecationsToExceptions === true) {
                 throw new ErrorException($message, 0, $level, $file, $line);
+            } elseif ($convertDeprecationsToExceptions === true) {
+                throw new Deprecated($message, $level, $file, $line);
             }
         }
     }
