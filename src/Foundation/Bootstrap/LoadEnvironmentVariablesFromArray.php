@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
-use Dotenv\Dotenv;
-use Dotenv\Loader\Loader;
 use Dotenv\Parser\Parser;
 use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Foundation\Application;

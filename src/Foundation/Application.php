@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
 /**
- * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array, env: string}
+ * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array, env?: array}
  * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variables?: bool, enabled_package_discoveries?: bool}
  */
 class Application
@@ -159,7 +159,6 @@ class Application
     {
         return $this->basePath ?? static::applicationBasePath();
     }
-
 
     /**
      * Resolve application core environment variables implementation.
