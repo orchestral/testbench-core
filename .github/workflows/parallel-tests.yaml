@@ -54,5 +54,12 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests
+      - name: Execute tests (with deprecations)
         run: ./testbench package:test --parallel
+        if: matrix.dependencies == 'highest'
+
+      - name: Execute tests (without deprecations)
+        run: ./testbench package:test --parallel --exclude-group=deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.dependencies != 'highest'
