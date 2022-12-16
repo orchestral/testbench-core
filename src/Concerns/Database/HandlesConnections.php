@@ -16,7 +16,6 @@ trait HandlesConnections
     {
         $keyword = Str::upper($keyword);
 
-        $configurations = [];
         $options = [
             'url' => 'URL',
             'host' => 'HOST',
@@ -26,16 +25,20 @@ trait HandlesConnections
             'password' => 'PASSWORD',
         ];
 
-        foreach ($options as $key => $value) {
-            $configurations["database.connections.{$driver}.{$key}"] = Collection::make(
-                Arr::wrap($value)
-            )->transform(static function ($value) use ($keyword) {
-                return env("{$keyword}_{$value}");
-            })->first(static function ($value) {
-                return ! \is_null($value);
-            }) ?? $config->get("database.connections.{$driver}.{$key}");
-        }
+        $config->set(
+            Collection::make($options)
+                ->mapWithKeys(function ($value, $key) use ($driver, $keyword, $config) {
+                    $name = "database.connections.{$driver}.{$key}";
 
-        $config->set($configurations);
+                    /** @var mixed $configuration */
+                    $configuration = Collection::make(Arr::wrap($value))
+                        ->transform(fn ($value) => env("{$keyword}_{$value}"))
+                        ->first(fn ($value) => ! \is_null($value)) ?? $config->get($name);
+
+                    return [
+                        "{$name}" => $configuration,
+                    ];
+                })->all()
+        );
     }
 }

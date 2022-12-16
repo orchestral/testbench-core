@@ -35,7 +35,7 @@
         "php": "^8.1"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.2",
+        "fakerphp/faker": "^1.21",
         "laravel/framework": "^10.0",
         "laravel/laravel": "dev-master",
         "laravel/pint": "^1.1",
@@ -49,7 +49,7 @@
     },
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^6.4).",
-        "fakerphp/faker": "Allow using Faker for testing (^1.9.2).",
+        "fakerphp/faker": "Allow using Faker for testing (^1.21).",
         "laravel/framework": "Required for testing (^10.0).",
         "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.2).",

@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Foundation\Console\ServeCommand as Command;
-use RuntimeException;
 
 class ServeCommand extends Command
 {
@@ -12,15 +11,13 @@ class ServeCommand extends Command
      *
      * @param  string|null  $key
      * @return string|array|bool|null
-     *
-     * @throws \RuntimeException
      */
     public function option($key = null)
     {
         $value = parent::option($key);
 
-        if ($key === 'no-reload' && $value === true) {
-            throw new RuntimeException('Unable to use "no-reload" option on Serve command running within Testbench');
+        if ($key === 'no-reload' && $value !== true) {
+            $value = true;
         }
 
         return $value;

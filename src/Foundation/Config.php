@@ -70,7 +70,7 @@ class Config extends Fluent
     public function getExtraAttributes(): array
     {
         /** @var array{providers: array, dont-discover: array} $extra */
-        $extra = Arr::only($this->attributes, ['providers', 'dont-discover']);
+        $extra = Arr::only($this->attributes, ['providers', 'dont-discover', 'env']);
 
         return $extra;
     }

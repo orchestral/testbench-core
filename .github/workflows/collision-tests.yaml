@@ -14,10 +14,9 @@ jobs:
       matrix:
         os:
           - "ubuntu-latest"
-          - "windows-latest"
         php:
-          - "8.1"
-          - "8.2"
+          - 8.1
+          - 8.2
         phpunit:
           - "9.x"
         dependencies:
@@ -54,8 +53,15 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests
-        run: ./testbench package:test
+      - name: Execute tests (with deprecations)
+        run: ./testbench package:test --exclude-group commander
+        if: matrix.dependencies == 'highest'
+
+      - name: Execute tests (without deprecations)
+        run: ./testbench package:test --exclude-group commander,deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.dependencies != 'highest'
 
   tests-with-coverage:
     runs-on: ${{ matrix.os }}
@@ -64,14 +70,18 @@ jobs:
       matrix:
         os:
           - "ubuntu-latest"
-          - "windows-latest"
         php:
+<<<<<<< HEAD:.github/workflows/collision-tests.yml
           - "8.1"
+=======
+          - '8.0'
+          - 8.1
+          - 8.2
+>>>>>>> 7.x:.github/workflows/collision-tests.yaml
         phpunit:
           - "9.x"
         dependencies:
           - "highest"
-          - "lowest"
         experimental:
           - false
 
@@ -100,4 +110,6 @@ jobs:
           composer-options: "--prefer-dist --no-cache"
 
       - name: Execute tests
-        run: ./testbench package:test --coverage
+        run: ./testbench package:test --coverage --exclude-group commander,deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
