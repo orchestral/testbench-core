@@ -73,12 +73,12 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
         $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS');
 
-        if ($testbenchConvertDeprecationsToExceptions === true) {
-            with(new ErrorException($message, 0, $level, $file, $line), function ($e) {
-                $this->renderForConsole($e);
+        $error = new ErrorException($message, 0, $level, $file, $line);
 
-                throw $e;
-            });
+        if ($testbenchConvertDeprecationsToExceptions === true) {
+            $this->renderForConsole($error);
+
+            throw $error;
         }
 
         /** @var \PHPUnit\Framework\TestResult|null $testResult */
@@ -88,11 +88,9 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         $convertDeprecationsToExceptions = $testResult?->getConvertDeprecationsToExceptions() ?? false;
 
         if ($testbenchConvertDeprecationsToExceptions !== false && $convertDeprecationsToExceptions === true) {
-            with(new Deprecated($message, $level, $file, $line), function ($e) {
-                $this->renderForConsole($e);
+            $this->renderForConsole($error);
 
-                throw $e;
-            });
+            throw new Deprecated($message, $level, $file, $line);
         }
     }
 
