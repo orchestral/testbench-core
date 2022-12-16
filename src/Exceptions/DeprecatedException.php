@@ -19,7 +19,7 @@ class DeprecatedException extends Error
             ->transform(function (array $trace): ?string {
                 $excluded = [HandleExceptions::class, IlluminateHandleExceptions::class];
 
-                if ((isset($trace['class']) && in_array($trace['class'], $excluded))
+                if ((isset($trace['class']) && \in_array($trace['class'], $excluded))
                     || ! isset($trace['file'])
                     || ! isset($trace['line'])) {
                     return null;
