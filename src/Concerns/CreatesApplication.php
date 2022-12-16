@@ -213,6 +213,7 @@ trait CreatesApplication
         $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
         $this->resolveApplicationCore($app);
+        $this->resolveApplicationEnvironmentVariables($app);
         $this->resolveApplicationConfiguration($app);
         $this->resolveApplicationHttpKernel($app);
         $this->resolveApplicationConsoleKernel($app);
@@ -239,6 +240,19 @@ trait CreatesApplication
     }
 
     /**
+     * Resolve application core environment variables implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationEnvironmentVariables($app)
+    {
+        if (property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
+            $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
+        }
+    }
+
+    /**
      * Resolve application core configuration implementation.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -246,10 +260,6 @@ trait CreatesApplication
      */
     protected function resolveApplicationConfiguration($app)
     {
-        if (property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
-            $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
-        }
-
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
 
         tap($this->getApplicationTimezone($app), static function ($timezone) {
