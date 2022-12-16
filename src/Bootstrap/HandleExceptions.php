@@ -27,29 +27,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     }
 
     /**
-     * Report PHP deprecations, or convert PHP errors to ErrorException instances.
-     *
-     * @param  int  $level
-     * @param  string  $message
-     * @param  string  $file
-     * @param  int  $line
-     * @param  array  $context
-     * @return void
-     *
-     * @throws \ErrorException
-     */
-    public function handleError($level, $message, $file = '', $line = 0, $context = [])
-    {
-        if ($this->isDeprecation($level)) {
-            $this->handleDeprecationError($message, $file, $line, $level);
-
-            return;
-        } elseif (error_reporting() & $level) {
-            throw new ErrorException($message, 0, $level, $file, $line);
-        }
-    }
-
-    /**
      * Reports a deprecation to the "deprecations" logger.
      *
      * @param  string  $message
