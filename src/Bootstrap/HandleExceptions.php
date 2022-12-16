@@ -70,8 +70,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         $error = new DeprecatedException($message, $level, $file, $line);
 
         if ($testbenchConvertDeprecationsToExceptions === true) {
-            $this->renderForConsole($error);
-
             throw $error;
         }
 
@@ -82,8 +80,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         $convertDeprecationsToExceptions = $testResult?->getConvertDeprecationsToExceptions() ?? false;
 
         if ($testbenchConvertDeprecationsToExceptions !== false && $convertDeprecationsToExceptions === true) {
-            $this->renderForConsole($error);
-
             throw $error;
         }
     }

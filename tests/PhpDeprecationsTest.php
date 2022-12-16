@@ -11,17 +11,6 @@ use Orchestra\Testbench\TestCase;
  */
 class PhpDeprecationsTest extends TestCase
 {
-    /**
-     * Resolve application HTTP exception handler.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function resolveApplicationExceptionHandler($app)
-    {
-        $app->singleton('Illuminate\Contracts\Debug\ExceptionHandler', 'Orchestra\Testbench\Tests\Exceptions\SilentConsoleHandler');
-    }
-
     /** @test */
     public function handle_php81_deprecations_using_logs()
     {
