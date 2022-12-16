@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Testing\PendingCommand;
-use Orchestra\Testbench\Foundation\Application;
 
 /**
  * Create Laravel application instance.
@@ -13,9 +12,9 @@ use Orchestra\Testbench\Foundation\Application;
  * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Application
+function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
 {
-    return (new Application($basePath, $resolvingCallback))->configure($options);
+    return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
 }
 
 /**
