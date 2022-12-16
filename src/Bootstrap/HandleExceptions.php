@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
-use ErrorException;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
