@@ -40,6 +40,8 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
 
       - name: Upload coverage results to Coveralls
         env:
