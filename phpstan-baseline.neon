@@ -14,3 +14,8 @@ parameters:
 			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_slow_queries_to_ray\\.$#"
 			count: 1
 			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,array\\<string, array\\|int\\|object\\|string\\>\\>\\:\\:transform\\(\\) expects callable\\(array\\{function\\: string, line\\?\\: int, file\\?\\: string, class\\?\\: class\\-string, type\\?\\: string, args\\?\\: array, object\\?\\: object\\}, int\\)\\: array\\{function\\: string, line\\?\\: int, file\\?\\: string, class\\?\\: class\\-string, type\\?\\: string, args\\?\\: array, object\\?\\: object\\}, Closure\\(array\\)\\: non\\-falsy\\-string\\|null given\\.$#"
+			count: 1
+			path: src/Exceptions/DeprecatedException.php

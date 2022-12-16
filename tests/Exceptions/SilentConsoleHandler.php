@@ -17,5 +17,6 @@ class SilentConsoleHandler extends \Orchestra\Testbench\Exceptions\Handler
      */
     public function renderForConsole($output, Throwable $e)
     {
+        //
     }
 }

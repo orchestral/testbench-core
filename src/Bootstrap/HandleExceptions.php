@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use ErrorException;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
-use PHPUnit\Framework\Error\Deprecated;
+use Orchestra\Testbench\Exceptions\DeprecatedException;
 
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
@@ -40,12 +40,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      */
     public function handleError($level, $message, $file = '', $line = 0, $context = [])
     {
-        if (__FILE__ === $file) {
-            $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 3);
-            $file = $trace[2]['file'] ?? $file;
-            $line = $trace[2]['line'] ?? $line;
-        }
-
         if ($this->isDeprecation($level)) {
             $this->handleDeprecationError($message, $file, $line, $level);
 
@@ -73,7 +67,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
         $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS');
 
-        $error = new ErrorException($message, 0, $level, $file, $line);
+        $error = new DeprecatedException($message, $level, $file, $line);
 
         if ($testbenchConvertDeprecationsToExceptions === true) {
             $this->renderForConsole($error);
@@ -90,7 +84,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         if ($testbenchConvertDeprecationsToExceptions !== false && $convertDeprecationsToExceptions === true) {
             $this->renderForConsole($error);
 
-            throw new Deprecated($message, $level, $file, $line);
+            throw $error;
         }
     }
 
