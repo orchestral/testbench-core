@@ -14,7 +14,7 @@ use Illuminate\Testing\PendingCommand;
  */
 function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
 {
-    return (new Testbench($basePath, $resolvingCallback))->configure($options);
+    return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
 }
 
 /**
