@@ -2,12 +2,23 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-use Illuminate\Foundation\Bootstrap\HandleExceptions as IlluminateHandleExceptions;
-use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use PHPUnit\Framework\Error\Error;
 
 class DeprecatedException extends Error
 {
+    /**
+     * List of Testbench exception/error handlers.
+     *
+     * @return array<int, class-string>
+     */
+    protected function testbenchExceptionHandlers()
+    {
+        return [
+            \Illuminate\Foundation\Bootstrap\HandleExceptions::class,
+            \Orchestra\Testbench\Bootstrap\HandleExceptions::class,
+        ];
+    }
+
     /**
      * Convert exception to string.
      *
@@ -17,9 +28,7 @@ class DeprecatedException extends Error
     {
         $traces = collect($this->getTrace())
             ->transform(function (array $trace): ?string {
-                $excluded = [HandleExceptions::class, IlluminateHandleExceptions::class];
-
-                if ((isset($trace['class']) && \in_array($trace['class'], $excluded))
+                if ((isset($trace['class']) && \in_array($trace['class'], $this->testbenchExceptionHandlers()))
                     || ! isset($trace['file'])
                     || ! isset($trace['line'])) {
                     return null;
