@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
+use Illuminate\Foundation\Bootstrap\HandleExceptions as IlluminateHandleExceptions;
+use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use PHPUnit\Framework\Error\Error;
 
 class DeprecatedException extends Error
@@ -13,9 +15,13 @@ class DeprecatedException extends Error
      */
     public function __toString(): string
     {
-        $traces = collect(\array_slice($this->getTrace(), 3))
+        $traces = collect($this->getTrace())
             ->transform(function (array $trace): ?string {
-                if (! isset($trace['file']) || ! isset($trace['line'])) {
+                $excluded = [HandleExceptions::class, IlluminateHandleExceptions::class];
+
+                if ((isset($trace['class']) && in_array($trace['class'], $excluded))
+                    || ! isset($trace['file'])
+                    || ! isset($trace['line'])) {
                     return null;
                 }
 
