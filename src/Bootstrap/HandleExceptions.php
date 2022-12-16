@@ -47,7 +47,9 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         }
 
         if ($this->isDeprecation($level)) {
-            return $this->handleDeprecationError($message, $file, $line, $level);
+            $this->handleDeprecationError($message, $file, $line, $level);
+
+            return;
         } elseif (error_reporting() & $level) {
             throw new ErrorException($message, 0, $level, $file, $line);
         }
