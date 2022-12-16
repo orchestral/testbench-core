@@ -12,14 +12,14 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     /**
      * Testbench Class.
      *
-     * @var \Orchestra\Testbench\TestCase|null
+     * @var \PHPUnit\Framework\TestCase|null
      */
     protected $testbench;
 
     /**
      * Create a new exception handler instance.
      *
-     * @param  \Orchestra\Testbench\TestCase|null  $testbench
+     * @param  \PHPUnit\Framework\TestCase|null  $testbench
      */
     public function __construct($testbench = null)
     {
