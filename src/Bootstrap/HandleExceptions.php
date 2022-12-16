@@ -27,6 +27,33 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     }
 
     /**
+     * Report PHP deprecations, or convert PHP errors to ErrorException instances.
+     *
+     * @param  int  $level
+     * @param  string  $message
+     * @param  string  $file
+     * @param  int  $line
+     * @param  array  $context
+     * @return void
+     *
+     * @throws \ErrorException
+     */
+    public function handleError($level, $message, $file = '', $line = 0, $context = [])
+    {
+        if (__FILE__ === $file) {
+            $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+            $file = $trace[2]['file'] ?? $file;
+            $line = $trace[2]['line'] ?? $line;
+        }
+
+        if ($this->isDeprecation($level)) {
+            return $this->handleDeprecationError($message, $file, $line, $level);
+        } elseif (error_reporting() & $level) {
+            throw new ErrorException($message, 0, $level, $file, $line);
+        }
+    }
+
+    /**
      * Reports a deprecation to the "deprecations" logger.
      *
      * @param  string  $message
@@ -45,7 +72,11 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS');
 
         if ($testbenchConvertDeprecationsToExceptions === true) {
-            throw new ErrorException($message, 0, $level, $file, $line);
+            with(new ErrorException($message, 0, $level, $file, $line), function ($e) {
+                $this->renderForConsole($e);
+
+                throw $e;
+            });
         }
 
         /** @var \PHPUnit\Framework\TestResult|null $testResult */
@@ -55,7 +86,11 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         $convertDeprecationsToExceptions = $testResult?->getConvertDeprecationsToExceptions() ?? false;
 
         if ($testbenchConvertDeprecationsToExceptions !== false && $convertDeprecationsToExceptions === true) {
-            throw new Deprecated($message, $level, $file, $line);
+            with(new Deprecated($message, $level, $file, $line), function ($e) {
+                $this->renderForConsole($e);
+
+                throw $e;
+            });
         }
     }
 
