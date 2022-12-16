@@ -38,7 +38,7 @@
         "vlucas/phpdotenv": "^5.1"
     },
     "require-dev": {
-        "laravel/framework": "^8.83.26",
+        "laravel/framework": "^8.83.27",
         "laravel/laravel": "8.x-dev",
         "mockery/mockery": "^1.4.4",
         "orchestra/canvas": "^6.1",
