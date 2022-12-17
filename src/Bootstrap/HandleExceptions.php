@@ -66,19 +66,24 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
                 return;
             }
 
-            if (is_array($options = $config->get('logging.deprecations'))) {
+            if (\is_array($options = $config->get('logging.deprecations'))) {
                 $driver = $options['channel'] ?? 'null';
             } else {
                 $driver = $options ?? 'null';
             }
 
             if ($driver === 'single') {
-                $config->set('logging.channels.deprecations', array_merge($config->get("logging.channels.single"), [
+                $config->set('logging.channels.deprecations', array_merge($config->get('logging.channels.single'), [
                     'path' => static::$app->storagePath('logs/deprecations.log'),
                 ]));
             } else {
                 $config->set('logging.channels.deprecations', $config->get("logging.channels.{$driver}"));
             }
+
+            $config->set('logging.deprecations', [
+                'channel' => 'deprecations',
+                'trace' => true,
+            ]);
         });
     }
 
