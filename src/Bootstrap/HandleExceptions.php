@@ -49,15 +49,24 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
             throw $error;
         }
 
+        if ($testbenchConvertDeprecationsToExceptions !== false && $this->getPhpUnitConvertDeprecationsToExceptions() === true) {
+            throw $error;
+        }
+    }
+
+    /**
+     * Get PHPUnit convert deprecations to exceptions from TestResult.
+     *
+     * @phpunit-overrides
+     *
+     * @return bool
+     */
+    protected function getPhpUnitConvertDeprecationsToExceptions(): bool
+    {
         /** @var \PHPUnit\Framework\TestResult|null $testResult */
         $testResult = $this->testbench?->getTestResultObject();
 
-        /** @var bool $convertDeprecationsToExceptions */
-        $convertDeprecationsToExceptions = $testResult?->getConvertDeprecationsToExceptions() ?? false;
-
-        if ($testbenchConvertDeprecationsToExceptions !== false && $convertDeprecationsToExceptions === true) {
-            throw $error;
-        }
+        return $testResult?->getConvertDeprecationsToExceptions() ?? false;
     }
 
     /**
