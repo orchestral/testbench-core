@@ -4,11 +4,15 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 7.16.0
 
+Released: 2022-12-17
+
 ### Added
 
 * Added `resolveApplicationEnvironmentVariables()` method.
 * Added `Orchestra\Testbench\Bootstrap\HandleExceptions` bootstrap to allow catching deprecation errors during tests.
-* Added `Orchestra\Testbench\Exceptions\DeprecatedException` class.
+  - Throws `Orchestra\Testbench\Exceptions\DeprecatedException` exception when deprecation occured.
+  - Set `logging.deprecations.trace` to `true`.
+  - Set deprecations log file to `storage/logs/deprecations.log` when `LOG_DEPRECATIONS_CHANNEL=single`.
 
 ### Changes
 
