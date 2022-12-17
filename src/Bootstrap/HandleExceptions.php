@@ -55,6 +55,34 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     }
 
     /**
+     * Ensure the "deprecations" logger is configured.
+     *
+     * @return void
+     */
+    protected function ensureDeprecationLoggerIsConfigured()
+    {
+        with(static::$app['config'], function ($config) {
+            if ($config->get('logging.channels.deprecations')) {
+                return;
+            }
+
+            if (is_array($options = $config->get('logging.deprecations'))) {
+                $driver = $options['channel'] ?? 'null';
+            } else {
+                $driver = $options ?? 'null';
+            }
+
+            if ($driver === 'single') {
+                $config->set('logging.channels.deprecations', array_merge($config->get("logging.channels.single"), [
+                    'path' => static::$app->storagePath('logs/deprecations.log'),
+                ]));
+            } else {
+                $config->set('logging.channels.deprecations', $config->get("logging.channels.{$driver}"));
+            }
+        });
+    }
+
+    /**
      * Get PHPUnit convert deprecations to exceptions from TestResult.
      *
      * @phpunit-overrides
