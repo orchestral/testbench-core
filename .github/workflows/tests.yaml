@@ -62,7 +62,7 @@ jobs:
         run: vendor/bin/phpunit --exclude-group=deprecations
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.os != 'windows-latest'
+        if: matrix.os == 'windows-latest'
 
   # tests-on-phpunit-10:
   #   runs-on: ${{ matrix.os }}
