@@ -9,6 +9,7 @@ class ApplicationTest extends TestCase
 {
     /**
      * @test
+     *
      * @group core
      */
     public function it_can_create_an_application()

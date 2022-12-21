@@ -8,6 +8,7 @@ class AnnotationDefineEnvTest extends TestCase
 {
     /**
      * @test
+     *
      * @define-env firstConfig
      */
     public function it_loads_first_config_helper()
@@ -19,6 +20,7 @@ class AnnotationDefineEnvTest extends TestCase
 
     /**
      * @test
+     *
      * @define-env secondConfig
      */
     public function it_loads_second_config_helper()
@@ -30,6 +32,7 @@ class AnnotationDefineEnvTest extends TestCase
 
     /**
      * @test
+     *
      * @define-env firstConfig
      * @define-env secondConfig
      */

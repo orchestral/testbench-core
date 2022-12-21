@@ -41,6 +41,7 @@ class PhpDeprecationsTest extends TestCase
 
     /**
      * @test
+     *
      * @define-env defineConvertDeprecationsToExceptions
      */
     public function handle_php81_deprecations_using_laravel_exception()

@@ -55,6 +55,7 @@ class CommanderTest extends TestCase
 
     /**
      * @test
+     *
      * @group commander
      */
     public function it_can_call_commander_using_cli()
@@ -71,6 +72,7 @@ class CommanderTest extends TestCase
 
     /**
      * @test
+     *
      * @group commander
      */
     public function it_output_correct_defaults()
@@ -92,6 +94,7 @@ class CommanderTest extends TestCase
 
     /**
      * @test
+     *
      * @group commander
      */
     public function it_output_correct_defaults_with_database_file()
@@ -115,6 +118,7 @@ class CommanderTest extends TestCase
 
     /**
      * @test
+     *
      * @group commander
      */
     public function it_output_correct_defaults_with_environment_overrides()
