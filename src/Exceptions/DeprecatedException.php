@@ -2,10 +2,16 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-use PHPUnit\Framework\Error\Error;
-
-class DeprecatedException extends Error
+class DeprecatedException extends \Error
 {
+    public function __construct(string $message, int $code, string $file, int $line, \Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+
+        $this->file = $file;
+        $this->line = $line;
+    }
+
     /**
      * List of Testbench exception/error handlers.
      *
