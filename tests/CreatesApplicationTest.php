@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
+/**
+ * @requires PHPUnit < 10
+ */
 class CreatesApplicationTest extends \Illuminate\Foundation\Testing\TestCase
 {
     use CreatesApplication;
