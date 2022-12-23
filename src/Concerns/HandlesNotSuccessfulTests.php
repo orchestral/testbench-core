@@ -8,6 +8,9 @@ if (! class_exists(\PHPUnit\Runner\Version::class)) {
     return;
 }
 
+/**
+ * @TODO To be removed and use `Illuminate\Foundation\Testing\Concerns\InteractsWithNotSuccessfulTests`.
+ */
 if (\intval(substr(\PHPUnit\Runner\Version::id(), 0, 1)) === 1) {
     trait HandlesNotSuccessfulTests
     {
