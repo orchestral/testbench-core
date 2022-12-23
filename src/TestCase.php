@@ -99,19 +99,4 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             $this->methodDocBlocks = [];
         })->call(Registry::getInstance());
     }
-
-    /**
-     * This method is called when a test method did not execute successfully.
-     *
-     * @param  \Throwable  $exception
-     * @return void
-     */
-    protected function onNotSuccessfulTest(Throwable $exception): void
-    {
-        parent::onNotSuccessfulTest(
-            ! \is_null(static::$latestResponse)
-                ? static::$latestResponse->transformNotSuccessfulException($exception)
-                : $exception
-        );
-    }
 }

@@ -25,6 +25,7 @@ trait Testing
     use CreatesApplication,
         HandlesAnnotations,
         HandlesDatabases,
+        HandlesNotSuccessfulTests,
         HandlesRoutes,
         WithFactories,
         WithLaravelMigrations,
