@@ -8,12 +8,15 @@ use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
+ */
 final class LoadConfiguration
 {
     /**
      * Bootstrap the given application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  TLaravel  $app
      * @return void
      */
     public function bootstrap(Application $app): void
@@ -40,7 +43,7 @@ final class LoadConfiguration
     /**
      * Load the configuration items from all of the files.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  TLaravel  $app
      * @param  \Illuminate\Contracts\Config\Repository  $config
      * @return void
      */
@@ -54,7 +57,7 @@ final class LoadConfiguration
     /**
      * Get all of the configuration files for the application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  TLaravel  $app
      * @return \Generator<string, mixed>
      */
     private function getConfigurationFiles(Application $app): Generator

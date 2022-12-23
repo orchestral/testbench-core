@@ -14,11 +14,10 @@ jobs:
       matrix:
         os:
           - "ubuntu-latest"
-          - "windows-latest"
         php:
-          - "8.0"
-          - "8.1"
-          - "8.2"
+          - '8.0'
+          - 8.1
+          - 8.2
         phpunit:
           - "9.x"
         dependencies:
@@ -55,5 +54,12 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests
+      - name: Execute tests (with deprecations)
         run: ./testbench package:test --parallel
+        if: matrix.dependencies == 'highest'
+
+      - name: Execute tests (without deprecations)
+        run: ./testbench package:test --parallel --exclude-group=deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.dependencies != 'highest'

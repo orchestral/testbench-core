@@ -36,7 +36,7 @@ class ConfigureRay
      * Setup an after resolving listener, or fire immediately if already resolved.
      *
      * @param  TLaravel  $app
-     * @param  \Closure  $callback
+     * @param  \Closure(\Spatie\Ray\Settings\Settings, TLaravel):void  $callback
      * @return void
      */
     protected function callAfterResolvingSettings(Application $app, Closure $callback): void
