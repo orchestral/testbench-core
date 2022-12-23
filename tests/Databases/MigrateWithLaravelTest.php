@@ -20,6 +20,7 @@ class MigrateWithLaravelTest extends TestCase
 
     /**
      * @test
+     *
      * @define-db loadApplicationMigrations
      */
     public function it_loads_the_migrations()
@@ -42,6 +43,7 @@ class MigrateWithLaravelTest extends TestCase
 
     /**
      * @test
+     *
      * @define-db runApplicationMigrations
      */
     public function it_runs_the_migrations()
