@@ -15,7 +15,6 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - '8.0'
           - 8.1
           - 8.2
         phpunit:
@@ -24,7 +23,7 @@ jobs:
           - "highest"
           - "lowest"
         experimental:
-          - false
+          - true
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -42,7 +41,7 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:~6.2" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:6.x" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
@@ -72,11 +71,15 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
+<<<<<<< HEAD:.github/workflows/collision-tests.yml
+          - "8.1"
+=======
           - '8.0'
           - 8.1
           - 8.2
+>>>>>>> 7.x:.github/workflows/collision-tests.yaml
         phpunit:
-          - "^9.5.10"
+          - "9.x"
         dependencies:
           - "highest"
         experimental:
@@ -98,7 +101,7 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.1" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:6.x" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"

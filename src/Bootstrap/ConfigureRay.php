@@ -41,6 +41,7 @@ class ConfigureRay
      */
     protected function callAfterResolvingSettings(Application $app, Closure $callback): void
     {
+        /** @phpstan-ignore-next-line */
         $settings = Settings::class;
 
         $app->afterResolving($settings, $callback);
