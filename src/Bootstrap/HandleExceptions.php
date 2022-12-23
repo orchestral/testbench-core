@@ -2,10 +2,9 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
-use ErrorException;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
-use PHPUnit\Framework\Error\Deprecated;
+use Orchestra\Testbench\Exceptions\DeprecatedException;
 
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
@@ -44,19 +43,63 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
         $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS');
 
+        $error = new DeprecatedException($message, $level, $file, $line);
+
         if ($testbenchConvertDeprecationsToExceptions === true) {
-            throw new ErrorException($message, 0, $level, $file, $line);
+            throw $error;
         }
 
+        if ($testbenchConvertDeprecationsToExceptions !== false && $this->getPhpUnitConvertDeprecationsToExceptions() === true) {
+            throw $error;
+        }
+    }
+
+    /**
+     * Ensure the "deprecations" logger is configured.
+     *
+     * @return void
+     */
+    protected function ensureDeprecationLoggerIsConfigured()
+    {
+        with(static::$app['config'], function ($config) {
+            if ($config->get('logging.channels.deprecations')) {
+                return;
+            }
+
+            if (\is_array($options = $config->get('logging.deprecations'))) {
+                $driver = $options['channel'] ?? 'null';
+            } else {
+                $driver = $options ?? 'null';
+            }
+
+            if ($driver === 'single') {
+                $config->set('logging.channels.deprecations', array_merge($config->get('logging.channels.single'), [
+                    'path' => static::$app->storagePath('logs/deprecations.log'),
+                ]));
+            } else {
+                $config->set('logging.channels.deprecations', $config->get("logging.channels.{$driver}"));
+            }
+
+            $config->set('logging.deprecations', [
+                'channel' => 'deprecations',
+                'trace' => true,
+            ]);
+        });
+    }
+
+    /**
+     * Get PHPUnit convert deprecations to exceptions from TestResult.
+     *
+     * @phpunit-overrides
+     *
+     * @return bool
+     */
+    protected function getPhpUnitConvertDeprecationsToExceptions(): bool
+    {
         /** @var \PHPUnit\Framework\TestResult|null $testResult */
         $testResult = $this->testbench?->getTestResultObject();
 
-        /** @var bool $convertDeprecationsToExceptions */
-        $convertDeprecationsToExceptions = $testResult?->getConvertDeprecationsToExceptions() ?? false;
-
-        if ($testbenchConvertDeprecationsToExceptions !== false && $convertDeprecationsToExceptions === true) {
-            throw new Deprecated($message, $level, $file, $line);
-        }
+        return $testResult?->getConvertDeprecationsToExceptions() ?? false;
     }
 
     /**

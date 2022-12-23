@@ -14,3 +14,13 @@ parameters:
 			message: "#^Access to property \\$send_slow_queries_to_ray on an unknown class Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
 			count: 2
 			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application\\.$#"
+			count: 1
+			path: src/Bootstrap/HandleExceptions.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,array\\<string, array\\|int\\|object\\|string\\>\\>\\:\\:transform\\(\\) expects callable\\(array\\{function\\: string, line\\?\\: int, file\\?\\: string, class\\?\\: class\\-string, type\\?\\: string, args\\?\\: array, object\\?\\: object\\}, int\\)\\: array\\{function\\: string, line\\?\\: int, file\\?\\: string, class\\?\\: class\\-string, type\\?\\: string, args\\?\\: array, object\\?\\: object\\}, Closure\\(array\\)\\: non\\-falsy\\-string\\|null given\\.$#"
+			count: 1
+			path: src/Exceptions/DeprecatedException.php

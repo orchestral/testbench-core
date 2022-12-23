@@ -12,6 +12,8 @@ trait HandlesAnnotations
     /**
      * Parse test method annotations.
      *
+     * @phpunit-overrides
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  string  $name
      */
