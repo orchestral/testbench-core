@@ -34,8 +34,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      * @param  int  $level
      * @return void
      *
-     * @throws \ErrorException
-     * @throws \PHPUnit\Framework\Error\Deprecated
+     * @throws \Orchestra\Testbench\Exceptions\DeprecatedException
      */
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
