@@ -4,7 +4,7 @@
          backupGlobals="false"
          backupStaticAttributes="false"
          beStrictAboutTestsThatDoNotTestAnything="false"
-         bootstrap="vendor/autoload.php"
+         bootstrap="../../vendor/autoload.php"
          colors="true"
          convertDeprecationsToExceptions="true"
          convertErrorsToExceptions="true"
@@ -15,20 +15,20 @@
          verbose="true">
     <coverage includeUncoveredFiles="false">
         <include>
-            <directory suffix=".php">src/</directory>
+            <directory suffix=".php">../../src/</directory>
         </include>
         <exclude>
-            <file>src/Concerns/HandlesAnnotations.php</file>
-            <file>src/Concerns/HandlesTestFailures.php</file>
-            <file>src/Concerns/WithFactories.php</file>
-            <file>src/Console/Commander.php</file>
-            <file>src/Console/Kernel.php</file>
-            <file>src/Exceptions/Handler.php</file>
+            <file>../../src/Concerns/HandlesAnnotations.php</file>
+            <file>../../src/Concerns/HandlesTestFailures.php</file>
+            <file>../../src/Concerns/WithFactories.php</file>
+            <file>../../src/Console/Commander.php</file>
+            <file>../../src/Console/Kernel.php</file>
+            <file>../../src/Exceptions/Handler.php</file>
         </exclude>
     </coverage>
     <testsuites>
         <testsuite name="Testbench Test Suite">
-            <directory suffix="Test.php">./tests/</directory>
+            <directory suffix="Test.php">../../tests/</directory>
         </testsuite>
     </testsuites>
     <php>
