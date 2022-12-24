@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-class DeprecatedException extends \Error
+class DeprecatedException extends PHPUnitException
 {
     public function __construct(string $message, int $code, string $file, int $line, \Exception $previous = null)
     {
@@ -32,7 +32,7 @@ class DeprecatedException extends \Error
      */
     public function __toString(): string
     {
-        $traces = collect($this->getTrace())
+        $traces = collect($this->getPHPUnitExceptionTrace())
             ->transform(function (array $trace): ?string {
                 if ((isset($trace['class']) && \in_array($trace['class'], $this->testbenchExceptionHandlers()))
                     || ! isset($trace['file'])
