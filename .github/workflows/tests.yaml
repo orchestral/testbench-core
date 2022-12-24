@@ -71,10 +71,10 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - "8.1"
-          - "8.2"
+          - 8.1
+          - 8.2
         phpunit:
-          - "^10.0"
+          - "10.x"
         dependencies:
           - "highest"
           - "lowest"
@@ -104,6 +104,13 @@ jobs:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
 
-      - name: Execute tests
+      - name: Execute tests (with deprecations)
         run: vendor/bin/phpunit
+        if: matrix.os != 'windows-latest'
+
+      - name: Execute tests (without deprecations)
+        run: vendor/bin/phpunit --exclude-group=deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.os == 'windows-latest'
 
