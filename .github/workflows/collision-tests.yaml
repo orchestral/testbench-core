@@ -71,13 +71,8 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-<<<<<<< HEAD:.github/workflows/collision-tests.yml
-          - "8.1"
-=======
-          - '8.0'
           - 8.1
           - 8.2
->>>>>>> 7.x:.github/workflows/collision-tests.yaml
         phpunit:
           - "9.x"
         dependencies:
