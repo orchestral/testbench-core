@@ -26,16 +26,6 @@ parameters:
 			path: src/Bootstrap/HandleExceptions.php
 
 		-
-			message: "#^Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application\\.$#"
-			count: 1
-			path: src/Bootstrap/HandleExceptions.php
-
-		-
-			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\TestCase\\:\\:getName\\(\\)\\.$#"
-			count: 1
-			path: src/TestCase.php
-
-		-
 			message: "#^Call to static method getInstance\\(\\) on an unknown class PHPUnit\\\\Util\\\\Annotation\\\\Registry\\.$#"
 			count: 1
 			path: src/TestCase.php

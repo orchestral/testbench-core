@@ -28,10 +28,12 @@ trait HandlesAnnotations
         if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
             /** @phpstan-ignore-next-line */
             $registry = \PHPUnit\Metadata\Annotation\Parser\Registry::getInstance();
+            /** @phpstan-ignore-next-line */
             $methodName = $this->name();
         } else {
             /** @phpstan-ignore-next-line */
             $registry = \PHPUnit\Util\Annotation\Registry::getInstance();
+            /** @phpstan-ignore-next-line */
             $methodName = $this->getName(false);
         }
 

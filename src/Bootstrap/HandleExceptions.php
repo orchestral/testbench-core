@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
+use PHPUnit\Runner\Version;
 
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
@@ -60,12 +61,17 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      */
     protected function ensureDeprecationLoggerIsConfigured()
     {
+        /** @phpstan-ignore-next-line */
         with(static::$app['config'], function ($config) {
+            /** @var \Illuminate\Contracts\Config\Repository $config */
             if ($config->get('logging.channels.deprecations')) {
                 return;
             }
 
-            if (\is_array($options = $config->get('logging.deprecations'))) {
+            /** @var array{channel?: string, trace?: bool}|string|null $options */
+            $options = $config->get('logging.deprecations');
+
+            if (\is_array($options)) {
                 $driver = $options['channel'] ?? 'null';
             } else {
                 $driver = $options ?? 'null';
@@ -95,6 +101,10 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      */
     protected function getPhpUnitConvertDeprecationsToExceptions(): bool
     {
+        if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
+            return false;
+        }
+
         /**
          * @phpstan-ignore-next-line
          * @var \PHPUnit\Framework\TestResult|null $testResult
