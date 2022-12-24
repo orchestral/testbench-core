@@ -2,16 +2,8 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-class DeprecatedException extends PHPUnitException
+class DeprecatedException extends PHPUnitErrorException
 {
-    public function __construct(string $message, int $code, string $file, int $line, \Exception $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-
-        $this->file = $file;
-        $this->line = $line;
-    }
-
     /**
      * List of Testbench exception/error handlers.
      *

@@ -36,13 +36,8 @@ parameters:
 			path: src/Bootstrap/HandleExceptions.php
 
 		-
-			message: "#^Class Orchestra\\\\Testbench\\\\Exceptions\\\\DeprecatedException does not have a constructor and must be instantiated without any parameters\\.$#"
-			count: 1
-			path: src/Bootstrap/HandleExceptions.php
-
-		-
 			message: "#^Invalid type Orchestra\\\\Testbench\\\\Exceptions\\\\DeprecatedException to throw\\.$#"
-			count: 2
+			count: 1
 			path: src/Bootstrap/HandleExceptions.php
 
 		-
@@ -54,26 +49,6 @@ parameters:
 			message: "#^PHPDoc tag @var for variable \\$testResult contains unknown class PHPUnit\\\\Framework\\\\TestResult\\.$#"
 			count: 1
 			path: src/Bootstrap/HandleExceptions.php
-
-		-
-			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\Exceptions\\\\DeprecatedException\\:\\:getMessage\\(\\)\\.$#"
-			count: 1
-			path: src/Exceptions/DeprecatedException.php
-
-		-
-			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\Exceptions\\\\DeprecatedException\\:\\:getTrace\\(\\)\\.$#"
-			count: 1
-			path: src/Exceptions/DeprecatedException.php
-
-		-
-			message: "#^Unable to resolve the template type TKey in call to function collect$#"
-			count: 1
-			path: src/Exceptions/DeprecatedException.php
-
-		-
-			message: "#^Unable to resolve the template type TValue in call to function collect$#"
-			count: 1
-			path: src/Exceptions/DeprecatedException.php
 
 		-
 			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\TestCase\\:\\:getName\\(\\)\\.$#"
