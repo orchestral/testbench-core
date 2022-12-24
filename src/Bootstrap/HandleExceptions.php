@@ -95,7 +95,10 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      */
     protected function getPhpUnitConvertDeprecationsToExceptions(): bool
     {
-        /** @var \PHPUnit\Framework\TestResult|null $testResult */
+        /**
+         * @phpstan-ignore-next-line
+         * @var \PHPUnit\Framework\TestResult|null $testResult
+         */
         $testResult = $this->testbench?->getTestResultObject();
 
         return $testResult?->getConvertDeprecationsToExceptions() ?? false;
