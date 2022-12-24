@@ -2,14 +2,9 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-if (! class_exists(\PHPUnit\Runner\Version::class)) {
-    return;
-}
+use PHPUnit\Runner\Version;
 
-/**
- * @TODO To be removed and use `Illuminate\Foundation\Testing\Concerns\InteractsWithNotSuccessfulTests`.
- */
-if (\intval(substr(\PHPUnit\Runner\Version::id(), 0, 1)) === 1) {
+if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
     class PHPUnitErrorException extends \PHPUnit\Framework\Exception
     {
         public function __construct(string $message, int $code, string $file, int $line, \Exception $previous = null)
