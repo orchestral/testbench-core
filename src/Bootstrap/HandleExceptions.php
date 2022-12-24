@@ -45,13 +45,13 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
         $error = new DeprecatedException($message, $level, $file, $line);
 
-        //if ($testbenchConvertDeprecationsToExceptions === true) {
-        throw $error;
-        //}
+        if ($testbenchConvertDeprecationsToExceptions === true) {
+            throw $error;
+        }
 
-        // if ($testbenchConvertDeprecationsToExceptions !== false && $this->getPhpUnitConvertDeprecationsToExceptions() === true) {
-        //     throw $error;
-        // }
+        if ($testbenchConvertDeprecationsToExceptions !== false && $this->getPhpUnitConvertDeprecationsToExceptions() === true) {
+            throw $error;
+        }
     }
 
     /**
