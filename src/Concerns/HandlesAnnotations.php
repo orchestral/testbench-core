@@ -28,14 +28,16 @@ trait HandlesAnnotations
         if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
             /** @phpstan-ignore-next-line */
             $registry = \PHPUnit\Metadata\Annotation\Parser\Registry::getInstance();
+            $methodName = $this->name();
         } else {
             /** @phpstan-ignore-next-line */
             $registry = \PHPUnit\Util\Annotation\Registry::getInstance();
+            $methodName = $this->getName(false);
         }
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
-            fn () => $registry->forMethod(static::class, $this->getName(false))->symbolAnnotations(), [], false
+            fn () => $registry->forMethod(static::class, $methodName)->symbolAnnotations(), [], false
         );
 
         Collection::make($annotations)

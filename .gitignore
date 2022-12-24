@@ -5,6 +5,7 @@
 # PHPUnit
 /coverage/*
 /.phpunit.result.cache
+/.phpunit.cache/*
 
 # Laravel Stubs
 /laravel/vendor
