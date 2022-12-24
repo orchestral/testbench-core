@@ -9,7 +9,6 @@
          processIsolation="false"
          stopOnFailure="false"
          cacheDirectory=".phpunit.cache"
-         convertDeprecationsToExceptions="true"
          backupStaticProperties="false">
     <coverage includeUncoveredFiles="false">
         <include>
