@@ -107,6 +107,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
         /**
          * @phpstan-ignore-next-line
+         *
          * @var \PHPUnit\Framework\TestResult|null $testResult
          */
         $testResult = $this->testbench?->getTestResultObject();
