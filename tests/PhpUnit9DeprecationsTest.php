@@ -8,6 +8,7 @@ use Orchestra\Testbench\TestCase;
 
 /**
  * @group deprecations
+ *
  * @requires PHPUnit < 10
  */
 class PhpUnit9DeprecationsTest extends TestCase
