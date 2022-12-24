@@ -10,9 +10,6 @@
          stopOnFailure="false"
          cacheDirectory=".phpunit.cache"
          convertDeprecationsToExceptions="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
          backupStaticProperties="false">
     <coverage includeUncoveredFiles="false">
         <include>
