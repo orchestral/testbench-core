@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
-        "laravel/framework": "^10.0",
+        "laravel/framework": "dev-feat/phpunit10 as 10.x-dev",
         "laravel/laravel": "dev-master",
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",

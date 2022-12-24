@@ -3,13 +3,18 @@
 namespace Orchestra\Testbench\Tests;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Runner\Version;
 
 class TestCaseTest extends TestCase
 {
     /** @test */
     public function it_can_create_the_testcase()
     {
-        $testbench = new class($this->getName()) extends \Orchestra\Testbench\TestCase
+        $methodName = class_exists(Version::class) && version_compare(Version::id(), '10', '>=')
+            ? $this->name()
+            : $this->getName();
+
+        $testbench = new class($methodName) extends \Orchestra\Testbench\TestCase
         {
             //
         };

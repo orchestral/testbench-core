@@ -4,19 +4,19 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @requires PHPUnit < 10
- */
-class CreatesApplicationTest extends \Illuminate\Foundation\Testing\TestCase
+class CreatesApplicationTest extends TestCase
 {
     use CreatesApplication;
 
     /** @test */
     public function it_properly_loads_laravel_application()
     {
-        $this->assertInstanceOf(Application::class, $this->app);
-        $this->assertTrue($this->app->bound('config'));
-        $this->assertTrue($this->app->bound('view'));
+        $app = $this->createApplication();
+
+        $this->assertInstanceOf(Application::class, $app);
+        $this->assertTrue($app->bound('config'));
+        $this->assertTrue($app->bound('view'));
     }
 }

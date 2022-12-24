@@ -16,9 +16,6 @@ class PhpUnit10DeprecationsTest extends TestCase
     /** @test */
     public function handle_php81_deprecations_using_logs()
     {
-        $this->expectException(DeprecatedException::class);
-        $this->expectExceptionMessage('zzz');
-
         Log::shouldReceive('channel')
             ->once()->with('deprecations')
             ->andReturnSelf()
