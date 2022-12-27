@@ -95,7 +95,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         try {
             $result = parent::runTest();
         } catch (Throwable $error) {
-            if (! is_null(static::$latestResponse)) {
+            if (! \is_null(static::$latestResponse)) {
                 static::$latestResponse->transformNotSuccessfulException($error);
             }
 
