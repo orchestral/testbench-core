@@ -51,6 +51,7 @@ trait HandlesAnnotations
      * Clear parsed test method annotations.
      *
      * @phpunit-overrides
+     *
      * @afterClass
      *
      * @return void
