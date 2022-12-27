@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
+use function Orchestra\Testbench\phpunit_version_compare;
 
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
@@ -99,7 +100,15 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      */
     protected function getPhpUnitConvertDeprecationsToExceptions(): bool
     {
-        /** @var \PHPUnit\Framework\TestResult|null $testResult */
+        if (phpunit_version_compare('10', '>=')) {
+            return false;
+        }
+
+        /**
+         * @phpstan-ignore-next-line
+         *
+         * @var \PHPUnit\Framework\TestResult|null $testResult
+         */
         $testResult = $this->testbench?->getTestResultObject();
 
         return $testResult?->getConvertDeprecationsToExceptions() ?? false;
