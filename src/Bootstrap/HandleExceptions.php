@@ -34,8 +34,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      * @param  int  $level
      * @return void
      *
-     * @throws \ErrorException
-     * @throws \PHPUnit\Framework\Error\Deprecated
+     * @throws \Orchestra\Testbench\Exceptions\DeprecatedException
      */
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
@@ -62,11 +61,15 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     protected function ensureDeprecationLoggerIsConfigured()
     {
         with(static::$app['config'], function ($config) {
+            /** @var \Illuminate\Contracts\Config\Repository $config */
             if ($config->get('logging.channels.deprecations')) {
                 return;
             }
 
-            if (\is_array($options = $config->get('logging.deprecations'))) {
+            /** @var array{channel?: string, trace?: bool}|string|null $options */
+            $options = $config->get('logging.deprecations');
+
+            if (\is_array($options)) {
                 $driver = $options['channel'] ?? 'null';
             } else {
                 $driver = $options ?? 'null';
