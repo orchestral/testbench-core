@@ -27,13 +27,9 @@ trait HandlesAnnotations
             return;
         }
 
-        if (phpunit_version_compare('10', '>=')) {
-            /** @phpstan-ignore-next-line */
-            [$registry, $methodName] = [PHPUnit10Registry::getInstance(), $this->name()];
-        } else {
-            /** @phpstan-ignore-next-line */
-            [$registry, $methodName] = [PHPUnit9Registry::getInstance(), $this->getName(false)];
-        }
+        [$registry, $methodName] = phpunit_version_compare('10', '>=')
+            ? [PHPUnit10Registry::getInstance(), $this->name()] /** @phpstan-ignore-line */
+            : [PHPUnit9Registry::getInstance(), $this->getName(false)]; /** @phpstan-ignore-line */
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
@@ -49,5 +45,26 @@ trait HandlesAnnotations
                         $this->{$method}($app);
                     });
             });
+    }
+
+    /**
+     * Clear parsed test method annotations.
+     *
+     * @phpunit-overrides
+     * @afterClass
+     *
+     * @return void
+     */
+    public static function clearParsedTestMethodAnnotations(): void
+    {
+        $registry = phpunit_version_compare('10', '>=')
+            ? PHPUnit10Registry::getInstance() /** @phpstan-ignore-line */
+            : PHPUnit9Registry::getInstance(); /** @phpstan-ignore-line */
+
+        // Clear properties values from Registry class.
+        (function () {
+            $this->classDocBlocks = [];
+            $this->methodDocBlocks = [];
+        })->call($registry);
     }
 }
