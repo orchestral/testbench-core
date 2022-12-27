@@ -24,8 +24,3 @@ parameters:
 			message: "#^Call to method getConvertDeprecationsToExceptions\\(\\) on an unknown class PHPUnit\\\\Framework\\\\TestResult\\.$#"
 			count: 1
 			path: src/Bootstrap/HandleExceptions.php
-
-		-
-			message: "#^Call to static method getInstance\\(\\) on an unknown class PHPUnit\\\\Util\\\\Annotation\\\\Registry\\.$#"
-			count: 1
-			path: src/TestCase.php
