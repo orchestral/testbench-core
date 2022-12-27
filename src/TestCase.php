@@ -5,6 +5,7 @@ namespace Orchestra\Testbench;
 use Illuminate\Foundation\Testing;
 use PHPUnit\Framework\TestCase as PHPUnit;
 use PHPUnit\Util\Annotation\Registry;
+use Throwable;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
@@ -82,6 +83,26 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected function refreshApplication()
     {
         $this->app = $this->createApplication();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function runTest(): mixed
+    {
+        $result = null;
+
+        try {
+            $result = parent::runTest();
+        } catch (Throwable $error) {
+            if (! is_null(static::$latestResponse)) {
+                static::$latestResponse->transformNotSuccessfulException($error);
+            }
+
+            throw $error;
+        }
+
+        return $result;
     }
 
     /**
