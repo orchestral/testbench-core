@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Testing\PendingCommand;
+use PHPUnit\Runner\Version;
+use RuntimeException;
 
 /**
  * Create Laravel application instance.
@@ -47,4 +49,24 @@ function default_environment_variables(): array
 
             return "{$key}={$value}";
         })->values()->all();
+}
+
+/**
+ * Get PHPUnit version compare.
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ * @return int|bool
+ */
+function phpunit_version_compare(string $version, ?string $operator = null)
+{
+    if (! class_exists(Version::class)) {
+        throw new RuntimeException('Unable to verify PHPUnit version');
+    }
+
+    if (\is_null($operator)) {
+        return version_compare(Version::id(), $version);
+    }
+
+    return version_compare(Version::id(), $version, $operator);
 }
