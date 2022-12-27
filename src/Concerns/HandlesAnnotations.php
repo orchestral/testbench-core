@@ -3,8 +3,10 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
+use function Orchestra\Testbench\phpunit_version_compare;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\Version;
+use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
+use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
 
 trait HandlesAnnotations
@@ -25,16 +27,12 @@ trait HandlesAnnotations
             return;
         }
 
-        if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
+        if (phpunit_version_compare('10', '>=')) {
             /** @phpstan-ignore-next-line */
-            $registry = \PHPUnit\Metadata\Annotation\Parser\Registry::getInstance();
-            /** @phpstan-ignore-next-line */
-            $methodName = $this->name();
+            [$registry, $methodName] = [PHPUnit10Registry::getInstance(), $this->name()];
         } else {
             /** @phpstan-ignore-next-line */
-            $registry = \PHPUnit\Util\Annotation\Registry::getInstance();
-            /** @phpstan-ignore-next-line */
-            $methodName = $this->getName(false);
+            [$registry, $methodName] = [PHPUnit9Registry::getInstance(), $this->getName(false)];
         }
 
         /** @var array<string, mixed> $annotations */
