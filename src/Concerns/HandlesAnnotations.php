@@ -54,7 +54,7 @@ trait HandlesAnnotations
      *
      * @return void
      */
-    protected static function clearParsedTestMethodAnnotations(): void
+    public static function clearParsedTestMethodAnnotations(): void
     {
         $registry = phpunit_version_compare('10', '>=')
             ? PHPUnit10Registry::getInstance() /** @phpstan-ignore-line */
