@@ -32,10 +32,6 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, sqlite3, pdo_sqlite, bcmath, fileinfo
           coverage: xdebug
 
-      - name: Install PHPUnit 9.x
-        run: |
-          composer require "phpunit/phpunit:9.x" --no-interaction --no-update
-
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
         with:
