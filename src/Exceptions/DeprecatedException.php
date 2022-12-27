@@ -2,9 +2,7 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-use PHPUnit\Framework\Error\Error;
-
-class DeprecatedException extends Error
+class DeprecatedException extends PHPUnitErrorException
 {
     /**
      * List of Testbench exception/error handlers.
@@ -26,7 +24,7 @@ class DeprecatedException extends Error
      */
     public function __toString(): string
     {
-        $traces = collect($this->getTrace())
+        $traces = collect($this->getPHPUnitExceptionTrace())
             ->transform(function (array $trace): ?string {
                 if ((isset($trace['class']) && \in_array($trace['class'], $this->testbenchExceptionHandlers()))
                     || ! isset($trace['file'])
