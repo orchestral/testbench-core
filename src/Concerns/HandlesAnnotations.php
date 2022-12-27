@@ -4,7 +4,9 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use PHPUnit\Runner\Version;
+use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
 
 trait HandlesAnnotations
@@ -27,15 +29,15 @@ trait HandlesAnnotations
 
         if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
             /** @phpstan-ignore-next-line */
-            $registry = \PHPUnit\Metadata\Annotation\Parser\Registry::getInstance();
+            [$registry, $methodName] = [PHPUnit10Registry::getInstance(), $this->name()];
         } else {
             /** @phpstan-ignore-next-line */
-            $registry = \PHPUnit\Util\Annotation\Registry::getInstance();
+            [$registry, $methodName] = [PHPUnit9Registry::getInstance(), $this->getName(false)];
         }
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
-            fn () => $registry->forMethod(static::class, $this->getName(false))->symbolAnnotations(), [], false
+            fn () => $registry->forMethod(static::class, $methodName)->symbolAnnotations(), [], false
         );
 
         Collection::make($annotations)
