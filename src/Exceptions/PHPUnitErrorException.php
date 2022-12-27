@@ -2,9 +2,9 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-use PHPUnit\Runner\Version;
+use function Orchestra\Testbench\phpunit_version_compare;
 
-if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
+if (phpunit_version_compare('10', '>=')) {
     class PHPUnitErrorException extends \PHPUnit\Framework\Exception
     {
         public function __construct(string $message, int $code, string $file, int $line, \Exception $previous = null)

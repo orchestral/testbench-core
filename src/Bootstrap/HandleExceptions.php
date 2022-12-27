@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
-use PHPUnit\Runner\Version;
+use function Orchestra\Testbench\phpunit_version_compare;
 
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
@@ -101,7 +101,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      */
     protected function getPhpUnitConvertDeprecationsToExceptions(): bool
     {
-        if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
+        if (phpunit_version_compare('10', '>=')) {
             return false;
         }
 
