@@ -15,7 +15,6 @@ class CreatesApplicationTest extends TestCase
     {
         $app = $this->createApplication();
 
-
         $this->assertInstanceOf(Application::class, $app);
         $this->assertTrue($app->bound('config'));
         $this->assertTrue($app->bound('view'));
