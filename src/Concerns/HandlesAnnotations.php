@@ -33,7 +33,9 @@ trait HandlesAnnotations
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
-            fn () => $registry->forMethod(static::class, $methodName)->symbolAnnotations(), [], false
+            fn () => $registry->forMethod(static::class, $methodName)->symbolAnnotations(),
+            [],
+            false
         );
 
         Collection::make($annotations)
@@ -51,6 +53,7 @@ trait HandlesAnnotations
      * Clear parsed test method annotations.
      *
      * @phpunit-overrides
+     *
      * @afterClass
      *
      * @return void
