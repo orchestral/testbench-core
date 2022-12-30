@@ -146,7 +146,7 @@ class Commander
     /**
      * Resolve application implementation.
      *
-     * @return \Closure
+     * @return \Closure(\Illuminate\Foundation\Application): void
      */
     protected function resolveApplicationCallback()
     {
@@ -192,9 +192,7 @@ class Commander
      */
     protected function handleException(OutputInterface $output, Throwable $error)
     {
-        $laravel = $this->laravel();
-
-        tap($laravel->make(ExceptionHandler::class), static function ($handler) use ($error, $output) {
+        tap($this->laravel()->make(ExceptionHandler::class), static function ($handler) use ($error, $output) {
             $handler->report($error);
             $handler->renderForConsole($output, $error);
         });
