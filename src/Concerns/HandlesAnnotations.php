@@ -46,7 +46,7 @@ trait HandlesAnnotations
     protected function parseTestMethodAnnotations($app, string $name): void
     {
         $this->resolvePhpUnitAnnotations()
-            ->filter(fn (array $actions, string $key) => $key === $name && ! empty($actions))
+            ->filter(fn ($actions, string $key) => $key === $name && ! empty($actions))
             ->each(function (array $actions) use ($app) {
                 Collection::make($actions)
                     ->filter(fn ($method) => \is_string($method) && method_exists($this, $method))
