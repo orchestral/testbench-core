@@ -389,6 +389,8 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
+     *
+     * @internal
      */
     final protected function resetApplicationArtisanCommands($app)
     {

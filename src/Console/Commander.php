@@ -20,6 +20,8 @@ use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
 /**
+ * @internal
+ *
  * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null}
  */
 class Commander
