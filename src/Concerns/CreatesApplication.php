@@ -66,6 +66,8 @@ trait CreatesApplication
     /**
      * Resolve application bindings.
      *
+     * @internal
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -100,6 +102,8 @@ trait CreatesApplication
 
     /**
      * Resolve application aliases.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<string, class-string>
@@ -164,6 +168,8 @@ trait CreatesApplication
 
     /**
      * Resolve application aliases.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
@@ -386,6 +392,8 @@ trait CreatesApplication
 
     /**
      * Reset artisan commands for the application.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void

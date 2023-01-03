@@ -9,22 +9,24 @@ use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
 
+/**
+ * @internal
+ */
 trait HandlesAnnotations
 {
     /**
-     * Parse test method annotations.
+     * Resolve PHPUnit method annotations.
      *
      * @phpunit-overrides
      *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @param  string  $name
+     * @return \Illuminate\Support\Collection<string, mixed>
      */
-    protected function parseTestMethodAnnotations($app, string $name): void
+    protected function resolvePhpUnitAnnotations(): Collection
     {
         $instance = new ReflectionClass($this);
 
         if (! $this instanceof TestCase || $instance->isAnonymous()) {
-            return;
+            return new Collection();
         }
 
         [$registry, $methodName] = phpunit_version_compare('10', '>=')
@@ -33,17 +35,28 @@ trait HandlesAnnotations
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
-            fn () => $registry->forMethod(static::class, $methodName)->symbolAnnotations(),
+            fn () => $registry->forMethod($instance->getName(), $methodName)->symbolAnnotations(),
             [],
             false
         );
 
-        Collection::make($annotations)
-            ->filter(fn ($actions, $key) => $key === $name)
-            ->each(function ($actions) use ($app) {
-                (new Collection($actions ?? []))
+        return Collection::make($annotations);
+    }
+
+    /**
+     * Parse test method annotations.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @param  string  $name
+     */
+    protected function parseTestMethodAnnotations($app, string $name): void
+    {
+        $this->resolvePhpUnitAnnotations()
+            ->filter(fn ($actions, string $key) => $key === $name && ! empty($actions))
+            ->each(function (array $actions) use ($app) {
+                Collection::make($actions)
                     ->filter(fn ($method) => \is_string($method) && method_exists($this, $method))
-                    ->each(function ($method) use ($app) {
+                    ->each(function (string $method) use ($app) {
                         $this->{$method}($app);
                     });
             });
