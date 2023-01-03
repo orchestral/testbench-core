@@ -25,9 +25,9 @@ jobs:
         experimental:
           - true
         include:
-          collision: "6.x"
-          paratest: "6.x"
-          phpunit: "9.x"
+          - collision: "6.x"
+            paratest: "6.x"
+            phpunit: "9.x"
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
