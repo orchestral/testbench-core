@@ -9,6 +9,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\Finder\Finder;
 
 /**
+ * @internal
+ *
  * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
  */
 final class LoadConfiguration

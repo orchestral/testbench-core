@@ -7,9 +7,11 @@ use Illuminate\Contracts\Foundation\Application;
 use Spatie\Ray\Settings\Settings;
 
 /**
+ * @internal
+ *
  * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
  */
-class ConfigureRay
+final class ConfigureRay
 {
     /**
      * Bootstrap the given application.

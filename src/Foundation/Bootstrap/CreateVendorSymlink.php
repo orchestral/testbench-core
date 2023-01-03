@@ -6,6 +6,9 @@ use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * @internal
+ */
 final class CreateVendorSymlink
 {
     /**
