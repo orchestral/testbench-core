@@ -7,6 +7,9 @@ use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Env;
 
+/**
+ * @internal
+ */
 final class LoadEnvironmentVariablesFromArray
 {
     /**
