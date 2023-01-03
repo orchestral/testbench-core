@@ -17,6 +17,8 @@ jobs:
         php:
           - 8.1
           - 8.2
+        phpunit:
+          - "9.x"
         dependencies:
           - "highest"
           - "lowest"
