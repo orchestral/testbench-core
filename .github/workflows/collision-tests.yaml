@@ -19,14 +19,17 @@ jobs:
           - 8.2
         phpunit:
           - "9.x"
+          - "10.x"
         dependencies:
           - "highest"
           - "lowest"
         experimental:
           - true
         include:
-          - collision: "6.x"
-            phpunit: "9.x"
+          - phpunit: "9.x"
+            collision: "6.x"
+          - phpunit: "10.x"
+            collision: "7.x"
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
