@@ -14,3 +14,8 @@ parameters:
 			message: "#^Access to property \\$send_slow_queries_to_ray on an unknown class Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
 			count: 2
 			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Parameter \\$callback of method Orchestra\\\\Testbench\\\\Bootstrap\\\\ConfigureRay\\:\\:callAfterResolvingSettings\\(\\) has invalid type Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
+			count: 1
+			path: src/Bootstrap/ConfigureRay.php
