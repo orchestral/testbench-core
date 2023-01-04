@@ -3,10 +3,10 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\Version;
 use function Orchestra\Testbench\laravel_version_compare;
 use function Orchestra\Testbench\phpunit_version_compare;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Runner\Version;
 
 class HelpersTest extends TestCase
 {
