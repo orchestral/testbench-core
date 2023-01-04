@@ -8,6 +8,7 @@ Released: 2023-01-03
 
 ### Added
 
+* Added `Orchestra\Testbench\laravel_version_compare` function as alias to `version_compare` specifically for Laravel Framework.
 * Added `Orchestra\Testbench\phpunit_version_compare` function as alias to `version_compare` specifically for PHPUnit.
 * Added `Orchestra\Testbench\Exceptions\PHPUnitErrorException` class.
 
