@@ -52,12 +52,12 @@
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
         "laravel/framework": "Required for testing (^10.0).",
         "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
-        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.2).",
+        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.4).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.10).",
-        "symfony/yaml": "Required for CLI Commander (^6.1).",
-        "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
+        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.27).",
+        "symfony/yaml": "Required for CLI Commander (^6.2).",
+        "vlucas/phpdotenv": "Required for CLI Commander (^5.5.0)."
     },
     "extra": {
         "branch-alias": {
