@@ -13,15 +13,11 @@ Testbench Component is a simple package that has been designed to help you write
 
  Laravel  | Testbench Core
 :---------|:----------
- 5.4.x    | 3.4.x
- 5.5.x    | 3.5.x
- 5.6.x    | 3.6.x
- 5.7.x    | 3.7.x
- 5.8.x    | 3.8.x
  6.x      | 4.x
  7.x      | 5.x
  8.x      | 6.x
  9.x      | 7.x
+ 10.x     | 8.x
  
 ## Usage
 
