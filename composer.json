@@ -38,7 +38,7 @@
         "fakerphp/faker": "^1.21",
         "laravel/framework": "^10.0",
         "laravel/laravel": "dev-master",
-        "laravel/pint": "^1.1",
+        "laravel/pint": "^1.3",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^8.0",
         "phpstan/phpstan": "^1.9.7",
