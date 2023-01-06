@@ -32,8 +32,6 @@ class PackageManifestTest extends TestCase
         $installedPackages = [
             // 'laravel/laravel',
             // 'laravel/tinker',
-            'laravel/laravel',
-            'laravel/tinker',
             'nesbot/carbon',
             'orchestra/canvas',
             'orchestra/canvas-core',
