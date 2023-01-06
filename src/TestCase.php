@@ -13,6 +13,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         Testing\Concerns\InteractsWithConsole,
         Testing\Concerns\InteractsWithContainer,
         Testing\Concerns\InteractsWithDatabase,
+        Testing\Concerns\InteractsWithDeprecationHandling,
         Testing\Concerns\InteractsWithExceptionHandling,
         Testing\Concerns\InteractsWithSession,
         Testing\Concerns\InteractsWithTime,
