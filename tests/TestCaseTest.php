@@ -2,15 +2,15 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use function Orchestra\Testbench\phpunit_version_compare;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\Version;
 
 class TestCaseTest extends TestCase
 {
     /** @test */
     public function it_can_create_the_testcase()
     {
-        $methodName = class_exists(Version::class) && version_compare(Version::id(), '10', '>=')
+        $methodName = phpunit_version_compare('10', '>=')
             ? $this->name()
             : $this->getName();
 
