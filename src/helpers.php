@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Testing\PendingCommand;
 use PHPUnit\Runner\Version;
 use RuntimeException;
@@ -52,7 +53,23 @@ function default_environment_variables(): array
 }
 
 /**
- * Get PHPUnit version compare.
+ * Laravel version compare.
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ * @return int|bool
+ */
+function laravel_version_compare(string $version, ?string $operator = null)
+{
+    if (\is_null($operator)) {
+        return version_compare(Application::VERSION, $version);
+    }
+
+    return version_compare(Application::VERSION, $version, $operator);
+}
+
+/**
+ * PHPUnit version compare.
  *
  * @param  string  $version
  * @param  string|null  $operator
