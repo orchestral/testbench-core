@@ -70,8 +70,7 @@
         "ci": [
             "@composer run prepare",
             "@php vendor/bin/phpstan analyse",
-            "@php vendor/bin/pint",
-            "@composer run test"
+            "@php vendor/bin/pint"
         ],
         "test": "@php vendor/bin/phpunit -c ./ --color"
     },
