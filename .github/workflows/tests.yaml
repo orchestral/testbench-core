@@ -54,11 +54,11 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations)
-        run: vendor/bin/phpunit -c ./.github/configuration/phpunit-9.xml
+        run: vendor/bin/phpunit -c ./phpunit9.xml
         if: matrix.os != 'windows-latest'
 
       - name: Execute tests (without deprecations)
-        run: vendor/bin/phpunit  -c ./.github/configuration/phpunit-9.xml --exclude-group deprecations
+        run: vendor/bin/phpunit  -c ./phpunit9.xml --exclude-group deprecations
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.os == 'windows-latest'
