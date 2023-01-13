@@ -1,21 +1,16 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to property \\$send_duplicate_queries_to_ray on an unknown class Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
-			count: 2
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_duplicate_queries_to_ray\\.$#"
+			count: 1
 			path: src/Bootstrap/ConfigureRay.php
 
 		-
-			message: "#^Access to property \\$send_queries_to_ray on an unknown class Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
-			count: 2
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_queries_to_ray\\.$#"
+			count: 1
 			path: src/Bootstrap/ConfigureRay.php
 
 		-
-			message: "#^Access to property \\$send_slow_queries_to_ray on an unknown class Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
-			count: 2
-			path: src/Bootstrap/ConfigureRay.php
-
-		-
-			message: "#^Parameter \\$callback of method Orchestra\\\\Testbench\\\\Bootstrap\\\\ConfigureRay\\:\\:callAfterResolvingSettings\\(\\) has invalid type Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_slow_queries_to_ray\\.$#"
 			count: 1
 			path: src/Bootstrap/ConfigureRay.php
