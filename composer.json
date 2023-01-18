@@ -37,7 +37,6 @@
     "require-dev": {
         "fakerphp/faker": "^1.21",
         "laravel/framework": "^9.45",
-        "laravel/laravel": "9.x-dev",
         "laravel/pint": "^1.1",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^7.0",
