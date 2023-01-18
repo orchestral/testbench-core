@@ -30,8 +30,6 @@ class PackageManifestTest extends TestCase
         $packages = Collection::make(require $manifestPath);
 
         $installedPackages = [
-            'laravel/laravel',
-            'laravel/tinker',
             'nesbot/carbon',
             'orchestra/canvas',
             'orchestra/canvas-core',
