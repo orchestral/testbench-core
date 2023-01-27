@@ -44,22 +44,34 @@ class TestCommand extends Command
     }
 
     /**
+     * @return string
+     */
+    public function getPhpUnitFile()
+    {
+        if (!file_exists($file = TESTBENCH_WORKING_PATH . '/phpunit.xml')) {
+            $file = TESTBENCH_WORKING_PATH . '/phpunit.xml.dist';
+        }
+        return $file;
+    }
+
+    /**
      * Get the array of arguments for running PHPUnit.
      *
      * @param  array  $options
      * @return array
      */
+
     protected function phpunitArguments($options)
     {
-        $options = Collection::make($options)
-            ->merge(['--printer=NunoMaduro\\Collision\\Adapters\\Phpunit\\Printer'])
-            ->reject(static function ($option) {
-                return Str::startsWith($option, '--env=')
-                    || $option == '--coverage'
-                    || Str::startsWith($option, '--min');
-            })->values()->all();
+        $parentOptions = parent::phpunitArguments($options);
+        $filteredParentOptions = array_filter($parentOptions, function (string $option) {
+            return ! Str::startsWith($option, ['--configuration=']);
+        });
 
-        return array_merge($this->commonArguments(), ['--configuration=./'], $options);
+        $file = $this->getPhpUnitFile();
+
+        return array_merge(["--configuration=$file",], $filteredParentOptions);
+
     }
 
     /**
@@ -70,21 +82,17 @@ class TestCommand extends Command
      */
     protected function paratestArguments($options)
     {
-        $options = Collection::make($options)
-            ->reject(static function ($option) {
-                return Str::startsWith($option, '--env=')
-                    || $option == '--coverage'
-                    || Str::startsWith($option, '--min')
-                    || Str::startsWith($option, '-p')
-                    || Str::startsWith($option, '--parallel')
-                    || Str::startsWith($option, '--recreate-databases')
-                    || Str::startsWith($option, '--drop-databases');
-            })->values()->all();
+        $parentOptions = parent::paratestArguments($options);
+        $filteredParentOptions = array_filter($parentOptions, function (string $option) {
+            return ! Str::startsWith($option, ['--configuration=','--runner=']);
+        });
+
+        $file = $this->getPhpUnitFile();
 
         return array_merge([
-            '--configuration=./',
+            "--configuration=$file",
             "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
-        ], $options);
+        ], $filteredParentOptions);
     }
 
     /**
