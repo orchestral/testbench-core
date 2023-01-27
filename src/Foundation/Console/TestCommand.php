@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Foundation\Console;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 
@@ -48,9 +47,10 @@ class TestCommand extends Command
      */
     public function getPhpUnitFile()
     {
-        if (!file_exists($file = TESTBENCH_WORKING_PATH . '/phpunit.xml')) {
-            $file = TESTBENCH_WORKING_PATH . '/phpunit.xml.dist';
+        if (! file_exists($file = TESTBENCH_WORKING_PATH.'/phpunit.xml')) {
+            $file = TESTBENCH_WORKING_PATH.'/phpunit.xml.dist';
         }
+
         return $file;
     }
 
@@ -60,7 +60,6 @@ class TestCommand extends Command
      * @param  array  $options
      * @return array
      */
-
     protected function phpunitArguments($options)
     {
         $parentOptions = parent::phpunitArguments($options);
@@ -70,8 +69,7 @@ class TestCommand extends Command
 
         $file = $this->getPhpUnitFile();
 
-        return array_merge(["--configuration=$file",], $filteredParentOptions);
-
+        return array_merge(["--configuration=$file"], $filteredParentOptions);
     }
 
     /**
@@ -84,7 +82,7 @@ class TestCommand extends Command
     {
         $parentOptions = parent::paratestArguments($options);
         $filteredParentOptions = array_filter($parentOptions, function (string $option) {
-            return ! Str::startsWith($option, ['--configuration=','--runner=']);
+            return ! Str::startsWith($option, ['--configuration=', '--runner=']);
         });
 
         $file = $this->getPhpUnitFile();
