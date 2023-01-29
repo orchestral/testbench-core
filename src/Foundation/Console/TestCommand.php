@@ -70,7 +70,7 @@ class TestCommand extends Command
         return Collection::make(parent::phpunitArguments($options))
             ->reject(function ($option) {
                 return ! Str::startsWith($option, ['--configuration=']);
-            })->merge(["--configuration=$file"])
+            })->merge(["--configuration={$file}"])
             ->all();
     }
 
@@ -88,7 +88,7 @@ class TestCommand extends Command
             ->reject(function (string $option) {
                 return ! Str::startsWith($option, ['--configuration=', '--runner=']);
             })->merge([
-                "--configuration=$file",
+                "--configuration={$file}",
                 "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
             ])
             ->all();
