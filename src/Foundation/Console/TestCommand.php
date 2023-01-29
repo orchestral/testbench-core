@@ -43,9 +43,11 @@ class TestCommand extends Command
     }
 
     /**
+     * Get the PHPUnit configuration file path.
+     * 
      * @return string
      */
-    public function getPhpUnitFile()
+    public function phpUnitConfigurationFile()
     {
         if (! file_exists($file = TESTBENCH_WORKING_PATH.'/phpunit.xml')) {
             $file = TESTBENCH_WORKING_PATH.'/phpunit.xml.dist';
@@ -67,7 +69,7 @@ class TestCommand extends Command
             return ! Str::startsWith($option, ['--configuration=']);
         });
 
-        $file = $this->getPhpUnitFile();
+        $file = $this->phpUnitConfigurationFile();
 
         return array_merge(["--configuration=$file"], $filteredParentOptions);
     }
@@ -85,7 +87,7 @@ class TestCommand extends Command
             return ! Str::startsWith($option, ['--configuration=', '--runner=']);
         });
 
-        $file = $this->getPhpUnitFile();
+        $file = $this->phpUnitConfigurationFile();
 
         return array_merge([
             "--configuration=$file",
