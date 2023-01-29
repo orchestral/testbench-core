@@ -54,7 +54,7 @@ class TestCommand extends Command
             $file = TESTBENCH_WORKING_PATH.'/phpunit.xml.dist';
         }
 
-        return $file;
+        return file_exists($file) ? $file : './';
     }
 
     /**
