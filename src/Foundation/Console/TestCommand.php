@@ -84,7 +84,7 @@ class TestCommand extends Command
     {
         $file = $this->phpUnitConfigurationFile();
 
-        return Collection::make(parent::phpunitArguments($options))
+        return Collection::make(parent::paratestArguments($options))
             ->reject(function (string $option) {
                 return ! Str::startsWith($option, ['--configuration=', '--runner=']);
             })->merge([
