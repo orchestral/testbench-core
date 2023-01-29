@@ -15,9 +15,11 @@ class TestCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
-        {--coverage : Indicates whether the coverage information should be collected}
-        {--min= : Indicates the minimum threshold enforcement for coverage}
-        {--parallel : Indicates if the tests should run in parallel}
+        {--compact : Indicates whether the compact printer should be used}
+        {--coverage : Indicates whether code coverage information should be collected}
+        {--min= : Indicates the minimum threshold enforcement for code coverage}
+        {--p|parallel : Indicates if the tests should run in parallel}
+        {--profile : Lists top 10 slowest tests}
         {--recreate-databases : Indicates if the test databases should be re-created}
         {--drop-databases : Indicates if the test databases should be dropped}
     ';
@@ -45,7 +47,7 @@ class TestCommand extends Command
 
     /**
      * Get the PHPUnit configuration file path.
-     * 
+     *
      * @return string
      */
     public function phpUnitConfigurationFile()
