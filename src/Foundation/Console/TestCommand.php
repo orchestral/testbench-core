@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation\Console;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 
@@ -64,14 +65,13 @@ class TestCommand extends Command
      */
     protected function phpunitArguments($options)
     {
-        $parentOptions = parent::phpunitArguments($options);
-        $filteredParentOptions = array_filter($parentOptions, function (string $option) {
-            return ! Str::startsWith($option, ['--configuration=']);
-        });
-
         $file = $this->phpUnitConfigurationFile();
 
-        return array_merge(["--configuration=$file"], $filteredParentOptions);
+        return Collection::make(parent::phpunitArguments($options))
+            ->reject(function ($option) {
+                return ! Str::startsWith($option, ['--configuration=']);
+            })->merge(["--configuration=$file"])
+            ->all();
     }
 
     /**
@@ -82,17 +82,16 @@ class TestCommand extends Command
      */
     protected function paratestArguments($options)
     {
-        $parentOptions = parent::paratestArguments($options);
-        $filteredParentOptions = array_filter($parentOptions, function (string $option) {
-            return ! Str::startsWith($option, ['--configuration=', '--runner=']);
-        });
-
         $file = $this->phpUnitConfigurationFile();
 
-        return array_merge([
-            "--configuration=$file",
-            "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
-        ], $filteredParentOptions);
+        return Collection::make(parent::phpunitArguments($options))
+            ->reject(function (string $option) {
+                return ! Str::startsWith($option, ['--configuration=', '--runner=']);
+            })->merge([
+                "--configuration=$file",
+                "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
+            ])
+            ->all();
     }
 
     /**
