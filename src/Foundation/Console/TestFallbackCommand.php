@@ -70,7 +70,7 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $version = "6.4";
+        $version = '6.4';
 
         $command = sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 
