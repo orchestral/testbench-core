@@ -61,7 +61,11 @@ jobs:
 
       - name: Execute tests (with deprecations)
         run: ./testbench package:test --exclude-group commander
-        if: matrix.dependencies == 'highest'
+        if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
+
+      - name: Execute tests (with deprecations)
+        run: ./testbench package:test --exclude-group commander -c phpunit9.xml
+        if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
 
       - name: Execute tests (without deprecations)
         run: ./testbench package:test --exclude-group commander,deprecations
