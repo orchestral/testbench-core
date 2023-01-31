@@ -16,7 +16,7 @@ class TestFallbackCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
-        {--c|configuration : Read configuration from XML file}
+        {--c|configuration= : Read configuration from XML file}
         {--compact : Indicates whether the compact printer should be used}
         {--coverage : Indicates whether code coverage information should be collected}
         {--min= : Indicates the minimum threshold enforcement for code coverage}
