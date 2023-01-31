@@ -15,6 +15,7 @@ class TestCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
+        {--c|configuration= : Read configuration from XML file}
         {--compact : Indicates whether the compact printer should be used}
         {--coverage : Indicates whether code coverage information should be collected}
         {--min= : Indicates the minimum threshold enforcement for code coverage}
@@ -52,11 +53,14 @@ class TestCommand extends Command
      */
     public function phpUnitConfigurationFile()
     {
-        if (! file_exists($file = TESTBENCH_WORKING_PATH.'/phpunit.xml')) {
-            $file = TESTBENCH_WORKING_PATH.'/phpunit.xml.dist';
-        }
+        $configurationFile = $this->option('configuration') ?? 'phpunit.xml';
 
-        return file_exists($file) ? $file : './';
+        return collect([
+            TESTBENCH_WORKING_PATH.'/'.$configurationFile,
+            TESTBENCH_WORKING_PATH.'/'.$configurationFile.'.dist',
+        ])->filter(function ($path) {
+            return file_exists($path);
+        })->first() ?? './';
     }
 
     /**
