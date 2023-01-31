@@ -53,7 +53,7 @@ class TestCommand extends Command
      */
     public function phpUnitConfigurationFile()
     {
-        $configurationFile = $this->option('configuration') ?? 'phpunit.xml';
+        $configurationFile = str_replace('./', '', $this->option('configuration') ?? 'phpunit.xml');
 
         return collect([
             TESTBENCH_WORKING_PATH.'/'.$configurationFile,
