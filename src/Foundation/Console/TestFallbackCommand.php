@@ -70,7 +70,9 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $command = $this->findComposer().' require "nunomaduro/collision:^6.2" --dev';
+        $version = "6.4";
+
+        $command = sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
 
