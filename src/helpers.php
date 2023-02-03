@@ -61,7 +61,8 @@ function default_environment_variables(): array
  */
 function laravel_version_compare(string $version, ?string $operator = null)
 {
-    $laravel = Application::VERSION === '10.x-dev' ? '10.0.0' : Application::VERSION; // @phpstan-ignore-line
+    /** @phpstan-ignore-next-line */
+    $laravel = Application::VERSION === '10.x-dev' ? '10.0.0' : Application::VERSION;
 
     if (\is_null($operator)) {
         return version_compare($laravel, $version);
