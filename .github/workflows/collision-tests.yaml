@@ -19,6 +19,7 @@ jobs:
           - 8.2
         phpunit:
           - "9.x"
+          - "10.x"
         dependencies:
           - "highest"
           - "lowest"
@@ -27,7 +28,8 @@ jobs:
         include:
           - phpunit: "9.x"
             collision: "^6.4"
-
+          - phpunit: "10.x"
+            collision: "^7.0"
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -59,7 +61,11 @@ jobs:
 
       - name: Execute tests (with deprecations)
         run: ./testbench package:test --exclude-group commander
-        if: matrix.dependencies == 'highest'
+        if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
+
+      - name: Execute tests (with deprecations)
+        run: ./testbench package:test -c phpunit9.xml --exclude-group commander
+        if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
 
       - name: Execute tests (without deprecations)
         run: ./testbench package:test --exclude-group commander,deprecations
