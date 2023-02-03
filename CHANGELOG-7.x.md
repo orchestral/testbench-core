@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.21.0
+
+Released: 2023-02-03
+
+### Added
+
+* Added support for `Illuminate\Foundation\Testing\DatabaseTruncation`.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.50.2`.
+
 ## 7.20.0
 
 Released: 2023-02-01
