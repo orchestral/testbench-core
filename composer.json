@@ -41,7 +41,7 @@
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^8.0",
         "phpstan/phpstan": "^1.9.14",
-        "phpunit/phpunit": "^9.6.0 || ^10.0.1",
+        "phpunit/phpunit": "^9.6 || ^10.0.1",
         "spatie/laravel-ray": "^1.32",
         "symfony/process": "^6.2",
         "symfony/yaml": "^6.2",
