@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.20.0
+
+Released: 2023-02-01
+
+### Changes
+
+* Improves `package:test` commands.
+* Update skeleton to match v9.5.2.
+
 ## 7.19.0
 
 Released: 2023-01-10
