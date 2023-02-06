@@ -25,13 +25,6 @@ jobs:
           - "lowest"
         experimental:
           - true
-        include:
-          - phpunit: "9.x"
-            collision: "^6.4"
-            paratest: "^6.4"
-          # - phpunit: "10.x"
-          #   collision: "^7.0"
-          #   paratest: "^7.0"
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -49,7 +42,16 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
+
+      - name: Install Paratest (for PHPUnit 9.x)
+        run: |
+          composer require "nunomaduro/collision:^6.4" "brianium/paratest:^6.4" --dev --no-interaction --no-update
+        if: matrix.phpunit == '9.x'
+
+      - name: Install Paratest (for PHPUnit 9.x)
+        run: |
+          composer require "nunomaduro/collision:^7.0" "brianium/paratest:^7.0" --dev --no-interaction --no-update
+        if: matrix.phpunit == '10.x'
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
