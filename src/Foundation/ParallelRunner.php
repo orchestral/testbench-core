@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Foundation;
 
-use Orchestra\Testbench\Foundation\Application;
-
 class ParallelRunner extends \Illuminate\Testing\ParallelRunner
 {
     /**
