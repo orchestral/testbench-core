@@ -13,12 +13,9 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
-        $workingPath = $_ENV['APP_BASE_PATH'] ?? null;
-        $testbenchWorkingPath = defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
+        $workingPath = $_SERVER['APP_BASE_PATH'] ?? null;
 
-        $config = ! is_null($testbenchWorkingPath)
-            ? Config::loadFromYaml($testbenchWorkingPath)
-            : new Config();
+        $config = Config::loadFromYaml($_SERVER['TESTBENCH_WORKING_PATH']);
 
         $hasEnvironmentFile = ! is_null($workingPath) && file_exists("{$workingPath}/.env");
 

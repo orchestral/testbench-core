@@ -121,6 +121,8 @@ class TestCommand extends Command
     {
         return array_merge([
             'TESTBENCH_PACKAGE_TESTER' => 1,
+            'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
+            'APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::paratestEnvironmentVariables());
     }
 }
