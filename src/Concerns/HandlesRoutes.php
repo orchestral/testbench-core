@@ -106,7 +106,7 @@ trait HandlesRoutes
             if ($this->app instanceof LaravelApplication) {
                 $files->delete(
                     $this->app->bootstrapPath('cache/routes-v7.php'),
-                    ...$files->glob(base_path('routes/testbench-*.php'))
+                    ...$files->glob($this->app->basePath('routes/testbench-*.php'))
                 );
             }
 

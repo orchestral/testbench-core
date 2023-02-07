@@ -11,14 +11,14 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
-        $workingPath = $_SERVER['APP_BASE_PATH'] ?? null;
-
         $config = Config::loadFromYaml($_SERVER['TESTBENCH_WORKING_PATH']);
 
-        $hasEnvironmentFile = ! \is_null($workingPath) && file_exists("{$workingPath}/.env");
+        $workingPath =  $config['laravel'] ??  $_SERVER['APP_BASE_PATH'];
+
+        $hasEnvironmentFile = file_exists("{$workingPath}/.env");
 
         return Application::create(
-            basePath: $config['laravel'] ?? null,
+            basePath: $workingPath,
             options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
         );
     }
