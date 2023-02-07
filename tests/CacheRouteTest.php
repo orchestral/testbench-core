@@ -11,7 +11,6 @@ class CacheRouteTest extends TestCase
 
     protected $files = [
         'routes/testbench.php',
-        'bootstrap/cache/routes-v7.php',
     ];
 
     /**
