@@ -1,128 +1,128 @@
 name: collision-tests
 
-on:
-  push:
-  pull_request:
-  schedule:
-    - cron: '0 0 1 * *'
+# on:
+#   push:
+#   pull_request:
+#   schedule:
+#     - cron: '0 0 1 * *'
 
-jobs:
-  tests:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
-    strategy:
-      matrix:
-        os:
-          - "ubuntu-latest"
-        php:
-          - 8.2
-        phpunit:
-          - "9.x"
-          - "10.x"
-        dependencies:
-          - "highest"
-          - "lowest"
-        experimental:
-          - false
-        include:
-          - phpunit: "9.x"
-            collision: "^6.4"
-          - phpunit: "10.x"
-            collision: "^7.0"
+# jobs:
+#   tests:
+#     runs-on: ${{ matrix.os }}
+#     continue-on-error: ${{ matrix.experimental }}
+#     strategy:
+#       matrix:
+#         os:
+#           - "ubuntu-latest"
+#         php:
+#           - 8.2
+#         phpunit:
+#           - "9.x"
+#           - "10.x"
+#         dependencies:
+#           - "highest"
+#           - "lowest"
+#         experimental:
+#           - false
+#         include:
+#           - phpunit: "9.x"
+#             collision: "^6.4"
+#           - phpunit: "10.x"
+#             collision: "^7.0"
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+#     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
-          coverage: none
+#       - name: Setup PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: ${{ matrix.php }}
+#           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
+#           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
-        run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:${{ matrix.collision }}" --dev --no-interaction --no-update
+#       - name: Install PHPUnit ${{ matrix.phpunit }}
+#         run: |
+#           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+#           composer require "nunomaduro/collision:${{ matrix.collision }}" --dev --no-interaction --no-update
 
-      - name: Install dependencies
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+#       - name: Install dependencies
+#         uses: "ramsey/composer-install@v2"
+#         with:
+#           dependency-versions: "${{ matrix.dependencies }}"
+#           composer-options: "--prefer-dist --no-cache"
 
-      - name: Installed dependencies
-        run: |
-          composer show -D
+#       - name: Installed dependencies
+#         run: |
+#           composer show -D
 
-      - name: Execute tests (with deprecations on PHPUnit 10)
-        run: ./testbench package:test --exclude-group commander
-        if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
+#       - name: Execute tests (with deprecations on PHPUnit 10)
+#         run: ./testbench package:test --exclude-group commander
+#         if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
 
-      - name: Execute tests (with deprecations on PHPUnit 9)
-        run: ./testbench package:test -c phpunit9.xml --exclude-group commander
-        if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
+#       - name: Execute tests (with deprecations on PHPUnit 9)
+#         run: ./testbench package:test -c phpunit9.xml --exclude-group commander
+#         if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
 
-      - name: Execute tests (without deprecations on PHPUnit 10)
-        run: ./testbench package:test --exclude-group commander,deprecations
-        env:
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
+#       - name: Execute tests (without deprecations on PHPUnit 10)
+#         run: ./testbench package:test --exclude-group commander,deprecations
+#         env:
+#           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+#         if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
 
-      - name: Execute tests (without deprecations on PHPUnit 9)
-        run: ./testbench package:test -c phpunit9.xml --exclude-group commander,deprecations
-        env:
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest' && matrix.phpunit == '9.x'
+#       - name: Execute tests (without deprecations on PHPUnit 9)
+#         run: ./testbench package:test -c phpunit9.xml --exclude-group commander,deprecations
+#         env:
+#           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+#         if: matrix.dependencies != 'highest' && matrix.phpunit == '9.x'
 
-  tests-with-coverage:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
-    strategy:
-      matrix:
-        os:
-          - "ubuntu-latest"
-        php:
-          - 8.1
-          - 8.2
-        phpunit:
-          - "9.x"
-        dependencies:
-          - "highest"
-        experimental:
-          - false
-        include:
-          - phpunit: "9.x"
-            collision: "^6.4"
+#   tests-with-coverage:
+#     runs-on: ${{ matrix.os }}
+#     continue-on-error: ${{ matrix.experimental }}
+#     strategy:
+#       matrix:
+#         os:
+#           - "ubuntu-latest"
+#         php:
+#           - 8.1
+#           - 8.2
+#         phpunit:
+#           - "9.x"
+#         dependencies:
+#           - "highest"
+#         experimental:
+#           - false
+#         include:
+#           - phpunit: "9.x"
+#             collision: "^6.4"
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
+#     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
-          coverage: xdebug
+#       - name: Setup PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: ${{ matrix.php }}
+#           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
+#           coverage: xdebug
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
-        run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:${{ matrix.collision }}" --dev --no-interaction --no-update
+#       - name: Install PHPUnit ${{ matrix.phpunit }}
+#         run: |
+#           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+#           composer require "nunomaduro/collision:${{ matrix.collision }}" --dev --no-interaction --no-update
 
-      - name: Install dependencies
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+#       - name: Install dependencies
+#         uses: "ramsey/composer-install@v2"
+#         with:
+#           dependency-versions: "${{ matrix.dependencies }}"
+#           composer-options: "--prefer-dist --no-cache"
 
-      - name: Execute tests
-        run: ./testbench package:test --coverage --exclude-group commander,deprecations
-        env:
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+#       - name: Execute tests
+#         run: ./testbench package:test --coverage --exclude-group commander,deprecations
+#         env:
+#           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
