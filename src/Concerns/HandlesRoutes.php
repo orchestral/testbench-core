@@ -72,7 +72,7 @@ trait HandlesRoutes
 
         $time = time();
 
-        $laravel = Application::create($this->getBasePath());
+        $laravel = Application::create(static::applicationBasePath());
 
         $files->put(
             $laravel->basePath("routes/testbench-{$time}.php"), $route

@@ -63,11 +63,11 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations)
+      - name: Execute tests (with deprecations on PHPUnit 10)
         run: ./testbench package:test --parallel --exclude-group commander
         if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
 
-      - name: Execute tests (with deprecations)
+      - name: Execute tests (with deprecations on PHPUnit 9)
         run: ./testbench package:test -c phpunit9.xml --parallel --exclude-group commander
         if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
 
