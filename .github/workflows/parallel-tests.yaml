@@ -18,15 +18,12 @@ jobs:
           - 8.2
         phpunit:
           - "9.x"
+          - "10.x"
         dependencies:
           - "highest"
           - "lowest"
         experimental:
-          - true
-        include:
-          - phpunit: "9.x"
-            collision: "^6.4"
-            paratest: "^6.4"
+          - false
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -44,7 +41,16 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
+
+      - name: Install Paratest (for PHPUnit 9.x)
+        run: |
+          composer require "nunomaduro/collision:^6.4" "brianium/paratest:^6.4" --dev --no-interaction --no-update
+        if: matrix.phpunit == '9.x'
+
+      - name: Install Paratest (for PHPUnit 9.x)
+        run: |
+          composer require "nunomaduro/collision:^7.0" "brianium/paratest:^7.0" --dev --no-interaction --no-update
+        if: matrix.phpunit == '10.x'
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
@@ -56,12 +62,22 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations)
-        run: ./testbench package:test --parallel
-        if: matrix.dependencies == 'highest'
+      - name: Execute tests (with deprecations on PHPUnit 10)
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel
+        if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
 
-      - name: Execute tests (without deprecations)
-        run: ./testbench package:test --parallel --exclude-group=deprecations
+      - name: Execute tests (with deprecations on PHPUnit 9)
+        run: ./testbench package:test -c phpunit9.xml --parallel --exclude-group commander
+        if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
+
+      - name: Execute tests (without deprecations on PHPUnit 10)
+        run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
+        if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
+
+      - name: Execute tests (without deprecations on PHPUnit 9)
+        run: ./testbench package:test -c phpunit9.xml --parallel --exclude-group commander,deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.dependencies != 'highest'&& matrix.phpunit == '9.x'

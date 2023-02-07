@@ -18,15 +18,17 @@ jobs:
           - 8.2
         phpunit:
           - "9.x"
+          - "10.x"
         dependencies:
           - "highest"
           - "lowest"
         experimental:
-          - true
+          - false
         include:
           - phpunit: "9.x"
             collision: "^6.4"
-
+          - phpunit: "10.x"
+            collision: "^7.0"
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -56,15 +58,25 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations)
+      - name: Execute tests (with deprecations on PHPUnit 10)
         run: ./testbench package:test --exclude-group commander
-        if: matrix.dependencies == 'highest'
+        if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
 
-      - name: Execute tests (without deprecations)
+      - name: Execute tests (with deprecations on PHPUnit 9)
+        run: ./testbench package:test -c phpunit9.xml --exclude-group commander
+        if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
+
+      - name: Execute tests (without deprecations on PHPUnit 10)
         run: ./testbench package:test --exclude-group commander,deprecations
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
+        if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
+
+      - name: Execute tests (without deprecations on PHPUnit 9)
+        run: ./testbench package:test -c phpunit9.xml --exclude-group commander,deprecations
+        env:
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.dependencies != 'highest' && matrix.phpunit == '9.x'
 
   tests-with-coverage:
     runs-on: ${{ matrix.os }}
@@ -82,6 +94,9 @@ jobs:
           - "highest"
         experimental:
           - false
+        include:
+          - phpunit: "9.x"
+            collision: "^6.4"
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
 
@@ -99,7 +114,7 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:6.x" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:${{ matrix.collision }}" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"

@@ -1,19 +1,23 @@
 #!/bin/bash
 
-cp -f vendor/laravel/laravel/.env.example laravel/
-cp -rf vendor/laravel/laravel/config/*.php laravel/config/
-cp -rf vendor/laravel/laravel/database/.gitignore laravel/database/.gitignore
-cp -rf vendor/laravel/laravel/database/migrations/2014_10_12_000000_create_users_table.php laravel/migrations/2014_10_12_000000_testbench_create_users_table.php
-cp -rf vendor/laravel/laravel/database/migrations/2014_10_12_100000_create_password_resets_table.php laravel/migrations/2014_10_12_100000_testbench_create_password_resets_table.php
-cp -rf vendor/laravel/laravel/database/migrations/2019_08_19_000000_create_failed_jobs_table.php laravel/migrations/2019_08_19_000000_testbench_create_failed_jobs_table.php
-cp -rf vendor/laravel/laravel/lang/en/*.php laravel/lang/en/
-cp -rf vendor/laravel/laravel/resources/views/* laravel/resources/views/
-# cp -f vendor/laravel/laravel/lang/*.json laravel/lang/
-cp -rf vendor/laravel/laravel/database/factories/*.php src/Factories/
+composer create-project "laravel/laravel:10.x-dev" skeleton --no-scripts --no-plugins --quiet
+
+cp -f skeleton/.env.example laravel/
+cp -rf skeleton/config/*.php laravel/config/
+cp -rf skeleton/database/.gitignore laravel/database/.gitignore
+cp -rf skeleton/database/migrations/2014_10_12_000000_create_users_table.php laravel/migrations/2014_10_12_000000_testbench_create_users_table.php
+cp -rf skeleton/database/migrations/2014_10_12_100000_create_password_reset_tokens_table.php laravel/migrations/2014_10_12_100000_testbench_create_password_reset_tokens_table.php
+cp -rf skeleton/database/migrations/2019_08_19_000000_create_failed_jobs_table.php laravel/migrations/2019_08_19_000000_testbench_create_failed_jobs_table.php
+cp -rf skeleton/lang/en/*.php laravel/lang/en/
+cp -rf skeleton/resources/views/* laravel/resources/views/
+# cp -f skeleton/lang/*.json laravel/lang/
+cp -rf skeleton/database/factories/*.php src/Factories/
 cp -rf vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php laravel/server.php
-cp -rf vendor/laravel/laravel/public/index.php laravel/public/index.php
-cp -rf vendor/laravel/laravel/tests/CreatesApplication.php laravel/tests/CreatesApplication.php
+cp -rf skeleton/public/index.php laravel/public/index.php
+cp -rf skeleton/tests/CreatesApplication.php laravel/tests/CreatesApplication.php
 rm laravel/config/sanctum.php
+
+rm -Rf skeleton
 
 awk '{sub(/getcwd\(\)/,"__DIR__.'\''/public'\''")}1' laravel/server.php > laravel/server.stub && mv laravel/server.stub laravel/server.php
 awk '{sub(/DB_CONNECTION=mysql/,"DB_CONNECTION=sqlite")}1' laravel/.env.example > laravel/.env.example.stub && mv laravel/.env.example.stub laravel/.env.example

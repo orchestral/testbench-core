@@ -12,6 +12,8 @@ parameters:
     - '#Unsafe usage of new static#'
 
   excludePaths:
+    - src/Exceptions/DeprecatedException.php
+    - src/Exceptions/PHPUnitErrorException.php
     - src/Foundation/Console/TestCommand.php
 
   checkGenericClassInNonGenericObjectType: false

@@ -86,6 +86,26 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function runTest(): mixed
+    {
+        $result = null;
+
+        try {
+            $result = parent::runTest();
+        } catch (Throwable $error) {
+            if (! \is_null(static::$latestResponse)) {
+                static::$latestResponse->transformNotSuccessfulException($error);
+            }
+
+            throw $error;
+        }
+
+        return $result;
+    }
+
+    /**
      * Clean up the testing environment before the next test case.
      *
      * @return void
@@ -93,20 +113,5 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     public static function tearDownAfterClass(): void
     {
         static::$latestResponse = null;
-    }
-
-    /**
-     * This method is called when a test method did not execute successfully.
-     *
-     * @param  \Throwable  $exception
-     * @return void
-     */
-    protected function onNotSuccessfulTest(Throwable $exception): void
-    {
-        parent::onNotSuccessfulTest(
-            ! \is_null(static::$latestResponse)
-                ? static::$latestResponse->transformNotSuccessfulException($exception)
-                : $exception
-        );
     }
 }

@@ -72,7 +72,7 @@ trait HandlesRoutes
 
         $time = time();
 
-        $laravel = Application::create($this->getBasePath());
+        $laravel = Application::create(static::applicationBasePath());
 
         $files->put(
             $laravel->basePath("routes/testbench-{$time}.php"), $route
@@ -81,7 +81,7 @@ trait HandlesRoutes
         $laravel->make(Kernel::class)->call('route:cache');
 
         $this->assertTrue(
-            $files->exists(base_path('bootstrap/cache/routes-v7.php'))
+            $files->exists($laravel->bootstrapPath('cache/routes-v7.php'))
         );
 
         if ($this->app instanceof LaravelApplication) {
@@ -103,10 +103,12 @@ trait HandlesRoutes
         });
 
         $this->beforeApplicationDestroyed(function () use ($files) {
-            $files->delete(
-                base_path('bootstrap/cache/routes-v7.php'),
-                ...$files->glob(base_path('routes/testbench-*.php'))
-            );
+            if ($this->app instanceof LaravelApplication) {
+                $files->delete(
+                    $this->app->bootstrapPath('cache/routes-v7.php'),
+                    ...$files->glob($this->app->basePath('routes/testbench-*.php'))
+                );
+            }
 
             sleep(1);
         });

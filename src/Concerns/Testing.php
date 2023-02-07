@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseTruncation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
@@ -193,6 +194,11 @@ trait Testing
             if (isset($uses[DatabaseMigrations::class])) {
                 /** @phpstan-ignore-next-line */
                 $this->runDatabaseMigrations();
+            }
+
+            if (isset($uses[DatabaseTruncation::class])) {
+                /** @phpstan-ignore-next-line */
+                $this->truncateDatabaseTables();
             }
         });
 

@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
+use function Orchestra\Testbench\phpunit_version_compare;
 use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
@@ -16,9 +17,12 @@ class TestFallbackCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
-        {--coverage : Indicates whether the coverage information should be collected}
-        {--min= : Indicates the minimum threshold enforcement for coverage}
-        {--parallel : Indicates if the tests should run in parallel}
+        {--c|configuration= : Read configuration from XML file}
+        {--compact : Indicates whether the compact printer should be used}
+        {--coverage : Indicates whether code coverage information should be collected}
+        {--min= : Indicates the minimum threshold enforcement for code coverage}
+        {--p|parallel : Indicates if the tests should run in parallel}
+        {--profile : Lists top 10 slowest tests}
         {--recreate-databases : Indicates if the test databases should be re-created}
         {--drop-databases : Indicates if the test databases should be dropped}
     ';
@@ -67,7 +71,9 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $command = $this->findComposer().' require "nunomaduro/collision:^6.2" --dev';
+        $version = phpunit_version_compare('10', '>=') ? '7.0' : '6.4';
+
+        $command = sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
 
