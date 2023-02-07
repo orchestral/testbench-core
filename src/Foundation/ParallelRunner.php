@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use function Orchestra\Testbench\container;
+
 class ParallelRunner extends \Illuminate\Testing\ParallelRunner
 {
     /**
@@ -11,8 +13,6 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
-        $basePath = $_ENV['APP_BASE_PATH'] ?? null;
-
-        return Application::create($basePath);
+        return container()->createApplication();
     }
 }
