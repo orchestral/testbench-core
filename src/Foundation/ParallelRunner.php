@@ -19,6 +19,10 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
 
         $_ENV['APP_BASE_PATH'] = $_SERVER['APP_BASE_PATH'];
 
-        return container()->createApplication();
+        $applicationResolver = static::$applicationResolver ?: function () {
+            return container()->createApplication();
+        };
+
+        return $applicationResolver();
     }
 }
