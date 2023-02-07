@@ -12,16 +12,19 @@ class InlineCacheRouteTest extends TestCase
     protected $files = [
         'routes/testbench.php',
         'bootstrap/cache/routes-v7.php',
+        '.laravel/cache/routes-v7.php',
     ];
 
     /**
-     * Teardown the test environment.
+     * Setup the test environment.
      */
-    protected function tearDown(): void
+    protected function setUp(): void
     {
-        $this->tearDownInteractsWithPublishedFiles();
+        $this->beforeApplicationDestroyed(function () {
+            $this->tearDownInteractsWithPublishedFiles();
+        });
 
-        parent::tearDown();
+        parent::setUp();
     }
 
     /** @test */

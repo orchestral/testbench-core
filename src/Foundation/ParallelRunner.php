@@ -11,8 +11,8 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
-        return Application::create(
-            basePath: $_ENV['APP_BASE_PATH'] ?? null,
-        );
+        $basePath = $_ENV['APP_BASE_PATH'] ?? null;
+
+        return Application::create($basePath);
     }
 }
