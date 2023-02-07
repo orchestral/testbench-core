@@ -4,3 +4,6 @@
 
 testbench.yaml
 testbench.yaml.backup
+
+/.laravel/cache/*.php
+/bootstrap/cache/*.php
