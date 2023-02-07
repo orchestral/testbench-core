@@ -24,7 +24,7 @@ jobs:
           - "highest"
           - "lowest"
         experimental:
-          - true
+          - false
         include:
           - phpunit: "9.x"
             collision: "^6.4"
