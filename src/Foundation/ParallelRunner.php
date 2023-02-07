@@ -13,6 +13,12 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
+        if (! \defined('TESTBENCH_WORKING_PATH')) {
+            \define('TESTBENCH_WORKING_PATH', $_SERVER['TESTBENCH_WORKING_PATH']);
+        }
+
+        $_ENV['APP_BASE_PATH'] = $_SERVER['APP_BASE_PATH'];
+
         return container()->createApplication();
     }
 }

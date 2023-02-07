@@ -72,7 +72,7 @@ trait HandlesRoutes
 
         $time = time();
 
-        $laravel = Application::create($this->getBasePath());
+        $laravel = Application::create(static::applicationBasePath());
 
         $files->put(
             $laravel->basePath("routes/testbench-{$time}.php"), $route
@@ -106,7 +106,7 @@ trait HandlesRoutes
             if ($this->app instanceof LaravelApplication) {
                 $files->delete(
                     $this->app->bootstrapPath('cache/routes-v7.php'),
-                    ...$files->glob(base_path('routes/testbench-*.php'))
+                    ...$files->glob($this->app->basePath('routes/testbench-*.php'))
                 );
             }
 
