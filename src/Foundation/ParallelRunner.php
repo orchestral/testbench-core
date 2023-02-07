@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use function Orchestra\Testbench\container;
+
 class ParallelRunner extends \Illuminate\Testing\ParallelRunner
 {
     /**
@@ -11,15 +13,12 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      */
     protected function createApplication()
     {
-        $config = Config::loadFromYaml($_SERVER['TESTBENCH_WORKING_PATH']);
+        if (! \defined('TESTBENCH_WORKING_PATH')) {
+            \define('TESTBENCH_WORKING_PATH', $_SERVER['TESTBENCH_WORKING_PATH']);
+        }
 
-        $workingPath = $config['laravel'] ?? $_SERVER['APP_BASE_PATH'];
+        $_ENV['APP_BASE_PATH'] = $_SERVER['APP_BASE_PATH'];
 
-        $hasEnvironmentFile = file_exists("{$workingPath}/.env");
-
-        return Application::create(
-            basePath: $workingPath,
-            options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
-        );
+        return container()->createApplication();
     }
 }
