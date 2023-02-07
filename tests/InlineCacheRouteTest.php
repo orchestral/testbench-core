@@ -8,6 +8,7 @@ class InlineCacheRouteTest extends TestCase
 {
     /**
      * @test
+     *
      * @group without-parallel
      */
     public function it_can_cache_route()

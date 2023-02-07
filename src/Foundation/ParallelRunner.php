@@ -13,7 +13,7 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
     {
         $config = Config::loadFromYaml($_SERVER['TESTBENCH_WORKING_PATH']);
 
-        $workingPath =  $config['laravel'] ??  $_SERVER['APP_BASE_PATH'];
+        $workingPath = $config['laravel'] ?? $_SERVER['APP_BASE_PATH'];
 
         $hasEnvironmentFile = file_exists("{$workingPath}/.env");
 
