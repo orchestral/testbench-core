@@ -55,7 +55,7 @@
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.4 || ^7.0).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^8.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^8.0).",
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.27 || ^10.0).",
+        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.6 || ^10.0).",
         "symfony/yaml": "Required for CLI Commander (^6.2).",
         "vlucas/phpdotenv": "Required for CLI Commander (^5.5.0)."
     },
