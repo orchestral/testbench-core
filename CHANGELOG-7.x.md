@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.22.0
+
+Released: 2023-02-08
+
+### Changes
+
+* Improve `package:test --parallel` command usage.
+* Use `$app->bootstrapPath()` instead of `$app->basePath('bootstrap')` whenever possible.
+
 ## 7.21.0
 
 Released: 2023-02-03
