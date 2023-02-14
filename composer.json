@@ -46,7 +46,7 @@
         "spatie/laravel-ray": "^1.32",
         "symfony/process": "^6.2",
         "symfony/yaml": "^6.2",
-        "vlucas/phpdotenv": "^5.5.0"
+        "vlucas/phpdotenv": "^5.4.1"
     },
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^6.4 || ^7.0).",
@@ -58,7 +58,7 @@
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^8.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^9.6 || ^10.0.7).",
         "symfony/yaml": "Required for CLI Commander (^6.2).",
-        "vlucas/phpdotenv": "Required for CLI Commander (^5.5.0)."
+        "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
     },
     "extra": {
         "branch-alias": {
