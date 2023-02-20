@@ -133,7 +133,7 @@ class PackageManifest extends IlluminatePackageManifest
             return [];
         }
 
-        $package = transform(file_get_contents(TESTBENCH_WORKING_PATH.'/composer.json'), function ($json) {
+        $package = transform((string) file_get_contents(TESTBENCH_WORKING_PATH.'/composer.json'), function ($json) {
             return json_decode($json, true);
         });
 
