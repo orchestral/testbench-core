@@ -40,7 +40,7 @@
         "laravel/framework": "^10.0.3",
         "laravel/pint": "^1.5",
         "mockery/mockery": "^1.5.1",
-        "orchestra/canvas": "^8.1",
+        "orchestra/canvas": "^8.0",
         "phpstan/phpstan": "^1.9.17",
         "phpunit/phpunit": "^9.6 || ^10.0.7",
         "spatie/laravel-ray": "^1.32",
