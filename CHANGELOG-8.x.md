@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.0.2
+
+Released: 2023-02-21
+
+### Fixes
+
+* Fixes `app.asset_url` config default value from `'/'` to `null`.
+
 ## 8.0.1
 
 Released: 2023-02-17
