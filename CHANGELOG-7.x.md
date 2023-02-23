@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.22.1
+
+Released: 2023-02-03
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.52.4`.
+
 ## 7.22.0
 
 Released: 2023-02-08
