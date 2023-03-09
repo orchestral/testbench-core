@@ -41,7 +41,7 @@
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^9.0",
-        "phpstan/phpstan": "^1.10.4",
+        "phpstan/phpstan": "^1.10.5",
         "phpunit/phpunit": "^9.6 || ^10.0.7",
         "symfony/process": "^6.2",
         "symfony/yaml": "^6.2",
@@ -50,7 +50,11 @@
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^6.4 || ^7.0).",
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
+<<<<<<< HEAD
         "laravel/framework": "Required for testing (^11.0).",
+=======
+        "laravel/framework": "Required for testing (^10.3.1).",
+>>>>>>> 8.x
         "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.4 || ^7.0).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^9.0).",
