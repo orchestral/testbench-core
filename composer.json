@@ -69,6 +69,7 @@
         "post-autoload-dump": "@composer run prepare",
         "prepare": "@php testbench package:discover --ansi",
         "ci": [
+            "@composer audit",
             "@composer run prepare",
             "@php vendor/bin/phpstan analyse",
             "@php vendor/bin/pint"
