@@ -8,10 +8,10 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Process;
 use Orchestra\Testbench\Console\Commander;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
 
 class CommanderTest extends TestCase
 {
@@ -62,10 +62,10 @@ class CommanderTest extends TestCase
     {
         $command = [static::phpBinary(), 'testbench', '--version', '--no-ansi'];
 
-        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../', []);
-        $commander->mustRun();
+        $commander = Process::path(__DIR__.'/../')->run(implode(' ', $command));
+        $commander->successful();
 
-        $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $commander->getOutput());
+        $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $commander->output());
 
         unset($commander);
     }
@@ -81,10 +81,10 @@ class CommanderTest extends TestCase
 
         $command = [static::phpBinary(), 'testbench', 'about', '--json'];
 
-        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../', []);
-        $commander->mustRun();
+        $commander = Process::path(__DIR__.'/../')->run(implode(' ', $command));
+        $commander->successful();
 
-        $output = json_decode($commander->getOutput(), true);
+        $output = json_decode($commander->output(), true);
 
         $this->assertSame('Testbench', $output['environment']['application_name']);
         $this->assertSame('testing', $output['drivers']['database']);
@@ -105,10 +105,10 @@ class CommanderTest extends TestCase
 
         $command = [static::phpBinary(), 'testbench', 'about', '--json'];
 
-        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../');
-        $commander->mustRun();
+        $commander = Process::path(__DIR__.'/../')->run(implode(' ', $command));
+        $commander->successful();
 
-        $output = json_decode($commander->getOutput(), true);
+        $output = json_decode($commander->output(), true);
 
         $this->assertSame('Testbench', $output['environment']['application_name']);
         $this->assertSame('sqlite', $output['drivers']['database']);
@@ -129,13 +129,15 @@ class CommanderTest extends TestCase
 
         $command = [static::phpBinary(), 'testbench', 'about', '--json'];
 
-        $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../', [
-            'APP_NAME' => 'Testbench Tests',
-            'DB_CONNECTION' => 'testing',
-        ]);
-        $commander->mustRun();
+        $commander = Process::path(__DIR__.'/../')
+            ->env([
+                'APP_NAME' => 'Testbench Tests',
+                'DB_CONNECTION' => 'testing',
+            ])
+            ->run(implode(' ', $command));
+        $commander->successful();
 
-        $output = json_decode($commander->getOutput(), true);
+        $output = json_decode($commander->output(), true);
 
         $this->assertSame('Testbench Tests', $output['environment']['application_name']);
         $this->assertSame('testing', $output['drivers']['database']);
