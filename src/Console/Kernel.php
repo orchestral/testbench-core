@@ -38,16 +38,4 @@ final class Kernel extends ConsoleKernel
     {
         throw $e;
     }
-
-    /**
-     * Re-route the Symfony command events to their Laravel counterparts.
-     *
-     * @internal
-     *
-     * @return void
-     */
-    protected function rerouteSymfonyCommandEvents()
-    {
-        //
-    }
 }
