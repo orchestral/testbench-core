@@ -22,7 +22,12 @@ final class ConfigureRay
      */
     public function bootstrap(Application $app): void
     {
-        $this->callAfterResolvingSettings($app, function ($settings, $app) {
+        $this->callAfterResolving($app, EventWatcher::class, function ($watcher) {
+            /** @var \Spatie\LaravelRay\Watchers\EventWatcher $watcher */
+            $watcher->disable();
+        });
+
+        $this->callAfterResolving($app, Settings::class, function ($settings, $app) {
             /** @var \Spatie\Ray\Settings\Settings $settings */
             /** @var \Illuminate\Contracts\Config\Repository $config */
             $config = $app->make('config');
@@ -32,8 +37,6 @@ final class ConfigureRay
                 $settings->send_duplicate_queries_to_ray = false;
                 $settings->send_slow_queries_to_ray = false;
             }
-
-            $app[EventWatcher::class]->disable();
         });
     }
 
@@ -41,17 +44,16 @@ final class ConfigureRay
      * Setup an after resolving listener, or fire immediately if already resolved.
      *
      * @param  TLaravel  $app
+     * @param  class-string  $class
      * @param  \Closure(\Spatie\Ray\Settings\Settings, TLaravel):void  $callback
      * @return void
      */
-    protected function callAfterResolvingSettings(Application $app, Closure $callback): void
+    protected function callAfterResolving(Application $app, $class, Closure $callback): void
     {
-        $settings = Settings::class;
+        $app->afterResolving($class, $callback);
 
-        $app->afterResolving($settings, $callback);
-
-        if ($app->resolved($settings)) {
-            $callback($app->make($settings), $app);
+        if ($app->resolved($class)) {
+            $callback($app->make($class), $app);
         }
     }
 }
