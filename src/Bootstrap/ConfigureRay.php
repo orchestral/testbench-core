@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Bootstrap;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
-use Spatie\LaravelRay\Watchers\EventWatcher;
 use Spatie\Ray\Settings\Settings;
 
 /**
