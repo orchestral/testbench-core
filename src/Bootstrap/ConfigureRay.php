@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Bootstrap;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
+use Spatie\LaravelRay\Watchers\EventWatcher;
 use Spatie\Ray\Settings\Settings;
 
 /**
@@ -31,6 +32,8 @@ final class ConfigureRay
                 $settings->send_duplicate_queries_to_ray = false;
                 $settings->send_slow_queries_to_ray = false;
             }
+
+            $app[EventWatcher::class]->disable();
         });
     }
 
