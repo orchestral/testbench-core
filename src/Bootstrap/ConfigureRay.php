@@ -22,11 +22,6 @@ final class ConfigureRay
      */
     public function bootstrap(Application $app): void
     {
-        $this->callAfterResolving($app, EventWatcher::class, function ($watcher) {
-            /** @var \Spatie\LaravelRay\Watchers\EventWatcher $watcher */
-            $watcher->disable();
-        });
-
         $this->callAfterResolving($app, Settings::class, function ($settings, $app) {
             /** @var \Spatie\Ray\Settings\Settings $settings */
             /** @var \Illuminate\Contracts\Config\Repository $config */
