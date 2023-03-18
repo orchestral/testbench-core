@@ -17,6 +17,14 @@ cp -rf skeleton/public/index.php laravel/public/index.php
 cp -rf skeleton/tests/CreatesApplication.php laravel/tests/CreatesApplication.php
 rm laravel/config/sanctum.php
 
+cp skeleton/app/Http/Middleware/Authenticate.php src/Http/Middleware/Authenticate.php
+cp skeleton/app/Http/Middleware/PreventRequestsDuringMaintenance.php src/Http/Middleware/PreventRequestsDuringMaintenance.php
+cp skeleton/app/Http/Middleware/RedirectIfAuthenticated.php src/Http/Middleware/RedirectIfAuthenticated.php
+cp skeleton/app/Http/Middleware/TrimStrings.php src/Http/Middleware/TrimStrings.php
+cp skeleton/app/Http/Middleware/TrustHosts.php src/Http/Middleware/TrustHosts.php
+cp skeleton/app/Http/Middleware/TrustProxies.php src/Http/Middleware/TrustProxies.php
+cp skeleton/app/Http/Middleware/VerifyCsrfToken.php src/Http/Middleware/VerifyCsrfToken.php
+
 rm -Rf skeleton
 
 awk '{sub(/getcwd\(\)/,"__DIR__.'\''/public'\''")}1' laravel/server.php > laravel/server.stub && mv laravel/server.stub laravel/server.php
@@ -34,3 +42,11 @@ awk '{sub(/\x27CACHE_DRIVER\x27, \x27file\x27/,"'\''CACHE_DRIVER'\'', '\''array'
 awk '{sub(/\x27SESSION_DRIVER\x27, \x27file\x27/,"'\''SESSION_DRIVER'\'', '\''array'\''")}1' laravel/config/session.php > laravel/config/session.stub && mv laravel/config/session.stub laravel/config/session.php
 awk '{sub(/use App\\Models\\User/,"use Illuminate\\Foundation\\Auth\\User")}1' src/Factories/UserFactory.php > src/Factories/UserFactory.stub && mv src/Factories/UserFactory.stub src/Factories/UserFactory.php
 awk '{sub(/namespace Database\\Factories/,"namespace Orchestra\\Testbench\\Factories")}1' src/Factories/UserFactory.php > src/Factories/UserFactory.stub && mv src/Factories/UserFactory.stub src/Factories/UserFactory.php
+
+awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/Authenticate.php > src/Http/Middleware/Authenticate.stub && mv src/Http/Middleware/Authenticate.stub src/Http/Middleware/Authenticate.php
+awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/PreventRequestsDuringMaintenance.php > src/Http/Middleware/PreventRequestsDuringMaintenance.stub && mv src/Http/Middleware/PreventRequestsDuringMaintenance.stub src/Http/Middleware/PreventRequestsDuringMaintenance.php
+awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/RedirectIfAuthenticated.php > src/Http/Middleware/RedirectIfAuthenticated.stub && mv src/Http/Middleware/RedirectIfAuthenticated.stub src/Http/Middleware/RedirectIfAuthenticated.php
+awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrimStrings.php > src/Http/Middleware/TrimStrings.stub && mv src/Http/Middleware/TrimStrings.stub src/Http/Middleware/TrimStrings.php
+awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrustHosts.php > src/Http/Middleware/TrustHosts.stub && mv src/Http/Middleware/TrustHosts.stub src/Http/Middleware/TrustHosts.php
+awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrustProxies.php > src/Http/Middleware/TrustProxies.stub && mv src/Http/Middleware/TrustProxies.stub src/Http/Middleware/TrustProxies.php
+awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/VerifyCsrfToken.php > src/Http/Middleware/VerifyCsrfToken.stub && mv src/Http/Middleware/VerifyCsrfToken.stub src/Http/Middleware/VerifyCsrfToken.php

@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.1.0
+
+Released: 2023-03-18
+
+### Changes
+
+* Bump minimum `laravel/framework` to `10.4.0`.
+* Update available middlewares with content from `laravel/laravel`.
+
 ## 8.0.5
 
 Released: 2023-03-10
