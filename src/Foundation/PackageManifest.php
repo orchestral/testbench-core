@@ -7,6 +7,9 @@ use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * @internal
+ */
 class PackageManifest extends IlluminatePackageManifest
 {
     /**
@@ -127,7 +130,7 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @return array
      */
-    protected function providersFromRoot()
+    public function providersFromRoot()
     {
         if (! \defined('TESTBENCH_WORKING_PATH') || ! is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
             return [];
