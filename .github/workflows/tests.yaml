@@ -55,11 +55,14 @@ jobs:
 
       - name: Execute tests (with deprecations)
         run: vendor/bin/phpunit -c ./phpunit9.xml
+        env:
+          RAY_ENABLED: false
         if: matrix.os != 'windows-latest'
 
       - name: Execute tests (without deprecations)
         run: vendor/bin/phpunit  -c ./phpunit9.xml --exclude-group deprecations
         env:
+          RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.os == 'windows-latest'
 
@@ -107,10 +110,13 @@ jobs:
 
       - name: Execute tests (with deprecations)
         run: vendor/bin/phpunit
+        env:
+          RAY_ENABLED: false
         if: matrix.os != 'windows-latest'
 
       - name: Execute tests (without deprecations)
         run: vendor/bin/phpunit --exclude-group deprecations
         env:
+          RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.os == 'windows-latest'
