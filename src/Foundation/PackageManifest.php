@@ -25,6 +25,7 @@ class PackageManifest extends IlluminatePackageManifest
      * @var array<int, string>
      */
     protected $requiredPackages = [
+        'laravel/dusk',
         'spatie/laravel-ray',
     ];
 
