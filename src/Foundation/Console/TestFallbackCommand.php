@@ -22,6 +22,7 @@ class TestFallbackCommand extends Command
         {--coverage : Indicates whether the coverage information should be collected}
         {--min= : Indicates the minimum threshold enforcement for coverage}
         {--p|parallel : Indicates if the tests should run in parallel}
+        {--profile : Lists top 10 slowest tests}
         {--recreate-databases : Indicates if the test databases should be re-created}
         {--drop-databases : Indicates if the test databases should be dropped}
         {--without-databases : Indicates if database configuration should be performed}
