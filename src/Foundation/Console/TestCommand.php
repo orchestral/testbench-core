@@ -15,12 +15,13 @@ class TestCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
+        {--c|configuration= : Read configuration from XML file}
         {--coverage : Indicates whether the coverage information should be collected}
         {--min= : Indicates the minimum threshold enforcement for coverage}
         {--p|parallel : Indicates if the tests should run in parallel}
         {--recreate-databases : Indicates if the test databases should be re-created}
         {--drop-databases : Indicates if the test databases should be dropped}
-        {--c|custom-argument : Add custom env variables}
+        {--custom-argument : Add custom env variables}
     ';
 
     /**
