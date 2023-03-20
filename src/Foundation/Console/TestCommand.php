@@ -21,6 +21,7 @@ class TestCommand extends Command
         {--p|parallel : Indicates if the tests should run in parallel}
         {--recreate-databases : Indicates if the test databases should be re-created}
         {--drop-databases : Indicates if the test databases should be dropped}
+        {--without-databases : Indicates if database configuration should be performed}
         {--custom-argument : Add custom env variables}
     ';
 
