@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.1.1
+
+Released: 2023-03-20
+
+### Changes
+
+* Update `package:test` available options.
+
 ## 8.1.0
 
 Released: 2023-03-18
