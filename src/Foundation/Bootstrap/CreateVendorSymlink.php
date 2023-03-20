@@ -54,7 +54,7 @@ final class CreateVendorSymlink
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
-            } catch (ErrorException $e) {
+            } catch (ErrorException) {
                 //
             }
         }
