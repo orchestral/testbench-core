@@ -39,7 +39,7 @@ final class ConfigureRay
      *
      * @param  TLaravel  $app
      * @param  class-string  $class
-     * @param  \Closure(\Spatie\Ray\Settings\Settings, TLaravel):void  $callback
+     * @param  \Closure(object, TLaravel):void  $callback
      * @return void
      */
     protected function callAfterResolving(Application $app, $class, Closure $callback): void
