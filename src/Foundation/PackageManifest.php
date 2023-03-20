@@ -131,7 +131,7 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @return array
      */
-    public function providersFromRoot()
+    protected function providersFromRoot()
     {
         if (! \defined('TESTBENCH_WORKING_PATH') || ! is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
             return [];
