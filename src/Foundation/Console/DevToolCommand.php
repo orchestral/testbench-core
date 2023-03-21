@@ -5,7 +5,9 @@ namespace Orchestra\Testbench\Foundation\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'package:devtool')]
 class DevToolCommand extends Command
 {
     use Concerns\InteractsWithIO;
