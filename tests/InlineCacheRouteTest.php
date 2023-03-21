@@ -13,6 +13,8 @@ class InlineCacheRouteTest extends TestCase
      */
     public function it_can_cache_route()
     {
+        $this->assertFalse($this->app->routesAreCached());
+
         $this->defineCacheRoutes(<<<PHP
 <?php
 
@@ -22,5 +24,11 @@ PHP);
         $this->get('stubs-controller')
             ->assertOk()
             ->assertSee('Controller@index');
+
+        $this->assertTrue($this->app->routesAreCached());
+
+        $this->reloadApplication();
+
+        $this->assertFalse($this->app->routesAreCached());
     }
 }
