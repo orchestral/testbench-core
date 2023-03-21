@@ -18,10 +18,12 @@ class TestbenchServiceProvider extends ServiceProvider
     {
         $workingPath = \defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
 
-        AboutCommand::add('Testbench', fn () => [
+        AboutCommand::add('Testbench', fn () => array_filter([
             'Core Version' => InstalledVersions::getPrettyVersion('orchestra/testbench-core'),
+            'Dusk Version' => InstalledVersions::isInstalled('orchestra/testbench-dusk') ? InstalledVersions::getPrettyVersion('orchestra/testbench-dusk') : null,
             'Skeleton Path' => str_replace($workingPath, '', $this->app->basePath()),
-        ]);
+            'Version' => InstalledVersions::isInstalled('orchestra/testbench') ? InstalledVersions::getPrettyVersion('orchestra/testbench') : null,
+        ]));
     }
 
     /**

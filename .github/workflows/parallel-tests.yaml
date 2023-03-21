@@ -64,20 +64,26 @@ jobs:
 
       - name: Execute tests (with deprecations on PHPUnit 10)
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel
+        env:
+          RAY_ENABLED: false
         if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
 
       - name: Execute tests (with deprecations on PHPUnit 9)
         run: ./testbench package:test -c phpunit9.xml --parallel --exclude-group commander
+        env:
+          RAY_ENABLED: false
         if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
 
       - name: Execute tests (without deprecations on PHPUnit 10)
         run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel
         env:
+          RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
 
       - name: Execute tests (without deprecations on PHPUnit 9)
         run: ./testbench package:test -c phpunit9.xml --parallel --exclude-group commander,deprecations
         env:
+          RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.dependencies != 'highest'&& matrix.phpunit == '9.x'

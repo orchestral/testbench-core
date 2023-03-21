@@ -7,6 +7,9 @@ use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * @internal
+ */
 class PackageManifest extends IlluminatePackageManifest
 {
     /**
@@ -22,6 +25,7 @@ class PackageManifest extends IlluminatePackageManifest
      * @var array<int, string>
      */
     protected $requiredPackages = [
+        'laravel/dusk',
         'spatie/laravel-ray',
     ];
 

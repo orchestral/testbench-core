@@ -17,14 +17,16 @@ class TestFallbackCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
-        {--c|configuration= : Read configuration from XML file}
         {--compact : Indicates whether the compact printer should be used}
-        {--coverage : Indicates whether code coverage information should be collected}
-        {--min= : Indicates the minimum threshold enforcement for code coverage}
+        {--c|configuration= : Read configuration from XML file}
+        {--coverage : Indicates whether the coverage information should be collected}
+        {--min= : Indicates the minimum threshold enforcement for coverage}
         {--p|parallel : Indicates if the tests should run in parallel}
         {--profile : Lists top 10 slowest tests}
         {--recreate-databases : Indicates if the test databases should be re-created}
         {--drop-databases : Indicates if the test databases should be dropped}
+        {--without-databases : Indicates if database configuration should be performed}
+        {--custom-argument : Add custom env variables}
     ';
 
     /**

@@ -43,12 +43,12 @@ final class ConfigureRay
      */
     protected function callAfterResolvingSettings(Application $app, Closure $callback): void
     {
-        $settings = Settings::class;
+        $class = Settings::class;
 
-        $app->afterResolving($settings, $callback);
+        $app->afterResolving($class, $callback);
 
-        if ($app->resolved($settings)) {
-            $callback($app->make($settings), $app);
+        if ($app->resolved($class)) {
+            $callback($app->make($class), $app);
         }
     }
 }

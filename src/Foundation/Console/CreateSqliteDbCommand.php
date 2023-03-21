@@ -4,7 +4,9 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'package:create-sqlite-db')]
 class CreateSqliteDbCommand extends Command
 {
     use Concerns\InteractsWithIO;
@@ -14,7 +16,7 @@ class CreateSqliteDbCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'package:create-sqlite-db  {--force : Overwrite the database file}';
+    protected $signature = 'package:create-sqlite-db {--force : Overwrite the database file}';
 
     /**
      * The console command description.
