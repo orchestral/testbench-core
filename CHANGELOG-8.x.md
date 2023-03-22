@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.1.2
+
+Released: 2023-03-22
+
+### Fixes
+
+* Fixes resetting `testbench.yaml` from backup is only needed if the backup file exists.
+
 ## 8.1.1
 
 Released: 2023-03-20
