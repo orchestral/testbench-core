@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
-use function Orchestra\Testbench\phpunit_version_compare;
 
 /**
  * @internal
@@ -51,10 +50,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         if ($testbenchConvertDeprecationsToExceptions === true) {
             throw $error;
         }
-
-        if ($testbenchConvertDeprecationsToExceptions !== false && $this->getPhpUnitConvertDeprecationsToExceptions() === true) {
-            throw $error;
-        }
     }
 
     /**
@@ -93,29 +88,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
                 'trace' => true,
             ]);
         });
-    }
-
-    /**
-     * Get PHPUnit convert deprecations to exceptions from TestResult.
-     *
-     * @phpunit-overrides
-     *
-     * @return bool
-     */
-    protected function getPhpUnitConvertDeprecationsToExceptions(): bool
-    {
-        if (phpunit_version_compare('10', '>=')) {
-            return false;
-        }
-
-        /**
-         * @phpstan-ignore-next-line
-         *
-         * @var \PHPUnit\Framework\TestResult|null $testResult
-         */
-        $testResult = $this->testbench?->getTestResultObject();
-
-        return $testResult?->getConvertDeprecationsToExceptions() ?? false;
     }
 
     /**

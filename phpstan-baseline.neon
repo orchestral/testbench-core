@@ -24,8 +24,3 @@ parameters:
 			message: "#^Parameter \\$callback of method Orchestra\\\\Testbench\\\\Bootstrap\\\\ConfigureRay\\:\\:callAfterResolvingSettings\\(\\) has invalid type Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
 			count: 1
 			path: src/Bootstrap/ConfigureRay.php
-
-		-
-			message: "#^Call to method getConvertDeprecationsToExceptions\\(\\) on an unknown class PHPUnit\\\\Framework\\\\TestResult\\.$#"
-			count: 1
-			path: src/Bootstrap/HandleExceptions.php
