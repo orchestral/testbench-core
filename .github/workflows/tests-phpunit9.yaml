@@ -1,4 +1,4 @@
-name: tests
+name: tests-on-phpunit-9
 
 on:
   push:
