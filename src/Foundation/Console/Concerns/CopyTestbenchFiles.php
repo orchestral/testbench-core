@@ -34,7 +34,9 @@ trait CopyTestbenchFiles
             $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
 
             $this->beforeTerminating(function () use ($filesystem, $testbenchFile) {
-                $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
+                if ($filesystem->exists("{$testbenchFile}.backup")) {
+                    $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
+                }
             });
         }
 
