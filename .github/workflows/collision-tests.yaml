@@ -66,7 +66,7 @@ jobs:
         if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
 
       - name: Execute tests (with deprecations on PHPUnit 9)
-        run: ./testbench package:test -c phpunit9.xml --exclude-group commander
+        run: ./testbench package:test --configuration phpunit9.xml --exclude-group commander
         env:
           RAY_ENABLED: false
         if: matrix.dependencies == 'highest' && matrix.phpunit == '9.x'
@@ -79,7 +79,7 @@ jobs:
         if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
 
       - name: Execute tests (without deprecations on PHPUnit 9)
-        run: ./testbench package:test -c phpunit9.xml --exclude-group commander,deprecations
+        run: ./testbench package:test --configuration phpunit9.xml --exclude-group commander,deprecations
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
