@@ -17,8 +17,6 @@ class PhpUnit9DeprecationsTest extends TestCase
     /** @test */
     public function handle_php81_deprecations_using_logs()
     {
-        $this->expectException(DeprecatedException::class);
-
         Log::shouldReceive('channel')
             ->once()->with('deprecations')
             ->andReturnSelf()
@@ -33,6 +31,8 @@ class PhpUnit9DeprecationsTest extends TestCase
 
     /**
      * @test
+     *
+     * @define-env defineConvertDeprecationsToExceptions
      */
     public function handle_php81_deprecations_using_phpunit_exception()
     {
