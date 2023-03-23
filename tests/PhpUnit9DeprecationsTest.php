@@ -17,7 +17,7 @@ class PhpUnit9DeprecationsTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider defineConvertDeprecationsToExceptions
+     * @define-env defineConvertDeprecationsToExceptions
      */
     public function handle_php81_deprecations_using_logs()
     {
