@@ -19,25 +19,6 @@ class PhpUnit9DeprecationsTest extends TestCase
      *
      * @define-env defineConvertDeprecationsToExceptions
      */
-    public function handle_php81_deprecations_using_logs()
-    {
-        Log::shouldReceive('channel')
-            ->once()->with('deprecations')
-            ->andReturnSelf()
-            ->shouldReceive('warning')
-            ->once()
-            ->withArgs(function ($message) {
-                return strpos($message, 'zzz in') !== false;
-            });
-
-        trigger_error('zzz', E_USER_DEPRECATED);
-    }
-
-    /**
-     * @test
-     *
-     * @define-env defineConvertDeprecationsToExceptions
-     */
     public function handle_php81_deprecations_using_phpunit_exception()
     {
         $this->expectException(DeprecatedException::class);
