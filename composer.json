@@ -40,7 +40,7 @@
         "laravel/pint": "^1.4",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^7.0",
-        "phpstan/phpstan": "^1.9.14",
+        "phpstan/phpstan": "^1.10.7",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ray": "^1.32.4",
         "symfony/process": "^6.0.9",
@@ -68,10 +68,10 @@
         "post-autoload-dump": "@composer run prepare",
         "prepare": "@php testbench package:discover --ansi",
         "ci": [
+            "@composer audit",
             "@composer run prepare",
-            "@php vendor/bin/phpstan analyse",
             "@php vendor/bin/pint",
-            "@composer run test"
+            "@php vendor/bin/phpstan analyse"
         ],
         "test": "@php vendor/bin/phpunit -c ./ --color"
     },

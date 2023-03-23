@@ -65,7 +65,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     protected function ensureDeprecationLoggerIsConfigured()
     {
         /** @phpstan-ignore-next-line */
-        with(static::$app['config'], function ($config) {
+        with(self::$app['config'], function ($config) {
             /** @var \Illuminate\Contracts\Config\Repository $config */
             if ($config->get('logging.channels.deprecations')) {
                 return;
@@ -122,6 +122,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     protected function shouldIgnoreDeprecationErrors()
     {
         return ! class_exists(LogManager::class)
-            || ! static::$app->hasBeenBootstrapped();
+            || ! self::$app->hasBeenBootstrapped();
     }
 }
