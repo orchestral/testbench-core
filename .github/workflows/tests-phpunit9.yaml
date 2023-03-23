@@ -3,8 +3,6 @@ name: tests-on-phpunit-9
 on:
   push:
   pull_request:
-  schedule:
-    - cron: '0 0 * * *'
 
 jobs:
   tests-on-phpunit-9:
