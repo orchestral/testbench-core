@@ -36,5 +36,6 @@
         <server name="APP_ENV" value="testing"/>
         <server name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
         <server name="SEND_DEPRECATED_NOTICES_TO_RAY" value="(true)"/>
+        <server name="RAY_ENABLED" value="(false)"/>
     </php>
 </phpunit>
