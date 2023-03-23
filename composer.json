@@ -43,7 +43,7 @@
         "orchestra/canvas": "^8.1",
         "phpstan/phpstan": "^1.10.7",
         "phpunit/phpunit": "^10.0.7",
-        "spatie/laravel-ray": "^1.32",
+        "spatie/laravel-ray": "^1.32.4",
         "symfony/process": "^6.2",
         "symfony/yaml": "^6.2",
         "vlucas/phpdotenv": "^5.4.1"
@@ -71,8 +71,8 @@
         "ci": [
             "@composer audit",
             "@composer run prepare",
-            "@php vendor/bin/phpstan analyse",
-            "@php vendor/bin/pint"
+            "@php vendor/bin/pint",
+            "@php vendor/bin/phpstan analyse"
         ],
         "test": "@php vendor/bin/phpunit -c ./ --color",
         "test:phpunit9": "@php vendor/bin/phpunit -c ./phpunit9.xml --color"
