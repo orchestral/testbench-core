@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.22.2
+
+Released: 2023-03-23
+
+### Fixes
+
+* Avoid database connection from eager loaded via `spatie/laravel-ray`.
+
 ## 7.22.1
 
 Released: 2023-02-03
