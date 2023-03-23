@@ -14,7 +14,11 @@ use Orchestra\Testbench\TestCase;
  */
 class PhpUnit9DeprecationsTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     *
+     * @dataProvider defineConvertDeprecationsToExceptions
+     */
     public function handle_php81_deprecations_using_logs()
     {
         Log::shouldReceive('channel')
