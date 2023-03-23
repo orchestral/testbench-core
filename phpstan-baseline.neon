@@ -14,8 +14,3 @@ parameters:
 			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_slow_queries_to_ray\\.$#"
 			count: 1
 			path: src/Bootstrap/ConfigureRay.php
-
-		-
-			message: "#^Call to method getConvertDeprecationsToExceptions\\(\\) on an unknown class PHPUnit\\\\Framework\\\\TestResult\\.$#"
-			count: 1
-			path: src/Bootstrap/HandleExceptions.php
