@@ -44,16 +44,10 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     {
         parent::handleDeprecationError($message, $file, $line, $level);
 
-        $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS');
-
-        $error = new DeprecatedException($message, $level, $file, $line);
+        $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS', false);
 
         if ($testbenchConvertDeprecationsToExceptions === true) {
-            throw $error;
-        }
-
-        if ($testbenchConvertDeprecationsToExceptions !== false && $this->getPhpUnitConvertDeprecationsToExceptions() === true) {
-            throw $error;
+            throw new DeprecatedException($message, $level, $file, $line);
         }
     }
 
@@ -93,29 +87,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
                 'trace' => true,
             ]);
         });
-    }
-
-    /**
-     * Get PHPUnit convert deprecations to exceptions from TestResult.
-     *
-     * @phpunit-overrides
-     *
-     * @return bool
-     */
-    protected function getPhpUnitConvertDeprecationsToExceptions(): bool
-    {
-        if (phpunit_version_compare('10', '>=')) {
-            return false;
-        }
-
-        /**
-         * @phpstan-ignore-next-line
-         *
-         * @var \PHPUnit\Framework\TestResult|null $testResult
-         */
-        $testResult = $this->testbench?->getTestResultObject();
-
-        return $testResult?->getConvertDeprecationsToExceptions() ?? false;
     }
 
     /**
