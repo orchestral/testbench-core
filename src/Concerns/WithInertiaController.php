@@ -7,21 +7,17 @@ use Inertia\ServiceProvider;
 
 trait WithInertiaController
 {
-
-    public array $fileFinderExtensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
-    public array $pathToPages = ['resources/js/Pages', 'resources/js/pages', 'resources/ts/Pages', 'resources/ts/pages', 'resources/app/Pages', 'resources/app/pages', 'resources/views/pages',];
-    public string $viewPath = 'resources/views';
-
-
-    public function setUp()
-    {
-        parent::setUp();
-        View::addLocation($this->viewPath);
-        $this->app->bind('inertia.testing.view-finder', function ($app) {
+    public function loadInertia(
+        string $viewPath = 'resources/views',
+        array $pathToPages = ['resources/js/Pages', 'resources/js/pages', 'resources/ts/Pages', 'resources/ts/pages', 'resources/app/Pages', 'resources/app/pages', 'resources/views/pages',],
+        array $fileFinderExtensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php']
+    ) {
+        View::addLocation($viewPath);
+        $this->app->bind('inertia.testing.view-finder', function ($app) use ($pathToPages, $fileFinderExtensions) {
             $viewFinder = new \Illuminate\View\FileViewFinder(
                 $app['files'],
-                array_merge($app['config']->get('inertia.testing.page_paths'), $this->pathToPages),
-                array_merge($app['config']->get('inertia.testing.page_extensions'), $this->fileFinderExtensions)
+                array_merge($app['config']->get('inertia.testing.page_paths'), $pathToPages),
+                array_merge($app['config']->get('inertia.testing.page_extensions'), $fileFinderExtensions)
             );
             $viewFinder->addNamespace('WD', 'UI/resources/app/Pages');
 
