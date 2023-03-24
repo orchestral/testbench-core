@@ -8,7 +8,7 @@ use Inertia\ServiceProvider;
 trait WithInertiaController
 {
     /**
-     * @param array $pageNameSpaces e.g. ['admin' => 'resources/views/admin'] if you have a namespace in your Inertia pages separated by ::
+     * @param array $pageNameSpaces e.g. ['admin' => 'Admin/resources/js/admin'] if you have a namespace in your Inertia pages separated by ::
      * @param string $viewPath 
      * @param array $pathToPages
      * @param array $fileFinderExtensions
