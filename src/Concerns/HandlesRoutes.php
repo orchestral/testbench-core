@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Orchestra\Testbench\Foundation\Application;
 
 trait HandlesRoutes
@@ -17,9 +18,12 @@ trait HandlesRoutes
             return;
         }
 
-        $this->defineRoutes($this->app['router']);
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $this->app['router'];
 
-        $this->app['router']->middleware('web')
+        $this->defineRoutes($router);
+
+        $router->middleware('web')
             ->group(function ($router) {
                 $this->defineWebRoutes($router);
             });
@@ -28,7 +32,7 @@ trait HandlesRoutes
             $this->parseTestMethodAnnotations($this->app, 'define-route');
         }
 
-        $this->app['router']->getRoutes()->refreshNameLookups();
+        $router->getRoutes()->refreshNameLookups();
     }
 
     /**
@@ -65,7 +69,7 @@ trait HandlesRoutes
 
         $time = time();
 
-        $laravel = Application::create($this->getBasePath());
+        $laravel = Application::create(static::applicationBasePath());
 
         $files->put(
             $laravel->basePath("routes/testbench-{$time}.php"), $route
@@ -77,7 +81,7 @@ trait HandlesRoutes
             $files->exists(base_path('bootstrap/cache/routes-v7.php'))
         );
 
-        if (isset($this->app)) {
+        if ($this->app instanceof LaravelApplication) {
             $this->reloadApplication();
         }
 
@@ -90,14 +94,18 @@ trait HandlesRoutes
     protected function requireApplicationCachedRoutes(Filesystem $files): void
     {
         $this->afterApplicationCreated(function () {
-            require $this->app->getCachedRoutesPath();
+            if ($this->app instanceof LaravelApplication) {
+                require $this->app->getCachedRoutesPath();
+            }
         });
 
         $this->beforeApplicationDestroyed(function () use ($files) {
-            $files->delete(
-                base_path('bootstrap/cache/routes-v7.php'),
-                ...$files->glob(base_path('routes/testbench-*.php'))
-            );
+            if ($this->app instanceof LaravelApplication) {
+                $files->delete(
+                    base_path('bootstrap/cache/routes-v7.php'),
+                    ...$files->glob(base_path('routes/testbench-*.php'))
+                );
+            }
 
             sleep(1);
         });

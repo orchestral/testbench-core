@@ -7,13 +7,6 @@ use Orchestra\Testbench\TestCase;
 
 class CacheRouteTest extends TestCase
 {
-    use InteractsWithPublishedFiles;
-
-    protected $files = [
-        'routes/testbench.php',
-        'bootstrap/cache/routes-v7.php',
-    ];
-
     /**
      * Setup the test environment.
      */
@@ -26,16 +19,6 @@ Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\C
 PHP);
 
         parent::setUp();
-    }
-
-    /**
-     * Teardown the test environment.
-     */
-    protected function tearDown(): void
-    {
-        $this->tearDownInteractsWithPublishedFiles();
-
-        parent::tearDown();
     }
 
     /** @test */
