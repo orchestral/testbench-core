@@ -193,7 +193,13 @@ trait Testing
             ->reject(function ($use) {
                 return Str::startsWith($use, [
                     'Illuminate\Foundation\Testing',
-                    'Orchestra\Testbench\Concerns',
+                    'Orchestra\Testbench\Concerns\CreatesApplication',
+                    'Orchestra\Testbench\Concerns\Database\HandlesConnections',
+                    'Orchestra\Testbench\Concerns\Testing',
+                    'Orchestra\Testbench\Concerns\Handles',
+                    'Orchestra\Testbench\Concerns\WithFactories',
+                    'Orchestra\Testbench\Concerns\WithLaravelMigrations',
+                    'Orchestra\Testbench\Concerns\WithLoadMigrationsFrom',
                     'Orchestra\Testbench\Dusk\Concerns',
                 ]);
             })->transform(function ($use) {
