@@ -15,7 +15,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -222,17 +224,35 @@ trait Testing
             $this->setUpFaker();
         }
 
-        foreach ($uses as $trait) {
-            if (method_exists($this, $method = 'setUp'.class_basename($trait))) {
-                $this->{$method}();
-            }
-
-            if (method_exists($this, $method = 'tearDown'.class_basename($trait))) {
-                $this->beforeApplicationDestroyed(function () use ($method) {
+        Collection::make($uses)
+            ->reject(function ($use) {
+                /** @var class-string $use */
+                return Str::startsWith($use, [
+                    'Illuminate\Foundation\Testing',
+                    'Orchestra\Testbench\Concerns\CreatesApplication',
+                    'Orchestra\Testbench\Concerns\Database\HandlesConnections',
+                    'Orchestra\Testbench\Concerns\Testing',
+                    'Orchestra\Testbench\Concerns\Handles',
+                    'Orchestra\Testbench\Concerns\WithFactories',
+                    'Orchestra\Testbench\Concerns\WithLaravelMigrations',
+                    'Orchestra\Testbench\Concerns\WithLoadMigrationsFrom',
+                    'Orchestra\Testbench\Dusk\Concerns',
+                ]);
+            })->transform(function ($use) {
+                /** @var class-string $use */
+                return class_basename($use);
+            })->each(function ($traitBaseName) {
+                /** @var string $traitBaseName */
+                if (method_exists($this, $method = 'setUp'.$traitBaseName)) {
                     $this->{$method}();
-                });
-            }
-        }
+                }
+
+                if (method_exists($this, $method = 'tearDown'.$traitBaseName)) {
+                    $this->beforeApplicationDestroyed(function () use ($method) {
+                        $this->{$method}();
+                    });
+                }
+            });
 
         return $uses;
     }
