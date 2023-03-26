@@ -13,7 +13,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\Support\Str;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Throwable;
@@ -187,17 +189,27 @@ trait Testing
             $this->setUpFaker();
         }
 
-        foreach ($uses as $trait) {
-            if (method_exists($this, $method = 'setUp'.class_basename($trait))) {
-                $this->{$method}();
-            }
-
-            if (method_exists($this, $method = 'tearDown'.class_basename($trait))) {
-                $this->beforeApplicationDestroyed(function () use ($method) {
+        Collection::make($uses)
+            ->reject(function ($use) {
+                return Str::startsWith($use, [
+                    'Illuminate\Foundation\Testing',
+                    'Orchestra\Testbench\Concerns',
+                    'Orchestra\Testbench\Dusk\Concerns',
+                ]);
+            })->transform(function ($use) {
+                return class_basename($use);
+            })->each(function ($method) {
+                /** @var string $method */
+                if (method_exists($this, $method = 'setUp'.class_basename($trait))) {
                     $this->{$method}();
-                });
-            }
-        }
+                }
+
+                if (method_exists($this, $method = 'tearDown'.class_basename($trait))) {
+                    $this->beforeApplicationDestroyed(function () use ($method) {
+                        $this->{$method}();
+                    });
+                }
+            });
 
         return $uses;
     }
