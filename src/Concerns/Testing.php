@@ -222,6 +222,18 @@ trait Testing
             $this->setUpFaker();
         }
 
+        foreach ($uses as $trait) {
+            if (method_exists($this, $method = 'setUp'.class_basename($trait))) {
+                $this->{$method}();
+            }
+
+            if (method_exists($this, $method = 'tearDown'.class_basename($trait))) {
+                $this->beforeApplicationDestroyed(function () use ($method) {
+                    $this->{$method}();
+                });
+            }
+        }
+
         return $uses;
     }
 
