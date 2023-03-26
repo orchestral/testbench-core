@@ -198,13 +198,13 @@ trait Testing
                 ]);
             })->transform(function ($use) {
                 return class_basename($use);
-            })->each(function ($method) {
-                /** @var string $method */
-                if (method_exists($this, $method = 'setUp'.class_basename($trait))) {
+            })->each(function ($traitBaseName) {
+                /** @var string $traitBaseName */
+                if (method_exists($this, $method = 'setUp'.$traitBaseName)) {
                     $this->{$method}();
                 }
 
-                if (method_exists($this, $method = 'tearDown'.class_basename($trait))) {
+                if (method_exists($this, $method = 'tearDown'.$traitBaseName)) {
                     $this->beforeApplicationDestroyed(function () use ($method) {
                         $this->{$method}();
                     });
