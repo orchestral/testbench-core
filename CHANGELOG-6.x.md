@@ -2,6 +2,27 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.30.0
+
+Released: 2023-03-27
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Config` to read Yaml file from `testbench.yaml`.
+* Added `Orchestra\Testbench\Foundation\Application::createVendorSymlink()` method.
+    - The feature uses `Orchestra\Testbench\Foundation\Bootstrap\CreateVendorSymlink`.
+* Added `resolveApplicationEnvironmentVariables()` method.
+* Add supports for `setup<Concern>` and `teardown<Concern>` with imported traits.
+
+### Changes
+
+* Bump minimum laravel/framework to `8.83.26`.
+* Improves PHPUnit memory leaks.
+* Refactor following classes to match Testbench 7:
+    - `Orchestra\Testbench\Concerns\HandlesRoutes`
+    - `Orchestra\Testbench\Console\Commander`
+    - `Orchestra\Testbench\Foundation\Application`
+
 ## 6.29.1
 
 Released: 2022-10-11
