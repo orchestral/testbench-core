@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.23.0
+
+Released: 2023-03-27
+
+### Added
+
+* Add supports for `setup<Concern>` and `teardown<Concern>` with imported traits.
+
+## 7.22.2
+
+Released: 2023-03-23
+
+### Fixes
+
+* Avoid database connection from eager loaded via `spatie/laravel-ray`.
+
 ## 7.22.1
 
 Released: 2023-02-03

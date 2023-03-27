@@ -24,7 +24,7 @@ jobs:
           - "highest"
           - "lowest"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -83,7 +83,7 @@ jobs:
         dependencies:
           - "highest"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
 
