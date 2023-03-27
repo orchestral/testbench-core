@@ -2,6 +2,21 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.2.0
+
+Released: 2023-03-27
+
+### Added
+
+* Add supports for `setup<Concern>` and `teardown<Concern>` with imported traits.
+
+### Changes
+
+* Move PHPUnit 9 support to legacy:
+    - Recommend using PHPUnit 10 whenever possible. 
+    - Remove deprecation handling support for PHPUnit 9.
+    - Only recommend using `package:test` and `--parallel` with PHPUnit 10.
+
 ## 8.1.2
 
 Released: 2023-03-22
