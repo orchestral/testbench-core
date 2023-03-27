@@ -18,7 +18,7 @@ Released: 2023-03-27
 
 * Bump minimum laravel/framework to `8.83.26`.
 * Improves PHPUnit memory leaks.
-* Refactor following classes to match Testbench 7:
+* Refactor the following classes to match Testbench 7:
     - `Orchestra\Testbench\Concerns\HandlesRoutes`
     - `Orchestra\Testbench\Console\Commander`
     - `Orchestra\Testbench\Foundation\Application`
