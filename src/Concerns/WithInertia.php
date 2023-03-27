@@ -41,11 +41,11 @@ trait WithInertia
     /**
      * Configure Inertia for the test.
      * 
-     * @param string  $viewLocation 
-     * @param array<string, string>  $namespaces
+     * @param  string  $viewLocation 
+     * @param  array<string, string>  $namespaces
      * @return void
      */
-    public function loadInertia(string $viewLocation = 'resources/views', array $namespaces = []): void
+    protected function loadInertia(string $viewLocation = 'resources/views', array $namespaces = []): void
     {
         View::addLocation($viewLocation);
 
