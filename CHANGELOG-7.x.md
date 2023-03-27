@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.23.0
+
+Released: 2023-03-27
+
+### Added
+
+* Add supports for `setup<Concern>` and `teardown<Concern>` with imported traits.
+
 ## 7.22.2
 
 Released: 2023-03-23
