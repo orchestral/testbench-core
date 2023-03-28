@@ -17,7 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
 /**
- * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null}
+ * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null, migrations: array|bool|null}
+ *
+ * @internal
  */
 class Commander
 {
@@ -38,6 +40,7 @@ class Commander
         'env' => [],
         'providers' => [],
         'dont-discover' => [],
+        'migrations' => [],
     ];
 
     /**

@@ -54,16 +54,16 @@ final class LoadMigrationsFromArray
      * Setup an after resolving listener, or fire immediately if already resolved.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  string  $name
      * @param  callable  $callback
      * @return void
      */
     protected function callAfterResolvingMigrator($app, $callback)
     {
+        /** @phpstan-ignore-next-line */
         $app->afterResolving('migrator', $callback);
 
         if ($app->resolved('migrator')) {
-            $callback($app->make('migrator'), $this->app);
+            $callback($app->make('migrator'), $app);
         }
     }
 }
