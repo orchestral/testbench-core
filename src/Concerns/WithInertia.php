@@ -39,7 +39,7 @@ trait WithInertia
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $this->app['config'];
 
-        $this->app['config']->set('inertia.testing.ensure_pages_exist', false);
+        $config->set('inertia.testing.ensure_pages_exist', false);
 
         $pageExtensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
 
