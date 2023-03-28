@@ -11,30 +11,30 @@ trait WithInertia
 {
     /**
      * Inertia route middleware.
-     * 
+     *
      * @var class-string|null
      */
     protected $inertiaMiddleware;
 
     /**
      * Available Inertia page extensions.
-     * 
+     *
      * @var array<int, string>
      */
     protected $inertiaPageExtensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
 
-    /** 
+    /**
      * Available Inertia page paths.
-     * 
+     *
      * @var array<int, string>
      */
     protected $inertiaPagePaths = [
-        'resources/js/Pages', 
-        'resources/js/pages', 
-        'resources/ts/Pages', 
-        'resources/ts/pages', 
-        'resources/app/Pages', 
-        'resources/app/pages', 
+        'resources/js/Pages',
+        'resources/js/pages',
+        'resources/ts/Pages',
+        'resources/ts/pages',
+        'resources/app/Pages',
+        'resources/app/pages',
         'resources/views/pages',
     ];
 
@@ -52,8 +52,8 @@ trait WithInertia
 
     /**
      * Configure Inertia for the test.
-     * 
-     * @param  string  $location 
+     *
+     * @param  string  $location
      * @param  array<string, string>  $namespaces
      * @return void
      */
@@ -62,6 +62,7 @@ trait WithInertia
         View::addLocation($location);
 
         $this->instance('inertia.testing.view-finder', function ($app) use ($namespaces) {
+            /** @var \Illuminate\Foundation\Application $app */
             $finder = new FileViewFinder(
                 $app['files'],
                 array_merge($app['config']->get('inertia.testing.page_paths'), $this->inertiaPagePaths),
