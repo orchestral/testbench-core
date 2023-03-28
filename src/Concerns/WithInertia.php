@@ -2,12 +2,20 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\FileViewFinder;
 use Inertia\ServiceProvider;
 
 trait WithInertia
 {
+    /**
+     * Inertia route middleware.
+     * 
+     * @var class-string|null
+     */
+    protected $inertiaMiddleware;
+
     /**
      * Available Inertia page extensions.
      * 
@@ -36,6 +44,10 @@ trait WithInertia
     protected function setupWithInertia(): void
     {
         $this->app->register(ServiceProvider::class);
+
+        if (! is_null($this->inertiaMiddleware)) {
+            Route::middleware($this->inertiaMiddleware);
+        }
     }
 
     /**
@@ -45,7 +57,7 @@ trait WithInertia
      * @param  array<string, string>  $namespaces
      * @return void
      */
-    protected function loadInertia(string $location = 'resources/views', array $namespaces = []): void
+    protected function defineInertia(string $location = 'resources/views', array $namespaces = []): void
     {
         View::addLocation($location);
 
