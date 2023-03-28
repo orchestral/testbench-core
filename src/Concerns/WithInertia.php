@@ -3,9 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
 use Illuminate\View\FileViewFinder;
 use Inertia\ServiceProvider;
 
@@ -14,6 +11,13 @@ use Inertia\ServiceProvider;
  */
 trait WithInertia
 {
+    /**
+     * Inertia has been defined.
+     * 
+     * @var bool
+     */
+    protected $inertiaDefined = false;
+
     /**
      * Setup the test environment.
      */
@@ -54,24 +58,33 @@ trait WithInertia
         }
 
         $this->instance('inertia.testing.view-finder', $finder);
+
+        $this->inertiaDefined = true;
     }
 
     /**
      * Configure Inertia's File View Finder.
      *
-     * @param  \Illuminate\View\FileViewFinder  $finder
-     * @param  string  $location
-     * @param  array<int, string>  $pagePaths
-     * @return \Illuminate\View\FileViewFinder
+     * @param  string  $view
+     * @param  array<int, string>  $paths
+     * @param  bool  $ensureExists
+     * @return void
      */
-    protected function configureInertiaViewFinder(FileViewFinder $finder, ?string $location, array $pagePaths = [])
+    protected function configureInertiaPages(?string $view, array $paths = [], $ensureExists = true)
     {
-        if (! is_null($location)) {
-            $this->app['view']->addLocation($location);
+        if ($this->inertiaDefined === false) {
+            $this->defineInertia();
         }
 
-        $finder->setPaths(array_merge($finder->getPaths(), $pagePaths));
+        $finder = $this->app['inertia.testing.view-finder'];
 
-        return $finder;
+        $this->app['config']->set('inertia.testing.ensure_pages_exist', $ensureExists);
+
+        if (! is_null($location)) {
+            $this->app['view']->addLocation($view);
+        }
+
+        $finder->setPaths(array_merge($finder->getPaths(), $paths));
     }
 }
+
