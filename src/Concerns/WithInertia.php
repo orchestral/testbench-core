@@ -43,8 +43,6 @@ trait WithInertia
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $this->app['config'];
 
-        $config->set('inertia.testing.ensure_pages_exist', false);
-
         $pageExtensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
 
         $finder = new FileViewFinder(
@@ -75,7 +73,9 @@ trait WithInertia
             $this->app['view']->addLocation($view);
         }
 
-        $resolver = function (FileViewFinder $finder) use ($paths) {
+        $resolver = function (FileViewFinder $finder, $app, $config) use ($paths) {
+            $config->set('inertia.testing.ensure_pages_exist', true);
+
             $finder->setPaths(array_merge($finder->getPaths(), $paths));
         };
 
