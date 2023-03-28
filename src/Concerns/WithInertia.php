@@ -12,11 +12,11 @@ use Inertia\ServiceProvider;
 trait WithInertia
 {
     /**
-     * Inertia has been defined.
+     * Inertia has been resolved.
      * 
      * @var bool
      */
-    protected $inertiaDefined = false;
+    protected $inertiaWasResolved = false;
 
     /**
      * Setup the test environment.
@@ -40,24 +40,24 @@ trait WithInertia
      */
     protected function defineInertia(?callable $callback = null): void
     {
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = $this->app;
+
         /** @var \Illuminate\Contracts\Config\Repository $config */
-        $config = $this->app['config'];
+        $config = $app['config'];
 
-        $pageExtensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
-
-        $finder = new FileViewFinder(
-            new Filesystem(),
-            $config->get('inertia.testing.page_paths'),
-            array_merge($config->get('inertia.testing.page_extensions'), $pageExtensions)
-        );
-
-        if (is_callable($callback)) {
-            value($callback, $finder, $this->app, $config);
+        if ($this->inertiaWasResolved === false) {
+            $this->resolveInertiaFileViewFinder($this->app);
         }
 
-        $this->instance('inertia.testing.view-finder', $finder);
+        /** @var \Illuminate\View\FileViewFinder $finder */
+        $finder = $app['inertia.testing.view-finder'];
+        
+        if (is_callable($callback)) {
+            value($callback, $finder, $app, $config);
+        }
 
-        $this->inertiaDefined = true;
+        $this->inertiaWasResolved = true;
     }
 
     /**
@@ -73,16 +73,32 @@ trait WithInertia
             $this->app['view']->addLocation($view);
         }
 
-        $resolver = function (FileViewFinder $finder, $app, $config) use ($paths) {
+        $this->defineInertia(function (FileViewFinder $finder, $app, $config) use ($paths) {
             $config->set('inertia.testing.ensure_pages_exist', true);
 
             $finder->setPaths(array_merge($finder->getPaths(), $paths));
-        };
+        });
+    }
 
-        if ($this->inertiaDefined === false) {
-            $this->defineInertia($resolver);
-        } else {
-            value($resolver, $this->app['inertia.testing.view-finder'], $this->app, $this->app['config']);
-        }
+    /**
+     * Resolve Inertia's File View Finder instance.
+     * 
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveInertiaFileViewFinder($app) 
+    {
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app['config'];
+
+        $extensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
+
+        $finder = new FileViewFinder(
+            new Filesystem(),
+            $config->get('inertia.testing.page_paths'),
+            array_merge($config->get('inertia.testing.page_extensions'), $extensions)
+        );
+
+        $this->app->instance('inertia.testing.view-finder', $finder);
     }
 }
