@@ -35,9 +35,8 @@ final class LoadMigrationsFromArray
     public function bootstrap(Application $app): void
     {
         $paths = Collection::make(Arr::wrap($this->migrations))
-            ->filter(function ($migrations) {
-                return \is_string($migrations);
-            })->transform(function ($migration) use ($app) {
+            ->filter(fn ($migrations) => \is_string($migrations))
+            ->transform(function ($migration) use ($app) {
                 if (Str::startsWith('./', $migration)) {
                     return $app->basePath(str_replace('./', '/', $migration));
                 }
@@ -54,16 +53,16 @@ final class LoadMigrationsFromArray
      * Setup an after resolving listener, or fire immediately if already resolved.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  string  $name
      * @param  callable  $callback
      * @return void
      */
     protected function callAfterResolvingMigrator($app, $callback)
     {
+        /** @phpstan-ignore-next-line */
         $app->afterResolving('migrator', $callback);
 
         if ($app->resolved('migrator')) {
-            $callback($app->make('migrator'), $this->app);
+            $callback($app->make('migrator'), $app);
         }
     }
 }
