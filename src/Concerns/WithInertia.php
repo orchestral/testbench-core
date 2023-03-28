@@ -56,8 +56,8 @@ trait WithInertia
                 array_merge($app['config']->get('inertia.testing.page_extensions'), $this->inertiaPageExtensions)
             );
 
-            foreach ($namespaces as $namespace => $namespacePagePath) {
-                $finder->addNamespace($namespace, $namespacePagePath);
+            foreach ($namespaces as $namespace => $path) {
+                $finder->addNamespace($namespace, $path);
             }
 
             return $finder;
