@@ -33,10 +33,6 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (file_exists($this->app->basePath('migrations'))) {
-            $this->loadMigrationsFrom($this->app->basePath('migrations'));
-        }
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 $this->isCollisionDependenciesInstalled()

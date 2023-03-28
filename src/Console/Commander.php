@@ -6,11 +6,10 @@ use Illuminate\Console\Concerns\InteractsWithSignals;
 use Illuminate\Console\Signals;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -152,6 +151,12 @@ class Commander
     {
         return function ($app) {
             $app->register(TestbenchServiceProvider::class);
+
+            if ($this->config['migrations'] !== false && \is_array($this->config['migrations'])) {
+                (new LoadMigrationsFromArray(
+                    \is_array($this->config['migrations']) ? $this->config['migrations'] : []
+                ))->bootstrap($app);
+            }
         };
     }
 
