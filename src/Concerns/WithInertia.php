@@ -28,17 +28,17 @@ trait WithInertia
         if (property_exists($this, 'inertiaMiddleware')) {
             $this->app['router']->middleware($this->inertiaMiddleware);
         }
+
+        $this->app['config']->set('inertia.testing.ensure_pages_exist', false);
     }
 
     /**
      * Define Inertia for the test environment.
      *
-     * @param  string  $location
      * @param  (callable(\Illuminate\View\FileViewFinder, \Illuminate\Foundation\Application, \Illuminate\Contracts\Config\Repository):void)|null  $callback
-     * @param  bool|null  $ensurePageExists
      * @return void
      */
-    protected function defineInertia(callable $callback = null): void
+    protected function defineInertia(?callable $callback = null): void
     {
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $this->app['config'];
@@ -67,24 +67,22 @@ trait WithInertia
      *
      * @param  string  $view
      * @param  array<int, string>  $paths
-     * @param  bool  $ensureExists
      * @return void
      */
-    protected function configureInertiaPages(?string $view, array $paths = [], $ensureExists = true)
+    protected function defineInertiaPages(?string $view, array $paths = [])
     {
-        if ($this->inertiaDefined === false) {
-            $this->defineInertia();
-        }
-
-        $finder = $this->app['inertia.testing.view-finder'];
-
-        $this->app['config']->set('inertia.testing.ensure_pages_exist', $ensureExists);
-
         if (! is_null($location)) {
             $this->app['view']->addLocation($view);
         }
 
-        $finder->setPaths(array_merge($finder->getPaths(), $paths));
+        $resolver = function (FileViewFinder $finder) use ($paths) {
+            $finder->setPaths(array_merge($finder->getPaths(), $paths));
+        };
+
+        if ($this->inertiaDefined === false) {
+            $this->defineInertia($resolver);
+        } else {
+            value($resolver, $this->app['inertia.testing.view-finder'], $this->app, $this->app['config']);
+        }
     }
 }
-
