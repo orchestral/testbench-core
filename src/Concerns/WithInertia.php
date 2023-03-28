@@ -2,42 +2,18 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\FileViewFinder;
 use Inertia\ServiceProvider;
 
+/**
+ * @property class-string $inertiaMiddleware
+ */
 trait WithInertia
 {
-    /**
-     * Inertia route middleware.
-     *
-     * @var class-string|null
-     */
-    protected $inertiaMiddleware;
-
-    /**
-     * Available Inertia page extensions.
-     *
-     * @var array<int, string>
-     */
-    protected $inertiaPageExtensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
-
-    /**
-     * Available Inertia page paths.
-     *
-     * @var array<int, string>
-     */
-    protected $inertiaPagePaths = [
-        'resources/js/Pages',
-        'resources/js/pages',
-        'resources/ts/Pages',
-        'resources/ts/pages',
-        'resources/app/Pages',
-        'resources/app/pages',
-        'resources/views/pages',
-    ];
-
     /**
      * Setup the test environment.
      */
@@ -45,35 +21,57 @@ trait WithInertia
     {
         $this->app->register(ServiceProvider::class);
 
-        if (! is_null($this->inertiaMiddleware)) {
-            Route::middleware($this->inertiaMiddleware);
+        if (property_exists($this, 'inertiaMiddleware')) {
+            $this->app['router']->middleware($this->inertiaMiddleware);
         }
     }
 
     /**
-     * Configure Inertia for the test.
+     * Define Inertia for the test environment.
      *
      * @param  string  $location
-     * @param  array<string, string>  $namespaces
+     * @param  (callable(\Illuminate\View\FileViewFinder, \Illuminate\Foundation\Application, \Illuminate\Contracts\Config\Repository):void)|null  $callback
+     * @param  bool|null  $ensurePageExists
      * @return void
      */
-    protected function defineInertia(string $location = 'resources/views', array $namespaces = []): void
+    protected function defineInertia(callable $callback = null): void
     {
-        View::addLocation($location);
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $this->app['config'];
 
-        $this->instance('inertia.testing.view-finder', function ($app) use ($namespaces) {
-            /** @var \Illuminate\Foundation\Application $app */
-            $finder = new FileViewFinder(
-                $app['files'],
-                array_merge($app['config']->get('inertia.testing.page_paths'), $this->inertiaPagePaths),
-                array_merge($app['config']->get('inertia.testing.page_extensions'), $this->inertiaPageExtensions)
-            );
+        $this->app['config']->set('inertia.testing.ensure_pages_exist', false);
 
-            foreach ($namespaces as $namespace => $path) {
-                $finder->addNamespace($namespace, $path);
-            }
+        $pageExtensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
 
-            return $finder;
-        });
+        $finder = new FileViewFinder(
+            new Filesystem(),
+            $config->get('inertia.testing.page_paths'),
+            array_merge($config->get('inertia.testing.page_extensions'), $pageExtensions)
+        );
+
+        if (is_callable($callback)) {
+            value($callback, $finder, $this->app, $config);
+        }
+
+        $this->instance('inertia.testing.view-finder', $finder);
+    }
+
+    /**
+     * Configure Inertia's File View Finder.
+     *
+     * @param  \Illuminate\View\FileViewFinder  $finder
+     * @param  string  $location
+     * @param  array<int, string>  $pagePaths
+     * @return \Illuminate\View\FileViewFinder
+     */
+    protected function configureInertiaViewFinder(FileViewFinder $finder, ?string $location, array $pagePaths = [])
+    {
+        if (! is_null($location)) {
+            $this->app['view']->addLocation($location);
+        }
+
+        $finder->setPaths(array_merge($finder->getPaths(), $pagePaths));
+
+        return $finder;
     }
 }
