@@ -11,6 +11,7 @@ class CommanderTest extends TestCase
 {
     /**
      * @test
+     *
      * @group commander
      */
     public function it_can_call_commander_using_cli()

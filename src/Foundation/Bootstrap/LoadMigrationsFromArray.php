@@ -36,7 +36,7 @@ final class LoadMigrationsFromArray
     {
         $paths = Collection::make(Arr::wrap($this->migrations))
             ->filter(function ($migrations) {
-                return is_string($migrations);
+                return \is_string($migrations);
             })->transform(function ($migration) use ($app) {
                 if (Str::startsWith('./', $migration)) {
                     return $app->basePath(str_replace('./', '/', $migration));

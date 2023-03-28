@@ -4,10 +4,9 @@ namespace Orchestra\Testbench\Console;
 
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
@@ -16,7 +15,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
-use function Orchestra\Testbench\default_environment_variables;
 
 /**
  * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null}
@@ -117,14 +115,13 @@ class Commander
             $this->app = Application::create(
                 $this->getBasePath(),
                 function ($app) use ($hasEnvironmentFile) {
-
                     if ($hasEnvironmentFile === false) {
                         (new LoadEnvironmentVariablesFromArray(
                             ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables()
                         ))->bootstrap($app);
                     }
 
-                    call_user_func($this->resolveApplicationCallback(), $app);
+                    \call_user_func($this->resolveApplicationCallback(), $app);
                 },
                 $options
             );
@@ -143,9 +140,9 @@ class Commander
         return function ($app) {
             $app->register(TestbenchServiceProvider::class);
 
-            if ($this->config['migrations'] !== false && is_array($this->config['migrations'])) {
+            if ($this->config['migrations'] !== false && \is_array($this->config['migrations'])) {
                 (new LoadMigrationsFromArray(
-                    is_array($this->config['migrations']) ? $this->config['migrations'] : []
+                    \is_array($this->config['migrations']) ? $this->config['migrations'] : []
                 ))->bootstrap($app);
             }
         };

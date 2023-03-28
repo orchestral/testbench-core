@@ -10,7 +10,9 @@ class TestbenchTest extends \Orchestra\Testbench\TestCase
 {
     /**
      * @test
+     *
      * @define-env registerCustomQueuePayload
+     *
      * @dataProvider customQueuePayloadDataProvider
      */
     public function it_can_handle_custom_queue_payload()
