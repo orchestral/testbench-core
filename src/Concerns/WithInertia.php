@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\View\FileViewFinder;
 use Inertia\ServiceProvider;
+use Orchestra\Testbench\View\InertiaViewFinder;
 
 /**
  * @property class-string $inertiaMiddleware
@@ -91,14 +91,6 @@ trait WithInertia
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $app['config'];
 
-        $extensions = ['vue', 'js', 'jsx', 'ts', 'tsx', 'html', 'php'];
-
-        $finder = new FileViewFinder(
-            new Filesystem(),
-            $config->get('inertia.testing.page_paths'),
-            array_merge($config->get('inertia.testing.page_extensions'), $extensions)
-        );
-
-        $this->app->instance('inertia.testing.view-finder', $finder);
+        $this->app->instance('inertia.testing.view-finder', new InertiaViewFinder(new Filesystem(), $config->get('inertia.testing.page_paths')));
     }
 }
