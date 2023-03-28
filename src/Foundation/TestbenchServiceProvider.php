@@ -18,10 +18,6 @@ class TestbenchServiceProvider extends ServiceProvider
             config(['database.default' => 'testing']);
         }
 
-        if (file_exists($this->app->basePath('migrations'))) {
-            $this->loadMigrationsFrom($this->app->basePath('migrations'));
-        }
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 $this->isCollisionDependenciesInstalled()
@@ -29,6 +25,21 @@ class TestbenchServiceProvider extends ServiceProvider
                     : Console\TestFallbackCommand::class,
             ]);
         }
+    }
+
+    /**
+     * Register migrations from.
+     *
+     * @param  array  $paths
+     * @return void
+     */
+    public function registerMigrationsFrom(array $paths): void
+    {
+        if (file_exists($this->app->basePath('migrations'))) {
+            array_push($paths, $this->app->basePath('migrations'));
+        }
+
+        $this->loadMigrationsFrom($paths);
     }
 
     /**
