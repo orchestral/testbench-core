@@ -28,21 +28,6 @@ class TestbenchServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register migrations from.
-     *
-     * @param  array  $paths
-     * @return void
-     */
-    public function registerMigrationsFrom(array $paths): void
-    {
-        if (file_exists($this->app->basePath('migrations'))) {
-            array_push($paths, $this->app->basePath('migrations'));
-        }
-
-        $this->loadMigrationsFrom($paths);
-    }
-
-    /**
      * Check if the parallel dependencies are installed.
      *
      * @return bool
