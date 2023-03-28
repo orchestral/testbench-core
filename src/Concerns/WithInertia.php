@@ -41,13 +41,13 @@ trait WithInertia
     /**
      * Configure Inertia for the test.
      * 
-     * @param  string  $viewLocation 
+     * @param  string  $location 
      * @param  array<string, string>  $namespaces
      * @return void
      */
-    protected function loadInertia(string $viewLocation = 'resources/views', array $namespaces = []): void
+    protected function loadInertia(string $location = 'resources/views', array $namespaces = []): void
     {
-        View::addLocation($viewLocation);
+        View::addLocation($location);
 
         $this->instance('inertia.testing.view-finder', function ($app) use ($namespaces) {
             $finder = new FileViewFinder(
