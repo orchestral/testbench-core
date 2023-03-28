@@ -18,10 +18,6 @@ class TestbenchServiceProvider extends ServiceProvider
             config(['database.default' => 'testing']);
         }
 
-        if (file_exists($this->app->basePath('migrations'))) {
-            $this->loadMigrationsFrom($this->app->basePath('migrations'));
-        }
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 $this->isCollisionDependenciesInstalled()
