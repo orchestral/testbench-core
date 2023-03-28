@@ -3,24 +3,25 @@
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-final class LoadMigrationsFrom
+final class LoadMigrationsFromArray
 {
     /**
      * The migrations.
      *
-     * @var \Illuminate\Support\Collection<int, string>
+     * @var array<int, string>
      */
     public $migrations;
 
     /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
-     * @param  \Illuminate\Support\Collection<int, string>  $migrations
+     * @param  array<int, string>  $migrations
      */
-    public function __construct(Collection $migrations)
+    public function __construct(array $migrations)
     {
         $this->migrations = $migrations;
     }
@@ -33,7 +34,8 @@ final class LoadMigrationsFrom
      */
     public function bootstrap(Application $app): void
     {
-        $paths = $this->migrations->filter(function ($migrations) {
+        $paths = Collection::make(Arr::wrap($this->migrations))
+            ->filter(function ($migrations) {
                 return is_string($migrations);
             })->transform(function ($migration) use ($app) {
                 if (Str::startsWith('./', $migration)) {

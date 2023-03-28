@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
-use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFrom;
+use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -144,11 +144,9 @@ class Commander
             $app->register(TestbenchServiceProvider::class);
 
             if ($this->config['migrations'] !== false && is_array($this->config['migrations'])) {
-                $migrations = is_array($this->config['migrations']) ? $this->config['migrations'] : [];
-
-                try {
-                (new LoadMigrationsFrom(Collection::make(Arr::wrap($migrations))))->bootstrap($app);
-            } catch (\Throwable $e) { dd($e); }
+                (new LoadMigrationsFromArray(
+                    is_array($this->config['migrations']) ? $this->config['migrations'] : []
+                ))->bootstrap($app);
             }
         };
     }
