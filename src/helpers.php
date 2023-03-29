@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Collection;
 use Illuminate\Testing\PendingCommand;
 use PHPUnit\Runner\Version;
 use RuntimeException;
@@ -42,14 +43,17 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
  */
 function default_environment_variables(): array
 {
-    return collect(['APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', 'APP_DEBUG' => 'true', 'DB_CONNECTION' => null])
-        ->transform(fn ($value, $key) => ($_SERVER[$key] ?? $_ENV[$key] ?? $value))
-        ->filter(fn ($value) => ! \is_null($value))
-        ->transform(function ($value, $key) {
-            $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
+    return Collection::make([
+        'APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
+        'APP_DEBUG' => 'true',
+        'DB_CONNECTION' => null,
+    ])->transform(fn ($value, $key) => ($_SERVER[$key] ?? $_ENV[$key] ?? $value))
+    ->filter(fn ($value) => ! \is_null($value))
+    ->transform(function ($value, $key) {
+        $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
 
-            return "{$key}={$value}";
-        })->values()->all();
+        return "{$key}={$value}";
+    })->values()->all();
 }
 
 /**
