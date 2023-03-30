@@ -172,8 +172,8 @@ class Application
         $this->resolveApplicationEnvironmentVariablesFromTrait($app);
 
         $variables = array_merge(
+            default_environment_variables(),
             ($this->config['env'] ?? []),
-            default_environment_variables()
         );
 
         (new Bootstrap\LoadEnvironmentVariablesFromArray($variables))->bootstrap($app);
