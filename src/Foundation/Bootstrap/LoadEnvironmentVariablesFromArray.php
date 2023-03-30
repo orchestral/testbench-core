@@ -44,8 +44,6 @@ final class LoadEnvironmentVariablesFromArray
      */
     protected function createDotenvFromString(): Dotenv
     {
-        Env::disablePutenv();
-
         return new Dotenv(
             new StringStore(implode("\n", $this->environmentVariables)),
             new Parser(),
