@@ -28,7 +28,6 @@ class CommanderTest extends TestCase
             unset($_ENV[$variable], $_SERVER[$variable]);
         });
 
-        Env::disablePutenv();
         Container::getInstance()->flush();
         Facade::clearResolvedInstances();
         Artisan::forgetBootstrappers();
@@ -45,7 +44,6 @@ class CommanderTest extends TestCase
             unset($_ENV[$variable], $_SERVER[$variable]);
         });
 
-        Env::enablePutenv();
         Container::getInstance()->flush();
         Facade::clearResolvedInstances();
         Artisan::forgetBootstrappers();

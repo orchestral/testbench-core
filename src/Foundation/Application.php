@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use function Orchestra\Testbench\default_environment_variables;
 
@@ -169,6 +170,10 @@ class Application
      */
     protected function resolveApplicationEnvironmentVariables($app)
     {
+        Env::disablePutenv();
+
+        $app->terminating(fn () => Env::enablePutenv());
+
         $this->resolveApplicationEnvironmentVariablesFromTrait($app);
 
         $variables = array_merge(
