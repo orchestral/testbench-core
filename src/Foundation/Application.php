@@ -170,9 +170,12 @@ class Application
      */
     protected function resolveApplicationEnvironmentVariables($app)
     {
-        // Env::disablePutenv();
+        Env::disablePutenv();
 
-        // $app->terminating(fn () => Env::enablePutenv());
+        $app->terminating(function () {
+            Env::getRepository()->clear('APP_DEBUG');
+            Env::enablePutenv();
+        });
 
         $this->resolveApplicationEnvironmentVariablesFromTrait($app);
 
