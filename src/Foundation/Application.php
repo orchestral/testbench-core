@@ -176,6 +176,7 @@ class Application
 
         $this->resolveApplicationEnvironmentVariablesFromTrait($app);
 
+        /** @var array<int, string> $variables */
         $variables = array_merge(
             default_environment_variables(),
             ($this->config['env'] ?? []),

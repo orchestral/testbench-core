@@ -39,7 +39,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 /**
  * Get default environment variables.
  *
- * @return array<int, string|null>
+ * @return array
  */
 function default_environment_variables(): array
 {
@@ -50,7 +50,11 @@ function default_environment_variables(): array
     ])->transform(fn ($value, $key) => ($_SERVER[$key] ?? $_ENV[$key] ?? $value))
     ->filter(fn ($value) => ! \is_null($value))
     ->transform(function ($value, $key) {
-        $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
+        if (\is_bool($value)) {
+            $value = $value === true ? '(true)' : '(false)';
+        } else {
+            $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
+        }
 
         return "{$key}={$value}";
     })->values()->all();
