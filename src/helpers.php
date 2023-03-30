@@ -46,7 +46,13 @@ function default_environment_variables(): array
         ->transform(fn ($value, $key) => ($_SERVER[$key] ?? $_ENV[$key] ?? $value))
         ->filter(fn ($value) => ! \is_null($value))
         ->transform(function ($value, $key) {
-            $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
+            if (is_bool($value)) {
+                $value = $value === true ? '(true)' : '(false)';
+            } elseif (is_string($value) && $key === 'APP_DEBUG') {
+                $value = "({$value})";
+            } else {
+                $value = "'{$value}'";
+            }
 
             return "{$key}={$value}";
         })->values()->all();

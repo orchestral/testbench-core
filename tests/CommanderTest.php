@@ -6,6 +6,7 @@ use Illuminate\Console\Application as Artisan;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Facade;
 use Orchestra\Testbench\Console\Commander;
 use PHPUnit\Framework\TestCase;
@@ -23,14 +24,6 @@ class CommanderTest extends TestCase
      */
     protected function setUp(): void
     {
-        collect(static::$variables)->each(function ($variable) {
-            unset($_ENV[$variable], $_SERVER[$variable]);
-        });
-
-        Container::getInstance()->flush();
-        Facade::clearResolvedInstances();
-        Artisan::forgetBootstrappers();
-
         $this->dropSqliteDatabase();
     }
 
@@ -39,10 +32,6 @@ class CommanderTest extends TestCase
      */
     protected function tearDown(): void
     {
-        collect(static::$variables)->each(function ($variable) {
-            unset($_ENV[$variable], $_SERVER[$variable]);
-        });
-
         Container::getInstance()->flush();
         Facade::clearResolvedInstances();
         Artisan::forgetBootstrappers();
@@ -84,6 +73,7 @@ class CommanderTest extends TestCase
         $output = json_decode($commander->getOutput(), true);
 
         $this->assertSame('Testbench', $output['environment']['application_name']);
+        $this->assertSame('ENABLED', $output['environment']['debug_mode']);
         $this->assertSame('testing', $output['drivers']['database']);
 
         unset($commander);
@@ -108,6 +98,7 @@ class CommanderTest extends TestCase
         $output = json_decode($commander->getOutput(), true);
 
         $this->assertSame('Testbench', $output['environment']['application_name']);
+        $this->assertSame('ENABLED', $output['environment']['debug_mode']);
         $this->assertSame('sqlite', $output['drivers']['database']);
 
         unset($commander);
@@ -128,6 +119,7 @@ class CommanderTest extends TestCase
 
         $commander = Process::fromShellCommandline(implode(' ', $command), __DIR__.'/../', [
             'APP_NAME' => 'Testbench Tests',
+            'APP_DEBUG' => '(false)',
             'DB_CONNECTION' => 'testing',
         ]);
         $commander->mustRun();
@@ -135,6 +127,7 @@ class CommanderTest extends TestCase
         $output = json_decode($commander->getOutput(), true);
 
         $this->assertSame('Testbench Tests', $output['environment']['application_name']);
+        $this->assertSame('OFF', $output['environment']['debug_mode']);
         $this->assertSame('testing', $output['drivers']['database']);
 
         unset($commander);
