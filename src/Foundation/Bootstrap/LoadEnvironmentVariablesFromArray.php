@@ -37,8 +37,6 @@ final class LoadEnvironmentVariablesFromArray
      */
     public function bootstrap(Application $app): void
     {
-        Env::disablePutenv();
-
         $store = new StringStore(implode("\n", $this->environmentVariables));
         $parser = new Parser();
 
