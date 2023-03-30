@@ -45,7 +45,7 @@ function default_environment_variables(): array
 {
     return Collection::make([
         'APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
-        'APP_DEBUG' => 'true',
+        'APP_DEBUG' => true,
         'DB_CONNECTION' => null,
     ])->transform(fn ($value, $key) => ($_SERVER[$key] ?? $_ENV[$key] ?? $value))
     ->filter(fn ($value) => ! \is_null($value))
