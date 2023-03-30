@@ -6,7 +6,6 @@ use Illuminate\Console\Application as Artisan;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Facade;
 use Orchestra\Testbench\Console\Commander;
 use PHPUnit\Framework\TestCase;
