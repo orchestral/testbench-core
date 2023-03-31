@@ -13,7 +13,9 @@ class ConfigTest extends TestCase
         $config = Config::loadFromYaml(__DIR__.'/stubs/');
 
         $this->assertNull($config['laravel']);
-        $this->assertSame([], $config['env']);
+        $this->assertSame([
+            'APP_DEBUG=(false)',
+        ], $config['env']);
         $this->assertSame([
             'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
         ], $config['providers']);

@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench;
 
+use Illuminate\Support\Collection;
 use Illuminate\Testing\PendingCommand;
 
 /**
@@ -41,12 +42,36 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
  */
 function default_environment_variables(): array
 {
-    $APP_KEY = $_SERVER['APP_KEY'] ?? $_ENV['APP_KEY'] ?? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
-    $DB_CONNECTION = $_SERVER['DB_CONNECTION'] ?? $_ENV['DB_CONNECTION'] ?? 'testing';
+    return parse_environment_variables(
+        Collection::make([
+            'APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
+            'APP_DEBUG' => true,
+        ])->when(! \defined('TESTBENCH_DUSK'), function ($variables) {
+            return $variables->put('DB_CONNECTION', 'testing');
+        })->transform(function ($value, $key) {
+            return $_SERVER[$key] ?? $_ENV[$key] ?? $value;
+        })->filter(function ($value) {
+            return ! \is_null($value);
+        })
+    );
+}
 
-    return array_filter([
-        'APP_KEY="'.$APP_KEY.'"',
-        'APP_DEBUG=(true)',
-        ! \defined('TESTBENCH_DUSK') ? 'DB_CONNECTION="'.$DB_CONNECTION.'"' : null,
-    ]);
+/**
+ * Get default environment variables.
+ *
+ * @param  iterable<string, mixed>  $variables
+ * @return array<int, string>
+ */
+function parse_environment_variables($variables): array
+{
+    return Collection::make($variables)
+        ->transform(function ($value, $key) {
+            if (\is_bool($value)) {
+                $value = $value === true ? '(true)' : '(false)';
+            } else {
+                $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
+            }
+
+            return "{$key}={$value}";
+        })->values()->all();
 }

@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
+use function Orchestra\Testbench\parse_environment_variables;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -44,6 +45,10 @@ class Config extends Fluent
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($basePath) use ($workingPath) {
                 return str_replace('./', $workingPath.'/', $basePath);
             });
+
+            if (isset($config['env']) && \is_array($config['env'])) {
+                $config['env'] = parse_environment_variables($config['env']);
+            }
         }
 
         return new static($config);
