@@ -38,7 +38,7 @@ final class LoadEnvironmentVariablesFromArray
      */
     public function bootstrap(Application $app): void
     {
-        $store = new StringStore(implode("\n", $this->environmentVariables));
+        $store = new StringStore(implode(PHP_EOL, $this->environmentVariables));
         $parser = new Parser();
 
         Collection::make($parser->parse($store->read()))
