@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use Orchestra\Testbench\TestCase;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -53,7 +54,7 @@ class CommanderTest extends TestCase
                 '2014_10_12_100000_testbench_create_password_resets_table',
                 '2019_08_19_000000_testbench_create_failed_jobs_table',
                 '2019_12_14_000001_create_personal_access_tokens_table',
-            ], \DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
+            ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });
     }
 
@@ -76,7 +77,7 @@ class CommanderTest extends TestCase
 
             $this->assertSame([
                 '2019_12_14_000001_create_personal_access_tokens_table',
-            ], \DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
+            ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });
     }
 
