@@ -48,7 +48,7 @@ class Config extends Fluent
             });
 
             if (isset($config['env']) && \is_array($config['env']) && Arr::isAssoc($config['env'])) {
-                $config['env'] = parse_environment_variables($config['env']) ;
+                $config['env'] = parse_environment_variables($config['env']);
             }
         }
 
