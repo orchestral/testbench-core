@@ -3,7 +3,9 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use function Orchestra\Testbench\default_environment_variables;
 
 /**
  * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array}
@@ -13,6 +15,7 @@ class Application
 {
     use CreatesApplication {
         resolveApplication as protected resolveApplicationFromTrait;
+        resolveApplicationEnvironmentVariables as protected resolveApplicationEnvironmentVariablesFromTrait;
     }
 
     /**
@@ -153,6 +156,32 @@ class Application
     protected function getBasePath()
     {
         return $this->basePath ?? static::applicationBasePath();
+    }
+
+    /**
+     * Resolve application core environment variables implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationEnvironmentVariables($app)
+    {
+        Env::disablePutenv();
+
+        $app->terminating(function () {
+            Env::getRepository()->clear('APP_DEBUG');
+            Env::enablePutenv();
+        });
+
+        $this->resolveApplicationEnvironmentVariablesFromTrait($app);
+
+        /** @var array<int, string> $variables */
+        $variables = array_merge(
+            default_environment_variables(),
+            ($this->config['env'] ?? []),
+        );
+
+        (new Bootstrap\LoadEnvironmentVariablesFromArray($variables))->bootstrap($app);
     }
 
     /**
