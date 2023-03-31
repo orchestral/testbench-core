@@ -72,8 +72,8 @@ function parse_environment_variables($variables): array
                 $value = $key === 'APP_DEBUG' ? sprintf('(%s)', Str::of($value)->ltrim('(')->rtrim('(')) : "'{$value}'";
             }
 
-        return "{$key}={$value}";
-    })->values()->all();
+            return "{$key}={$value}";
+        })->values()->all();
 }
 
 /**
