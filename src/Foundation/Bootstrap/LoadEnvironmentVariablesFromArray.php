@@ -45,7 +45,7 @@ final class LoadEnvironmentVariablesFromArray
     protected function createDotenvFromString(): Dotenv
     {
         return new Dotenv(
-            new StringStore(implode("\n", $this->environmentVariables)),
+            new StringStore(implode(PHP_EOL, $this->environmentVariables)),
             new Parser(),
             new Loader(),
             Env::getRepository()

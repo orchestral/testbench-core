@@ -68,8 +68,8 @@ function parse_environment_variables($variables): array
         ->transform(function ($value, $key) {
             if (\is_null($value) || in_array($value, ['null'])) {
                 $value = '(null)';
-            } elseif (\is_bool($value) || in_array($value, ['true', 'false', 'null'])) {
-                $value = $value === true ? '(true)' : '(false)';
+            } elseif (\is_bool($value) || in_array($value, ['true', 'false'])) {
+                $value = in_array($value, [true, 'true']) ? '(true)' : '(false)';
             } else {
                 $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
             }

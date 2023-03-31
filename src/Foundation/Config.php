@@ -46,8 +46,8 @@ class Config extends Fluent
                 return str_replace('./', $workingPath.'/', $basePath);
             });
 
-            if (isset($config['env']) && \is_array($config['env'])) {
-                $config['env'] = parse_environment_variables($config['env']);
+            if (isset($config['env']) && \is_array($config['env']) && Arr::isAssoc($config['env'])) {
+                $config['env'] = parse_environment_variables($config['env']) ;
             }
         }
 
