@@ -2,4 +2,4 @@ providers:
   - Orchestra\Testbench\Foundation\TestbenchServiceProvider
 
 env:
-  - APP_NAME="Testbench"
+  APP_NAME: "Testbench"

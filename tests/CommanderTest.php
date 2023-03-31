@@ -11,6 +11,9 @@ use Orchestra\Testbench\TestCase;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
+/**
+ * @requires OS Linux|DAR
+ */
 class CommanderTest extends TestCase
 {
     use InteractsWithPublishedFiles;
