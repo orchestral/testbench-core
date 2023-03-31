@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 
 final class LoadMigrationsFromArray
@@ -34,12 +34,17 @@ final class LoadMigrationsFromArray
      */
     public function bootstrap(Application $app): void
     {
-        $paths = Collection::make(Arr::wrap($this->migrations))
-            ->filter(fn ($migrations) => \is_string($migrations))
-            ->transform(function ($migration) use ($app) {
-                if (Str::startsWith('./', $migration)) {
-                    return $app->basePath(str_replace('./', '/', $migration));
-                }
+        $paths = Collection::make($this->migrations)
+            ->when(is_dir($app->basePath('migrations')) && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true, function ($migrations) use ($app) {
+                ray(Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS'));
+
+                return $migrations->push($app->basePath('migrations'));
+            })->filter(function ($migration) {
+                return \is_string($migration);
+            })->transform(function ($migration) use ($app) {
+                return Str::startsWith('./', $migration)
+                    ? $app->basePath(str_replace('./', '/', $migration))
+                    : $migration;
             })->all();
 
         $this->callAfterResolvingMigrator($app, function ($migrator) use ($paths) {

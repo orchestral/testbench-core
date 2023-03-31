@@ -21,9 +21,9 @@ use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
 /**
- * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null, migrations: array|bool|null}
- *
  * @internal
+ *
+ * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null, migrations: array|bool|null}
  */
 class Commander
 {
@@ -155,10 +155,10 @@ class Commander
         return function ($app) {
             $app->register(TestbenchServiceProvider::class);
 
-            if ($this->config['migrations'] !== false && \is_array($this->config['migrations'])) {
-                (new LoadMigrationsFromArray(
-                    \is_array($this->config['migrations']) ? $this->config['migrations'] : []
-                ))->bootstrap($app);
+            $migrations = \is_array($this->config['migrations']) ? $this->config['migrations'] : [];
+
+            if ($migrations !== false || \is_array($migrations)) {
+                (new LoadMigrationsFromArray($migrations))->bootstrap($app);
             }
         };
     }
