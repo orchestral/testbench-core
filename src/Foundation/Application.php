@@ -15,7 +15,7 @@ class Application
     use CreatesApplication {
         resolveApplication as protected resolveApplicationFromTrait;
         resolveApplicationEnvironmentVariables as protected resolveApplicationEnvironmentVariablesFromTrait;
-        resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
+        resolveApplicationBootstrappers as protected resolveApplicationBootstrappersFromTrait;
     }
 
     /**
@@ -183,12 +183,6 @@ class Application
      */
     protected function resolveApplicationEnvironmentVariables($app)
     {
-        Env::disablePutenv();
-
-        $app->terminating(function () {
-            Env::enablePutenv();
-        });
-
         $this->resolveApplicationEnvironmentVariablesFromTrait($app);
 
         (new Bootstrap\LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
@@ -200,11 +194,11 @@ class Application
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    protected function resolveApplicationConfiguration($app)
+    protected function resolveApplicationBootstrappers($app)
     {
-        $this->resolveApplicationConfigurationFromTrait($app);
-
         (new Bootstrap\EnsuresDefaultConfiguration())->bootstrap($app);
+
+        $this->resolveApplicationBootstrappersFromTrait($app);
     }
 
     /**
