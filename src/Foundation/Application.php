@@ -15,7 +15,7 @@ class Application
     use CreatesApplication {
         resolveApplication as protected resolveApplicationFromTrait;
         resolveApplicationEnvironmentVariables as protected resolveApplicationEnvironmentVariablesFromTrait;
-        resolveApplicationBootstrappers as protected resolveApplicationBootstrappersFromTrait;
+        resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
     }
 
     /**
@@ -194,11 +194,11 @@ class Application
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    protected function resolveApplicationBootstrappers($app)
+    protected function resolveApplicationConfiguration($app)
     {
-        (new Bootstrap\EnsuresDefaultConfiguration())->bootstrap($app);
+        $this->resolveApplicationConfigurationFromTrait($app);
 
-        $this->resolveApplicationBootstrappersFromTrait($app);
+        (new Bootstrap\EnsuresDefaultConfiguration())->bootstrap($app);
     }
 
     /**
