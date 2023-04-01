@@ -25,11 +25,11 @@ class ConfigTest extends TestCase
             'env' => [
                 'APP_DEBUG=(false)',
             ],
+            'bootstrappers' => [],
             'providers' => [
                 'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
             ],
             'dont-discover' => [],
-            'bootstrappers' => [],
         ], $config->getExtraAttributes());
     }
 }

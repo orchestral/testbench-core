@@ -125,12 +125,7 @@ class Commander
 
             $options = array_filter([
                 'load_environment_variables' => $hasEnvironmentFile,
-                'extra' => [
-                    'env' => Arr::get($this->config, 'env', []),
-                    'bootstrappers' => Arr::get($this->config, 'bootstrappers', []),
-                    'providers' => Arr::get($this->config, 'providers', []),
-                    'dont-discover' => Arr::get($this->config, 'dont-discover', []),
-                ],
+                'extra' => $this->config->getExtraAttributes(),
             ]);
 
             $this->app = Application::create(
