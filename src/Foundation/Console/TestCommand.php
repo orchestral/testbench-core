@@ -111,6 +111,7 @@ class TestCommand extends Command
     {
         return array_merge([
             'TESTBENCH_PACKAGE_TESTER' => 1,
+            'TESTBENCH_WITHOUT_DEFAULT_VARIABLES' => 0,
         ], parent::phpunitEnvironmentVariables());
     }
 

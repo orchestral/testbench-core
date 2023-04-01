@@ -19,6 +19,10 @@ final class EnsuresDefaultConfiguration
      */
     public function bootstrap(Application $app): void
     {
+        if (! $this->includesDefaultVariables($app)) {
+            return;
+        }
+
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $app->make('config');
 
@@ -33,5 +37,17 @@ final class EnsuresDefaultConfiguration
             })->values()
             ->all(),
         ]);
+    }
+
+    /**
+     * Determine whether default migrations should be included.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return bool
+     */
+    protected function includesDefaultVariables($app): bool
+    {
+        return // Env::get('TESTBENCH_WITHOUT_DEFAULT_VARIABLES', false) !== true
+            Env::get('TESTBENCH_PACKAGE_TESTER', false) !== true;
     }
 }

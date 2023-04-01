@@ -81,6 +81,6 @@ final class LoadMigrationsFromArray
     protected function includesDefaultMigrations($app): bool
     {
         return is_dir($app->basePath('migrations'))
-            && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true;
+            && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS', false) !== true;
     }
 }
