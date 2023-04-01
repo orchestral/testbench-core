@@ -191,12 +191,14 @@ class Commander
      */
     protected function handleException(OutputInterface $output, Throwable $error)
     {
-        $laravel = $this->laravel();
-
-        tap($laravel->make(ExceptionHandler::class), static function ($handler) use ($error, $output) {
-            $handler->report($error);
-            $handler->renderForConsole($output, $error);
-        });
+        if ($this->app instanceof LaravelApplication) {
+            tap($this->app->make(ExceptionHandler::class), static function ($handler) use ($error, $output) {
+                $handler->report($error);
+                $handler->renderForConsole($output, $error);
+            });
+        } else {
+            $output->writeln(sprintf('<error>%s: %s</error>', \get_class($error), $error->getMessage()));
+        }
 
         return 1;
     }
