@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use function Orchestra\Testbench\parse_environment_variables;
+use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -43,8 +44,8 @@ class Config extends Fluent
             /** @var TOptionalConfig $config */
             $config = Yaml::parseFile("{$workingPath}/{$filename}");
 
-            $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($basePath) use ($workingPath) {
-                return str_replace('./', $workingPath.'/', $basePath);
+            $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
+                return transform_relative_path($path, $workingPath);
             });
 
             if (isset($config['env']) && \is_array($config['env']) && Arr::isAssoc($config['env'])) {

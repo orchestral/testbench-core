@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation\Bootstrap;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
-use Illuminate\Support\Str;
+use function Orchestra\Testbench\transform_relative_path;
 
 final class LoadMigrationsFromArray
 {
@@ -35,14 +35,12 @@ final class LoadMigrationsFromArray
     public function bootstrap(Application $app): void
     {
         $paths = Collection::make($this->migrations)
-            ->when(is_dir($app->basePath('migrations')) && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true, function ($migrations) use ($app) {
+            ->when($this->includesDefaultMigrations($app), function ($migrations) use ($app) {
                 return $migrations->push($app->basePath('migrations'));
             })->filter(function ($migration) {
                 return \is_string($migration);
             })->transform(function ($migration) use ($app) {
-                return Str::startsWith('./', $migration)
-                    ? $app->basePath(str_replace('./', '/', $migration))
-                    : $migration;
+                return transform_relative_path($migration, $app->basePath());
             })->all();
 
         $this->callAfterResolvingMigrator($app, function ($migrator) use ($paths) {
@@ -67,5 +65,17 @@ final class LoadMigrationsFromArray
         if ($app->resolved('migrator')) {
             $callback($app->make('migrator'), $app);
         }
+    }
+
+    /**
+     * Determine whether default migrations should be included.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return bool
+     */
+    protected function includesDefaultMigrations($app): bool
+    {
+        return is_dir($app->basePath('migrations'))
+            && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true;
     }
 }
