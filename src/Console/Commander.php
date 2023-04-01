@@ -125,8 +125,7 @@ class Commander
 
                     \call_user_func($this->resolveApplicationCallback(), $app);
                 },
-                $options,
-                $this->config['bootstrap']
+                $options
             );
         }
 
