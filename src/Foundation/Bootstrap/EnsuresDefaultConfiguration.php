@@ -19,7 +19,7 @@ final class EnsuresDefaultConfiguration
      */
     public function bootstrap(Application $app): void
     {
-        if (! $this->includesDefaultVariables($app)) {
+        if (! $this->includesDefaultConfigurations($app)) {
             return;
         }
 
@@ -45,7 +45,7 @@ final class EnsuresDefaultConfiguration
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return bool
      */
-    protected function includesDefaultVariables($app): bool
+    protected function includesDefaultConfigurations($app): bool
     {
         return // Env::get('TESTBENCH_WITHOUT_DEFAULT_VARIABLES', false) !== true
             Env::get('TESTBENCH_PACKAGE_TESTER', false) !== true;
