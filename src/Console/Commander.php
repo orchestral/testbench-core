@@ -140,13 +140,7 @@ class Commander
         return function ($app) {
             $app->register(TestbenchServiceProvider::class);
 
-            if ($this->config['migrations'] === false) {
-                return;
-            }
-
-            (new LoadMigrationsFromArray(
-                \is_array($this->config['migrations']) ? $this->config['migrations'] : []
-            ))->bootstrap($app);
+            (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
         };
     }
 

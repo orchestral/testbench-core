@@ -2,6 +2,21 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.31.0
+
+**Unreleased**
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray` class to handle loading migrations from `testbench.yaml`.
+    - You can now disable loading default migrations using either `migrations: false` in `testbench.yaml` or adding `TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS=(true)` environment variable.
+* Added `Orchestra\Testbench\parse_environment_variables()` function.
+* Added `Orchestra\Testbench\transform_relative_path()` function.
+
+### Changes
+
+* Disable `Dotenv\Repository\Adapter\PutenvAdapter` when generating environment variable on the fly using `Orchestra\Testbench\Foundation\Application`.
+
 ## 6.30.0
 
 Released: 2023-03-27
