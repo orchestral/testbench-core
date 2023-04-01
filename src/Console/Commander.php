@@ -5,20 +5,19 @@ namespace Orchestra\Testbench\Console;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
-use Illuminate\Foundation\Exceptions\ConsoleApplication;
 use Illuminate\Support\Arr;
+use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
+use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Console\Application as SymfonyConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
-use function Orchestra\Testbench\default_environment_variables;
-use function Orchestra\Testbench\transform_relative_path;
 
 /**
  * @internal
