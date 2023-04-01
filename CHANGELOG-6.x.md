@@ -24,6 +24,7 @@ Released: 2023-04-01
 ### Fixes
 
 * Fixes console output when an exception is thrown before application can be bootstrapped.
+* Fixes some configuration value leaks between tests due to the way it set environment values including `APP_KEY`, `APP_DEBUG` etc.
 
 ## 6.30.0
 
