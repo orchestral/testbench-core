@@ -9,7 +9,7 @@ use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @phpstan-type TConfig array{laravel?: string|null, env?: array, providers?: array, dont-discover?: array, migrations?: array|bool}
+ * @phpstan-type TConfig array{laravel?: string|null, env?: array, providers?: array, dont-discover?: array, migrations?: array|bool, bootstrappers?: array}
  */
 class Config extends Fluent
 {
@@ -24,6 +24,7 @@ class Config extends Fluent
         'providers' => [],
         'dont-discover' => [],
         'migrations' => [],
+        'bootstrappers' => [],
     ];
 
     /**
@@ -75,6 +76,6 @@ class Config extends Fluent
      */
     public function getExtraAttributes(): array
     {
-        return Arr::only($this->attributes, ['providers', 'dont-discover']);
+        return Arr::only($this->attributes, ['providers', 'dont-discover', 'bootstrappers']);
     }
 }

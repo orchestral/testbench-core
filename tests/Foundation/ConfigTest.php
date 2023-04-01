@@ -26,6 +26,7 @@ class ConfigTest extends TestCase
                 'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
             ],
             'dont-discover' => [],
+            'bootstrappers' => [],
         ], $config->getExtraAttributes());
     }
 }
