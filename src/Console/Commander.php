@@ -121,6 +121,8 @@ class Commander
                         ))->bootstrap($app);
                     }
 
+                    (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
+
                     \call_user_func($this->resolveApplicationCallback(), $app);
                 },
                 $options
@@ -139,8 +141,6 @@ class Commander
     {
         return function ($app) {
             $app->register(TestbenchServiceProvider::class);
-
-            (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
         };
     }
 
