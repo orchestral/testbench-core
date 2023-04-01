@@ -110,8 +110,8 @@ class TestCommand extends Command
     protected function phpunitEnvironmentVariables()
     {
         return array_merge([
-            'TESTBENCH_PACKAGE_TESTER' => 1,
-            'TESTBENCH_WITHOUT_DEFAULT_VARIABLES' => 0,
+            'TESTBENCH_PACKAGE_TESTER' => '(true)',
+            'TESTBENCH_WITHOUT_DEFAULT_VARIABLES' => '(false)',
         ], parent::phpunitEnvironmentVariables());
     }
 
@@ -123,7 +123,7 @@ class TestCommand extends Command
     protected function paratestEnvironmentVariables()
     {
         return array_merge([
-            'TESTBENCH_PACKAGE_TESTER' => 1,
+            'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
             'APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::paratestEnvironmentVariables());
