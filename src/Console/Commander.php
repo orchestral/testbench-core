@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
+use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Symfony\Component\Console\Application as SymfonyConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -36,15 +37,9 @@ class Commander
     /**
      * List of configurations.
      *
-     * @var TConfig
+     * @var \Orchestra\Testbench\Foundation\Config
      */
-    protected $config = [
-        'laravel' => null,
-        'env' => [],
-        'providers' => [],
-        'dont-discover' => [],
-        'migrations' => [],
-    ];
+    protected $config;
 
     /**
      * Working path.
@@ -63,12 +58,12 @@ class Commander
     /**
      * Construct a new Commander.
      *
-     * @param  TConfig  $config
+     * @param  array|\Orchestra\Testbench\Foundation\Config  $config
      * @param  string  $workingPath
      */
-    public function __construct(array $config, string $workingPath)
+    public function __construct($config, string $workingPath)
     {
-        $this->config = $config;
+        $this->config = $config instanceof Config ? $config : new Config($config);
         $this->workingPath = $workingPath;
     }
 
