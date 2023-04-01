@@ -40,6 +40,8 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
  * Get default environment variables.
  *
  * @return array<int, string>
+ *
+ * @deprecated
  */
 function default_environment_variables(): array
 {
