@@ -3,11 +3,11 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
-use function Orchestra\Testbench\default_environment_variables;
 
 /**
- * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array, env?: array}
+ * @phpstan-type TExtraConfig array{env?: array, bootstrappers?: array, providers?: array, dont-discover?: array}
  * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variables?: bool, enabled_package_discoveries?: bool}
  */
 class Application
@@ -15,6 +15,7 @@ class Application
     use CreatesApplication {
         resolveApplication as protected resolveApplicationFromTrait;
         resolveApplicationEnvironmentVariables as protected resolveApplicationEnvironmentVariablesFromTrait;
+        resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
     }
 
     /**
@@ -30,8 +31,10 @@ class Application
      * @var TExtraConfig
      */
     protected $config = [
+        'env' => [],
         'providers' => [],
         'dont-discover' => [],
+        'bootstrappers' => [],
     ];
 
     /**
@@ -110,7 +113,7 @@ class Application
         }
 
         $this->config = Arr::only(
-            $options['extra'] ?? [], ['dont-discover', 'providers', 'env']
+            $options['extra'] ?? [], array_keys($this->config)
         );
 
         return $this;
@@ -135,6 +138,17 @@ class Application
     protected function getPackageProviders($app)
     {
         return $this->config['providers'] ?? [];
+    }
+
+    /**
+     * Get package bootstrapper.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getPackageBootstrappers($app)
+    {
+        return $this->config['bootstrappers'] ?? [];
     }
 
     /**
@@ -169,14 +183,28 @@ class Application
      */
     protected function resolveApplicationEnvironmentVariables($app)
     {
+        Env::disablePutenv();
+
+        $app->terminating(function () {
+            Env::enablePutenv();
+        });
+
         $this->resolveApplicationEnvironmentVariablesFromTrait($app);
 
-        $variables = array_merge(
-            ($this->config['env'] ?? []),
-            default_environment_variables()
-        );
+        (new Bootstrap\LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
+    }
 
-        (new Bootstrap\LoadEnvironmentVariablesFromArray($variables))->bootstrap($app);
+    /**
+     * Resolve application core configuration implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationConfiguration($app)
+    {
+        $this->resolveApplicationConfigurationFromTrait($app);
+
+        (new Bootstrap\EnsuresDefaultConfiguration())->bootstrap($app);
     }
 
     /**

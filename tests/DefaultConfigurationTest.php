@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Illuminate\Support\Env;
 use Orchestra\Testbench\TestCase;
 
 class DefaultConfigurationTest extends TestCase
@@ -9,7 +10,7 @@ class DefaultConfigurationTest extends TestCase
     /** @test */
     public function it_populate_expected_debug_config()
     {
-        $this->assertTrue($this->app['config']['app.debug']);
+        $this->assertFalse($this->app['config']['app.debug']);
     }
 
     /** @test */
@@ -28,12 +29,12 @@ class DefaultConfigurationTest extends TestCase
     /** @test */
     public function it_populate_expected_cache_defaults()
     {
-        $this->assertEquals(isset($_SERVER['TESTBENCH_PACKAGE_TESTER']) ? 'file' : 'array', $this->app['config']['cache.default']);
+        $this->assertEquals((Env::get('TESTBENCH_PACKAGE_TESTER') === true ? 'file' : 'array'), $this->app['config']['cache.default']);
     }
 
     /** @test */
     public function it_populate_expected_session_defaults()
     {
-        $this->assertEquals(isset($_SERVER['TESTBENCH_PACKAGE_TESTER']) ? 'file' : 'array', $this->app['config']['session.driver']);
+        $this->assertEquals((Env::get('TESTBENCH_PACKAGE_TESTER') === true ? 'file' : 'array'), $this->app['config']['session.driver']);
     }
 }

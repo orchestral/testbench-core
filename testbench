@@ -13,6 +13,6 @@ $config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
     ],
 );
 
-$commander = new Orchestra\Testbench\Console\Commander($config->getAttributes(), $workingPath);
+$commander = new Orchestra\Testbench\Console\Commander($config, $workingPath);
 
 $commander->handle();
