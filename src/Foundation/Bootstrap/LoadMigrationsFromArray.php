@@ -40,13 +40,12 @@ final class LoadMigrationsFromArray
 
         $paths = Collection::make(
             \is_array($this->migrations) ? $this->migrations : []
-        )->when($this->includesDefaultMigrations($app), function ($migrations) use ($app) {
-            return $migrations->push($app->basePath('migrations'));
-        })->filter(function ($migration) {
-            return \is_string($migration);
-        })->transform(function ($migration) use ($app) {
-            return transform_relative_path($migration, $app->basePath());
-        })->all();
+        )->when(
+            $this->includesDefaultMigrations($app),
+            fn ($migrations) => $migrations->push($app->basePath('migrations'))
+        )->filter(fn ($migration) => \is_string($migration))
+        ->transform(fn ($migration) => transform_relative_path($migration, $app->basePath()))
+        ->all();
 
         $this->callAfterResolvingMigrator($app, function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {
