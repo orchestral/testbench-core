@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [-f laravel/.env]; then
+    rm laravel/.env
+fi
+
 composer create-project "laravel/laravel:10.x-dev" skeleton --no-scripts --no-plugins --quiet
 
 cp -f skeleton/.env.example laravel/
