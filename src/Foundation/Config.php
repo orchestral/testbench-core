@@ -9,8 +9,22 @@ use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @phpstan-type TConfig array{laravel: string|null, env: array, providers: array, dont-discover: array, migrations?: array|bool}
- * @phpstan-type TOptionalConfig array{laravel?: string|null, env?: array, providers?: array, dont-discover?: array}
+ * @phpstan-type TConfig array{
+ *   laravel: string|null,
+ *   env: array,
+ *   providers: array,
+ *   dont-discover: array,
+ *   migrations: array|bool,
+ *   bootstrappers: array
+ * }
+ * @phpstan-type TOptionalConfig array{
+ *   laravel?: string|null,
+ *   env?: array,
+ *   providers?: array,
+ *   dont-discover?: array,
+ *   migrations?: array|bool,
+ *   bootstrappers?: array
+ * }
  */
 class Config extends Fluent
 {
@@ -25,6 +39,7 @@ class Config extends Fluent
         'providers' => [],
         'dont-discover' => [],
         'migrations' => [],
+        'bootstrappers' => [],
     ];
 
     /**
@@ -72,12 +87,12 @@ class Config extends Fluent
     /**
      * Get extra attributes.
      *
-     * @return array{providers: array, dont-discover: array}
+     * @return array{providers: array, dont-discover: array, env: array, bootstrappers: array}
      */
     public function getExtraAttributes(): array
     {
-        /** @var array{providers: array, dont-discover: array} $extra */
-        $extra = Arr::only($this->attributes, ['providers', 'dont-discover', 'env']);
+        /** @var array{providers: array, dont-discover: array, env: array, bootstrappers: array} $extra */
+        $extra = Arr::only($this->attributes, ['providers', 'dont-discover', 'env', 'bootstrappers']);
 
         return $extra;
     }

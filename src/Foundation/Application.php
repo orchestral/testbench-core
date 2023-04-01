@@ -33,6 +33,7 @@ class Application
     protected $config = [
         'providers' => [],
         'dont-discover' => [],
+        'bootstrappers' => [],
     ];
 
     /**
@@ -111,7 +112,7 @@ class Application
         }
 
         $this->config = Arr::only(
-            $options['extra'] ?? [], ['dont-discover', 'providers', 'env']
+            $options['extra'] ?? [], ['dont-discover', 'providers', 'env', 'bootstrappers']
         );
 
         return $this;
@@ -136,6 +137,17 @@ class Application
     protected function getPackageProviders($app)
     {
         return $this->config['providers'] ?? [];
+    }
+
+    /**
+     * Get package bootstrapper.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getPackageBootstrappers($app)
+    {
+        return $this->config['bootstrappers'] ?? [];
     }
 
     /**
