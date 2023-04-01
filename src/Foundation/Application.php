@@ -8,7 +8,7 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use function Orchestra\Testbench\default_environment_variables;
 
 /**
- * @phpstan-type TExtraConfig array{env?: array, providers?: array, dont-discover?: array, bootstrappers?: array}
+ * @phpstan-type TExtraConfig array{env?: array, bootstrappers?: array, providers?: array, dont-discover?: array}
  * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variables?: bool, enabled_package_discoveries?: bool}
  */
 class Application

@@ -79,10 +79,15 @@ class Config extends Fluent
     /**
      * Get extra attributes.
      *
-     * @return array{providers: array, dont-discover: array}
+     * @return array{env: array, bootstrappers: array, providers: array, dont-discover: array}
      */
     public function getExtraAttributes(): array
     {
-        return Arr::only($this->attributes, ['providers', 'dont-discover', 'bootstrappers']);
+        return [
+            'env' => Arr::get($this->attributes, 'env', []),
+            'bootstrappers' => Arr::get($this->attributes, 'bootstrappers', []),
+            'providers' => Arr::get($this->attributes, 'providers', []),
+            'dont-discover' => Arr::get($this->attributes, 'dont-discover', []),
+        ];
     }
 }

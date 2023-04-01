@@ -5,10 +5,7 @@ namespace Orchestra\Testbench\Console;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
-use Illuminate\Support\Arr;
-use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
-use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
@@ -106,12 +103,7 @@ class Commander
 
             $options = array_filter([
                 'load_environment_variables' => $hasEnvironmentFile,
-                'extra' => [
-                    'env' => Arr::get($this->config, 'env', []),
-                    'bootstrappers' => Arr::get($this->config, 'bootstrappers', []),
-                    'providers' => Arr::get($this->config, 'providers', []),
-                    'dont-discover' => Arr::get($this->config, 'dont-discover', []),
-                ],
+                'extra' => $this->config->getExtraAttributes(),
             ]);
 
             $this->app = Application::create(

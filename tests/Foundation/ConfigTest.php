@@ -22,11 +22,14 @@ class ConfigTest extends TestCase
         $this->assertSame([], $config['dont-discover']);
 
         $this->assertSame([
+            'env' => [
+                'APP_DEBUG=(false)',
+            ],
+            'bootstrappers' => [],
             'providers' => [
                 'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
             ],
             'dont-discover' => [],
-            'bootstrappers' => [],
         ], $config->getExtraAttributes());
     }
 }
