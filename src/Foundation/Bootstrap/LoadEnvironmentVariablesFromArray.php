@@ -7,7 +7,6 @@ use Dotenv\Loader\Loader;
 use Dotenv\Parser\Parser;
 use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
 
 final class LoadEnvironmentVariablesFromArray

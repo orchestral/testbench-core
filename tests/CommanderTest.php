@@ -65,7 +65,6 @@ class CommanderTest extends TestCase
      * @test
      *
      * @group commander
-     * @covers \Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray::includesDefaultMigrations
      */
     public function it_can_call_commander_using_cli_and_run_migration_without_default_migration()
     {
