@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 
@@ -108,7 +109,9 @@ class TestCommand extends Command
     protected function phpunitEnvironmentVariables()
     {
         return array_merge([
-            'TESTBENCH_PACKAGE_TESTER' => 1,
+            'APP_KEY' => Env::get('APP_KEY'),
+            'APP_DEBUG' => Env::get('APP_DEBUG'),
+            'TESTBENCH_PACKAGE_TESTER' => '(true)',
         ], parent::phpunitEnvironmentVariables());
     }
 
@@ -120,7 +123,9 @@ class TestCommand extends Command
     protected function paratestEnvironmentVariables()
     {
         return array_merge([
-            'TESTBENCH_PACKAGE_TESTER' => 1,
+            'APP_KEY' => Env::get('APP_KEY'),
+            'APP_DEBUG' => Env::get('APP_DEBUG'),
+            'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
             'APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::paratestEnvironmentVariables());
