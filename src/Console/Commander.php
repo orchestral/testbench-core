@@ -107,6 +107,8 @@ class Commander
             $options = array_filter([
                 'load_environment_variables' => $hasEnvironmentFile,
                 'extra' => [
+                    'env' => Arr::get($this->config, 'bootstrappers', []),
+                    'bootstrappers' => Arr::get($this->config, 'bootstrappers', []),
                     'providers' => Arr::get($this->config, 'providers', []),
                     'dont-discover' => Arr::get($this->config, 'dont-discover', []),
                 ],
@@ -115,12 +117,6 @@ class Commander
             $this->app = Application::create(
                 $this->getBasePath(),
                 function ($app) use ($hasEnvironmentFile) {
-                    if ($hasEnvironmentFile === false) {
-                        (new LoadEnvironmentVariablesFromArray(
-                            ! empty($this->config['env']) ? $this->config['env'] : default_environment_variables()
-                        ))->bootstrap($app);
-                    }
-
                     (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
 
                     \call_user_func($this->resolveApplicationCallback(), $app);
