@@ -12,8 +12,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
+use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
+use function Orchestra\Testbench\transform_relative_path;
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,15 +43,9 @@ class Commander
     /**
      * List of configurations.
      *
-     * @var TConfig
+     * @var \Orchestra\Testbench\Foundation\Config
      */
-    protected $config = [
-        'laravel' => null,
-        'env' => [],
-        'providers' => [],
-        'dont-discover' => [],
-        'migrations' => [],
-    ];
+    protected $config;
 
     /**
      * Working path.
@@ -67,12 +64,12 @@ class Commander
     /**
      * Construct a new Commander.
      *
-     * @param  TConfig  $config
+     * @param  array|\Orchestra\Testbench\Foundation\Config  $config
      * @param  string  $workingPath
      */
-    public function __construct(array $config, string $workingPath)
+    public function __construct($config, string $workingPath)
     {
-        $this->config = $config;
+        $this->config = $config instanceof Config ? $config : new Config($config);
         $this->workingPath = $workingPath;
     }
 
@@ -128,17 +125,17 @@ class Commander
 
             $options = array_filter([
                 'load_environment_variables' => $hasEnvironmentFile,
-                'extra' => [
-                    'providers' => Arr::get($this->config, 'providers', []),
-                    'dont-discover' => Arr::get($this->config, 'dont-discover', []),
-                    'env' => Arr::get($this->config, 'env', []),
-                ],
+                'extra' => $this->config->getExtraAttributes(),
             ]);
 
             $this->app = Application::create(
                 basePath: $this->getBasePath(),
-                resolvingCallback: $this->resolveApplicationCallback(),
-                options: $options
+                resolvingCallback: function ($app) {
+                    (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
+
+                    \call_user_func($this->resolveApplicationCallback(), $app);
+                },
+                options: $options,
             );
         }
 
@@ -154,14 +151,6 @@ class Commander
     {
         return function ($app) {
             $app->register(TestbenchServiceProvider::class);
-
-            if ($this->config['migrations'] === false) {
-                return;
-            }
-
-            (new LoadMigrationsFromArray(
-                \is_array($this->config['migrations']) ? $this->config['migrations'] : []
-            ))->bootstrap($app);
         };
     }
 
@@ -172,10 +161,10 @@ class Commander
      */
     protected function getBasePath()
     {
-        $laravelBasePath = $this->config['laravel'] ?? null;
+        $path = $this->config['laravel'] ?? null;
 
-        if (! \is_null($laravelBasePath)) {
-            return tap(str_replace('./', $this->workingPath.'/', $laravelBasePath), static function ($path) {
+        if (! \is_null($path)) {
+            return tap(transform_relative_path($path, $this->workingPath), static function ($path) {
                 $_ENV['APP_BASE_PATH'] = $path;
             });
         }
@@ -202,10 +191,14 @@ class Commander
      */
     protected function handleException(OutputInterface $output, Throwable $error)
     {
-        tap($this->laravel()->make(ExceptionHandler::class), static function ($handler) use ($error, $output) {
-            $handler->report($error);
-            $handler->renderForConsole($output, $error);
-        });
+        if ($this->app instanceof LaravelApplication) {
+            tap($this->app->make(ExceptionHandler::class), static function ($handler) use ($error, $output) {
+                $handler->report($error);
+                $handler->renderForConsole($output, $error);
+            });
+        } else {
+            (new ConsoleApplication)->renderThrowable($error, $output);
+        }
 
         return 1;
     }

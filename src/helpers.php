@@ -76,6 +76,13 @@ function parse_environment_variables($variables): array
         })->values()->all();
 }
 
+function transform_relative_path(string $path, string $workingPath): string
+{
+    return Str::startsWith('./', $path)
+        ? str_replace('./', rtrim($workingPath, '/').'/', $path)
+        : $path;
+}
+
 /**
  * Laravel version compare.
  *

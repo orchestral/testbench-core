@@ -8,7 +8,7 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use function Orchestra\Testbench\default_environment_variables;
 
 /**
- * @phpstan-type TExtraConfig array{providers?: array, dont-discover?: array, env?: array}
+ * @phpstan-type TExtraConfig array{env?: array, bootstrappers?: array, providers?: array, dont-discover?: array}
  * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variables?: bool, enabled_package_discoveries?: bool}
  */
 class Application
@@ -31,8 +31,10 @@ class Application
      * @var TExtraConfig
      */
     protected $config = [
+        'env' => [],
         'providers' => [],
         'dont-discover' => [],
+        'bootstrappers' => [],
     ];
 
     /**
@@ -111,7 +113,7 @@ class Application
         }
 
         $this->config = Arr::only(
-            $options['extra'] ?? [], ['dont-discover', 'providers', 'env']
+            $options['extra'] ?? [], array_keys($this->config)
         );
 
         return $this;
@@ -136,6 +138,17 @@ class Application
     protected function getPackageProviders($app)
     {
         return $this->config['providers'] ?? [];
+    }
+
+    /**
+     * Get package bootstrapper.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getPackageBootstrappers($app)
+    {
+        return $this->config['bootstrappers'] ?? [];
     }
 
     /**
