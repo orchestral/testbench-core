@@ -9,7 +9,7 @@ class DefaultConfigurationTest extends TestCase
     /** @test */
     public function it_populate_expected_debug_config()
     {
-        $this->assertTrue($this->app['config']['app.debug']);
+        $this->assertFalse($this->app['config']['app.debug']);
     }
 
     /** @test */
