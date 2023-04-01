@@ -19,9 +19,9 @@ final class EnsuresDefaultConfiguration
      */
     public function bootstrap(Application $app): void
     {
-        if (! $this->includesDefaultConfigurations($app)) {
-            return;
-        }
+        // if (! $this->includesDefaultConfigurations($app)) {
+        //     return;
+        // }
 
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $app->make('config');
@@ -47,7 +47,6 @@ final class EnsuresDefaultConfiguration
      */
     protected function includesDefaultConfigurations($app): bool
     {
-        return // Env::get('TESTBENCH_WITHOUT_DEFAULT_VARIABLES', false) !== true
-            Env::get('TESTBENCH_PACKAGE_TESTER', false) !== true;
+        return Env::get('TESTBENCH_WITHOUT_DEFAULT_VARIABLES') !== true;
     }
 }
