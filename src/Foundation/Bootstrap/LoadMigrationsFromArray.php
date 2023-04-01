@@ -35,7 +35,7 @@ final class LoadMigrationsFromArray
     public function bootstrap(Application $app): void
     {
         $paths = Collection::make($this->migrations)
-            ->when($this->includesDefaultMigrations(), function ($migrations) use ($app) {
+            ->when($this->includesDefaultMigrations($app), function ($migrations) use ($app) {
                 return $migrations->push($app->basePath('migrations'));
             })->filter(function ($migration) {
                 return \is_string($migration);
