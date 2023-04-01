@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 
@@ -74,31 +73,8 @@ class TestCommand extends Command
             })->values()->all();
 
         return array_merge([
-<<<<<<< HEAD
             '--configuration=./',
             "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
         ], $options);
-=======
-            'APP_KEY' => Env::get('APP_KEY'),
-            'APP_DEBUG' => Env::get('APP_DEBUG'),
-            'TESTBENCH_PACKAGE_TESTER' => '(true)',
-        ], parent::phpunitEnvironmentVariables());
-    }
-
-    /**
-     * Get the array of environment variables for running Paratest.
-     *
-     * @return array
-     */
-    protected function paratestEnvironmentVariables()
-    {
-        return array_merge([
-            'APP_KEY' => Env::get('APP_KEY'),
-            'APP_DEBUG' => Env::get('APP_DEBUG'),
-            'TESTBENCH_PACKAGE_TESTER' => '(true)',
-            'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
-            'APP_BASE_PATH' => $this->laravel->basePath(),
-        ], parent::paratestEnvironmentVariables());
->>>>>>> 597276d (Fixes configuration leaks via environment variables. (#107))
     }
 }
