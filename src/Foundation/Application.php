@@ -183,6 +183,12 @@ class Application
      */
     protected function resolveApplicationEnvironmentVariables($app)
     {
+        Env::disablePutenv();
+
+        $app->terminating(function () {
+            Env::enablePutenv();
+        });
+
         $this->resolveApplicationEnvironmentVariablesFromTrait($app);
 
         (new Bootstrap\LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
