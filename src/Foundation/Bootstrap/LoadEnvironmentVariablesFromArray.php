@@ -38,18 +38,6 @@ final class LoadEnvironmentVariablesFromArray
     public function bootstrap(Application $app): void
     {
         $this->createDotenvFromString()->load();
-
-        // config([
-        //     ray()->pass(Collection::make([
-        //         'APP_KEY' => ['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF'],
-        //         'APP_DEBUG' => ['app.debug' => true],
-        //         'DB_CONNECTION' => \defined('TESTBENCH_DUSK') ? ['database.default' => 'testing'] : null,
-        //     ])->filter()
-        //     ->reject(function ($config, $key) {
-        //         return !is_null(Env::get($key));
-        //     })->values()
-        //     ->all())
-        // ]);
     }
 
     /**

@@ -182,7 +182,6 @@ class Application
         Env::disablePutenv();
 
         $app->terminating(function () {
-            Env::getRepository()->clear('APP_DEBUG');
             Env::enablePutenv();
         });
 
