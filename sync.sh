@@ -1,14 +1,10 @@
 #!/bin/bash
 
-<<<<<<< HEAD
-composer create-project "laravel/laravel:9.x-dev" skeleton --no-scripts --no-plugins --quiet
-=======
 if [-f laravel/.env]; then
     rm laravel/.env
 fi
 
-composer create-project "laravel/laravel:10.x-dev" skeleton --no-scripts --no-plugins --quiet
->>>>>>> 597276d (Fixes configuration leaks via environment variables. (#107))
+composer create-project "laravel/laravel:9.x-dev" skeleton --no-scripts --no-plugins --quiet
 
 cp -f skeleton/.env.example laravel/
 cp -rf skeleton/config/*.php laravel/config/
