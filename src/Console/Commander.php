@@ -7,6 +7,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use function Orchestra\Testbench\default_environment_variables;
+use function Orchestra\Testbench\transform_relative_path;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
@@ -160,10 +161,10 @@ class Commander
      */
     protected function getBasePath()
     {
-        $laravelBasePath = $this->config['laravel'] ?? null;
+        $path = $this->config['laravel'] ?? null;
 
-        if (! \is_null($laravelBasePath)) {
-            return tap(str_replace('./', $this->workingPath.'/', $laravelBasePath), static function ($path) {
+        if (! \is_null($path)) {
+            return tap(transform_relative_path($path, $this->workingPath), static function ($path) {
                 $_ENV['APP_BASE_PATH'] = $path;
             });
         }

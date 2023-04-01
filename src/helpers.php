@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 
 /**
@@ -76,4 +77,11 @@ function parse_environment_variables($variables): array
 
             return "{$key}={$value}";
         })->values()->all();
+}
+
+function transform_relative_path(string $path, string $workingPath): string
+{
+    return Str::startsWith('./', $path)
+        ? str_replace('./', rtrim($workingPath, '/').'/', $path)
+        : $path;
 }

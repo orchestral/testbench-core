@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
 use Illuminate\Support\Str;
+use function Orchestra\Testbench\transform_relative_path;
 
 final class LoadMigrationsFromArray
 {
@@ -40,9 +41,7 @@ final class LoadMigrationsFromArray
             })->filter(function ($migration) {
                 return \is_string($migration);
             })->transform(function ($migration) use ($app) {
-                return Str::startsWith('./', $migration)
-                    ? $app->basePath(str_replace('./', '/', $migration))
-                    : $migration;
+                return transform_relative_path($migration, $app->basePath());
             })->all();
 
         $this->callAfterResolvingMigrator($app, function ($migrator) use ($paths) {
