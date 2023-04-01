@@ -19,9 +19,9 @@ final class EnsuresDefaultConfiguration
      */
     public function bootstrap(Application $app): void
     {
-        // if (! $this->includesDefaultConfigurations($app)) {
-        //     return;
-        // }
+        if (! $this->includesDefaultConfigurations($app)) {
+            return;
+        }
 
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $app->make('config');
