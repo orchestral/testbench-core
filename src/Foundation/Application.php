@@ -159,9 +159,7 @@ class Application
     protected function resolveApplication()
     {
         return tap($this->resolveApplicationFromTrait(), function ($app) {
-            if (\is_callable($this->resolvingCallback)) {
-                \call_user_func($this->resolvingCallback, $app);
-            }
+            value($this->resolvingCallback, $app);
         });
     }
 
