@@ -7,6 +7,9 @@ use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
 
+/**
+ * @covers \Orchestra\Testbench\TestCase::onNotSuccessfulTest
+ */
 class LatestResponseExceptionTest extends TestCase
 {
     /**
