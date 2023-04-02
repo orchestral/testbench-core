@@ -83,7 +83,7 @@ function parse_environment_variables($variables): array
 
 function transform_relative_path(string $path, string $workingPath): string
 {
-    return Str::startsWith('./', $path)
+    return Str::startsWith($path, './')
         ? str_replace('./', rtrim($workingPath, '/').'/', $path)
         : $path;
 }
