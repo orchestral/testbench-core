@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests;
+namespace Orchestra\Testbench\Tests\Foundation;
 
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\PackageManifest;
@@ -16,7 +16,7 @@ class PackageManifestTest extends TestCase
     public function it_can_build_manifest()
     {
         if (! \defined('TESTBENCH_WORKING_PATH')) {
-            \define('TESTBENCH_WORKING_PATH', realpath(__DIR__.'/../'));
+            \define('TESTBENCH_WORKING_PATH', realpath(__DIR__.'/../../'));
         }
 
         $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
