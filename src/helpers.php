@@ -66,12 +66,12 @@ function parse_environment_variables($variables): array
 {
     return Collection::make($variables)
         ->transform(function ($value, $key) {
-            if (\is_null($value) || \in_array($value, ['null'])) {
-                $value = '(null)';
-            } elseif (\is_bool($value) || \in_array($value, ['true', 'false'])) {
+            if (\is_bool($value) || \in_array($value, ['true', 'false'])) {
                 $value = \in_array($value, [true, 'true']) ? '(true)' : '(false)';
+            } elseif (\is_null($value) || \in_array($value, ['null'])) {
+                $value = '(null)';
             } else {
-                $value = $key === 'APP_DEBUG' ? sprintf('(%s)', Str::of($value)->ltrim('(')->rtrim('(')) : "'{$value}'";
+                $value = $key === 'APP_DEBUG' ? sprintf('(%s)', Str::of($value)->ltrim('(')->rtrim(')')) : "'{$value}'";
             }
 
             return "{$key}={$value}";
