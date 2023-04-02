@@ -4,9 +4,10 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Contracts\Bus\QueueingDispatcher;
 use Illuminate\Queue\Queue;
+use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Tests\Fixtures\Jobs\CustomPayloadJob;
 
-class TestbenchTest extends \Orchestra\Testbench\TestCase
+class TestbenchTest extends TestCase
 {
     /**
      * @test
