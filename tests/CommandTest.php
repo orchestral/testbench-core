@@ -3,9 +3,10 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Console\Application as Artisan;
+use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Tests\Fixtures\Commands\DummyCommand;
 
-class CommandTest extends \Orchestra\Testbench\TestCase
+class CommandTest extends TestCase
 {
     protected function setUp(): void
     {
