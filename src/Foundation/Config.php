@@ -73,8 +73,6 @@ class Config extends Fluent
     {
         $this->attributes['providers'] = array_unique(array_merge($this->attributes['providers'], $providers));
 
-        ray($this->attributes['providers']);
-
         return $this;
     }
 
