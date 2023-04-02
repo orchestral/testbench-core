@@ -8,6 +8,7 @@ use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
 
 /**
  * @requires OS Linux|DAR
+ * @group database
  */
 class DropSqliteDbCommandTest extends TestCase
 {
