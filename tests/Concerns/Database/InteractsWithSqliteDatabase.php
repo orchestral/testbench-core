@@ -10,14 +10,17 @@ trait InteractsWithSqliteDatabase
     use InteractsWithPublishedFiles;
 
     /**
+     * List of generated files.
+     *
+     * @var array<int, string>
+     */
+    protected $files = [];
+
+    /**
      * Drop Sqlite Database.
      */
     protected function withoutSqliteDatabase(callable $callback): void
     {
-        if (! property_exists($this, 'files') || ! is_array($this->files)) {
-            $this->files = [];
-        }
-
         $time = time();
         $filesystem = new Filesystem();
 
