@@ -30,9 +30,22 @@ class CreateSqliteDbCommandTest extends TestCase
             $this->assertFalse(file_exists(__DIR__.'/../../../laravel/database/database.sqlite'));
 
             $this->artisan('package:create-sqlite-db')
-                ->assertExitCode(0);
+                ->expectsOutputToContain('Copying file [database/database.sqlite.example] to [database/database.sqlite]')
+                ->assertOk();
 
             $this->assertTrue(file_exists(__DIR__.'/../../../laravel/database/database.sqlite'));
+        });
+    }
+
+    /** @test */
+    public function it_cannot_generate_database_using_command_when_database_already_exists()
+    {
+        $this->withSqliteDatabase(function () {
+            $this->assertTrue(file_exists(__DIR__.'/../../../laravel/database/database.sqlite'));
+
+            $this->artisan('package:create-sqlite-db')
+                ->expectsOutputToContain('File [database/database.sqlite] already exists')
+                ->assertOk();
         });
     }
 }
