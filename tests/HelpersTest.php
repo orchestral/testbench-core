@@ -11,7 +11,7 @@ class HelpersTest extends TestCase
     public function it_can_transform_relative_path()
     {
         $this->assertSame(
-            realpath(__DIR__.'/HelpersTest.php'),
+            realpath(__DIR__).'/HelpersTest.php',
             transform_relative_path('./HelpersTest.php', realpath(__DIR__))
         );
     }
