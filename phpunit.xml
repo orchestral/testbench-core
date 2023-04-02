@@ -23,6 +23,7 @@
             <file>src/Concerns/WithFactories.php</file>
             <file>src/Console/Commander.php</file>
             <file>src/Console/Kernel.php</file>
+            <file>src/Exceptions/DeprecatedException.php</file>
             <file>src/Exceptions/Handler.php</file>
             <file>src/Exceptions/PHPUnitErrorException.php</file>
             <file>src/Foundation/Console/Kernel.php</file>
