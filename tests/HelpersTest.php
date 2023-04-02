@@ -34,7 +34,6 @@ class HelpersTest extends TestCase
         );
     }
 
-
     /** @test */
     public function it_can_transform_relative_path()
     {
