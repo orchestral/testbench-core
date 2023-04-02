@@ -23,6 +23,7 @@
             <file>src/Console/Kernel.php</file>
             <file>src/Exceptions/Handler.php</file>
             <file>src/Foundation/Console/Kernel.php</file>
+            <file>src/Foundation/Console/TestFallbackCommand.php</file>
             <file>src/Foundation/Http/Kernel.php</file>
         </exclude>
     </coverage>
