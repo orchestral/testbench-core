@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Concerns\Database;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 
 trait InteractsWithSqliteDatabase
@@ -60,5 +61,23 @@ trait InteractsWithSqliteDatabase
                 $filesystem->delete($database);
             }
         });
+    }
+
+    /**
+     * Tear down the Dusk test case class.
+     *
+     * @afterClass
+     *
+     * @return void
+     */
+    public static function cleanupBackupSqliteDatabaseFilesOnFailed()
+    {
+        $filesystem = new Filesystem();
+
+        $filesystem->delete(
+            Collection::make($filesystem->glob(__DIR__.'/../../../laravel/database/database.sqlite.backup-*'))
+                ->filter(fn ($file) => $filesystem->exists($file))
+                ->all()
+        );
     }
 }
