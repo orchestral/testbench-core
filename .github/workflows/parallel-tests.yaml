@@ -69,7 +69,7 @@ jobs:
         if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
 
       - name: Execute tests (without deprecations on PHPUnit 10)
-        run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel
+        run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel,database
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
