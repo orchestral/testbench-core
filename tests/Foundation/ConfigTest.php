@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests\Foundation;
 
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Tests\Fixtures\Providers\ChildServiceProvider;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
