@@ -10,7 +10,9 @@
          stopOnFailure="false"
          cacheDirectory=".phpunit.cache"
          backupStaticProperties="false">
-    <coverage includeUncoveredFiles="false">
+    <coverage
+         includeUncoveredFiles="false"
+         pathCoverage="true">
         <include>
             <directory suffix=".php">src/</directory>
         </include>
