@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -16,9 +17,7 @@ use Symfony\Component\Process\Process;
  */
 class CommanderTest extends TestCase
 {
-    use InteractsWithPublishedFiles;
-
-    protected $files = [];
+    use InteractsWithSqliteDatabase;
 
     /**
      * @test
@@ -141,51 +140,6 @@ class CommanderTest extends TestCase
             $process->mustRun();
 
             $this->assertSame([], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
-        });
-    }
-
-    /**
-     * Drop Sqlite Database.
-     */
-    protected function withoutSqliteDatabase(callable $callback): void
-    {
-        $time = time();
-        $filesystem = new Filesystem();
-
-        $database = __DIR__.'/../laravel/database/database.sqlite';
-
-        if ($filesystem->exists($database)) {
-            $filesystem->move($database, $temporary = "{$database}.backup-{$time}");
-            array_push($this->files, $temporary);
-        }
-
-        value($callback);
-
-        if (isset($temporary)) {
-            $filesystem->move($temporary, $database);
-        }
-    }
-
-    /**
-     * Drop Sqlite Database.
-     */
-    protected function withSqliteDatabase(callable $callback): void
-    {
-        $this->withoutSqliteDatabase(function () use ($callback) {
-            $filesystem = new Filesystem();
-
-            $database = __DIR__.'/../laravel/database/database.sqlite';
-            $time = time();
-
-            if (! $filesystem->exists($database)) {
-                $filesystem->copy($example = "{$database}.example", $database);
-            }
-
-            value($callback);
-
-            if (isset($example)) {
-                $filesystem->delete($database);
-            }
         });
     }
 
