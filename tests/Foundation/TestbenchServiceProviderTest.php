@@ -9,6 +9,9 @@ use Orchestra\Testbench\Foundation\Console\TestFallbackCommand;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
 
+/**
+ * @covers \Orchestra\Testbench\Foundation\TestbenchServiceProvider
+ */
 class TestbenchServiceProviderTest extends TestCase
 {
     /**
