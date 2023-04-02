@@ -6,6 +6,9 @@ use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
 
+/**
+ * @requires OS Linux|DAR
+ */
 class CreateSqliteDbCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabase;
