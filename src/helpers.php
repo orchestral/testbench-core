@@ -46,14 +46,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
  */
 function default_environment_variables(): array
 {
-    return parse_environment_variables(
-        Collection::make([
-            'APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
-            'APP_DEBUG' => 'true',
-            'DB_CONNECTION' => null,
-        ])->transform(fn ($value, $key) => ($_SERVER[$key] ?? $_ENV[$key] ?? $value))
-        ->filter(fn ($value) => ! \is_null($value))
-    );
+    return [];
 }
 
 /**
@@ -66,12 +59,12 @@ function parse_environment_variables($variables): array
 {
     return Collection::make($variables)
         ->transform(function ($value, $key) {
-            if (\is_null($value) || \in_array($value, ['null'])) {
-                $value = '(null)';
-            } elseif (\is_bool($value) || \in_array($value, ['true', 'false'])) {
+            if (\is_bool($value) || \in_array($value, ['true', 'false'])) {
                 $value = \in_array($value, [true, 'true']) ? '(true)' : '(false)';
+            } elseif (\is_null($value) || \in_array($value, ['null'])) {
+                $value = '(null)';
             } else {
-                $value = $key === 'APP_DEBUG' ? sprintf('(%s)', Str::of($value)->ltrim('(')->rtrim('(')) : "'{$value}'";
+                $value = $key === 'APP_DEBUG' ? sprintf('(%s)', Str::of($value)->ltrim('(')->rtrim(')')) : "'{$value}'";
             }
 
             return "{$key}={$value}";
@@ -80,7 +73,7 @@ function parse_environment_variables($variables): array
 
 function transform_relative_path(string $path, string $workingPath): string
 {
-    return Str::startsWith('./', $path)
+    return Str::startsWith($path, './')
         ? str_replace('./', rtrim($workingPath, '/').'/', $path)
         : $path;
 }
