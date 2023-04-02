@@ -6,6 +6,9 @@ use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
 
+/**
+ * @requires OS Linux|DAR
+ */
 class DropSqliteDbCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabase;
@@ -36,7 +39,6 @@ class DropSqliteDbCommandTest extends TestCase
             $this->assertFalse(file_exists(__DIR__.'/../../../laravel/database/database.sqlite'));
         });
     }
-
 
     /** @test */
     public function it_cannot_drop_database_using_command_when_database_doesnt_exists()

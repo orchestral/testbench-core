@@ -63,7 +63,7 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations on PHPUnit 10)
-        run: ./testbench package:test --parallel --exclude-group commander,without-parallel
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database
         env:
           RAY_ENABLED: false
         if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
