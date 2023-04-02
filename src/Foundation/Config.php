@@ -71,7 +71,9 @@ class Config extends Fluent
      */
     public function addProviders(array $providers)
     {
-        $this->attributes['providers'] = array_unique($this->attributes['providers'] + $providers);
+        $this->attributes['providers'] = array_unique(array_merge($this->attributes['providers'], $providers));
+
+        ray($this->attributes['providers']);
 
         return $this;
     }
