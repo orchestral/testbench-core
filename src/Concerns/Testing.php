@@ -191,17 +191,7 @@ trait Testing
 
         Collection::make($uses)
             ->reject(function ($use) {
-                return Str::startsWith($use, [
-                    'Illuminate\Foundation\Testing',
-                    'Orchestra\Testbench\Concerns\CreatesApplication',
-                    'Orchestra\Testbench\Concerns\Database\HandlesConnections',
-                    'Orchestra\Testbench\Concerns\Testing',
-                    'Orchestra\Testbench\Concerns\Handles',
-                    'Orchestra\Testbench\Concerns\WithFactories',
-                    'Orchestra\Testbench\Concerns\WithLaravelMigrations',
-                    'Orchestra\Testbench\Concerns\WithLoadMigrationsFrom',
-                    'Orchestra\Testbench\Dusk\Concerns',
-                ]);
+                return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
             })->transform(function ($use) {
                 return class_basename($use);
             })->each(function ($traitBaseName) {
@@ -218,6 +208,34 @@ trait Testing
             });
 
         return $uses;
+    }
+
+    /**
+     * Determine trait should be ignored from being autoloaded.
+     *
+     * @param  class-string  $use
+     * @return bool
+     */
+    protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
+    {
+        return Str::startsWith($use, [
+            RefreshDatabase::class,
+            DatabaseMigrations::class,
+            DatabaseTransactions::class,
+            WithoutMiddleware::class,
+            WithoutEvents::class,
+            WithFaker::class,
+            CreatesApplication::class,
+            Database\HandlesConnections::class,
+            HandlesAnnotations::class,
+            HandlesDatabases::class,
+            HandlesRoutes::class,
+            Testing::class,
+            WithFactories::class,
+            WithLaravelMigrations::class,
+            WithLoadMigrationsFrom::class,
+            'Orchestra\Testbench\Dusk\Concerns',
+        ]);
     }
 
     /**
