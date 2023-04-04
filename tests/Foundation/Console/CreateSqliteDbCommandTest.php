@@ -8,6 +8,8 @@ use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
 
 /**
  * @requires OS Linux|DAR
+ *
+ * @group database
  */
 class CreateSqliteDbCommandTest extends TestCase
 {
