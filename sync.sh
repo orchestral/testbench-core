@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [-f laravel/.env]; then
+if [ -f laravel/.env ]; then
     rm laravel/.env
 fi
 
