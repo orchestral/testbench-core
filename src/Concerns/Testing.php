@@ -271,7 +271,6 @@ trait Testing
             WithFactories::class,
             WithLaravelMigrations::class,
             WithLoadMigrationsFrom::class,
-            'Orchestra\Testbench\Dusk\Concerns',
         ]);
     }
 
