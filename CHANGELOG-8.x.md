@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.4.0
+
+Released: 2023-04-05
+
+### Changes
+
+* Add `setUpTheTestEnvironmentTraitToBeIgnored()` method to determine `setup<Concern>` and `teardown<Concern>` with imported traits should be use on given trait.
+* Bump minimum `laravel/framework` to `10.6.1`.
+
 ## 8.3.1
 
 Released: 2023-04-02
