@@ -31,7 +31,9 @@ class Config extends Fluent
     /**
      * All of the attributes set on the fluent instance.
      *
-     * @var TConfig
+     * @var array<string, mixed>
+     *
+     * @phpstan-var TConfig
      */
     protected $attributes = [
         'laravel' => null,
@@ -56,7 +58,11 @@ class Config extends Fluent
         $config = $defaults;
 
         if (file_exists("{$workingPath}/{$filename}")) {
-            /** @var TOptionalConfig $config */
+            /**
+             * @var array<string, mixed> $config
+             *
+             * @phpstan-var TOptionalConfig $config
+             */
             $config = Yaml::parseFile("{$workingPath}/{$filename}");
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {

@@ -15,7 +15,9 @@ class UserFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<TModel>
+     * @var class-string<\Illuminate\Foundation\Auth\User>
+     *
+     * @phpstan-var class-string<TModel>
      */
     protected $model = \Illuminate\Foundation\Auth\User::class;
 

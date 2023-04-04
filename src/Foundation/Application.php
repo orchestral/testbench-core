@@ -28,7 +28,9 @@ class Application
     /**
      * List of configurations.
      *
-     * @var TExtraConfig
+     * @var array<string, mixed>
+     *
+     * @phpstan-var TExtraConfig
      */
     protected $config = [
         'env' => [],
@@ -84,7 +86,7 @@ class Application
      *
      * @param  string|null  $basePath
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
-     * @param  array  $options
+     * @param  array<string, mixed>  $options
      * @return \Illuminate\Foundation\Application
      *
      * @phpstan-param TConfig  $options
@@ -97,7 +99,7 @@ class Application
     /**
      * Configure the application options.
      *
-     * @param  array  $options
+     * @param  array<string, mixed>  $options
      * @return $this
      *
      * @phpstan-param TConfig  $options
@@ -122,7 +124,7 @@ class Application
     /**
      * Ignore package discovery from.
      *
-     * @return array
+     * @return array<int, string>
      */
     public function ignorePackageDiscoveriesFrom()
     {
@@ -133,7 +135,7 @@ class Application
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array
+     * @return array<int, class-string>
      */
     protected function getPackageProviders($app)
     {
