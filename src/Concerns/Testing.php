@@ -17,7 +17,6 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -227,17 +226,7 @@ trait Testing
         Collection::make($uses)
             ->reject(function ($use) {
                 /** @var class-string $use */
-                return Str::startsWith($use, [
-                    'Illuminate\Foundation\Testing',
-                    'Orchestra\Testbench\Concerns\CreatesApplication',
-                    'Orchestra\Testbench\Concerns\Database\HandlesConnections',
-                    'Orchestra\Testbench\Concerns\Testing',
-                    'Orchestra\Testbench\Concerns\Handles',
-                    'Orchestra\Testbench\Concerns\WithFactories',
-                    'Orchestra\Testbench\Concerns\WithLaravelMigrations',
-                    'Orchestra\Testbench\Concerns\WithLoadMigrationsFrom',
-                    'Orchestra\Testbench\Dusk\Concerns',
-                ]);
+                return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
             })->transform(function ($use) {
                 /** @var class-string $use */
                 return class_basename($use);
@@ -256,6 +245,14 @@ trait Testing
 
         return $uses;
     }
+
+    /**
+     * Determine trait should be ignored from being autoloaded.
+     *
+     * @param  class-string  $use
+     * @return bool
+     */
+    abstract protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool;
 
     /**
      * Setup parallel testing callback.
