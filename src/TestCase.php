@@ -123,24 +123,6 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function runTest(): mixed
-    {
-        $result = null;
-
-        try {
-            $result = parent::runTest();
-        } catch (Exceptions\DeprecatedException $error) {
-            throw $error;
-        } catch (Throwable $error) {
-            $this->transformException($error);
-        }
-
-        return $result;
-    }
-
-    /**
      * Transform exceptions for PHPUnit.
      *
      * @param  \Throwable  $error

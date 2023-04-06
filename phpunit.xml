@@ -9,7 +9,7 @@
          stopOnFailure="false"
          cacheDirectory=".phpunit.cache"
          backupStaticProperties="false">
-    <coverage includeUncoveredFiles="false">
+    <source>
         <include>
             <directory suffix=".php">src/</directory>
         </include>
@@ -27,7 +27,7 @@
             <file>src/Foundation/Console/TestFallbackCommand.php</file>
             <file>src/Foundation/Http/Kernel.php</file>
         </exclude>
-    </coverage>
+    </source>
     <testsuites>
         <testsuite name="Testbench Test Suite">
             <directory suffix="Test.php">./tests/</directory>
