@@ -9,6 +9,7 @@
          stopOnFailure="false"
          cacheDirectory=".phpunit.cache"
          backupStaticProperties="false">
+    <coverage/>
     <source>
         <include>
             <directory suffix=".php">src/</directory>
