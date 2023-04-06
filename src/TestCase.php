@@ -134,14 +134,25 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         } catch (Exceptions\DeprecatedException $error) {
             throw $error;
         } catch (Throwable $error) {
-            if (! \is_null(static::$latestResponse)) {
-                static::$latestResponse->transformNotSuccessfulException($error);
-            }
-
-            throw $error;
+            $this->transformException($error);
         }
 
         return $result;
+    }
+
+    /**
+     * Transform exceptions for PHPUnit.
+     *
+     * @param  \Throwable  $error
+     * @return \Throwable
+     */
+    protected function transformException(Throwable $error): Throwable
+    {
+        if (! \is_null(static::$latestResponse)) {
+            static::$latestResponse->transformNotSuccessfulException($error);
+        }
+
+        throw $error;
     }
 
     /**
