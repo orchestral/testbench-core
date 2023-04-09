@@ -18,7 +18,7 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-          - "10.x"
+          - "10.0.x"
         collision:
           - "^7.0"
         dependencies:
@@ -59,14 +59,14 @@ jobs:
         run: ./testbench package:test --exclude-group commander
         env:
           RAY_ENABLED: false
-        if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
+        if: matrix.dependencies == 'highest'
 
       - name: Execute tests (without deprecations on PHPUnit 10)
         run: ./testbench package:test --exclude-group commander,deprecations
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
+        if: matrix.dependencies != 'highest'
 
   tests-with-coverage:
     runs-on: ${{ matrix.os }}
@@ -79,7 +79,7 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-          - "10.x"
+          - "10.0.x"
         collision:
           - "^7.0"
         dependencies:
@@ -110,6 +110,10 @@ jobs:
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
 
       - name: Execute tests
         run: ./testbench package:test --coverage --exclude-group commander,deprecations
