@@ -24,7 +24,7 @@ jobs:
           - "highest"
           - "lowest"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -48,6 +48,10 @@ jobs:
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
 
       - name: Execute tests (with deprecations)
         run: vendor/bin/phpunit
@@ -79,7 +83,7 @@ jobs:
           - "highest"
           - "lowest"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -103,6 +107,10 @@ jobs:
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
 
       - name: Execute tests (with deprecations)
         run: vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
@@ -134,7 +142,7 @@ jobs:
           - "highest"
           - "lowest"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
