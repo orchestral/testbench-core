@@ -111,6 +111,10 @@ jobs:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
 
+      - name: Installed dependencies
+        run: |
+          composer show -D
+
       - name: Execute tests
         run: ./testbench package:test --coverage --exclude-group commander,deprecations
         env:
