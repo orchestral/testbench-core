@@ -59,14 +59,14 @@ jobs:
         run: ./testbench package:test --exclude-group commander
         env:
           RAY_ENABLED: false
-        if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
+        if: matrix.dependencies == 'highest'
 
       - name: Execute tests (without deprecations on PHPUnit 10)
         run: ./testbench package:test --exclude-group commander,deprecations
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
+        if: matrix.dependencies != 'highest'
 
   tests-with-coverage:
     runs-on: ${{ matrix.os }}
