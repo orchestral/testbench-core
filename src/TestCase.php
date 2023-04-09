@@ -4,10 +4,9 @@ namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
 use Illuminate\Support\Str;
-use PHPUnit\Framework\TestCase as PHPUnit;
 use Throwable;
 
-abstract class TestCase extends PHPUnit implements Contracts\TestCase
+abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
     use Concerns\Testing,
         Testing\Concerns\InteractsWithAuthentication,
@@ -120,28 +119,6 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected function refreshApplication()
     {
         $this->app = $this->createApplication();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function runTest(): mixed
-    {
-        $result = null;
-
-        try {
-            $result = parent::runTest();
-        } catch (Exceptions\DeprecatedException $error) {
-            throw $error;
-        } catch (Throwable $error) {
-            if (! \is_null(static::$latestResponse)) {
-                static::$latestResponse->transformNotSuccessfulException($error);
-            }
-
-            throw $error;
-        }
-
-        return $result;
     }
 
     /**
