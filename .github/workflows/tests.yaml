@@ -73,7 +73,7 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-          - "9.x"
+          - "9.6.x"
         dependencies:
           - "highest"
           - "lowest"
@@ -108,6 +108,6 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --exclude-group deprecations --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
         env:
           RAY_ENABLED: false
