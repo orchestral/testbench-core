@@ -4,7 +4,6 @@ namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
 use Illuminate\Support\Str;
-use Throwable;
 
 abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
