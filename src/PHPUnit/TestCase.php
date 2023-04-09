@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\PHPUnit;
 
 use Orchestra\Testbench\Exceptions\DeprecatedException;
-use Throwable;
 use function Orchestra\Testbench\phpunit_version_compare;
+use Throwable;
 
 if (phpunit_version_compare('10.1.0', '<')) {
     class TestCase extends \PHPUnit\Framework\TestCase
