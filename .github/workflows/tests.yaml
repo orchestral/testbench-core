@@ -104,11 +104,18 @@ jobs:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
 
-      - name: Execute tests
+      - name: Execute tests (with deprecations)
+        run: vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
+        env:
+          RAY_ENABLED: false
+        if: matrix.os != 'windows-latest'
+
+      - name: Execute tests (without deprecations)
         run: vendor/bin/phpunit --exclude-group deprecations --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.os == 'windows-latest'
 
   tests-on-phpunit-9:
     runs-on: ${{ matrix.os }}

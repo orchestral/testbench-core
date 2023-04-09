@@ -2,43 +2,36 @@
 
 namespace Orchestra\Testbench\PHPUnit;
 
-use function Orchestra\Testbench\phpunit_version_compare;
+use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Throwable;
+use function Orchestra\Testbench\phpunit_version_compare;
 
-if (phpunit_version_compare('10.0.0', '<')) {
+if (phpunit_version_compare('10.1.0', '<')) {
     class TestCase extends \PHPUnit\Framework\TestCase
     {
         /**
          * {@inheritdoc}
          */
-        protected function onNotSuccessfulTest(Throwable $exception): void
+        protected function runTest(): mixed
         {
+            $result = null;
+
             /** @var \Illuminate\Testing\TestResponse|null $response */
             $response = static::$latestResponse ?? null;
 
-            parent::onNotSuccessfulTest(
-                \is_null($response)
-                    ? $response->transformNotSuccessfulException($exception)
-                    : $exception
-            );
-        }
-    }
-} elseif (phpunit_version_compare('10.1.0', '<')) {
-    class TestCase extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * {@inheritdoc}
-         */
-        protected function onNotSuccessfulTest(Throwable $exception): never
-        {
-            /** @var \Illuminate\Testing\TestResponse|null $response */
-            $response = static::$latestResponse ?? null;
+            try {
+                $result = parent::runTest();
+            } catch (DeprecatedException $error) {
+                throw $error;
+            } catch (Throwable $error) {
+                if (! \is_null($response)) {
+                    $response->transformNotSuccessfulException($error);
+                }
 
-            parent::onNotSuccessfulTest(
-                \is_null($response)
-                    ? $response->transformNotSuccessfulException($exception)
-                    : $exception
-            );
+                throw $error;
+            }
+
+            return $result;
         }
     }
 } else {
