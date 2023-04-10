@@ -21,7 +21,6 @@ jobs:
           - "10.1.x"
         dependencies:
           - "highest"
-          - "lowest"
         experimental:
           - false
 
