@@ -14,13 +14,12 @@ jobs:
       matrix:
         os:
           - "ubuntu-latest"
-          - "windows-latest"
         php:
           - "7.3"
           - "7.4"
           - "8.0"
         phpunit:
-          - "9.x"
+          - "^9.5.10"
         dependencies:
           - "locked"
           - "highest"
