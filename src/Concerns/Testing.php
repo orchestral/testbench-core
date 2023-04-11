@@ -15,7 +15,6 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
-use Illuminate\Support\Str;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Throwable;

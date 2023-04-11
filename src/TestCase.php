@@ -94,7 +94,6 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             Concerns\WithLaravelMigrations::class,
             Concerns\WithLoadMigrationsFrom::class,
         ]);
-
     }
 
     /**
