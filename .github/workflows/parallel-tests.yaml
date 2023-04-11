@@ -25,7 +25,6 @@ jobs:
           - "^7.0"
         dependencies:
           - "highest"
-          - "lowest"
         experimental:
           - false
 
