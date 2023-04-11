@@ -4,11 +4,12 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 8.4.1
 
-**Unreleased**
+Released: 2023-04-12
 
 ### Changes
 
-* Update skeleton.
+* Update skeleton to match v10.0.6.
+* Avoid declaring `Orchestra\Testbench\Concerns\Testing::setUpTheTestEnvironmentTraitToBeIgnored()` as `abstract` method.
 
 ## 8.4.0
 
