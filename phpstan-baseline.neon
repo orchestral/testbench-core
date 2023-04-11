@@ -1,19 +1,49 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_duplicate_queries_to_ray\\.$#"
+			message: "#^Access to property \\$send_duplicate_queries_to_ray on an unknown class Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
+			count: 2
+			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Access to property \\$send_queries_to_ray on an unknown class Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
+			count: 2
+			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Access to property \\$send_slow_queries_to_ray on an unknown class Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
+			count: 2
+			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Class Spatie\\\\Ray\\\\Settings\\\\Settings not found\\.$#"
 			count: 1
 			path: src/Bootstrap/ConfigureRay.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_queries_to_ray\\.$#"
+			message: "#^Parameter \\$callback of method Orchestra\\\\Testbench\\\\Bootstrap\\\\ConfigureRay\\:\\:callAfterResolvingSettings\\(\\) has invalid type Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
 			count: 1
 			path: src/Bootstrap/ConfigureRay.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_slow_queries_to_ray\\.$#"
+			message: "#^PHPDoc tag @extends has invalid type App\\\\Models\\\\User\\.$#"
 			count: 1
-			path: src/Bootstrap/ConfigureRay.php
+			path: src/Factories/UserFactory.php
+
+		-
+			message: "#^Type App\\\\Models\\\\User in generic type Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory\\<App\\\\Models\\\\User\\> in PHPDoc tag @extends is not subtype of template type TModel of Illuminate\\\\Database\\\\Eloquent\\\\Model of class Illuminate\\\\Database\\\\Eloquent\\\\Factories\\\\Factory\\.$#"
+			count: 1
+			path: src/Factories/UserFactory.php
+
+		-
+			message: "#^Access to constant HOME on an unknown class App\\\\Providers\\\\RouteServiceProvider\\.$#"
+			count: 1
+			path: src/Http/Middleware/RedirectIfAuthenticated.php
+
+		-
+			message: "#^Method Orchestra\\\\Testbench\\\\Http\\\\Middleware\\\\RedirectIfAuthenticated\\:\\:handle\\(\\) should return Symfony\\\\Component\\\\HttpFoundation\\\\Response but returns Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Routing\\\\Redirector\\.$#"
+			count: 1
+			path: src/Http/Middleware/RedirectIfAuthenticated.php
 
 		-
 			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<class\\-string,class\\-string\\>\\:\\:transform\\(\\) expects callable\\(class\\-string, class\\-string\\)\\: class\\-string, Closure\\(mixed\\)\\: string given\\.$#"
