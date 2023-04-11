@@ -17,7 +17,6 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -255,24 +254,7 @@ trait Testing
      */
     protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
     {
-        return Str::startsWith($use, [
-            RefreshDatabase::class,
-            DatabaseMigrations::class,
-            DatabaseTransactions::class,
-            WithoutMiddleware::class,
-            WithoutEvents::class,
-            WithFaker::class,
-            CreatesApplication::class,
-            Database\HandlesConnections::class,
-            HandlesAnnotations::class,
-            HandlesDatabases::class,
-            HandlesRoutes::class,
-            Testing::class,
-            WithFactories::class,
-            WithLaravelMigrations::class,
-            WithLoadMigrationsFrom::class,
-            'Orchestra\Testbench\Dusk\Concerns',
-        ]);
+        return false;
     }
 
     /**

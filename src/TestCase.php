@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\TestCase as PHPUnit;
 use Throwable;
 
@@ -73,6 +74,42 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         $uses = array_flip(class_uses_recursive(static::class));
 
         return $this->setUpTheTestEnvironmentTraits($uses);
+    }
+
+    /**
+     * Determine trait should be ignored from being autoloaded.
+     *
+     * @param  class-string  $use
+     * @return bool
+     */
+    protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
+    {
+        return Str::startsWith($use, [
+            Testing\RefreshDatabase::class,
+            Testing\DatabaseMigrations::class,
+            Testing\DatabaseTransactions::class,
+            Testing\WithoutMiddleware::class,
+            Testing\WithoutEvents::class,
+            Testing\WithFaker::class,
+            Testing\Concerns\InteractsWithAuthentication::class,
+            Testing\Concerns\InteractsWithConsole::class,
+            Testing\Concerns\InteractsWithContainer::class,
+            Testing\Concerns\InteractsWithDatabase::class,
+            Testing\Concerns\InteractsWithDeprecationHandling::class,
+            Testing\Concerns\InteractsWithExceptionHandling::class,
+            Testing\Concerns\InteractsWithSession::class,
+            Testing\Concerns\InteractsWithTime::class,
+            Testing\Concerns\MakesHttpRequests::class,
+            Concerns\CreatesApplication::class,
+            Concerns\Database\HandlesConnections::class,
+            Concerns\HandlesAnnotations::class,
+            Concerns\HandlesDatabases::class,
+            Concerns\HandlesRoutes::class,
+            Concerns\Testing::class,
+            Concerns\WithFactories::class,
+            Concerns\WithLaravelMigrations::class,
+            Concerns\WithLoadMigrationsFrom::class,
+        ]);
     }
 
     /**
