@@ -2,30 +2,23 @@
 
 namespace Orchestra\Testbench;
 
-use Illuminate\Foundation\Testing\Concerns\InteractsWithAuthentication;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithConsole;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithSession;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithTime;
-use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
-use Illuminate\Foundation\Testing\Concerns\MocksApplicationServices;
+use Illuminate\Foundation\Testing;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\TestCase as PHPUnit;
 use PHPUnit\Util\Annotation\Registry;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
     use Concerns\Testing,
-        InteractsWithAuthentication,
-        InteractsWithConsole,
-        InteractsWithContainer,
-        InteractsWithDatabase,
-        InteractsWithExceptionHandling,
-        InteractsWithSession,
-        InteractsWithTime,
-        MakesHttpRequests,
-        MocksApplicationServices;
+        Testing\Concerns\InteractsWithAuthentication,
+        Testing\Concerns\InteractsWithConsole,
+        Testing\Concerns\InteractsWithContainer,
+        Testing\Concerns\InteractsWithDatabase,
+        Testing\Concerns\InteractsWithExceptionHandling,
+        Testing\Concerns\InteractsWithSession,
+        Testing\Concerns\InteractsWithTime,
+        Testing\Concerns\MakesHttpRequests,
+        Testing\Concerns\MocksApplicationServices;
 
     /**
      * The base URL to use while testing the application.
@@ -64,6 +57,44 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         $uses = array_flip(class_uses_recursive(static::class));
 
         return $this->setUpTheTestEnvironmentTraits($uses);
+    }
+
+    /**
+     * Determine trait should be ignored from being autoloaded.
+     *
+     * @param  class-string  $use
+     * @return bool
+     */
+    protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
+    {
+        return Str::startsWith($use, [
+            Testing\RefreshDatabase::class,
+            Testing\DatabaseMigrations::class,
+            Testing\DatabaseTransactions::class,
+            Testing\WithoutMiddleware::class,
+            Testing\WithoutEvents::class,
+            Testing\WithFaker::class,
+            Testing\Concerns\InteractsWithAuthentication::class,
+            Testing\Concerns\InteractsWithConsole::class,
+            Testing\Concerns\InteractsWithContainer::class,
+            Testing\Concerns\InteractsWithDatabase::class,
+            Testing\Concerns\InteractsWithDeprecationHandling::class,
+            Testing\Concerns\InteractsWithExceptionHandling::class,
+            Testing\Concerns\InteractsWithSession::class,
+            Testing\Concerns\InteractsWithTime::class,
+            Testing\Concerns\MakesHttpRequests::class,
+            Testing\Concerns\MocksApplicationServices::class,
+            Concerns\CreatesApplication::class,
+            Concerns\Database\HandlesConnections::class,
+            Concerns\HandlesAnnotations::class,
+            Concerns\HandlesDatabases::class,
+            Concerns\HandlesRoutes::class,
+            Concerns\Testing::class,
+            Concerns\WithFactories::class,
+            Concerns\WithLaravelMigrations::class,
+            Concerns\WithLoadMigrationsFrom::class,
+        ]);
+
     }
 
     /**

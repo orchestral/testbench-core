@@ -218,24 +218,7 @@ trait Testing
      */
     protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
     {
-        return Str::startsWith($use, [
-            RefreshDatabase::class,
-            DatabaseMigrations::class,
-            DatabaseTransactions::class,
-            WithoutMiddleware::class,
-            WithoutEvents::class,
-            WithFaker::class,
-            CreatesApplication::class,
-            Database\HandlesConnections::class,
-            HandlesAnnotations::class,
-            HandlesDatabases::class,
-            HandlesRoutes::class,
-            Testing::class,
-            WithFactories::class,
-            WithLaravelMigrations::class,
-            WithLoadMigrationsFrom::class,
-            'Orchestra\Testbench\Dusk\Concerns',
-        ]);
+        return false;
     }
 
     /**
