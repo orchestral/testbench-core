@@ -246,7 +246,10 @@ trait Testing
      * @param  class-string  $use
      * @return bool
      */
-    abstract protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool;
+    protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
+    {
+        return false;
+    }
 
     /**
      * Setup parallel testing callback.

@@ -17,7 +17,7 @@ jobs:
         php:
           - 8.2
         phpunit:
-          - "10.x"
+          - "10.0.x"
         dependencies:
           - "highest"
           - "lowest"
@@ -40,16 +40,7 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-
-      - name: Install Paratest (for PHPUnit 9.x)
-        run: |
-          composer require "nunomaduro/collision:^6.4" "brianium/paratest:^6.4" --dev --no-interaction --no-update
-        if: matrix.phpunit == '9.x'
-
-      - name: Install Paratest (for PHPUnit 9.x)
-        run: |
           composer require "nunomaduro/collision:^7.0" "brianium/paratest:^7.0" --dev --no-interaction --no-update
-        if: matrix.phpunit == '10.x'
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
@@ -65,11 +56,11 @@ jobs:
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database
         env:
           RAY_ENABLED: false
-        if: matrix.dependencies == 'highest' && matrix.phpunit == '10.x'
+        if: matrix.dependencies == 'highest'
 
       - name: Execute tests (without deprecations on PHPUnit 10)
         run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel,database
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest' && matrix.phpunit == '10.x'
+        if: matrix.dependencies != 'highest'
