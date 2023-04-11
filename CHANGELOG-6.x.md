@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.31.2
+
+Released: 2023-04-11
+
+### Changes
+
+* Add `setUpTheTestEnvironmentTraitToBeIgnored()`` method to determine setup<Concern> and teardown<Concern> with imported traits that should be used on a given trait.
+
 ## 6.31.1
 
 Released: 2023-04-02
