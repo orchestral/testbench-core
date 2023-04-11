@@ -20,14 +20,13 @@ jobs:
           - 8.2
         phpunit:
           - "^9.5.10"
+        collision:
+          - "^6.2"
         dependencies:
           - "highest"
           - "lowest"
         experimental:
           - false
-        include:
-          - phpunit: "9.x"
-            collision: "^6.2"
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -79,14 +78,13 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-          - "9.x"
+          - "^9.5.10"
+        collision:
+          - "^6.2"
         dependencies:
           - "highest"
         experimental:
           - false
-        include:
-          - phpunit: "9.x"
-            collision: "^6.2"
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
 
