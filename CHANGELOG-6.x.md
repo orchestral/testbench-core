@@ -8,7 +8,7 @@ Released: 2023-04-11
 
 ### Changes
 
-* Add setUpTheTestEnvironmentTraitToBeIgnored() method to determine setup<Concern> and teardown<Concern> with imported traits that should be used on a given trait.
+* Add `setUpTheTestEnvironmentTraitToBeIgnored()`` method to determine setup<Concern> and teardown<Concern> with imported traits that should be used on a given trait.
 
 ## 6.31.1
 
