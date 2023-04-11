@@ -19,6 +19,11 @@ jobs:
           - 8.2
         phpunit:
           - "10.1.x"
+          - "10.0.x"
+        collision:
+          - "^7.4"
+        paratest:
+          - "^7.0"
         dependencies:
           - "highest"
         experimental:
@@ -39,8 +44,7 @@ jobs:
 
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^7.4" "brianium/paratest:^7.0" --dev --no-interaction --no-update
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
