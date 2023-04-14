@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.4.2
+
+Released: 2023-04-14
+
+### Changes
+
+* Supports PHPUnit 10.1.
+
 ## 8.4.1
 
 Released: 2023-04-12
