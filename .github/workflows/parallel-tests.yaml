@@ -56,13 +56,13 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations on PHPUnit 10)
-        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database --no-coverage
         env:
           RAY_ENABLED: false
         if: matrix.dependencies == 'highest'
 
       - name: Execute tests (without deprecations on PHPUnit 10)
-        run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel,database
+        run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel,database --no-coverage
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
