@@ -18,11 +18,11 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-          - "10.0.x"
+          - "10.1.x"
         collision:
           - "^7.4"
         paratest:
-          - "^7.0"
+          - "^7.1.4"
         dependencies:
           - "highest"
         experimental:
