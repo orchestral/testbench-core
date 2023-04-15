@@ -17,10 +17,13 @@ jobs:
         php:
           - 8.2
         phpunit:
-          - "10.0.x"
+          - "10.1.x"
+        collision:
+          - "^7.4"
+        paratest:
+          - "^7.1.4"
         dependencies:
           - "highest"
-          - "lowest"
         experimental:
           - true
 
@@ -39,8 +42,7 @@ jobs:
 
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^7.0" "brianium/paratest:^7.0" --dev --no-interaction --no-update
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
@@ -53,13 +55,13 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations on PHPUnit 10)
-        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database --no-coverage
         env:
           RAY_ENABLED: false
         if: matrix.dependencies == 'highest'
 
       - name: Execute tests (without deprecations on PHPUnit 10)
-        run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel,database
+        run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel,database --no-coverage
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false

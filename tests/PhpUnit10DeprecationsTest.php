@@ -21,9 +21,7 @@ class PhpUnit10DeprecationsTest extends TestCase
             ->andReturnSelf()
             ->shouldReceive('warning')
             ->once()
-            ->withArgs(function ($message) {
-                return strpos($message, 'zzz in') !== false;
-            });
+            ->withArgs(fn ($message) => strpos($message, 'zzz in') !== false);
 
         trigger_error('zzz', E_USER_DEPRECATED);
     }

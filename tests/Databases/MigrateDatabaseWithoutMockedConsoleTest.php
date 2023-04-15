@@ -2,6 +2,9 @@
 
 namespace Orchestra\Testbench\Tests\Databases;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\TestCase;
 
@@ -44,10 +47,10 @@ class MigrateDatabaseWithoutMockedConsoleTest extends TestCase
     /** @test */
     public function it_runs_the_migrations_without_mocked_console()
     {
-        $users = \DB::table('testbench_users')->where('id', '=', 1)->first();
+        $users = DB::table('testbench_users')->where('id', '=', 1)->first();
 
         $this->assertEquals('hello@orchestraplatform.com', $users->email);
-        $this->assertTrue(\Hash::check('123', $users->password));
+        $this->assertTrue(Hash::check('123', $users->password));
 
         $this->assertEquals([
             'id',
@@ -55,6 +58,6 @@ class MigrateDatabaseWithoutMockedConsoleTest extends TestCase
             'password',
             'created_at',
             'updated_at',
-        ], \Schema::getColumnListing('testbench_users'));
+        ], Schema::getColumnListing('testbench_users'));
     }
 }

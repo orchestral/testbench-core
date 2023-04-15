@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Exception;
 use Illuminate\Routing\Router;
 use Orchestra\Testbench\TestCase;
 
@@ -17,27 +18,17 @@ class RouteTest extends TestCase
     {
         $router->domain('api.localhost')
             ->group(function (Router $router) {
-                $router->get('hello', function () {
-                    return 'hello from api';
-                });
+                $router->get('hello', fn () => 'hello from api');
             });
 
-        $router->get('hello', ['as' => 'hi', 'uses' => function () {
-            return 'hello world';
-        }]);
+        $router->get('hello', ['as' => 'hi', 'uses' => fn () => 'hello world']);
 
-        $router->get('goodbye', function () {
-            return 'goodbye world';
-        })->name('bye');
+        $router->get('goodbye', fn () => 'goodbye world')->name('bye');
 
         $router->group(['prefix' => 'boss'], function (Router $router) {
-            $router->get('hello', ['as' => 'boss.hi', 'uses' => function () {
-                return 'hello boss';
-            }]);
+            $router->get('hello', ['as' => 'boss.hi', 'uses' => fn () => 'hello boss']);
 
-            $router->get('goodbye', function () {
-                return 'goodbye boss';
-            })->name('boss.bye');
+            $router->get('goodbye', fn () => 'goodbye boss')->name('boss.bye');
         });
 
         $router->resource('foo', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller');
@@ -88,9 +79,7 @@ class RouteTest extends TestCase
     /** @test */
     public function it_can_resolve_name_routes()
     {
-        $this->app['router']->get('passthrough', function () {
-            return route('bye');
-        })->name('pass');
+        $this->app['router']->get('passthrough', fn () => route('bye'))->name('pass');
 
         $response = $this->call('GET', route('pass'));
 
@@ -101,9 +90,7 @@ class RouteTest extends TestCase
     /** @test */
     public function it_can_handle_route_throwing_exception()
     {
-        $this->app['router']->get('bad-route', function () {
-            throw new \Exception('Route error!');
-        })->name('bad');
+        $this->app['router']->get('bad-route', fn () => throw new Exception('Route error!'))->name('bad');
 
         $response = $this->call('GET', route('bad'));
 

@@ -11,6 +11,6 @@ class DontDiscoverPackagesTest extends TestCase
     {
         $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();
 
-        $this->assertFalse(\in_array('Carbon\Laravel\ServiceProvider', $loadedProviders));
+        $this->assertFalse(\in_array(\Carbon\Laravel\ServiceProvider::class, $loadedProviders));
     }
 }

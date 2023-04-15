@@ -2,13 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## 8.4.1
+## 8.4.2
 
-**Unreleased**
+Released: 2023-04-14
 
 ### Changes
 
-* Update skeleton.
+* Supports PHPUnit 10.1.
+
+## 8.4.1
+
+Released: 2023-04-12
+
+### Changes
+
+* Update skeleton to match v10.0.6.
+* Avoid declaring `Orchestra\Testbench\Concerns\Testing::setUpTheTestEnvironmentTraitToBeIgnored()` as `abstract` method.
 
 ## 8.4.0
 
