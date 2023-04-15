@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench;
 
+use Closure;
+use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -38,6 +40,23 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 }
 
 /**
+ * Register after resolving callback.
+ *
+ * @param  \Illuminate\Contracts\Foundation\Application  $app
+ * @param  string  $name
+ * @param  \Closure|null  $callback
+ * @return void
+ */
+function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
+{
+    $app->afterResolving($name, $callback);
+
+    if ($app->resolved($name)) {
+        value($callback, $app->make($name), $app);
+    }
+}
+
+/**
  * Get default environment variables.
  *
  * @return array<int, string>
@@ -71,6 +90,13 @@ function parse_environment_variables($variables): array
         })->values()->all();
 }
 
+/**
+ * Transform relative path.
+ *
+ * @param  string  $path
+ * @param  string  $workingPath
+ * @return string
+ */
 function transform_relative_path(string $path, string $workingPath): string
 {
     return Str::startsWith($path, './')

@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Foundation;
 
 use Orchestra\Testbench\Foundation\Config;
+use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
@@ -17,7 +18,7 @@ class ConfigTest extends TestCase
             'APP_DEBUG=(false)',
         ], $config['env']);
         $this->assertSame([
-            'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
+            TestbenchServiceProvider::class,
         ], $config['providers']);
         $this->assertSame([], $config['dont-discover']);
 
@@ -27,7 +28,7 @@ class ConfigTest extends TestCase
             ],
             'bootstrappers' => [],
             'providers' => [
-                'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
+                TestbenchServiceProvider::class,
             ],
             'dont-discover' => [],
         ], $config->getExtraAttributes());
@@ -39,16 +40,16 @@ class ConfigTest extends TestCase
         $config = Config::loadFromYaml(__DIR__.'/stubs/');
 
         $this->assertSame([
-            'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
+            TestbenchServiceProvider::class,
         ], $config['providers']);
 
         $config->addProviders([
-            'Orchestra\Testbench\Tests\Fixtures\Providers\ChildServiceProvider',
+            \Orchestra\Testbench\Tests\Fixtures\Providers\ChildServiceProvider::class,
         ]);
 
         $this->assertSame([
-            'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
-            'Orchestra\Testbench\Tests\Fixtures\Providers\ChildServiceProvider',
+            TestbenchServiceProvider::class,
+            \Orchestra\Testbench\Tests\Fixtures\Providers\ChildServiceProvider::class,
         ], $config['providers']);
     }
 
@@ -58,15 +59,15 @@ class ConfigTest extends TestCase
         $config = Config::loadFromYaml(__DIR__.'/stubs/');
 
         $this->assertSame([
-            'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
+            TestbenchServiceProvider::class,
         ], $config['providers']);
 
         $config->addProviders([
-            'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
+            TestbenchServiceProvider::class,
         ]);
 
         $this->assertSame([
-            'Orchestra\Testbench\Foundation\TestbenchServiceProvider',
+            TestbenchServiceProvider::class,
         ], $config['providers']);
     }
 }

@@ -2,6 +2,10 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Illuminate\Config\Repository as ConfigRepository;
+use Illuminate\Foundation\Application;
+use function Orchestra\Testbench\container;
+use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use function Orchestra\Testbench\phpunit_version_compare;
 use PHPUnit\Framework\TestCase;
 
@@ -21,23 +25,21 @@ class TestCaseTest extends TestCase
 
         $app = $testbench->createApplication();
 
-        $this->assertInstanceOf('\Orchestra\Testbench\Contracts\TestCase', $testbench);
-        $this->assertInstanceOf('\Illuminate\Foundation\Application', $app);
+        $this->assertInstanceOf(TestCaseContract::class, $testbench);
+        $this->assertInstanceOf(Application::class, $app);
         $this->assertEquals('UTC', date_default_timezone_get());
         $this->assertEquals('testing', $app['env']);
-        $this->assertInstanceOf('\Illuminate\Config\Repository', $app['config']);
+        $this->assertInstanceOf(ConfigRepository::class, $app['config']);
     }
 
     /** @test */
     public function it_can_create_a_container()
     {
-        $container = \Orchestra\Testbench\container();
+        $app = container()->createApplication();
 
-        $app = $container->createApplication();
-
-        $this->assertInstanceOf('\Illuminate\Foundation\Application', $app);
+        $this->assertInstanceOf(Application::class, $app);
         $this->assertEquals('UTC', date_default_timezone_get());
         $this->assertEquals('testing', $app['env']);
-        $this->assertInstanceOf('\Illuminate\Config\Repository', $app['config']);
+        $this->assertInstanceOf(ConfigRepository::class, $app['config']);
     }
 }

@@ -25,9 +25,7 @@ class RequestTest extends TestCase
      */
     protected function defineRoutes($router)
     {
-        $router->get('hello', ['uses' => function () {
-            return 'hello world';
-        }]);
+        $router->get('hello', ['uses' => fn () => 'hello world']);
     }
 
     /**
