@@ -45,8 +45,8 @@ final class LoadMigrationsFromArray
             $this->includesDefaultMigrations($app),
             fn ($migrations) => $migrations->push($app->basePath('migrations'))
         )->filter(fn ($migration) => \is_string($migration))
-        ->transform(fn ($migration) => transform_relative_path($migration, $app->basePath()))
-        ->all();
+            ->transform(fn ($migration) => transform_relative_path($migration, $app->basePath()))
+            ->all();
 
         after_resolving($app, 'migrator', function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {

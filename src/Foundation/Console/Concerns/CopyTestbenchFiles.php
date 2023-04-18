@@ -25,8 +25,8 @@ trait CopyTestbenchFiles
             'testbench.yaml.example',
             'testbench.yaml.dist',
         ])->map(fn ($file) => "{$workingPath}/{$file}")
-        ->filter(fn ($file) => $filesystem->exists($file))
-        ->first();
+            ->filter(fn ($file) => $filesystem->exists($file))
+            ->first();
 
         $testbenchFile = $app->basePath('testbench.yaml');
 
@@ -66,9 +66,9 @@ trait CopyTestbenchFiles
             "{$this->environmentFile}.example",
             "{$this->environmentFile}.dist",
         ])->map(fn ($file) => "{$workingPath}/{$file}")
-        ->push($app->basePath('.env.example'))
-        ->filter(fn ($file) => $filesystem->exists($file))
-        ->first();
+            ->push($app->basePath('.env.example'))
+            ->filter(fn ($file) => $filesystem->exists($file))
+            ->first();
 
         $environmentFile = $app->basePath('.env');
 
