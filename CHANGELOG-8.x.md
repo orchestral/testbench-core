@@ -12,7 +12,7 @@ Released: 2023-04-18
 
 ### Changes
 
-* Update skeleton.
+* Update skeleton to match v10.1.0.
 * Bump minimum `laravel/framework` to `10.8.0`.
 
 ## 8.4.2
