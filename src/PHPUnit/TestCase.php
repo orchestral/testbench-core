@@ -6,7 +6,25 @@ use Orchestra\Testbench\Exceptions\DeprecatedException;
 use function Orchestra\Testbench\phpunit_version_compare;
 use Throwable;
 
-if (phpunit_version_compare('10.1.0', '<')) {
+if (phpunit_version_compare('10.1', '>=')) {
+    class TestCase extends \PHPUnit\Framework\TestCase
+    {
+        /**
+         * {@inheritdoc}
+         */
+        protected function transformException(Throwable $error): Throwable
+        {
+            /** @var \Illuminate\Testing\TestResponse|null $response */
+            $response = static::$latestResponse ?? null;
+
+            if (! \is_null($response)) {
+                $response->transformNotSuccessfulException($error);
+            }
+
+            return $error;
+        }
+    }
+} else {
     class TestCase extends \PHPUnit\Framework\TestCase
     {
         /**
@@ -32,24 +50,6 @@ if (phpunit_version_compare('10.1.0', '<')) {
             }
 
             return $result;
-        }
-    }
-} else {
-    class TestCase extends \PHPUnit\Framework\TestCase
-    {
-        /**
-         * {@inheritdoc}
-         */
-        protected function transformException(Throwable $error): Throwable
-        {
-            /** @var \Illuminate\Testing\TestResponse|null $response */
-            $response = static::$latestResponse ?? null;
-
-            if (! \is_null($response)) {
-                $response->transformNotSuccessfulException($error);
-            }
-
-            return $error;
         }
     }
 }
