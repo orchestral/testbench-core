@@ -94,9 +94,9 @@ class DevToolCommand extends Command
             "{$this->environmentFile}.example",
             "{$this->environmentFile}.dist",
         ])->filter(fn ($file) => ! $filesystem->exists("{$workingPath}/{$file}"))
-        ->values()
-        ->prepend('Skip exporting .env')
-        ->all();
+            ->values()
+            ->prepend('Skip exporting .env')
+            ->all();
 
         if (! $this->option('force') && empty($choices)) {
             $this->components->twoColumnDetail(
