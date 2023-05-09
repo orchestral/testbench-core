@@ -37,7 +37,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
-        "laravel/framework": "^10.8",
+        "laravel/framework": "^10.10",
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^8.1",
@@ -51,7 +51,7 @@
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^6.4 || ^7.1.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
-        "laravel/framework": "Required for testing (^10.8).",
+        "laravel/framework": "Required for testing (^10.10).",
         "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.4 || ^7.4).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^8.0).",
