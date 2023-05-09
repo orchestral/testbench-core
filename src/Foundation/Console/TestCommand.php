@@ -132,7 +132,7 @@ class TestCommand extends Command
             'APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::paratestEnvironmentVariables());
     }
-    
+
     /**
      * Get the configuration file.
      *
