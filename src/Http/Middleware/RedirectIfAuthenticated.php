@@ -2,28 +2,17 @@
 
 namespace Orchestra\Testbench\Http\Middleware;
 
-use Closure;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated as Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class RedirectIfAuthenticated extends Middleware
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * Get the path the user should be redirected to when they are authenticated.
      */
-    public function handle(Request $request, Closure $next, string ...$guards)
+    protected function redirectTo(Request $request): ?string
     {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect('/home');
-            }
-        }
-
-        return $next($request);
+        return redirect('/home');
     }
 }

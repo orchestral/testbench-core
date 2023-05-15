@@ -37,7 +37,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
-        "laravel/framework": "^10.10",
+        "laravel/framework": "dev-slim-skeleton as 10.999.999",
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.5.1",
         "orchestra/canvas": "^8.1",

@@ -4,14 +4,14 @@ if [ -f laravel/.env ]; then
     rm laravel/.env
 fi
 
-composer create-project "laravel/laravel:10.x-dev" skeleton --no-scripts --no-plugins --quiet
+composer create-project "laravel/laravel:dev-slim-skeleton" skeleton --no-scripts --no-plugins --quiet
 
 cp -f skeleton/.env.example laravel/
 cp -rf skeleton/config/*.php laravel/config/
 cp -rf skeleton/database/.gitignore laravel/database/.gitignore
-cp -rf skeleton/database/migrations/2014_10_12_000000_create_users_table.php laravel/migrations/2014_10_12_000000_testbench_create_users_table.php
-cp -rf skeleton/database/migrations/2014_10_12_100000_create_password_reset_tokens_table.php laravel/migrations/2014_10_12_100000_testbench_create_password_reset_tokens_table.php
-cp -rf skeleton/database/migrations/2019_08_19_000000_create_failed_jobs_table.php laravel/migrations/2019_08_19_000000_testbench_create_failed_jobs_table.php
+cp -rf skeleton/database/migrations/0001_01_01_000000_create_users_table.php laravel/migrations/0001_01_01_000000_testbench_create_users_table.php
+# cp -rf skeleton/database/migrations/2014_10_12_100000_create_password_reset_tokens_table.php laravel/migrations/2014_10_12_100000_testbench_create_password_reset_tokens_table.php
+cp -rf skeleton/database/migrations/0001_01_01_000001_create_jobs_table.php laravel/migrations/0001_01_01_000001_testbench_create_jobs_table.php
 # cp -rf skeleton/lang/en/*.php laravel/lang/en/
 # cp -f skeleton/lang/*.json laravel/lang/
 cp -rf skeleton/resources/views/* laravel/resources/views/
@@ -22,12 +22,12 @@ cp -rf skeleton/tests/CreatesApplication.php laravel/tests/CreatesApplication.ph
 rm laravel/config/sanctum.php
 
 cp skeleton/app/Http/Middleware/Authenticate.php src/Http/Middleware/Authenticate.php
-cp skeleton/app/Http/Middleware/PreventRequestsDuringMaintenance.php src/Http/Middleware/PreventRequestsDuringMaintenance.php
+# cp skeleton/app/Http/Middleware/PreventRequestsDuringMaintenance.php src/Http/Middleware/PreventRequestsDuringMaintenance.php
 cp skeleton/app/Http/Middleware/RedirectIfAuthenticated.php src/Http/Middleware/RedirectIfAuthenticated.php
-cp skeleton/app/Http/Middleware/TrimStrings.php src/Http/Middleware/TrimStrings.php
-cp skeleton/app/Http/Middleware/TrustHosts.php src/Http/Middleware/TrustHosts.php
-cp skeleton/app/Http/Middleware/TrustProxies.php src/Http/Middleware/TrustProxies.php
-cp skeleton/app/Http/Middleware/VerifyCsrfToken.php src/Http/Middleware/VerifyCsrfToken.php
+# cp skeleton/app/Http/Middleware/TrimStrings.php src/Http/Middleware/TrimStrings.php
+# cp skeleton/app/Http/Middleware/TrustHosts.php src/Http/Middleware/TrustHosts.php
+# cp skeleton/app/Http/Middleware/TrustProxies.php src/Http/Middleware/TrustProxies.php
+# cp skeleton/app/Http/Middleware/VerifyCsrfToken.php src/Http/Middleware/VerifyCsrfToken.php
 
 rm -Rf skeleton
 

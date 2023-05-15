@@ -7,24 +7,26 @@ use Orchestra\Testbench\Foundation\Http\Kernel as HttpKernel;
 final class Kernel extends HttpKernel
 {
     /**
-     * The application's middleware stack.
+     * The application's global HTTP middleware stack.
      *
      * These middleware are run during every request to your application.
      *
-     * @var array<int, class-string>
+     * @var array<int, class-string|string>
      */
     protected $middleware = [
-        // Middleware\TrustHosts::class,
-        // Middleware\TrustProxies::class,
-        // \Illuminate\Http\Middleware\HandleCors::class,
-        Middleware\PreventRequestsDuringMaintenance::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        Middleware\TrimStrings::class,
+        // \Illuminate\Http\Middleware\TrustHosts::class,
+        // \Illuminate\Http\Middleware\TrustProxies::class,
+        \Illuminate\Http\Middleware\HandleCors::class,
+        \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Illuminate\Http\Middleware\ValidatePostSize::class,
+        \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
     /**
      * The application's route middleware groups.
+     *
+     * Middleware groups allow you to assign many middleware to one convenient name.
      *
      * @var array<string, array<int, class-string|string>>
      */
@@ -34,7 +36,7 @@ final class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            Middleware\VerifyCsrfToken::class,
+            \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
