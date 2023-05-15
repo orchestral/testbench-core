@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated as Middleware;
 use Illuminate\Http\Request;
 
