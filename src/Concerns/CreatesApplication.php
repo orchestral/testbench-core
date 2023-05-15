@@ -239,7 +239,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap(Application::create($this->getBasePath()), function ($app) {
+        return tap(new Application($this->getBasePath()), function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
