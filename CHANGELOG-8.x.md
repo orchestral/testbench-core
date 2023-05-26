@@ -2,6 +2,43 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.5.3
+
+Released: 2023-05-26
+
+### Changes
+
+* Update skeleton to match v10.2.2.
+
+## 8.5.2
+
+Released: 2023-05-17
+
+### Changes
+
+* Update skeleton to match v10.2.1.
+
+## 8.5.1
+
+Released: 2023-05-09
+
+### Changes
+
+* Update skeleton to match v10.2.0.
+
+## 8.5.0
+
+Released: 2023-04-18
+
+### Added
+
+* Added `Orchestra\Testbench\after_resolving` helper function.
+
+### Changes
+
+* Update skeleton to match v10.1.0.
+* Bump minimum `laravel/framework` to `10.8.0`.
+
 ## 8.4.2
 
 Released: 2023-04-14
