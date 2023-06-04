@@ -87,7 +87,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
             Testing\DatabaseMigrations::class,
             Testing\DatabaseTransactions::class,
             Testing\WithoutMiddleware::class,
-            Testing\WithoutEvents::class,
             Testing\WithFaker::class,
             Testing\Concerns\InteractsWithAuthentication::class,
             Testing\Concerns\InteractsWithConsole::class,

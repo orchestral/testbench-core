@@ -12,7 +12,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Collection;
@@ -213,11 +212,6 @@ trait Testing
             $this->disableMiddlewareForAllTests();
         }
 
-        if (isset($uses[WithoutEvents::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->disableEventsForAllTests();
-        }
-
         if (isset($uses[WithFaker::class])) {
             /** @phpstan-ignore-next-line */
             $this->setUpFaker();
@@ -252,10 +246,7 @@ trait Testing
      * @param  class-string  $use
      * @return bool
      */
-    protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
-    {
-        return false;
-    }
+    abstract protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool;
 
     /**
      * Setup parallel testing callback.

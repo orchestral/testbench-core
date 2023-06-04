@@ -4,7 +4,7 @@ if [ -f laravel/.env ]; then
     rm laravel/.env
 fi
 
-composer create-project "laravel/laravel:dev-slim-skeleton" skeleton --no-scripts --no-plugins --quiet
+composer create-project "laravel/laravel:dev-slim-skeleton-11.x" skeleton --no-scripts --no-plugins --quiet
 
 cp -f skeleton/.env.example laravel/
 cp -rf skeleton/config/*.php laravel/config/
@@ -48,9 +48,9 @@ awk '{sub(/use App\\Models\\User/,"use Illuminate\\Foundation\\Auth\\User")}1' s
 awk '{sub(/namespace Database\\Factories/,"namespace Orchestra\\Testbench\\Factories")}1' src/Factories/UserFactory.php > src/Factories/UserFactory.stub && mv src/Factories/UserFactory.stub src/Factories/UserFactory.php
 
 awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/Authenticate.php > src/Http/Middleware/Authenticate.stub && mv src/Http/Middleware/Authenticate.stub src/Http/Middleware/Authenticate.php
-awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/PreventRequestsDuringMaintenance.php > src/Http/Middleware/PreventRequestsDuringMaintenance.stub && mv src/Http/Middleware/PreventRequestsDuringMaintenance.stub src/Http/Middleware/PreventRequestsDuringMaintenance.php
+# awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/PreventRequestsDuringMaintenance.php > src/Http/Middleware/PreventRequestsDuringMaintenance.stub && mv src/Http/Middleware/PreventRequestsDuringMaintenance.stub src/Http/Middleware/PreventRequestsDuringMaintenance.php
 awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/RedirectIfAuthenticated.php > src/Http/Middleware/RedirectIfAuthenticated.stub && mv src/Http/Middleware/RedirectIfAuthenticated.stub src/Http/Middleware/RedirectIfAuthenticated.php
-awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrimStrings.php > src/Http/Middleware/TrimStrings.stub && mv src/Http/Middleware/TrimStrings.stub src/Http/Middleware/TrimStrings.php
-awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrustHosts.php > src/Http/Middleware/TrustHosts.stub && mv src/Http/Middleware/TrustHosts.stub src/Http/Middleware/TrustHosts.php
-awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrustProxies.php > src/Http/Middleware/TrustProxies.stub && mv src/Http/Middleware/TrustProxies.stub src/Http/Middleware/TrustProxies.php
-awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/VerifyCsrfToken.php > src/Http/Middleware/VerifyCsrfToken.stub && mv src/Http/Middleware/VerifyCsrfToken.stub src/Http/Middleware/VerifyCsrfToken.php
+# awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrimStrings.php > src/Http/Middleware/TrimStrings.stub && mv src/Http/Middleware/TrimStrings.stub src/Http/Middleware/TrimStrings.php
+# awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrustHosts.php > src/Http/Middleware/TrustHosts.stub && mv src/Http/Middleware/TrustHosts.stub src/Http/Middleware/TrustHosts.php
+# awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/TrustProxies.php > src/Http/Middleware/TrustProxies.stub && mv src/Http/Middleware/TrustProxies.stub src/Http/Middleware/TrustProxies.php
+# awk '{sub(/namespace App\\Http\\Middleware/,"namespace Orchestra\\Testbench\\Http\\Middleware")}1' src/Http/Middleware/VerifyCsrfToken.php > src/Http/Middleware/VerifyCsrfToken.stub && mv src/Http/Middleware/VerifyCsrfToken.stub src/Http/Middleware/VerifyCsrfToken.php

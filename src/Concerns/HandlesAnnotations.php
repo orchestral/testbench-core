@@ -3,10 +3,8 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
-use function Orchestra\Testbench\phpunit_version_compare;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
-use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
 
 /**
@@ -29,9 +27,7 @@ trait HandlesAnnotations
             return new Collection();
         }
 
-        [$registry, $methodName] = phpunit_version_compare('10', '>=')
-            ? [PHPUnit10Registry::getInstance(), $this->name()] /** @phpstan-ignore-line */
-            : [PHPUnit9Registry::getInstance(), $this->getName(false)]; /** @phpstan-ignore-line */
+        [$registry, $methodName] = [PHPUnit10Registry::getInstance(), $this->name()]; /** @phpstan-ignore-line */
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
@@ -73,9 +69,7 @@ trait HandlesAnnotations
      */
     public static function clearParsedTestMethodAnnotations(): void
     {
-        $registry = phpunit_version_compare('10', '>=')
-            ? PHPUnit10Registry::getInstance() /** @phpstan-ignore-line */
-            : PHPUnit9Registry::getInstance(); /** @phpstan-ignore-line */
+        $registry = PHPUnit10Registry::getInstance(); /** @phpstan-ignore-line */
 
         // Clear properties values from Registry class.
         (function () {
