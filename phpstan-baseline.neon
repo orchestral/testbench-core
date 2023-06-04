@@ -21,11 +21,6 @@ parameters:
 			path: src/Bootstrap/ConfigureRay.php
 
 		-
-			message: "#^Parameter \\$callback of method Orchestra\\\\Testbench\\\\Bootstrap\\\\ConfigureRay\\:\\:callAfterResolvingSettings\\(\\) has invalid type Spatie\\\\Ray\\\\Settings\\\\Settings\\.$#"
-			count: 1
-			path: src/Bootstrap/ConfigureRay.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<class\\-string,class\\-string\\>\\:\\:transform\\(\\) expects callable\\(class\\-string, class\\-string\\)\\: class\\-string, Closure\\(mixed\\)\\: string given\\.$#"
 			count: 1
 			path: src/TestCase.php
