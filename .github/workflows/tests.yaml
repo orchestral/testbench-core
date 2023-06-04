@@ -78,7 +78,6 @@ jobs:
           - 8.2
         phpunit:
           - "~10.0.0"
-          - "~9.6.0"
         dependencies:
           - "highest"
           - "lowest"
