@@ -29,7 +29,11 @@ class EnvironmentVariablesTest extends TestCase
         $this->loadLaravelMigrations(['--database' => 'testing']);
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @group commander
+     */
     public function it_can_be_used_without_having_an_environment_variables_file()
     {
         $user = UserFactory::new()->create();
