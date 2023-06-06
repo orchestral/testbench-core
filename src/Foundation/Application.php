@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
@@ -14,7 +15,6 @@ class Application
 {
     use CreatesApplication {
         resolveApplication as protected resolveApplicationFromTrait;
-        resolveApplicationEnvironmentVariables as protected resolveApplicationEnvironmentVariablesFromTrait;
         resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
     }
 
@@ -191,7 +191,9 @@ class Application
             Env::enablePutenv();
         });
 
-        $this->resolveApplicationEnvironmentVariablesFromTrait($app);
+        if ($this->loadEnvironmentVariables === true) {
+            $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
+        }
 
         (new Bootstrap\LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
     }
