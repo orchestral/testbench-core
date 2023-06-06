@@ -2,13 +2,12 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Illuminate\Support\Facades\Bus;
+use Illuminate\Foundation\Auth\User;
+use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\TestCase;
-use Orchestra\Testbench\Tests\Fixtures\Jobs\RegisterUser;
 
 class EnvironmentVariablesTest extends TestCase
 {
-
     /**
      * Define environment setup.
      *
@@ -33,7 +32,11 @@ class EnvironmentVariablesTest extends TestCase
     /** @test */
     public function it_can_be_used_without_having_an_environment_variables_file()
     {
+        $user = UserFactory::new()->create();
+
         $this->assertFalse(file_exists(realpath(__DIR__.'/../../laravel/.env')));
         $this->assertFalse(file_exists(base_path('./env')));
+
+        $this->assertInstanceOf(User::class, $user);
     }
 }
