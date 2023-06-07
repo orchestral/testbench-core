@@ -53,6 +53,6 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations)
-        run: vendor/bin/phpunit --display-warnings --display-deprecations --display-notices
+        run: vendor/bin/phpunit --fail-on-warnings --fail-on-deprecations --fail-on-notices
         env:
           RAY_ENABLED: false
