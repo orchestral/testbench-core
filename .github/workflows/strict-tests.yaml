@@ -25,7 +25,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} using strict configuration
+    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }}
 
     steps:
       - name: Checkout code
