@@ -2,6 +2,12 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.5.4
+
+Released: 2023-06-07
+
+* Fixes issue where PHPUnit would throws "warning" when `.env` file doesn't exists with certain configuration.
+
 ## 8.5.3
 
 Released: 2023-05-26
