@@ -22,7 +22,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
-			count: 2
+			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
 
 		-
