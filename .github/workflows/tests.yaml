@@ -7,7 +7,57 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  tests-on-phpunit-101:
+  strict-tests:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        os:
+          - "ubuntu-latest"
+        php:
+          - 8.1
+          - 8.2
+        phpunit:
+          - "~10.1.0"
+          - "~10.2.0"
+        dependencies:
+          - "highest"
+        experimental:
+          - false
+
+    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} using strict configuration
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
+          coverage: none
+
+      - name: Install PHPUnit ${{ matrix.phpunit }}
+        run: |
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--prefer-dist --no-cache"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
+
+      - name: Execute tests (with deprecations)
+        run: vendor/bin/phpunit --display-warnings --display-deprecations --display-notices
+        env:
+          RAY_ENABLED: false
+
+  tests:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
@@ -18,7 +68,8 @@ jobs:
         php:
           - 8.2
         phpunit:
-          - "10.1.x"
+          - "~10.1.0"
+          - "~10.2.0"
         dependencies:
           - "highest"
           - "lowest"
@@ -65,7 +116,7 @@ jobs:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.os == 'windows-latest'
 
-  tests-on-phpunit-100:
+  tests-without-configuration:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
@@ -76,7 +127,8 @@ jobs:
         php:
           - 8.2
         phpunit:
-          - "10.0.x"
+          - "~10.0.0"
+          - "~9.6.0"
         dependencies:
           - "highest"
           - "lowest"
