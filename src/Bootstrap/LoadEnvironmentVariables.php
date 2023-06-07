@@ -2,6 +2,9 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Dotenv\Dotenv;
+use Illuminate\Support\Env;
+
 final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables
 {
     /**
@@ -14,7 +17,9 @@ final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\Lo
     {
         /** @phpstan-ignore-next-line */
         if (! file_exists(implode(DIRECTORY_SEPARATOR, [$app->environmentPath(), $app->environmentFile()]))) {
-            $this->setEnvironmentFilePath($app, '.env.testbench');
+            return Dotenv::create(
+                Env::getRepository(), $app->environmentPath(), '.env.testbench'
+            );
         }
 
         return parent::createDotenv($app);
