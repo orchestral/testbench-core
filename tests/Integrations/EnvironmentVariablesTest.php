@@ -31,6 +31,8 @@ class EnvironmentVariablesTest extends TestCase
 
     /**
      * @test
+     *
+     * @group commander
      */
     public function it_can_be_used_without_having_an_environment_variables_file()
     {
