@@ -15,7 +15,6 @@ final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\Lo
      */
     protected function createDotenv($app)
     {
-        /** @phpstan-ignore-next-line */
         if (! file_exists(implode(DIRECTORY_SEPARATOR, [$app->environmentPath(), $app->environmentFile()]))) {
             return Dotenv::create(
                 Env::getRepository(), $app->environmentPath(), '.env.testbench'
