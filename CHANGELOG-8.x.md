@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.5.6
+
+Released: 2023-06-08
+
+### Changes
+
+* Remove `.env.testbench` out of skeleton directory.
+
 ## 8.5.5
 
 Released: 2023-06-07
