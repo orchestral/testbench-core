@@ -21,6 +21,16 @@ parameters:
 			path: src/Bootstrap/ConfigureRay.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentFile\\(\\)\\.$#"
+			count: 1
+			path: src/Bootstrap/LoadEnvironmentVariables.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
+			count: 1
+			path: src/Bootstrap/LoadEnvironmentVariables.php
+
+		-
 			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<class\\-string,class\\-string\\>\\:\\:transform\\(\\) expects callable\\(class\\-string, class\\-string\\)\\: class\\-string, Closure\\(mixed\\)\\: string given\\.$#"
 			count: 1
 			path: src/TestCase.php
