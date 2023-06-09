@@ -3,8 +3,11 @@ name: parallel-tests
 on:
   push:
     branches-ignore:
-      - master
+      - 9.x
+      - next/*
   pull_request:
+    branches-ignore:
+      - next/*
   schedule:
     - cron: '0 0 1 * *'
 
