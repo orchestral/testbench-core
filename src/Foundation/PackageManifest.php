@@ -133,11 +133,9 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromRoot()
     {
-        if (! \defined('TESTBENCH_WORKING_PATH') || ! is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
-            return [];
-        }
-
-        $package = $this->files->json(TESTBENCH_WORKING_PATH.'/composer.json');
+        $package = \defined('TESTBENCH_WORKING_PATH') && is_file(TESTBENCH_WORKING_PATH.'/composer.json')
+            ? $this->files->json(TESTBENCH_WORKING_PATH.'/composer.json')
+            : [];
 
         return [
             $this->format($package['name']) => $package['extra']['laravel'] ?? [],
