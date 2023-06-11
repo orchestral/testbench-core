@@ -31,8 +31,7 @@ class PackageManifestTest extends TestCase
 
         $installedPackages = [
             'nesbot/carbon',
-            'orchestra/canvas',
-            'orchestra/canvas-core',
+            'spatie/laravel-ray',
         ];
 
         foreach ($installedPackages as $installedPackage) {
