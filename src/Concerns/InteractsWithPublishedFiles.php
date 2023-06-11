@@ -8,12 +8,23 @@ use Illuminate\Support\Str;
 trait InteractsWithPublishedFiles
 {
     /**
+     * Determine if trait teardown has been registered.
+     *
+     * @var bool
+     */
+    protected $interactsWithPublishedFilesTeardownRegistered = false;
+
+    /**
      * Setup Interacts with Published Files environment.
      */
     protected function setUpInteractsWithPublishedFiles(): void
     {
         $this->cleanUpFiles();
         $this->cleanUpMigrationFiles();
+
+        $this->beforeApplicationDestroyed(function () {
+            $this->tearDownInteractsWithPublishedFiles();
+        });
     }
 
     /**
@@ -21,8 +32,12 @@ trait InteractsWithPublishedFiles
      */
     protected function tearDownInteractsWithPublishedFiles(): void
     {
-        $this->cleanUpFiles();
-        $this->cleanUpMigrationFiles();
+        if ($this->interactsWithPublishedFilesTeardownRegistered === false) {
+            $this->cleanUpFiles();
+            $this->cleanUpMigrationFiles();
+        }
+
+        $this->interactsWithPublishedFilesTeardownRegistered = true;
     }
 
     /**
