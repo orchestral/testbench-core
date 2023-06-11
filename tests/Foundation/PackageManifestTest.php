@@ -34,8 +34,6 @@ class PackageManifestTest extends TestCase
             'laravel/laravel',
             'laravel/tinker',
             'nesbot/carbon',
-            'orchestra/canvas',
-            'orchestra/canvas-core',
             'spatie/laravel-ray',
         ];
 
