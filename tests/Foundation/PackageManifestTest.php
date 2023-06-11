@@ -31,8 +31,6 @@ class PackageManifestTest extends TestCase
 
         $installedPackages = [
             'nesbot/carbon',
-            'orchestra/canvas',
-            'orchestra/canvas-core',
         ];
 
         foreach ($installedPackages as $installedPackage) {
