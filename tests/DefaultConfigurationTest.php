@@ -29,12 +29,12 @@ class DefaultConfigurationTest extends TestCase
     /** @test */
     public function it_populate_expected_cache_defaults()
     {
-        $this->assertEquals((Env::get('TESTBENCH_PACKAGE_TESTER') === true ? 'file' : 'array'), $this->app['config']['cache.default']);
+        $this->assertEquals('file', $this->app['config']['cache.default']);
     }
 
     /** @test */
     public function it_populate_expected_session_defaults()
     {
-        $this->assertEquals((Env::get('TESTBENCH_PACKAGE_TESTER') === true ? 'file' : 'array'), $this->app['config']['session.driver']);
+        $this->assertEquals('file', $this->app['config']['session.driver']);
     }
 }
