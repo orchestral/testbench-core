@@ -31,6 +31,7 @@ class PackageManifestTest extends TestCase
 
         $installedPackages = [
             'nesbot/carbon',
+            'spatie/laravel-ray',
         ];
 
         foreach ($installedPackages as $installedPackage) {
