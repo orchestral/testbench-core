@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
 
 /**
@@ -248,7 +249,7 @@ trait CreatesApplication
     protected function resolveApplicationEnvironmentVariables($app)
     {
         if (property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
-            $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
+            $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
     }
 
