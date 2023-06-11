@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
+use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
@@ -258,7 +259,7 @@ trait CreatesApplication
     protected function resolveApplicationEnvironmentVariables($app)
     {
         if (property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
-            $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
+            $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
     }
 

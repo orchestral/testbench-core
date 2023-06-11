@@ -14,7 +14,6 @@ class Application
 {
     use CreatesApplication {
         resolveApplication as protected resolveApplicationFromTrait;
-        resolveApplicationEnvironmentVariables as protected resolveApplicationEnvironmentVariablesFromTrait;
         resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
     }
 
@@ -189,7 +188,9 @@ class Application
             Env::enablePutenv();
         });
 
-        $this->resolveApplicationEnvironmentVariablesFromTrait($app);
+        if ($this->loadEnvironmentVariables === true) {
+            $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
+        }
 
         (new Bootstrap\LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
     }
