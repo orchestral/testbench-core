@@ -137,9 +137,9 @@ class PackageManifest extends IlluminatePackageManifest
             ? $this->files->json(TESTBENCH_WORKING_PATH.'/composer.json')
             : [];
 
-        return [
+        return ! empty($package) ? [
             $this->format($package['name']) => $package['extra']['laravel'] ?? [],
-        ];
+        ] : [];
     }
 
     /**
