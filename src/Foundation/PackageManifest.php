@@ -147,9 +147,14 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromTestbench()
     {
-        return \defined('TESTBENCH_WORKING_PATH') && is_file(TESTBENCH_WORKING_PATH.'/composer.json')
-            ? $this->files->json(TESTBENCH_WORKING_PATH.'/composer.json')
-            : null;
+        if (\defined('TESTBENCH_WORKING_PATH') && is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
+            /** @var array{name: string, extra?: array{laravel?: array}} $composer */
+            $composer = $this->files->json(TESTBENCH_WORKING_PATH.'/composer.json');
+
+            return $composer;
+        }
+
+        return null;
     }
 
     /**
