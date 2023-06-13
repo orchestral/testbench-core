@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
@@ -185,7 +186,7 @@ class Application
         });
 
         if ($this->loadEnvironmentVariables === true) {
-            $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
+            $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
 
         (new Bootstrap\LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
