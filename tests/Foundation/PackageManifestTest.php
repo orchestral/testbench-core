@@ -51,9 +51,8 @@ class PackageManifestTest extends TestCase
     {
         $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
 
-        $packageManifest = new class (
-            $this->app['files'], $this->app->basePath(), $manifestPath, $this
-        ) extends PackageManifest {
+        $packageManifest = new class($this->app['files'], $this->app->basePath(), $manifestPath, $this) extends PackageManifest
+        {
             protected function providersFromTestbench()
             {
                 return null;
@@ -77,8 +76,6 @@ class PackageManifestTest extends TestCase
         $this->app['files']->delete($manifestPath);
     }
 
-
-
     /**
      * @test
      *
@@ -88,9 +85,8 @@ class PackageManifestTest extends TestCase
     {
         $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
 
-        $packageManifest = new class (
-            $this->app['files'], $this->app->basePath(), $manifestPath, $this
-        ) extends PackageManifest {
+        $packageManifest = new class($this->app['files'], $this->app->basePath(), $manifestPath, $this) extends PackageManifest
+        {
             protected function providersFromTestbench()
             {
                 return [
