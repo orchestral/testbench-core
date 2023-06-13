@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.5.7
+
+Released: 2023-06-13
+
+### Changes
+
+* Bump minimum `laravel/framework` to `10.13.5`.
+* Automate registering `tearDownInteractsWithPublishedFiles()` from `setUpInteractsWithPublishedFiles()` method.
+
 ## 8.5.6
 
 Released: 2023-06-08
@@ -48,6 +57,7 @@ Released: 2023-05-09
 
 ### Changes
 
+* Bump minimum `laravel/framework` to `10.10.0`.
 * Update skeleton to match v10.2.0.
 
 ## 8.5.0

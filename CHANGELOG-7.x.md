@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.25.0
+
+Released: 2023-06-13
+
+### Added
+
+* `Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables` to manage loading `.env` file during tests, backport from Testbench Core 8 releases.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `9.52.9`.
+* Automate registering `tearDownInteractsWithPublishedFiles()` from `setUpInteractsWithPublishedFiles()` method.
+
 ## 7.24.3
 
 Released: 2023-04-27
