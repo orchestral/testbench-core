@@ -41,7 +41,7 @@
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^1.10.7",
-        "phpunit/phpunit": "^10.1",
+        "phpunit/phpunit": ">=10.1.0 <10.3.0",
         "symfony/process": "^6.3",
         "symfony/yaml": "^6.3",
         "vlucas/phpdotenv": "^5.4.1"
