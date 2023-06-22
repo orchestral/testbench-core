@@ -9,7 +9,7 @@ class DeprecatedException extends PHPUnitErrorException
      *
      * @return array<int, class-string>
      */
-    protected function testbenchExceptionHandlers()
+    protected function testbenchExceptionHandlers(): array
     {
         return [
             \Illuminate\Foundation\Bootstrap\HandleExceptions::class,

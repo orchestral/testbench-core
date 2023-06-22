@@ -40,21 +40,14 @@ class Commander
      *
      * @var \Orchestra\Testbench\Foundation\Config
      */
-    protected $config;
-
-    /**
-     * Working path.
-     *
-     * @var string
-     */
-    protected $workingPath;
+    protected Config $config;
 
     /**
      * The environment file name.
      *
      * @var string
      */
-    protected $environmentFile = '.env';
+    protected string $environmentFile = '.env';
 
     /**
      * Construct a new Commander.
@@ -62,10 +55,11 @@ class Commander
      * @param  array|\Orchestra\Testbench\Foundation\Config  $config
      * @param  string  $workingPath
      */
-    public function __construct($config, string $workingPath)
-    {
+    public function __construct(
+        Config|array $config,
+        protected string $workingPath
+    ) {
         $this->config = $config instanceof Config ? $config : new Config($config);
-        $this->workingPath = $workingPath;
     }
 
     /**

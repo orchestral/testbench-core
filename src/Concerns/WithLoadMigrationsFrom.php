@@ -16,7 +16,7 @@ trait WithLoadMigrationsFrom
      *
      * @throws \InvalidArgumentException
      */
-    protected function loadMigrationsFrom($paths): void
+    protected function loadMigrationsFrom(string|array $paths): void
     {
         $this->loadMigrationsWithoutRollbackFrom($paths);
 
@@ -31,7 +31,7 @@ trait WithLoadMigrationsFrom
      * @param  string|array<string, mixed>  $paths
      * @return void
      */
-    protected function loadMigrationsWithoutRollbackFrom($paths): void
+    protected function loadMigrationsWithoutRollbackFrom(string|array $paths): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -49,7 +49,7 @@ trait WithLoadMigrationsFrom
      * @param  string|array<string, mixed>  $paths
      * @return array
      */
-    protected function resolvePackageMigrationsOptions($paths = []): array
+    protected function resolvePackageMigrationsOptions(string|array $paths = []): array
     {
         $options = \is_array($paths) ? $paths : ['--path' => $paths];
 

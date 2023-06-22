@@ -12,20 +12,13 @@ use Illuminate\Filesystem\Filesystem;
 final class CreateVendorSymlink
 {
     /**
-     * The project working path.
-     *
-     * @var string
-     */
-    public $workingPath;
-
-    /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
      * @param  string  $workingPath
      */
-    public function __construct(string $workingPath)
-    {
-        $this->workingPath = $workingPath;
+    public function __construct(
+        protected string $workingPath
+    ) {
     }
 
     /**
