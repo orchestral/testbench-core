@@ -14,20 +14,13 @@ use Illuminate\Support\Env;
 final class LoadEnvironmentVariablesFromArray
 {
     /**
-     * The environment variables.
-     *
-     * @var array<int, mixed>
-     */
-    public $environmentVariables;
-
-    /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
      * @param  array<int, mixed>  $environmentVariables
      */
-    public function __construct(array $environmentVariables)
-    {
-        $this->environmentVariables = $environmentVariables;
+    public function __construct(
+        public array $environmentVariables
+    ) {
     }
 
     /**

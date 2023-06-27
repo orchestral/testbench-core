@@ -12,7 +12,7 @@ class ApplicationNotAvailableException extends RuntimeException
      * @param  string  $method
      * @return static
      */
-    public static function make(string $method)
+    public static function make(string $method): static
     {
         return new static("Application is not available to run [{$method}]");
     }

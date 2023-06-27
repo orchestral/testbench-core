@@ -13,7 +13,7 @@ trait WithLaravelMigrations
      * @param  string|array<string, mixed>  $database
      * @return void
      */
-    protected function loadLaravelMigrations($database = []): void
+    protected function loadLaravelMigrations(string|array $database = []): void
     {
         $this->loadLaravelMigrationsWithoutRollback($database);
 
@@ -31,7 +31,7 @@ trait WithLaravelMigrations
      * @param  string|array<string, mixed>  $database
      * @return void
      */
-    protected function loadLaravelMigrationsWithoutRollback($database = []): void
+    protected function loadLaravelMigrationsWithoutRollback(string|array $database = []): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -51,7 +51,7 @@ trait WithLaravelMigrations
      * @param  string|array<string, mixed>  $database
      * @return void
      */
-    protected function runLaravelMigrations($database = []): void
+    protected function runLaravelMigrations(string|array $database = []): void
     {
         $this->runLaravelMigrationsWithoutRollback($database);
 
@@ -66,7 +66,7 @@ trait WithLaravelMigrations
      * @param  string|array<string, mixed>  $database
      * @return void
      */
-    protected function runLaravelMigrationsWithoutRollback($database = []): void
+    protected function runLaravelMigrationsWithoutRollback(string|array $database = []): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -83,7 +83,7 @@ trait WithLaravelMigrations
      * @param  string|array<string, mixed>  $database
      * @return array
      */
-    protected function resolveLaravelMigrationsOptions($database = []): array
+    protected function resolveLaravelMigrationsOptions(string|array $database = []): array
     {
         $options = \is_array($database) ? $database : ['--database' => $database];
 

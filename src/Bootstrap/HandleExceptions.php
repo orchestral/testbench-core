@@ -12,20 +12,13 @@ use Orchestra\Testbench\Exceptions\DeprecatedException;
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
     /**
-     * Testbench Class.
-     *
-     * @var \PHPUnit\Framework\TestCase|null
-     */
-    protected $testbench;
-
-    /**
      * Create a new exception handler instance.
      *
      * @param  \PHPUnit\Framework\TestCase|null  $testbench
      */
-    public function __construct($testbench = null)
-    {
-        $this->testbench = $testbench;
+    public function __construct(
+        protected $testbench = null
+    ) {
     }
 
     /**
