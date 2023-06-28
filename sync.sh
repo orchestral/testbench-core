@@ -8,6 +8,7 @@ composer create-project "laravel/laravel:dev-slim-skeleton-11.x" skeleton --no-s
 
 cp -f skeleton/.env.example laravel/
 cp -rf skeleton/config/*.php laravel/config/
+cp -f vendor/laravel/framework/config/app.php laravel/config/app.php
 cp -rf skeleton/database/.gitignore laravel/database/.gitignore
 cp -rf skeleton/database/migrations/0001_01_01_000000_create_users_table.php laravel/migrations/0001_01_01_000000_testbench_create_users_table.php
 cp -rf skeleton/database/migrations/0001_01_01_000001_create_jobs_table.php laravel/migrations/0001_01_01_000001_testbench_create_jobs_table.php
@@ -18,7 +19,6 @@ cp -rf skeleton/database/factories/*.php src/Factories/
 cp -rf vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php laravel/server.php
 cp -rf skeleton/public/index.php laravel/public/index.php
 cp -rf skeleton/tests/CreatesApplication.php laravel/tests/CreatesApplication.php
-rm laravel/config/sanctum.php
 
 rm -Rf skeleton
 
