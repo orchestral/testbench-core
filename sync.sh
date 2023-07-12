@@ -7,8 +7,7 @@ fi
 composer create-project "laravel/laravel:dev-slim-skeleton-11.x" skeleton --no-scripts --no-plugins --quiet
 
 cp -f skeleton/.env.example laravel/
-cp -rf skeleton/config/*.php laravel/config/
-cp -f vendor/laravel/framework/config/app.php laravel/config/app.php
+cp -f vendor/laravel/framework/config/*.php laravel/config/
 cp -rf skeleton/database/.gitignore laravel/database/.gitignore
 cp -rf skeleton/database/migrations/0001_01_01_000000_create_users_table.php laravel/migrations/0001_01_01_000000_testbench_create_users_table.php
 cp -rf skeleton/database/migrations/0001_01_01_000001_create_jobs_table.php laravel/migrations/0001_01_01_000001_testbench_create_jobs_table.php
@@ -19,6 +18,7 @@ cp -rf skeleton/database/factories/*.php src/Factories/
 cp -rf vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php laravel/server.php
 cp -rf skeleton/public/index.php laravel/public/index.php
 cp -rf skeleton/tests/CreatesApplication.php laravel/tests/CreatesApplication.php
+rm laravel/config/sanctum.php
 
 rm -Rf skeleton
 
@@ -31,9 +31,8 @@ awk '{sub(/DB_USERNAME=/,"\# DB_USERNAME=")}1' laravel/.env.example > laravel/.e
 awk '{sub(/DB_PASSWORD=/,"\# DB_PASSWORD=")}1' laravel/.env.example > laravel/.env.example.stub && mv laravel/.env.example.stub laravel/.env.example
 awk '{sub(/production/,"testing")}1' laravel/config/app.php > laravel/config/app.stub && mv laravel/config/app.stub laravel/config/app.php
 awk '{sub(/App\\Providers/,"// App\\Providers")}1' laravel/config/app.php > laravel/config/app.stub && mv laravel/config/app.stub laravel/config/app.php
-# awk '{sub(/\x27Redis\x27/,"'\''RedisManager'\''")}1' laravel/config/app.php > laravel/config/temp.stub && mv laravel/config/temp.stub laravel/config/app.php
-awk '{sub(/\x27model\x27 => App\\Models\\User/,"'\''model'\'' => Illuminate\\Foundation\\Auth\\User")}1' laravel/config/auth.php > laravel/config/auth.stub && mv laravel/config/auth.stub laravel/config/auth.php
-# awk '{sub(/\x27CACHE_DRIVER\x27, \x27file\x27/,"'\''CACHE_DRIVER'\'', '\''array'\''")}1' laravel/config/cache.php > laravel/config/cache.stub && mv laravel/config/cache.stub laravel/config/cache.php
+awk '{sub(/\x27AUTH_MODEL\x27, App\\Models\\User/,"'\''AUTH_MODEL'\'', Illuminate\\Foundation\\Auth\\User")}1' laravel/config/auth.php > laravel/config/auth.stub && mv laravel/config/auth.stub laravel/config/auth.php
+# awk '{sub(/\x27CACHE_STORE\x27, \x27file\x27/,"'\''CACHE_STORE'\'', '\''array'\''")}1' laravel/config/cache.php > laravel/config/cache.stub && mv laravel/config/cache.stub laravel/config/cache.php
 # awk '{sub(/\x27SESSION_DRIVER\x27, \x27file\x27/,"'\''SESSION_DRIVER'\'', '\''array'\''")}1' laravel/config/session.php > laravel/config/session.stub && mv laravel/config/session.stub laravel/config/session.php
 awk '{sub(/use App\\Models\\User/,"use Illuminate\\Foundation\\Auth\\User")}1' src/Factories/UserFactory.php > src/Factories/UserFactory.stub && mv src/Factories/UserFactory.stub src/Factories/UserFactory.php
 awk '{sub(/namespace Database\\Factories/,"namespace Orchestra\\Testbench\\Factories")}1' src/Factories/UserFactory.php > src/Factories/UserFactory.stub && mv src/Factories/UserFactory.stub src/Factories/UserFactory.php
