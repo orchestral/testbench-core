@@ -19,7 +19,7 @@ use RuntimeException;
  * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
+function container(string $basePath = null, callable $resolvingCallback = null, array $options = []): Foundation\Application
 {
     return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
 }
@@ -47,7 +47,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
  * @param  \Closure|null  $callback
  * @return void
  */
-function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
+function after_resolving(ApplicationContract $app, string $name, Closure $callback = null): void
 {
     $app->afterResolving($name, $callback);
 
@@ -111,7 +111,7 @@ function transform_relative_path(string $path, string $workingPath): string
  * @param  string|null  $operator
  * @return int|bool
  */
-function laravel_version_compare(string $version, ?string $operator = null)
+function laravel_version_compare(string $version, string $operator = null)
 {
     /** @phpstan-ignore-next-line */
     $laravel = Application::VERSION === '11.x-dev' ? '11.0.0' : Application::VERSION;
@@ -130,7 +130,7 @@ function laravel_version_compare(string $version, ?string $operator = null)
  * @param  string|null  $operator
  * @return int|bool
  */
-function phpunit_version_compare(string $version, ?string $operator = null)
+function phpunit_version_compare(string $version, string $operator = null)
 {
     if (! class_exists(Version::class)) {
         throw new RuntimeException('Unable to verify PHPUnit version');
