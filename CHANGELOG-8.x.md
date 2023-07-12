@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.5.9
+
+Released: 2023-07-12
+
+### Changes
+
+* Update skeleton to match v10.2.5.
+
 ## 8.5.8
 
 Released: 2023-06-22
