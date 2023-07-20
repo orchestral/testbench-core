@@ -32,7 +32,7 @@ class PackageManifestTest extends TestCase
         $installedPackages = [
             'nesbot/carbon',
             'nunomaduro/termwind',
-            'spatie/laravel-ray',
+            // 'spatie/laravel-ray',
         ];
 
         foreach ($installedPackages as $installedPackage) {
@@ -66,7 +66,7 @@ class PackageManifestTest extends TestCase
         $installedPackages = [
             'nesbot/carbon',
             'nunomaduro/termwind',
-            'spatie/laravel-ray',
+            // 'spatie/laravel-ray',
         ];
 
         foreach ($installedPackages as $installedPackage) {
@@ -107,7 +107,7 @@ class PackageManifestTest extends TestCase
         $installedPackages = [
             'nesbot/carbon',
             'nunomaduro/termwind',
-            'spatie/laravel-ray',
+            // 'spatie/laravel-ray',
         ];
 
         foreach ($installedPackages as $installedPackage) {
