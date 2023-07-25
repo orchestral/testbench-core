@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Foundation\Configuration\ApplicationBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
@@ -161,6 +162,10 @@ class Application
     protected function resolveApplication()
     {
         return tap($this->resolveApplicationFromTrait(), function ($app) {
+            (new ApplicationBuilder($app))
+                ->withMiddleware(fn ($middleware) => $middleware)
+                ->withCommands();
+
             if (\is_callable($this->resolvingCallback)) {
                 \call_user_func($this->resolvingCallback, $app);
             }
