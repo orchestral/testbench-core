@@ -241,18 +241,20 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap(new Application($this->getBasePath()), function ($app) {
-            (new ApplicationBuilder($app))
+        return tap(
+            (new ApplicationBuilder(new Application($this->getBasePath())))
                 ->withMiddleware(fn ($middleware) => $middleware)
-                ->withCommands();
+                ->withCommands()
+                ->create(),
+            function ($app) {
+                $app->bind(
+                    'Illuminate\Foundation\Bootstrap\LoadConfiguration',
+                    'Orchestra\Testbench\Bootstrap\LoadConfiguration'
+                );
 
-            $app->bind(
-                'Illuminate\Foundation\Bootstrap\LoadConfiguration',
-                'Orchestra\Testbench\Bootstrap\LoadConfiguration'
-            );
-
-            PackageManifest::swap($app, $this);
-        });
+                PackageManifest::swap($app, $this);
+            }
+        );
     }
 
     /**

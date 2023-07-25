@@ -161,15 +161,17 @@ class Application
      */
     protected function resolveApplication()
     {
-        return tap($this->resolveApplicationFromTrait(), function ($app) {
-            (new ApplicationBuilder($app))
+        return tap(
+            (new ApplicationBuilder($this->resolveApplicationFromTrait()))
                 ->withMiddleware(fn ($middleware) => $middleware)
-                ->withCommands();
-
-            if (\is_callable($this->resolvingCallback)) {
-                \call_user_func($this->resolvingCallback, $app);
+                ->withCommands()
+                ->create(),
+            function ($app) {
+                if (\is_callable($this->resolvingCallback)) {
+                    \call_user_func($this->resolvingCallback, $app);
+                }
             }
-        });
+        );
     }
 
     /**
