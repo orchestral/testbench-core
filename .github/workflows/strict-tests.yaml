@@ -25,6 +25,10 @@ jobs:
           - "highest"
         experimental:
           - false
+        include:
+          - php: 8.3
+            experimental: true
+
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }}
 
@@ -48,6 +52,15 @@ jobs:
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
+        if: matrix.php <= 8.2
+
+
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--prefer-dist --no-cache --ignore-platform-req=php"
+        if: matrix.php == 8.3
 
       - name: Installed dependencies
         run: |
