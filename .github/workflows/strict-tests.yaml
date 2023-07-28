@@ -56,8 +56,7 @@ jobs:
           composer-options: "--prefer-dist --no-cache"
         if: matrix.php <= 8.2
 
-
-      - name: Install dependencies
+      - name: Install dependencies for PHP 8.3
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
