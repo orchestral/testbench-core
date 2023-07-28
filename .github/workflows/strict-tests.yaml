@@ -25,7 +25,8 @@ jobs:
         experimental:
           - false
         include:
-          - php: 8.3
+          - os: "ubuntu-latest"
+            php: 8.3
             phpunit: "~10.2.0"
             dependencies: "highest"
             experimental: true
