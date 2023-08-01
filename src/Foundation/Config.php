@@ -15,6 +15,7 @@ use Symfony\Component\Yaml\Yaml;
  *   providers: array,
  *   dont-discover: array,
  *   migrations: array|bool,
+ *   seeder: class-string|null,
  *   bootstrappers: array
  * }
  * @phpstan-type TOptionalConfig array{
@@ -23,6 +24,7 @@ use Symfony\Component\Yaml\Yaml;
  *   providers?: array,
  *   dont-discover?: array,
  *   migrations?: array|bool,
+ *   seeder?: class-string|null,
  *   bootstrappers?: array
  * }
  */
@@ -41,6 +43,7 @@ class Config extends Fluent
         'providers' => [],
         'dont-discover' => [],
         'migrations' => [],
+        'seeder' => null,
         'bootstrappers' => [],
     ];
 

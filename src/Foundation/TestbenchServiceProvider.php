@@ -3,6 +3,9 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Composer\InstalledVersions;
+use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
+use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
+use Illuminate\Database\Events\DatabaseRefreshed;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
@@ -33,6 +36,18 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        app(EventDispatcher::class)
+            ->listen(DatabaseRefreshed::class, function () {
+                /** @var class-string|null $seederClass */
+                $seederClass = app('testbench.config')->get('seeder');
+
+                if (! \is_null($seederClass) && class_exists($seederClass)) {
+                    app(ConsoleKernel::class)->call('db:seed', [
+                        '--class' => $seederClass,
+                    ]);
+                }
+            });
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 $this->isCollisionDependenciesInstalled()
