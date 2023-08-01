@@ -7,6 +7,7 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
@@ -53,7 +54,7 @@ class TestbenchServiceProvider extends ServiceProvider
             'prefix' => config('testbench.path', '_testbench'),
             'domain' => config('testbench.domain', null),
             'middleware' => config('testbench.middleware', 'web'),
-        ]), function ($router) {
+        ]), function (Router $router) {
             $router->get('/login/{userId}/{guard?}', [
                 'uses' => 'Orchestra\Testbench\Foundation\Http\Controllers\UserController@login',
                 'as' => 'testbench.login',
