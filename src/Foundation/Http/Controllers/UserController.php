@@ -24,7 +24,7 @@ class UserController
 
         return [
             'id' => $user->getAuthIdentifier(),
-            'className' => get_class($user),
+            'className' => \get_class($user),
         ];
     }
 

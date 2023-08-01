@@ -39,7 +39,9 @@ class TestbenchServiceProvider extends ServiceProvider
     public function boot(): void
     {
         /** @var \Orchestra\Testbench\Foundation\Config $config */
-        $config = app('testbench.config');
+        $config = $this->app->bound('testbench.config')
+            ? $this->app->make('testbench.config')
+            : new Config();
 
         app(EventDispatcher::class)
             ->listen(DatabaseRefreshed::class, function () use ($config) {
