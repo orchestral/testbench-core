@@ -39,12 +39,14 @@ class UserController
     {
         $guard = $guard ?: config('auth.defaults.guard');
 
+        /** @phpstan-ignore-next-line */
         $provider = Auth::guard($guard)->getProvider();
 
         $user = Str::contains($userId, '@')
                     ? $provider->retrieveByCredentials(['email' => $userId])
                     : $provider->retrieveById($userId);
 
+        /** @phpstan-ignore-next-line */
         Auth::guard($guard)->login($user);
     }
 
@@ -58,6 +60,7 @@ class UserController
     {
         $guard = $guard ?: config('auth.defaults.guard');
 
+        /** @phpstan-ignore-next-line */
         Auth::guard($guard)->logout();
 
         Session::forget('password_hash_'.$guard);

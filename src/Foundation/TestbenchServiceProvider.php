@@ -38,10 +38,13 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /** @var \Orchestra\Testbench\Foundation\Config $config */
+        $config = app('testbench.config');
+
         app(EventDispatcher::class)
-            ->listen(DatabaseRefreshed::class, function () {
+            ->listen(DatabaseRefreshed::class, function () use ($config) {
                 /** @var class-string|null $seederClass */
-                $seederClass = app('testbench.config')->get('seeder');
+                $seederClass = $config->get('seeder');
 
                 if (! \is_null($seederClass) && class_exists($seederClass)) {
                     app(ConsoleKernel::class)->call('db:seed', [
@@ -55,20 +58,17 @@ class TestbenchServiceProvider extends ServiceProvider
             'domain' => config('testbench.domain', null),
             'middleware' => config('testbench.middleware', 'web'),
         ]), function (Router $router) {
-            $router->get('/login/{userId}/{guard?}', [
-                'uses' => 'Orchestra\Testbench\Foundation\Http\Controllers\UserController@login',
-                'as' => 'testbench.login',
-            ]);
+            $router->get(
+                '/login/{userId}/{guard?}', [Http\Controllers\UserController::class, 'login']
+            )->name('testbench.login');
 
-            $router->get('/logout/{guard?}', [
-                'uses' => 'Orchestra\Testbench\Foundation\Http\Controllers\UserController@logout',
-                'as' => 'testbench.logout',
-            ]);
+            $router->get(
+                '/logout/{guard?}', [Http\Controllers\UserController::class, 'logout']
+            )->name('testbench.logout');
 
-            $router->get('/user/{guard?}', [
-                'uses' => 'Orchestra\Testbench\Foundation\Http\Controllers\UserController@user',
-                'as' => 'testbench.user',
-            ]);
+            $router->get(
+                '/user/{guard?}', [Http\Controllers\UserController::class, 'user']
+            )->name('testbench.user');
         });
 
         if ($this->app->runningInConsole()) {
