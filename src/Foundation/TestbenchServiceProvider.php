@@ -7,6 +7,7 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
 
@@ -47,6 +48,27 @@ class TestbenchServiceProvider extends ServiceProvider
                     ]);
                 }
             });
+
+        Route::group(array_filter([
+            'prefix' => config('testbench.path', '_testbench'),
+            'domain' => config('testbench.domain', null),
+            'middleware' => config('testbench.middleware', 'web'),
+        ]), function ($router) {
+            $router->get('/login/{userId}/{guard?}', [
+                'uses' => 'Orchestra\Testbench\Foundation\Http\Controllers\UserController@login',
+                'as' => 'testbench.login',
+            ]);
+
+            $router->get('/logout/{guard?}', [
+                'uses' => 'Orchestra\Testbench\Foundation\Http\Controllers\UserController@logout',
+                'as' => 'testbench.logout',
+            ]);
+
+            $router->get('/user/{guard?}', [
+                'uses' => 'Orchestra\Testbench\Foundation\Http\Controllers\UserController@user',
+                'as' => 'testbench.user',
+            ]);
+        });
 
         if ($this->app->runningInConsole()) {
             $this->commands([
