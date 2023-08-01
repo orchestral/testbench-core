@@ -54,9 +54,8 @@ class TestbenchServiceProvider extends ServiceProvider
             });
 
         Route::group(array_filter([
-            'prefix' => config('testbench.path', '_testbench'),
-            'domain' => config('testbench.domain', null),
-            'middleware' => config('testbench.middleware', 'web'),
+            'prefix' => '_testbench',
+            'middleware' => 'web',
         ]), function (Router $router) {
             $router->get(
                 '/login/{userId}/{guard?}', [Http\Controllers\UserController::class, 'login']
