@@ -40,9 +40,10 @@ final class LoadMigrationsFromArray
             return;
         }
 
-        $paths = Collection::make(
-            ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
-        )->when(
+        /** @var array $migrations */
+        $migrations = ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : [];
+
+        $paths = Collection::make($migrations)->when(
             $this->includesDefaultMigrations($app),
             fn ($migrations) => $migrations->push($app->basePath('migrations'))
         )->filter(fn ($migration) => \is_string($migration))
