@@ -12,18 +12,20 @@ use Symfony\Component\Yaml\Yaml;
  * @phpstan-type TConfig array{
  *   laravel: string|null,
  *   env: array,
- *   providers: array,
- *   dont-discover: array,
- *   migrations: array|bool,
- *   bootstrappers: array
+ *   providers: array<int, class-string>,
+ *   dont-discover: array<int, string>,
+ *   migrations: string|array<int, string>|bool,
+ *   seeders: class-string|array<int, class-string>|bool,
+ *   bootstrappers: class-string|array<int, class-string>|null
  * }
  * @phpstan-type TOptionalConfig array{
  *   laravel?: string|null,
  *   env?: array,
- *   providers?: array,
- *   dont-discover?: array,
- *   migrations?: array|bool,
- *   bootstrappers?: array
+ *   providers?: array<int, class-string>,
+ *   dont-discover?: array<int, string>,
+ *   migrations?: string|array<int, string>|bool,
+ *   seeders?: class-string|array<int, class-string>|bool,
+ *   bootstrappers?: class-string|array<int, class-string>|null
  * }
  */
 class Config extends Fluent
@@ -41,6 +43,7 @@ class Config extends Fluent
         'providers' => [],
         'dont-discover' => [],
         'migrations' => [],
+        'seeders' => false,
         'bootstrappers' => [],
     ];
 
