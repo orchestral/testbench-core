@@ -89,7 +89,7 @@ class UserControllerTest extends TestCase
 
         $response = $this->assertGuest('web')
             ->actingAs($user, 'web')
-            ->get("/_testbench/logout/web");
+            ->get('/_testbench/logout/web');
 
         $response->assertStatus(200)->assertContent('');
 
