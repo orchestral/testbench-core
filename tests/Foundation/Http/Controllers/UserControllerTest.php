@@ -75,7 +75,7 @@ class UserControllerTest extends TestCase
         $response = $this->assertGuest('web')
             ->get("/_testbench/login/{$user->getKey()}/web");
 
-        $response->assertStatus(200)->assertContent('');
+        $response->assertNoContent(200);
 
         $this->assertAuthenticated('web');
     }
@@ -91,7 +91,7 @@ class UserControllerTest extends TestCase
             ->actingAs($user, 'web')
             ->get('/_testbench/logout/web');
 
-        $response->assertStatus(200)->assertContent('');
+        $response->assertNoContent(200);
 
         $this->assertGuest('web');
     }
