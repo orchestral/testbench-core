@@ -8,6 +8,7 @@ use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
@@ -45,14 +46,20 @@ class TestbenchServiceProvider extends ServiceProvider
 
         app(EventDispatcher::class)
             ->listen(DatabaseRefreshed::class, function () use ($config) {
-                /** @var class-string|null $seederClass */
-                $seederClass = $config->get('seeder');
+                /** @var class-string|array<int, class-string>|bool $seederClasses */
+                $seederClasses = $config->get('seeders') ?? false;
 
-                if (! \is_null($seederClass) && class_exists($seederClass)) {
-                    app(ConsoleKernel::class)->call('db:seed', [
-                        '--class' => $seederClass,
-                    ]);
+                if (\is_bool($seederClasses) && $seederClasses === false) {
+                    return;
                 }
+
+                collect(Arr::wrap($seederClasses))
+                    ->filter(fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
+                    ->each(function ($seederClass) {
+                        app(ConsoleKernel::class)->call('db:seed', [
+                            '--class' => $seederClass,
+                        ]);
+                    });
             });
 
         Route::group(array_filter([
