@@ -55,11 +55,44 @@ class UserControllerTest extends TestCase
     {
         $user = UserFactory::new()->create();
 
-        $response = $this->actingAs($user)->get('/_testbench/user/web');
+        $response = $this->assertGuest('web')
+            ->actingAs($user, 'web')
+            ->get('/_testbench/user/web');
 
-        $response->assertExactJson([
+        $response->assertOk()->assertExactJson([
             'id' => $user->getKey(),
             'className' => \get_class($user),
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_authenticate_a_user()
+    {
+        $user = UserFactory::new()->create();
+
+        $response = $this->assertGuest('web')
+            ->get("/_testbench/login/{$user->getKey()}/web");
+
+        $response->assertStatus(200)->assertContent('');
+
+        $this->assertAuthenticated('web');
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_deauthenticate_a_user()
+    {
+        $user = UserFactory::new()->create();
+
+        $response = $this->assertGuest('web')
+            ->actingAs($user, 'web')
+            ->get("/_testbench/logout/web");
+
+        $response->assertStatus(200)->assertContent('');
+
+        $this->assertGuest('web');
     }
 }
