@@ -150,7 +150,7 @@ class Application
      */
     protected function getPackageBootstrappers($app)
     {
-        if (is_null($this->config['bootstrappers']) {
+        if (is_null($this->config['bootstrappers'])) {
             return [];
         }
 

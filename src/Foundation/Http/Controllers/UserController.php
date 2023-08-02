@@ -43,8 +43,8 @@ class UserController
         $provider = Auth::guard($guard)->getProvider();
 
         $user = Str::contains($userId, '@')
-                    ? $provider->retrieveByCredentials(['email' => $userId])
-                    : $provider->retrieveById($userId);
+            ? $provider->retrieveByCredentials(['email' => $userId])
+            : $provider->retrieveById($userId);
 
         /** @phpstan-ignore-next-line */
         Auth::guard($guard)->login($user);
