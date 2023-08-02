@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
 use function Orchestra\Testbench\after_resolving;
@@ -40,7 +41,7 @@ final class LoadMigrationsFromArray
         }
 
         $paths = Collection::make(
-            \is_array($this->migrations) ? $this->migrations : []
+            ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
         )->when(
             $this->includesDefaultMigrations($app),
             fn ($migrations) => $migrations->push($app->basePath('migrations'))
