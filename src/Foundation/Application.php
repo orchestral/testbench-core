@@ -150,11 +150,11 @@ class Application
      */
     protected function getPackageBootstrappers($app)
     {
-        if (is_null($this->config['bootstrappers'])) {
+        if (is_null($bootrappers = ($this->config['bootstrappers'] ?? null)))  {
             return [];
         }
 
-        return Arr::wrap($this->config['bootstrappers']);
+        return Arr::wrap($bootrappers);
     }
 
     /**
