@@ -44,23 +44,23 @@ class TestbenchServiceProvider extends ServiceProvider
             ? $this->app->make('testbench.config')
             : new Config();
 
-        // app(EventDispatcher::class)
-        //     ->listen(DatabaseRefreshed::class, function () use ($config) {
-        //         /** @var class-string|array<int, class-string>|bool $seederClasses */
-        //         $seederClasses = $config->get('seeders') ?? false;
+        app(EventDispatcher::class)
+            ->listen(DatabaseRefreshed::class, function () use ($config) {
+                /** @var class-string|array<int, class-string>|bool $seederClasses */
+                $seederClasses = $config->get('seeders') ?? false;
 
-        //         if (\is_bool($seederClasses) && $seederClasses === false) {
-        //             return;
-        //         }
+                if (\is_bool($seederClasses) && $seederClasses === false) {
+                    return;
+                }
 
-        //         // collect(Arr::wrap($seederClasses))
-        //         //     ->filter(fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
-        //         //     ->each(function ($seederClass) {
-        //         //         app(ConsoleKernel::class)->call('db:seed', [
-        //         //             '--class' => $seederClass,
-        //         //         ]);
-        //         //     });
-        //     });
+                collect(Arr::wrap($seederClasses))
+                    ->filter(fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
+                    ->each(function ($seederClass) {
+                        app(ConsoleKernel::class)->call('db:seed', [
+                            '--class' => $seederClass,
+                        ]);
+                    });
+            });
 
         Route::group(array_filter([
             'prefix' => '_testbench',
