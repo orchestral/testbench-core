@@ -56,7 +56,7 @@ class UserControllerTest extends TestCase
 
         $response->assertExactJson([
             'id' => $user->getKey(),
-            'className' => get_class($user),
+            'className' => \get_class($user),
         ]);
     }
 }
