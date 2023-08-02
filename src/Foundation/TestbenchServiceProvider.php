@@ -7,9 +7,7 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Illuminate\Foundation\Console\AboutCommand;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
 
@@ -62,22 +60,7 @@ class TestbenchServiceProvider extends ServiceProvider
                     });
             });
 
-        Route::group(array_filter([
-            'prefix' => '_testbench',
-            'middleware' => 'web',
-        ]), function (Router $router) {
-            $router->get(
-                '/login/{userId}/{guard?}', [Http\Controllers\UserController::class, 'login']
-            )->name('testbench.login');
-
-            $router->get(
-                '/logout/{guard?}', [Http\Controllers\UserController::class, 'logout']
-            )->name('testbench.logout');
-
-            $router->get(
-                '/user/{guard?}', [Http\Controllers\UserController::class, 'user']
-            )->name('testbench.user');
-        });
+        Application::authenticationRoutes();
 
         if ($this->app->runningInConsole()) {
             $this->commands([

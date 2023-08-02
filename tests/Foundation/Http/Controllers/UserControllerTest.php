@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Foundation\Http\Controllers;
 
 use Orchestra\Testbench\Factories\UserFactory;
+use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
 
@@ -20,6 +21,10 @@ class UserControllerTest extends TestCase
     protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testing');
+
+        $this->afterApplicationCreated(function () {
+            Application::authenticationRoutes();
+        });
     }
 
     /**
@@ -30,19 +35,6 @@ class UserControllerTest extends TestCase
     protected function defineDatabaseMigrations()
     {
         $this->loadLaravelMigrations(['--database' => 'testing']);
-    }
-
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array<int, class-string<\Illuminate\Support\ServiceProvider>>
-     */
-    protected function getPackageProviders($app)
-    {
-        return [
-            TestbenchServiceProvider::class,
-        ];
     }
 
     /**
