@@ -14,14 +14,14 @@ final class LoadMigrationsFromArray
     /**
      * The migrations.
      *
-     * @var bool|array<int, string>
+     * @var string|array<int, string>|bool
      */
     public $migrations;
 
     /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
-     * @param  bool|array<int, string>  $migrations
+     * @param  string|array<int, string>|bool  $migrations
      */
     public function __construct($migrations)
     {
@@ -40,10 +40,9 @@ final class LoadMigrationsFromArray
             return;
         }
 
-        /** @var string|array<int, string>|bool $migrations */
-        $migrations = ! \is_bool($this->migrations) ? $this->migrations : [];
-
-        $paths = Collection::make(Arr::wrap($migrations))->when(
+        $paths = Collection::make(
+            ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
+        )->when(
             $this->includesDefaultMigrations($app),
             fn ($migrations) => $migrations->push($app->basePath('migrations'))
         )->filter(fn ($migration) => \is_string($migration))
