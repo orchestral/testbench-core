@@ -107,6 +107,8 @@ class Commander
             $this->app = Application::create(
                 $this->getBasePath(),
                 function ($app) {
+                    $app->instance('testbench.config', $this->config);
+
                     (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
 
                     \call_user_func($this->resolveApplicationCallback(), $app);

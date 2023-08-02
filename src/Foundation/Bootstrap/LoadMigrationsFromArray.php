@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
 use function Orchestra\Testbench\transform_relative_path;
@@ -12,14 +13,14 @@ final class LoadMigrationsFromArray
     /**
      * The migrations.
      *
-     * @var bool|array<int, string>
+     * @var string|array<int, string>|bool
      */
     public $migrations;
 
     /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
-     * @param  bool|array<int, string>  $migrations
+     * @param  string|array<int, string>|bool  $migrations
      */
     public function __construct($migrations)
     {
@@ -39,7 +40,7 @@ final class LoadMigrationsFromArray
         }
 
         $paths = Collection::make(
-            \is_array($this->migrations) ? $this->migrations : []
+            ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
         )->when($this->includesDefaultMigrations($app), function ($migrations) use ($app) {
             return $migrations->push($app->basePath('migrations'));
         })->filter(function ($migration) {

@@ -19,6 +19,8 @@ $createApp = function (string $workingPath) {
     return Application::create(
         $config['laravel'],
         function ($app) use ($config, $hasEnvironmentFile) {
+            $app->instance('testbench.config', $config);
+
             if ($hasEnvironmentFile === false) {
                 (new LoadEnvironmentVariablesFromArray(
                     ! empty($config['env']) ? $config['env'] : default_environment_variables()
