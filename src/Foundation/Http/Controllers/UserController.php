@@ -39,7 +39,11 @@ class UserController
     {
         $guard = $guard ?: config('auth.defaults.guard');
 
-        /** @phpstan-ignore-next-line */
+        /**
+         * @phpstan-ignore-next-line
+         *
+         * @var \Illuminate\Contracts\Auth\UserProvider $provider
+         */
         $provider = Auth::guard($guard)->getProvider();
 
         $user = Str::contains($userId, '@')
