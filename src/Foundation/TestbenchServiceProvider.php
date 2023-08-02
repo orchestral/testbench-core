@@ -22,13 +22,13 @@ class TestbenchServiceProvider extends ServiceProvider
             config(['database.default' => 'testing']);
         }
 
-        /** @var \Orchestra\Testbench\Foundation\Config $config */
-        $config = $this->app->bound('testbench.config')
-            ? $this->app->make('testbench.config')
-            : new Config();
-
         app(EventDispatcher::class)
-            ->listen(DatabaseRefreshed::class, function () use ($config) {
+            ->listen(DatabaseRefreshed::class, function () {
+                /** @var \Orchestra\Testbench\Foundation\Config $config */
+                $config = $this->app->bound('testbench.config')
+                    ? $this->app->make('testbench.config')
+                    : new Config();
+
                 /** @var class-string|array<int, class-string>|bool $seederClasses */
                 $seederClasses = $config->get('seeders') ?? false;
 
