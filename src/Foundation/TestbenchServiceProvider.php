@@ -50,9 +50,7 @@ class TestbenchServiceProvider extends ServiceProvider
                 }
 
                 collect(Arr::wrap($seederClasses))
-                    ->filter(function ($seederClass) {
-                        return ! \is_null($seederClass) && class_exists($seederClass);
-                    })
+                    ->filter(fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
                     ->each(function ($seederClass) {
                         app(ConsoleKernel::class)->call('db:seed', [
                             '--class' => $seederClass,
