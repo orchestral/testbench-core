@@ -19,6 +19,9 @@ $createApp = function (string $workingPath) {
     return Application::create(
         basePath: $config['laravel'],
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
+        resolvingCallback: function ($app) use ($config) {
+            $app->instance('testbench.config', $config);
+        },
     );
 };
 

@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Str;
 
 /**
@@ -45,6 +46,6 @@ class UserFactory extends Factory
      */
     public function modelName()
     {
-        return config('auth.providers.users.model') ?? env('AUTH_MODEL', \Illuminate\Foundation\Auth\User::class);
+        return config('auth.providers.users.model') ?? env('AUTH_MODEL', User::class);
     }
 }
