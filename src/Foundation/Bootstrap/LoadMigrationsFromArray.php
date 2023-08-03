@@ -12,22 +12,12 @@ use function Orchestra\Testbench\transform_relative_path;
 final class LoadMigrationsFromArray
 {
     /**
-<<<<<<< HEAD
-=======
-     * The migrations.
-     *
-     * @var string|array<int, string>|bool
-     */
-    public $migrations;
-
-    /**
->>>>>>> 8.x
      * Construct a new Create Vendor Symlink bootstrapper.
      *
      * @param  string|array<int, string>|bool  $migrations
      */
     public function __construct(
-        public bool|array $migrations
+        public string|bool|array $migrations
     ) {
     }
 
