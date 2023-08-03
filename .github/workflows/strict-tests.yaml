@@ -23,6 +23,13 @@ jobs:
           - "highest"
         experimental:
           - false
+        include:
+          - os: "ubuntu-latest"
+            php: 8.3
+            phpunit: "~10.2.0"
+            dependencies: "highest"
+            experimental: true
+
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }}
 
@@ -46,6 +53,14 @@ jobs:
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
+        if: matrix.php <= 8.2
+
+      - name: Install dependencies for PHP 8.3
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--prefer-dist --no-cache --ignore-platform-req=php"
+        if: matrix.php == 8.3
 
       - name: Installed dependencies
         run: |

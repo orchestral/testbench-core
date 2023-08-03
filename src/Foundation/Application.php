@@ -3,8 +3,10 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Env;
+use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
 /**
@@ -150,7 +152,11 @@ class Application
      */
     protected function getPackageBootstrappers($app)
     {
-        return $this->config['bootstrappers'] ?? [];
+        if (\is_null($bootstrappers = ($this->config['bootstrappers'] ?? null))) {
+            return [];
+        }
+
+        return Arr::wrap($bootstrappers);
     }
 
     /**
@@ -243,5 +249,30 @@ class Application
         }
 
         $app->singleton('Illuminate\Contracts\Http\Kernel', $kernel);
+    }
+
+    /**
+     * Provide the authentication routes for Testbench.
+     *
+     * @return void
+     */
+    public static function authenticationRoutes()
+    {
+        Route::group(array_filter([
+            'prefix' => '_testbench',
+            'middleware' => 'web',
+        ]), function (Router $router) {
+            $router->get(
+                '/login/{userId}/{guard?}', [Http\Controllers\UserController::class, 'login']
+            )->name('testbench.login');
+
+            $router->get(
+                '/logout/{guard?}', [Http\Controllers\UserController::class, 'logout']
+            )->name('testbench.logout');
+
+            $router->get(
+                '/user/{guard?}', [Http\Controllers\UserController::class, 'user']
+            )->name('testbench.user');
+        });
     }
 }
