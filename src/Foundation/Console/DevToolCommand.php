@@ -44,6 +44,8 @@ class DevToolCommand extends Command
         /** @phpstan-ignore-next-line */
         $workingPath = TESTBENCH_WORKING_PATH;
 
+        $filesystem->ensureDirectoryExists("{$workingPath}/workbench");
+
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
 
@@ -117,7 +119,7 @@ class DevToolCommand extends Command
             return;
         }
 
-        $to = "{$workingPath}/{$choice}";
+        $to = "{$workingPath}/workbench/{$choice}";
 
         if ($this->option('force') || ! $filesystem->exists($to)) {
             $filesystem->copy($from, $to);

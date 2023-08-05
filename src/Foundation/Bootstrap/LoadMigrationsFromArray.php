@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\transform_relative_path;
+use function Orchestra\Testbench\workbench;
 
 final class LoadMigrationsFromArray
 {
@@ -65,6 +66,9 @@ final class LoadMigrationsFromArray
     protected function includesDefaultMigrations($app): bool
     {
         return is_dir($app->basePath('migrations'))
-            && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true;
+            && (
+                workbench()['migrate'] === true
+                && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true
+            );
     }
 }

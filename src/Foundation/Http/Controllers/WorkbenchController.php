@@ -6,23 +6,10 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Orchestra\Testbench\Contracts\Config as ConfigContract;
-use Orchestra\Testbench\Foundation\Config;
+use function Orchestra\Testbench\workbench;
 
-/**
- * @phpstan-import-type TWorkbenchConfig from \Orchestra\Testbench\Foundation\Config
- */
 class WorkbenchController extends Controller
 {
-    /**
-     * Workbench configuration.
-     *
-     * @var array<string, mixed>|null
-     *
-     * @phpstan-var TWorkbenchConfig|null
-     */
-    protected $cachedWorkbenchConfig;
-
     /**
      * Start page.
      *
@@ -30,7 +17,7 @@ class WorkbenchController extends Controller
      */
     public function start()
     {
-        $workbench = $this->workbenchConfig();
+        $workbench = workbench();
 
         if (\is_null($workbench['user'])) {
             return $this->logout($workbench['guard']);
@@ -70,7 +57,7 @@ class WorkbenchController extends Controller
      */
     public function login($userId, $guard = null)
     {
-        $workbench = $this->workbenchConfig();
+        $workbench = workbench();
         $guard = $guard ?: config('auth.defaults.guard');
 
         /**
@@ -99,7 +86,7 @@ class WorkbenchController extends Controller
      */
     public function logout($guard = null)
     {
-        $workbench = $this->workbenchConfig();
+        $workbench = workbench();
 
         $guard = $guard ?: config('auth.defaults.guard');
 
@@ -123,25 +110,5 @@ class WorkbenchController extends Controller
         $provider = config("auth.guards.{$guard}.provider");
 
         return config("auth.providers.{$provider}.model");
-    }
-
-    /**
-     * Get or resolve workbench configuration.
-     *
-     * @return array<string, mixed>
-     *
-     * @phpstan-return TWorkbenchConfig
-     */
-    protected function workbenchConfig(): array
-    {
-        if (! isset($this->cachedWorkbenchConfig)) {
-            $config = app()->bound(ConfigContract::class)
-                ? app(ConfigContract::class)
-                : new Config();
-
-            $this->cachedWorkbenchConfig = $config->getWorkbenchAttributes();
-        }
-
-        return $this->cachedWorkbenchConfig;
     }
 }

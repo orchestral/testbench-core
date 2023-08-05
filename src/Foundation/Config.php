@@ -13,12 +13,14 @@ use Symfony\Component\Yaml\Yaml;
  * @phpstan-type TWorkbenchConfig array{
  *   start: string,
  *   user: string|int|null,
- *   guard: string|null
+ *   guard: string|null,
+ *   migrate: bool
  * }
  * @phpstan-type TOptionalWorkbenchConfig array{
  *   start?: string,
  *   user?: string|int|null,
- *   guard?: string|null
+ *   guard?: string|null,
+ *   migrate?: bool
  * }
  * @phpstan-type TConfig array{
  *   laravel: string|null,
@@ -72,6 +74,7 @@ class Config extends Fluent implements ConfigContract
         'start' => '/',
         'user' => null,
         'guard' => null,
+        'migrate' => true,
     ];
 
     /**
