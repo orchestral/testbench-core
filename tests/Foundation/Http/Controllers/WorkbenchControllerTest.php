@@ -75,9 +75,26 @@ class WorkbenchControllerTest extends TestCase
         $response = $this->assertGuest('web')
             ->get("/_testbench/login/{$user->getKey()}/web");
 
-        $response->assertNoContent(200);
+        $response->assertRedirect('/');
 
-        $this->assertAuthenticated('web');
+        $this->assertAuthenticated('web')
+            ->assertAuthenticatedAs($user);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_authenticate_a_user_using_email()
+    {
+        $user = UserFactory::new()->create();
+
+        $response = $this->assertGuest('web')
+            ->get("/_testbench/login/{$user->email}/web");
+
+        $response->assertRedirect('/');
+
+        $this->assertAuthenticated('web')
+            ->assertAuthenticatedAs($user);
     }
 
     /**
@@ -91,7 +108,7 @@ class WorkbenchControllerTest extends TestCase
             ->actingAs($user, 'web')
             ->get('/_testbench/logout/web');
 
-        $response->assertNoContent(200);
+        $response->assertRedirect('/');
 
         $this->assertGuest('web');
     }
