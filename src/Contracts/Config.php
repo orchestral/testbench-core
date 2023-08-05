@@ -24,7 +24,7 @@ interface Config extends ArrayAccess
     /**
      * Get workbench attributes.
      *
-     * @return array{start: string, user: string|int|null}
+     * @return array{start: string, user: string|int|null, guard: string|null}
      */
     public function getWorkbenchAttributes(): array;
 }
