@@ -41,6 +41,7 @@
         "laravel/framework": "^8.83.27",
         "laravel/laravel": "8.x-dev",
         "mockery/mockery": "^1.4.4",
+        "phpstan/phpstan": "^1.10.7",
         "phpunit/phpunit": "^8.5.21 || ^9.5.10",
         "spatie/laravel-ray": "^1.7.1",
         "symfony/process": "^5.0"
@@ -60,6 +61,10 @@
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
         "prepare": "@php testbench package:discover --ansi",
+        "ci": [
+            "@composer run prepare",
+            "@php vendor/bin/phpstan analyse"
+        ],
         "test": [
             "@composer run prepare",
             "@php vendor/bin/phpunit -c ./ --color"
