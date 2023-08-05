@@ -9,6 +9,10 @@ use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Yaml\Yaml;
 
 /**
+ * @phpstan-type TWorkbenchConfig array{
+ *   start?: string,
+ *   user?: string|int|null
+ * }
  * @phpstan-type TConfig array{
  *   laravel: string|null,
  *   env: array,
@@ -16,8 +20,8 @@ use Symfony\Component\Yaml\Yaml;
  *   dont-discover: array<int, string>,
  *   migrations: string|array<int, string>|bool,
  *   seeders: class-string|array<int, class-string>|bool,
- *   bootstrappers: class-string|array<int, class-string>|null
- *   workbench: array{start?: string, user?: string|int}
+ *   bootstrappers: class-string|array<int, class-string>|null,
+ *   workbench: TWorkbenchConfig
  * }
  * @phpstan-type TOptionalConfig array{
  *   laravel?: string|null,
@@ -26,8 +30,8 @@ use Symfony\Component\Yaml\Yaml;
  *   dont-discover?: array<int, string>,
  *   migrations?: string|array<int, string>|bool,
  *   seeders?: class-string|array<int, class-string>|bool,
- *   bootstrappers?: class-string|array<int, class-string>|null
- *   workbench?: array{start?: string, user?: string|int}|null
+ *   bootstrappers?: class-string|array<int, class-string>|null,
+ *   workbench?: TWorkbenchConfig|null
  * }
  */
 class Config extends Fluent
@@ -47,6 +51,19 @@ class Config extends Fluent
         'migrations' => [],
         'seeders' => false,
         'bootstrappers' => [],
+        'workbench' => [],
+    ];
+
+    /**
+     * The Workbench default configuration.
+     *
+     * @var array<string, mixed>
+     *
+     * @phpstan-var array{start: string, user: string|int|null}
+     */
+    protected $workbenchConfig = [
+        'start' => '/',
+        'user' => null,
     ];
 
     /**
@@ -108,5 +125,18 @@ class Config extends Fluent
             'providers' => Arr::get($this->attributes, 'providers', []),
             'dont-discover' => Arr::get($this->attributes, 'dont-discover', []),
         ];
+    }
+
+    /**
+     * Get workbench attributes.
+     *
+     * @return array{start: string, user: string|int|null}
+     */
+    public function getWorkbenchAttributes(): array
+    {
+        return array_merge(
+            $this->attributes['workbench'],
+            $this->workbenchConfig,
+        );
     }
 }
