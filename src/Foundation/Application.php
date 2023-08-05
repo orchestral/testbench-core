@@ -263,15 +263,15 @@ class Application
             'middleware' => 'web',
         ]), function (Router $router) {
             $router->get(
-                '/login/{userId}/{guard?}', [Http\Controllers\UserController::class, 'login']
+                '/login/{userId}/{guard?}', [Http\Controllers\WorkbenchController::class, 'login']
             )->name('testbench.login');
 
             $router->get(
-                '/logout/{guard?}', [Http\Controllers\UserController::class, 'logout']
+                '/logout/{guard?}', [Http\Controllers\WorkbenchController::class, 'logout']
             )->name('testbench.logout');
 
             $router->get(
-                '/user/{guard?}', [Http\Controllers\UserController::class, 'user']
+                '/user/{guard?}', [Http\Controllers\WorkbenchController::class, 'user']
             )->name('testbench.user');
         });
     }

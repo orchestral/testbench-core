@@ -9,7 +9,7 @@ use Orchestra\Testbench\TestCase;
 /**
  * @covers \Orchestra\Testbench\Foundation\Http\Controllers\UserController
  */
-class UserControllerTest extends TestCase
+class WorkbenchControllerTest extends TestCase
 {
     /**
      * Define environment setup.

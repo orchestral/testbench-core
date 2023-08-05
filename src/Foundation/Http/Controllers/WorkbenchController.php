@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
-class UserController
+class WorkbenchController
 {
     /**
      * Retrieve the authenticated user identifier and class name.
