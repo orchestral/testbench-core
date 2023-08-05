@@ -17,6 +17,7 @@ use Symfony\Component\Yaml\Yaml;
  *   migrations: string|array<int, string>|bool,
  *   seeders: class-string|array<int, class-string>|bool,
  *   bootstrappers: class-string|array<int, class-string>|null
+ *   workbench: array{start?: string, user?: string|int}
  * }
  * @phpstan-type TOptionalConfig array{
  *   laravel?: string|null,
@@ -26,6 +27,7 @@ use Symfony\Component\Yaml\Yaml;
  *   migrations?: string|array<int, string>|bool,
  *   seeders?: class-string|array<int, class-string>|bool,
  *   bootstrappers?: class-string|array<int, class-string>|null
+ *   workbench?: array{start?: string, user?: string|int}|null
  * }
  */
 class Config extends Fluent
