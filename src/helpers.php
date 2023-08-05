@@ -57,20 +57,6 @@ function after_resolving(ApplicationContract $app, string $name, ?Closure $callb
 }
 
 /**
- * Get the workbench configuration.
- *
- * @return array<string, mixed>
- */
-function workbench(): array
-{
-    $config = app()->bound(Contracts\Config::class)
-        ? app()->make(Contracts\Config::class)
-        : new Foundation\Config();
-
-    return $config->getWorkbenchAttributes();
-}
-
-/**
  * Get default environment variables.
  *
  * @return array<int, string>
@@ -116,6 +102,20 @@ function transform_relative_path(string $path, string $workingPath): string
     return Str::startsWith($path, './')
         ? str_replace('./', rtrim($workingPath, '/').'/', $path)
         : $path;
+}
+
+/**
+ * Get the workbench configuration.
+ *
+ * @return array<string, mixed>
+ */
+function workbench(): array
+{
+    $config = app()->bound(Contracts\Config::class)
+        ? app()->make(Contracts\Config::class)
+        : new Foundation\Config();
+
+    return $config->getWorkbenchAttributes();
 }
 
 /**

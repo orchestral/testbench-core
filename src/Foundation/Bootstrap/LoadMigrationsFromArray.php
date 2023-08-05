@@ -67,7 +67,7 @@ final class LoadMigrationsFromArray
     {
         return is_dir($app->basePath('migrations'))
             && (
-                workbench()['migrate'] === true
+                workbench()['install'] === true
                 && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true
             );
     }
