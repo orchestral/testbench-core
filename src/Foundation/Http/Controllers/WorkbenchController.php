@@ -98,17 +98,4 @@ class WorkbenchController extends Controller
         /** @phpstan-ignore-next-line */
         return redirect($workbench['start']);
     }
-
-    /**
-     * Get the model for the given guard.
-     *
-     * @param  string  $guard
-     * @return string
-     */
-    protected function modelForGuard($guard)
-    {
-        $provider = config("auth.guards.{$guard}.provider");
-
-        return config("auth.providers.{$provider}.model");
-    }
 }
