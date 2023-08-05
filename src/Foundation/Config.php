@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Yaml\Yaml;
@@ -34,7 +35,7 @@ use Symfony\Component\Yaml\Yaml;
  *   workbench?: TWorkbenchConfig|null
  * }
  */
-class Config extends Fluent
+class Config extends Fluent implements ConfigContract
 {
     /**
      * All of the attributes set on the fluent instance.

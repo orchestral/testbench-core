@@ -10,6 +10,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
@@ -126,7 +127,7 @@ class Commander
             $this->app = Application::create(
                 basePath: $this->getBasePath(),
                 resolvingCallback: function ($app) {
-                    $app->instance('testbench.config', $this->config);
+                    $app->instance(ConfigContract::class, $this->config);
 
                     (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
 
