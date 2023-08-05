@@ -37,6 +37,20 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 }
 
 /**
+ * Get the workbench configuration.
+ *
+ * @return array<string, mixed>
+ */
+function workbench(): array
+{
+    $config = app()->bound(Contracts\Config::class)
+        ? app()->make(Contracts\Config::class)
+        : new Foundation\Config();
+
+    return $config->getWorkbenchAttributes();
+}
+
+/**
  * Get default environment variables.
  *
  * @return array<int, string>
@@ -81,6 +95,13 @@ function parse_environment_variables($variables): array
         })->values()->all();
 }
 
+/**
+ * Transform relative path.
+ *
+ * @param  string  $path
+ * @param  string  $workingPath
+ * @return string
+ */
 function transform_relative_path(string $path, string $workingPath): string
 {
     return Str::startsWith($path, './')
