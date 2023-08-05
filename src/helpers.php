@@ -90,6 +90,13 @@ function parse_environment_variables($variables): array
         })->values()->all();
 }
 
+/**
+ * Transform relative path.
+ *
+ * @param  string  $path
+ * @param  string  $workingPath
+ * @return string
+ */
 function transform_relative_path(string $path, string $workingPath): string
 {
     return Str::startsWith($path, './')

@@ -36,7 +36,7 @@ class ConfigTest extends TestCase
             'start' => '/workbench',
             'user' => 'crynobone@gmail.com',
             'guard' => null,
-            'migrate' => true,
+            'install' => true,
         ], $config->getWorkbenchAttributes());
     }
 
@@ -64,7 +64,7 @@ class ConfigTest extends TestCase
             'start' => '/',
             'user' => null,
             'guard' => null,
-            'migrate' => true,
+            'install' => true,
         ], $config->getWorkbenchAttributes());
     }
 
