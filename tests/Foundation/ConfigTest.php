@@ -14,13 +14,12 @@ class ConfigTest extends TestCase
         $config = Config::loadFromYaml(__DIR__.'/stubs/');
 
         $this->assertNull($config['laravel']);
-        $this->assertSame([
-            'APP_DEBUG=(false)',
-        ], $config['env']);
-        $this->assertSame([
-            TestbenchServiceProvider::class,
-        ], $config['providers']);
+        $this->assertSame(['APP_DEBUG=(false)'], $config['env']);
+        $this->assertSame([], $config['bootstrappers']);
+        $this->assertSame([TestbenchServiceProvider::class], $config['providers']);
         $this->assertSame([], $config['dont-discover']);
+        $this->assertSame([], $config['migrations']);
+        $this->assertFalse($config['seeders']);
 
         $this->assertSame([
             'env' => [
@@ -32,6 +31,39 @@ class ConfigTest extends TestCase
             ],
             'dont-discover' => [],
         ], $config->getExtraAttributes());
+
+        $this->assertSame([
+            'start' => '/workbench',
+            'user' => 'crynobone@gmail.com',
+            'guard' => null,
+        ], $config->getWorkbenchAttributes());
+    }
+
+    /** @test */
+    public function it_can_load_default_configuration()
+    {
+        $config = new Config();
+
+        $this->assertNull($config['laravel']);
+        $this->assertSame([], $config['env']);
+        $this->assertSame([], $config['bootstrappers']);
+        $this->assertSame([], $config['providers']);
+        $this->assertSame([], $config['dont-discover']);
+        $this->assertSame([], $config['migrations']);
+        $this->assertFalse($config['seeders']);
+
+        $this->assertSame([
+            'env' => [],
+            'bootstrappers' => [],
+            'providers' => [],
+            'dont-discover' => [],
+        ], $config->getExtraAttributes());
+
+        $this->assertSame([
+            'start' => '/',
+            'user' => null,
+            'guard' => null,
+        ], $config->getWorkbenchAttributes());
     }
 
     /** @test */
