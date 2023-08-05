@@ -4,27 +4,51 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Yaml\Yaml;
 
 /**
+ * @phpstan-type TWorkbenchConfig array{
+ *   start: string,
+ *   user: string|int|null,
+ *   guard: string|null
+ * }
+ * @phpstan-type TOptionalWorkbenchConfig array{
+ *   start?: string,
+ *   user?: string|int|null,
+ *   guard?: string|null
+ * }
  * @phpstan-type TConfig array{
+ *   laravel: string|null,
+ *   env: array,
+ *   providers: array<int, class-string>,
+ *   dont-discover: array<int, string>,
+ *   migrations: string|array<int, string>|bool,
+ *   seeders: class-string|array<int, class-string>|bool,
+ *   bootstrappers: class-string|array<int, class-string>|null,
+ *   workbench: TOptionalWorkbenchConfig
+ * }
+ * @phpstan-type TOptionalConfig array{
  *   laravel?: string|null,
  *   env?: array,
  *   providers?: array<int, class-string>,
  *   dont-discover?: array<int, string>,
  *   migrations?: string|array<int, string>|bool,
  *   seeders?: class-string|array<int, class-string>|bool,
- *   bootstrappers?: class-string|array<int, class-string>|null
+ *   bootstrappers?: class-string|array<int, class-string>|null,
+ *   workbench?: TOptionalWorkbenchConfig|null
  * }
  */
-class Config extends Fluent
+class Config extends Fluent implements ConfigContract
 {
     /**
      * All of the attributes set on the fluent instance.
      *
-     * @var TConfig
+     * @var array<string, mixed>
+     *
+     * @phpstan-var TConfig
      */
     protected $attributes = [
         'laravel' => null,
@@ -32,7 +56,22 @@ class Config extends Fluent
         'providers' => [],
         'dont-discover' => [],
         'migrations' => [],
+        'seeders' => false,
         'bootstrappers' => [],
+        'workbench' => [],
+    ];
+
+    /**
+     * The Workbench default configuration.
+     *
+     * @var array<string, mixed>
+     *
+     * @phpstan-var TWorkbenchConfig
+     */
+    protected $workbenchConfig = [
+        'start' => '/',
+        'user' => null,
+        'guard' => null,
     ];
 
     /**
@@ -49,7 +88,11 @@ class Config extends Fluent
         $config = $defaults;
 
         if (file_exists("{$workingPath}/{$filename}")) {
-            /** @var TConfig $config */
+            /**
+             * @var array<string, mixed> $config
+             *
+             * @phpstan-var TOptionalConfig $config
+             */
             $config = Yaml::parseFile("{$workingPath}/{$filename}");
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
@@ -90,5 +133,20 @@ class Config extends Fluent
             'providers' => Arr::get($this->attributes, 'providers', []),
             'dont-discover' => Arr::get($this->attributes, 'dont-discover', []),
         ];
+    }
+
+    /**
+     * Get workbench attributes.
+     *
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TWorkbenchConfig
+     */
+    public function getWorkbenchAttributes(): array
+    {
+        return array_merge(
+            $this->workbenchConfig,
+            $this->attributes['workbench'],
+        );
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
@@ -19,7 +20,7 @@ $createApp = function (string $workingPath) {
     return Application::create(
         $config['laravel'],
         function ($app) use ($config, $hasEnvironmentFile) {
-            $app->instance('testbench.config', $config);
+            $app->instance(ConfigContract::class, $config);
 
             if ($hasEnvironmentFile === false) {
                 (new LoadEnvironmentVariablesFromArray(

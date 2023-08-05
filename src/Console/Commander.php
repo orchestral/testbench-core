@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Console;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
@@ -107,7 +108,7 @@ class Commander
             $this->app = Application::create(
                 $this->getBasePath(),
                 function ($app) {
-                    $app->instance('testbench.config', $this->config);
+                    $app->instance(ConfigContract::class, $this->config);
 
                     (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
 

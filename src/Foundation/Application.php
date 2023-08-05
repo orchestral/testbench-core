@@ -59,7 +59,7 @@ class Application
      * @param  string|null  $basePath
      * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
      */
-    public function __construct(?string $basePath = null, ?callable $resolvingCallback = null)
+    public function __construct(string $basePath = null, callable $resolvingCallback = null)
     {
         $this->basePath = $basePath;
         $this->resolvingCallback = $resolvingCallback;
@@ -89,7 +89,7 @@ class Application
      * @param  TConfig  $options
      * @return \Illuminate\Foundation\Application
      */
-    public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
+    public static function create(string $basePath = null, callable $resolvingCallback = null, array $options = [])
     {
         return (new static($basePath, $resolvingCallback))->configure($options)->createApplication();
     }
@@ -257,15 +257,19 @@ class Application
             'middleware' => 'web',
         ]), function (Router $router) {
             $router->get(
-                '/login/{userId}/{guard?}', [Http\Controllers\UserController::class, 'login']
+                '/', [Http\Controllers\WorkbenchController::class, 'start']
+            )->name('testbench.start');
+
+            $router->get(
+                '/login/{userId}/{guard?}', [Http\Controllers\WorkbenchController::class, 'login']
             )->name('testbench.login');
 
             $router->get(
-                '/logout/{guard?}', [Http\Controllers\UserController::class, 'logout']
+                '/logout/{guard?}', [Http\Controllers\WorkbenchController::class, 'logout']
             )->name('testbench.logout');
 
             $router->get(
-                '/user/{guard?}', [Http\Controllers\UserController::class, 'user']
+                '/user/{guard?}', [Http\Controllers\WorkbenchController::class, 'user']
             )->name('testbench.user');
         });
     }

@@ -1,0 +1,106 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentFile\\(\\)\\.$#"
+			count: 1
+			path: src/Bootstrap/LoadEnvironmentVariables.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
+			count: 1
+			path: src/Bootstrap/LoadEnvironmentVariables.php
+
+		-
+			message: "#^Method Orchestra\\\\Testbench\\\\Exceptions\\\\Handler\\:\\:render\\(\\) should return Illuminate\\\\Http\\\\Response but returns Symfony\\\\Component\\\\HttpFoundation\\\\Response\\.$#"
+			count: 1
+			path: src/Exceptions/Handler.php
+
+		-
+			message: "#^PHPDoc type array of property Orchestra\\\\Testbench\\\\Exceptions\\\\Handler\\:\\:\\$dontFlash is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\\:\\:\\$dontFlash\\.$#"
+			count: 1
+			path: src/Exceptions/Handler.php
+
+		-
+			message: "#^PHPDoc type array of property Orchestra\\\\Testbench\\\\Exceptions\\\\Handler\\:\\:\\$dontReport is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\\:\\:\\$dontReport\\.$#"
+			count: 1
+			path: src/Exceptions/Handler.php
+
+		-
+			message: "#^Method Orchestra\\\\Testbench\\\\Factories\\\\UserFactory\\:\\:modelName\\(\\) has invalid return type Orchestra\\\\Testbench\\\\Factories\\\\TModel\\.$#"
+			count: 1
+			path: src/Factories/UserFactory.php
+
+		-
+			message: "#^Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application\\.$#"
+			count: 1
+			path: src/Foundation/Bootstrap/EnsuresDefaultConfiguration.php
+
+		-
+			message: "#^Constant TESTBENCH_WORKING_PATH not found\\.$#"
+			count: 1
+			path: src/Foundation/Console/TestFallbackCommand.php
+
+		-
+			message: "#^PHPDoc type array of property Orchestra\\\\Testbench\\\\Http\\\\Kernel\\:\\:\\$middlewarePriority is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Foundation\\\\Http\\\\Kernel\\:\\:\\$middlewarePriority\\.$#"
+			count: 1
+			path: src/Http/Kernel.php
+
+		-
+			message: "#^Method Orchestra\\\\Testbench\\\\Http\\\\Middleware\\\\Authenticate\\:\\:redirectTo\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: src/Http/Middleware/Authenticate.php
+
+		-
+			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\TestCase\\:\\:beginDatabaseTransaction\\(\\)\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\TestCase\\:\\:disableEventsForAllTests\\(\\)\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\TestCase\\:\\:disableMiddlewareForAllTests\\(\\)\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\TestCase\\:\\:refreshDatabase\\(\\)\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\TestCase\\:\\:runDatabaseMigrations\\(\\)\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Call to an undefined method Orchestra\\\\Testbench\\\\TestCase\\:\\:setUpFaker\\(\\)\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callSetUpTestCaseCallbacks\\(\\)\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callTearDownTestCaseCallbacks\\(\\)\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Call to static method getInstance\\(\\) on an unknown class PHPUnit\\\\Metadata\\\\Annotation\\\\Parser\\\\Registry\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Parameter \\#1 \\$uses of method Orchestra\\\\Testbench\\\\TestCase\\:\\:setUpTheTestEnvironmentTraits\\(\\) expects array\\<class\\-string, class\\-string\\>, array\\<int\\|string, \\(int\\|string\\)\\> given\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
+			message: "#^Property Orchestra\\\\Testbench\\\\TestCase\\:\\:\\$app \\(Illuminate\\\\Foundation\\\\Application\\) does not accept null\\.$#"
+			count: 1
+			path: src/TestCase.php
