@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Foundation\Console;
 
-use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Illuminate\Foundation\Console\ServeCommand as Command;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 
 class ServeCommand extends Command
 {
@@ -34,7 +34,7 @@ class ServeCommand extends Command
         $handler = parent::handleProcessOutput();
 
         return function ($type, $buffer) use ($handler) {
-            str($buffer)->explode("\n")->each(function ($line) use ($handler, $type, $buffer) {
+            str($buffer)->explode("\n")->each(function ($line) {
                 if (str($line)->contains('Development Server (http')) {
                     if ($this->serverRunningHasBeenDisplayed) {
                         return;
@@ -64,7 +64,7 @@ class ServeCommand extends Command
 
         $path = $config['start'];
 
-        if (! is_null($config['user'])) {
+        if (! \is_null($config['user'])) {
             $path = '/_testbench';
         }
 

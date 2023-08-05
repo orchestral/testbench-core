@@ -35,6 +35,7 @@ class ConfigTest extends TestCase
         $this->assertSame([
             'start' => '/_testbench/user',
             'user' => 'crynobone@gmail.com',
+            'guard' => null,
         ], $config->getWorkbenchAttributes());
     }
 
@@ -61,6 +62,7 @@ class ConfigTest extends TestCase
         $this->assertSame([
             'start' => '/',
             'user' => null,
+            'guard' => null,
         ], $config->getWorkbenchAttributes());
     }
 

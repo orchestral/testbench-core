@@ -5,9 +5,33 @@ namespace Orchestra\Testbench\Foundation\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Foundation\Config;
 
 class WorkbenchController
 {
+    /**
+     * Start page.
+     *
+     * @param  \Orchestra\Testbench\Contracts\Config|null  $config
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function start(?ConfigContract $config = null)
+    {
+        $workbench = with($config ?? new Config(), function ($config) {
+            return $config->getWorkbenchAttributes();
+        });
+
+        if (\is_null($workbench['user'])) {
+            $this->logout($workbench['guard']);
+        } else {
+            $this->login($workbench['user'], $workbench['guard']);
+        }
+
+        /** @phpstan-ignore-next-line */
+        return redirect($workbench['start']);
+    }
+
     /**
      * Retrieve the authenticated user identifier and class name.
      *
