@@ -1,5 +1,6 @@
 <?php
 
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Config;
 
@@ -20,7 +21,7 @@ $createApp = function (string $workingPath) {
         basePath: $config['laravel'],
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
         resolvingCallback: function ($app) use ($config) {
-            $app->instance('testbench.config', $config);
+            $app->instance(ConfigContract::class, $config);
         },
     );
 };
