@@ -40,7 +40,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 /**
  * Get the workbench configuration.
  *
- * @return array
+ * @return array<string, mixed>
  */
 function workbench(): array
 {
