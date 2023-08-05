@@ -38,6 +38,20 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 }
 
 /**
+ * Get the workbench configuration.
+ *
+ * @return array
+ */
+function workbench(): array
+{
+    $config = app()->bound(Contracts\Config::class)
+        ? app()->make(Contracts\Config::class)
+        : new Foundation\Config();
+
+    return $config->getWorkbenchAttributes();
+}
+
+/**
  * Get default environment variables.
  *
  * @return array<int, string>
