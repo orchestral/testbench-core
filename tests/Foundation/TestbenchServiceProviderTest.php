@@ -6,6 +6,7 @@ use Illuminate\Database\Events\DatabaseRefreshed;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Mockery as m;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\TestCommand;
 use Orchestra\Testbench\Foundation\Console\TestFallbackCommand;
@@ -48,7 +49,7 @@ class TestbenchServiceProviderTest extends TestCase
     public function it_can_seed_database_after_refreshed()
     {
         $this->instance('\TestbenchDatabaseSeeder', $seeder = m::mock('TestbenchDatabaseSeeder'));
-        $this->instance('testbench.config', new Config([
+        $this->instance(ConfigContract::class, new Config([
             'seeders' => ['\TestbenchDatabaseSeeder'],
         ]));
 
