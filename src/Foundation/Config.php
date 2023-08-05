@@ -135,8 +135,8 @@ class Config extends Fluent
     public function getWorkbenchAttributes(): array
     {
         return array_merge(
-            $this->attributes['workbench'],
             $this->workbenchConfig,
+            $this->attributes['workbench'],
         );
     }
 }

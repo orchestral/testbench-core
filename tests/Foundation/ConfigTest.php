@@ -32,6 +32,29 @@ class ConfigTest extends TestCase
             ],
             'dont-discover' => [],
         ], $config->getExtraAttributes());
+
+        $this->assertSame([
+            'start' => '/_testbench/user',
+            'user' => 'crynobone@gmail.com',
+        ], $config->getWorkbenchAttributes());
+    }
+
+    /** @test */
+    public function it_can_load_default_configuration()
+    {
+        $config = new Config();
+
+        $this->assertSame([
+            'env' => [],
+            'bootstrappers' => [],
+            'providers' => [],
+            'dont-discover' => [],
+        ], $config->getExtraAttributes());
+
+        $this->assertSame([
+            'start' => '/',
+            'user' => null,
+        ], $config->getWorkbenchAttributes());
     }
 
     /** @test */

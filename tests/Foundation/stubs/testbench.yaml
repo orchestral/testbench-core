@@ -3,3 +3,7 @@ providers:
 
 env:
   APP_DEBUG: false
+
+workbench:
+  start: /_testbench/user
+  user: crynobone@gmail.com
