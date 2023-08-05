@@ -2,7 +2,9 @@
 
 namespace Orchestra\Testbench\Tests\Foundation\Http\Controllers;
 
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Factories\UserFactory;
+use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
 
@@ -23,6 +25,17 @@ class WorkbenchControllerTest extends TestCase
             'app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
             'database.default' => 'testing',
         ]);
+    }
+
+    /**
+     * Define routes setup.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    protected function defineRoutes($router)
+    {
+        $router->get('/workbench', ['uses' => fn () => 'hello world']);
     }
 
     /**
@@ -109,6 +122,64 @@ class WorkbenchControllerTest extends TestCase
             ->get('/_testbench/logout/web');
 
         $response->assertRedirect('/');
+
+        $this->assertGuest('web');
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_automatically_authenticate_a_user()
+    {
+        $user = UserFactory::new()->create();
+
+        $this->instance(ConfigContract::class, new Config([
+            'workbench' => ['start' => '/workbench', 'user' => $user->getKey(), 'guard' => 'web'],
+        ]));
+
+        $response = $this->assertGuest('web')->get('/_testbench/');
+
+        $response->assertRedirect('/workbench');
+
+        $this->assertAuthenticated('web')
+            ->assertAuthenticatedAs($user);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_automatically_authenticate_a_user_using_email()
+    {
+        $user = UserFactory::new()->create();
+
+        $this->instance(ConfigContract::class, new Config([
+            'workbench' => ['start' => '/workbench', 'user' => $user->email, 'guard' => 'web'],
+        ]));
+
+        $response = $this->assertGuest('web')->get('/_testbench/');
+
+        $response->assertRedirect('/workbench');
+
+        $this->assertAuthenticated('web')
+            ->assertAuthenticatedAs($user);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_automatically_deauthenticate_a_user()
+    {
+        $user = UserFactory::new()->create();
+
+        $this->instance(ConfigContract::class, new Config([
+            'workbench' => ['start' => '/workbench', 'user' => null, 'guard' => 'web'],
+        ]));
+
+        $response = $this->assertGuest('web')
+            ->actingAs($user, 'web')
+            ->get('/_testbench');
+
+        $response->assertRedirect('/workbench');
 
         $this->assertGuest('web');
     }

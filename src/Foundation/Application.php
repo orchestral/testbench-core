@@ -263,6 +263,10 @@ class Application
             'middleware' => 'web',
         ]), function (Router $router) {
             $router->get(
+                '/', [Http\Controllers\WorkbenchController::class, 'start']
+            )->name('testbench.start');
+
+            $router->get(
                 '/login/{userId}/{guard?}', [Http\Controllers\WorkbenchController::class, 'login']
             )->name('testbench.login');
 
