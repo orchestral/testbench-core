@@ -33,7 +33,7 @@ class ConfigTest extends TestCase
         ], $config->getExtraAttributes());
 
         $this->assertSame([
-            'start' => '/_testbench/user',
+            'start' => '/workbench',
             'user' => 'crynobone@gmail.com',
             'guard' => null,
         ], $config->getWorkbenchAttributes());

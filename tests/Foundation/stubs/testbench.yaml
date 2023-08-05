@@ -5,5 +5,5 @@ env:
   APP_DEBUG: false
 
 workbench:
-  start: /_testbench/user
+  start: /workbench
   user: crynobone@gmail.com
