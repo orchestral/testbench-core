@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench;
 
+use Closure;
+use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -35,6 +37,23 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
     $command = $testbench->artisan($command, $parameters);
 
     return $command instanceof PendingCommand ? $command->run() : $command;
+}
+
+/**
+ * Register after resolving callback.
+ *
+ * @param  \Illuminate\Contracts\Foundation\Application  $app
+ * @param  string  $name
+ * @param  \Closure|null  $callback
+ * @return void
+ */
+function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
+{
+    $app->afterResolving($name, $callback);
+
+    if ($app->resolved($name)) {
+        value($callback, $app->make($name), $app);
+    }
 }
 
 /**

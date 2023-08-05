@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
+use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\transform_relative_path;
 use function Orchestra\Testbench\workbench;
 
@@ -49,28 +50,11 @@ final class LoadMigrationsFromArray
             ->transform(fn ($migration) => transform_relative_path($migration, $app->basePath()))
             ->all();
 
-        $this->callAfterResolvingMigrator($app, function ($migrator) use ($paths) {
+        after_resolving($app, 'migrator', function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {
                 $migrator->path($path);
             }
         });
-    }
-
-    /**
-     * Setup an after resolving listener, or fire immediately if already resolved.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  callable  $callback
-     * @return void
-     */
-    protected function callAfterResolvingMigrator($app, $callback)
-    {
-        /** @phpstan-ignore-next-line */
-        $app->afterResolving('migrator', $callback);
-
-        if ($app->resolved('migrator')) {
-            $callback($app->make('migrator'), $app);
-        }
     }
 
     /**

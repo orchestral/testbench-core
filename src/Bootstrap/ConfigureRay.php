@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
-use Closure;
 use Illuminate\Contracts\Foundation\Application;
+use function Orchestra\Testbench\after_resolving;
 use Spatie\Ray\Settings\Settings;
 
 /**
@@ -21,7 +21,7 @@ final class ConfigureRay
      */
     public function bootstrap(Application $app): void
     {
-        $this->callAfterResolvingSettings($app, function ($settings, $app) {
+        after_resolving($app, Settings::class, function ($settings, $app) {
             /** @var \Spatie\Ray\Settings\Settings $settings */
             /** @var \Illuminate\Contracts\Config\Repository $config */
             $config = $app->make('config');
@@ -32,23 +32,5 @@ final class ConfigureRay
                 $settings->send_slow_queries_to_ray = false;
             }
         });
-    }
-
-    /**
-     * Setup an after resolving listener, or fire immediately if already resolved.
-     *
-     * @param  TLaravel  $app
-     * @param  \Closure(\Spatie\Ray\Settings\Settings, TLaravel):void  $callback
-     * @return void
-     */
-    protected function callAfterResolvingSettings(Application $app, Closure $callback): void
-    {
-        $settings = Settings::class;
-
-        $app->afterResolving($settings, $callback);
-
-        if ($app->resolved($settings)) {
-            $callback($app->make($settings), $app);
-        }
     }
 }
