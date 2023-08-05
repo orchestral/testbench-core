@@ -11,6 +11,10 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * @phpstan-type TWorkbenchConfig array{
+ *   start: string,
+ *   user: string|int|null
+ * }
+ * @phpstan-type TOptionalWorkbenchConfig array{
  *   start?: string,
  *   user?: string|int|null
  * }
@@ -22,7 +26,7 @@ use Symfony\Component\Yaml\Yaml;
  *   migrations: string|array<int, string>|bool,
  *   seeders: class-string|array<int, class-string>|bool,
  *   bootstrappers: class-string|array<int, class-string>|null,
- *   workbench: TWorkbenchConfig
+ *   workbench: TOptionalWorkbenchConfig
  * }
  * @phpstan-type TOptionalConfig array{
  *   laravel?: string|null,
@@ -32,7 +36,7 @@ use Symfony\Component\Yaml\Yaml;
  *   migrations?: string|array<int, string>|bool,
  *   seeders?: class-string|array<int, class-string>|bool,
  *   bootstrappers?: class-string|array<int, class-string>|null,
- *   workbench?: TWorkbenchConfig|null
+ *   workbench?: TOptionalWorkbenchConfig|null
  * }
  */
 class Config extends Fluent implements ConfigContract
@@ -60,7 +64,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @var array<string, mixed>
      *
-     * @phpstan-var array{start: string, user: string|int|null}
+     * @phpstan-var TWorkbenchConfig
      */
     protected $workbenchConfig = [
         'start' => '/',
@@ -131,7 +135,9 @@ class Config extends Fluent implements ConfigContract
     /**
      * Get workbench attributes.
      *
-     * @return array{start: string, user: string|int|null}
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TWorkbenchConfig
      */
     public function getWorkbenchAttributes(): array
     {
