@@ -46,10 +46,10 @@ class ServeCommand extends Command
                     $this->newLine();
 
                     $this->serverRunningHasBeenDisplayed = true;
-                } else {
-                    \call_user_func($handler, $type, $buffer);
                 }
             });
+
+            \call_user_func($handler, $type, $buffer);
         };
     }
 
