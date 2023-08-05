@@ -35,9 +35,7 @@ class WorkbenchControllerTest extends TestCase
      */
     protected function defineRoutes($router)
     {
-        $router->get('/workbench', ['uses' => function () {
-            return 'hello world';
-        }]);
+        $router->get('/workbench', ['uses' => fn () => 'hello world']);
     }
 
     /**

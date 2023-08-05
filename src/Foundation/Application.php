@@ -61,7 +61,7 @@ class Application
      * @param  string|null  $basePath
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      */
-    public function __construct(string $basePath = null, callable $resolvingCallback = null)
+    public function __construct(?string $basePath = null, ?callable $resolvingCallback = null)
     {
         $this->basePath = $basePath;
         $this->resolvingCallback = $resolvingCallback;
@@ -93,7 +93,7 @@ class Application
      *
      * @phpstan-param TConfig  $options
      */
-    public static function create(string $basePath = null, callable $resolvingCallback = null, array $options = [])
+    public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
     {
         return (new static($basePath, $resolvingCallback))->configure($options)->createApplication();
     }
