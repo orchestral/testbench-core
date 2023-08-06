@@ -25,7 +25,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Setup DevTool for package development';
+    protected $description = 'Setup Workbench for package development';
 
     /**
      * The environment file name.
