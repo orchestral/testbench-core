@@ -2,17 +2,37 @@
 
 namespace Orchestra\Testbench\Foundation\Http\Controllers;
 
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use function Orchestra\Testbench\workbench;
 
-class UserController
+class WorkbenchController extends Controller
 {
+    /**
+     * Start page.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function start()
+    {
+        $workbench = workbench();
+
+        if (\is_null($workbench['user'])) {
+            return $this->logout($workbench['guard']);
+        }
+
+        return $this->login((string) $workbench['user'], $workbench['guard']);
+    }
+
     /**
      * Retrieve the authenticated user identifier and class name.
      *
      * @param  string|null  $guard
-     * @return array
+     * @return array<string, mixed>
+     *
+     * @phpstan-return array{id?: string|int, className?: string}
      */
     public function user($guard = null)
     {
@@ -33,10 +53,11 @@ class UserController
      *
      * @param  string  $userId
      * @param  string|null  $guard
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function login($userId, $guard = null)
     {
+        $workbench = workbench();
         $guard = $guard ?: config('auth.defaults.guard');
 
         /**
@@ -52,34 +73,29 @@ class UserController
 
         /** @phpstan-ignore-next-line */
         Auth::guard($guard)->login($user);
+
+        /** @phpstan-ignore-next-line */
+        return redirect($workbench['start']);
     }
 
     /**
      * Log the user out of the application.
      *
      * @param  string|null  $guard
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function logout($guard = null)
     {
+        $workbench = workbench();
+
         $guard = $guard ?: config('auth.defaults.guard');
 
         /** @phpstan-ignore-next-line */
         Auth::guard($guard)->logout();
 
         Session::forget('password_hash_'.$guard);
-    }
 
-    /**
-     * Get the model for the given guard.
-     *
-     * @param  string  $guard
-     * @return string
-     */
-    protected function modelForGuard($guard)
-    {
-        $provider = config("auth.guards.{$guard}.provider");
-
-        return config("auth.providers.{$provider}.model");
+        /** @phpstan-ignore-next-line */
+        return redirect($workbench['start']);
     }
 }
