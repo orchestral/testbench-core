@@ -11,6 +11,7 @@ use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use function Orchestra\Testbench\transform_relative_path;
+use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -130,6 +131,7 @@ class Commander
     {
         return function ($app) {
             $app->register(TestbenchServiceProvider::class);
+            $app->register(WorkbenchServiceProvider::class);
         };
     }
 

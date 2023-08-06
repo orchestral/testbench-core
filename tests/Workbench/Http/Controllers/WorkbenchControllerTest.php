@@ -5,8 +5,8 @@ namespace Orchestra\Testbench\Tests\Foundation\Http\Controllers;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 
 /**
  * @covers \Orchestra\Testbench\Foundation\Http\Controllers\WorkbenchController
@@ -59,7 +59,7 @@ class WorkbenchControllerTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            TestbenchServiceProvider::class,
+            WorkbenchServiceProvider::class,
         ];
     }
 

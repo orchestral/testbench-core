@@ -18,8 +18,6 @@ class TestbenchServiceProvider extends ServiceProvider
             config(['database.default' => 'testing']);
         }
 
-        Application::authenticationRoutes();
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 $this->isCollisionDependenciesInstalled()
