@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Foundation\Console;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
+use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 
 /**
  * @requires OS Linux|DAR
@@ -25,6 +26,7 @@ class CreateSqliteDbCommandTest extends TestCase
     {
         return [
             TestbenchServiceProvider::class,
+            WorkbenchServiceProvider::class,
         ];
     }
 

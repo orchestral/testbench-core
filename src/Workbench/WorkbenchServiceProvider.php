@@ -19,7 +19,8 @@ class WorkbenchServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                //
+                Console\CreateSqliteDbCommand::class,
+                Console\InstallCommand::class,
             ]);
         }
     }
