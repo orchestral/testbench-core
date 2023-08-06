@@ -11,20 +11,9 @@ parameters:
 			path: src/Bootstrap/LoadEnvironmentVariables.php
 
 		-
-			message: "#^PHPDoc type array of property Orchestra\\\\Testbench\\\\Exceptions\\\\Handler\\:\\:\\$dontFlash is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\\:\\:\\$dontFlash\\.$#"
-			count: 1
-			path: src/Exceptions/Handler.php
-
-		-
-			message: "#^PHPDoc type array of property Orchestra\\\\Testbench\\\\Exceptions\\\\Handler\\:\\:\\$dontReport is not covariant with PHPDoc type array\\<string\\> of overridden property Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\\:\\:\\$dontReport\\.$#"
-			count: 1
-			path: src/Exceptions/Handler.php
-
-		-
 			message: "#^Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application\\.$#"
 			count: 1
 			path: src/Foundation/Bootstrap/EnsuresDefaultConfiguration.php
-
 
 		-
 			message: "#^Method Orchestra\\\\Testbench\\\\Http\\\\Middleware\\\\Authenticate\\:\\:redirectTo\\(\\) should return string but return statement is missing\\.$#"
