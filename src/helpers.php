@@ -14,7 +14,7 @@ use Illuminate\Testing\PendingCommand;
  * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(string $basePath = null, callable $resolvingCallback = null, array $options = [])
+function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
 {
     return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
 }
