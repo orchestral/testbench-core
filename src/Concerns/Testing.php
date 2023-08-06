@@ -164,27 +164,33 @@ trait Testing
     {
         $this->setUpDatabaseRequirements(function () use ($uses) {
             if (isset($uses[RefreshDatabase::class])) {
+                /** @phpstan-ignore-next-line */
                 $this->refreshDatabase();
             }
 
             if (isset($uses[DatabaseMigrations::class])) {
+                /** @phpstan-ignore-next-line */
                 $this->runDatabaseMigrations();
             }
         });
 
         if (isset($uses[DatabaseTransactions::class])) {
+            /** @phpstan-ignore-next-line */
             $this->beginDatabaseTransaction();
         }
 
         if (isset($uses[WithoutMiddleware::class])) {
+            /** @phpstan-ignore-next-line */
             $this->disableMiddlewareForAllTests();
         }
 
         if (isset($uses[WithoutEvents::class])) {
+            /** @phpstan-ignore-next-line */
             $this->disableEventsForAllTests();
         }
 
         if (isset($uses[WithFaker::class])) {
+            /** @phpstan-ignore-next-line */
             $this->setUpFaker();
         }
 
