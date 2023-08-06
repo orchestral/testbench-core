@@ -20,6 +20,7 @@ jobs:
         phpunit:
           - "~10.1.0"
           - "~10.2.0"
+          - "~10.3.0"
         dependencies:
           - "highest"
           - "lowest"
@@ -28,12 +29,12 @@ jobs:
         include:
           - os: "ubuntu-latest"
             php: 8.3
-            phpunit: "~10.2.0"
+            phpunit: "~10.3.0"
             dependencies: "highest"
             experimental: true
           - os: "windows-latest"
             php: 8.3
-            phpunit: "~10.2.0"
+            phpunit: "~10.3.0"
             dependencies: "highest"
             experimental: true
 

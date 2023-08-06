@@ -10,6 +10,7 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 
 class TestbenchServiceProvider extends ServiceProvider
 {
@@ -40,8 +41,8 @@ class TestbenchServiceProvider extends ServiceProvider
         app(EventDispatcher::class)
             ->listen(DatabaseRefreshed::class, function () {
                 /** @var \Orchestra\Testbench\Foundation\Config $config */
-                $config = $this->app->bound('testbench.config')
-                    ? $this->app->make('testbench.config')
+                $config = $this->app->bound(ConfigContract::class)
+                    ? $this->app->make(ConfigContract::class)
                     : new Config();
 
                 /** @var class-string|array<int, class-string>|bool $seederClasses */

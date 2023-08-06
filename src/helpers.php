@@ -105,6 +105,20 @@ function transform_relative_path(string $path, string $workingPath): string
 }
 
 /**
+ * Get the workbench configuration.
+ *
+ * @return array<string, mixed>
+ */
+function workbench(): array
+{
+    $config = app()->bound(Contracts\Config::class)
+        ? app()->make(Contracts\Config::class)
+        : new Foundation\Config();
+
+    return $config->getWorkbenchAttributes();
+}
+
+/**
  * Laravel version compare.
  *
  * @param  string  $version

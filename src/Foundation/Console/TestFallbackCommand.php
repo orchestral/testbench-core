@@ -74,6 +74,10 @@ class TestFallbackCommand extends Command
     {
         $version = '7.4';
 
+        if (phpunit_version_compare('10.3', '>=')) {
+            $version = '7.8';
+        }
+
         $command = sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
