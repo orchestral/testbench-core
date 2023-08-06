@@ -31,7 +31,6 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Application::authenticationRoutes();
 
         if ($this->app->runningInConsole()) {
             $this->commands([

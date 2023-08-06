@@ -16,6 +16,7 @@ use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
+use function Orchestra\Testbench\transform_relative_path;
 use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -23,7 +24,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
-use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
 {
