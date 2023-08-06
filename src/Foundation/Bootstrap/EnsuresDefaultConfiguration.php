@@ -24,7 +24,7 @@ final class EnsuresDefaultConfiguration
         }
 
         /** @var \Illuminate\Contracts\Config\Repository $config */
-        $config = $app['config'];
+        $config = $app->make('config');
 
         $config->set([
             Collection::make([

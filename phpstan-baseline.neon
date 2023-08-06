@@ -11,12 +11,7 @@ parameters:
 			path: src/Bootstrap/LoadEnvironmentVariables.php
 
 		-
-			message: "#^Cannot access offset 'config' on Illuminate\\\\Contracts\\\\Foundation\\\\Application\\.$#"
-			count: 1
-			path: src/Foundation/Bootstrap/EnsuresDefaultConfiguration.php
-
-		-
-			message: "#^Method Orchestra\\\\Testbench\\\\Http\\\\Middleware\\\\Authenticate\\:\\:redirectTo\\(\\) should return string but return statement is missing\\.$#"
+			message: "#^Method Orchestra\\\\Testbench\\\\Http\\\\Middleware\\\\Authenticate\\:\\:redirectTo\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: src/Http/Middleware/Authenticate.php
 
