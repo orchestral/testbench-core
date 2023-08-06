@@ -9,7 +9,7 @@ use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 
 /**
- * @covers \Orchestra\Testbench\Foundation\Http\Controllers\WorkbenchController
+ * @covers \Orchestra\Testbench\Workbench\Http\Controllers\WorkbenchController
  */
 class WorkbenchControllerTest extends TestCase
 {
