@@ -129,7 +129,10 @@ class Commander
                 resolvingCallback: function ($app) {
                     $app->instance(ConfigContract::class, $this->config);
 
-                    (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
+                    (new LoadMigrationsFromArray(
+                        $this->config['migrations'] ?? [],
+                        $this->config['seeders'] ?? false,
+                    ))->bootstrap($app);
 
                     \call_user_func($this->resolveApplicationCallback(), $app);
                 },
