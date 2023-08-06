@@ -24,9 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
-/**
- * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null, migrations: array|bool|null}
- */
 class Commander
 {
     use CopyTestbenchFiles,
@@ -132,7 +129,10 @@ class Commander
                 resolvingCallback: function ($app) {
                     $app->instance(ConfigContract::class, $this->config);
 
-                    (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
+                    (new LoadMigrationsFromArray(
+                        $this->config['migrations'] ?? [],
+                        $this->config['seeders'] ?? false,
+                    ))->bootstrap($app);
 
                     \call_user_func($this->resolveApplicationCallback(), $app);
                 },
