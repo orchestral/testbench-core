@@ -61,7 +61,12 @@
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "prepare": "@php testbench package:discover --ansi",
+        "prepare": [
+            "@php -r \"file_exists('laravel/.env') && unlink('laravel/.env');\"",
+            "@php -r \"file_exists('laravel/testbench.yaml') && unlink('laravel/testbench.yaml');\"",
+            "@php -r \"file_exists('laravel/database/database.sqlite') && unlink('laravel/database/database.sqlite');\"",
+            "@php testbench package:discover --ansi"
+        ],
         "ci": [
             "@composer audit",
             "@composer run prepare",
