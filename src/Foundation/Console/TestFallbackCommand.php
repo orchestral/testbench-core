@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
+use function Orchestra\Testbench\phpunit_version_compare;
 use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
