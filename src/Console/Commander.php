@@ -17,9 +17,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-/**
- * @phpstan-type TConfig array{laravel: string|null, env: array|null, providers: array|null, dont-discover: array|null, migrations: array|bool|null}
- */
 class Commander
 {
     /**
@@ -110,7 +107,10 @@ class Commander
                 function ($app) {
                     $app->instance(ConfigContract::class, $this->config);
 
-                    (new LoadMigrationsFromArray($this->config['migrations'] ?? []))->bootstrap($app);
+                    (new LoadMigrationsFromArray(
+                        $this->config['migrations'] ?? [],
+                        $this->config['seeders'] ?? false,
+                    ))->bootstrap($app);
 
                     \call_user_func($this->resolveApplicationCallback(), $app);
                 },
