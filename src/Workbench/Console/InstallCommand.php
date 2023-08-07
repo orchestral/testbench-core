@@ -4,7 +4,9 @@ namespace Orchestra\Testbench\Workbench\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Workbench\Composer;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'workbench:install')]
@@ -45,6 +47,7 @@ class InstallCommand extends Command
         $workingPath = TESTBENCH_WORKING_PATH;
 
         $this->prepareWorkbenchDirectories($filesystem, $workingPath);
+        $this->prepareWorkbenchNamespaces($filesystem, $workingPath);
 
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
@@ -69,6 +72,32 @@ class InstallCommand extends Command
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/factories");
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/migrations");
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/seeders");
+    }
+
+    /**
+     * Prepare workbench namespace to `composer.json`.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  string  $workingPath
+     * @return void
+     */
+    protected function prepareWorkbenchNamespaces(Filesystem $filesystem, string $workingPath): void
+    {
+        $composer = (new Composer($filesystem))->setWorkingPath($workingPath);
+
+        $composer->modify(function (array $content) {
+            Arr::add($content['autoload-dev'], 'psr-4', []);
+
+            if (! array_key_exists("Workbench\\App\\", $content['autoload-dev']['psr-4'])) {
+                $content['autoload-dev']['psr-4']["Workbench\\App\\"] = "./workbench/app";
+            }
+            if (! array_key_exists("Workbench\\Database\\", $content['autoload-dev']['psr-4'])) {
+                $content['autoload-dev']['psr-4']["Workbench\\Database\\"] = "./workbench/database";
+            }
+
+            return $content;
+        });
+
     }
 
     /**

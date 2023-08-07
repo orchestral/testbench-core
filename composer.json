@@ -2,7 +2,14 @@
     "name": "orchestra/testbench-core",
     "description": "Testing Helper for Laravel Development",
     "homepage": "https://packages.tools/testbench",
-    "keywords": ["laravel", "laravel-packages", "testing", "tdd", "bdd", "dev"],
+    "keywords": [
+        "laravel",
+        "laravel-packages",
+        "testing",
+        "tdd",
+        "bdd",
+        "dev"
+    ],
     "license": "MIT",
     "support": {
         "issues": "https://github.com/orchestral/testbench/issues",
@@ -17,7 +24,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Orchestra\\Testbench\\" : "src/"
+            "Orchestra\\Testbench\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -25,7 +32,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Orchestra\\Testbench\\Tests\\": "tests/"
+            "Orchestra\\Testbench\\Tests\\": "tests/",
+            "Workbench\\App\\": "./workbench/app",
+            "Workbench\\Database\\": "./workbench/database"
         }
     },
     "bin": [
