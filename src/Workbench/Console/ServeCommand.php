@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation\Console;
+namespace Orchestra\Testbench\Workbench\Console;
 
 use Illuminate\Foundation\Console\ServeCommand as Command;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
@@ -60,12 +60,12 @@ class ServeCommand extends Command
      */
     protected function developmentUrl()
     {
-        $config = $this->laravel->make(ConfigContract::class)->getWorkbenchAttributes();
+        $workbench = workbench();
 
-        $path = $config['start'];
+        $path = $workbench['start'];
 
-        if (! \is_null($config['user'])) {
-            $path = '/_testbench';
+        if (! \is_null($workbench['user'])) {
+            $path = '/_workbench';
         }
 
         return "http://{$this->host()}:{$this->port()}{$path}";

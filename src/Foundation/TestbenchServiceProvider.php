@@ -31,7 +31,6 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 $this->isCollisionDependenciesInstalled()
@@ -40,7 +39,6 @@ class TestbenchServiceProvider extends ServiceProvider
                 Console\CreateSqliteDbCommand::class,
                 Console\DropSqliteDbCommand::class,
                 Console\DevToolCommand::class,
-                Console\ServeCommand::class,
             ]);
         }
     }

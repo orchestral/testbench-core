@@ -19,7 +19,7 @@ class WorkbenchServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                //
+                Console\ServeCommand::class,
             ]);
         }
     }
