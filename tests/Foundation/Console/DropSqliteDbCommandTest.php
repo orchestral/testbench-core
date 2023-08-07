@@ -11,5 +11,5 @@ use Orchestra\Testbench\Tests\Workbench\Console\DropSqliteDbCommandTest as TestC
  */
 class DropSqliteDbCommandTest extends TestCase
 {
-    protected $namespace = 'workbench';
+    protected $namespace = 'package';
 }
