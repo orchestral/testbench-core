@@ -68,9 +68,7 @@ final class LoadMigrationsFromArray
     {
         $app->make(EventDispatcher::class)
             ->listen(DatabaseRefreshed::class, function (DatabaseRefreshed $event) use ($app) {
-                if (method_exists($event, 'seeding') && $event->seeding === false) {
-                    return;
-                } elseif (\is_bool($this->seeders) && $this->seeders === false) {
+                if (\is_bool($this->seeders) && $this->seeders === false) {
                     return;
                 }
 
