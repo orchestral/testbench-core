@@ -44,7 +44,7 @@ class CreateSqliteDbCommand extends Command
         if ($this->option('force') || ! $filesystem->exists($to)) {
             $filesystem->copy($from, $to);
 
-            $this->status($from, $to, 'file', $workingPath);
+            $this->copyTaskCompleted($from, $to, 'file', $workingPath);
         } else {
             $this->components->twoColumnDetail(
                 sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),

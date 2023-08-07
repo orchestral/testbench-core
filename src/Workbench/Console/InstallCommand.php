@@ -72,6 +72,7 @@ class InstallCommand extends Command
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/factories");
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/migrations");
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/seeders");
+
     }
 
     /**
@@ -88,11 +89,20 @@ class InstallCommand extends Command
         $composer->modify(function (array $content) {
             Arr::add($content['autoload-dev'], 'psr-4', []);
 
-            if (! array_key_exists("Workbench\\App\\", $content['autoload-dev']['psr-4'])) {
-                $content['autoload-dev']['psr-4']["Workbench\\App\\"] = "./workbench/app";
-            }
-            if (! array_key_exists("Workbench\\Database\\", $content['autoload-dev']['psr-4'])) {
-                $content['autoload-dev']['psr-4']["Workbench\\Database\\"] = "./workbench/database";
+            foreach (['Workbench\\App\\' => './workbench/app', 'Workbench\\Database\\' => './workbench/database'] as $namespace => $path) {
+
+                if (! \array_key_exists($namespace, $content['autoload-dev']['psr-4'])) {
+                    $content['autoload-dev']['psr-4'][$namespace] = $path;
+
+                    $this->components->task(sprintf(
+                        'Added [%s] for [%s] to Composer', $namespace, $path
+                    ));
+                } else {
+                    $this->components->twoColumnDetail(
+                        sprintf('Composer already contain [%s] namespace', $namespace),
+                        '<fg=yellow;options=bold>SKIPPED</>'
+                    );
+                }
             }
 
             return $content;
@@ -115,7 +125,7 @@ class InstallCommand extends Command
         if ($this->option('force') || ! $filesystem->exists($to)) {
             $filesystem->copy($from, $to);
 
-            $this->status($from, $to, 'file');
+            $this->copyTaskCompleted($from, $to, 'file');
         } else {
             $this->components->twoColumnDetail(
                 sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
@@ -170,7 +180,7 @@ class InstallCommand extends Command
         if ($this->option('force') || ! $filesystem->exists($to)) {
             $filesystem->copy($from, $to);
 
-            $this->status($from, $to, 'file');
+            $this->copyTaskCompleted($from, $to, 'file');
         } else {
             $this->components->twoColumnDetail(
                 sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
@@ -188,8 +198,25 @@ class InstallCommand extends Command
      */
     protected function ensureDirectoryExists(Filesystem $filesystem, string $workingPath): void
     {
+        /** @phpstan-ignore-next-line */
+        $rootWorkingPath = TESTBENCH_WORKING_PATH ?? $workingPath;
+
+        if ($filesystem->isDirectory($workingPath)) {
+            $this->components->twoColumnDetail(
+                sprintf('Directory [%s] already exists', str_replace($rootWorkingPath.'/', '', $workingPath)),
+                '<fg=yellow;options=bold>SKIPPED</>'
+            );
+
+            return;
+        }
+
         $filesystem->ensureDirectoryExists($workingPath, 0755, true);
 
         $filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$workingPath}/.gitkeep");
+
+        $this->components->task(sprintf(
+            'Prepare [%s] directory',
+            str_replace($rootWorkingPath.'/', '', $workingPath),
+        ));
     }
 }
