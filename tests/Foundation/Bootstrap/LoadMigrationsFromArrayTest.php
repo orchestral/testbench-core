@@ -49,7 +49,6 @@ class LoadMigrationsFromArrayTest extends TestCase
         app('events')->dispatch(new DatabaseRefreshed());
     }
 
-
     /**  @test */
     public function it_can_skip_database_seeding_after_refreshed()
     {
