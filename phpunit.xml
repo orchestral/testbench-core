@@ -27,9 +27,9 @@
             <file>src/Exceptions/Handler.php</file>
             <file>src/Exceptions/PHPUnitErrorException.php</file>
             <file>src/Foundation/Console/Kernel.php</file>
-            <file>src/Foundation/Console/ServeCommand.php</file>
             <file>src/Foundation/Console/TestFallbackCommand.php</file>
             <file>src/Foundation/Http/Kernel.php</file>
+            <file>src/Workbench/Console/ServeCommand.php</file>
         </exclude>
     </coverage>
     <testsuites>
