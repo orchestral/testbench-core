@@ -3,15 +3,14 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
 use Symfony\Component\Console\Attribute\AsCommand;
 
+/**
+ * @deprecated
+ */
 #[AsCommand(name: 'package:devtool')]
 class DevToolCommand extends Command
 {
-    use Concerns\InteractsWithIO;
-
     /**
      * The name and signature of the console command.
      *
@@ -24,112 +23,24 @@ class DevToolCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Setup DevTool for package development';
+    protected $description = 'Setup Workbench for package development (deprecated)';
 
     /**
-     * The environment file name.
+     * Indicates whether the command should be shown in the Artisan command list.
      *
-     * @var string
+     * @var bool
      */
-    protected $environmentFile = '.env';
+    protected $hidden = true;
 
     /**
      * Execute the console command.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @return int
      */
-    public function handle(Filesystem $filesystem)
+    public function handle()
     {
-        /** @phpstan-ignore-next-line */
-        $workingPath = TESTBENCH_WORKING_PATH;
-
-        $filesystem->ensureDirectoryExists("{$workingPath}/workbench");
-
-        $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
-        $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
-
-        $this->call('package:create-sqlite-db', ['--force' => true]);
+        $this->call('workbench:install', ['--force' => $this->option('force')]);
 
         return Command::SUCCESS;
-    }
-
-    /**
-     * Copy the "testbench.yaml" file.
-     *
-     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
-     * @param  string  $workingPath
-     * @return void
-     */
-    protected function copyTestbenchConfigurationFile(Filesystem $filesystem, string $workingPath): void
-    {
-        $from = (string) realpath(__DIR__.'/stubs/testbench.yaml');
-        $to = "{$workingPath}/testbench.yaml";
-
-        if ($this->option('force') || ! $filesystem->exists($to)) {
-            $filesystem->copy($from, $to);
-
-            $this->status($from, $to, 'file');
-        } else {
-            $this->components->twoColumnDetail(
-                sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
-        }
-    }
-
-    /**
-     * Copy the ".env" file.
-     *
-     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
-     * @param  string  $workingPath
-     * @return void
-     */
-    protected function copyTestbenchDotEnvFile(Filesystem $filesystem, string $workingPath): void
-    {
-        $from = $this->laravel->basePath('.env.example');
-
-        if (! $filesystem->exists($from)) {
-            return;
-        }
-
-        $choices = Collection::make([
-            $this->environmentFile,
-            "{$this->environmentFile}.example",
-            "{$this->environmentFile}.dist",
-        ])->filter(fn ($file) => ! $filesystem->exists("{$workingPath}/{$file}"))
-            ->values()
-            ->prepend('Skip exporting .env')
-            ->all();
-
-        if (! $this->option('force') && empty($choices)) {
-            $this->components->twoColumnDetail(
-                'File [.env] already exists', '<fg=yellow;options=bold>SKIPPED</>'
-            );
-
-            return;
-        }
-
-        $choice = $this->components->choice(
-            "Export '.env' file as?",
-            $choices,
-        );
-
-        if ($choice === 'Skip exporting .env') {
-            return;
-        }
-
-        $to = "{$workingPath}/workbench/{$choice}";
-
-        if ($this->option('force') || ! $filesystem->exists($to)) {
-            $filesystem->copy($from, $to);
-
-            $this->status($from, $to, 'file');
-        } else {
-            $this->components->twoColumnDetail(
-                sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
-        }
     }
 }

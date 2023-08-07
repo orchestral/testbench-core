@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation\Http\Controllers;
+namespace Orchestra\Testbench\Workbench\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
