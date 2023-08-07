@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.33.0
+
+Released: 2023-08-08
+
+### Added
+
+* Added new Workbench support (experimental feature).
+    - Register routes under `/_workbench` prefix.
+    - Automatically run configured seeds when executing `migrate:fresh` and `migrate:refresh`
+    - Bind `Orchestra\Testbench\Contracts\Config` to IoC Container and introduce new `Orchestra\Testbench\workbench` helper function.
+* Add PHPStan analysis.
+
 ## 6.32.0
 
 Released: 2023-06-13
