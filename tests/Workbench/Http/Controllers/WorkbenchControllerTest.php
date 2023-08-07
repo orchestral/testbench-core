@@ -5,11 +5,11 @@ namespace Orchestra\Testbench\Tests\Foundation\Http\Controllers;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 
 /**
- * @covers \Orchestra\Testbench\Foundation\Http\Controllers\WorkbenchController
+ * @covers \Orchestra\Testbench\Workbench\Http\Controllers\WorkbenchController
  */
 class WorkbenchControllerTest extends TestCase
 {
@@ -57,7 +57,7 @@ class WorkbenchControllerTest extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            TestbenchServiceProvider::class,
+            WorkbenchServiceProvider::class,
         ];
     }
 
@@ -70,7 +70,7 @@ class WorkbenchControllerTest extends TestCase
 
         $response = $this->assertGuest('web')
             ->actingAs($user, 'web')
-            ->get('/_testbench/user/web');
+            ->get('/_workbench/user/web');
 
         $response->assertOk()->assertExactJson([
             'id' => $user->getKey(),
@@ -81,12 +81,25 @@ class WorkbenchControllerTest extends TestCase
     /**
      * @test
      */
+    public function it_can_get_current_user_information_without_authenticated_user_return_empty_array()
+    {
+        $user = UserFactory::new()->create();
+
+        $response = $this->assertGuest('web')
+            ->get('/_workbench/user/web');
+
+        $response->assertOk()->assertExactJson([]);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_authenticate_a_user()
     {
         $user = UserFactory::new()->create();
 
         $response = $this->assertGuest('web')
-            ->get("/_testbench/login/{$user->getKey()}/web");
+            ->get("/_workbench/login/{$user->getKey()}/web");
 
         $response->assertRedirect('/');
 
@@ -102,7 +115,7 @@ class WorkbenchControllerTest extends TestCase
         $user = UserFactory::new()->create();
 
         $response = $this->assertGuest('web')
-            ->get("/_testbench/login/{$user->email}/web");
+            ->get("/_workbench/login/{$user->email}/web");
 
         $response->assertRedirect('/');
 
@@ -119,7 +132,7 @@ class WorkbenchControllerTest extends TestCase
 
         $response = $this->assertGuest('web')
             ->actingAs($user, 'web')
-            ->get('/_testbench/logout/web');
+            ->get('/_workbench/logout/web');
 
         $response->assertRedirect('/');
 
@@ -137,7 +150,7 @@ class WorkbenchControllerTest extends TestCase
             'workbench' => ['start' => '/workbench', 'user' => $user->getKey(), 'guard' => 'web'],
         ]));
 
-        $response = $this->assertGuest('web')->get('/_testbench/');
+        $response = $this->assertGuest('web')->get('/_workbench/');
 
         $response->assertRedirect('/workbench');
 
@@ -156,7 +169,7 @@ class WorkbenchControllerTest extends TestCase
             'workbench' => ['start' => '/workbench', 'user' => $user->email, 'guard' => 'web'],
         ]));
 
-        $response = $this->assertGuest('web')->get('/_testbench/');
+        $response = $this->assertGuest('web')->get('/_workbench/');
 
         $response->assertRedirect('/workbench');
 
@@ -177,7 +190,7 @@ class WorkbenchControllerTest extends TestCase
 
         $response = $this->assertGuest('web')
             ->actingAs($user, 'web')
-            ->get('/_testbench');
+            ->get('/_workbench');
 
         $response->assertRedirect('/workbench');
 

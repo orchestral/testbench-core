@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Foundation\Bootstrap;
 
+use Illuminate\Database\Events\DatabaseRefreshed;
 use Illuminate\Database\Migrations\Migrator;
 use Mockery as m;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
@@ -30,5 +31,29 @@ class LoadMigrationsFromArrayTest extends TestCase
         $migrator->shouldReceive('path')->never();
 
         (new LoadMigrationsFromArray(false))->bootstrap($this->app);
+    }
+
+    /**  @test */
+    public function it_can_seed_database_after_refreshed()
+    {
+        (new LoadMigrationsFromArray(false, [
+            'seeders' => ['\TestbenchDatabaseSeeder'],
+        ]))->bootstrap($this->app);
+
+        $this->instance('\TestbenchDatabaseSeeder', $seeder = m::mock('TestbenchDatabaseSeeder'));
+
+        $seeder->shouldReceive('setContainer')->once()->with($this->app)->andReturnSelf()
+            ->shouldReceive('setCommand')->once()->andReturnSelf()
+            ->shouldReceive('__invoke')->once()->andReturnNull();
+
+        app('events')->dispatch(new DatabaseRefreshed());
+    }
+
+    /**  @test */
+    public function it_can_skip_database_seeding_after_refreshed()
+    {
+        (new LoadMigrationsFromArray(false, false))->bootstrap($this->app);
+
+        app('events')->dispatch(new DatabaseRefreshed());
     }
 }
