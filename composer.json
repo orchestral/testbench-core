@@ -60,7 +60,10 @@
         "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
     },
     "scripts": {
-        "post-autoload-dump": "@composer run prepare",
+        "post-autoload-dump": [
+            "@composer run clear",
+            "@composer run prepare"
+        ],
         "prepare": "@php testbench package:discover --ansi",
         "clear": [
             "@php -r \"file_exists('laravel/.env') && unlink('laravel/.env');\"",
