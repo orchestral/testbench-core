@@ -1,9 +1,8 @@
 <?php
 
-use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
+use Orchestra\Testbench\Workbench\Bootstrap\StartWorkbench;
 
 /**
  * Create Laravel application.
@@ -22,8 +21,7 @@ $createApp = function (string $workingPath) {
         basePath: $config['laravel'],
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
         resolvingCallback: function ($app) use ($config) {
-            $app->instance(ConfigContract::class, $config);
-            $app->register(WorkbenchServiceProvider::class);
+            (new StartWorkbench($config))->bootstrap($app);
         },
     );
 };
