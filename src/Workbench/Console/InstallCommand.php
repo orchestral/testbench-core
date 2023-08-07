@@ -5,13 +5,12 @@ namespace Orchestra\Testbench\Workbench\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Foundation\Console\Concerns\InteractsWithIO;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'workbench:install')]
 class InstallCommand extends Command
 {
-    use InteractsWithIO;
+    use Concerns\InteractsWithIO;
 
     /**
      * The name and signature of the console command.
