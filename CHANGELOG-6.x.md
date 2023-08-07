@@ -11,7 +11,7 @@ Released: 2023-08-08
 * Added new Workbench support (experimental feature).
     - Register routes under `/_workbench` prefix.
     - Automatically run configured seeds when executing `migrate:fresh` and `migrate:refresh`
-    - Bind `Orchestra\Testbench\Contracts\Config` to IoC Container and introduce new `Orchestra\Testbench\workbench` helper function.
+    - Bind `Orchestra\Testbench\Contracts\Config` to IoC Container and introduce the new `Orchestra\Testbench\workbench` helper function.
 * Add PHPStan analysis.
 
 ## 6.32.0
