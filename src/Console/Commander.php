@@ -105,7 +105,6 @@ class Commander
             $this->app = Application::create(
                 $this->getBasePath(),
                 function ($app) {
-
                     (new StartWorkbench($this->config))->bootstrap($app);
 
                     (new LoadMigrationsFromArray(
