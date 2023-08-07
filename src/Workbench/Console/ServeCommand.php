@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Workbench\Console;
 
 use Illuminate\Foundation\Console\ServeCommand as Command;
-use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use function Orchestra\Testbench\workbench;
 
 class ServeCommand extends Command
 {
