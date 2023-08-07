@@ -3,6 +3,7 @@
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Config;
+use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 
 /**
  * Create Laravel application.
@@ -22,6 +23,7 @@ $createApp = function (string $workingPath) {
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
         resolvingCallback: function ($app) use ($config) {
             $app->instance(ConfigContract::class, $config);
+            $app->register(WorkbenchServiceProvider::class);
         },
     );
 };
