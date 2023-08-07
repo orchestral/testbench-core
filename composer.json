@@ -61,11 +61,11 @@
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "prepare": [
+        "prepare": "@php testbench package:discover --ansi",
+        "clear": [
             "@php -r \"file_exists('laravel/.env') && unlink('laravel/.env');\"",
             "@php -r \"file_exists('laravel/testbench.yaml') && unlink('laravel/testbench.yaml');\"",
-            "@php -r \"file_exists('laravel/database/database.sqlite') && unlink('laravel/database/database.sqlite');\"",
-            "@php testbench package:discover --ansi"
+            "@php -r \"file_exists('laravel/database/database.sqlite') && unlink('laravel/database/database.sqlite');\""
         ],
         "ci": [
             "@composer audit",
@@ -73,8 +73,10 @@
             "@php vendor/bin/pint",
             "@php vendor/bin/phpstan analyse"
         ],
-        "test": "@php vendor/bin/phpunit -c ./ --color",
-        "test:phpunit9": "@php vendor/bin/phpunit -c ./phpunit9.xml --color"
+        "test": [
+            "@composer run clear",
+            "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --color tests"
+        ]
     },
     "config": {
         "sort-packages": true
