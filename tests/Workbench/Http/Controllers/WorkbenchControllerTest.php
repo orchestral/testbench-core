@@ -72,7 +72,7 @@ class WorkbenchControllerTest extends TestCase
 
         $response = $this->assertGuest('web')
             ->actingAs($user, 'web')
-            ->get('/_testbench/user/web');
+            ->get('/_workbench/user/web');
 
         $response->assertOk()->assertExactJson([
             'id' => $user->getKey(),
@@ -88,7 +88,7 @@ class WorkbenchControllerTest extends TestCase
         $user = UserFactory::new()->create();
 
         $response = $this->assertGuest('web')
-            ->get("/_testbench/login/{$user->getKey()}/web");
+            ->get("/_workbench/login/{$user->getKey()}/web");
 
         $response->assertRedirect('/');
 
@@ -104,7 +104,7 @@ class WorkbenchControllerTest extends TestCase
         $user = UserFactory::new()->create();
 
         $response = $this->assertGuest('web')
-            ->get("/_testbench/login/{$user->email}/web");
+            ->get("/_workbench/login/{$user->email}/web");
 
         $response->assertRedirect('/');
 
@@ -121,7 +121,7 @@ class WorkbenchControllerTest extends TestCase
 
         $response = $this->assertGuest('web')
             ->actingAs($user, 'web')
-            ->get('/_testbench/logout/web');
+            ->get('/_workbench/logout/web');
 
         $response->assertRedirect('/');
 
@@ -139,7 +139,7 @@ class WorkbenchControllerTest extends TestCase
             'workbench' => ['start' => '/workbench', 'user' => $user->getKey(), 'guard' => 'web'],
         ]));
 
-        $response = $this->assertGuest('web')->get('/_testbench/');
+        $response = $this->assertGuest('web')->get('/_workbench/');
 
         $response->assertRedirect('/workbench');
 
@@ -158,7 +158,7 @@ class WorkbenchControllerTest extends TestCase
             'workbench' => ['start' => '/workbench', 'user' => $user->email, 'guard' => 'web'],
         ]));
 
-        $response = $this->assertGuest('web')->get('/_testbench/');
+        $response = $this->assertGuest('web')->get('/_workbench/');
 
         $response->assertRedirect('/workbench');
 
@@ -179,7 +179,7 @@ class WorkbenchControllerTest extends TestCase
 
         $response = $this->assertGuest('web')
             ->actingAs($user, 'web')
-            ->get('/_testbench');
+            ->get('/_workbench');
 
         $response->assertRedirect('/workbench');
 
