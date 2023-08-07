@@ -81,6 +81,19 @@ class WorkbenchControllerTest extends TestCase
     /**
      * @test
      */
+    public function it_can_get_current_user_information_without_authenticated_user_return_empty_array()
+    {
+        $user = UserFactory::new()->create();
+
+        $response = $this->assertGuest('web')
+            ->get('/_testbench/user/web');
+
+        $response->assertOk()->assertExactJson([]);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_authenticate_a_user()
     {
         $user = UserFactory::new()->create();
