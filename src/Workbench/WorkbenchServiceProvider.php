@@ -19,7 +19,7 @@ class WorkbenchServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                //
+                Console\ServeCommand::class,
             ]);
         }
     }
@@ -32,24 +32,24 @@ class WorkbenchServiceProvider extends ServiceProvider
     public static function authenticationRoutes()
     {
         Route::group(array_filter([
-            'prefix' => '_testbench',
+            'prefix' => '_workbench',
             'middleware' => 'web',
         ]), function (Router $router) {
             $router->get(
                 '/', [Http\Controllers\WorkbenchController::class, 'start']
-            )->name('testbench.start');
+            )->name('workbench.start');
 
             $router->get(
                 '/login/{userId}/{guard?}', [Http\Controllers\WorkbenchController::class, 'login']
-            )->name('testbench.login');
+            )->name('workbench.login');
 
             $router->get(
                 '/logout/{guard?}', [Http\Controllers\WorkbenchController::class, 'logout']
-            )->name('testbench.logout');
+            )->name('workbench.logout');
 
             $router->get(
                 '/user/{guard?}', [Http\Controllers\WorkbenchController::class, 'user']
-            )->name('testbench.user');
+            )->name('workbench.user');
         });
     }
 }
