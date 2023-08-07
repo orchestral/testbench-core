@@ -5,13 +5,12 @@ namespace Orchestra\Testbench\Console;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
-use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use function Orchestra\Testbench\transform_relative_path;
-use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
+use Orchestra\Testbench\Workbench\Bootstrap\StartWorkbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -106,7 +105,8 @@ class Commander
             $this->app = Application::create(
                 $this->getBasePath(),
                 function ($app) {
-                    $app->instance(ConfigContract::class, $this->config);
+
+                    (new StartWorkbench($this->config))->bootstrap($app);
 
                     (new LoadMigrationsFromArray(
                         $this->config['migrations'] ?? [],
@@ -131,7 +131,6 @@ class Commander
     {
         return function ($app) {
             $app->register(TestbenchServiceProvider::class);
-            $app->register(WorkbenchServiceProvider::class);
         };
     }
 
