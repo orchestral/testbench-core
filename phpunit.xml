@@ -29,6 +29,7 @@
             <file>src/Foundation/Console/Kernel.php</file>
             <file>src/Foundation/Console/TestFallbackCommand.php</file>
             <file>src/Foundation/Http/Kernel.php</file>
+            <file>src/Workbench/Console/InstallCommand.php</file>
             <file>src/Workbench/Console/ServeCommand.php</file>
         </exclude>
     </coverage>
