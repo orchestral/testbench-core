@@ -44,7 +44,7 @@ class InstallCommand extends Command
         /** @phpstan-ignore-next-line */
         $workingPath = TESTBENCH_WORKING_PATH;
 
-        $filesystem->ensureDirectoryExists("{$workingPath}/workbench");
+        $this->prepareWorkbenchDirectories($filesystem, $workingPath);
 
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
@@ -52,6 +52,23 @@ class InstallCommand extends Command
         $this->call('package:create-sqlite-db', ['--force' => true]);
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Prepare workbench directories.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  string  $workingPath
+     * @return void
+     */
+    protected function prepareWorkbenchDirectories(Filesystem $filesystem, string $workingPath): void
+    {
+        $filesystem->ensureDirectoryExists("{$workingPath}/workbench");
+        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/app");
+        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/database");
+        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/database/factories");
+        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/database/migrations");
+        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/database/seeders");
     }
 
     /**
