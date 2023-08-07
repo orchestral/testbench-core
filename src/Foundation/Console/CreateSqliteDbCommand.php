@@ -3,12 +3,12 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 
+/**
+ * @deprecated
+ */
 class CreateSqliteDbCommand extends Command
 {
-    use Concerns\InteractsWithIO;
-
     /**
      * The name and signature of the console command.
      *
@@ -21,7 +21,14 @@ class CreateSqliteDbCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Create sqlite database file';
+    protected $description = 'Create sqlite database file (deprecated)';
+
+    /**
+     * Indicates whether the command should be shown in the Artisan command list.
+     *
+     * @var bool
+     */
+    protected $hidden = true;
 
     /**
      * Execute the console command.
@@ -30,26 +37,7 @@ class CreateSqliteDbCommand extends Command
      */
     public function handle()
     {
-        $filesystem = new Filesystem();
-
-        $workingPath = $this->laravel->basePath();
-        $databasePath = $this->laravel->databasePath();
-
-        $from = $filesystem->exists("{$databasePath}/database.sqlite.example")
-            ? "{$databasePath}/database.sqlite.example"
-            : (string) realpath(__DIR__.'/stubs/database.sqlite.example');
-        $to = "{$databasePath}/database.sqlite";
-
-        if ($this->option('force') || ! $filesystem->exists($to)) {
-            $filesystem->copy($from, $to);
-
-            $this->status($from, $to, 'file', $workingPath);
-        } else {
-            $this->components->twoColumnDetail(
-                sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
-        }
+        $this->call('workbench:create-sqlite-db', ['--force' => $this->option('force')]);
 
         return Command::SUCCESS;
     }
