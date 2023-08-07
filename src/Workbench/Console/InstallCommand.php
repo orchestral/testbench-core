@@ -63,12 +63,12 @@ class InstallCommand extends Command
      */
     protected function prepareWorkbenchDirectories(Filesystem $filesystem, string $workingPath): void
     {
-        $filesystem->ensureDirectoryExists("{$workingPath}/workbench");
-        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/app");
-        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/database");
-        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/database/factories");
-        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/database/migrations");
-        $filesystem->ensureDirectoryExists("{$workingPath}/workbench/database/seeders");
+        $workbenchWorkingPath = "{$workingPath}/workbench";
+
+        $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/app");
+        $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/factories");
+        $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/migrations");
+        $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/seeders");
     }
 
     /**
@@ -148,5 +148,19 @@ class InstallCommand extends Command
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
         }
+    }
+
+    /**
+     * Ensure a directory exists and add `.gitkeep` file.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  string  $workingPath
+     * @return void
+     */
+    protected function ensureDirectoryExists(Filesystem $filesystem, string $workingPath): void
+    {
+        $filesystem->ensureDirectoryExists($workingPath, 0755, true);
+
+        $filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$workingPath}/.gitkeep");
     }
 }
