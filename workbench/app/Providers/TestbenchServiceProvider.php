@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class TestbenchServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
         $this->loadMigrationsFrom(realpath(__DIR__.'/../../workbench/database/migrations'));
     }
