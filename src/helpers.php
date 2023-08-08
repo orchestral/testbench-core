@@ -119,7 +119,6 @@ function workbench(): array
 }
 
 /**
- * Get the workbench configuration.
  * Get the path to the workbench folder.
  *
  * @param  string  $path
