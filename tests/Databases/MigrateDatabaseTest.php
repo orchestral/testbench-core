@@ -36,7 +36,7 @@ class MigrateDatabaseTest extends TestCase
     {
         $user = \DB::table('testbench_users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $user->email);
+        $this->assertEquals('crynobone@gmail.com', $user->email);
         $this->assertTrue(\Hash::check('123', $user->password));
 
         $this->assertEquals([
