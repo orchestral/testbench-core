@@ -125,4 +125,3 @@ function workbench_path(string $path = ''): string
 
     return "{$workingPath}/workbench/{$path}";
 }
-
