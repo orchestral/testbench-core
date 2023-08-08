@@ -56,7 +56,7 @@ class MigrateWithLaravelTest extends TestCase
         DB::table('users')->insert([
             'name' => 'Orchestra',
             'email' => 'crynobone@gmail.com',
-            'password' => \Hash::make('456'),
+            'password' => Hash::make('456'),
             'created_at' => $now,
             'updated_at' => $now,
         ]);

@@ -13,6 +13,7 @@ Released: 2023-08-08
     - Automatically run configured seeds when executing `migrate:fresh` and `migrate:refresh`
     - Bind `Orchestra\Testbench\Contracts\Config` to IoC Container and introduce the new `Orchestra\Testbench\workbench` helper function.
     - Add `workbench:install`, `workbench:create-sqlite-db` and `workbench:drop-sqlite-db` commands.
+* Add new `Orchestra\Testbench\Concerns\WithWorkbench` to automatically loads configuration from `testbench.yaml` when running tests.
 
 ### Deprecated
 

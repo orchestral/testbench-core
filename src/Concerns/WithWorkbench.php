@@ -21,7 +21,7 @@ trait WithWorkbench
         $app = $this->app;
 
         /** @var \Orchestra\Testbench\Contracts\Config $config */
-        $config = static::$cachedTestCaseConfiguration ?? new Config();
+        $config = static::$cachedConfigurationForWorkbench ?? new Config();
 
         (new StartWorkbench($config))->bootstrap($app);
 
