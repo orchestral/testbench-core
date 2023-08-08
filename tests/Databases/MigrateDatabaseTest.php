@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
@@ -46,6 +47,6 @@ class MigrateDatabaseTest extends TestCase
             'password',
             'created_at',
             'updated_at',
-        ], \Schema::getColumnListing('testbench_users'));
+        ], Schema::getColumnListing('testbench_users'));
     }
 }
