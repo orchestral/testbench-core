@@ -118,7 +118,6 @@ function workbench(): array
     return $config->getWorkbenchAttributes();
 }
 
-
 /**
  * Get the workbench configuration.
  * Get the path to the workbench folder.
@@ -128,7 +127,7 @@ function workbench(): array
  */
 function workbench_path(string $path = ''): string
 {
-    $workingPath = defined('TESTBENCH_WORKING_PATH')
+    $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
         : getcwd();
 

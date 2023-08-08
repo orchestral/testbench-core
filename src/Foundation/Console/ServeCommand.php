@@ -18,7 +18,9 @@ class ServeCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        /** @phpstan-ignore-next-line */
         $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH;
+
         static::$passthroughVariables[] = 'TESTBENCH_WORKING_PATH';
     }
 
