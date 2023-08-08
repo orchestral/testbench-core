@@ -8,6 +8,6 @@ class TestbenchServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->loadMigrationsFrom(realpath(__DIR__.'/../../workbench/database/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__.'/../../database/migrations'));
     }
 }

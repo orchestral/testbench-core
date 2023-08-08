@@ -23,7 +23,7 @@ trait CreatesApplication
      */
     public static function applicationBasePath()
     {
-        return $_ENV['APP_BASE_PATH'] ?? $_ENV['TESTBENCH_APP_BASE_PATH'] ?? realpath(__DIR__.'/../../laravel');
+        return static::applicationBasePathUsingWorkbench() ?? (string) realpath(__DIR__.'/../../laravel');
     }
 
     /**
