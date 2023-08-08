@@ -120,6 +120,10 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     public static function setUpBeforeClass(): void
     {
         static::$cachedTestCaseUses = array_flip(class_uses_recursive(static::class));
+
+        if (isset(static::$cachedTestCaseUses[Concerns\WithWorkbench::class])) {
+            static::setUpBeforeClassWithWorkbench();
+        }
     }
 
     /**
@@ -129,6 +133,10 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     public static function tearDownAfterClass(): void
     {
+        if (isset(static::$cachedTestCaseUses[Concerns\WithWorkbench::class])) {
+            static::teardownAfterClassWithWorkbench();
+        }
+
         static::$cachedTestCaseUses = [];
 
         (function () {
