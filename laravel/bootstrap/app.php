@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Workbench\Bootstrap\StartWorkbench;
@@ -11,6 +12,10 @@ use Orchestra\Testbench\Workbench\Bootstrap\StartWorkbench;
  * @return \Illuminate\Foundation\Application
  */
 $createApp = function (string $workingPath) {
+    if (! defined('TESTBENCH_WORKING_PATH') && ! is_null(Env::get('TESTBENCH_WORKING_PATH'))) {
+        define('TESTBENCH_WORKING_PATH', Env::get('TESTBENCH_WORKING_PATH'));
+    }
+
     $config = Config::loadFromYaml(
         defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
     );

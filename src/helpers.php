@@ -119,6 +119,24 @@ function workbench(): array
 }
 
 /**
+ * Get the workbench configuration.
+ * Get the path to the workbench folder.
+ *
+ * @param  string  $path
+ * @return string
+ */
+function workbench_path(string $path = ''): string
+{
+    $workingPath = \defined('TESTBENCH_WORKING_PATH')
+        ? TESTBENCH_WORKING_PATH
+        : getcwd();
+
+    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+
+    return "{$workingPath}/workbench/{$path}";
+}
+
+/**
  * Laravel version compare.
  *
  * @param  string  $version

@@ -18,7 +18,7 @@ class CatchDefaultRoute
     {
         $workbench = workbench();
 
-        if ($request->is('/') && ! \is_null($workbench['user'])) {
+        if ($request->decodedPath() === '/' && ! \is_null($workbench['user'])) {
             return redirect('/_workbench');
         }
 
