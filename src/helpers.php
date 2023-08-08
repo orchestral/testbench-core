@@ -110,7 +110,6 @@ function transform_relative_path(string $path, string $workingPath): string
 }
 
 /**
- * Get the workbench configuration.
  * Get the path to the workbench folder.
  *
  * @param  string  $path
