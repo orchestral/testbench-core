@@ -112,6 +112,7 @@ class CommanderTest extends TestCase
             $process->mustRun();
 
             $this->assertSame([
+                '2013_07_26_182750_create_testbench_users_table',
                 '2014_10_12_000000_testbench_create_users_table',
                 '2014_10_12_100000_testbench_create_password_resets_table',
                 '2019_08_19_000000_testbench_create_failed_jobs_table',
@@ -136,7 +137,9 @@ class CommanderTest extends TestCase
 
             $process->mustRun();
 
-            $this->assertSame([], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
+            $this->assertSame([
+                '2013_07_26_182750_create_testbench_users_table',
+            ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });
     }
 

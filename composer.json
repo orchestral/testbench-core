@@ -17,7 +17,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Orchestra\\Testbench\\" : "src/"
+            "Orchestra\\Testbench\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -25,7 +25,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Orchestra\\Testbench\\Tests\\": "tests/"
+            "Orchestra\\Testbench\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\": "workbench/database/"
         }
     },
     "bin": [

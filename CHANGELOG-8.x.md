@@ -2,6 +2,23 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.6.0
+
+Released: 2023-08-08
+
+### Added
+
+* Added new Workbench support (experimental feature).
+    - Register routes under `/_workbench` prefix.
+    - Automatically run configured seeds when executing `migrate:fresh` and `migrate:refresh`
+    - Bind `Orchestra\Testbench\Contracts\Config` to IoC Container and introduce the new `Orchestra\Testbench\workbench` and `Orchestra\Testbench\workbench_path` helper function.
+    - Add `workbench:install`, `workbench:create-sqlite-db` and `workbench:drop-sqlite-db` commands.
+* Add new `Orchestra\Testbench\Concerns\WithWorkbench` to automatically loads configuration from `testbench.yaml` when running tests.
+
+### Deprecated
+
+* Deprecated `package:devtool`, `package:create-sqlite-db` and `package:drop-sqlite-db` commands.
+
 ## 8.5.9
 
 Released: 2023-07-12

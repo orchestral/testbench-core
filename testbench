@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+define('TESTBENCH_CORE', true);
 define('TESTBENCH_WORKING_PATH', $workingPath = getcwd());
 
 require $_composer_autoload_path ?? __DIR__.'/vendor/autoload.php';

@@ -4,7 +4,9 @@ namespace Orchestra\Testbench\Workbench\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Workbench\Composer;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'workbench:install')]
@@ -45,6 +47,7 @@ class InstallCommand extends Command
         $workingPath = TESTBENCH_WORKING_PATH;
 
         $this->prepareWorkbenchDirectories($filesystem, $workingPath);
+        $this->prepareWorkbenchNamespaces($filesystem, $workingPath);
 
         $this->copyTestbenchConfigurationFile($filesystem, $workingPath);
         $this->copyTestbenchDotEnvFile($filesystem, $workingPath);
@@ -69,6 +72,42 @@ class InstallCommand extends Command
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/factories");
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/migrations");
         $this->ensureDirectoryExists($filesystem, "{$workbenchWorkingPath}/database/seeders");
+
+    }
+
+    /**
+     * Prepare workbench namespace to `composer.json`.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  string  $workingPath
+     * @return void
+     */
+    protected function prepareWorkbenchNamespaces(Filesystem $filesystem, string $workingPath): void
+    {
+        $composer = (new Composer($filesystem))->setWorkingPath($workingPath);
+
+        $composer->modify(function (array $content) {
+            Arr::add($content['autoload-dev'], 'psr-4', []);
+
+            foreach (['Workbench\\App\\' => 'workbench/app', 'Workbench\\Database\\' => 'workbench/database'] as $namespace => $path) {
+
+                if (! \array_key_exists($namespace, $content['autoload-dev']['psr-4'])) {
+                    $content['autoload-dev']['psr-4'][$namespace] = $path;
+
+                    $this->components->task(sprintf(
+                        'Added [%s] for [%s] to Composer', $namespace, $path
+                    ));
+                } else {
+                    $this->components->twoColumnDetail(
+                        sprintf('Composer already contain [%s] namespace', $namespace),
+                        '<fg=yellow;options=bold>SKIPPED</>'
+                    );
+                }
+            }
+
+            return $content;
+        });
+
     }
 
     /**
@@ -86,7 +125,7 @@ class InstallCommand extends Command
         if ($this->option('force') || ! $filesystem->exists($to)) {
             $filesystem->copy($from, $to);
 
-            $this->status($from, $to, 'file');
+            $this->copyTaskCompleted($from, $to, 'file');
         } else {
             $this->components->twoColumnDetail(
                 sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
@@ -141,7 +180,7 @@ class InstallCommand extends Command
         if ($this->option('force') || ! $filesystem->exists($to)) {
             $filesystem->copy($from, $to);
 
-            $this->status($from, $to, 'file');
+            $this->copyTaskCompleted($from, $to, 'file');
         } else {
             $this->components->twoColumnDetail(
                 sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
@@ -159,8 +198,25 @@ class InstallCommand extends Command
      */
     protected function ensureDirectoryExists(Filesystem $filesystem, string $workingPath): void
     {
+        /** @phpstan-ignore-next-line */
+        $rootWorkingPath = TESTBENCH_WORKING_PATH ?? $workingPath;
+
+        if ($filesystem->isDirectory($workingPath)) {
+            $this->components->twoColumnDetail(
+                sprintf('Directory [%s] already exists', str_replace($rootWorkingPath.'/', '', $workingPath)),
+                '<fg=yellow;options=bold>SKIPPED</>'
+            );
+
+            return;
+        }
+
         $filesystem->ensureDirectoryExists($workingPath, 0755, true);
 
         $filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$workingPath}/.gitkeep");
+
+        $this->components->task(sprintf(
+            'Prepare [%s] directory',
+            str_replace($rootWorkingPath.'/', '', $workingPath),
+        ));
     }
 }
