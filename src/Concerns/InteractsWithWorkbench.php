@@ -32,7 +32,7 @@ trait InteractsWithWorkbench
     public function ignorePackageDiscoveriesFromUsingWorkbench()
     {
         if (property_exists($this, 'enablesPackageDiscoveries') && $this->enablesPackageDiscoveries === true) {
-            return static::$cachedTestCaseConfiguration->getExtraAttributes()['dont-discover'] ?? [];
+            return static::$cachedTestCaseConfiguration?->getExtraAttributes()['dont-discover'] ?? [];
         }
 
         return null;
@@ -46,7 +46,7 @@ trait InteractsWithWorkbench
      */
     protected function getPackageBootstrappersUsingWorkbench($app)
     {
-        if (empty($bootstrappers = (static::$cachedTestCaseConfiguration['bootstrappers'] ?? null))) {
+        if (empty($bootstrappers = (static::$cachedTestCaseConfiguration?->getExtraAttributes()['bootstrappers'] ?? null))) {
             return null;
         }
 
@@ -61,7 +61,7 @@ trait InteractsWithWorkbench
      */
     protected function getPackageProvidersUsingWorkbench($app)
     {
-        if (empty($providers = (static::$cachedTestCaseConfiguration['providers'] ?? null))) {
+        if (empty($providers = (static::$cachedTestCaseConfiguration?->getExtraAttributes()['providers'] ?? null))) {
             return null;
         }
 

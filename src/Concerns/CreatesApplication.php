@@ -27,7 +27,7 @@ trait CreatesApplication
      */
     public static function applicationBasePath()
     {
-        return static::applicationBasePathUsingWorkbench() ?? realpath(__DIR__.'/../../laravel');
+        return static::applicationBasePathUsingWorkbench() ?? (string) realpath(__DIR__.'/../../laravel');
     }
 
     /**
