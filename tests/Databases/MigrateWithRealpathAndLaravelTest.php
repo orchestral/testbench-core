@@ -30,7 +30,7 @@ class MigrateWithRealpathAndLaravelTest extends TestCase
         // the path option should be an absolute path.
         $this->loadMigrationsFrom([
             '--database' => 'testing',
-            '--path' => realpath(__DIR__.'/../migrations'),
+            '--path' => realpath(__DIR__.'/../../workbench/database/migrations'),
         ]);
     }
 
@@ -39,7 +39,7 @@ class MigrateWithRealpathAndLaravelTest extends TestCase
     {
         $users = \DB::table('testbench_users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $users->email);
+        $this->assertEquals('crynobone@gmail.com', $users->email);
         $this->assertTrue(\Hash::check('123', $users->password));
     }
 }
