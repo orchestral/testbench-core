@@ -2,11 +2,9 @@
 
 namespace Orchestra\Testbench\Tests\Databases;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
-use function Orchestra\Testbench\artisan;
 
 class MigrateDatabaseTest extends TestCase
 {

@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Concerns\WithWorkbench;
-use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\TestCase;
 
 class WithWorkbenchTest extends TestCase
 {

@@ -3,9 +3,9 @@
 namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
-use function Orchestra\Testbench\artisan;
 
 class RefreshDatabaseTest extends TestCase
 {
@@ -37,7 +37,7 @@ class RefreshDatabaseTest extends TestCase
     {
         $users = \DB::table('testbench_users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $users->email);
+        $this->assertEquals('crynobone@gmail.com', $users->email);
         $this->assertTrue(\Hash::check('123', $users->password));
 
         $this->assertEquals([
