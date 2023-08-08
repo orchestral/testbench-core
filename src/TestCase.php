@@ -28,7 +28,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected $baseUrl = 'http://localhost';
 
     /**
-     * The cached test case uses.
+     * The cached uses for test case.
      *
      * @var array<class-string, class-string>
      */
@@ -122,10 +122,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         /** @var array<class-string, class-string> $uses */
         $uses = array_flip(class_uses_recursive(static::class));
 
-        if (isset($uses[Concerns\WithWorkbench::class])) {
-            /** @phpstan-ignore-next-line */
-            static::setUpBeforeClassWithWorkbench();
-        }
+        static::setupBeforeClassUsingWorkbench();
 
         static::$cachedTestCaseUses = $uses;
     }
@@ -137,10 +134,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     public static function tearDownAfterClass(): void
     {
-        if (isset(static::$cachedTestCaseUses[Concerns\WithWorkbench::class])) {
-            /** @phpstan-ignore-next-line */
-            static::teardownAfterClassWithWorkbench();
-        }
+        static::teardownAfterClassUsingWorkbench();
 
         static::$cachedTestCaseUses = [];
 

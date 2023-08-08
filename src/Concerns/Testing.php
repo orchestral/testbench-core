@@ -164,7 +164,7 @@ trait Testing
     {
         if (isset($uses[WithWorkbench::class])) {
             /** @phpstan-ignore-next-line */
-            $this->bootstrapWithWorkbench();
+            $this->setUpWithWorkbench();
         }
 
         $this->setUpDatabaseRequirements(function () use ($uses) {

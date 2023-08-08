@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench\Tests\Databases;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\TestCase;
 
 class MigrateWithLaravelTest extends TestCase
@@ -27,18 +29,18 @@ class MigrateWithLaravelTest extends TestCase
     {
         $now = Carbon::now();
 
-        \DB::table('users')->insert([
+        DB::table('users')->insert([
             'name' => 'Orchestra',
-            'email' => 'hello@orchestraplatform.com',
+            'email' => 'crynobone@gmail.com',
             'password' => \Hash::make('456'),
             'created_at' => $now,
             'updated_at' => $now,
         ]);
 
-        $users = \DB::table('users')->where('id', '=', 1)->first();
+        $users = DB::table('users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $users->email);
-        $this->assertTrue(\Hash::check('456', $users->password));
+        $this->assertEquals('crynobone@gmail.com', $users->email);
+        $this->assertTrue(Hash::check('456', $users->password));
     }
 
     /**
@@ -50,18 +52,18 @@ class MigrateWithLaravelTest extends TestCase
     {
         $now = Carbon::now();
 
-        \DB::table('users')->insert([
+        DB::table('users')->insert([
             'name' => 'Orchestra',
-            'email' => 'hello@orchestraplatform.com',
-            'password' => \Hash::make('456'),
+            'email' => 'crynobone@gmail.com',
+            'password' => Hash::make('456'),
             'created_at' => $now,
             'updated_at' => $now,
         ]);
 
-        $users = \DB::table('users')->where('id', '=', 1)->first();
+        $users = DB::table('users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $users->email);
-        $this->assertTrue(\Hash::check('456', $users->password));
+        $this->assertEquals('crynobone@gmail.com', $users->email);
+        $this->assertTrue(Hash::check('456', $users->password));
     }
 
     public function loadApplicationMigrations()

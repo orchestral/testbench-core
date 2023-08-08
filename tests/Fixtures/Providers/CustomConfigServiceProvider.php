@@ -2,7 +2,9 @@
 
 namespace Orchestra\Testbench\Tests\Fixtures\Providers;
 
-class CustomConfigServiceProvider extends \Illuminate\Support\ServiceProvider
+use Illuminate\Support\ServiceProvider;
+
+class CustomConfigServiceProvider extends ServiceProvider
 {
     public function register()
     {
