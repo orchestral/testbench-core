@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Workbench\Http\Middleware;
 
 use Closure;
 use function Orchestra\Testbench\workbench;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CatchDefaultRoute
 {
@@ -20,13 +21,13 @@ class CatchDefaultRoute
 
         if ($request->decodedPath() === '/' && ! \is_null($workbench['user'])) {
             return redirect(
-                is_null($request->user()) ? '/_workbench' : $workbench['start']
+                \is_null($request->user()) ? '/_workbench' : $workbench['start']
             );
         }
 
         $response = $next($request);
 
-        if (! is_null($response->exception) && $response->exception instanceof NotFoundHttpException) {
+        if (! \is_null($response->exception) && $response->exception instanceof NotFoundHttpException) {
             if ($request->decodedPath() === '/' && $workbench['start'] !== '/') {
                 return redirect($workbench['start']);
             }
