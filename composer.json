@@ -26,8 +26,8 @@
     "autoload-dev": {
         "psr-4": {
             "Orchestra\\Testbench\\Tests\\": "tests/",
-            "Workbench\\App\\": "./workbench/app",
-            "Workbench\\Database\\": "./workbench/database"
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\": "workbench/database/"
         }
     },
     "bin": [

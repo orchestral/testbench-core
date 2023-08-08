@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Workbench;
 
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -17,12 +18,13 @@ class WorkbenchServiceProvider extends ServiceProvider
     {
         static::authenticationRoutes();
 
+        $this->app->make(HttpKernel::class)->prependMiddleware(Http\Middleware\CatchDefaultRoute::class);
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Console\CreateSqliteDbCommand::class,
                 Console\DropSqliteDbCommand::class,
                 Console\InstallCommand::class,
-                Console\ServeCommand::class,
             ]);
         }
     }
