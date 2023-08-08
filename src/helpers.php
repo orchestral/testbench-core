@@ -106,7 +106,6 @@ function transform_relative_path(string $path, string $workingPath): string
 
 /**
  * Get the workbench configuration.
-<<<<<<< HEAD
  *
  * @return array<string, mixed>
  */
@@ -120,9 +119,6 @@ function workbench(): array
 }
 
 /**
- * Get the workbench configuration.
-=======
->>>>>>> 6.x
  * Get the path to the workbench folder.
  *
  * @param  string  $path
@@ -139,7 +135,6 @@ function workbench_path(string $path = ''): string
     return "{$workingPath}/workbench/{$path}";
 }
 
-<<<<<<< HEAD
 /**
  * Laravel version compare.
  *
@@ -175,5 +170,3 @@ function phpunit_version_compare(string $version, ?string $operator = null)
 
     return version_compare(Version::id(), $version, $operator);
 }
-=======
->>>>>>> 6.x
