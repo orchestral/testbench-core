@@ -2,10 +2,16 @@
 
 namespace Orchestra\Testbench\Tests\Databases;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use function Orchestra\Testbench\artisan;
 
 class MigrateDatabaseTest extends TestCase
 {
+    use WithWorkbench;
+
     /**
      * Define environment setup.
      *
@@ -24,20 +30,7 @@ class MigrateDatabaseTest extends TestCase
      */
     protected function defineDatabaseMigrations()
     {
-        $this->artisan('migrate', ['--database' => 'testing']);
-    }
-
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array
-     */
-    protected function getPackageProviders($app)
-    {
-        return [
-            \Orchestra\Testbench\Tests\Fixtures\Providers\ServiceProvider::class,
-        ];
+        artisan($this, 'migrate', ['--database' => 'testing']);
     }
 
     /** @test */

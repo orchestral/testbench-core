@@ -30,7 +30,7 @@ class MigrateWithRealpathAndLaravelTest extends TestCase
         // the path option should be an absolute path.
         $this->loadMigrationsFrom([
             '--database' => 'testing',
-            '--path' => realpath(__DIR__.'/../migrations'),
+            '--path' => realpath(__DIR__.'/../../workbench/database/migrations'),
         ]);
     }
 

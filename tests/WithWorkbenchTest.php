@@ -1,0 +1,26 @@
+<?php
+
+namespace Orchestra\Testbench\Tests;
+
+use Orchestra\Testbench\Concerns\WithWorkbench;
+use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
+
+class WithWorkbenchTest extends TestCase
+{
+    use WithWorkbench;
+
+    /**
+     * @test
+     */
+    public function it_can_be_resolved()
+    {
+        $this->assertInstanceOf(ConfigContract::class, static::$cachedTestCaseConfiguration);
+        $this->assertSame([
+            'env' => ["APP_NAME='Testbench'"],
+            'bootstrappers' => [],
+            'providers' => ['Workbench\App\Providers\TestbenchServiceProvider'],
+            'dont-discover' => [],
+        ], static::$cachedTestCaseConfiguration->getExtraAttributes());
+    }
+}

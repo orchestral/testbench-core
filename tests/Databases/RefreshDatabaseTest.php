@@ -3,12 +3,13 @@
 namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use function Orchestra\Testbench\artisan;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use function Orchestra\Testbench\artisan;
 
 class RefreshDatabaseTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithWorkbench;
 
     /**
      * Define environment setup.
@@ -29,19 +30,6 @@ class RefreshDatabaseTest extends TestCase
     protected function defineDatabaseMigrations()
     {
         artisan($this, 'migrate', ['--database' => 'testing']);
-    }
-
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array
-     */
-    protected function getPackageProviders($app)
-    {
-        return [
-            \Orchestra\Testbench\Tests\Fixtures\Providers\ServiceProvider::class,
-        ];
     }
 
     /** @test */
