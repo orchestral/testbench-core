@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Workbench\Console;
+namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Foundation\Console\ServeCommand as Command;
 

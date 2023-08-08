@@ -25,7 +25,6 @@ class WorkbenchServiceProvider extends ServiceProvider
                 Console\CreateSqliteDbCommand::class,
                 Console\DropSqliteDbCommand::class,
                 Console\InstallCommand::class,
-                Console\ServeCommand::class,
             ]);
         }
     }
