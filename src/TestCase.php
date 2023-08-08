@@ -77,10 +77,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     protected function setUpTraits()
     {
-        /** @var array<class-string, class-string> $uses */
-        $uses = array_flip(class_uses_recursive(static::class));
-
-        return $this->setUpTheTestEnvironmentTraits($uses);
+        return $this->setUpTheTestEnvironmentTraits(static::$cachedTestCaseUses);
     }
 
     /**
@@ -116,6 +113,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             Concerns\WithFactories::class,
             Concerns\WithLaravelMigrations::class,
             Concerns\WithLoadMigrationsFrom::class,
+            Concerns\WithWorkbench::class,
         ]);
     }
 

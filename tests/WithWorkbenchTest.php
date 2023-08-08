@@ -15,12 +15,13 @@ class WithWorkbenchTest extends TestCase
      */
     public function it_can_be_resolved()
     {
-        $this->assertInstanceOf(ConfigContract::class, static::$cachedTestCaseConfiguration);
+        $this->assertInstanceOf(ConfigContract::class, static::$cachedConfigurationForWorkbench);
+
         $this->assertSame([
             'env' => ["APP_NAME='Testbench'"],
             'bootstrappers' => [],
             'providers' => ['Workbench\App\Providers\TestbenchServiceProvider'],
             'dont-discover' => [],
-        ], static::$cachedTestCaseConfiguration->getExtraAttributes());
+        ], static::$cachedConfigurationForWorkbench->getExtraAttributes());
     }
 }

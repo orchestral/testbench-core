@@ -12,7 +12,7 @@ trait InteractsWithWorkbench
      *
      * @var \Orchestra\Testbench\Contracts\Config|null
      */
-    protected static $cachedTestCaseConfiguration;
+    protected static $cachedConfigurationForWorkbench;
 
     /**
      * Get Application's base path.
@@ -32,7 +32,7 @@ trait InteractsWithWorkbench
     public function ignorePackageDiscoveriesFromUsingWorkbench()
     {
         if (property_exists($this, 'enablesPackageDiscoveries') && $this->enablesPackageDiscoveries === true) {
-            return static::$cachedTestCaseConfiguration?->getExtraAttributes()['dont-discover'] ?? [];
+            return static::$cachedConfigurationForWorkbench?->getExtraAttributes()['dont-discover'] ?? [];
         }
 
         return null;
@@ -46,7 +46,7 @@ trait InteractsWithWorkbench
      */
     protected function getPackageBootstrappersUsingWorkbench($app)
     {
-        if (empty($bootstrappers = (static::$cachedTestCaseConfiguration?->getExtraAttributes()['bootstrappers'] ?? null))) {
+        if (empty($bootstrappers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['bootstrappers'] ?? null))) {
             return null;
         }
 
@@ -61,7 +61,7 @@ trait InteractsWithWorkbench
      */
     protected function getPackageProvidersUsingWorkbench($app)
     {
-        if (empty($providers = (static::$cachedTestCaseConfiguration?->getExtraAttributes()['providers'] ?? null))) {
+        if (empty($providers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['providers'] ?? null))) {
             return null;
         }
 
@@ -85,7 +85,7 @@ trait InteractsWithWorkbench
             $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
         }
 
-        static::$cachedTestCaseConfiguration = $config;
+        static::$cachedConfigurationForWorkbench = $config;
     }
 
     /**
@@ -95,7 +95,7 @@ trait InteractsWithWorkbench
      */
     public static function teardownAfterClassUsingWorkbench(): void
     {
-        static::$cachedTestCaseConfiguration = null;
+        static::$cachedConfigurationForWorkbench = null;
 
         unset($_ENV['TESTBENCH_APP_BASE_PATH']);
     }
