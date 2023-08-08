@@ -29,7 +29,7 @@ class MigrateWithLaravelTest extends TestCase
 
         \DB::table('users')->insert([
             'name' => 'Orchestra',
-            'email' => 'hello@orchestraplatform.com',
+            'email' => 'crynobone@gmail.com',
             'password' => \Hash::make('456'),
             'created_at' => $now,
             'updated_at' => $now,
@@ -37,7 +37,7 @@ class MigrateWithLaravelTest extends TestCase
 
         $users = \DB::table('users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $users->email);
+        $this->assertEquals('crynobone@gmail.com', $users->email);
         $this->assertTrue(\Hash::check('456', $users->password));
     }
 
@@ -52,7 +52,7 @@ class MigrateWithLaravelTest extends TestCase
 
         \DB::table('users')->insert([
             'name' => 'Orchestra',
-            'email' => 'hello@orchestraplatform.com',
+            'email' => 'crynobone@gmail.com',
             'password' => \Hash::make('456'),
             'created_at' => $now,
             'updated_at' => $now,
@@ -60,7 +60,7 @@ class MigrateWithLaravelTest extends TestCase
 
         $users = \DB::table('users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $users->email);
+        $this->assertEquals('crynobone@gmail.com', $users->email);
         $this->assertTrue(\Hash::check('456', $users->password));
     }
 

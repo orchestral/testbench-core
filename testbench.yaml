@@ -1,5 +1,5 @@
 providers:
-  - Orchestra\Testbench\Workbench\WorkbenchServiceProvider
+  - Workbench\App\Providers\TestbenchServiceProvider
 
 env:
   APP_NAME: "Testbench"

@@ -2,10 +2,12 @@
 
 namespace Orchestra\Testbench\Tests\Databases;
 
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
 class MigrateDatabaseTest extends TestCase
 {
+    use WithWorkbench;
     /**
      * Define environment setup.
      *
@@ -27,25 +29,12 @@ class MigrateDatabaseTest extends TestCase
         $this->artisan('migrate', ['--database' => 'testing']);
     }
 
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array
-     */
-    protected function getPackageProviders($app)
-    {
-        return [
-            \Orchestra\Testbench\Tests\Fixtures\Providers\ServiceProvider::class,
-        ];
-    }
-
     /** @test */
     public function it_runs_the_migrations()
     {
         $user = \DB::table('testbench_users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $user->email);
+        $this->assertEquals('crynobone@gmail.com', $user->email);
         $this->assertTrue(\Hash::check('123', $user->password));
 
         $this->assertEquals([

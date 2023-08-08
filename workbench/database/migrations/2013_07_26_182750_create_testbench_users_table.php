@@ -23,7 +23,7 @@ class CreateTestbenchUsersTable extends Migration
         $now = Carbon::now();
 
         DB::table('testbench_users')->insert([
-            'email' => 'hello@orchestraplatform.com',
+            'email' => 'crynobone@gmail.com',
             'password' => Hash::make('123'),
             'created_at' => $now,
             'updated_at' => $now,
