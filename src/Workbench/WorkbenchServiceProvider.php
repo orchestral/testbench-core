@@ -18,7 +18,7 @@ class WorkbenchServiceProvider extends ServiceProvider
     {
         static::authenticationRoutes();
 
-        $this->app->make(HttpKernel::class)->prependMiddleware(Http\Middleware\CatchDefaultRoute::class);
+        $this->app->make(HttpKernel::class)->pushMiddleware(Http\Middleware\CatchDefaultRoute::class);
     }
 
     /**
