@@ -8,6 +8,7 @@ use Orchestra\Testbench\TestCase;
 class MigrateDatabaseTest extends TestCase
 {
     use WithWorkbench;
+
     /**
      * Define environment setup.
      *

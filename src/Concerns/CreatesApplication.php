@@ -15,6 +15,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
 trait CreatesApplication
 {
     use InteractsWithWorkbench;
+
     /**
      * Get Application's base path.
      *
