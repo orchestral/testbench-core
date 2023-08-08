@@ -185,6 +185,11 @@ trait Testing
      */
     final protected function setUpTheTestEnvironmentTraits(array $uses): array
     {
+        if (isset($uses[WithWorkbench::class])) {
+            /** @phpstan-ignore-next-line */
+            $this->setUpWithWorkbench();
+        }
+
         $this->setUpDatabaseRequirements(function () use ($uses) {
             if (isset($uses[RefreshDatabase::class])) {
                 /** @phpstan-ignore-next-line */

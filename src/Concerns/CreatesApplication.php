@@ -18,6 +18,8 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
  */
 trait CreatesApplication
 {
+    use InteractsWithWorkbench;
+
     /**
      * Get Application's base path.
      *
@@ -25,7 +27,7 @@ trait CreatesApplication
      */
     public static function applicationBasePath()
     {
-        return $_ENV['APP_BASE_PATH'] ?? realpath(__DIR__.'/../../laravel');
+        return static::applicationBasePathUsingWorkbench() ?? (string) realpath(__DIR__.'/../../laravel');
     }
 
     /**
@@ -35,11 +37,7 @@ trait CreatesApplication
      */
     public function ignorePackageDiscoveriesFrom()
     {
-        if (property_exists($this, 'enablesPackageDiscoveries') && $this->enablesPackageDiscoveries === true) {
-            return [];
-        }
-
-        return ['*'];
+        return $this->ignorePackageDiscoveriesFromUsingWorkbench() ?? ['*'];
     }
 
     /**
@@ -142,7 +140,7 @@ trait CreatesApplication
      */
     protected function getPackageBootstrappers($app)
     {
-        return [];
+        return $this->getPackageBootstrappersUsingWorkbench($app) ?? [];
     }
 
     /**
@@ -197,7 +195,7 @@ trait CreatesApplication
      */
     protected function getPackageProviders($app)
     {
-        return [];
+        return $this->getPackageProvidersUsingWorkbench($app) ?? [];
     }
 
     /**

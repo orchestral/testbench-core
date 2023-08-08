@@ -36,7 +36,7 @@ class MigrateWithRealpathTest extends TestCase
     {
         $users = DB::table('testbench_users')->where('id', '=', 1)->first();
 
-        $this->assertEquals('hello@orchestraplatform.com', $users->email);
+        $this->assertEquals('crynobone@gmail.com', $users->email);
         $this->assertTrue(Hash::check('123', $users->password));
     }
 }

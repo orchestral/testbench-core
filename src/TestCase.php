@@ -40,6 +40,13 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     protected $enablesPackageDiscoveries = false;
 
     /**
+     * The cached uses for test case.
+     *
+     * @var array<class-string, class-string>
+     */
+    protected static $cachedTestCaseUses = [];
+
+    /**
      * Setup the test environment.
      *
      * @return void
@@ -121,6 +128,21 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     }
 
     /**
+     * Prepare the testing environment before the running the test case.
+     *
+     * @return void
+     */
+    public static function setUpBeforeClass(): void
+    {
+        /** @var array<class-string, class-string> $uses */
+        $uses = array_flip(class_uses_recursive(static::class));
+
+        static::setupBeforeClassUsingWorkbench();
+
+        static::$cachedTestCaseUses = $uses;
+    }
+
+    /**
      * Clean up the testing environment before the next test case.
      *
      * @return void
@@ -128,5 +150,9 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     public static function tearDownAfterClass(): void
     {
         static::$latestResponse = null;
+
+        static::teardownAfterClassUsingWorkbench();
+
+        static::$cachedTestCaseUses = [];
     }
 }
