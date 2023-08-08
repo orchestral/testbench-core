@@ -195,7 +195,7 @@ trait CreatesApplication
      */
     protected function getPackageProviders($app)
     {
-        return [];
+        return $this->getPackageProvidersUsingWorkbench($app) ?? [];
     }
 
     /**
