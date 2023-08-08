@@ -132,6 +132,8 @@ function workbench_path(string $path = ''): string
         ? TESTBENCH_WORKING_PATH
         : getcwd();
 
+    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+
     return "{$workingPath}/workbench/{$path}";
 }
 
