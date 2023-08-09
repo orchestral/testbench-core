@@ -28,13 +28,6 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected $baseUrl = 'http://localhost';
 
     /**
-     * The cached uses for test case.
-     *
-     * @var array<class-string, class-string>
-     */
-    protected static $cachedTestCaseUses = [];
-
-    /**
      * Setup the test environment.
      *
      * @return void
@@ -94,6 +87,8 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             Concerns\HandlesAnnotations::class,
             Concerns\HandlesDatabases::class,
             Concerns\HandlesRoutes::class,
+            Concerns\InteractsWithPHPUnit::class,
+            Concerns\InteractsWithWorkbench::class,
             Concerns\Testing::class,
             Concerns\WithFactories::class,
             Concerns\WithLaravelMigrations::class,
@@ -122,9 +117,8 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
         /** @var array<class-string, class-string> $uses */
         $uses = array_flip(class_uses_recursive(static::class));
 
+        static::setupBeforeClassUsingPHPUnit();
         static::setupBeforeClassUsingWorkbench();
-
-        static::$cachedTestCaseUses = $uses;
     }
 
     /**
@@ -135,8 +129,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     public static function tearDownAfterClass(): void
     {
         static::teardownAfterClassUsingWorkbench();
-
-        static::$cachedTestCaseUses = [];
+        static::teardownAfterClassUsingPHPUnit();
 
         (function () {
             $this->classDocBlocks = [];
