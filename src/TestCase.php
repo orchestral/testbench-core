@@ -127,10 +127,5 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     {
         static::teardownAfterClassUsingWorkbench();
         static::teardownAfterClassUsingPHPUnit();
-
-        (function () {
-            $this->classDocBlocks = [];
-            $this->methodDocBlocks = [];
-        })->call(Registry::getInstance());
     }
 }

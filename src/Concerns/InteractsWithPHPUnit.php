@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Util\Annotation\Registry;
 
 trait InteractsWithPHPUnit
 {
@@ -54,5 +55,11 @@ trait InteractsWithPHPUnit
     public static function teardownAfterClassUsingPHPUnit(): void
     {
         static::$cachedTestCaseUses = [];
+
+
+        (function () {
+            $this->classDocBlocks = [];
+            $this->methodDocBlocks = [];
+        })->call(Registry::getInstance());
     }
 }
