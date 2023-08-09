@@ -22,7 +22,7 @@ class CommanderTest extends TestCase
      *
      * @group commander
      */
-    public function it_can_call_commander_using_cli()
+    public function it_can_call_commander_using_cli_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
             $command = [static::phpBinary(), 'testbench', '--version', '--no-ansi'];
@@ -31,6 +31,25 @@ class CommanderTest extends TestCase
             $process->mustRun();
 
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $process->getOutput());
+        });
+    }
+
+    /**
+     * @test
+     *
+     * @group commander
+     */
+    public function it_can_call_commander_using_cli_and_get_current_environment()
+    {
+        $this->withoutSqliteDatabase(function () {
+            $command = [$this->phpBinary(), 'testbench', 'env'];
+
+            $process = $this->processFromShellCommandLine($command, [
+                'APP_ENV' => 'workbench',
+            ]);
+            $process->mustRun();
+
+            $this->assertSame('INFO  The application environment is [workbench].', trim($process->getOutput()));
         });
     }
 
@@ -101,6 +120,11 @@ class CommanderTest extends TestCase
         });
     }
 
+    /**
+     * @test
+     *
+     * @group commander
+     */
     public function it_can_call_commander_using_cli_and_run_migration()
     {
         $this->withSqliteDatabase(function () {
