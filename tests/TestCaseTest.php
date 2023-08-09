@@ -16,11 +16,14 @@ class TestCaseTest extends TestCase
 
         $app = $testbench->createApplication();
 
-        $this->assertInstanceOf('\Orchestra\Testbench\Contracts\TestCase', $testbench);
-        $this->assertInstanceOf('\Illuminate\Foundation\Application', $app);
+        $this->assertInstanceOf(\Illuminate\Foundation\Application::class, $app);
         $this->assertEquals('UTC', date_default_timezone_get());
         $this->assertEquals('testing', $app['env']);
-        $this->assertInstanceOf('\Illuminate\Config\Repository', $app['config']);
+        $this->assertSame('testing', $app->environment());
+        $this->assertInstanceOf(\Illuminate\Config\Repository::class, $app['config']);
+
+        $this->assertInstanceOf(\Orchestra\Testbench\Contracts\TestCase::class, $testbench);
+        $this->assertTrue($testbench->isRunningTestCase());
     }
 
     /** @test */
