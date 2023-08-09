@@ -21,7 +21,7 @@ class CommanderTest extends TestCase
      *
      * @group commander
      */
-    public function it_can_call_commander_using_cli()
+    public function it_can_call_commander_using_cli_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
             $command = [static::phpBinary(), 'testbench', '--version', '--no-ansi'];
@@ -30,6 +30,25 @@ class CommanderTest extends TestCase
             $process->mustRun();
 
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $process->getOutput());
+        });
+    }
+
+    /**
+     * @test
+     *
+     * @group commander
+     */
+    public function it_can_call_commander_using_cli_and_get_current_environment()
+    {
+        $this->withoutSqliteDatabase(function () {
+            $command = [$this->phpBinary(), 'testbench', 'env'];
+
+            $process = $this->processFromShellCommandLine($command, [
+                'APP_ENV' => 'workbench',
+            ]);
+            $process->mustRun();
+
+            $this->assertSame('INFO  The application environment is [workbench].', trim($process->getOutput()));
         });
     }
 
@@ -100,6 +119,11 @@ class CommanderTest extends TestCase
         });
     }
 
+    /**
+     * @test
+     *
+     * @group commander
+     */
     public function it_can_call_commander_using_cli_and_run_migration()
     {
         $this->withSqliteDatabase(function () {
@@ -114,7 +138,7 @@ class CommanderTest extends TestCase
             $this->assertSame([
                 '2013_07_26_182750_create_testbench_users_table',
                 '2014_10_12_000000_testbench_create_users_table',
-                '2014_10_12_100000_testbench_create_password_resets_table',
+                '2014_10_12_100000_testbench_create_password_reset_tokens_table',
                 '2019_08_19_000000_testbench_create_failed_jobs_table',
             ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });
