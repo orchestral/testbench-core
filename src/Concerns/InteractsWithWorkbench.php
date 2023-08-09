@@ -7,6 +7,8 @@ use Orchestra\Testbench\Foundation\Config;
 
 trait InteractsWithWorkbench
 {
+    use InteractsWithPHPUnit;
+
     /**
      * The cached test case configuration.
      *
@@ -21,6 +23,10 @@ trait InteractsWithWorkbench
      */
     public static function applicationBasePathUsingWorkbench()
     {
+        if (! static::usesTestingConcern()) {
+            return null;
+        }
+
         return $_ENV['APP_BASE_PATH'] ?? $_ENV['TESTBENCH_APP_BASE_PATH'] ?? null;
     }
 
@@ -31,7 +37,11 @@ trait InteractsWithWorkbench
      */
     public function ignorePackageDiscoveriesFromUsingWorkbench()
     {
-        if (property_exists($this, 'enablesPackageDiscoveries') && $this->enablesPackageDiscoveries === true) {
+        if (
+            $this->isRunningTestCase()
+            && property_exists($this, 'enablesPackageDiscoveries')
+            && $this->enablesPackageDiscoveries === true
+        ) {
             return static::$cachedConfigurationForWorkbench?->getExtraAttributes()['dont-discover'] ?? [];
         }
 
@@ -46,7 +56,10 @@ trait InteractsWithWorkbench
      */
     protected function getPackageBootstrappersUsingWorkbench($app)
     {
-        if (empty($bootstrappers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['bootstrappers'] ?? null))) {
+        if (
+            ! $this->isRunningTestCase()
+            || empty($bootstrappers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['bootstrappers'] ?? null))
+        ) {
             return null;
         }
 
@@ -61,7 +74,10 @@ trait InteractsWithWorkbench
      */
     protected function getPackageProvidersUsingWorkbench($app)
     {
-        if (empty($providers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['providers'] ?? null))) {
+        if (
+            ! $this->isRunningTestCase()
+            || empty($providers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['providers'] ?? null))
+        ) {
             return null;
         }
 
@@ -83,8 +99,7 @@ trait InteractsWithWorkbench
 
         if (
             ! \is_null($config['laravel'])
-            && property_exists(static::class, 'cachedTestCaseUses')
-            && isset(static::$cachedTestCaseUses[WithWorkbench::class]) // @phpstan-ignore-line
+            && isset(static::$cachedTestCaseUses[WithWorkbench::class])
         ) {
             $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
         }

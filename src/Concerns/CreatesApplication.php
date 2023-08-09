@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * @property bool|null $enablesPackageDiscoveries
@@ -400,20 +399,6 @@ trait CreatesApplication
     final protected function resetApplicationArtisanCommands($app)
     {
         $app['Illuminate\Contracts\Console\Kernel']->setArtisan(null);
-    }
-
-    /**
-     * Determine if the trait is used within testing.
-     *
-     * @return bool
-     */
-    public function isRunningTestCase(): bool
-    {
-        return $this instanceof PHPUnitTestCase
-            || (
-                property_exists($this, 'cachedTestCaseUses')
-                && isset(static::$cachedTestCaseUses[Testing::class] // @phpstan-ignore-line
-                ));
     }
 
     /**
