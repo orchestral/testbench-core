@@ -409,7 +409,8 @@ trait CreatesApplication
      */
     public function isRunningTestCase(): bool
     {
-        return $this instanceof PHPUnitTestCase;
+        return $this instanceof PHPUnitTestCase
+            || (property_exists($this, 'cachedTestCaseUses') && isset(static::$cachedTestCaseUses[Testing::class]));
     }
 
     /**

@@ -81,9 +81,11 @@ trait InteractsWithWorkbench
 
         $config = Config::loadFromYaml($workingPath);
 
+        ray(static::$cachedTestCaseUses);
+
         if (
             ! \is_null($config['laravel'])
-            && property_exists(static, 'cachedTestCaseUses')
+            && property_exists(static::class, 'cachedTestCaseUses')
             && isset(static::$cachedTestCaseUses[WithWorkbench::class])
         ) {
             $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
