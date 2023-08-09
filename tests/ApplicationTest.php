@@ -20,9 +20,10 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf(Application::class, $app);
         $this->assertSame('App\\', $app->getNamespace());
-        $this->assertSame('testing', $app->environment());
         $this->assertEquals('testing', $app['env']);
         $this->assertSame($app['env'], $app['config']['app.env']);
+        $this->assertSame('testing', $app->environment());
+        $this->assertTrue($app->runningUnitTests());
 
         $this->assertFalse($testbench->isRunningTestCase());
     }

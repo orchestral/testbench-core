@@ -29,6 +29,7 @@ class TestCaseTest extends TestCase
         $this->assertEquals('UTC', date_default_timezone_get());
         $this->assertEquals('testing', $app['env']);
         $this->assertSame('testing', $app->environment());
+        $this->assertTrue($app->runningUnitTests());
         $this->assertInstanceOf(ConfigRepository::class, $app['config']);
 
         $this->assertInstanceOf(TestCaseContract::class, $testbench);
@@ -38,11 +39,17 @@ class TestCaseTest extends TestCase
     /** @test */
     public function it_can_create_a_container()
     {
-        $app = container()->createApplication();
+        $container = container();
+
+        $app = $container->createApplication();
 
         $this->assertInstanceOf(Application::class, $app);
         $this->assertEquals('UTC', date_default_timezone_get());
         $this->assertEquals('testing', $app['env']);
+        $this->assertSame('testing', $app->environment());
+        $this->assertTrue($app->runningUnitTests());
         $this->assertInstanceOf(ConfigRepository::class, $app['config']);
+
+        $this->assertFalse($container->isRunningTestCase());
     }
 }
