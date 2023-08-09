@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use PHPUnit\Util\Annotation\Registry;
 
 trait InteractsWithPHPUnit
 {
