@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.26.1
+
+Released: 2023-08-09
+
+### Added
+
+* Add new `Orchestra\Testbench\Concerns\InteractsWithPHPUnit` to handle `CreatesApplication` within PHPUnit.
+
+### Fixes
+
+* Fixes `workbench.start` path when accessing the `/` route return 404.
+* Only Configure `TESTBENCH_APP_BASE_PATH` environment variable only when running under tests.
+
 ## 7.26.0
 
 Released: 2023-08-08
