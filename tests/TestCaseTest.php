@@ -20,6 +20,7 @@ class TestCaseTest extends TestCase
         $this->assertEquals('UTC', date_default_timezone_get());
         $this->assertEquals('testing', $app['env']);
         $this->assertSame('testing', $app->environment());
+        $this->assertTrue($app->runningUnitTests());
         $this->assertInstanceOf(\Illuminate\Config\Repository::class, $app['config']);
 
         $this->assertInstanceOf(\Orchestra\Testbench\Contracts\TestCase::class, $testbench);
@@ -36,6 +37,10 @@ class TestCaseTest extends TestCase
         $this->assertInstanceOf('\Illuminate\Foundation\Application', $app);
         $this->assertEquals('UTC', date_default_timezone_get());
         $this->assertEquals('testing', $app['env']);
+        $this->assertSame('testing', $app->environment());
+        $this->assertTrue($app->runningUnitTests());
         $this->assertInstanceOf('\Illuminate\Config\Repository', $app['config']);
+
+        $this->assertFalse($container->isRunningTestCase());
     }
 }
