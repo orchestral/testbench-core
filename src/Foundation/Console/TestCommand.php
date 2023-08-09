@@ -113,7 +113,10 @@ class TestCommand extends Command
         return array_merge([
             'APP_KEY' => Env::get('APP_KEY'),
             'APP_DEBUG' => Env::get('APP_DEBUG'),
+            'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
+            'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
+            'APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::phpunitEnvironmentVariables());
     }
 
@@ -127,6 +130,7 @@ class TestCommand extends Command
         return array_merge([
             'APP_KEY' => Env::get('APP_KEY'),
             'APP_DEBUG' => Env::get('APP_DEBUG'),
+            'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
             'APP_BASE_PATH' => $this->laravel->basePath(),
