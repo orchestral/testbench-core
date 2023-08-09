@@ -335,7 +335,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationBootstrappers($app)
     {
-        if ($this instanceof PHPUnitTestCase) {
+        if ($this->isRunningTestCase()) {
             $app->make('Orchestra\Testbench\Bootstrap\HandleExceptions', ['testbench' => $this])->bootstrap($app);
         } else {
             $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
@@ -400,6 +400,16 @@ trait CreatesApplication
     final protected function resetApplicationArtisanCommands($app)
     {
         $app['Illuminate\Contracts\Console\Kernel']->setArtisan(null);
+    }
+
+    /**
+     * Determine if the trait is used within testing.
+     *
+     * @return bool
+     */
+    public function isRunningTestCase(): bool
+    {
+        return $this instanceof PHPUnitTestCase;
     }
 
     /**
