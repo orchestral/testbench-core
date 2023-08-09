@@ -84,7 +84,7 @@ trait InteractsWithWorkbench
         if (
             ! \is_null($config['laravel'])
             && property_exists(static::class, 'cachedTestCaseUses')
-            && isset(static::$cachedTestCaseUses[WithWorkbench::class])
+            && isset(static::$cachedTestCaseUses[WithWorkbench::class]) // @phpstan-ignore-line
         ) {
             $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
         }
