@@ -33,7 +33,6 @@
         </testsuite>
     </testsuites>
     <php>
-        <server name="APP_ENV" value="testing"/>
         <server name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
     </php>
 </phpunit>
