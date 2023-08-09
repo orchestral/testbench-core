@@ -61,15 +61,17 @@ trait CopyTestbenchFiles
      */
     protected function copyTestbenchDotEnvFile(Application $app, Filesystem $filesystem, string $workingPath): void
     {
+        $workingPath = $filesystem->isDirectory("{$workingPath}/workbench")
+            ? "{$workingPath}/workbench"
+            : $workingPath;
+
         $configurationFile = Collection::make([
-            "{$workingPath}/workbench/{$this->environmentFile}",
-            "{$workingPath}/workbench/{$this->environmentFile}.example",
-            "{$workingPath}/workbench/{$this->environmentFile}.dist",
-            "{$workingPath}/{$this->environmentFile}",
-            "{$workingPath}/{$this->environmentFile}.example",
-            "{$workingPath}/{$this->environmentFile}.dist",
-            $app->basePath('.env.example'),
-        ])->filter(fn ($file) => $filesystem->exists($file))
+            $this->environmentFile,
+            "{$this->environmentFile}.example",
+            "{$this->environmentFile}.dist",
+        ])->map(fn ($file) => "{$workingPath}/{$file}")
+            ->push($app->basePath('.env.example'))
+            ->filter(fn ($file) => $filesystem->exists($file))
             ->first();
 
         $environmentFile = $app->basePath('.env');
