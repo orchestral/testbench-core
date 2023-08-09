@@ -5,7 +5,6 @@ namespace Orchestra\Testbench;
 use Illuminate\Foundation\Testing;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\TestCase as PHPUnit;
-use PHPUnit\Util\Annotation\Registry;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {

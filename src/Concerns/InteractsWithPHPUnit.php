@@ -56,7 +56,6 @@ trait InteractsWithPHPUnit
     {
         static::$cachedTestCaseUses = [];
 
-
         (function () {
             $this->classDocBlocks = [];
             $this->methodDocBlocks = [];
