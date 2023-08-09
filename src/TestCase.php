@@ -40,13 +40,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     protected $enablesPackageDiscoveries = false;
 
     /**
-     * The cached uses for test case.
-     *
-     * @var array<class-string, class-string>
-     */
-    protected static $cachedTestCaseUses = [];
-
-    /**
      * Setup the test environment.
      *
      * @return void
@@ -107,6 +100,8 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
             Concerns\HandlesAnnotations::class,
             Concerns\HandlesDatabases::class,
             Concerns\HandlesRoutes::class,
+            Concerns\InteractsWithPHPUnit::class,
+            Concerns\InteractsWithWorkbench::class,
             Concerns\Testing::class,
             Concerns\WithFactories::class,
             Concerns\WithLaravelMigrations::class,
@@ -132,10 +127,11 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      */
     public static function setUpBeforeClass(): void
     {
+        static::setupBeforeClassUsingPHPUnit();
+        static::setupBeforeClassUsingWorkbench();
+
         /** @var array<class-string, class-string> $uses */
         $uses = array_flip(class_uses_recursive(static::class));
-
-        static::setupBeforeClassUsingWorkbench();
 
         static::$cachedTestCaseUses = $uses;
     }
@@ -150,7 +146,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
         static::$latestResponse = null;
 
         static::teardownAfterClassUsingWorkbench();
-
-        static::$cachedTestCaseUses = [];
+        static::teardownAfterClassUsingPHPUnit();
     }
 }
