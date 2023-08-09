@@ -21,6 +21,7 @@ class ApplicationTest extends TestCase
         $this->assertSame('App\\', $app->getNamespace());
         $this->assertSame('testing', $app->environment());
         $this->assertEquals('testing', $app['env']);
+        $this->assertSame($app['env'], $app['config']['app.env']);
 
         $this->assertFalse($testbench->isRunningTestCase());
     }

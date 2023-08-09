@@ -265,8 +265,18 @@ trait CreatesApplication
             ! \is_null($timezone) && date_default_timezone_set($timezone);
         });
 
-        $app['config']['app.aliases'] = $this->resolveApplicationAliases($app);
-        $app['config']['app.providers'] = $this->resolveApplicationProviders($app);
+        tap($app['config'], function ($config) use ($app) {
+            $app->detectEnvironment(function() use ($config) {
+                return $this->isRunningTestCase()
+                    ? 'testing'
+                    : $config->get('app.env', 'workbench');
+            });
+
+            $config->set([
+                'app.aliases' => $this->resolveApplicationAliases($app),
+                'app.providers' => $this->resolveApplicationProviders($app),
+            ]);
+        });
     }
 
     /**
@@ -279,10 +289,6 @@ trait CreatesApplication
     {
         Facade::clearResolvedInstances();
         Facade::setFacadeApplication($app);
-
-        $app->detectEnvironment(static function () {
-            return 'testing';
-        });
     }
 
     /**
