@@ -129,11 +129,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     {
         static::setupBeforeClassUsingPHPUnit();
         static::setupBeforeClassUsingWorkbench();
-
-        /** @var array<class-string, class-string> $uses */
-        $uses = array_flip(class_uses_recursive(static::class));
-
-        static::$cachedTestCaseUses = $uses;
     }
 
     /**
