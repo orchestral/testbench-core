@@ -15,9 +15,16 @@ class ApplicationTest extends TestCase
      */
     public function it_can_create_an_application()
     {
-        $app = Testbench::create(realpath(__DIR__.'/../laravel'));
+        $testbench = new Testbench(realpath(__DIR__.'/../laravel'));
+        $app = $testbench->createApplication();
 
         $this->assertInstanceOf(Application::class, $app);
         $this->assertSame('App\\', $app->getNamespace());
+        $this->assertEquals('testing', $app['env']);
+        $this->assertSame($app['env'], $app['config']['app.env']);
+        $this->assertSame('testing', $app->environment());
+        $this->assertTrue($app->runningUnitTests());
+
+        $this->assertFalse($testbench->isRunningTestCase());
     }
 }
