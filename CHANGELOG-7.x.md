@@ -9,6 +9,7 @@ Released: 2023-08-10
 ### Fixes
 
 * Fixes `app()->environment()` detection when creating application `Orchestra\Testbench\Concerns\CreatesApplication` outside of `PHPUnit`.
+* Fixes error `Undefined array key "autoload-dev"` when executing `workbench:install` command.
 
 ## 7.26.1
 
