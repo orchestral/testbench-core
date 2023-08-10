@@ -22,10 +22,10 @@ class ServeCommand extends Command
 
         static::$passthroughVariables[] = 'TESTBENCH_WORKING_PATH';
 
-        // @TODO: ServeCommandStarted event
+        event(new ServeCommandStarted($input, $output, $this->components));
 
         return tap(parent::execute($input, $output), function ($exitCode) {
-            // @TODO: ServeCommandEnded event
+            event(new ServeCommandEnded($input, $output, $this->components, $exitCode));
         });
     }
 
