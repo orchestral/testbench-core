@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Workbench\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Workbench\Composer;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -87,12 +86,18 @@ class InstallCommand extends Command
         $composer = (new Composer($filesystem))->setWorkingPath($workingPath);
 
         $composer->modify(function (array $content) {
-            Arr::add($content['autoload-dev'], 'psr-4', []);
+            /** @var array{autoload-dev?: array{psr-4?: array<string, string>}} $content */
+            if (! \array_key_exists('autoload-dev', $content)) {
+                $content['autoload-dev'] = [];
+            }
+
+            /** @var array{autoload-dev: array{psr-4?: array<string, string>}} $content */
+            if (! \array_key_exists('psr-4', $content['autoload-dev'])) {
+                $content['autoload-dev']['psr-4'] = [];
+            }
 
             foreach (['Workbench\\App\\' => 'workbench/app/', 'Workbench\\Database\\' => 'workbench/database/'] as $namespace => $path) {
                 if (! \array_key_exists($namespace, $content['autoload-dev']['psr-4'])) {
-                    Arr::add($content, 'autoload-dev.psr-4', []);
-
                     $content['autoload-dev']['psr-4'][$namespace] = $path;
 
                     $this->components->task(sprintf(
