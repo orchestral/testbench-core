@@ -87,12 +87,16 @@ class InstallCommand extends Command
         $composer = (new Composer($filesystem))->setWorkingPath($workingPath);
 
         $composer->modify(function (array $content) {
-            Arr::add($content['autoload-dev'], 'psr-4', []);
+            if (! array_key_exists('autoload-dev', $content)) {
+                $content['autoload-dev'] = [];
+            }
+
+            if (! array_key_exists('psr-4', $content['autoload-dev'])) {
+                $content['autoload-dev']['psr-4'] = [];
+            }
 
             foreach (['Workbench\\App\\' => 'workbench/app/', 'Workbench\\Database\\' => 'workbench/database/'] as $namespace => $path) {
                 if (! \array_key_exists($namespace, $content['autoload-dev']['psr-4'])) {
-                    Arr::add($content, 'autoload-dev.psr-4', []);
-
                     $content['autoload-dev']['psr-4'][$namespace] = $path;
 
                     $this->components->task(sprintf(
