@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Foundation\Console\ServeCommand as Command;
+use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
+use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
