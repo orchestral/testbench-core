@@ -63,6 +63,8 @@ class HelpersTest extends TestCase
             'user' => 'crynobone@gmail.com',
             'guard' => 'web',
             'install' => false,
+            'sync' => [],
+            'build' => [],
         ], workbench());
     }
 
@@ -74,6 +76,8 @@ class HelpersTest extends TestCase
             'user' => null,
             'guard' => null,
             'install' => true,
+            'sync' => [],
+            'build' => [],
         ], workbench());
     }
 

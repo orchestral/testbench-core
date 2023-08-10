@@ -9,19 +9,24 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ServeCommand extends Command
 {
     /**
-     * Initializes the command after the input has been bound and before the input
-     * is validated.
+     * Execute the console command.
      *
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
      * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @return void
+     * @return int
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @phpstan-ignore-next-line */
         $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH;
 
         static::$passthroughVariables[] = 'TESTBENCH_WORKING_PATH';
+
+        // @TODO: ServeCommandStarted event
+
+        return tap(parent::execute($input, $output), function ($exitCode) {
+            // @TODO: ServeCommandEnded event
+        });
     }
 
     /**
