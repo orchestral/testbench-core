@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.6.2
+
+Released: 2023-08-10
+
+### Fixes
+
+* Fixes `app()->environment()` detection when creating application `Orchestra\Testbench\Concerns\CreatesApplication` outside of `PHPUnit`.
+
 ## 8.6.1
 
 Released: 2023-08-09
