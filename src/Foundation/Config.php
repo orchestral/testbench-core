@@ -23,7 +23,7 @@ use Symfony\Component\Yaml\Yaml;
  *   user?: string|int|null,
  *   guard?: string|null,
  *   install?: bool,
- *   sync?: array<int, array{from: string, to: string}>
+ *   sync?: array<int, array{from: string, to: string}>,
  *   build?: array<int, string>
  * }
  * @phpstan-type TConfig array{
