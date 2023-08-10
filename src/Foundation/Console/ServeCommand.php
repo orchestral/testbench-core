@@ -24,7 +24,7 @@ class ServeCommand extends Command
 
         event(new ServeCommandStarted($input, $output, $this->components));
 
-        return tap(parent::execute($input, $output), function ($exitCode) {
+        return tap(parent::execute($input, $output), function ($input, $output, $exitCode) {
             event(new ServeCommandEnded($input, $output, $this->components, $exitCode));
         });
     }
