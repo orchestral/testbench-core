@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Workbench\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Workbench\Composer;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -88,12 +87,12 @@ class InstallCommand extends Command
 
         $composer->modify(function (array $content) {
             /** @var array{autoload-dev?: array{psr-4?: array<string, string>}} $content */
-            if (! array_key_exists('autoload-dev', $content)) {
+            if (! \array_key_exists('autoload-dev', $content)) {
                 $content['autoload-dev'] = [];
             }
 
             /** @var array{autoload-dev: array{psr-4?: array<string, string>}} $content */
-            if (! array_key_exists('psr-4', $content['autoload-dev'])) {
+            if (! \array_key_exists('psr-4', $content['autoload-dev'])) {
                 $content['autoload-dev']['psr-4'] = [];
             }
 
