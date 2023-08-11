@@ -81,6 +81,9 @@ class Config extends Fluent implements ConfigContract
         'user' => null,
         'guard' => null,
         'install' => true,
+        'sync' => [],
+        'build' => [],
+        'assets' => [],
     ];
 
     /**

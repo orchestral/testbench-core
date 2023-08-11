@@ -266,7 +266,7 @@ trait CreatesApplication
         });
 
         tap($app['config'], function ($config) use ($app) {
-            $app->detectEnvironment(function() use ($config) {
+            $app->detectEnvironment(function () use ($config) {
                 return $this->isRunningTestCase()
                     ? 'testing'
                     : $config->get('app.env', 'workbench');

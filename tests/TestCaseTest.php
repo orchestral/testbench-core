@@ -6,7 +6,6 @@ use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Foundation\Application;
 use function Orchestra\Testbench\container;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
-use function Orchestra\Testbench\phpunit_version_compare;
 use PHPUnit\Framework\TestCase;
 
 class TestCaseTest extends TestCase
