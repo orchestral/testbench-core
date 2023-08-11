@@ -29,7 +29,9 @@ trait HandlesRoutes
             });
 
         if (method_exists($this, 'parseTestMethodAnnotations')) {
-            $this->parseTestMethodAnnotations($this->app, 'define-route');
+            $this->parseTestMethodAnnotations($this->app, 'define-route', function ($method) use ($router) {
+                $this->{$method}($router);
+            });
         }
 
         $router->getRoutes()->refreshNameLookups();

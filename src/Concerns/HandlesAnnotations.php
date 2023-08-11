@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\Version;
@@ -15,7 +16,7 @@ trait HandlesAnnotations
      * @param  \Illuminate\Foundation\Application  $app
      * @param  string  $name
      */
-    protected function parseTestMethodAnnotations($app, string $name): void
+    protected function parseTestMethodAnnotations($app, string $name, Closure $callback = null): void
     {
         $instance = new ReflectionClass($this);
 
@@ -39,7 +40,7 @@ trait HandlesAnnotations
             Collection::make($actions ?? [])
                 ->filter(function ($method) {
                     return ! \is_null($method) && method_exists($this, $method);
-                })->each(function ($method) use ($app) {
+                })->each($callback ?? function ($method) use ($app) {
                     $this->{$method}($app);
                 });
         });
