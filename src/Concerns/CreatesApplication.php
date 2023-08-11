@@ -358,6 +358,7 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
+            /** @phpstan-ignore-next-line */
             $this->setUpApplicationRoutes($app);
         }
 
