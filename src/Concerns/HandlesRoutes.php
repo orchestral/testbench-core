@@ -30,7 +30,9 @@ trait HandlesRoutes
             ->group(fn ($router) => $this->defineWebRoutes($router));
 
         if (method_exists($this, 'parseTestMethodAnnotations')) {
-            $this->parseTestMethodAnnotations($app, 'define-route');
+            $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
+                $this->{$method}($router);
+            });
         }
 
         $router->getRoutes()->refreshNameLookups();
