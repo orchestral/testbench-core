@@ -11,15 +11,17 @@ trait HandlesRoutes
 {
     /**
      * Setup routes requirements.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
      */
-    protected function setUpApplicationRoutes(): void
+    protected function setUpApplicationRoutes($app): void
     {
-        if ($this->app->routesAreCached()) {
+        if ($app->routesAreCached()) {
             return;
         }
 
         /** @var \Illuminate\Routing\Router $router */
-        $router = $this->app['router'];
+        $router = $app['router'];
 
         $this->defineRoutes($router);
 
@@ -29,7 +31,7 @@ trait HandlesRoutes
             });
 
         if (method_exists($this, 'parseTestMethodAnnotations')) {
-            $this->parseTestMethodAnnotations($this->app, 'define-route', function ($method) use ($router) {
+            $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
                 $this->{$method}($router);
             });
         }

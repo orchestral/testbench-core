@@ -357,6 +357,10 @@ trait CreatesApplication
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
+        if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
+            $this->setUpApplicationRoutes($app);
+        }
+
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
             $app->make($bootstrap)->bootstrap($app);
         }
