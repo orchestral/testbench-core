@@ -3,25 +3,32 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Foundation\Console\ServeCommand as Command;
+use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
+use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ServeCommand extends Command
 {
     /**
-     * Initializes the command after the input has been bound and before the input
-     * is validated.
+     * Execute the console command.
      *
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
      * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @return void
+     * @return int
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @phpstan-ignore-next-line */
         $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH;
 
         static::$passthroughVariables[] = 'TESTBENCH_WORKING_PATH';
+
+        event(new ServeCommandStarted($input, $output, $this->components));
+
+        return tap(parent::execute($input, $output), function ($input, $output, $exitCode) {
+            event(new ServeCommandEnded($input, $output, $this->components, $exitCode));
+        });
     }
 
     /**
