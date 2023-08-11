@@ -11,56 +11,21 @@ parameters:
 			path: src/Bootstrap/LoadEnvironmentVariables.php
 
 		-
-			message: "#^PHPDoc type array\\<string\\> of property Orchestra\\\\Testbench\\\\Exceptions\\\\Handler\\:\\:\\$dontFlash is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\\:\\:\\$dontFlash\\.$#"
-			count: 1
-			path: src/Exceptions/Handler.php
-
-		-
-			message: "#^PHPDoc type array\\<string\\> of property Orchestra\\\\Testbench\\\\Exceptions\\\\Handler\\:\\:\\$dontReport is not covariant with PHPDoc type array\\<int, class\\-string\\<Throwable\\>\\> of overridden property Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\\:\\:\\$dontReport\\.$#"
-			count: 1
-			path: src/Exceptions/Handler.php
-
-		-
-			message: "#^PHPDoc type array of property Orchestra\\\\Testbench\\\\Http\\\\Kernel\\:\\:\\$middleware is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Foundation\\\\Http\\\\Kernel\\:\\:\\$middleware\\.$#"
-			count: 1
-			path: src/Http/Kernel.php
-
-		-
-			message: "#^PHPDoc type array of property Orchestra\\\\Testbench\\\\Http\\\\Middleware\\\\TrimStrings\\:\\:\\$except is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TrimStrings\\:\\:\\$except\\.$#"
-			count: 1
-			path: src/Http/Middleware/TrimStrings.php
-
-		-
-			message: "#^PHPDoc type array of property Orchestra\\\\Testbench\\\\Http\\\\Middleware\\\\VerifyCsrfToken\\:\\:\\$except is not covariant with PHPDoc type array\\<int, string\\> of overridden property Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\VerifyCsrfToken\\:\\:\\$except\\.$#"
-			count: 1
-			path: src/Http/Middleware/VerifyCsrfToken.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<class\\-string,class\\-string\\>\\:\\:transform\\(\\) expects callable\\(class\\-string, class\\-string\\)\\: class\\-string, Closure\\(mixed\\)\\: string given\\.$#"
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callSetUpTestCaseCallbacks\\(\\)\\.$#"
 			count: 1
 			path: src/TestCase.php
 
 		-
-			message: "#^Parameter \\#1 \\$testCase of static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callSetUpTestCaseCallbacks\\(\\) expects Illuminate\\\\Foundation\\\\Testing\\\\TestCase, \\$this\\(Orchestra\\\\Testbench\\\\TestCase\\) given\\.$#"
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callTearDownTestCaseCallbacks\\(\\)\\.$#"
 			count: 1
 			path: src/TestCase.php
 
 		-
-			message: "#^Parameter \\#1 \\$testCase of static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callTearDownTestCaseCallbacks\\(\\) expects Illuminate\\\\Foundation\\\\Testing\\\\TestCase, \\$this\\(Orchestra\\\\Testbench\\\\TestCase\\) given\\.$#"
+			message: "#^Parameter \\#1 \\$uses of method Orchestra\\\\Testbench\\\\TestCase\\:\\:setUpTheTestEnvironmentTraits\\(\\) expects array\\<class\\-string, class\\-string\\>, array\\<class\\-string, class\\-string\\>\\|null given\\.$#"
 			count: 1
 			path: src/TestCase.php
 
 		-
 			message: "#^Property Orchestra\\\\Testbench\\\\TestCase\\:\\:\\$app \\(Illuminate\\\\Foundation\\\\Application\\) does not accept null\\.$#"
 			count: 1
-			path: src/TestCase.php
-
-		-
-			message: "#^Unable to resolve the template type TMakeKey in call to method static method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:make\\(\\)$#"
-			count: 2
-			path: src/TestCase.php
-
-		-
-			message: "#^Unable to resolve the template type TMakeValue in call to method static method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:make\\(\\)$#"
-			count: 2
 			path: src/TestCase.php
