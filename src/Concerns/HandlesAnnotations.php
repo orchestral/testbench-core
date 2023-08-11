@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\Version;
 use PHPUnit\Util\Annotation\Registry;
 use ReflectionClass;
 

@@ -10,9 +10,9 @@ trait InteractsWithPHPUnit
     /**
      * The cached uses for test case.
      *
-     * @var array<class-string, class-string>
+     * @var array<class-string, class-string>|null
      */
-    protected static $cachedTestCaseUses = [];
+    protected static $cachedTestCaseUses;
 
     /**
      * Determine if the trait is used within testing.
@@ -32,7 +32,24 @@ trait InteractsWithPHPUnit
      */
     public static function usesTestingConcern(?string $trait = null): bool
     {
+        static::defineCachedTestCaseUses();
+
         return isset(static::$cachedTestCaseUses[$trait ?? Testing::class]);
+    }
+
+    /**
+     * Define cached test case uses.
+     *
+     * @return void
+     */
+    public static function defineCachedTestCaseUses(): void
+    {
+        if (\is_null(static::$cachedTestCaseUses)) {
+            /** @var array<class-string, class-string> $uses */
+            $uses = array_flip(class_uses_recursive(static::class));
+
+            static::$cachedTestCaseUses = $uses;
+        }
     }
 
     /**
@@ -42,10 +59,7 @@ trait InteractsWithPHPUnit
      */
     public static function setupBeforeClassUsingPHPUnit(): void
     {
-        /** @var array<class-string, class-string> $uses */
-        $uses = array_flip(class_uses_recursive(static::class));
-
-        static::$cachedTestCaseUses = $uses;
+        static::defineCachedTestCaseUses();
     }
 
     /**
@@ -55,7 +69,7 @@ trait InteractsWithPHPUnit
      */
     public static function teardownAfterClassUsingPHPUnit(): void
     {
-        static::$cachedTestCaseUses = [];
+        static::$cachedTestCaseUses = null;
 
         (function () {
             $this->classDocBlocks = [];
