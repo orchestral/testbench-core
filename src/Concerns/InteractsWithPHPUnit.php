@@ -27,11 +27,12 @@ trait InteractsWithPHPUnit
     /**
      * Determine if the trait is used Orchestra\Testbench\Concerns\Testing trait.
      *
+     * @param  class-string|null  $trait
      * @return bool
      */
-    public static function usesTestingConcern(): bool
+    public static function usesTestingConcern(?string $trait = null): bool
     {
-        return isset(static::$cachedTestCaseUses[Testing::class]);
+        return isset(static::$cachedTestCaseUses[$trait ?? Testing::class]);
     }
 
     /**
