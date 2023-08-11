@@ -16,7 +16,8 @@ use Symfony\Component\Yaml\Yaml;
  *   guard: string|null,
  *   install: bool,
  *   sync: array<int, array{from: string, to: string}>,
- *   build: array<int, string>
+ *   build: array<int, string>,
+ *   assets: array<int, string>
  * }
  * @phpstan-type TOptionalWorkbenchConfig array{
  *   start?: string,
@@ -24,7 +25,8 @@ use Symfony\Component\Yaml\Yaml;
  *   guard?: string|null,
  *   install?: bool,
  *   sync?: array<int, array{from: string, to: string}>,
- *   build?: array<int, string>
+ *   build?: array<int, string>,
+ *   assets?: array<int, string>
  * }
  * @phpstan-type TConfig array{
  *   laravel: string|null,
@@ -81,6 +83,7 @@ class Config extends Fluent implements ConfigContract
         'install' => true,
         'sync' => [],
         'build' => [],
+        'assets' => [],
     ];
 
     /**

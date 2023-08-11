@@ -65,6 +65,7 @@ class HelpersTest extends TestCase
             'install' => false,
             'sync' => [],
             'build' => [],
+            'assets' => [],
         ], workbench());
     }
 
@@ -78,6 +79,7 @@ class HelpersTest extends TestCase
             'install' => true,
             'sync' => [],
             'build' => [],
+            'assets' => [],
         ], workbench());
     }
 

@@ -39,6 +39,7 @@ class ConfigTest extends TestCase
             'install' => true,
             'sync' => [],
             'build' => [],
+            'assets' => [],
         ], $config->getWorkbenchAttributes());
     }
 
@@ -69,6 +70,7 @@ class ConfigTest extends TestCase
             'install' => true,
             'sync' => [],
             'build' => [],
+            'assets' => [],
         ], $config->getWorkbenchAttributes());
     }
 
