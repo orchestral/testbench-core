@@ -33,7 +33,7 @@ trait HandlesAnnotations
             }, [], false)
         )->filter(static function ($actions, $key) use ($name) {
             return $key === $name;
-        })->each(function ($actions) use ($app) {
+        })->each(function ($actions) use ($app, $callback) {
             Collection::make($actions ?? [])
                 ->filter(function ($method) {
                     return ! \is_null($method) && method_exists($this, $method);
