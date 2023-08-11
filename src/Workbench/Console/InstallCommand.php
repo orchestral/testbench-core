@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Workbench\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Foundation\Events\WorkbenchInstallEnded;
+use Orchestra\Testbench\Foundation\Events\WorkbenchInstallStarted;
 use Orchestra\Testbench\Workbench\Composer;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -45,7 +47,7 @@ class InstallCommand extends Command
         /** @phpstan-ignore-next-line */
         $workingPath = TESTBENCH_WORKING_PATH;
 
-        event(new WorkbenchInstallStarted($input, $output, $this->components));
+        event(new WorkbenchInstallStarted($this->input, $this->output, $this->components));
 
         $this->prepareWorkbenchDirectories($filesystem, $workingPath);
         $this->prepareWorkbenchNamespaces($filesystem, $workingPath);
@@ -55,8 +57,8 @@ class InstallCommand extends Command
 
         $this->call('package:create-sqlite-db', ['--force' => true]);
 
-        return tap(Command::SUCCESS, function ($exitCode) use ($input, $output) {
-            event(new WorkbenchInstallEnded($input, $output, $this->components, $exitCode));
+        return tap(Command::SUCCESS, function ($exitCode) {
+            event(new WorkbenchInstallEnded($this->input, $this->output, $this->components, $exitCode));
         });
     }
 
