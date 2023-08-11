@@ -37,6 +37,9 @@ class ConfigTest extends TestCase
             'user' => 'crynobone@gmail.com',
             'guard' => null,
             'install' => true,
+            'sync' => [],
+            'build' => [],
+            'assets' => [],
         ], $config->getWorkbenchAttributes());
     }
 
@@ -65,6 +68,9 @@ class ConfigTest extends TestCase
             'user' => null,
             'guard' => null,
             'install' => true,
+            'sync' => [],
+            'build' => [],
+            'assets' => [],
         ], $config->getWorkbenchAttributes());
     }
 

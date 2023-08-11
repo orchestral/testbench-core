@@ -2,6 +2,24 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.6.3
+
+Released: 2023-08-11
+
+### Added
+
+* Added following events:
+    - `Orchestra\Testbench\Foundation\Events\ServeCommandStarted`
+    - `Orchestra\Testbench\Foundation\Events\ServeCommandEnded`
+
+### Changes
+
+* Update `workbench` configuration schema.
+
+### Fixes
+
+* Fixes `Illuminate\Foundation\Application::runningUnitTests()` detection.
+
 ## 8.6.2
 
 Released: 2023-08-10
