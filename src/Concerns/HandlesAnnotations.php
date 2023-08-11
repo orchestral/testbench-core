@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Runner\Version;
+use PHPUnit\Util\Annotation\Registry;
 use ReflectionClass;
 
 trait HandlesAnnotations
@@ -24,11 +25,7 @@ trait HandlesAnnotations
             return;
         }
 
-        if (class_exists(Version::class) && version_compare(Version::id(), '10', '>=')) {
-            $registry = \PHPUnit\Metadata\Annotation\Parser\Registry::getInstance();
-        } else {
-            $registry = \PHPUnit\Util\Annotation\Registry::getInstance();
-        }
+        $registry = Registry::getInstance();
 
         Collection::make(
             rescue(function () use ($registry) {
