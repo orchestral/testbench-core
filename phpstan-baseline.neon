@@ -21,11 +21,6 @@ parameters:
 			path: src/TestCase.php
 
 		-
-			message: "#^Parameter \\#1 \\$uses of method Orchestra\\\\Testbench\\\\TestCase\\:\\:setUpTheTestEnvironmentTraits\\(\\) expects array\\<class\\-string, class\\-string\\>, array\\<class\\-string, class\\-string\\>\\|null given\\.$#"
-			count: 1
-			path: src/TestCase.php
-
-		-
 			message: "#^Property Orchestra\\\\Testbench\\\\TestCase\\:\\:\\$app \\(Illuminate\\\\Foundation\\\\Application\\) does not accept null\\.$#"
 			count: 1
 			path: src/TestCase.php

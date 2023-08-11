@@ -32,17 +32,15 @@ trait InteractsWithPHPUnit
      */
     public static function usesTestingConcern(?string $trait = null): bool
     {
-        static::defineCachedTestCaseUses();
-
-        return isset(static::$cachedTestCaseUses[$trait ?? Testing::class]);
+        return isset(static::cachedUsesForTestCase()[$trait ?? Testing::class]);
     }
 
     /**
-     * Define cached test case uses.
+     * Define or get the cached uses for test case.
      *
-     * @return void
+     * @return array<class-string, class-string>
      */
-    public static function defineCachedTestCaseUses(): void
+    public static function cachedUsesForTestCase(): array
     {
         if (\is_null(static::$cachedTestCaseUses)) {
             /** @var array<class-string, class-string> $uses */
@@ -50,6 +48,8 @@ trait InteractsWithPHPUnit
 
             static::$cachedTestCaseUses = $uses;
         }
+
+        return static::$cachedTestCaseUses;
     }
 
     /**
@@ -59,7 +59,7 @@ trait InteractsWithPHPUnit
      */
     public static function setupBeforeClassUsingPHPUnit(): void
     {
-        static::defineCachedTestCaseUses();
+        static::cachedUsesForTestCase();
     }
 
     /**
