@@ -267,7 +267,7 @@ trait CreatesApplication
 
         tap($app['config'], function ($config) use ($app) {
             if (! $app->bound('env')) {
-                $app->detectEnvironment(function () {
+                $app->detectEnvironment(function () use ($config) {
                     return $config->get('app.env', 'workbench');
                 });
             }
