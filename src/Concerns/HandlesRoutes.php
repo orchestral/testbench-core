@@ -5,20 +5,17 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
-use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Foundation\Application;
 
 trait HandlesRoutes
 {
     /**
      * Setup routes requirements.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
      */
-    protected function setUpApplicationRoutes(): void
+    protected function setUpApplicationRoutes($app): void
     {
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
-
         if ($app->routesAreCached()) {
             return;
         }
@@ -32,7 +29,9 @@ trait HandlesRoutes
             ->group(fn ($router) => $this->defineWebRoutes($router));
 
         if (method_exists($this, 'parseTestMethodAnnotations')) {
-            $this->parseTestMethodAnnotations($app, 'define-route');
+            $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
+                $this->{$method}($router);
+            });
         }
 
         $router->getRoutes()->refreshNameLookups();
