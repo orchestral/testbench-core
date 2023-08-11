@@ -104,8 +104,6 @@ trait Testing
 
         Model::setEventDispatcher($app['events']);
 
-        $this->setUpApplicationRoutes();
-
         $this->setUpHasRun = true;
     }
 

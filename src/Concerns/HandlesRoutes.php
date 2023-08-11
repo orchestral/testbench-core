@@ -12,13 +12,11 @@ trait HandlesRoutes
 {
     /**
      * Setup routes requirements.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
      */
-    protected function setUpApplicationRoutes(): void
+    protected function setUpApplicationRoutes($app): void
     {
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
-
         if ($app->routesAreCached()) {
             return;
         }
