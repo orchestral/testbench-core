@@ -14,7 +14,7 @@ class Composer extends \Illuminate\Support\Composer
     {
         $composerFile = "{$this->workingPath}/composer.json";
 
-        $composer = json_decode((string) file_get_contents($composerFile), true);
+        $composer = json_decode((string) file_get_contents($composerFile), true, 512, JSON_THROW_ON_ERROR);
 
         $composer = \call_user_func($callback, $composer);
 
