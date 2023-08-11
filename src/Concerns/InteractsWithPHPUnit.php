@@ -21,7 +21,7 @@ trait InteractsWithPHPUnit
      */
     public function isRunningTestCase(): bool
     {
-        return $this instanceof PHPUnitTestCase || static::usesTestingConcern();
+        return $this instanceof PHPUnitTestCase; //|| static::usesTestingConcern();
     }
 
     /**
