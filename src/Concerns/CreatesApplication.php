@@ -367,10 +367,6 @@ trait CreatesApplication
         $this->defineEnvironment($app);
         $this->getEnvironmentSetUp($app);
 
-        if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
-            $this->setUpApplicationRoutes($app);
-        }
-
         $this->resolveApplicationRateLimiting($app);
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
