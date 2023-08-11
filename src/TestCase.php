@@ -70,7 +70,7 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     protected function setUpTraits()
     {
-        return $this->setUpTheTestEnvironmentTraits(static::$cachedTestCaseUses);
+        return $this->setUpTheTestEnvironmentTraits(static::cachedUsesForTestCase());
     }
 
     /**
