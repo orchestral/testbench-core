@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.33.3
+
+Released: 2023-08-11
+
+### Changes
+
+* Update `workbench` configuration schema.
+
+### Fixes
+
+* Fixes `Illuminate\Foundation\Application::runningUnitTests()` detection.
+
 ## 6.33.2
 
 Released: 2023-08-10
