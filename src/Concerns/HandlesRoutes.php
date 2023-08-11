@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
-use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Foundation\Application;
 
 trait HandlesRoutes
