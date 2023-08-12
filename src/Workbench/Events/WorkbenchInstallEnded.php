@@ -6,7 +6,7 @@ use Illuminate\Console\View\Components\Factory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ServeCommandEnded
+class WorkbenchInstallEnded
 {
     /**
      * Construct a new event.
