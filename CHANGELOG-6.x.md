@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.34.0
+
+Released: 2023-08-12
+
+### Changes
+
+* Change `HandlesRoutes` loading sequence to match common Laravel bootstrap steps.
+* Refactor `HandlesAnnotations` and `InteractsWithPHPUnit` traits.
+* Workbench integration improvements.
+
 ## 6.33.3
 
 Released: 2023-08-11
