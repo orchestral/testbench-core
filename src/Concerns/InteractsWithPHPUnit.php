@@ -2,7 +2,12 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Support\Collection;
+use function Orchestra\Testbench\phpunit_version_compare;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
+use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
+use ReflectionClass;
 
 trait InteractsWithPHPUnit
 {
@@ -21,6 +26,35 @@ trait InteractsWithPHPUnit
     public function isRunningTestCase(): bool
     {
         return $this instanceof PHPUnitTestCase || static::usesTestingConcern();
+    }
+
+    /**
+     * Resolve PHPUnit method annotations.
+     *
+     * @phpunit-overrides
+     *
+     * @return \Illuminate\Support\Collection<string, mixed>
+     */
+    protected function resolvePhpUnitAnnotations(): Collection
+    {
+        $instance = new ReflectionClass($this);
+
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+            return new Collection();
+        }
+
+        [$registry, $methodName] = phpunit_version_compare('10', '>=')
+            ? [PHPUnit10Registry::getInstance(), $this->name()] /** @phpstan-ignore-line */
+            : [PHPUnit9Registry::getInstance(), $this->getName(false)]; /** @phpstan-ignore-line */
+
+        /** @var array<string, mixed> $annotations */
+        $annotations = rescue(
+            fn () => $registry->forMethod($instance->getName(), $methodName)->symbolAnnotations(),
+            [],
+            false
+        );
+
+        return Collection::make($annotations);
     }
 
     /**
@@ -69,5 +103,13 @@ trait InteractsWithPHPUnit
     public static function teardownAfterClassUsingPHPUnit(): void
     {
         static::$cachedTestCaseUses = null;
+
+        $registry = phpunit_version_compare('10', '>=')
+            ? PHPUnit10Registry::getInstance() /** @phpstan-ignore-line */
+            : PHPUnit9Registry::getInstance(); /** @phpstan-ignore-line */
+        (function () {
+            $this->classDocBlocks = [];
+            $this->methodDocBlocks = [];
+        })->call($registry);
     }
 }
