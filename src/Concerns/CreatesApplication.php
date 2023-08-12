@@ -283,9 +283,9 @@ trait CreatesApplication
         });
 
         tap($app['config'], function ($config) use ($app) {
-            $app->detectEnvironment(
-                fn () => $this->isRunningTestCase() ? 'testing' : $config->get('app.env', 'workbench')
-            );
+            if (! $app->bound('env')) {
+                $app->detectEnvironment(fn () => $config->get('app.env', 'workbench'));
+            }
 
             $config->set([
                 'app.aliases' => $this->resolveApplicationAliases($app),
@@ -304,6 +304,10 @@ trait CreatesApplication
     {
         Facade::clearResolvedInstances();
         Facade::setFacadeApplication($app);
+
+        if ($this->isRunningTestCase()) {
+            $app->detectEnvironment(fn () => 'testing');
+        }
     }
 
     /**
@@ -372,6 +376,11 @@ trait CreatesApplication
         $this->resolveApplicationRateLimiting($app);
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
+
+        if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
+            /** @phpstan-ignore-next-line */
+            $this->setUpApplicationRoutes($app);
+        }
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
             $app->make($bootstrap)->bootstrap($app);

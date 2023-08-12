@@ -2,16 +2,19 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
+use ReflectionClass;
 
 trait InteractsWithPHPUnit
 {
     /**
      * The cached uses for test case.
      *
-     * @var array<class-string, class-string>
+     * @var array<class-string, class-string>|null
      */
-    protected static $cachedTestCaseUses = [];
+    protected static $cachedTestCaseUses;
 
     /**
      * Determine if the trait is used within testing.
@@ -24,13 +27,58 @@ trait InteractsWithPHPUnit
     }
 
     /**
+     * Resolve PHPUnit method annotations.
+     *
+     * @phpunit-overrides
+     *
+     * @return \Illuminate\Support\Collection<string, mixed>
+     */
+    protected function resolvePhpUnitAnnotations(): Collection
+    {
+        $instance = new ReflectionClass($this);
+
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+            return new Collection();
+        }
+
+        [$registry, $methodName] = [PHPUnit10Registry::getInstance(), $this->name()]; /** @phpstan-ignore-line */
+
+        /** @var array<string, mixed> $annotations */
+        $annotations = rescue(
+            fn () => $registry->forMethod($instance->getName(), $methodName)->symbolAnnotations(),
+            [],
+            false
+        );
+
+        return Collection::make($annotations);
+    }
+
+    /**
      * Determine if the trait is used Orchestra\Testbench\Concerns\Testing trait.
      *
+     * @param  class-string|null  $trait
      * @return bool
      */
-    public static function usesTestingConcern(): bool
+    public static function usesTestingConcern(string $trait = null): bool
     {
-        return isset(static::$cachedTestCaseUses[Testing::class]);
+        return isset(static::cachedUsesForTestCase()[$trait ?? Testing::class]);
+    }
+
+    /**
+     * Define or get the cached uses for test case.
+     *
+     * @return array<class-string, class-string>
+     */
+    public static function cachedUsesForTestCase(): array
+    {
+        if (\is_null(static::$cachedTestCaseUses)) {
+            /** @var array<class-string, class-string> $uses */
+            $uses = array_flip(class_uses_recursive(static::class));
+
+            static::$cachedTestCaseUses = $uses;
+        }
+
+        return static::$cachedTestCaseUses;
     }
 
     /**
@@ -40,10 +88,7 @@ trait InteractsWithPHPUnit
      */
     public static function setupBeforeClassUsingPHPUnit(): void
     {
-        /** @var array<class-string, class-string> $uses */
-        $uses = array_flip(class_uses_recursive(static::class));
-
-        static::$cachedTestCaseUses = $uses;
+        static::cachedUsesForTestCase();
     }
 
     /**
@@ -53,6 +98,12 @@ trait InteractsWithPHPUnit
      */
     public static function teardownAfterClassUsingPHPUnit(): void
     {
-        static::$cachedTestCaseUses = [];
+        static::$cachedTestCaseUses = null;
+
+        $registry = PHPUnit10Registry::getInstance(); /** @phpstan-ignore-line */
+        (function () {
+            $this->classDocBlocks = [];
+            $this->methodDocBlocks = [];
+        })->call($registry);
     }
 }
