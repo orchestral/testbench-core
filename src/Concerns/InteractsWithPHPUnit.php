@@ -2,8 +2,10 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use PHPUnit\Util\Annotation\Registry;
+use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
+use ReflectionClass;
 
 trait InteractsWithPHPUnit
 {
@@ -22,6 +24,31 @@ trait InteractsWithPHPUnit
     public function isRunningTestCase(): bool
     {
         return $this instanceof PHPUnitTestCase || static::usesTestingConcern();
+    }
+
+    /**
+     * Resolve PHPUnit method annotations.
+     *
+     * @phpunit-overrides
+     *
+     * @return \Illuminate\Support\Collection<string, mixed>
+     */
+    protected function resolvePhpUnitAnnotations(): Collection
+    {
+        $instance = new ReflectionClass($this);
+
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+            return new Collection();
+        }
+
+        /** @var array<string, mixed> $annotations */
+        $annotations = rescue(
+            fn () => PHPUnit9Registry::getInstance()->forMethod($instance->getName(), $this->getName(false))->symbolAnnotations(),
+            [],
+            false
+        );
+
+        return Collection::make($annotations);
     }
 
     /**
@@ -74,6 +101,6 @@ trait InteractsWithPHPUnit
         (function () {
             $this->classDocBlocks = [];
             $this->methodDocBlocks = [];
-        })->call(Registry::getInstance());
+        })->call(PHPUnit9Registry::getInstance());
     }
 }
