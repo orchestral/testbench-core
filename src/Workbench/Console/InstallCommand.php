@@ -5,9 +5,9 @@ namespace Orchestra\Testbench\Workbench\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Foundation\Events\WorkbenchInstallEnded;
-use Orchestra\Testbench\Foundation\Events\WorkbenchInstallStarted;
 use Orchestra\Testbench\Workbench\Composer;
+use Orchestra\Testbench\Workbench\Events\WorkbenchInstallEnded;
+use Orchestra\Testbench\Workbench\Events\WorkbenchInstallStarted;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'workbench:install')]
