@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.27.1
+
+Released: 2023-08-12
+
+### Fixes
+
+* Fixes class namespace.
+    
 ## 7.27.0
 
 Released: 2023-08-12
