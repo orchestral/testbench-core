@@ -43,9 +43,9 @@ trait InteractsWithPHPUnit
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
-            function () use ($instance) {
-                return PHPUnit9Registry::getInstance()->forMethod($instance->getName(), $this->getName(false))->symbolAnnotations();
-            }, [], false
+            fn () => PHPUnit9Registry::getInstance()->forMethod($instance->getName(), $this->getName(false))->symbolAnnotations(),
+            [],
+            false
         );
 
         return Collection::make($annotations);
