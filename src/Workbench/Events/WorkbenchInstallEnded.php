@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation\Events;
+namespace Orchestra\Testbench\Workbench\Events;
 
 use Illuminate\Console\View\Components\Factory;
 use Symfony\Component\Console\Input\InputInterface;

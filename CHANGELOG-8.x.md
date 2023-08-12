@@ -2,6 +2,30 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.7.1
+
+Released: 2023-08-12
+
+### Fixes
+
+* Fixes class namespace.
+
+## 8.7.0
+
+Released: 2023-08-12
+
+### Added
+
+* Added following events:
+    - `Orchestra\Testbench\Workbench\Events\WorkbenchInstallStarted`
+    - `Orchestra\Testbench\Workbench\Events\WorkbenchInstallEnded`
+
+### Changes
+
+* Change `HandlesRoutes` loading sequence to match common Laravel bootstrap steps.
+* Refactor `HandlesAnnotations` and `InteractsWithPHPUnit` traits.
+* Workbench integration improvements.
+
 ## 8.6.3
 
 Released: 2023-08-11
