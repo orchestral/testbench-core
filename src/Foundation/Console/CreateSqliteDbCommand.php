@@ -4,13 +4,12 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Orchestra\Testbench\Foundation\Console\Concerns\InteractsWithIO;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'package:create-sqlite-db', description: 'Create sqlite database file')]
 class CreateSqliteDbCommand extends Command
 {
-    use InteractsWithIO;
+    use Concerns\InteractsWithIO;
 
     /**
      * The name and signature of the console command.
