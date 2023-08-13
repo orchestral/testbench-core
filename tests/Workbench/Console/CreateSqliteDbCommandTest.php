@@ -2,9 +2,9 @@
 
 namespace Orchestra\Testbench\Tests\Workbench\Console;
 
+use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
-use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
 use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 
 /**
@@ -14,7 +14,7 @@ use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
  */
 class CreateSqliteDbCommandTest extends TestCase
 {
-    use InteractsWithSqliteDatabase;
+    use InteractsWithSqliteDatabaseFile;
 
     protected $namespace = 'workbench';
 
