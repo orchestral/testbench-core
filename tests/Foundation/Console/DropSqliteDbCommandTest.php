@@ -2,9 +2,9 @@
 
 namespace Orchestra\Testbench\Tests\Foundation\Console;
 
+use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
-use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
 
 /**
  * @requires OS Linux|DAR
@@ -13,7 +13,7 @@ use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
  */
 class DropSqliteDbCommandTest extends TestCase
 {
-    use InteractsWithSqliteDatabase;
+    use InteractsWithSqliteDatabaseFile;
 
     /**
      * Get package providers.
