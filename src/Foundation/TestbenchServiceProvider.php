@@ -39,7 +39,6 @@ class TestbenchServiceProvider extends ServiceProvider
                 Console\CreateSqliteDbCommand::class,
                 Console\ClearSkeletonCommand::class,
                 Console\DropSqliteDbCommand::class,
-                Console\DevToolCommand::class,
                 Console\ServeCommand::class,
             ]);
         }
