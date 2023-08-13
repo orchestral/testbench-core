@@ -33,8 +33,11 @@ class ClearSkeletonCommand extends Command
             '.env',
             'testbench.yaml',
             'database/database.sqlite',
+            'bootstrap/cache/routes-v7.php',
         ])->map(fn ($file) => $this->laravel->basePath($file))
-            ->filter(fn ($file) => $filesystem->exists($file))
+            ->merge([
+                ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php'))
+            ])->filter(fn ($file) => $filesystem->exists($file))
             ->each(function ($file) use ($filesystem, $workingPath) {
                 $filesystem->delete($file);
 
@@ -43,11 +46,6 @@ class ClearSkeletonCommand extends Command
                     '<fg=green;options=bold>DONE</>'
                 );
             });
-
-        $filesystem->delete(
-            $this->laravel->bootstrapPath('cache/routes-v7.php'),
-            ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php'))
-        );
 
         return Command::SUCCESS;
     }
