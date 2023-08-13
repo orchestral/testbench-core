@@ -71,11 +71,7 @@
             "@composer run prepare"
         ],
         "prepare": "@php testbench package:discover --ansi",
-        "clear": [
-            "@php -r \"file_exists('laravel/.env') && unlink('laravel/.env');\"",
-            "@php -r \"file_exists('laravel/testbench.yaml') && unlink('laravel/testbench.yaml');\"",
-            "@php -r \"file_exists('laravel/database/database.sqlite') && unlink('laravel/database/database.sqlite');\""
-        ],
+        "clear": "@php testbench package:clear-skeleton --ansi",
         "ci": [
             "@composer audit",
             "@composer run prepare",
