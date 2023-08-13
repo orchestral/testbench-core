@@ -17,7 +17,6 @@ class WorkbenchServiceProvider extends ServiceProvider
             $this->commands([
                 Console\CreateSqliteDbCommand::class,
                 Console\DropSqliteDbCommand::class,
-                Console\InstallCommand::class,
             ]);
         }
     }
