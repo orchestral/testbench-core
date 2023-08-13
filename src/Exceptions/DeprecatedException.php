@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
+use Illuminate\Support\Collection;
+
 class DeprecatedException extends PHPUnitErrorException
 {
     /**
@@ -24,7 +26,7 @@ class DeprecatedException extends PHPUnitErrorException
      */
     public function __toString(): string
     {
-        $traces = collect($this->getPHPUnitExceptionTrace())
+        $traces = Collection::make($this->getPHPUnitExceptionTrace())
             ->transform(function (array $trace): ?string {
                 if ((isset($trace['class']) && \in_array($trace['class'], $this->testbenchExceptionHandlers()))
                     || ! isset($trace['file'])
