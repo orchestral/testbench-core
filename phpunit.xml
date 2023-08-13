@@ -25,6 +25,7 @@
             <file>src/Foundation/Console/Kernel.php</file>
             <file>src/Foundation/Console/TestFallbackCommand.php</file>
             <file>src/Foundation/Http/Kernel.php</file>
+            <file>src/Http/Middleware/*.php</file>
         </exclude>
     </coverage>
     <testsuites>
