@@ -27,26 +27,43 @@ class ClearSkeletonCommand extends Command
      */
     public function handle(Filesystem $filesystem)
     {
-        $workingPath = $this->laravel->basePath();
+        $this->deleteFilesFromCollection(
+            $filesystem,
+            Collection::make([
+                '.env',
+                'testbench.yaml',
+            ])->map(fn ($file) => $this->laravel->basePath($file)),
+            false
+        );
 
-        Collection::make([
-            '.env',
-            'testbench.yaml',
-            'database/database.sqlite',
-            'bootstrap/cache/routes-v7.php',
-        ])->map(fn ($file) => $this->laravel->basePath($file))
-            ->merge([
-                ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php')),
-            ])->filter(fn ($file) => $filesystem->exists($file))
-            ->each(function ($file) use ($filesystem, $workingPath) {
-                $filesystem->delete($file);
-
-                $this->components->twoColumnDetail(
-                    sprintf('File [%s] has been deleted', str_replace($workingPath.'/', '', $file)),
-                    '<fg=green;options=bold>DONE</>'
-                );
-            });
+        $this->deleteFilesFromCollection(
+            $filesystem,
+            Collection::make([
+                'database/database.sqlite',
+                'bootstrap/cache/routes-v7.php',
+            ])->map(fn ($file) => $this->laravel->basePath($file))
+                ->merge([
+                    ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php')),
+                    ...$filesystem->glob($this->laravel->basePath('storage/logs/*.log')),
+                ])
+        );
 
         return Command::SUCCESS;
+    }
+
+    protected function deleteFilesFromCollection(Filesystem $filesystem, Collection $files, bool $output = true): void
+    {
+        $workingPath = $this->laravel->basePath();
+
+        $files->filter(fn ($file) => $filesystem->exists($file))
+            ->each(function ($file) use ($filesystem, $workingPath, $output) {
+                $filesystem->delete($file);
+
+                if ($output === true) {
+                    $this->components->task(
+                        sprintf('File [%s] has been deleted', str_replace($workingPath.'/', '', $file))
+                    );
+                }
+            });
     }
 }
