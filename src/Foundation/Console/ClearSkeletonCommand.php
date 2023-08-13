@@ -34,15 +34,15 @@ class ClearSkeletonCommand extends Command
             'testbench.yaml',
             'database/database.sqlite',
         ])->map(fn ($file) => $this->laravel->basePath($file))
-        ->filter(fn ($file) => $filesystem->exists($file))
-        ->each(function ($file) use ($filesystem, $workingPath) {
-            $filesystem->delete($file);
+            ->filter(fn ($file) => $filesystem->exists($file))
+            ->each(function ($file) use ($filesystem, $workingPath) {
+                $filesystem->delete($file);
 
-            $this->components->twoColumnDetail(
-                sprintf('File [%s] has been deleted', str_replace($workingPath.'/', '', $file)),
-                '<fg=green;options=bold>DONE</>'
-            );
-        });
+                $this->components->twoColumnDetail(
+                    sprintf('File [%s] has been deleted', str_replace($workingPath.'/', '', $file)),
+                    '<fg=green;options=bold>DONE</>'
+                );
+            });
 
         $filesystem->delete(
             $this->laravel->bootstrapPath('cache/routes-v7.php'),
