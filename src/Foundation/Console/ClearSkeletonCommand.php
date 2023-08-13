@@ -27,7 +27,8 @@ class ClearSkeletonCommand extends Command
      */
     public function handle(Filesystem $filesystem)
     {
-        $this->deleteFilesFromCollection(
+
+        $this->deleteFilesFrom(
             $filesystem,
             Collection::make([
                 '.env',
@@ -36,22 +37,59 @@ class ClearSkeletonCommand extends Command
             false
         );
 
-        $this->deleteFilesFromCollection(
+        $this->deleteFilesFrom(
             $filesystem,
             Collection::make([
-                'database/database.sqlite',
-                'bootstrap/cache/routes-v7.php',
-            ])->map(fn ($file) => $this->laravel->basePath($file))
-                ->merge([
-                    ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php')),
-                    ...$filesystem->glob($this->laravel->basePath('storage/logs/*.log')),
-                ])
+                ...collect(['database/database.sqlite', 'bootstrap/cache/routes-v7.php'])
+                    ->map(fn ($file) => $this->laravel->basePath($file))
+                    ->all(),
+                ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php')),
+                ...$filesystem->glob($this->laravel->basePath('storage/logs/*.log')),
+            ])
+        );
+
+        $this->deleteDirectoriesFrom(
+            $filesystem,
+            Collection::make([
+            ])
         );
 
         return Command::SUCCESS;
     }
 
-    protected function deleteFilesFromCollection(Filesystem $filesystem, Collection $files, bool $output = true): void
+    /**
+     * Delete set of file from collection.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  \Illuminate\Support\Collection  $directories
+     * @param  bool  $output
+     * @return void
+     */
+    protected function deleteDirectoriesFrom(Filesystem $filesystem, Collection $directories, bool $output = true): void
+    {
+        $workingPath = $this->laravel->basePath();
+
+        $directories->filter(fn ($directory) => $filesystem->isDirectory($directory))
+            ->each(function ($directory) use ($filesystem, $workingPath, $output) {
+                $filesystem->deleteDirectory($directory);
+
+                if ($output === true) {
+                    $this->components->task(
+                        sprintf('Directory [%s] has been deleted', str_replace($workingPath.'/', '', $directory))
+                    );
+                }
+            });
+    }
+
+    /**
+     * Delete set of file from collection.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  \Illuminate\Support\Collection  $files
+     * @param  bool  $output
+     * @return void
+     */
+    protected function deleteFilesFrom(Filesystem $filesystem, Collection $files, bool $output = true): void
     {
         $workingPath = $this->laravel->basePath();
 

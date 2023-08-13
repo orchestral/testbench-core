@@ -4,6 +4,9 @@ namespace Orchestra\Testbench\Contracts;
 
 use ArrayAccess;
 
+/**
+ * @phpstan-import-type TWorkbenchConfig from \Orchestra\Testbench\Foundation\Config
+ */
 interface Config extends ArrayAccess
 {
     /**
@@ -22,9 +25,18 @@ interface Config extends ArrayAccess
     public function getExtraAttributes(): array;
 
     /**
+     * Get purge attributes.
+     *
+     * @return array
+     */
+    public function getPurgeAttributes(): array;
+
+    /**
      * Get workbench attributes.
      *
-     * @return array{start: string, user: string|int|null, guard: string|null}
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TWorkbenchConfig
      */
     public function getWorkbenchAttributes(): array;
 }
