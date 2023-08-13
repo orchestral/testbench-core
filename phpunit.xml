@@ -40,7 +40,6 @@
             <file>src/Foundation/Console/TestFallbackCommand.php</file>
             <file>src/Foundation/Http/Kernel.php</file>
             <file>src/PHPUnit/TestCase.php</file>
-            <file>src/Workbench/Console/InstallCommand.php</file>
         </exclude>
     </source>
 </phpunit>
