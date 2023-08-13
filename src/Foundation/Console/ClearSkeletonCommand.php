@@ -36,7 +36,7 @@ class ClearSkeletonCommand extends Command
             'bootstrap/cache/routes-v7.php',
         ])->map(fn ($file) => $this->laravel->basePath($file))
             ->merge([
-                ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php'))
+                ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php')),
             ])->filter(fn ($file) => $filesystem->exists($file))
             ->each(function ($file) use ($filesystem, $workingPath) {
                 $filesystem->delete($file);
