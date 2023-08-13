@@ -4,9 +4,9 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
+use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\TestCase;
-use Orchestra\Testbench\Tests\Concerns\Database\InteractsWithSqliteDatabase;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -15,7 +15,7 @@ use Symfony\Component\Process\Process;
  */
 class CommanderTest extends TestCase
 {
-    use InteractsWithSqliteDatabase;
+    use InteractsWithSqliteDatabaseFile;
 
     /**
      * @test
