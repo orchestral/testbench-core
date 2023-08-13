@@ -72,7 +72,7 @@ final class LoadMigrationsFromArray
                     return;
                 }
 
-                collect(Arr::wrap($this->seeders))
+                Collection::make(Arr::wrap($this->seeders))
                     ->flatten()
                     ->filter(function ($seederClass) {
                         return ! \is_null($seederClass) && class_exists($seederClass);

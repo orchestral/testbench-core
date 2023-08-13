@@ -56,7 +56,7 @@ class TestCommand extends Command
     {
         $configurationFile = str_replace('./', '', $this->option('configuration') ?? 'phpunit.xml');
 
-        return collect([
+        return Collection::make([
             TESTBENCH_WORKING_PATH.'/'.$configurationFile,
             TESTBENCH_WORKING_PATH.'/'.$configurationFile.'.dist',
         ])->filter(function ($path) {
