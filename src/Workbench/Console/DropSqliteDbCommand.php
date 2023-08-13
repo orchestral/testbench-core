@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-#[AsCommand(name: 'workbench:drop-sqlite-db')]
+#[AsCommand(name: 'workbench:drop-sqlite-db', description: 'Drop sqlite database file')]
 class DropSqliteDbCommand extends Command
 {
     /**

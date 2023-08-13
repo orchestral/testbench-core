@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Workbench;
 
 use Illuminate\Support\ServiceProvider;
 
-class WorkbenchServiceProvider extends ServiceProvider
+class CommandServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -15,6 +15,7 @@ class WorkbenchServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                Console\CreateSqliteDbCommand::class,
                 Console\DropSqliteDbCommand::class,
             ]);
         }
