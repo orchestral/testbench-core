@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -28,6 +29,11 @@ class PurgeSkeletonCommand extends Command
      */
     public function handle(Filesystem $filesystem, ConfigContract $config)
     {
+        $this->call('config:clear');
+        $this->call('event:clear');
+        $this->call('route:clear');
+        $this->call('view:clear');
+
         ['files' => $files, 'directories' => $directories] = $config->getPurgeAttributes();
 
         $this->deleteFilesFrom(
@@ -38,6 +44,17 @@ class PurgeSkeletonCommand extends Command
             ])->map(fn ($file) => $this->laravel->basePath($file)),
         );
 
+
+        $this->deleteFilesFrom(
+            $filesystem,
+            Collection::make([
+                ...$filesystem->glob($this->laravel->basePath('storage/app/public/*')),
+                ...$filesystem->glob($this->laravel->basePath('storage/app/*')),
+                ...$filesystem->glob($this->laravel->basePath('storage/framework/sessions/*')),
+                ...$filesystem->glob($this->laravel->basePath('storage/framework/views/*.php')),
+            ]),
+        );
+
         $this->deleteFilesFrom(
             $filesystem,
             Collection::make([
@@ -45,11 +62,10 @@ class PurgeSkeletonCommand extends Command
                     ->map(fn ($file) => $this->laravel->basePath($file))
                     ->all(),
                 ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php')),
-                ...$filesystem->glob($this->laravel->basePath('storage/framework/views/*.php')),
                 ...$filesystem->glob($this->laravel->basePath('storage/logs/*.log')),
             ]),
-            fn ($directory) => $this->components->task(
-                sprintf('File [%s] has been deleted', $directory)
+            fn ($file) => $this->components->task(
+                sprintf('File [%s] has been deleted', $file)
             )
         );
 
@@ -125,6 +141,7 @@ class PurgeSkeletonCommand extends Command
         $workingPath = $this->laravel->basePath();
 
         $files->filter(fn ($file) => $filesystem->exists($file))
+            ->reject(fn ($file) => Str::endsWith($file, ['.gitkeep', '.gitignore']))
             ->each(function ($file) use ($filesystem, $workingPath, $callback) {
                 $filesystem->delete($file);
 
