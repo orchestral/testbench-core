@@ -1,10 +1,9 @@
 <?php
 
-namespace Orchestra\Testbench\Workbench\Bootstrap;
+namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Contracts\Config;
-use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
 
 /**
  * @internal
@@ -37,6 +36,5 @@ final class StartWorkbench
     public function bootstrap(Application $app): void
     {
         $app->instance(Config::class, $this->config);
-        $app->register(WorkbenchServiceProvider::class);
     }
 }

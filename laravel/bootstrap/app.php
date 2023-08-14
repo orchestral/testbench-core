@@ -4,8 +4,8 @@ use Illuminate\Support\Env;
 use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
+use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Workbench\Bootstrap\StartWorkbench;
 
 /**
  * Create Laravel application.
@@ -14,10 +14,6 @@ use Orchestra\Testbench\Workbench\Bootstrap\StartWorkbench;
  * @return \Illuminate\Foundation\Application
  */
 $createApp = function (string $workingPath) {
-    if (! defined('TESTBENCH_WORKING_PATH') && ! is_null(Env::get('TESTBENCH_WORKING_PATH'))) {
-        define('TESTBENCH_WORKING_PATH', Env::get('TESTBENCH_WORKING_PATH'));
-    }
-
     $config = Config::loadFromYaml(
         defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
     );
@@ -38,6 +34,10 @@ $createApp = function (string $workingPath) {
         ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
     );
 };
+
+if (! defined('TESTBENCH_WORKING_PATH') && ! is_null(Env::get('TESTBENCH_WORKING_PATH'))) {
+    define('TESTBENCH_WORKING_PATH', Env::get('TESTBENCH_WORKING_PATH'));
+}
 
 $app = $createApp(realpath(__DIR__.'/../'));
 
