@@ -44,7 +44,6 @@ class PurgeSkeletonCommand extends Command
             ])->map(fn ($file) => $this->laravel->basePath($file)),
         );
 
-
         $this->deleteFilesFrom(
             $filesystem,
             Collection::make([
