@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'package:purge-skeleton', description: 'Purge skeleton folder to original state')]
@@ -25,8 +26,9 @@ class PurgeSkeletonCommand extends Command
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @return int
      */
-    public function handle(Filesystem $filesystem)
+    public function handle(Filesystem $filesystem, ConfigContract $config)
     {
+        ['files' => $files, 'directories' => $directories] = $config->getPurgeAttributes();
 
         $this->deleteFilesFrom(
             $filesystem,
@@ -34,24 +36,53 @@ class PurgeSkeletonCommand extends Command
                 '.env',
                 'testbench.yaml',
             ])->map(fn ($file) => $this->laravel->basePath($file)),
-            false
         );
 
         $this->deleteFilesFrom(
             $filesystem,
             Collection::make([
-                ...collect(['database/database.sqlite', 'bootstrap/cache/routes-v7.php'])
+                ...Collection::make(['database/database.sqlite', 'bootstrap/cache/routes-v7.php'])
                     ->map(fn ($file) => $this->laravel->basePath($file))
                     ->all(),
                 ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php')),
+                ...$filesystem->glob($this->laravel->basePath('storage/framework/views/*.php')),
                 ...$filesystem->glob($this->laravel->basePath('storage/logs/*.log')),
-            ])
+            ]),
+            fn ($directory) => $this->components->task(
+                sprintf('File [%s] has been deleted', $directory)
+            )
+        );
+
+        $this->deleteFilesFrom(
+            $filesystem,
+            Collection::make($files)
+                ->map(fn ($file) => $this->laravel->basePath($file))
+                ->tap(function ($collect) use ($filesystem) {
+                    $collect->each(function ($file) use ($collect, $filesystem) {
+                        if (str_contains($file, '*')) {
+                            $collect->push(...$filesystem->glob($file));
+                        }
+                    });
+                })->reject(fn ($file) => str_contains($file, '*')),
+            fn ($file) => $this->components->task(
+                sprintf('File [%s] has been deleted', $file)
+            )
         );
 
         $this->deleteDirectoriesFrom(
             $filesystem,
-            Collection::make([
-            ])
+            Collection::make($directories)
+                ->map(fn ($directory) => $this->laravel->basePath($directory))
+                ->tap(function ($collect) use ($filesystem) {
+                    $collect->each(function ($directory) use ($collect, $filesystem) {
+                        if (str_contains($directory, '*')) {
+                            $collect->push(...$filesystem->glob($directory));
+                        }
+                    });
+                })->reject(fn ($directory) => str_contains($directory, '*')),
+            fn ($directory) => $this->components->task(
+                sprintf('Directory [%s] has been deleted', $directory)
+            )
         );
 
         return Command::SUCCESS;
@@ -62,21 +93,21 @@ class PurgeSkeletonCommand extends Command
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  \Illuminate\Support\Collection  $directories
-     * @param  bool  $output
+     * @param  (callable(string):(void))|null  $callback
      * @return void
      */
-    protected function deleteDirectoriesFrom(Filesystem $filesystem, Collection $directories, bool $output = true): void
+    protected function deleteDirectoriesFrom(Filesystem $filesystem, Collection $directories, ?callable $callback = null): void
     {
         $workingPath = $this->laravel->basePath();
 
         $directories->filter(fn ($directory) => $filesystem->isDirectory($directory))
-            ->each(function ($directory) use ($filesystem, $workingPath, $output) {
+            ->each(function ($directory) use ($filesystem, $workingPath, $callback) {
                 $filesystem->deleteDirectory($directory);
 
-                if ($output === true) {
-                    $this->components->task(
-                        sprintf('Directory [%s] has been deleted', str_replace($workingPath.'/', '', $directory))
-                    );
+                $directoryName = str_replace($workingPath.'/', '', $directory);
+
+                if (\is_callable($callback)) {
+                    \call_user_func($callback, $directoryName);
                 }
             });
     }
@@ -86,21 +117,21 @@ class PurgeSkeletonCommand extends Command
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  \Illuminate\Support\Collection  $files
-     * @param  bool  $output
+     * @param  (callable(string):(void))|null  $callback
      * @return void
      */
-    protected function deleteFilesFrom(Filesystem $filesystem, Collection $files, bool $output = true): void
+    protected function deleteFilesFrom(Filesystem $filesystem, Collection $files, ?callable $callback = null): void
     {
         $workingPath = $this->laravel->basePath();
 
         $files->filter(fn ($file) => $filesystem->exists($file))
-            ->each(function ($file) use ($filesystem, $workingPath, $output) {
+            ->each(function ($file) use ($filesystem, $workingPath, $callback) {
                 $filesystem->delete($file);
 
-                if ($output === true) {
-                    $this->components->task(
-                        sprintf('File [%s] has been deleted', str_replace($workingPath.'/', '', $file))
-                    );
+                $fileName = str_replace($workingPath.'/', '', $file);
+
+                if (\is_callable($callback)) {
+                    \call_user_func($callback, $fileName);
                 }
             });
     }
