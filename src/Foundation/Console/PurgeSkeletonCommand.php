@@ -7,8 +7,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-#[AsCommand(name: 'package:clear-skeleton', description: 'Clear skeleton folder to original state')]
-class ClearSkeletonCommand extends Command
+#[AsCommand(name: 'package:purge-skeleton', description: 'Purge skeleton folder to original state')]
+class PurgeSkeletonCommand extends Command
 {
     use Concerns\InteractsWithIO;
 
@@ -17,7 +17,7 @@ class ClearSkeletonCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'package:clear-skeleton';
+    protected $signature = 'package:purge-skeleton';
 
     /**
      * Execute the console command.
