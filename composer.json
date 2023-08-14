@@ -67,7 +67,7 @@
             "@composer run prepare"
         ],
         "prepare": "@php testbench package:discover --ansi",
-        "clear": "@php testbench package:clear-skeleton --ansi",
+        "clear": "@php testbench package:purge-skeleton --ansi",
         "ci": [
             "@composer audit",
             "@composer run prepare",
