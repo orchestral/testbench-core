@@ -29,7 +29,6 @@ class PurgeSkeletonCommand extends Command
      */
     public function handle(Filesystem $filesystem, ConfigContract $config)
     {
-        $this->call('cache:clear');
         $this->call('config:clear');
         $this->call('event:clear');
         $this->call('route:clear');
