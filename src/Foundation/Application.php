@@ -8,8 +8,14 @@ use Illuminate\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
 /**
- * @phpstan-type TExtraConfig array{env?: array, bootstrappers?: array, providers?: array, dont-discover?: array}
- * @phpstan-type TConfig array{extra?: TExtraConfig, load_environment_variables?: bool, enabled_package_discoveries?: bool}
+ * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
+ * @phpstan-import-type TOptionalExtraConfig from \Orchestra\Testbench\Foundation\Config
+ *
+ * @phpstan-type TConfig array{
+ *   extra?: TOptionalExtraConfig,
+ *   load_environment_variables?: bool,
+ *   enabled_package_discoveries?: bool
+ * }
  */
 class Application
 {
@@ -28,7 +34,9 @@ class Application
     /**
      * List of configurations.
      *
-     * @var TExtraConfig
+     * @var array<string, mixed>
+     *
+     * @phpstan-var TExtraConfig
      */
     protected $config = [
         'env' => [],
@@ -112,9 +120,10 @@ class Application
             Arr::set($options, 'extra.dont-discover', []);
         }
 
-        $this->config = Arr::only(
-            $options['extra'] ?? [], array_keys($this->config)
-        );
+        /** @var TExtraConfig $config */
+        $config = Arr::only($options['extra'] ?? [], array_keys($this->config));
+
+        $this->config = $config;
 
         return $this;
     }

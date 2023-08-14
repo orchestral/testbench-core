@@ -27,8 +27,8 @@
             <file>src/Exceptions/DeprecatedException.php</file>
             <file>src/Exceptions/Handler.php</file>
             <file>src/Exceptions/PHPUnitErrorException.php</file>
-            <file>src/Foundation/Console/ClearSkeletonCommand.php</file>
             <file>src/Foundation/Console/Kernel.php</file>
+            <file>src/Foundation/Console/PurgeSkeletonCommand.php</file>
             <file>src/Foundation/Console/ServeCommand.php</file>
             <file>src/Foundation/Console/TestFallbackCommand.php</file>
             <file>src/Foundation/Http/Kernel.php</file>
