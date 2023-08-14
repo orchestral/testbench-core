@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Workbench\Console\Concerns;
+namespace Orchestra\Testbench\Foundation\Console\Concerns;
 
 trait InteractsWithIO
 {
