@@ -10,6 +10,7 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 /**
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
  * @phpstan-import-type TOptionalExtraConfig from \Orchestra\Testbench\Foundation\Config
+ *
  * @phpstan-type TConfig array{
  *   extra?: TOptionalExtraConfig,
  *   load_environment_variables?: bool,
