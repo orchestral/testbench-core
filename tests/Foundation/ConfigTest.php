@@ -33,6 +33,11 @@ class ConfigTest extends TestCase
         ], $config->getExtraAttributes());
 
         $this->assertSame([
+            'directories' => [],
+            'files' => [],
+        ], $config->getPurgeAttributes());
+
+        $this->assertSame([
             'start' => '/workbench',
             'user' => 'crynobone@gmail.com',
             'guard' => null,
@@ -62,6 +67,11 @@ class ConfigTest extends TestCase
             'providers' => [],
             'dont-discover' => [],
         ], $config->getExtraAttributes());
+
+        $this->assertSame([
+            'directories' => [],
+            'files' => [],
+        ], $config->getPurgeAttributes());
 
         $this->assertSame([
             'start' => '/',
