@@ -2,6 +2,26 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.35.0
+
+Released: 2023-08-15
+
+### Added
+
+* Added `Orchestra\Testbench\package_path()` function.
+
+### Changes
+
+* Rename `Orchestra\Testbench\Workbench\Bootstrap\StartWorkbench` to `Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench`.
+
+### Fixes
+
+* Fixes `boolean` usage with `Orchestra\Testbench\parse_environment_variables()` function.
+
+### Remove
+
+* Remove experimental Workbench support.
+
 ## 6.34.0
 
 Released: 2023-08-12
