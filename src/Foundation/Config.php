@@ -10,6 +10,26 @@ use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Yaml\Yaml;
 
 /**
+ * @phpstan-type TExtraConfig array{
+ *   env: array,
+ *   providers: array<int, class-string>,
+ *   dont-discover: array<int, string>,
+ *   bootstrappers: class-string|array<int, class-string>|null
+ * }
+ * @phpstan-type TOptionalExtraConfig array{
+ *   env?: array,
+ *   providers?: array<int, class-string>,
+ *   dont-discover?: array<int, string>,
+ *   bootstrappers?: class-string|array<int, class-string>|null
+ * }
+ * @phpstan-type TPurgeConfig array{
+ *   directories: array<int, string>,
+ *   files: array<int, string>
+ * }
+ * @phpstan-type TOptionalPurgeConfig array{
+ *   directories?: array<int, string>,
+ *   files?: array<int, string>
+ * }
  * @phpstan-type TWorkbenchConfig array{
  *   start: string,
  *   user: string|int|null,
@@ -33,9 +53,10 @@ use Symfony\Component\Yaml\Yaml;
  *   env: array,
  *   providers: array<int, class-string>,
  *   dont-discover: array<int, string>,
+ *   bootstrappers: class-string|array<int, class-string>|null,
  *   migrations: string|array<int, string>|bool,
  *   seeders: class-string|array<int, class-string>|bool,
- *   bootstrappers: class-string|array<int, class-string>|null,
+ *   purge: TOptionalPurgeConfig,
  *   workbench: TOptionalWorkbenchConfig
  * }
  * @phpstan-type TOptionalConfig array{
@@ -43,9 +64,10 @@ use Symfony\Component\Yaml\Yaml;
  *   env?: array,
  *   providers?: array<int, class-string>,
  *   dont-discover?: array<int, string>,
+ *   bootstrappers?: class-string|array<int, class-string>|null,
  *   migrations?: string|array<int, string>|bool,
  *   seeders?: class-string|array<int, class-string>|bool,
- *   bootstrappers?: class-string|array<int, class-string>|null,
+ *   purge?: TOptionalPurgeConfig|null,
  *   workbench?: TOptionalWorkbenchConfig|null
  * }
  */
@@ -66,7 +88,20 @@ class Config extends Fluent implements ConfigContract
         'migrations' => [],
         'seeders' => false,
         'bootstrappers' => [],
+        'purge' => [],
         'workbench' => [],
+    ];
+
+    /**
+     * The Workbench default configuration.
+     *
+     * @var array<string, array<int, string>>
+     *
+     * @phpstan-var TPurgeConfig
+     */
+    protected $purgeConfig = [
+        'directories' => [],
+        'files' => [],
     ];
 
     /**
@@ -100,11 +135,7 @@ class Config extends Fluent implements ConfigContract
         $config = $defaults;
 
         if (file_exists("{$workingPath}/{$filename}")) {
-            /**
-             * @var array<string, mixed> $config
-             *
-             * @phpstan-var TOptionalConfig $config
-             */
+            /** @phpstan-var TOptionalConfig $config */
             $config = Yaml::parseFile("{$workingPath}/{$filename}");
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
@@ -135,7 +166,9 @@ class Config extends Fluent implements ConfigContract
     /**
      * Get extra attributes.
      *
-     * @return array{env: array, bootstrappers: array, providers: array, dont-discover: array}
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TExtraConfig
      */
     public function getExtraAttributes(): array
     {
@@ -145,6 +178,21 @@ class Config extends Fluent implements ConfigContract
             'providers' => Arr::get($this->attributes, 'providers', []),
             'dont-discover' => Arr::get($this->attributes, 'dont-discover', []),
         ];
+    }
+
+    /**
+     * Get purge attributes.
+     *
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TPurgeConfig
+     */
+    public function getPurgeAttributes(): array
+    {
+        return array_merge(
+            $this->purgeConfig,
+            $this->attributes['purge'],
+        );
     }
 
     /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Concerns\Database;
+namespace Orchestra\Testbench\Concerns\Database;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 
-trait InteractsWithSqliteDatabase
+trait InteractsWithSqliteDatabaseFile
 {
     use InteractsWithPublishedFiles;
 
@@ -25,7 +25,7 @@ trait InteractsWithSqliteDatabase
         $time = time();
         $filesystem = new Filesystem();
 
-        $database = __DIR__.'/../../../laravel/database/database.sqlite';
+        $database = database_path('database.sqlite');
 
         if ($filesystem->exists($database)) {
             $filesystem->move($database, $temporary = "{$database}.backup-{$time}");
@@ -48,7 +48,7 @@ trait InteractsWithSqliteDatabase
         $this->withoutSqliteDatabase(function () use ($callback) {
             $filesystem = new Filesystem();
 
-            $database = __DIR__.'/../../../laravel/database/database.sqlite';
+            $database = database_path('database.sqlite');
             $time = time();
 
             if (! $filesystem->exists($database)) {
@@ -75,7 +75,7 @@ trait InteractsWithSqliteDatabase
         $filesystem = new Filesystem();
 
         $filesystem->delete(
-            Collection::make($filesystem->glob(__DIR__.'/../../../laravel/database/database.sqlite.backup-*'))
+            Collection::make($filesystem->glob(database_path('database.sqlite.backup-*')))
                 ->filter(fn ($file) => $filesystem->exists($file))
                 ->all()
         );
