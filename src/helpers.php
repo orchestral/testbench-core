@@ -150,7 +150,7 @@ function workbench_path(string $path = ''): string
 {
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return package_path("workbench/{$path}");
+    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
 }
 
 /**
