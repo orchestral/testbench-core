@@ -38,9 +38,8 @@ class DropSqliteDbCommand extends Command
         } else {
             $filesystem->delete($to);
 
-            $this->components->twoColumnDetail(
-                sprintf('File [%s] has been deleted', str_replace($workingPath.'/', '', $to)),
-                '<fg=green;options=bold>DONE</>'
+            $this->components->task(
+                sprintf('File [%s] has been deleted', str_replace($workingPath.'/', '', $to))
             );
         }
 
