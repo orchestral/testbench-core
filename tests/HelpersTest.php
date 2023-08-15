@@ -49,7 +49,7 @@ class HelpersTest extends TestCase
     {
         $this->assertSame(
             realpath(__DIR__.DIRECTORY_SEPARATOR.'HelpersTest.php'),
-            package_path('./tests/HelpersTest.php')
+            package_path('./tests'.DIRECTORY_SEPARATOR.'HelpersTest.php')
         );
     }
 
