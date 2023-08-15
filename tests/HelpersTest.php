@@ -40,7 +40,10 @@ class HelpersTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group workbench
+     */
     public function it_can_use_package_path()
     {
         $this->assertSame(
