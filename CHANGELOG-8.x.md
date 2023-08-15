@@ -2,6 +2,25 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.8.0
+
+Released: 2023-08-15
+
+### Added
+
+* Added `package:purge-skeleton` command.
+* Added `Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile` trait.
+* Added `Orchestra\Testbench\package_path()` function.
+* Added support for `orchestra/workbench`.
+
+### Changes
+
+* Rename `Orchestra\Testbench\Workbench\Bootstrap\StartWorkbench` to `Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench`.
+
+### Fixes
+
+* Fixes `serve` command usage.
+
 ## 8.7.1
 
 Released: 2023-08-12
