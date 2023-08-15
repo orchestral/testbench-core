@@ -109,8 +109,6 @@ function transform_relative_path(string $path, string $workingPath): string
  *
  * @param  string  $path
  * @return string
- *
- * @deprecated
  */
 function package_path(string $path = ''): string
 {
@@ -124,7 +122,7 @@ function package_path(string $path = ''): string
 
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return "{$workingPath}/{$path}";
+    return $workingPath.DIRECTORY_SEPARATOR.$path;
 }
 
 /**
@@ -134,6 +132,7 @@ function package_path(string $path = ''): string
  */
 function workbench(): array
 {
+    /** @var \Orchestra\Testbench\Contracts\Config $config */
     $config = app()->bound(Contracts\Config::class)
         ? app()->make(Contracts\Config::class)
         : new Foundation\Config();
@@ -151,7 +150,7 @@ function workbench_path(string $path = ''): string
 {
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return package_path("workbench/{$path}");
+    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
 }
 
 /**

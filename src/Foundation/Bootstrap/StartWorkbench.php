@@ -4,7 +4,8 @@ namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Contracts\Config;
-use Orchestra\Testbench\Workbench\WorkbenchServiceProvider;
+use Orchestra\Testbench\Workbench\WorkbenchServiceProvider as FallbackServicePorvider;
+use Orchestra\Workbench\WorkbenchServiceProvider;
 
 /**
  * @internal
@@ -37,6 +38,11 @@ final class StartWorkbench
     public function bootstrap(Application $app): void
     {
         $app->instance(Config::class, $this->config);
-        $app->register(WorkbenchServiceProvider::class);
+
+        $app->register(
+            class_exists(WorkbenchServiceProvider::class)
+                ? WorkbenchServiceProvider::class
+                : FallbackServicePorvider::class
+        );
     }
 }
