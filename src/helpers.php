@@ -122,7 +122,7 @@ function package_path(string $path = ''): string
 
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return "{$workingPath}/{$path}";
+    return $workingPath.DIRECTORY_SEPARATOR.$path;
 }
 
 /**
