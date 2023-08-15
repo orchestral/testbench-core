@@ -109,8 +109,6 @@ function transform_relative_path(string $path, string $workingPath): string
  *
  * @param  string  $path
  * @return string
- *
- * @deprecated
  */
 function package_path(string $path = ''): string
 {
@@ -134,6 +132,7 @@ function package_path(string $path = ''): string
  */
 function workbench(): array
 {
+    /** @var \Orchestra\Testbench\Contracts\Config $config */
     $config = app()->bound(Contracts\Config::class)
         ? app()->make(Contracts\Config::class)
         : new Foundation\Config();
