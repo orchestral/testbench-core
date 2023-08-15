@@ -3,11 +3,12 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
-use function Orchestra\Testbench\phpunit_version_compare;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
+
+use function Orchestra\Testbench\phpunit_version_compare;
 
 trait InteractsWithPHPUnit
 {

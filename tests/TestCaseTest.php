@@ -4,10 +4,11 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Foundation\Application;
-use function Orchestra\Testbench\container;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
-use function Orchestra\Testbench\phpunit_version_compare;
 use PHPUnit\Framework\TestCase;
+
+use function Orchestra\Testbench\container;
+use function Orchestra\Testbench\phpunit_version_compare;
 
 class TestCaseTest extends TestCase
 {

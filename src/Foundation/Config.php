@@ -5,9 +5,10 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Symfony\Component\Yaml\Yaml;
+
 use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\transform_relative_path;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @phpstan-type TExtraConfig array{
