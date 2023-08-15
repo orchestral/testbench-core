@@ -119,12 +119,12 @@ function workbench(): array
 }
 
 /**
- * Get the path to the workbench folder.
+ * Get the path to the package folder.
  *
  * @param  string  $path
  * @return string
  */
-function workbench_path(string $path = ''): string
+function package_path(string $path = ''): string
 {
     $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
@@ -132,7 +132,18 @@ function workbench_path(string $path = ''): string
 
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return "{$workingPath}/workbench/{$path}";
+    return "{$workingPath}/{$path}";
+}
+
+/**
+ * Get the path to the workbench folder.
+ *
+ * @param  string  $path
+ * @return string
+ */
+function workbench_path(string $path = ''): string
+{
+    return package_path('workbench'.($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : ''));
 }
 
 /**
