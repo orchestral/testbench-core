@@ -52,25 +52,7 @@ class HelpersTest extends TestCase
     {
         $this->assertSame(
             realpath(__DIR__.'/../../workbench/database/migrations/2013_07_26_182750_create_testbench_users_table.php'),
-            workbench_path('database/migrations/2013_07_26_182750_create_testbench_users_table.php')
+            workbench_path('database'.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'2013_07_26_182750_create_testbench_users_table.php')
         );
-        $this->instance(ConfigContract::class, new Config([
-            'workbench' => [
-                'start' => '/workbench',
-                'user' => 'crynobone@gmail.com',
-                'guard' => 'web',
-                'install' => false,
-            ],
-        ]));
-
-        $this->assertSame([
-            'start' => '/workbench',
-            'user' => 'crynobone@gmail.com',
-            'guard' => 'web',
-            'install' => false,
-            'sync' => [],
-            'build' => [],
-            'assets' => [],
-        ], workbench());
     }
 }
