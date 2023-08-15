@@ -131,8 +131,6 @@ function package_path(string $path = ''): string
  * Get the workbench configuration.
  *
  * @return array<string, mixed>
- *
- * @deprecated
  */
 function workbench(): array
 {
@@ -148,8 +146,6 @@ function workbench(): array
  *
  * @param  string  $path
  * @return string
- *
- * @deprecated
  */
 function workbench_path(string $path = ''): string
 {
