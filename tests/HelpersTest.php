@@ -32,7 +32,7 @@ class HelpersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_transform_relative_path()
+    public function it_can_use_transform_relative_path()
     {
         $this->assertSame(
             realpath(__DIR__.DIRECTORY_SEPARATOR.'HelpersTest.php'),
@@ -41,11 +41,16 @@ class HelpersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_package_path()
+    public function it_can_use_package_path()
     {
         $this->assertSame(
             realpath(__DIR__.DIRECTORY_SEPARATOR.'HelpersTest.php'),
             package_path('./tests'.DIRECTORY_SEPARATOR.'HelpersTest.php')
+        );
+
+        $this->assertSame(
+            realpath(__DIR__.DIRECTORY_SEPARATOR.'HelpersTest.php'),
+            package_path('tests'.DIRECTORY_SEPARATOR.'HelpersTest.php')
         );
     }
 }
