@@ -6,9 +6,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
-use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+
+use function Orchestra\Testbench\artisan;
 
 class RefreshDatabaseTest extends TestCase
 {

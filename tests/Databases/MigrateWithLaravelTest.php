@@ -5,8 +5,9 @@ namespace Orchestra\Testbench\Tests\Databases;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use function Orchestra\Testbench\after_resolving;
 use Orchestra\Testbench\TestCase;
+
+use function Orchestra\Testbench\after_resolving;
 
 class MigrateWithLaravelTest extends TestCase
 {
