@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
+
 use function Orchestra\Testbench\phpunit_version_compare;
 
 /**

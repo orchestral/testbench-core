@@ -3,8 +3,9 @@
 namespace Orchestra\Testbench\Workbench\Http\Middleware;
 
 use Closure;
-use function Orchestra\Testbench\workbench;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use function Orchestra\Testbench\workbench;
 
 class CatchDefaultRoute
 {

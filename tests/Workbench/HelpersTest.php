@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Workbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\TestCase;
+
 use function Orchestra\Testbench\workbench;
 use function Orchestra\Testbench\workbench_path;
 

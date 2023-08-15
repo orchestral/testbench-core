@@ -3,8 +3,9 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
-use function Orchestra\Testbench\after_resolving;
 use Spatie\Ray\Settings\Settings;
+
+use function Orchestra\Testbench\after_resolving;
 
 /**
  * @internal
