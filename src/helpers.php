@@ -69,12 +69,12 @@ function parse_environment_variables($variables): array
 {
     return Collection::make($variables)
         ->transform(function ($value, $key) {
-            if (\is_null($value) || \in_array($value, ['null'])) {
-                $value = '(null)';
-            } elseif (\is_bool($value) || \in_array($value, ['true', 'false'])) {
+            if (\is_bool($value) || \in_array($value, ['true', 'false'])) {
                 $value = \in_array($value, [true, 'true']) ? '(true)' : '(false)';
+            } elseif (\is_null($value) || \in_array($value, ['null'])) {
+                $value = '(null)';
             } else {
-                $value = $key === 'APP_DEBUG' ? "({$value})" : "'{$value}'";
+                $value = $key === 'APP_DEBUG' ? sprintf('(%s)', Str::of($value)->ltrim('(')->rtrim(')')) : "'{$value}'";
             }
 
             return "{$key}={$value}";
@@ -91,8 +91,29 @@ function parse_environment_variables($variables): array
 function transform_relative_path(string $path, string $workingPath): string
 {
     return Str::startsWith($path, './')
-        ? str_replace('./', rtrim($workingPath, '/').'/', $path)
+        ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
         : $path;
+}
+
+/**
+ * Get the path to the package folder.
+ *
+ * @param  string  $path
+ * @return string
+ */
+function package_path(string $path = ''): string
+{
+    $workingPath = \defined('TESTBENCH_WORKING_PATH')
+        ? TESTBENCH_WORKING_PATH
+        : getcwd();
+
+    if (Str::startsWith($path, './')) {
+        return transform_relative_path($path, $workingPath);
+    }
+
+    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+
+    return "{$workingPath}/{$path}";
 }
 
 /**
@@ -102,6 +123,7 @@ function transform_relative_path(string $path, string $workingPath): string
  */
 function workbench(): array
 {
+    /** @var \Orchestra\Testbench\Contracts\Config $config */
     $config = app()->bound(Contracts\Config::class)
         ? app()->make(Contracts\Config::class)
         : new Foundation\Config();
@@ -117,11 +139,7 @@ function workbench(): array
  */
 function workbench_path(string $path = ''): string
 {
-    $workingPath = \defined('TESTBENCH_WORKING_PATH')
-        ? TESTBENCH_WORKING_PATH
-        : getcwd();
-
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return "{$workingPath}/workbench/{$path}";
+    return package_path("workbench/{$path}");
 }

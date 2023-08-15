@@ -2,57 +2,50 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Orchestra\Testbench\Contracts\Config as ConfigContract;
-use Orchestra\Testbench\Foundation\Config;
+use function Orchestra\Testbench\package_path;
+use function Orchestra\Testbench\parse_environment_variables;
 use Orchestra\Testbench\TestCase;
 use function Orchestra\Testbench\transform_relative_path;
-use function Orchestra\Testbench\workbench;
 
 class HelpersTest extends TestCase
 {
     /** @test */
+    public function it_can_parse_environment_variables()
+    {
+        $given = [
+            'APP_KEY' => null,
+            'APP_DEBUG' => true,
+            'APP_PRODUCTION' => false,
+            'APP_NAME' => 'Testbench',
+        ];
+
+        $expected = [
+            'APP_KEY=(null)',
+            'APP_DEBUG=(true)',
+            'APP_PRODUCTION=(false)',
+            "APP_NAME='Testbench'",
+        ];
+
+        $this->assertSame(
+            $expected, parse_environment_variables($given)
+        );
+    }
+
+    /** @test */
     public function it_can_transform_relative_path()
     {
         $this->assertSame(
-            realpath(__DIR__).'/HelpersTest.php',
+            realpath(__DIR__.DIRECTORY_SEPARATOR.'HelpersTest.php'),
             transform_relative_path('./HelpersTest.php', realpath(__DIR__))
         );
     }
 
     /** @test */
-    public function it_can_resolve_workbench()
+    public function it_can_package_path()
     {
-        $this->instance(ConfigContract::class, new Config([
-            'workbench' => [
-                'start' => '/workbench',
-                'user' => 'crynobone@gmail.com',
-                'guard' => 'web',
-                'install' => false,
-            ],
-        ]));
-
-        $this->assertSame([
-            'start' => '/workbench',
-            'user' => 'crynobone@gmail.com',
-            'guard' => 'web',
-            'install' => false,
-            'sync' => [],
-            'build' => [],
-            'assets' => [],
-        ], workbench());
-    }
-
-    /** @test */
-    public function it_can_resolve_workbench_without_bound()
-    {
-        $this->assertSame([
-            'start' => '/',
-            'user' => null,
-            'guard' => null,
-            'install' => true,
-            'sync' => [],
-            'build' => [],
-            'assets' => [],
-        ], workbench());
+        $this->assertSame(
+            realpath(__DIR__.DIRECTORY_SEPARATOR.'HelpersTest.php'),
+            package_path('./tests'.DIRECTORY_SEPARATOR.'HelpersTest.php')
+        );
     }
 }
