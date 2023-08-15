@@ -10,8 +10,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
 use function Orchestra\Testbench\after_resolving;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Foundation\Config;
 use function Orchestra\Testbench\transform_relative_path;
-use function Orchestra\Testbench\workbench;
 
 final class LoadMigrationsFromArray
 {
@@ -117,9 +118,16 @@ final class LoadMigrationsFromArray
      */
     protected function includesDefaultMigrations($app): bool
     {
+        /** @var \Orchestra\Testbench\Contracts\Config $config */
+        $config = $app->bound(ConfigContract::class)
+            ? $app->make(ConfigContract::class)
+            : new Config();
+
+        $workbench = $config->getWorkbenchAttributes();
+
         return is_dir($app->basePath('migrations'))
             && (
-                workbench()['install'] === true
+                $workbench['install'] === true
                 && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true
             );
     }

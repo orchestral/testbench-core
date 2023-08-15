@@ -100,14 +100,39 @@ function parse_environment_variables($variables): array
 function transform_relative_path(string $path, string $workingPath): string
 {
     return Str::startsWith($path, './')
-        ? str_replace('./', rtrim($workingPath, '/').'/', $path)
+        ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
         : $path;
+}
+
+/**
+ * Get the path to the package folder.
+ *
+ * @param  string  $path
+ * @return string
+ *
+ * @deprecated
+ */
+function package_path(string $path = ''): string
+{
+    $workingPath = \defined('TESTBENCH_WORKING_PATH')
+        ? TESTBENCH_WORKING_PATH
+        : getcwd();
+
+    if (Str::startsWith($path, './')) {
+        return transform_relative_path($path, $workingPath);
+    }
+
+    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+
+    return "{$workingPath}/{$path}";
 }
 
 /**
  * Get the workbench configuration.
  *
  * @return array<string, mixed>
+ *
+ * @deprecated
  */
 function workbench(): array
 {
@@ -123,16 +148,14 @@ function workbench(): array
  *
  * @param  string  $path
  * @return string
+ *
+ * @deprecated
  */
 function workbench_path(string $path = ''): string
 {
-    $workingPath = \defined('TESTBENCH_WORKING_PATH')
-        ? TESTBENCH_WORKING_PATH
-        : getcwd();
-
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return "{$workingPath}/workbench/{$path}";
+    return package_path("workbench/{$path}");
 }
 
 /**
