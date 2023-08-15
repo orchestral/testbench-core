@@ -111,7 +111,7 @@ class PurgeSkeletonCommand extends Command
      * @param  (callable(string):(void))|null  $callback
      * @return void
      */
-    protected function deleteDirectoriesFrom(Filesystem $filesystem, Collection $directories, ?callable $callback = null): void
+    protected function deleteDirectoriesFrom(Filesystem $filesystem, Collection $directories, callable $callback = null): void
     {
         $workingPath = $this->laravel->basePath();
 
@@ -135,7 +135,7 @@ class PurgeSkeletonCommand extends Command
      * @param  (callable(string):(void))|null  $callback
      * @return void
      */
-    protected function deleteFilesFrom(Filesystem $filesystem, Collection $files, ?callable $callback = null): void
+    protected function deleteFilesFrom(Filesystem $filesystem, Collection $files, callable $callback = null): void
     {
         $workingPath = $this->laravel->basePath();
 
