@@ -47,7 +47,10 @@ class HelpersTest extends TestCase
         ], workbench());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group workbench
+     */
     public function it_can_resolve_workbench_path()
     {
         $this->assertSame(
