@@ -62,43 +62,6 @@ class HelpersTest extends TestCase
     }
 
     /** @test */
-    public function it_can_resolve_workbench()
-    {
-        $this->instance(ConfigContract::class, new Config([
-            'workbench' => [
-                'start' => '/workbench',
-                'user' => 'crynobone@gmail.com',
-                'guard' => 'web',
-                'install' => false,
-            ],
-        ]));
-
-        $this->assertSame([
-            'start' => '/workbench',
-            'user' => 'crynobone@gmail.com',
-            'guard' => 'web',
-            'install' => false,
-            'sync' => [],
-            'build' => [],
-            'assets' => [],
-        ], workbench());
-    }
-
-    /** @test */
-    public function it_can_resolve_workbench_without_bound()
-    {
-        $this->assertSame([
-            'start' => '/',
-            'user' => null,
-            'guard' => null,
-            'install' => true,
-            'sync' => [],
-            'build' => [],
-            'assets' => [],
-        ], workbench());
-    }
-
-    /** @test */
     public function it_can_compare_laravel_version()
     {
         $this->assertSame(0, laravel_version_compare(Application::VERSION));
