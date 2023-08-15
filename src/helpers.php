@@ -105,20 +105,6 @@ function transform_relative_path(string $path, string $workingPath): string
 }
 
 /**
- * Get the workbench configuration.
- *
- * @return array<string, mixed>
- */
-function workbench(): array
-{
-    $config = app()->bound(Contracts\Config::class)
-        ? app()->make(Contracts\Config::class)
-        : new Foundation\Config();
-
-    return $config->getWorkbenchAttributes();
-}
-
-/**
  * Get the path to the package folder.
  *
  * @param  string  $path
@@ -130,20 +116,13 @@ function package_path(string $path = ''): string
         ? TESTBENCH_WORKING_PATH
         : getcwd();
 
+    if (Str::startsWith($path, './')) {
+        return transform_relative_path($path, $workingPath);
+    }
+
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
     return "{$workingPath}/{$path}";
-}
-
-/**
- * Get the path to the workbench folder.
- *
- * @param  string  $path
- * @return string
- */
-function workbench_path(string $path = ''): string
-{
-    return package_path('workbench'.($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : ''));
 }
 
 /**
