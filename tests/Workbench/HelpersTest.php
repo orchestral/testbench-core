@@ -49,6 +49,7 @@ class HelpersTest extends TestCase
 
     /**
      * @test
+     *
      * @group workbench
      */
     public function it_can_resolve_workbench_path()
