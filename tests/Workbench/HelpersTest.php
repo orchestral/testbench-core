@@ -6,6 +6,7 @@ use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\TestCase;
 use function Orchestra\Testbench\workbench;
+use function Orchestra\Testbench\workbench_path;
 
 class HelpersTest extends TestCase
 {
@@ -44,5 +45,14 @@ class HelpersTest extends TestCase
             'build' => [],
             'assets' => [],
         ], workbench());
+    }
+
+    /** @test */
+    public function it_can_resolve_workbench_path()
+    {
+        $this->assertSame(
+            realpath(__DIR__.'/../../workbench/database/migrations/2013_07_26_182750_create_testbench_users_table.php'),
+            workbench_path('database'.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'2013_07_26_182750_create_testbench_users_table.php')
+        );
     }
 }
