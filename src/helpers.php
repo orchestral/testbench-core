@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
+use Orchestra\Workbench\Workbench;
 use PHPUnit\Runner\Version;
 use RuntimeException;
 
@@ -123,6 +124,37 @@ function package_path(string $path = ''): string
     $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
 
     return "{$workingPath}/{$path}";
+}
+
+/**
+ * Get the workbench configuration.
+ *
+ * @phpstan-import-type TWorkbenchConfig from \Orchestra\Testbench\Foundation\Config
+ *
+ * @return array<string, mixed>
+ *
+ * @phpstan-return TWorkbenchConfig
+ */
+function workbench(): array
+{
+    $config = app()->bound(Contracts\Config::class)
+        ? app()->make(Contracts\Config::class)
+        : new Foundation\Config();
+
+    return $config->getWorkbenchAttributes();
+}
+
+/**
+ * Get the path to the workbench folder.
+ *
+ * @param  string  $path
+ * @return string
+ */
+function workbench_path(string $path = ''): string
+{
+    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+
+    return package_path("workbench/{$path}");
 }
 
 /**
