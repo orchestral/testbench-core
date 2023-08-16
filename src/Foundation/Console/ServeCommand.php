@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation\Console;
 
+use Composer\Config as ComposerConfig;
 use Illuminate\Foundation\Console\ServeCommand as Command;
 use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
 use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
@@ -19,6 +20,13 @@ class ServeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (
+            class_exists(ComposerConfig::class, false)
+            && method_exists(ComposerConfig::class, 'disableProcessTimeout') // @phpstan-ignore-line
+        ) {
+            ComposerConfig::disableProcessTimeout();
+        }
+
         /** @phpstan-ignore-next-line */
         $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH;
 
