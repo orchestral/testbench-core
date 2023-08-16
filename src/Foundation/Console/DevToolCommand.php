@@ -39,8 +39,6 @@ class DevToolCommand extends Command
      */
     public function handle()
     {
-        $this->call('workbench:install', ['--force' => $this->option('force')]);
-
-        return Command::SUCCESS;
+        return $this->call('workbench:install', ['--force' => $this->option('force')]);
     }
 }
