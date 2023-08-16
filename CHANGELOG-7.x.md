@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.28.2
+
+Released: 2023-08-17
+
+### Changes
+
+* Disable Composer default timeout when using `serve` command under Composer's script.
+
 ## 7.28.1
 
 Released: 2023-08-16
