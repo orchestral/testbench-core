@@ -7,8 +7,6 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use ReflectionClass;
 
-use function Orchestra\Testbench\phpunit_version_compare;
-
 trait InteractsWithPHPUnit
 {
     /**
