@@ -22,7 +22,7 @@ class ServeCommand extends Command
     {
         if (
             class_exists(ComposerConfig::class, false)
-            && method_exists(ComposerConfig::class, 'disableProcessTimeout')
+            && method_exists(ComposerConfig::class, 'disableProcessTimeout') // @phpstan-ignore-line
         ) {
             ComposerConfig::disableProcessTimeout();
         }
