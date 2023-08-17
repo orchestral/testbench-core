@@ -10,12 +10,13 @@ use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
-use function Orchestra\Testbench\transform_relative_path;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+
+use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
 {

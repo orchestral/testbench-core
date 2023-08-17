@@ -3,8 +3,9 @@
 namespace Orchestra\Testbench\Database;
 
 use Illuminate\Database\Migrations\Migrator;
-use function Orchestra\Testbench\artisan;
 use Orchestra\Testbench\Contracts\TestCase;
+
+use function Orchestra\Testbench\artisan;
 
 class MigrateProcessor
 {

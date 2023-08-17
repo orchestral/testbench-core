@@ -2,9 +2,10 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Orchestra\Testbench\TestCase;
+
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\parse_environment_variables;
-use Orchestra\Testbench\TestCase;
 use function Orchestra\Testbench\transform_relative_path;
 
 class HelpersTest extends TestCase
@@ -42,6 +43,7 @@ class HelpersTest extends TestCase
 
     /**
      * @test
+     *
      * @group workbench
      */
     public function it_can_use_package_path()

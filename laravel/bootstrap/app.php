@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Env;
-use function Orchestra\Testbench\default_environment_variables;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
+
+use function Orchestra\Testbench\default_environment_variables;
 
 /**
  * Create Laravel application.
