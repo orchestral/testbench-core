@@ -41,7 +41,7 @@ trait InteractsWithWorkbench
             return $this->enablesPackageDiscoveries === false ? ['*'] : [];
         }
 
-        return $this->isRunningTestCase() && static::usesTestingConcern(WithWorkbench::class)
+        return static::usesTestingConcern(WithWorkbench::class)
             ? optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['dont-discover'] ?? []
             : null;
     }
@@ -54,10 +54,7 @@ trait InteractsWithWorkbench
      */
     protected function getPackageBootstrappersUsingWorkbench($app)
     {
-        if (
-            ! $this->isRunningTestCase()
-            || empty($bootstrappers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['bootstrappers'] ?? null))
-        ) {
+        if (empty($bootstrappers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['bootstrappers'] ?? null))) {
             return null;
         }
 
@@ -74,10 +71,7 @@ trait InteractsWithWorkbench
      */
     protected function getPackageProvidersUsingWorkbench($app)
     {
-        if (
-            ! $this->isRunningTestCase()
-            || empty($providers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['providers'] ?? null))
-        ) {
+        if (empty($providers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['providers'] ?? null))) {
             return null;
         }
 
