@@ -24,7 +24,7 @@ trait InteractsWithWorkbench
     public static function applicationBasePathUsingWorkbench()
     {
         if (! static::usesTestingConcern()) {
-            return null;
+            return $_ENV['APP_BASE_PATH'] ?? null;
         }
 
         return $_ENV['APP_BASE_PATH'] ?? $_ENV['TESTBENCH_APP_BASE_PATH'] ?? null;
@@ -37,15 +37,13 @@ trait InteractsWithWorkbench
      */
     public function ignorePackageDiscoveriesFromUsingWorkbench()
     {
-        if (
-            $this->isRunningTestCase()
-            && property_exists($this, 'enablesPackageDiscoveries')
-            && $this->enablesPackageDiscoveries === true
-        ) {
-            return optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['dont-discover'] ?? [];
+        if (property_exists($this, 'enablesPackageDiscoveries') && \is_bool($this->enablesPackageDiscoveries)) {
+            return $this->enablesPackageDiscoveries === false ? ['*'] : [];
         }
 
-        return null;
+        return static::usesTestingConcern(WithWorkbench::class)
+            ? optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['dont-discover'] ?? []
+            : null;
     }
 
     /**
@@ -56,14 +54,13 @@ trait InteractsWithWorkbench
      */
     protected function getPackageBootstrappersUsingWorkbench($app)
     {
-        if (
-            ! $this->isRunningTestCase()
-            || empty($bootstrappers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['bootstrappers'] ?? null))
-        ) {
+        if (empty($bootstrappers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['bootstrappers'] ?? null))) {
             return null;
         }
 
-        return Arr::wrap($bootstrappers);
+        return static::usesTestingConcern(WithWorkbench::class)
+            ? Arr::wrap($bootstrappers)
+            : [];
     }
 
     /**
@@ -74,14 +71,13 @@ trait InteractsWithWorkbench
      */
     protected function getPackageProvidersUsingWorkbench($app)
     {
-        if (
-            ! $this->isRunningTestCase()
-            || empty($providers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['providers'] ?? null))
-        ) {
+        if (empty($providers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['providers'] ?? null))) {
             return null;
         }
 
-        return Arr::wrap($providers);
+        return static::usesTestingConcern(WithWorkbench::class)
+            ? Arr::wrap($providers)
+            : [];
     }
 
     /**
