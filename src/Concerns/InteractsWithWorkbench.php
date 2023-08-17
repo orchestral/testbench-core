@@ -23,11 +23,11 @@ trait InteractsWithWorkbench
      */
     public static function applicationBasePathUsingWorkbench()
     {
-        if (static::usesTestingConcern()) {
-            return $_ENV['APP_BASE_PATH'] ?? $_ENV['TESTBENCH_APP_BASE_PATH'] ?? null;
+        if (! static::usesTestingConcern()) {
+            return $_ENV['APP_BASE_PATH'] ?? null;
         }
 
-        return $_ENV['APP_BASE_PATH'] ?? null;
+        return $_ENV['APP_BASE_PATH'] ?? $_ENV['TESTBENCH_APP_BASE_PATH'] ?? null;
     }
 
     /**
@@ -37,11 +37,11 @@ trait InteractsWithWorkbench
      */
     public function ignorePackageDiscoveriesFromUsingWorkbench()
     {
-        if (! $this->isRunningTestCase() || property_exists($this, 'enablesPackageDiscoveries')) {
+        if (property_exists($this, 'enablesPackageDiscoveries')) {
             return $this->enablesPackageDiscoveries === false ? ['*'] : [];
         }
 
-        return static::usesTestingConcern(WithWorkbench::class)
+        return $this->isRunningTestCase() && static::usesTestingConcern(WithWorkbench::class)
             ? optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['dont-discover'] ?? []
             : null;
     }
