@@ -10,6 +10,10 @@ Released: 2023-08-17
 
 * Disable Composer default timeout when using `serve` command under Composer's script.
 
+### Removed
+
+* Remove `Orchestra\Testbench\Workbench` classes and functionality is now provided from `orchestra/workbench`.
+
 ## 8.8.1
 
 Released: 2023-08-16
