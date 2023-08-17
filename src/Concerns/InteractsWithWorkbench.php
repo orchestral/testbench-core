@@ -37,7 +37,7 @@ trait InteractsWithWorkbench
      */
     public function ignorePackageDiscoveriesFromUsingWorkbench()
     {
-        if (property_exists($this, 'enablesPackageDiscoveries')) {
+        if (property_exists($this, 'enablesPackageDiscoveries') && is_bool($this->enablesPackageDiscoveries)) {
             return $this->enablesPackageDiscoveries === false ? ['*'] : [];
         }
 
