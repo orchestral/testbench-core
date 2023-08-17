@@ -23,11 +23,11 @@ trait InteractsWithWorkbench
      */
     public static function applicationBasePathUsingWorkbench()
     {
-        if (! static::usesTestingConcern()) {
-            return null;
+        if (static::usesTestingConcern()) {
+            return $_ENV['APP_BASE_PATH'] ?? $_ENV['TESTBENCH_APP_BASE_PATH'] ?? null;
         }
 
-        return $_ENV['APP_BASE_PATH'] ?? $_ENV['TESTBENCH_APP_BASE_PATH'] ?? null;
+        return $_ENV['APP_BASE_PATH'] ?? null;
     }
 
     /**
@@ -37,15 +37,13 @@ trait InteractsWithWorkbench
      */
     public function ignorePackageDiscoveriesFromUsingWorkbench()
     {
-        if (
-            $this->isRunningTestCase()
-            && property_exists($this, 'enablesPackageDiscoveries')
-            && $this->enablesPackageDiscoveries === true
-        ) {
-            return optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['dont-discover'] ?? [];
+        if (! $this->isRunningTestCase() || property_exists($this, 'enablesPackageDiscoveries')) {
+            return $this->enablesPackageDiscoveries === false ? ['*'] : [];
         }
 
-        return null;
+        return static::usesTestingConcern(WithWorkbench::class)
+            ? optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['dont-discover'] ?? []
+            : null;
     }
 
     /**
@@ -63,7 +61,9 @@ trait InteractsWithWorkbench
             return null;
         }
 
-        return Arr::wrap($bootstrappers);
+        return static::usesTestingConcern(WithWorkbench::class)
+            ? Arr::wrap($bootstrappers)
+            : [];
     }
 
     /**
@@ -81,7 +81,9 @@ trait InteractsWithWorkbench
             return null;
         }
 
-        return Arr::wrap($providers);
+        return static::usesTestingConcern(WithWorkbench::class)
+            ? Arr::wrap($providers)
+            : [];
     }
 
     /**
