@@ -42,7 +42,7 @@ trait InteractsWithWorkbench
         }
 
         return static::usesTestingConcern(WithWorkbench::class)
-            ? optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['dont-discover'] ?? []
+            ? (optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['dont-discover'] ?? [])
             : null;
     }
 
