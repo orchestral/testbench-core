@@ -21,11 +21,11 @@ trait CopyTestbenchFiles
      */
     protected function copyTestbenchConfigurationFile(Application $app, Filesystem $filesystem, string $workingPath): void
     {
-        $configurationFile = Collection::make([
-            'testbench.yaml',
-            'testbench.yaml.example',
-            'testbench.yaml.dist',
-        ])->map(fn ($file) => "{$workingPath}/{$file}")
+        $configurationFile = LazyCollection::make(function () {
+            yield 'testbench.yaml';
+            yield 'testbench.yaml.example';
+            yield 'testbench.yaml.dist';
+        })->map(fn ($file) => "{$workingPath}/{$file}")
             ->filter(fn ($file) => $filesystem->exists($file))
             ->first();
 

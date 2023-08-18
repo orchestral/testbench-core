@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
@@ -107,11 +108,11 @@ class PurgeSkeletonCommand extends Command
      * Delete set of file from collection.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
-     * @param  \Illuminate\Support\LazyCollection|\Illuminate\Support\Enumerable  $directories
+     * @param  \Illuminate\Support\Enumerable  $directories
      * @param  (callable(string):(void))|null  $callback
      * @return void
      */
-    protected function deleteDirectoriesFrom(Filesystem $filesystem, $directories, ?callable $callback = null): void
+    protected function deleteDirectoriesFrom(Filesystem $filesystem, Enumerable $directories, ?callable $callback = null): void
     {
         $workingPath = $this->laravel->basePath();
 
@@ -132,11 +133,11 @@ class PurgeSkeletonCommand extends Command
      * Delete set of file from collection.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
-     * @param  \Illuminate\Support\LazyCollection|\Illuminate\Support\Enumerable  $files
+     * @param  \Illuminate\Support\Enumerable  $files
      * @param  (callable(string):(void))|null  $callback
      * @return void
      */
-    protected function deleteFilesFrom(Filesystem $filesystem, $files, ?callable $callback = null): void
+    protected function deleteFilesFrom(Filesystem $filesystem, Enumerable $files, ?callable $callback = null): void
     {
         $workingPath = $this->laravel->basePath();
 
