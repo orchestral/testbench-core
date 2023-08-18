@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.8.4
+
+Released: 2023-08-18
+
+### Changes
+
+* Skip loading `Orchestra\Workbench\WorkbenchServiceProvider` when applying `Orchestra\Testbench\Concerns\WithWorkbench`.
+
 ## 8.8.3
 
 Released: 2023-08-17
