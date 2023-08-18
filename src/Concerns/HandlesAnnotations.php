@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Closure;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Enumerable;
 use Illuminate\Support\LazyCollection;
 
