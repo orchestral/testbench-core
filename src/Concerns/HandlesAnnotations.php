@@ -4,6 +4,8 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
+use Illuminate\Support\LazyCollection;
 
 /**
  * @internal
@@ -21,7 +23,7 @@ trait HandlesAnnotations
         $this->resolvePhpUnitAnnotations()
             ->filter(fn ($actions, string $key) => $key === $name && ! empty($actions))
             ->each(function (array $actions) use ($app, $callback) {
-                Collection::make($actions)
+                LazyCollection::make($actions)
                     ->filter(fn ($method) => \is_string($method) && method_exists($this, $method))
                     ->each($callback ?? function ($method) use ($app) {
                         $this->{$method}($app);
@@ -34,7 +36,7 @@ trait HandlesAnnotations
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<string, mixed>
+     * @return \Illuminate\Support\Enumerable<string, mixed>
      */
-    abstract protected function resolvePhpUnitAnnotations(): Collection;
+    abstract protected function resolvePhpUnitAnnotations(): Enumerable;
 }

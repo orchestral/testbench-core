@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
+use Illuminate\Support\LazyCollection;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
@@ -31,9 +33,9 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<string, mixed>
+     * @return \Illuminate\Support\Enumerable<string, mixed>
      */
-    protected function resolvePhpUnitAnnotations(): Collection
+    protected function resolvePhpUnitAnnotations(): Enumerable
     {
         $instance = new ReflectionClass($this);
 
@@ -48,7 +50,7 @@ trait InteractsWithPHPUnit
             false
         );
 
-        return Collection::make($annotations);
+        return LazyCollection::make($annotations);
     }
 
     /**
