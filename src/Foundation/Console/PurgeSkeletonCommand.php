@@ -74,13 +74,12 @@ class PurgeSkeletonCommand extends Command
             $filesystem,
             LazyCollection::make($files)
                 ->map(fn ($file) => $this->laravel->basePath($file))
-                ->tap(function ($collect) use ($filesystem) {
-                    $collect->each(function ($file) use ($collect, $filesystem) {
-                        if (str_contains($file, '*')) {
-                            $collect->push(...$filesystem->glob($file));
-                        }
-                    });
-                })->reject(fn ($file) => str_contains($file, '*')),
+                ->map(function ($file) use ($filesystem) {
+                    return str_contains($file, '*')
+                        ? [...$filesystem->glob($file)]
+                        : $file;
+                })->flatten()
+                ->reject(fn ($file) => str_contains($file, '*')),
             fn ($file) => $this->components->task(
                 sprintf('File [%s] has been deleted', $file)
             )
@@ -88,15 +87,14 @@ class PurgeSkeletonCommand extends Command
 
         $this->deleteDirectoriesFrom(
             $filesystem,
-            LazyCollection::make($directories)
+            Collection::make($directories)
                 ->map(fn ($directory) => $this->laravel->basePath($directory))
-                ->tap(function ($collect) use ($filesystem) {
-                    $collect->each(function ($directory) use ($collect, $filesystem) {
-                        if (str_contains($directory, '*')) {
-                            $collect->push(...$filesystem->glob($directory));
-                        }
-                    });
-                })->reject(fn ($directory) => str_contains($directory, '*')),
+                ->map(function ($directory) use ($filesystem) {
+                    return str_contains($directory, '*')
+                        ? [...$filesystem->glob($directory)]
+                        : $directory;
+                })->flatten()
+                ->reject(fn ($directory) => str_contains($directory, '*')),
             fn ($directory) => $this->components->task(
                 sprintf('Directory [%s] has been deleted', $directory)
             )
