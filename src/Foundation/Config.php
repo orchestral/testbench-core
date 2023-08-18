@@ -17,6 +17,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   user: string|int|null,
  *   guard: string|null,
  *   install: bool,
+ *   welcome: bool|null,
  *   sync: array<int, array{from: string, to: string}>,
  *   build: array<int, string>,
  *   assets: array<int, string>
@@ -26,6 +27,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   user?: string|int|null,
  *   guard?: string|null,
  *   install?: bool,
+ *   welcome?: bool|null,
  *   sync?: array<int, array{from: string, to: string}>,
  *   build?: array<int, string>,
  *   assets?: array<int, string>
@@ -83,6 +85,7 @@ class Config extends Fluent implements ConfigContract
         'user' => null,
         'guard' => null,
         'install' => true,
+        'welcome' => null,
         'sync' => [],
         'build' => [],
         'assets' => [],

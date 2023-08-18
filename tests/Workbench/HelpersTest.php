@@ -20,6 +20,7 @@ class HelpersTest extends TestCase
                 'user' => 'crynobone@gmail.com',
                 'guard' => 'web',
                 'install' => false,
+                'welcome' => false,
             ],
         ]));
 
@@ -28,6 +29,7 @@ class HelpersTest extends TestCase
             'user' => 'crynobone@gmail.com',
             'guard' => 'web',
             'install' => false,
+            'welcome' => false,
             'sync' => [],
             'build' => [],
             'assets' => [],
@@ -42,6 +44,7 @@ class HelpersTest extends TestCase
             'user' => null,
             'guard' => null,
             'install' => true,
+            'welcome' => null,
             'sync' => [],
             'build' => [],
             'assets' => [],
