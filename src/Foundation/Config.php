@@ -141,7 +141,7 @@ class Config extends Fluent implements ConfigContract
             yield "{$yaml}.example";
             yield "{$yaml}.dist";
         })->filter(fn ($file) => file_exists($workingPath.DIRECTORY_SEPARATOR.$file))
-        ->first() ?? $yaml;
+            ->first() ?? $yaml;
 
         if (file_exists("{$workingPath}/{$filename}")) {
             /** @phpstan-var TOptionalConfig $config */
