@@ -37,6 +37,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   user: string|int|null,
  *   guard: string|null,
  *   install: bool,
+ *   welcome: bool|null,
  *   sync: array<int, array{from: string, to: string}>,
  *   build: array<int, string>,
  *   assets: array<int, string>
@@ -46,6 +47,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   user?: string|int|null,
  *   guard?: string|null,
  *   install?: bool,
+ *   welcome?: bool|null,
  *   sync?: array<int, array{from: string, to: string}>,
  *   build?: array<int, string>,
  *   assets?: array<int, string>
@@ -118,6 +120,7 @@ class Config extends Fluent implements ConfigContract
         'user' => null,
         'guard' => null,
         'install' => true,
+        'welcome' => null,
         'sync' => [],
         'build' => [],
         'assets' => [],
@@ -133,18 +136,22 @@ class Config extends Fluent implements ConfigContract
      */
     public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
-        $yaml = $filename ?? 'testbench.yaml';
+        $filename = $filename ?? 'testbench.yaml';
         $config = $defaults;
 
-        $filename = LazyCollection::make(function () use ($yaml) {
-            yield $yaml;
-            yield "{$yaml}.example";
-            yield "{$yaml}.dist";
+        $filename = LazyCollection::make(function () use ($filename) {
+            yield $filename;
+            yield "{$filename}.example";
+            yield "{$filename}.dist";
         })->filter(fn ($file) => file_exists($workingPath.DIRECTORY_SEPARATOR.$file))
-            ->first() ?? $yaml;
+            ->first();
 
-        if (file_exists("{$workingPath}/{$filename}")) {
-            /** @phpstan-var TOptionalConfig $config */
+        if (! \is_null($filename)) {
+            /**
+             * @var array<string, mixed> $config
+             *
+             * @phpstan-var TOptionalConfig $config
+             */
             $config = Yaml::parseFile($workingPath.DIRECTORY_SEPARATOR.$filename);
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
