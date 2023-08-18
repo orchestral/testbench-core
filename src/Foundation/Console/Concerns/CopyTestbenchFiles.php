@@ -73,7 +73,7 @@ trait CopyTestbenchFiles
             ->filter(fn ($file) => $filesystem->exists($file))
             ->first();
 
-        if (is_null($configurationFile) && $filesystem->exists($app->basePath('.env.example'))) {
+        if (\is_null($configurationFile) && $filesystem->exists($app->basePath('.env.example'))) {
             $configurationFile = $app->basePath('.env.example');
         }
 
