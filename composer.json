@@ -74,6 +74,9 @@
         "ci": [
             "@composer run clear",
             "@composer run prepare",
+            "@composer run lint"
+        ],
+        "lint": [
             "@php vendor/bin/phpstan analyse"
         ],
         "test": [

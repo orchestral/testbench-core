@@ -12,16 +12,8 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
     require __DIR__.'/../../autoload.php';
 }
 
-$filename = Illuminate\Support\LazyCollection::make(function () {
-    yield 'testbench.yaml';
-    yield 'testbench.yaml.example';
-    yield 'testbench.yaml.dist';
-})->filter(function ($file) use ($workingPath) {
-    return file_exists($workingPath.DIRECTORY_SEPARATOR.$file);
-})->first() ?? 'testbench.yaml';
-
 $config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
-    $workingPath, $filename, ['providers' => [], 'dont-discover' => []]
+    $workingPath, 'testbench.yaml', ['providers' => [], 'dont-discover' => []]
 );
 
 $commander = new Orchestra\Testbench\Console\Commander($config, $workingPath);
