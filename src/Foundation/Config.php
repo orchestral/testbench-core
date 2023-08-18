@@ -101,18 +101,18 @@ class Config extends Fluent implements ConfigContract
      */
     public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
-        $yaml = $filename ?? 'testbench.yaml';
+        $filename = $filename ?? 'testbench.yaml';
         $config = $defaults;
 
-        $filename = LazyCollection::make(function () use ($yaml) {
-            yield $yaml;
-            yield "{$yaml}.example";
-            yield "{$yaml}.dist";
+        $filename = LazyCollection::make(function () use ($filename) {
+            yield $filename;
+            yield "{$filename}.example";
+            yield "{$filename}.dist";
         })->filter(function ($file) use ($workingPath) {
             return file_exists($workingPath.DIRECTORY_SEPARATOR.$file);
-        })->first() ?? $yaml;
+        })->first();
 
-        if (file_exists("{$workingPath}/{$filename}")) {
+        if (! \is_null($filename)) {
             /**
              * @var array<string, mixed> $config
              *
