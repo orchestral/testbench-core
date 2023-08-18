@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Yaml\Yaml;
 
@@ -132,12 +133,19 @@ class Config extends Fluent implements ConfigContract
      */
     public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
-        $filename ??= 'testbench.yaml';
+        $yaml = $filename ?? 'testbench.yaml';
         $config = $defaults;
+
+        $filename = LazyCollection::make(function () use ($yaml) {
+            yield $yaml;
+            yield "{$yaml}.example";
+            yield "{$yaml}.dist";
+        })->filter(fn ($file) => file_exists($workingPath.DIRECTORY_SEPARATOR.$file))
+            ->first() ?? $yaml;
 
         if (file_exists("{$workingPath}/{$filename}")) {
             /** @phpstan-var TOptionalConfig $config */
-            $config = Yaml::parseFile("{$workingPath}/{$filename}");
+            $config = Yaml::parseFile($workingPath.DIRECTORY_SEPARATOR.$filename);
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
                 return transform_relative_path($path, $workingPath);
