@@ -49,26 +49,12 @@ class PurgeSkeletonCommand extends Command
         $this->deleteFilesFrom(
             $filesystem,
             LazyCollection::make(function () use ($filesystem) {
+                yield $filesystem->glob($this->laravel->basePath('bootstrap/cache/routes-*.php'));
                 yield $filesystem->glob($this->laravel->basePath('storage/app/public/*'));
                 yield $filesystem->glob($this->laravel->basePath('storage/app/*'));
                 yield $filesystem->glob($this->laravel->basePath('storage/framework/sessions/*'));
                 yield $filesystem->glob($this->laravel->basePath('storage/framework/views/*.php'));
             })->flatten(),
-        );
-
-        $this->deleteFilesFrom(
-            $filesystem,
-            LazyCollection::make(function () use ($filesystem) {
-                yield Collection::make(['database/database.sqlite', 'bootstrap/cache/routes-v7.php'])
-                    ->map(fn ($file) => $this->laravel->basePath($file))
-                    ->all();
-
-                yield $filesystem->glob($this->laravel->basePath('routes/testbench-*.php'));
-                yield $filesystem->glob($this->laravel->basePath('storage/logs/*.log'));
-            })->flatten(),
-            fn ($file) => $this->components->task(
-                sprintf('File [%s] has been deleted', $file)
-            )
         );
 
         $this->deleteFilesFrom(
