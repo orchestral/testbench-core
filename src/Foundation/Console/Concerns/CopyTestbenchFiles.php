@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Foundation\Console\Concerns;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 
 trait CopyTestbenchFiles
