@@ -12,20 +12,16 @@ use Orchestra\Workbench\WorkbenchServiceProvider;
 final class StartWorkbench
 {
     /**
-     * The project configuration.
-     *
-     * @var \Orchestra\Testbench\Contracts\Config
-     */
-    public $config;
-
-    /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
      * @param  \Orchestra\Testbench\Contracts\Config  $config
+     * @param  bool  $loadWorkbenchProviders
      */
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
+    public function __construct(
+        public Config $config,
+        public bool $loadWorkbenchProviders = true
+    ) {
+        //
     }
 
     /**
@@ -38,7 +34,7 @@ final class StartWorkbench
     {
         $app->instance(Config::class, $this->config);
 
-        if (class_exists(WorkbenchServiceProvider::class)) {
+        if ($this->loadWorkbenchProviders === true && class_exists(WorkbenchServiceProvider::class)) {
             $app->register(WorkbenchServiceProvider::class);
         }
     }
