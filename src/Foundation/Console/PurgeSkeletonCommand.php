@@ -54,7 +54,6 @@ class PurgeSkeletonCommand extends Command
                 yield $filesystem->glob($this->laravel->basePath('storage/app/public/*'));
                 yield $filesystem->glob($this->laravel->basePath('storage/app/*'));
                 yield $filesystem->glob($this->laravel->basePath('storage/framework/sessions/*'));
-                yield $filesystem->glob($this->laravel->basePath('storage/framework/views/*.php'));
             })->flatten(),
         );
 
