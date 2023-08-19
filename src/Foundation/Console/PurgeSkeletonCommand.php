@@ -50,6 +50,7 @@ class PurgeSkeletonCommand extends Command
             $filesystem,
             LazyCollection::make(function () use ($filesystem) {
                 yield $this->laravel->basePath('database/database.sqlite');
+                yield $filesystem->glob($this->laravel->basePath('routes/testbench-*.php'));
                 yield $filesystem->glob($this->laravel->basePath('storage/app/public/*'));
                 yield $filesystem->glob($this->laravel->basePath('storage/app/*'));
                 yield $filesystem->glob($this->laravel->basePath('storage/framework/sessions/*'));
