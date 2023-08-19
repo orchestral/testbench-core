@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.29.0
+
+Released: 2023-08-19
+
+### Added
+
+* Added new `workbench.welcome` configuration option.
+
+### Changes
+
+* Allow `testbench.yaml` configuration fallback similar to `.env`.
+* Utilise `Illuminate\Support\LazyCollection`.
+
 ## 7.28.4
 
 Released: 2023-08-18
