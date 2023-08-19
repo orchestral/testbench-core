@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Foundation\Console\Concerns;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 
 trait CopyTestbenchFiles
 {
@@ -20,11 +20,11 @@ trait CopyTestbenchFiles
      */
     protected function copyTestbenchConfigurationFile(Application $app, Filesystem $filesystem, string $workingPath): void
     {
-        $configurationFile = Collection::make([
-            'testbench.yaml',
-            'testbench.yaml.example',
-            'testbench.yaml.dist',
-        ])->map(fn ($file) => "{$workingPath}/{$file}")
+        $configurationFile = LazyCollection::make(function () {
+            yield 'testbench.yaml';
+            yield 'testbench.yaml.example';
+            yield 'testbench.yaml.dist';
+        })->map(fn ($file) => "{$workingPath}/{$file}")
             ->filter(fn ($file) => $filesystem->exists($file))
             ->first();
 
@@ -65,14 +65,17 @@ trait CopyTestbenchFiles
             ? "{$workingPath}/workbench"
             : $workingPath;
 
-        $configurationFile = Collection::make([
-            $this->environmentFile,
-            "{$this->environmentFile}.example",
-            "{$this->environmentFile}.dist",
-        ])->map(fn ($file) => "{$workingPath}/{$file}")
-            ->push($app->basePath('.env.example'))
+        $configurationFile = LazyCollection::make(function () {
+            yield $this->environmentFile;
+            yield "{$this->environmentFile}.example";
+            yield "{$this->environmentFile}.dist";
+        })->map(fn ($file) => "{$workingPath}/{$file}")
             ->filter(fn ($file) => $filesystem->exists($file))
             ->first();
+
+        if (\is_null($configurationFile) && $filesystem->exists($app->basePath('.env.example'))) {
+            $configurationFile = $app->basePath('.env.example');
+        }
 
         $environmentFile = $app->basePath('.env');
 
