@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.9.1
+
+Released: 2023-08-22
+
+### Changes
+
+* Allow using `$model` property override when extending `Orchestra\Testbench\Factories\UserFactory`.
+
 ## 8.9.0
 
 Released: 2023-08-19
