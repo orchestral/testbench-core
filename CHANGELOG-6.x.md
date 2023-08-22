@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.37.0
+
+Released: 2023-08-22
+
+### Added
+
+* Added `Orchestra\Testbench\after_resolving` helper function.
+
+### Changes
+
+* Allow using `$model` property override when extending `Orchestra\Testbench\Factories\UserFactory`.
+
 ## 6.36.0
 
 Released: 2023-08-19
