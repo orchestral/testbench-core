@@ -37,6 +37,23 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
 }
 
 /**
+ * Register after resolving callback.
+ *
+ * @param  \Illuminate\Contracts\Foundation\Application  $app
+ * @param  string  $name
+ * @param  (\Closure(object, \Illuminate\Contracts\Foundation\Application):(mixed))|null  $callback
+ * @return void
+ */
+function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
+{
+    $app->afterResolving($name, $callback);
+
+    if ($app->resolved($name)) {
+        value($callback, $app->make($name), $app);
+    }
+}
+
+/**
  * Get default environment variables.
  *
  * @return array<int, string>
