@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
  * @phpstan-type TModel \Illuminate\Foundation\Auth\User
  *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
+ *
+ * @property \Illuminate\Database\Eloquent\Model|TModel $model
  */
 class UserFactory extends Factory
 {
@@ -46,6 +48,6 @@ class UserFactory extends Factory
      */
     public function modelName()
     {
-        return config('auth.providers.users.model', User::class);
+        return $this->model ?? config('auth.providers.users.model', User::class);
     }
 }

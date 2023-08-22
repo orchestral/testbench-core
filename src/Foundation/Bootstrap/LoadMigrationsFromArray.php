@@ -92,6 +92,7 @@ final class LoadMigrationsFromArray
 
         after_resolving($app, 'migrator', function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {
+                /** @var \Illuminate\Database\Migrations\Migrator $migrator */
                 $migrator->path($path);
             }
         });

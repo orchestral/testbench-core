@@ -44,7 +44,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
  *
  * @param  \Illuminate\Contracts\Foundation\Application  $app
  * @param  string  $name
- * @param  \Closure|null  $callback
+ * @param  (\Closure(object, \Illuminate\Contracts\Foundation\Application):(mixed))|null  $callback
  * @return void
  */
 function after_resolving(ApplicationContract $app, string $name, Closure $callback = null): void
