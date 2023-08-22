@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.37.1
+
+Released: 2023-08-22
+
+### Fixes
+
+* Fixes missing import for `Orchestra\Testbench\after_resolving` helper function.
+
 ## 6.37.0
 
 Released: 2023-08-22
