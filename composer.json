@@ -67,22 +67,22 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "@composer run clear",
-            "@composer run prepare"
+            "@clear",
+            "@prepare"
         ],
         "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
         "ci": [
             "@composer audit",
-            "@composer run prepare",
-            "@composer run lint"
+            "@prepare",
+            "@lint",
+            "@test"
         ],
         "lint": [
             "@php vendor/bin/pint",
             "@php vendor/bin/phpstan analyse"
         ],
         "test": [
-            "@composer run clear",
             "@php vendor/bin/phpunit -c ./ --color"
         ]
     },

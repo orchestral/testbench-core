@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
  * @phpstan-type TModel \Illuminate\Foundation\Auth\User
  *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
+ *
+ * @property \Illuminate\Database\Eloquent\Model|TModel $model
  */
 class UserFactory extends Factory
 {
