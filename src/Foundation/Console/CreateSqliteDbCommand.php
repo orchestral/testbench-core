@@ -29,21 +29,21 @@ class CreateSqliteDbCommand extends Command
         $workingPath = $this->laravel->basePath();
         $databasePath = $this->laravel->databasePath();
 
+        /** @var bool $force */
+        $force = $this->option('force');
+
         $from = $filesystem->exists("{$databasePath}/database.sqlite.example")
             ? "{$databasePath}/database.sqlite.example"
             : (string) realpath(__DIR__.'/stubs/database.sqlite.example');
+
         $to = "{$databasePath}/database.sqlite";
 
-        if ($this->option('force') || ! $filesystem->exists($to)) {
-            $filesystem->copy($from, $to);
-
-            $this->copyTaskCompleted($from, $to, 'file', $workingPath);
-        } else {
-            $this->components->twoColumnDetail(
-                sprintf('File [%s] already exists', str_replace($workingPath.'/', '', $to)),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
-        }
+        (new Actions\CopyFile(
+            filesystem: $filesystem,
+            components: $this->components,
+            force: $force,
+            workingPath: $workingPath,
+        ))->handle($from, $to);
 
         return Command::SUCCESS;
     }
