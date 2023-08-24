@@ -2,6 +2,59 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.29.1
+
+Released: 2023-08-22
+
+### Changes
+
+* Allow using `$model` property override when extending `Orchestra\Testbench\Factories\UserFactory`.
+
+## 7.29.0
+
+Released: 2023-08-19
+
+### Added
+
+* Added new `workbench.welcome` configuration option.
+
+### Changes
+
+* Allow `testbench.yaml` configuration fallback similar to `.env`.
+* Utilise `Illuminate\Support\LazyCollection`.
+
+## 7.28.4
+
+Released: 2023-08-18
+
+### Changes
+
+* Skip loading `Orchestra\Workbench\WorkbenchServiceProvider` when applying `Orchestra\Testbench\Concerns\WithWorkbench`.
+
+## 7.28.3
+
+Released: 2023-08-17
+
+### Fixes
+
+* Fixes configuration leak when running some TestCase without `Orchestra\Testbench\Concerns\WithWorkbench`.
+
+## 7.28.2
+
+Released: 2023-08-17
+
+### Changes
+
+* Disable Composer default timeout when using `serve` command under Composer's script.
+
+## 7.28.1
+
+Released: 2023-08-16
+
+### Added
+
+* Readd deprecated `Orchestra\Testbench\Foundation\Console\DevToolCommand` for integration compatibility.
+
 ## 7.28.0
 
 Released: 2023-08-15

@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Foundation\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Enumerable;
+use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -46,39 +48,25 @@ class PurgeSkeletonCommand extends Command
 
         $this->deleteFilesFrom(
             $filesystem,
-            Collection::make([
-                ...$filesystem->glob($this->laravel->basePath('storage/app/public/*')),
-                ...$filesystem->glob($this->laravel->basePath('storage/app/*')),
-                ...$filesystem->glob($this->laravel->basePath('storage/framework/sessions/*')),
-                ...$filesystem->glob($this->laravel->basePath('storage/framework/views/*.php')),
-            ]),
+            LazyCollection::make(function () use ($filesystem) {
+                yield $this->laravel->basePath('database/database.sqlite');
+                yield $filesystem->glob($this->laravel->basePath('routes/testbench-*.php'));
+                yield $filesystem->glob($this->laravel->basePath('storage/app/public/*'));
+                yield $filesystem->glob($this->laravel->basePath('storage/app/*'));
+                yield $filesystem->glob($this->laravel->basePath('storage/framework/sessions/*'));
+            })->flatten(),
         );
 
         $this->deleteFilesFrom(
             $filesystem,
-            Collection::make([
-                ...Collection::make(['database/database.sqlite', 'bootstrap/cache/routes-v7.php'])
-                    ->map(fn ($file) => $this->laravel->basePath($file))
-                    ->all(),
-                ...$filesystem->glob($this->laravel->basePath('routes/testbench-*.php')),
-                ...$filesystem->glob($this->laravel->basePath('storage/logs/*.log')),
-            ]),
-            fn ($file) => $this->components->task(
-                sprintf('File [%s] has been deleted', $file)
-            )
-        );
-
-        $this->deleteFilesFrom(
-            $filesystem,
-            Collection::make($files)
+            LazyCollection::make($files)
                 ->map(fn ($file) => $this->laravel->basePath($file))
-                ->tap(function ($collect) use ($filesystem) {
-                    $collect->each(function ($file) use ($collect, $filesystem) {
-                        if (str_contains($file, '*')) {
-                            $collect->push(...$filesystem->glob($file));
-                        }
-                    });
-                })->reject(fn ($file) => str_contains($file, '*')),
+                ->map(function ($file) use ($filesystem) {
+                    return str_contains($file, '*')
+                        ? [...$filesystem->glob($file)]
+                        : $file;
+                })->flatten()
+                ->reject(fn ($file) => str_contains($file, '*')),
             fn ($file) => $this->components->task(
                 sprintf('File [%s] has been deleted', $file)
             )
@@ -88,13 +76,12 @@ class PurgeSkeletonCommand extends Command
             $filesystem,
             Collection::make($directories)
                 ->map(fn ($directory) => $this->laravel->basePath($directory))
-                ->tap(function ($collect) use ($filesystem) {
-                    $collect->each(function ($directory) use ($collect, $filesystem) {
-                        if (str_contains($directory, '*')) {
-                            $collect->push(...$filesystem->glob($directory));
-                        }
-                    });
-                })->reject(fn ($directory) => str_contains($directory, '*')),
+                ->map(function ($directory) use ($filesystem) {
+                    return str_contains($directory, '*')
+                        ? [...$filesystem->glob($directory)]
+                        : $directory;
+                })->flatten()
+                ->reject(fn ($directory) => str_contains($directory, '*')),
             fn ($directory) => $this->components->task(
                 sprintf('Directory [%s] has been deleted', $directory)
             )
@@ -107,15 +94,16 @@ class PurgeSkeletonCommand extends Command
      * Delete set of file from collection.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
-     * @param  \Illuminate\Support\Collection  $directories
+     * @param  \Illuminate\Support\Enumerable  $directories
      * @param  (callable(string):(void))|null  $callback
      * @return void
      */
-    protected function deleteDirectoriesFrom(Filesystem $filesystem, Collection $directories, callable $callback = null): void
+    protected function deleteDirectoriesFrom(Filesystem $filesystem, Enumerable $directories, callable $callback = null): void
     {
         $workingPath = $this->laravel->basePath();
 
-        $directories->filter(fn ($directory) => $filesystem->isDirectory($directory))
+        LazyCollection::make($directories)
+            ->filter(fn ($directory) => $filesystem->isDirectory($directory))
             ->each(function ($directory) use ($filesystem, $workingPath, $callback) {
                 $filesystem->deleteDirectory($directory);
 
@@ -131,15 +119,16 @@ class PurgeSkeletonCommand extends Command
      * Delete set of file from collection.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
-     * @param  \Illuminate\Support\Collection  $files
+     * @param  \Illuminate\Support\Enumerable  $files
      * @param  (callable(string):(void))|null  $callback
      * @return void
      */
-    protected function deleteFilesFrom(Filesystem $filesystem, Collection $files, callable $callback = null): void
+    protected function deleteFilesFrom(Filesystem $filesystem, Enumerable $files, callable $callback = null): void
     {
         $workingPath = $this->laravel->basePath();
 
-        $files->filter(fn ($file) => $filesystem->exists($file))
+        LazyCollection::make($files)
+            ->filter(fn ($file) => $filesystem->exists($file))
             ->reject(fn ($file) => Str::endsWith($file, ['.gitkeep', '.gitignore']))
             ->each(function ($file) use ($filesystem, $workingPath, $callback) {
                 $filesystem->delete($file);

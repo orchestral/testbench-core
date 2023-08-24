@@ -14,8 +14,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\Support\LazyCollection;
 use Illuminate\View\Component;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -219,11 +219,15 @@ trait Testing
             $this->setUpFaker();
         }
 
-        Collection::make($uses)
+        LazyCollection::make(function () use ($uses) {
+            foreach ($uses as $use) {
+                yield $use;
+            }
+        })
             ->reject(function ($use) {
                 /** @var class-string $use */
                 return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
-            })->transform(function ($use) {
+            })->map(function ($use) {
                 /** @var class-string $use */
                 return class_basename($use);
             })->each(function ($traitBaseName) {

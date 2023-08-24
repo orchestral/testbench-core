@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Yaml\Yaml;
 
@@ -36,6 +37,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   user: string|int|null,
  *   guard: string|null,
  *   install: bool,
+ *   welcome: bool|null,
  *   sync: array<int, array{from: string, to: string}>,
  *   build: array<int, string>,
  *   assets: array<int, string>
@@ -45,6 +47,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   user?: string|int|null,
  *   guard?: string|null,
  *   install?: bool,
+ *   welcome?: bool|null,
  *   sync?: array<int, array{from: string, to: string}>,
  *   build?: array<int, string>,
  *   assets?: array<int, string>
@@ -117,6 +120,7 @@ class Config extends Fluent implements ConfigContract
         'user' => null,
         'guard' => null,
         'install' => true,
+        'welcome' => null,
         'sync' => [],
         'build' => [],
         'assets' => [],
@@ -132,12 +136,23 @@ class Config extends Fluent implements ConfigContract
      */
     public static function loadFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
-        $filename ??= 'testbench.yaml';
+        $filename = $filename ?? 'testbench.yaml';
         $config = $defaults;
 
-        if (file_exists("{$workingPath}/{$filename}")) {
-            /** @phpstan-var TOptionalConfig $config */
-            $config = Yaml::parseFile("{$workingPath}/{$filename}");
+        $filename = LazyCollection::make(function () use ($filename) {
+            yield $filename;
+            yield "{$filename}.example";
+            yield "{$filename}.dist";
+        })->filter(fn ($file) => file_exists($workingPath.DIRECTORY_SEPARATOR.$file))
+            ->first();
+
+        if (! \is_null($filename)) {
+            /**
+             * @var array<string, mixed> $config
+             *
+             * @phpstan-var TOptionalConfig $config
+             */
+            $config = Yaml::parseFile($workingPath.DIRECTORY_SEPARATOR.$filename);
 
             $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
                 return transform_relative_path($path, $workingPath);
