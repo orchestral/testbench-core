@@ -17,11 +17,12 @@ abstract class Action
      * Normalise file location.
      *
      * @param  string  $path
+     * @param  string|null  $workingPath
      * @return string
      */
-    protected function pathLocation(string $path): string
+    protected function pathLocation(string $path, ?string $workingPath = null): string
     {
-        $path = str_replace(package_path('/'), '', $path);
+        $path = str_replace($workingPath ?? package_path('/'), '', $path);
 
         if (! \is_null($this->workingPath)) {
             $path = str_replace($this->workingPath.'/', '', $path);
