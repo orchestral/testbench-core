@@ -27,21 +27,11 @@ class DropSqliteDbCommand extends Command
         $workingPath = $this->laravel->basePath();
         $databasePath = $this->laravel->databasePath();
 
-        $from = realpath(__DIR__.'/stubs/database.sqlite.example');
-        $to = "{$databasePath}/database.sqlite";
-
-        if (! $filesystem->exists($to)) {
-            $this->components->twoColumnDetail(
-                sprintf('File [%s] does not exists', str_replace($workingPath.'/', '', $to)),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
-        } else {
-            $filesystem->delete($to);
-
-            $this->components->task(
-                sprintf('File [%s] has been deleted', str_replace($workingPath.'/', '', $to))
-            );
-        }
+        (new Actions\DeleteFiles(
+            filesystem: $filesystem,
+            components: $this->components,
+            workingPath: $workingPath,
+        ))->handle(["{$databasePath}/database.sqlite"]);
 
         return Command::SUCCESS;
     }
