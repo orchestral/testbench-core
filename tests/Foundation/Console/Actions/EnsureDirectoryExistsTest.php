@@ -4,14 +4,13 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
-use Orchestra\Testbench\Foundation\Console\Actions\EnsureDirectoryExists;
 use Mockery as m;
 use Orchestra\Testbench\TestCase;
 
 class EnsureDirectoryExistsTest extends TestCase
 {
     /** @test */
-    public function it_can_eusure_directory_exists()
+    public function it_can_ensure_directory_exists()
     {
         $filesystem = m::mock(Filesystem::class);
         $components = m::mock(ComponentsFactory::class);

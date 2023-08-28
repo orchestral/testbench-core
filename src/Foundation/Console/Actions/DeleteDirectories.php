@@ -41,7 +41,7 @@ class DeleteDirectories extends Action
                     );
                 } else {
                     $this->components?->twoColumnDetail(
-                        sprintf('Directory [%s] does not exists', $this->pathLocation($directory)),
+                        sprintf('Directory [%s] doesn\'t exists', $this->pathLocation($directory)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
                 }
