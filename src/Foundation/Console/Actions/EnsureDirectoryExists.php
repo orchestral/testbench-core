@@ -6,7 +6,7 @@ use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
-class EnsureDirectoryExists
+class EnsureDirectoryExists extends Action
 {
     /**
      * Construct a new ensure directory exists instance.
