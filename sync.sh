@@ -29,11 +29,10 @@ awk '{sub(/DB_PORT=/,"\# DB_PORT=")}1' laravel/.env.example > laravel/.env.examp
 awk '{sub(/DB_DATABASE=/,"\# DB_DATABASE=")}1' laravel/.env.example > laravel/.env.example.stub && mv laravel/.env.example.stub laravel/.env.example
 awk '{sub(/DB_USERNAME=/,"\# DB_USERNAME=")}1' laravel/.env.example > laravel/.env.example.stub && mv laravel/.env.example.stub laravel/.env.example
 awk '{sub(/DB_PASSWORD=/,"\# DB_PASSWORD=")}1' laravel/.env.example > laravel/.env.example.stub && mv laravel/.env.example.stub laravel/.env.example
-awk '{sub(/QUEUE_CONNECTION=database/,"QUEUE_CONNECTION=sync")}1' laravel/.env.example > laravel/.env.example.stub && mv laravel/.env.example.stub laravel/.env.example
 awk '{sub(/production/,"testing")}1' laravel/config/app.php > laravel/config/app.stub && mv laravel/config/app.stub laravel/config/app.php
 awk '{sub(/App\\Providers/,"// App\\Providers")}1' laravel/config/app.php > laravel/config/app.stub && mv laravel/config/app.stub laravel/config/app.php
 awk '{sub(/\x27AUTH_MODEL\x27, App\\Models\\User/,"'\''AUTH_MODEL'\'', Illuminate\\Foundation\\Auth\\User")}1' laravel/config/auth.php > laravel/config/auth.stub && mv laravel/config/auth.stub laravel/config/auth.php
-# awk '{sub(/\x27CACHE_STORE\x27, \x27file\x27/,"'\''CACHE_STORE'\'', '\''array'\''")}1' laravel/config/cache.php > laravel/config/cache.stub && mv laravel/config/cache.stub laravel/config/cache.php
-# awk '{sub(/\x27SESSION_DRIVER\x27, \x27file\x27/,"'\''SESSION_DRIVER'\'', '\''array'\''")}1' laravel/config/session.php > laravel/config/session.stub && mv laravel/config/session.stub laravel/config/session.php
+awk '{sub(/\x27CACHE_STORE\x27, \x27file\x27/,"'\''CACHE_STORE'\'', '\''array'\''")}1' laravel/config/cache.php > laravel/config/cache.stub && mv laravel/config/cache.stub laravel/config/cache.php
+awk '{sub(/\x27SESSION_DRIVER\x27, \x27file\x27/,"'\''SESSION_DRIVER'\'', '\''array'\''")}1' laravel/config/session.php > laravel/config/session.stub && mv laravel/config/session.stub laravel/config/session.php
 awk '{sub(/use App\\Models\\User/,"use Illuminate\\Foundation\\Auth\\User")}1' src/Factories/UserFactory.php > src/Factories/UserFactory.stub && mv src/Factories/UserFactory.stub src/Factories/UserFactory.php
 awk '{sub(/namespace Database\\Factories/,"namespace Orchestra\\Testbench\\Factories")}1' src/Factories/UserFactory.php > src/Factories/UserFactory.stub && mv src/Factories/UserFactory.stub src/Factories/UserFactory.php
