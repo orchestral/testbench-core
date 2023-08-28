@@ -35,9 +35,11 @@ class GeneratesFile extends Action
     {
         if (! $this->filesystem->exists($from)) {
             $this->components?->twoColumnDetail(
-                sprintf('File [%s] already exists', $this->pathLocation($from)),
+                sprintf('Source file [%s] doesn\'t exists', $this->pathLocation($from)),
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
+
+            return;
         }
 
         if ($this->force || ! $this->filesystem->exists($to)) {

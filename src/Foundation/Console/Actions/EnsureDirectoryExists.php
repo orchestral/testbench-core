@@ -45,7 +45,7 @@ class EnsureDirectoryExists extends Action
                 $this->filesystem->ensureDirectoryExists($directory, 0755, true);
                 $this->filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$directory}/.gitkeep");
 
-                $this->components?->task(sprintf('Prepare [%s] directory', $this->pathLocation($workingPath)));
+                $this->components?->task(sprintf('Prepare [%s] directory', $this->pathLocation($directory)));
             });
     }
 }
