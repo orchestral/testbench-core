@@ -46,6 +46,6 @@ class EnsureDirectoryExists
                 $this->filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$directory}/.gitkeep");
 
                 $this->components?->task(sprintf('Prepare [%s] directory', $this->pathLocation($workingPath)));
-            })
+            });
     }
 }
