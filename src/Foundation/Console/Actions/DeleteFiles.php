@@ -19,7 +19,7 @@ class DeleteFiles extends Action
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
-        ?string $workingPath = null
+        string $workingPath = null
     ) {
         $this->workingPath = $workingPath;
     }
