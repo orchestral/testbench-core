@@ -12,8 +12,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 #[AsCommand(name: 'package:purge-skeleton', description: 'Purge skeleton folder to original state')]
 class PurgeSkeletonCommand extends Command
 {
-    use Concerns\InteractsWithIO;
-
     /**
      * The name and signature of the console command.
      *

@@ -9,8 +9,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 #[AsCommand(name: 'package:create-sqlite-db', description: 'Create sqlite database file')]
 class CreateSqliteDbCommand extends Command
 {
-    use Concerns\InteractsWithIO;
-
     /**
      * The name and signature of the console command.
      *
@@ -38,7 +36,7 @@ class CreateSqliteDbCommand extends Command
 
         $to = "{$databasePath}/database.sqlite";
 
-        (new Actions\CopyFile(
+        (new Actions\GeneratesFile(
             filesystem: $filesystem,
             components: $this->components,
             force: $force,

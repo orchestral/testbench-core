@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 
-class CopyFile extends Action
+class GeneratesFile extends Action
 {
     /**
      * Construct a new copy file instance.
