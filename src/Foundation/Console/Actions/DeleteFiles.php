@@ -43,7 +43,7 @@ class DeleteFiles extends Action
                     );
                 } else {
                     $this->components?->twoColumnDetail(
-                        sprintf('File [%s] does not exists', $this->pathLocation($file)),
+                        sprintf('File [%s] doesn\'t exists', $this->pathLocation($file)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
                 }
