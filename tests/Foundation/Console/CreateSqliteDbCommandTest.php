@@ -35,7 +35,7 @@ class CreateSqliteDbCommandTest extends TestCase
             $this->assertFalse(file_exists(database_path('database.sqlite')));
 
             $this->artisan('package:create-sqlite-db')
-                ->expectsOutputToContain('Copying file [database/database.sqlite.example] to [database/database.sqlite]')
+                ->expectsOutputToContain('File [database/database.sqlite] generated')
                 ->assertOk();
 
             $this->assertTrue(file_exists(database_path('database.sqlite')));

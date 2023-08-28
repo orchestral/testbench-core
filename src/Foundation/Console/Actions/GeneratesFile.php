@@ -44,7 +44,7 @@ class GeneratesFile extends Action
             $this->filesystem->copy($from, $to);
 
             $this->components?->task(
-                sprintf('Copying file [%s] to [%s]', $this->pathLocation($from), $this->pathLocation($to))
+                sprintf('File [%s] generated', $this->pathLocation($to))
             );
         } else {
             $this->components?->twoColumnDetail(
