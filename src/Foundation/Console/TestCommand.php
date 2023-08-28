@@ -7,6 +7,8 @@ use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 
+use function Orchestra\Testbench\package_path;
+
 class TestCommand extends Command
 {
     /**
@@ -57,8 +59,8 @@ class TestCommand extends Command
         $configurationFile = str_replace('./', '', $this->option('configuration') ?? 'phpunit.xml');
 
         return Collection::make([
-            TESTBENCH_WORKING_PATH.'/'.$configurationFile,
-            TESTBENCH_WORKING_PATH.'/'.$configurationFile.'.dist',
+            package_path('/'.$configurationFile),
+            package_path('/'.$configurationFile.'.dist'),
         ])->filter(function ($path) {
             return file_exists($path);
         })->first() ?? './';

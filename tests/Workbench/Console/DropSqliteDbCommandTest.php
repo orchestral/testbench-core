@@ -53,7 +53,7 @@ class DropSqliteDbCommandTest extends TestCase
             $this->assertFalse(file_exists(__DIR__.'/../../../laravel/database/database.sqlite'));
 
             $this->artisan("{$this->namespace}:drop-sqlite-db")
-                ->expectsOutputToContain('File [database/database.sqlite] does not exists')
+                ->expectsOutputToContain('File [database/database.sqlite] doesn\'t exists')
                 ->assertOk();
         });
     }
