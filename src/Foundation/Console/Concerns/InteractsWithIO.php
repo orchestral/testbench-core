@@ -2,6 +2,9 @@
 
 namespace Orchestra\Testbench\Foundation\Console\Concerns;
 
+/**
+ * @deprecated
+ */
 trait InteractsWithIO
 {
     /**

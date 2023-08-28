@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\ProcessUtils;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\TestCase;
@@ -187,10 +188,9 @@ class CommanderTest extends TestCase
      */
     public static function phpBinary(): string
     {
-        if (\defined('PHP_BINARY')) {
-            return PHP_BINARY;
-        }
-
-        return \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find();
+        return transform(
+            \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
+            fn ($phpBinary) => ProcessUtils::escapeArgument($phpBinary)
+        );
     }
 }
