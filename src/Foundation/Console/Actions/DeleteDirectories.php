@@ -32,7 +32,6 @@ class DeleteDirectories extends Action
     public function handle(iterable $directories): void
     {
         LazyCollection::make($directories)
-            ->filter(fn ($directory) => $this->filesystem->isDirectory($directory))
             ->each(function ($directory) {
                 if ($this->filesystem->isDirectory($directory)) {
                     $this->filesystem->deleteDirectory($directory);
