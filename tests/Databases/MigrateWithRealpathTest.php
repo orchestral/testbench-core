@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\TestCase;
 
-use function Orchestra\Testbench\workbench_path;
-
 class MigrateWithRealpathTest extends TestCase
 {
     /**
@@ -19,7 +17,7 @@ class MigrateWithRealpathTest extends TestCase
     {
         // call migrations specific to our tests, e.g. to seed the db
         // the path option should be an absolute path.
-        $this->loadMigrationsFrom(workbench_path('database/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__.'/../../workbench/database/migrations'));
     }
 
     /**
