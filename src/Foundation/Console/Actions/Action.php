@@ -21,7 +21,7 @@ abstract class Action
      */
     protected function pathLocation(string $path): string
     {
-        $path = str_replace(package_path('/'), '', $path);
+        $path = str_replace(package_path(), '', $path);
 
         if (! \is_null($this->workingPath)) {
             $path = str_replace($this->workingPath.'/', '', $path);
