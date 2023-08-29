@@ -11,7 +11,7 @@ trait WithLaravelMigrations
      *
      * @return void
      */
-    abstract protected function setUpWithLaravelMigrations()
+    abstract protected function setUpWithLaravelMigrations(): void
     {
         $this->loadLaravelMigrations();
     }
