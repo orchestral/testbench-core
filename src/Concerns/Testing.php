@@ -28,9 +28,8 @@ trait Testing
         HandlesAnnotations,
         HandlesDatabases,
         HandlesRoutes,
-        WithFactories,
-        WithLaravelMigrations,
-        WithLoadMigrationsFrom;
+        InteractsWithMigrations,
+        WithFactories;
 
     /**
      * The Illuminate application instance.
