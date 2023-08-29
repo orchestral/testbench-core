@@ -24,7 +24,7 @@ abstract class Action
         $path = str_replace(package_path(), '', $path);
 
         if (! \is_null($this->workingPath)) {
-            $path = str_replace($this->workingPath.'/', '', $path);
+            $path = str_replace(rtrim($this->workingPath, '/').'/', '', $path);
         }
 
         return $path;
