@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\TestCase;
 
+use function Orchestra\Testbench\after_resolving;
+
 class MigrateWithLaravelTest extends TestCase
 {
     /**
@@ -73,19 +75,10 @@ class MigrateWithLaravelTest extends TestCase
 
     public function runApplicationMigrations()
     {
-        $this->callAfterResolving('migrator', function ($migrator) {
+        after_resolving($this->app, 'migrator', function ($migrator) {
             $migrator->path(base_path('migrations'));
         });
 
         $this->runLaravelMigrations(['--database' => 'testing']);
-    }
-
-    protected function callAfterResolving($name, $callback)
-    {
-        $this->app->afterResolving($name, $callback);
-
-        if ($this->app->resolved($name)) {
-            $callback($this->app->make($name), $this->app);
-        }
     }
 }
