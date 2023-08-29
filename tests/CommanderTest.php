@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\ProcessUtils;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use Orchestra\Testbench\TestCase;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -169,10 +170,11 @@ class CommanderTest extends TestCase
      */
     protected function phpBinary(): string
     {
-        if (\defined('PHP_BINARY')) {
-            return PHP_BINARY;
-        }
-
-        return \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find();
+        return transform(
+            \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
+            function ($phpBinary) {
+                return ProcessUtils::escapeArgument($phpBinary);
+            }
+        );
     }
 }
