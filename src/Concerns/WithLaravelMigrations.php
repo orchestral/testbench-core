@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Orchestra\Testbench\Database\MigrateProcessor;
-
 trait WithLaravelMigrations
 {
     /**
@@ -11,7 +9,7 @@ trait WithLaravelMigrations
      *
      * @return void
      */
-    abstract protected function setUpWithLaravelMigrations(): void
+    protected function setUpWithLaravelMigrations(): void
     {
         $this->loadLaravelMigrations();
     }
