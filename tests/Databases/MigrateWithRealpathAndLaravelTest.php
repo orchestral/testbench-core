@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\TestCase;
 
-use function Orchestra\Testbench\workbench_path;
-
 class MigrateWithRealpathAndLaravelTest extends TestCase
 {
     /**
@@ -34,7 +32,7 @@ class MigrateWithRealpathAndLaravelTest extends TestCase
         // the path option should be an absolute path.
         $this->loadMigrationsFrom([
             '--database' => 'testing',
-            '--path' => workbench_path('database/migrations'),
+            '--path' => realpath(__DIR__.'/../../workbench/database/migrations'),
         ]);
     }
 
