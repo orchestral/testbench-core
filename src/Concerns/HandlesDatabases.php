@@ -31,6 +31,10 @@ trait HandlesDatabases
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
         });
 
+        if (static::usesTestingConcern(WithLaravelMigrations::class)) {
+            $this->setUpWithLaravelMigrations();
+        }
+
         $this->defineDatabaseMigrations();
 
         if (method_exists($this, 'parseTestMethodAnnotations')) {
