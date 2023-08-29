@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.10.0
+
+Released: 2023-08-29
+
+### Added
+
+* Add ability to automatically run default Laravel migrations using `Orchestra\Testbench\Concerns\WithLaravelMigrations`.
+* Add Console Actions classes:
+  - `Orchestra\Testbench\Foundation\Console\Actions\DeleteFiles`
+  - `Orchestra\Testbench\Foundation\Console\Actions\DeleteDirectories`
+  - `Orchestra\Testbench\Foundation\Console\Actions\EnsureDirectoryExists`
+  - `Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile`
+
 ## 8.9.1
 
 Released: 2023-08-22
