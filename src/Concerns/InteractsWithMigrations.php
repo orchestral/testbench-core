@@ -30,10 +30,13 @@ trait InteractsWithMigrations
      */
     protected function loadMigrationsWithoutRollbackFrom($paths): void
     {
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = $this->app;
+
         $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
         $migrator->up();
 
-        $this->resetApplicationArtisanCommands($this->app);
+        $this->resetApplicationArtisanCommands($app);
     }
 
     /**
@@ -81,12 +84,15 @@ trait InteractsWithMigrations
      */
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = $this->app;
+
         $options = $this->resolveLaravelMigrationsOptions($database);
         $options['--path'] = 'migrations';
 
         (new MigrateProcessor($this, $options))->up();
 
-        $this->resetApplicationArtisanCommands($this->app);
+        $this->resetApplicationArtisanCommands($app);
     }
 
     /**
@@ -112,9 +118,12 @@ trait InteractsWithMigrations
      */
     protected function runLaravelMigrationsWithoutRollback($database = []): void
     {
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = $this->app;
+
         (new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database)))->up();
 
-        $this->resetApplicationArtisanCommands($this->app);
+        $this->resetApplicationArtisanCommands($app);
     }
 
     /**
