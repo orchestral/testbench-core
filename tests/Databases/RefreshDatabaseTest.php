@@ -26,16 +26,6 @@ class RefreshDatabaseTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
-    protected function defineDatabaseMigrations()
-    {
-        artisan($this, 'migrate', ['--database' => 'testing']);
-    }
-
     /** @test */
     public function it_runs_the_migrations()
     {
