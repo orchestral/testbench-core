@@ -4,6 +4,8 @@ namespace Orchestra\Testbench\Concerns;
 
 trait WithLaravelMigrations
 {
+    use InteractsWithWorkbench;
+
     /**
      * Bootstrap with laravel migrations.
      *
@@ -11,6 +13,11 @@ trait WithLaravelMigrations
      */
     protected function setUpWithLaravelMigrations(): void
     {
-        $this->loadLaravelMigrations();
+        /** @var bool $loadLaravelMigrations */
+        $loadLaravelMigrations = optional(static::$cachedConfigurationForWorkbench)->getWorkbenchAttributes()['install'] ?? false;
+
+        if (! ($loadLaravelMigrations && static::usesTestingConcern(WithWorkbench::class))) {
+            $this->loadLaravelMigrations();
+        }
     }
 }

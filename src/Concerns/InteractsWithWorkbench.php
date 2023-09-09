@@ -81,25 +81,6 @@ trait InteractsWithWorkbench
     }
 
     /**
-     * Define database migrations.
-     *
-     * @return void
-     */
-    protected function defineDatabaseMigrationsUsingWorkbench()
-    {
-        /** @var bool $loadLaravelMigrations */
-        $loadLaravelMigrations = optional(static::$cachedConfigurationForWorkbench)->getWorkbenchAttributes()['install'] ?? false;
-
-        if (
-            $loadLaravelMigrations
-            && method_exists($this, 'loadLaravelMigrations')
-            && ! static::usesTestingConcern(WithLaravelMigrations::class)
-        ) {
-            $this->loadLaravelMigrations();
-        }
-    }
-
-    /**
      * Prepare the testing environment before the running the test case.
      *
      * @return void
