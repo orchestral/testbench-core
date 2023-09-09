@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
-use function Orchestra\Testbench\artisan;
-
 class RefreshDatabaseTest extends TestCase
 {
     use RefreshDatabase, WithWorkbench;
@@ -24,16 +22,6 @@ class RefreshDatabaseTest extends TestCase
     protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testing');
-    }
-
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
-    protected function defineDatabaseMigrations()
-    {
-        artisan($this, 'migrate', ['--database' => 'testing']);
     }
 
     /** @test */

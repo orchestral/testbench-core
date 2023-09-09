@@ -16,6 +16,7 @@ jobs:
           - "ubuntu-latest"
         php:
           - 8.2
+          - 8.3
         phpunit:
           - "~10.1.0"
           - "~10.2.0"
@@ -54,14 +55,6 @@ jobs:
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
-        if: matrix.php <= 8.2
-
-      - name: Install dependencies for PHP 8.3
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache --ignore-platform-req=php"
-        if: matrix.php == 8.3
 
       - name: Installed dependencies
         run: |
