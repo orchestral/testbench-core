@@ -31,9 +31,7 @@ class PhpUnit9DeprecationsTest extends TestCase
         trigger_error('zzz', E_USER_DEPRECATED);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function handle_php81_deprecations_using_phpunit_exception()
     {
         $this->expectException(DeprecatedException::class);
