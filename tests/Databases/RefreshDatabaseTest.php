@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
-use function Orchestra\Testbench\artisan;
-
 class RefreshDatabaseTest extends TestCase
 {
     use RefreshDatabase, WithWorkbench;
