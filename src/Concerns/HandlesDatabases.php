@@ -27,7 +27,13 @@ trait HandlesDatabases
         });
 
         if (static::usesTestingConcern(WithLaravelMigrations::class)) {
+            /** @phpstan-ignore-next-line */
             $this->setUpWithLaravelMigrations();
+        }
+
+        if (static::usesTestingConcern(WithWorkbench::class)) {
+            /** @phpstan-ignore-next-line */
+            $this->defineDatabaseMigrationsUsingWorkbench();
         }
 
         $this->defineDatabaseMigrations();
