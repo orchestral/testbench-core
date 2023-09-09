@@ -61,9 +61,7 @@ class WorkbenchControllerTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_get_current_user_information()
     {
         $user = UserFactory::new()->create();
@@ -78,9 +76,7 @@ class WorkbenchControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_get_current_user_information_without_authenticated_user_return_empty_array()
     {
         $user = UserFactory::new()->create();
@@ -91,9 +87,7 @@ class WorkbenchControllerTest extends TestCase
         $response->assertOk()->assertExactJson([]);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_authenticate_a_user()
     {
         $user = UserFactory::new()->create();
@@ -107,9 +101,7 @@ class WorkbenchControllerTest extends TestCase
             ->assertAuthenticatedAs($user);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_authenticate_a_user_using_email()
     {
         $user = UserFactory::new()->create();
@@ -123,9 +115,7 @@ class WorkbenchControllerTest extends TestCase
             ->assertAuthenticatedAs($user);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_deauthenticate_a_user()
     {
         $user = UserFactory::new()->create();
@@ -139,9 +129,7 @@ class WorkbenchControllerTest extends TestCase
         $this->assertGuest('web');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_automatically_authenticate_a_user()
     {
         $user = UserFactory::new()->create();
@@ -158,9 +146,7 @@ class WorkbenchControllerTest extends TestCase
             ->assertAuthenticatedAs($user);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_automatically_authenticate_a_user_using_email()
     {
         $user = UserFactory::new()->create();
@@ -177,9 +163,7 @@ class WorkbenchControllerTest extends TestCase
             ->assertAuthenticatedAs($user);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_automatically_deauthenticate_a_user()
     {
         $user = UserFactory::new()->create();

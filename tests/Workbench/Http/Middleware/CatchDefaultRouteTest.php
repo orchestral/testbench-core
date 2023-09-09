@@ -60,9 +60,7 @@ class CatchDefaultRouteTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_would_redirect_to_workbench_path()
     {
         $user = UserFactory::new()->create();
@@ -75,18 +73,14 @@ class CatchDefaultRouteTest extends TestCase
             ->assertRedirect('/_workbench');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_would_not_redirect_to_workbench_path_if_configuration_doesnt_requires_it()
     {
         $this->assertGuest('web')->get('/')
             ->assertNotFound();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_would_not_redirect_to_workbench_path_on_path_other_than_root()
     {
         $user = UserFactory::new()->create();
