@@ -5,8 +5,6 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Foundation\Config;
 
-use function Orchestra\Testbench\workbench_path;
-
 trait InteractsWithWorkbench
 {
     use InteractsWithPHPUnit;
@@ -92,7 +90,11 @@ trait InteractsWithWorkbench
         /** @var bool $loadLaravelMigrations */
         $loadLaravelMigrations = static::$cachedConfigurationForWorkbench?->getWorkbenchAttributes()['install'] ?? false;
 
-        if ($loadLaravelMigrations && ! static::usesTestingConcern(WithLaravelMigrations::class)) {
+        if (
+            $loadLaravelMigrations
+            && method_exists($this, 'loadLaravelMigrations')
+            && ! static::usesTestingConcern(WithLaravelMigrations::class)
+        ) {
             $this->loadLaravelMigrations();
         }
     }
