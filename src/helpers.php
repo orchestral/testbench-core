@@ -15,30 +15,22 @@ use RuntimeException;
 /**
  * Create Laravel application instance.
  *
- * @param  string|\Orchestra\Testbench\Foundation\Config|null  $basePath
+ * @param  string|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
- * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  \Orchestra\Testbench\Foundation\Config|array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(Config|string|null $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
+function container(?string $basePath = null, ?callable $resolvingCallback = null, Config|array $options = []): Foundation\Application
 {
-    if ($basePath instanceof Config) {
-        $config = $basePath;
+    if ($options instanceof Config) {
+        $hasEnvironmentFile = ! \is_null($options['laravel'])
+            ? file_exists($options['laravel'].'/.env')
+            : (! \is_null($basePath) && file_exists("{$basePath}/.env"));
 
-        return Foundation\Application::create(
-            basePath: $config['laravel'],
-            options: array_merge($options, [
-                'load_environment_variables' => file_exists($config['laravel'].'/.env'),
-                'extra' => $config->getExtraAttributes()
-            ]),
-            resolvingCallback: function ($app) use ($config, $resolvingCallback) {
-                (new StartWorkbench($config))->bootstrap($app);
-
-                if (is_callable($resolvingCallback)) {
-                    call_user_func($resolvingCallback, $app);
-                }
-            },
-        );
+        return (new Foundation\Application($options['laravel'] ?? $basePath, $resolvingCallback))->configure([
+            'load_environment_variables' => $hasEnvironmentFile,
+            'extra' => $options->getExtraAttributes(),
+        ]);
     }
 
     return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
