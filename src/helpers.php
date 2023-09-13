@@ -8,19 +8,39 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
+use Orchestra\Testbench\Foundation\Config;
 use PHPUnit\Runner\Version;
 use RuntimeException;
 
 /**
  * Create Laravel application instance.
  *
- * @param  string|null  $basePath
+ * @param  string|\Orchestra\Testbench\Foundation\Config|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
  * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
+function container(Config|string|null $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
 {
+    if ($basePath instanceof Config) {
+        $config = $basePath;
+
+        return Foundation\Application::create(
+            basePath: $config['laravel'],
+            options: array_merge($options, [
+                'load_environment_variables' => file_exists($config['laravel'].'/.env'),
+                'extra' => $config->getExtraAttributes()
+            ]),
+            resolvingCallback: function ($app) use ($config, $resolvingCallback) {
+                (new StartWorkbench($config))->bootstrap($app);
+
+                if (is_callable($resolvingCallback)) {
+                    call_user_func($resolvingCallback, $app);
+                }
+            },
+        );
+    }
+
     return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
 }
 
