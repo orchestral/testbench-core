@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.10.2
+
+Released: 2203-09-14
+
+### Changes
+
+* Allow passing wildcard filenames to `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles::$files` property.
+* Allow to use `Orchestra\Testbench\Foundation\Config` on `Orchestra\Testbench\container` helper function.
+
 ## 8.10.1
 
 Released: 2023-09-09
