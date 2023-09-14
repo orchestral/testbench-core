@@ -25,7 +25,7 @@ function container(
     ?string $basePath = null,
     ?callable $resolvingCallback = null,
     array $options = [],
-    Config $config = null
+    ?Config $config = null
 ): Foundation\Application {
     if ($config instanceof Config) {
         $hasEnvironmentFile = ! \is_null($config['laravel'])

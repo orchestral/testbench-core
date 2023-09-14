@@ -145,7 +145,7 @@ trait InteractsWithPublishedFiles
      */
     protected function getMigrationFile(string $filename, ?string $directory = null): string
     {
-        $migrationPath = ! is_null($directory)
+        $migrationPath = ! \is_null($directory)
             ? $this->app->basePath($directory)
             : $this->app->databasePath('migrations');
 
