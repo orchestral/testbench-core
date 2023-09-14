@@ -133,6 +133,7 @@ trait InteractsWithPublishedFiles
             Collection::make($this->files ?? [])
                 ->transform(fn ($file) => $this->app->basePath($file))
                 ->filter(fn ($file) => $this->app['files']->exists($file))
+                ->reject(fn ($file) => Str::endsWith($file, ['.gitkeep', '.gitignore']))
                 ->all()
         );
     }
