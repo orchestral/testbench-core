@@ -44,8 +44,8 @@
         "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^1.10.7",
         "phpunit/phpunit": "^10.1",
-        "symfony/process": "^6.3",
-        "symfony/yaml": "^6.3",
+        "symfony/process": "^6.3 || 7.0.x-dev",
+        "symfony/yaml": "^6.3 || 7.0.x-dev",
         "vlucas/phpdotenv": "^5.4.1"
     },
     "suggest": {
