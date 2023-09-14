@@ -16,7 +16,9 @@ $createApp = function (string $workingPath) {
         defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
     );
 
-    $hasEnvironmentFile = file_exists("{$workingPath}/.env");
+    $hasEnvironmentFile = ! is_null($config['laravel'])
+        ? file_exists($config['laravel'].'/.env')
+        : file_exists("{$workingPath}/.env");
 
     return Application::create(
         basePath: $config['laravel'],
