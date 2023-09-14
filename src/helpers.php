@@ -17,19 +17,24 @@ use RuntimeException;
  *
  * @param  string|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
- * @param  \Orchestra\Testbench\Foundation\Config|array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  \Orchestra\Testbench\Foundation\Config|null  $config
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, Config|array $options = []): Foundation\Application
-{
-    if ($options instanceof Config) {
-        $hasEnvironmentFile = ! \is_null($options['laravel'])
-            ? file_exists($options['laravel'].'/.env')
+function container(
+    ?string $basePath = null,
+    ?callable $resolvingCallback = null,
+    array $options = [],
+    Config $config = null
+): Foundation\Application {
+    if ($config instanceof Config) {
+        $hasEnvironmentFile = ! \is_null($config['laravel'])
+            ? file_exists($config['laravel'].'/.env')
             : (! \is_null($basePath) && file_exists("{$basePath}/.env"));
 
-        return (new Foundation\Application($options['laravel'] ?? $basePath, $resolvingCallback))->configure([
+        return (new Foundation\Application($config['laravel'] ?? $basePath, $resolvingCallback))->configure([
             'load_environment_variables' => $hasEnvironmentFile,
-            'extra' => $options->getExtraAttributes(),
+            'extra' => $config->getExtraAttributes(),
         ]);
     }
 
