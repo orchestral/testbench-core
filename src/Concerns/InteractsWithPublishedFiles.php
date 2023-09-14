@@ -132,6 +132,11 @@ trait InteractsWithPublishedFiles
         $this->app['files']->delete(
             Collection::make($this->files ?? [])
                 ->transform(fn ($file) => $this->app->basePath($file))
+                ->map(function ($file) use ($filesystem) {
+                    return str_contains($file, '*')
+                        ? [...$filesystem->glob($file)]
+                        : $file;
+                })->flatten()
                 ->filter(fn ($file) => $this->app['files']->exists($file))
                 ->reject(fn ($file) => Str::endsWith($file, ['.gitkeep', '.gitignore']))
                 ->all()
