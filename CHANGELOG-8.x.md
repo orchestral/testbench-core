@@ -9,6 +9,7 @@ Released: 2203-09-14
 ### Changes
 
 * Allow passing wildcard filenames to `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles::$files` property.
+* Allow using custom directory on `assertMigrationFileContains` and `assertMigrationFileNotContains` from `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait.
 * Allow to use `Orchestra\Testbench\Foundation\Config` on `Orchestra\Testbench\container` helper function.
 
 ## 8.10.1
