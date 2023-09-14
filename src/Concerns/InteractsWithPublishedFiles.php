@@ -81,9 +81,9 @@ trait InteractsWithPublishedFiles
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertMigrationFileContains(array $contains, string $file, string $message = ''): void
+    protected function assertMigrationFileContains(array $contains, string $file, string $message = '', ?string $directory = null): void
     {
-        $haystack = $this->app['files']->get($this->getMigrationFile($file));
+        $haystack = $this->app['files']->get($this->getMigrationFile($file, $directory));
 
         foreach ($contains as $needle) {
             $this->assertStringContainsString($needle, $haystack, $message);
@@ -95,9 +95,9 @@ trait InteractsWithPublishedFiles
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertMigrationFileNotContains(array $contains, string $file, string $message = ''): void
+    protected function assertMigrationFileNotContains(array $contains, string $file, string $message = '', ?string $directory = null): void
     {
-        $haystack = $this->app['files']->get($this->getMigrationFile($file));
+        $haystack = $this->app['files']->get($this->getMigrationFile($file, $directory));
 
         foreach ($contains as $needle) {
             $this->assertStringNotContainsString($needle, $haystack, $message);
@@ -143,9 +143,11 @@ trait InteractsWithPublishedFiles
     /**
      * Removes generated migration files.
      */
-    protected function getMigrationFile(string $filename): string
+    protected function getMigrationFile(string $filename, ?string $directory = null): string
     {
-        $migrationPath = $this->app->databasePath('migrations');
+        $migrationPath = ! is_null($directory)
+            ? $this->app->basePath($directory)
+            : $this->app->databasePath('migrations');
 
         return $this->app['files']->glob("{$migrationPath}/*{$filename}")[0];
     }
