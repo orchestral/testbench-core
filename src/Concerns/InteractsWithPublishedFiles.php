@@ -127,7 +127,7 @@ trait InteractsWithPublishedFiles
     /**
      * Removes generated files.
      */
-    protected function cleanUpFiles(): void
+    protected function cleanUpPublishedFiles(): void
     {
         $this->app['files']->delete(
             Collection::make($this->files ?? [])
