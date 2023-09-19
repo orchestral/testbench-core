@@ -2,6 +2,41 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.31.1
+
+Released: 2023-09-19
+
+### Fixes
+
+* Fixes `cleanUpPublishedFiles` to assign path from `base_path()` before using `glob`.
+
+## 7.31.0
+
+Released: 2023-09-19
+
+### Added
+
+* Added methods to `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait:
+    - `assertMigrationFileExists`.
+    - `assertMigrationFileNotExists`.
+
+### Changes
+
+* Allow passing wildcard filenames to `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles::$files` property.
+* Allow using custom directory on `assertMigrationFileContains` and `assertMigrationFileNotContains` from `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait.
+* Rename methods in `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait:
+    - `cleanUpFiles` to `cleanUpPublishedFiles`.
+    - `cleanUpMigrationFiles` to `cleanUpPublishedMigrationFiles`.
+    - `getMigrationFile` to `findFirstPublishedMigrationFile`.
+
+## 7.30.1
+
+Released: 2023-09-09
+
+### Changes
+
+* Prevents loading Laravel Migrations using `Orchestra\Testbench\Concerns\WithLaravelMigrations` when TestCase class also uses `Orchestra\Testbench\Concerns\WithWorkbench` with `workbench.install=true` configuration.
+
 ## 7.30.0
 
 Released: 2023-08-29
