@@ -2,6 +2,25 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.30.2
+
+Released: 2023-09-19
+
+### Added
+
+* Added methods to `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait:
+    - `assertMigrationFileExists`.
+    - `assertMigrationFileNotExists`.
+
+### Changes
+
+* Allow passing wildcard filenames to `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles::$files` property.
+* Allow using custom directory on `assertMigrationFileContains` and `assertMigrationFileNotContains` from `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait.
+* Rename methods in `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait:
+    - `cleanUpFiles` to `cleanUpPublishedFiles`.
+    - `cleanUpMigrationFiles` to `cleanUpPublishedMigrationFiles`.
+    - `getMigrationFile` to `findFirstPublishedMigrationFile`.
+
 ## 7.30.1
 
 Released: 2023-09-09
