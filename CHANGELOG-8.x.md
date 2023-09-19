@@ -2,6 +2,23 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.11.0
+
+Released: 2023-09-19
+
+### Added
+
+* Added methods to `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait:
+    - `assertMigrationFileExists`.
+    - `assertMigrationFileNotExists`.
+
+### Changes
+
+* Rename methods in `Orchestra\Testbench\Concerns\InteractsWithPublishedFiles` trait:
+    - `cleanUpFiles` to `cleanUpPublishedFiles`.
+    - `cleanUpMigrationFiles` to `cleanUpPublishedMigrationFiles`.
+    - `getMigrationFile` to `findFirstPublishedMigrationFile`.
+
 ## 8.10.2
 
 Released: 2203-09-14
