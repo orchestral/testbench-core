@@ -19,8 +19,8 @@ trait InteractsWithPublishedFiles
      */
     protected function setUpInteractsWithPublishedFiles(): void
     {
-        $this->cleanUpFiles();
-        $this->cleanUpMigrationFiles();
+        $this->cleanUpPublishedFiles();
+        $this->cleanUpPublishedMigrationFiles();
 
         $this->beforeApplicationDestroyed(function () {
             $this->tearDownInteractsWithPublishedFiles();
@@ -33,8 +33,8 @@ trait InteractsWithPublishedFiles
     protected function tearDownInteractsWithPublishedFiles(): void
     {
         if ($this->interactsWithPublishedFilesTeardownRegistered === false) {
-            $this->cleanUpFiles();
-            $this->cleanUpMigrationFiles();
+            $this->cleanUpPublishedFiles();
+            $this->cleanUpPublishedMigrationFiles();
         }
 
         $this->interactsWithPublishedFilesTeardownRegistered = true;
@@ -81,9 +81,9 @@ trait InteractsWithPublishedFiles
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertMigrationFileContains(array $contains, string $file, string $message = ''): void
+    protected function assertMigrationFileContains(array $contains, string $file, string $message = '', ?string $directory = null): void
     {
-        $haystack = $this->app['files']->get($this->getMigrationFile($file));
+        $haystack = $this->app['files']->get($this->getPublishedMigrationFile($file, $directory));
 
         foreach ($contains as $needle) {
             $this->assertStringContainsString($needle, $haystack, $message);
@@ -95,9 +95,9 @@ trait InteractsWithPublishedFiles
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertMigrationFileNotContains(array $contains, string $file, string $message = ''): void
+    protected function assertMigrationFileNotContains(array $contains, string $file, string $message = '', ?string $directory = null): void
     {
-        $haystack = $this->app['files']->get($this->getMigrationFile($file));
+        $haystack = $this->app['files']->get($this->getPublishedMigrationFile($file, $directory));
 
         foreach ($contains as $needle) {
             $this->assertStringNotContainsString($needle, $haystack, $message);
@@ -131,8 +131,11 @@ trait InteractsWithPublishedFiles
     {
         $this->app['files']->delete(
             Collection::make($this->files ?? [])
+                ->map(fn ($file) => str_contains($file, '*') ? [...$this->app['files']->glob($file)] : $file)
+                ->flatten()
                 ->transform(fn ($file) => $this->app->basePath($file))
                 ->filter(fn ($file) => $this->app['files']->exists($file))
+                ->reject(fn ($file) => Str::endsWith($file, ['.gitkeep', '.gitignore']))
                 ->all()
         );
     }
@@ -140,9 +143,11 @@ trait InteractsWithPublishedFiles
     /**
      * Removes generated migration files.
      */
-    protected function getMigrationFile(string $filename): string
+    protected function getPublishedMigrationFile(string $filename, ?string $directory = null): string
     {
-        $migrationPath = $this->app->databasePath('migrations');
+        $migrationPath = ! \is_null($directory)
+            ? $this->app->basePath($directory)
+            : $this->app->databasePath('migrations');
 
         return $this->app['files']->glob("{$migrationPath}/*{$filename}")[0];
     }
@@ -150,7 +155,7 @@ trait InteractsWithPublishedFiles
     /**
      * Removes generated migration files.
      */
-    protected function cleanUpMigrationFiles(): void
+    protected function cleanUpPublishedMigrationFiles(): void
     {
         $this->app['files']->delete(
             Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
