@@ -85,7 +85,7 @@ trait InteractsWithPublishedFiles
     {
         $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
 
-        $this->assertTrue(! is_null($migrationFile), "Assert migration file {$file} does exist");
+        $this->assertTrue(! \is_null($migrationFile), "Assert migration file {$file} does exist");
 
         $haystack = $this->app['files']->get($migrationFile);
 
@@ -103,7 +103,7 @@ trait InteractsWithPublishedFiles
     {
         $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
 
-        $this->assertTrue(! is_null($migrationFile), "Assert migration file {$file} does exist");
+        $this->assertTrue(! \is_null($migrationFile), "Assert migration file {$file} does exist");
 
         $haystack = $this->app['files']->get($migrationFile);
 
@@ -139,7 +139,7 @@ trait InteractsWithPublishedFiles
     {
         $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
 
-        $this->assertTrue(! is_null($migrationFile), "Assert migration file {$file} does exist");
+        $this->assertTrue(! \is_null($migrationFile), "Assert migration file {$file} does exist");
     }
 
     /**
@@ -149,7 +149,7 @@ trait InteractsWithPublishedFiles
     {
         $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
 
-        $this->assertTrue(is_null($migrationFile), "Assert migration file {$file} doesn't exist");
+        $this->assertTrue(\is_null($migrationFile), "Assert migration file {$file} doesn't exist");
     }
 
     /**
