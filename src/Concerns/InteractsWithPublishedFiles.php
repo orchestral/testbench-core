@@ -19,8 +19,8 @@ trait InteractsWithPublishedFiles
      */
     protected function setUpInteractsWithPublishedFiles(): void
     {
-        $this->cleanUpFiles();
-        $this->cleanUpMigrationFiles();
+        $this->cleanUpPublishedFiles();
+        $this->cleanUpPublishedMigrationFiles();
 
         $this->beforeApplicationDestroyed(function () {
             $this->tearDownInteractsWithPublishedFiles();
@@ -33,8 +33,8 @@ trait InteractsWithPublishedFiles
     protected function tearDownInteractsWithPublishedFiles(): void
     {
         if ($this->interactsWithPublishedFilesTeardownRegistered === false) {
-            $this->cleanUpFiles();
-            $this->cleanUpMigrationFiles();
+            $this->cleanUpPublishedFiles();
+            $this->cleanUpPublishedMigrationFiles();
         }
 
         $this->interactsWithPublishedFilesTeardownRegistered = true;
@@ -83,7 +83,11 @@ trait InteractsWithPublishedFiles
      */
     protected function assertMigrationFileContains(array $contains, string $file, string $message = '', string $directory = null): void
     {
-        $haystack = $this->app['files']->get($this->getMigrationFile($file, $directory));
+        $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
+
+        $this->assertTrue(! \is_null($migrationFile), "Assert migration file {$file} does exist");
+
+        $haystack = $this->app['files']->get($migrationFile);
 
         foreach ($contains as $needle) {
             $this->assertStringContainsString($needle, $haystack, $message);
@@ -97,7 +101,11 @@ trait InteractsWithPublishedFiles
      */
     protected function assertMigrationFileNotContains(array $contains, string $file, string $message = '', string $directory = null): void
     {
-        $haystack = $this->app['files']->get($this->getMigrationFile($file, $directory));
+        $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
+
+        $this->assertTrue(! \is_null($migrationFile), "Assert migration file {$file} does exist");
+
+        $haystack = $this->app['files']->get($migrationFile);
 
         foreach ($contains as $needle) {
             $this->assertStringNotContainsString($needle, $haystack, $message);
@@ -117,7 +125,7 @@ trait InteractsWithPublishedFiles
     /**
      * Assert filename not exists.
      */
-    protected function assertFilenameNotExists(string $file): void
+    protected function assertFilenameNotExists(string $file, string $directory = null): void
     {
         $appFile = $this->app->basePath($file);
 
@@ -125,9 +133,29 @@ trait InteractsWithPublishedFiles
     }
 
     /**
+     * Assert migration filename exists.
+     */
+    protected function assertMigrationFileExists(string $file, string $directory = null): void
+    {
+        $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
+
+        $this->assertTrue(! \is_null($migrationFile), "Assert migration file {$file} does exist");
+    }
+
+    /**
+     * Assert migration filename not exists.
+     */
+    protected function assertMigrationFileNotExists(string $file, string $directory = null): void
+    {
+        $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
+
+        $this->assertTrue(\is_null($migrationFile), "Assert migration file {$file} doesn't exist");
+    }
+
+    /**
      * Removes generated files.
      */
-    protected function cleanUpFiles(): void
+    protected function cleanUpPublishedFiles(): void
     {
         $this->app['files']->delete(
             Collection::make($this->files ?? [])
@@ -143,19 +171,19 @@ trait InteractsWithPublishedFiles
     /**
      * Removes generated migration files.
      */
-    protected function getMigrationFile(string $filename, string $directory = null): string
+    protected function findFirstPublishedMigrationFile(string $filename, string $directory = null): ?string
     {
         $migrationPath = ! \is_null($directory)
             ? $this->app->basePath($directory)
             : $this->app->databasePath('migrations');
 
-        return $this->app['files']->glob("{$migrationPath}/*{$filename}")[0];
+        return $this->app['files']->glob("{$migrationPath}/*{$filename}")[0] ?? null;
     }
 
     /**
      * Removes generated migration files.
      */
-    protected function cleanUpMigrationFiles(): void
+    protected function cleanUpPublishedMigrationFiles(): void
     {
         $this->app['files']->delete(
             Collection::make($this->app['files']->files($this->app->databasePath('migrations')))

@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTestbenchUsersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -39,4 +39,4 @@ class CreateTestbenchUsersTable extends Migration
     {
         Schema::drop('testbench_users');
     }
-}
+};
