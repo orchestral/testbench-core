@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.11.1
+
+Released: 2023-09-19
+
+### Fixes
+
+* Fixes `cleanUpPublishedFiles` to assign path from `base_path()` before using `glob`.
+
 ## 8.11.0
 
 Released: 2023-09-19
