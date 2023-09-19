@@ -27,8 +27,8 @@ use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
 {
-    use CopyTestbenchFiles,
-        InteractsWithSignals;
+    use CopyTestbenchFiles;
+    use InteractsWithSignals;
 
     /**
      * Application instance.
