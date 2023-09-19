@@ -159,8 +159,6 @@ trait InteractsWithPublishedFiles
     {
         $this->app['files']->delete(
             Collection::make($this->files ?? [])
-                ->map(fn ($file) => str_contains($file, '*') ? [...$this->app['files']->glob($file)] : $file)
-                ->flatten()
                 ->transform(fn ($file) => $this->app->basePath($file))
                 ->map(fn ($file) => str_contains($file, '*') ? [...$this->app['files']->glob($file)] : $file)
                 ->flatten()
