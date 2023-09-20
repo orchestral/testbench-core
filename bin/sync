@@ -3,7 +3,7 @@
 
 $workingPath = getcwd();
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 $files = new Illuminate\Filesystem\Filesystem();
 
