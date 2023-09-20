@@ -2,6 +2,7 @@
 
 # Ignore following folder/file.
 /.github export-ignore
+/bin export-ignore
 /tests export-ignore
 /workbench export-ignore
 /.gitattributes export-ignore
@@ -11,7 +12,6 @@
 /phpstan.neon.dist export-ignore
 /phpunit.xml export-ignore
 /pint.json export-ignore
-/sync export-ignore
 /testbench.yaml export-ignore
 /CHANGELOG-*.md export-ignore
 /CODE_OF_CONDUCT.md export-ignore
