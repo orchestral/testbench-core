@@ -141,7 +141,7 @@ return [
 
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
-        'store' => env('APP_MAINTENANCE_STORE', 'redis'),
+        'store'  => env('APP_MAINTENANCE_STORE', 'redis'),
     ],
 
     /*
@@ -159,7 +159,7 @@ return [
         // Package Service Providers...
     ])->merge([
         // Application Service Providers...
-        // // App\Providers\AppServiceProvider::class,
+        // App\Providers\AppServiceProvider::class,
     ])->merge([
         // Added Service Providers (Do not remove this line)...
     ])->toArray(),
