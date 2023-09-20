@@ -1,4 +1,4 @@
-name: "Update Skeleton"
+name: "update-skeleton"
 
 on:
   workflow_dispatch:
