@@ -7,16 +7,16 @@ use Illuminate\Support\Str;
 
 abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
-    use Concerns\Testing,
-        Testing\Concerns\InteractsWithAuthentication,
-        Testing\Concerns\InteractsWithConsole,
-        Testing\Concerns\InteractsWithContainer,
-        Testing\Concerns\InteractsWithDatabase,
-        Testing\Concerns\InteractsWithDeprecationHandling,
-        Testing\Concerns\InteractsWithExceptionHandling,
-        Testing\Concerns\InteractsWithSession,
-        Testing\Concerns\InteractsWithTime,
-        Testing\Concerns\MakesHttpRequests;
+    use Concerns\Testing;
+    use Testing\Concerns\InteractsWithAuthentication;
+    use Testing\Concerns\InteractsWithConsole;
+    use Testing\Concerns\InteractsWithContainer;
+    use Testing\Concerns\InteractsWithDatabase;
+    use Testing\Concerns\InteractsWithDeprecationHandling;
+    use Testing\Concerns\InteractsWithExceptionHandling;
+    use Testing\Concerns\InteractsWithSession;
+    use Testing\Concerns\InteractsWithTime;
+    use Testing\Concerns\MakesHttpRequests;
 
     /**
      * The base URL to use while testing the application.
