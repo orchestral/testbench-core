@@ -7,7 +7,8 @@ require __DIR__.'/../vendor/autoload.php';
 
 $files = new Illuminate\Filesystem\Filesystem();
 
-$files->deleteDirectory('skeleton');
+$files->delete("{$workingPath}/laravel/.env");
+$files->deleteDirectory("{$workingPath}/skeleton");
 
 Symfony\Component\Process\Process::fromShellCommandline(
     'composer create-project "laravel/laravel:10.x-dev" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
@@ -129,4 +130,4 @@ transform([
      * The URIs that should be excluded from CSRF verification.',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Http/Middleware/VerifyCsrfToken.php"));
 
-$files->deleteDirectory('skeleton');
+$files->deleteDirectory("{$workingPath}/skeleton");
