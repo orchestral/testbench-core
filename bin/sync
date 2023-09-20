@@ -7,7 +7,8 @@ require __DIR__.'/../vendor/autoload.php';
 
 $files = new Illuminate\Filesystem\Filesystem();
 
-$files->deleteDirectory('skeleton');
+$files->delete("{$workingPath}/laravel/.env");
+$files->deleteDirectory("{$workingPath}/skeleton");
 
 Symfony\Component\Process\Process::fromShellCommandline(
     'composer create-project "laravel/laravel:9.x-dev" skeleton --no-scripts --no-plugins --quiet --no-install', $workingPath
@@ -93,4 +94,4 @@ transform([
 ',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Factories/UserFactory.php"));
 
-$files->deleteDirectory('skeleton');
+$files->deleteDirectory("{$workingPath}/skeleton");
