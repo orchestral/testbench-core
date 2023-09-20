@@ -14,15 +14,6 @@ Symfony\Component\Process\Process::fromShellCommandline(
 )->mustRun();
 
 Illuminate\Support\Collection::make([
-    'config/*.php',
-])->transform(fn ($file) => "{$workingPath}/vendor/laravel/framework/{$file}")
-->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
-->flatten()
-->each(function ($file) use ($files, $workingPath) {
-    $files->copy($file, "{$workingPath}/laravel".Illuminate\Support\Str::after($file, "{$workingPath}/vendor/laravel/framework"));
-});
-
-Illuminate\Support\Collection::make([
     '.env.example',
     'database/.gitignore',
     'database/migrations/0001_01_01_000000_create_users_table.php',
@@ -36,7 +27,6 @@ Illuminate\Support\Collection::make([
 ->each(function ($file) use ($files, $workingPath) {
     $files->copy($file, "{$workingPath}/laravel".Illuminate\Support\Str::after($file, "{$workingPath}/skeleton"));
 });
-$files->delete("{$workingPath}/laravel/config/sanctum.php");
 $files->move("{$workingPath}/laravel/database/migrations/0001_01_01_000000_create_users_table.php", "{$workingPath}/laravel/migrations/0001_01_01_000000_testbench_create_users_table.php");
 $files->move("{$workingPath}/laravel/database/migrations/0001_01_01_000001_create_jobs_table.php", "{$workingPath}/laravel/migrations/0001_01_01_000001_testbench_create_jobs_table.php");
 
@@ -54,6 +44,15 @@ $files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/
 transform([
     "getcwd()" => "__DIR__.'/public'",
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
+
+Illuminate\Support\Collection::make([
+    'config/*.php',
+])->transform(fn ($file) => "{$workingPath}/vendor/laravel/framework/{$file}")
+->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
+->flatten()
+->each(function ($file) use ($files, $workingPath) {
+    $files->copy($file, "{$workingPath}/laravel".Illuminate\Support\Str::after($file, "{$workingPath}/vendor/laravel/framework"));
+});
 
 transform([
     "env('APP_ENV', 'production')" => "env('APP_ENV', 'testing')",
@@ -101,4 +100,5 @@ transform([
 ',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Factories/UserFactory.php"));
 
+$files->delete("{$workingPath}/laravel/config/sanctum.php");
 $files->deleteDirectory("{$workingPath}/skeleton");
