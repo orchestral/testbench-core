@@ -24,6 +24,9 @@ jobs:
         run: |
           php bin/sync
 
+      - name: Execute Code Style Analysis
+        run: vendor/bin/pint
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
