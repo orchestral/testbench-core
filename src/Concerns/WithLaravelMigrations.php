@@ -20,7 +20,9 @@ trait WithLaravelMigrations
 
         if (! ($loadLaravelMigrations && static::usesTestingConcern(WithWorkbench::class))) {
             after_resolving($this->app, 'migrator', function ($migrator, $app) {
-                $migrator->path($app->basePath('migrations'));
+                if (is_dir($app->basePath('migrations'))) {
+                    $migrator->path($app->basePath('migrations'));
+                }
             });
         }
     }
