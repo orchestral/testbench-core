@@ -5,7 +5,10 @@ $workingPath = getcwd();
 
 require __DIR__.'/../vendor/autoload.php';
 
+$input = new Symfony\Component\Console\Input\ArgvInput();
 $files = new Illuminate\Filesystem\Filesystem();
+
+$version = $input->hasParameterOption('--stable') ? '^10.0' : '10.x-dev';
 
 $files->delete("{$workingPath}/laravel/.env");
 $files->deleteDirectory("{$workingPath}/skeleton");
@@ -16,7 +19,7 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
 
 Symfony\Component\Process\Process::fromShellCommandline(
-    'composer create-project "laravel/laravel:10.x-dev" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
+    'composer create-project "laravel/laravel:'.$version.'" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
 )->mustRun();
 
 Illuminate\Support\Collection::make([
