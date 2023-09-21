@@ -19,11 +19,17 @@ trait WithLaravelMigrations
         $loadLaravelMigrations = static::$cachedConfigurationForWorkbench?->getWorkbenchAttributes()['install'] ?? false;
 
         if (! ($loadLaravelMigrations && static::usesTestingConcern(WithWorkbench::class))) {
-            after_resolving($this->app, 'migrator', function ($migrator, $app) {
-                if (is_dir($app->basePath('migrations'))) {
+            if (! is_dir($this->app->basePath('migrations'))) {
+                return;
+            }
+
+            if (! static::usesTestingConcern(RefreshDatabase::class)) {
+                $this->loadLaravelMigrations();
+            } else {
+                after_resolving($this->app, 'migrator', function ($migrator, $app) {
                     $migrator->path($app->basePath('migrations'));
-                }
-            });
+                });
+            }
         }
     }
 }
