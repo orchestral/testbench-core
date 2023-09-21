@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Config;
 
 trait InteractsWithWorkbench
@@ -87,9 +88,11 @@ trait InteractsWithWorkbench
      */
     public static function setupBeforeClassUsingWorkbench(): void
     {
-        $workingPath = \defined('TESTBENCH_WORKING_PATH')
-            ? TESTBENCH_WORKING_PATH
-            : getcwd();
+        $workingPath = match (true) {
+            \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
+            ! \is_null(Env::get('TESTBENCH_WORKING_PATH')) => Env::get('TESTBENCH_WORKING_PATH'),
+            default => getcwd(),
+        };
 
         $config = Config::loadFromYaml($workingPath);
 

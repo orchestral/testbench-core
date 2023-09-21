@@ -26,7 +26,7 @@ trait WithLaravelMigrations
                 return;
             }
 
-            if (! static::usesTestingConcern(LazilyRefreshDatabase::class) && static::usesTestingConcern(RefreshDatabase::class)) {
+            if (! static::usesTestingConcern(LazilyRefreshDatabase::class) && ! static::usesTestingConcern(RefreshDatabase::class)) {
                 $this->loadLaravelMigrations();
             } else {
                 after_resolving($this->app, 'migrator', function ($migrator, $app) {
