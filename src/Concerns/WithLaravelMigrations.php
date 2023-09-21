@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use function Orchestra\Testbench\after_resolving;
 
 trait WithLaravelMigrations
