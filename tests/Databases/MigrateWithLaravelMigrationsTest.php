@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Databases;
 
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\Concerns\WithLaravelMigrations;
@@ -10,7 +11,7 @@ use Orchestra\Testbench\TestCase;
 
 class MigrateWithLaravelMigrationsTest extends TestCase
 {
-    use WithLaravelMigrations;
+    use LazilyRefreshDatabase, WithLaravelMigrations;
 
     /**
      * Define environment setup.
