@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+
 use function Orchestra\Testbench\after_resolving;
 
 trait WithLaravelMigrations
