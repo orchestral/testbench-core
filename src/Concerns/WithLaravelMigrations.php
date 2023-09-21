@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use function Orchestra\Testbench\after_resolving;
+
 trait WithLaravelMigrations
 {
     use InteractsWithWorkbench;
@@ -17,6 +19,11 @@ trait WithLaravelMigrations
         $loadLaravelMigrations = optional(static::$cachedConfigurationForWorkbench)->getWorkbenchAttributes()['install'] ?? false;
 
         if (! ($loadLaravelMigrations && static::usesTestingConcern(WithWorkbench::class))) {
+            after_resolving($this->app, 'migrator', function ($migrator, $app) {
+                if (is_dir($app->basePath('migrations'))) {
+                    $migrator->path($app->basePath('migrations'));
+                }
+            });
             $this->loadLaravelMigrations();
         }
     }
