@@ -13,7 +13,10 @@ class DefaultConfigurationTest extends TestCase
         $this->assertFalse($this->app['config']['app.debug']);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group phpunit-configuration
+     */
     public function it_populate_expected_app_key_config()
     {
         $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', $this->app['config']['app.key']);

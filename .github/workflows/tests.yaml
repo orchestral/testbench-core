@@ -117,13 +117,13 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations)
-        run: vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
+        run: vendor/bin/phpunit --exclude-group phpunit-configuration --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
         env:
           RAY_ENABLED: false
         if: matrix.os != 'windows-latest'
 
       - name: Execute tests (without deprecations)
-        run: vendor/bin/phpunit --exclude-group deprecations --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
+        run: vendor/bin/phpunit --exclude-group deprecations,phpunit-configuration --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
