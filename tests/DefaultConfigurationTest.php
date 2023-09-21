@@ -14,6 +14,12 @@ class DefaultConfigurationTest extends TestCase
     }
 
     /** @test */
+    public function it_populate_expected_app_key_config()
+    {
+        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', $this->app['config']['app.key']);
+    }
+
+    /** @test */
     public function it_populate_expected_testing_config()
     {
         tap($this->app['config']['database.connections.testing'], function ($config) {
