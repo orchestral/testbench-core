@@ -24,7 +24,6 @@ trait WithLaravelMigrations
                     $migrator->path($app->basePath('migrations'));
                 }
             });
-            $this->loadLaravelMigrations();
         }
     }
 }
