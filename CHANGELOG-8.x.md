@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.11.2
+
+Released: 2023-09-21
+
+### Changes
+
+* Allow to defer running Laravel Migrations when TestCase also uses `Illuminate\Foundation\Testing\RefreshDatabase`.
+
 ## 8.11.1
 
 Released: 2023-09-19

@@ -8,7 +8,7 @@ require __DIR__.'/../vendor/autoload.php';
 $input = new Symfony\Component\Console\Input\ArgvInput();
 $files = new Illuminate\Filesystem\Filesystem();
 
-$version = $input->hasParameterOption('--stable') ? '^10.0' : '10.x-dev';
+$version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '10.x-dev' : '^10.0';
 
 $files->delete("{$workingPath}/laravel/.env");
 $files->deleteDirectory("{$workingPath}/skeleton");
