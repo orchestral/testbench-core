@@ -81,15 +81,14 @@ trait InteractsWithWorkbench
             : [];
     }
 
-
     /**
      * Define or get the cached uses for test case.
      *
-     * @return \Orchestra\Testbench\Foundation\Config
+     * @return \Orchestra\Testbench\Contracts\Config|null
      */
     public static function cachedConfigurationForWorkbench()
     {
-        if (is_null(static::$cachedConfigurationForWorkbench)) {
+        if (\is_null(static::$cachedConfigurationForWorkbench)) {
             $workingPath = match (true) {
                 \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
                 ! \is_null(Env::get('TESTBENCH_WORKING_PATH')) => Env::get('TESTBENCH_WORKING_PATH'),
