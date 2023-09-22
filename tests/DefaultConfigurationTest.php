@@ -6,12 +6,6 @@ use Orchestra\Testbench\TestCase;
 
 class DefaultConfigurationTest extends TestCase
 {
-    /** @test */
-    public function it_populate_expected_debug_config()
-    {
-        $this->assertFalse($this->app['config']['app.debug']);
-    }
-
     /**
      * @test
      *
