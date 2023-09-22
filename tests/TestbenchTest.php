@@ -9,6 +9,12 @@ use Orchestra\Testbench\Tests\Fixtures\Jobs\CustomPayloadJob;
 
 class TestbenchTest extends TestCase
 {
+    public function it_can_resolve_uses_testing_concerns()
+    {
+        $this->assertTrue(static::usesTestingConcern(\Orchestra\Testbench\Concerns\Testing::class));
+        $this->assertFalse(static::usesTestingConcern(\Orchestra\Testbench\Concerns\WithWorkbench::class));
+    }
+
     /**
      * @test
      *
