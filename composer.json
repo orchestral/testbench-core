@@ -41,7 +41,6 @@
     },
     "require-dev": {
         "laravel/framework": "^8.83.27",
-        "laravel/laravel": "8.x-dev",
         "mockery/mockery": "^1.4.4",
         "phpstan/phpstan": "^1.10.7",
         "phpunit/phpunit": "^8.5.21 || ^9.5.10",
