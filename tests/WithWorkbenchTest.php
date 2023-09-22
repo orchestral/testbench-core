@@ -15,6 +15,8 @@ class WithWorkbenchTest extends TestCase
     {
         $this->assertInstanceOf(ConfigContract::class, static::$cachedConfigurationForWorkbench);
 
+        $this->assertSame(static::$cachedConfigurationForWorkbench, static::cachedConfigurationForWorkbench());
+
         $this->assertSame([
             'env' => ["APP_NAME='Testbench'"],
             'bootstrappers' => [],

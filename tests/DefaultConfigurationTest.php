@@ -7,6 +7,16 @@ use Orchestra\Testbench\TestCase;
 
 class DefaultConfigurationTest extends TestCase
 {
+    /**
+     * @test
+     *
+     * @group phpunit-configuration
+     */
+    public function it_populate_expected_app_key_config()
+    {
+        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', $this->app['config']['app.key']);
+    }
+
     /** @test */
     public function it_populate_expected_debug_config()
     {
