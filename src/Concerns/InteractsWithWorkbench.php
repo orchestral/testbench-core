@@ -84,7 +84,7 @@ trait InteractsWithWorkbench
     /**
      * Define or get the cached uses for test case.
      *
-     * @return \Orchestra\Testbench\Foundation\Config
+     * @return \Orchestra\Testbench\Contracts\Config
      */
     public static function cachedConfigurationForWorkbench()
     {

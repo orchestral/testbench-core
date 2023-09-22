@@ -6,6 +6,7 @@ use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use PHPUnit\Framework\TestCase;
+
 use function Orchestra\Testbench\container;
 
 class TestCaseTest extends TestCase
