@@ -30,9 +30,6 @@ class PackageManifestTest extends TestCase
         $packages = Collection::make(require $manifestPath);
 
         $installedPackages = [
-            'fruitcake/laravel-cors',
-            'laravel/laravel',
-            'laravel/tinker',
             'nesbot/carbon',
             'spatie/laravel-ray',
         ];
