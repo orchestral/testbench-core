@@ -8,12 +8,12 @@ class Env extends \Illuminate\Support\Env
      * Forward environment value.
      *
      * @param  string  $key
-     * @param  mixed  $default
+     * @param  mixed|null  $default
      * @return mixed
      */
-    public function forward(string $key, $default)
+    public static function forward(string $key, $default = null)
     {
-        $value = $this->get($key, $default);
+        $value = static::get($key, $default);
 
         if (\is_null($value)) {
             return '(null)';
