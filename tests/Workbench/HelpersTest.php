@@ -33,6 +33,11 @@ class HelpersTest extends TestCase
             'sync' => [],
             'build' => [],
             'assets' => [],
+            'discovers' => [
+                'web' => false,
+                'api' => false,
+                'commands' => false,
+            ],
         ], workbench());
     }
 
@@ -48,6 +53,11 @@ class HelpersTest extends TestCase
             'sync' => [],
             'build' => [],
             'assets' => [],
+            'discovers' => [
+                'web' => false,
+                'api' => false,
+                'commands' => false,
+            ],
         ], workbench());
     }
 
