@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Env;
+use Orchestra\Testbench\Support\Env;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
 /**

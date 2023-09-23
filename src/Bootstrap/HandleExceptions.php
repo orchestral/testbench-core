@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Log\LogManager;
-use Illuminate\Support\Env;
+use Orchestra\Testbench\Support\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 
 /**
