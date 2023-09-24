@@ -21,7 +21,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   sync: array<int, array{from: string, to: string}>,
  *   build: array<int, string>,
  *   assets: array<int, string>,
- *   discovers: array{web?: bool, api?: bool, commands?: bool}
+ *   discovers: TWorkbenchDiscoversConfig
  * }
  * @phpstan-type TOptionalWorkbenchConfig array{
  *   start?: string,
@@ -32,7 +32,17 @@ use function Orchestra\Testbench\transform_relative_path;
  *   sync?: array<int, array{from: string, to: string}>,
  *   build?: array<int, string>,
  *   assets?: array<int, string>,
- *   discovers?: array{web?: bool, api?: bool, commands?: bool}
+ *   discovers?: TWorkbenchOptionalDiscoversConfig
+ * }
+ * @phpstan-type TWorkbenchDiscoversConfig array{
+ *   web: bool,
+ *   api: bool,
+ *   commands: bool
+ * }
+ * @phpstan-type TWorkbenchOptionalDiscoversConfig array{
+ *   web?: bool,
+ *   api?: bool,
+ *   commands?: bool
  * }
  * @phpstan-type TConfig array{
  *   laravel: string|null,
@@ -96,6 +106,19 @@ class Config extends Fluent implements ConfigContract
             'api' => false,
             'commands' => false,
         ],
+    ];
+
+    /**
+     * The Workbench discovers default configuration.
+     *
+     * @var array<string, mixed>
+     *
+     * @phpstan-var TWorkbenchDiscoversConfig
+     */
+    protected $workbenchDiscoversConfig = [
+        'web' => false,
+        'api' => false,
+        'commands' => false,
     ];
 
     /**
@@ -176,9 +199,17 @@ class Config extends Fluent implements ConfigContract
      */
     public function getWorkbenchAttributes(): array
     {
-        return array_merge(
+        $config = array_merge(
             $this->workbenchConfig,
             $this->attributes['workbench'],
         );
+
+        $config['discovers'] = array_merge(
+            $this->workbenchDiscoversConfig,
+            Arr::get($this->attributes, 'workbench.discovers', [])
+        );
+
+        /** @var TWorkbenchConfig $config */
+        return $config;
     }
 }
