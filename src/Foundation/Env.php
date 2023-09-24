@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Support;
+namespace Orchestra\Testbench\Foundation;
 
 class Env extends \Illuminate\Support\Env
 {

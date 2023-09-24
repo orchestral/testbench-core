@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
-use Orchestra\Testbench\Support\Env;
+use Orchestra\Testbench\Foundation\Env;
 
 /**
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config

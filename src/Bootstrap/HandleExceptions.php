@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Log\LogManager;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
-use Orchestra\Testbench\Support\Env;
+use Orchestra\Testbench\Foundation\Env;
 
 /**
  * @internal

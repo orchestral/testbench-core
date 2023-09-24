@@ -1,8 +1,8 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Support;
+namespace Orchestra\Testbench\Tests\Foundation;
 
-use Orchestra\Testbench\Support\Env;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 
 class EnvTest extends TestCase

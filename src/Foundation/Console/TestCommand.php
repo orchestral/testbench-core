@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation\Console;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
-use Orchestra\Testbench\Support\Env;
+use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\package_path;
 
