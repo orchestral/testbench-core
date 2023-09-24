@@ -83,6 +83,8 @@ trait InteractsWithPHPUnit
      * Prepare the testing environment before the running the test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function setupBeforeClassUsingPHPUnit(): void
     {
@@ -93,6 +95,8 @@ trait InteractsWithPHPUnit
      * Clean up the testing environment before the next test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function teardownAfterClassUsingPHPUnit(): void
     {
