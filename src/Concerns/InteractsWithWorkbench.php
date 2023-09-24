@@ -114,6 +114,8 @@ trait InteractsWithWorkbench
      * Prepare the testing environment before the running the test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function setupBeforeClassUsingWorkbench(): void
     {
@@ -124,6 +126,8 @@ trait InteractsWithWorkbench
      * Clean up the testing environment before the next test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function teardownAfterClassUsingWorkbench(): void
     {
