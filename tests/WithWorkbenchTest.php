@@ -17,15 +17,35 @@ class WithWorkbenchTest extends TestCase
      */
     public function it_can_be_resolved()
     {
-        $this->assertInstanceOf(ConfigContract::class, static::$cachedConfigurationForWorkbench);
+        $cachedConfig = static::$cachedConfigurationForWorkbench;
 
-        $this->assertSame(static::$cachedConfigurationForWorkbench, static::cachedConfigurationForWorkbench());
+        $this->assertInstanceOf(ConfigContract::class, $cachedConfig);
+
+        $this->assertSame($cachedConfig, static::cachedConfigurationForWorkbench());
 
         $this->assertSame([
             'env' => ["APP_NAME='Testbench'"],
             'bootstrappers' => [],
             'providers' => ['Workbench\App\Providers\TestbenchServiceProvider'],
             'dont-discover' => [],
-        ], static::$cachedConfigurationForWorkbench->getExtraAttributes());
+        ], $cachedConfig->getExtraAttributes());
+    }
+
+    /**
+     * @test
+     *
+     * @covers Orchestra\Testbench\Concerns\InteractsWithWorkbench
+     */
+    public function it_can_be_manually_resolved()
+    {
+        $cachedConfig = static::$cachedConfigurationForWorkbench;
+
+        static::$cachedConfigurationForWorkbench = null;
+
+        $config = static::cachedConfigurationForWorkbench();
+
+        $this->assertInstanceOf(ConfigContract::class, $config);
+
+        $this->assertSame($cachedConfig->toArray(), $config->toArray());
     }
 }
