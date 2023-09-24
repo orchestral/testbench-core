@@ -20,7 +20,8 @@ use function Orchestra\Testbench\transform_relative_path;
  *   welcome: bool|null,
  *   sync: array<int, array{from: string, to: string}>,
  *   build: array<int, string>,
- *   assets: array<int, string>
+ *   assets: array<int, string>,
+ *   discovers: array{web?: bool, api?: bool, commands?: bool}
  * }
  * @phpstan-type TOptionalWorkbenchConfig array{
  *   start?: string,
@@ -30,7 +31,8 @@ use function Orchestra\Testbench\transform_relative_path;
  *   welcome?: bool|null,
  *   sync?: array<int, array{from: string, to: string}>,
  *   build?: array<int, string>,
- *   assets?: array<int, string>
+ *   assets?: array<int, string>,
+ *   discovers?: array{web?: bool, api?: bool, commands?: bool}
  * }
  * @phpstan-type TConfig array{
  *   laravel: string|null,
@@ -89,6 +91,11 @@ class Config extends Fluent implements ConfigContract
         'sync' => [],
         'build' => [],
         'assets' => [],
+        'discovers' => [
+            'web' => false,
+            'api' => false,
+            'commands' => false,
+        ],
     ];
 
     /**
