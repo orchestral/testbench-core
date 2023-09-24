@@ -10,7 +10,11 @@ class WithWorkbenchTest extends TestCase
 {
     use WithWorkbench;
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @covers Orchestra\Testbench\Concerns\InteractsWithWorkbench
+     */
     public function it_can_be_resolved()
     {
         $this->assertInstanceOf(ConfigContract::class, static::$cachedConfigurationForWorkbench);
