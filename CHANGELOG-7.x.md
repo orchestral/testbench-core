@@ -25,7 +25,7 @@ Released: 2023-09-21
 
 ### Changes
 
-* Allow deferring Laravel Migrations when TestCase also uses `Illuminate\Foundation\Testing\RefreshDatabase`.
+* Allow deferring Laravel Migrations when TestCase also uses `Illuminate\Foundation\Testing\RefreshDatabase` or `Illuminate\Foundation\Testing\LazilyRefreshDatabase`.
 
 ## 7.31.1
 
