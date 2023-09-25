@@ -140,8 +140,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      */
     public static function tearDownAfterClass(): void
     {
-        static::$latestResponse = null;
-
+        static::teardownAfterClassUsingLaravel();
         static::teardownAfterClassUsingWorkbench();
         static::teardownAfterClassUsingPHPUnit();
     }
