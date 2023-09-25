@@ -7,9 +7,9 @@ This changelog references the relevant changes (bug and security fixes) done to 
 ### Added
 
 * Added `cachedConfigurationForWorkbench()` to `Orchestra\Testbench\Concern\InteractsWithWorkbench` trait.
-* Add ability to read `TESTBENCH_WORKING_PATH` from environment variables for Testbench Dusk usage.
+* Add the ability to read `TESTBENCH_WORKING_PATH` from environment variables for Testbench Dusk usage.
 * Supports Workbench `discovers` configuration.
-* Add ability to properly forward Environment Variables.
+* Add the ability to properly forward Environment Variables.
 * Add `usesSqliteInMemoryDatabaseConnection` to `Orchestra\Testbench\Concerns\HandlesDatabases` trait.
 
 ## 6.38.2
