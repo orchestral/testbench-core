@@ -42,12 +42,11 @@ class AssertPublishedFilesTest extends TestCase
             'Schema::create(\'users\', function (Blueprint $table) {',
         ], 'testbench_create_users_table.php', directory: 'migrations');
 
-
         $this->assertMigrationFileDoesNotContains([
             'class TestbenchCreateUsersTable extends Migration',
         ], 'testbench_create_users_table.php', directory: 'migrations');
 
-        $this->assertMigrationFileExists('2014_10_12_100000_testbench_create_password_resets_table.php', 'migrations');
-        $this->assertMigrationFileDoesNotExists('2014_10_12_100000_create_password_resets_table.php', 'migrations');
+        $this->assertMigrationFileExists('2014_10_12_100000_testbench_create_password_reset_tokens_table.php', 'migrations');
+        $this->assertMigrationFileDoesNotExists('2014_10_12_100000_create_password_resets_tokens_table.php', 'migrations');
     }
 }
