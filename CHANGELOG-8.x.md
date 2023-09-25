@@ -11,13 +11,21 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Supports Workbench `discovers` configuration.
 * Add ability to properly forward Environment Variables.
 
+## 8.11.3
+
+Released: 2023-09-25
+
+### Fixes
+
+* Fixes deferring Laravel Migrations when TestCase uses `Illuminate\Foundation\Testing\RefreshDatabase`.
+
 ## 8.11.2
 
 Released: 2023-09-21
 
 ### Changes
 
-* Allow to defer running Laravel Migrations when TestCase also uses `Illuminate\Foundation\Testing\RefreshDatabase`.
+* Allow deferring Laravel Migrations when TestCase also uses `Illuminate\Foundation\Testing\RefreshDatabase`.
 
 ## 8.11.1
 
