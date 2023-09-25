@@ -6,12 +6,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Orchestra\Testbench\Concerns\WithLaravelMigrations;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
 class RefreshDatabaseTest extends TestCase
 {
-    use RefreshDatabase, WithWorkbench;
+    use RefreshDatabase, WithLaravelMigrations, WithWorkbench;
 
     /**
      * Define environment setup.
