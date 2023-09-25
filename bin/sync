@@ -5,12 +5,21 @@ $workingPath = getcwd();
 
 require __DIR__.'/../vendor/autoload.php';
 
+$input = new Symfony\Component\Console\Input\ArgvInput();
 $files = new Illuminate\Filesystem\Filesystem();
 
-$files->deleteDirectory('skeleton');
+$version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '10.x-dev' : '^10.0';
+
+$files->delete("{$workingPath}/laravel/.env");
+$files->deleteDirectory("{$workingPath}/skeleton");
+
+$files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php", "{$workingPath}/laravel/server.php");
+transform([
+    "getcwd()" => "__DIR__.'/public'",
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
 
 Symfony\Component\Process\Process::fromShellCommandline(
-    'composer create-project "laravel/laravel:10.x-dev" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
+    'composer create-project "laravel/laravel:'.$version.'" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
 )->mustRun();
 
 Illuminate\Support\Collection::make([
@@ -43,11 +52,6 @@ transform([
     PHP_EOL.'DB_USERNAME=' => PHP_EOL.'# DB_USERNAME=',
     PHP_EOL.'DB_PASSWORD=' => PHP_EOL.'# DB_PASSWORD=',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
-
-$files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php", "{$workingPath}/laravel/server.php");
-transform([
-    "getcwd()" => "__DIR__.'/public'",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
 
 transform([
     "env('APP_ENV', 'production')" => "env('APP_ENV', 'testing')",
@@ -129,4 +133,4 @@ transform([
      * The URIs that should be excluded from CSRF verification.',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Http/Middleware/VerifyCsrfToken.php"));
 
-$files->deleteDirectory('skeleton');
+$files->deleteDirectory("{$workingPath}/skeleton");

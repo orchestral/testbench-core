@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Foundation\Config;
+use Orchestra\Testbench\Foundation\Env;
 
 trait InteractsWithWorkbench
 {
@@ -81,32 +82,52 @@ trait InteractsWithWorkbench
     }
 
     /**
+     * Define or get the cached uses for test case.
+     *
+     * @return \Orchestra\Testbench\Contracts\Config|null
+     */
+    public static function cachedConfigurationForWorkbench()
+    {
+        if (\is_null(static::$cachedConfigurationForWorkbench)) {
+            $workingPath = match (true) {
+                \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
+                ! \is_null(Env::get('TESTBENCH_WORKING_PATH')) => Env::get('TESTBENCH_WORKING_PATH'),
+                default => getcwd(),
+            };
+
+            $config = Config::loadFromYaml($workingPath);
+
+            if (
+                ! \is_null($config['laravel'])
+                && isset(static::$cachedTestCaseUses[WithWorkbench::class])
+            ) {
+                $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
+            }
+
+            static::$cachedConfigurationForWorkbench = $config;
+        }
+
+        return static::$cachedConfigurationForWorkbench;
+    }
+
+    /**
      * Prepare the testing environment before the running the test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function setupBeforeClassUsingWorkbench(): void
     {
-        $workingPath = \defined('TESTBENCH_WORKING_PATH')
-            ? TESTBENCH_WORKING_PATH
-            : getcwd();
-
-        $config = Config::loadFromYaml($workingPath);
-
-        if (
-            ! \is_null($config['laravel'])
-            && isset(static::$cachedTestCaseUses[WithWorkbench::class])
-        ) {
-            $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
-        }
-
-        static::$cachedConfigurationForWorkbench = $config;
+        static::cachedConfigurationForWorkbench();
     }
 
     /**
      * Clean up the testing environment before the next test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function teardownAfterClassUsingWorkbench(): void
     {

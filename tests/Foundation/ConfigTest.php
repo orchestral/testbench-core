@@ -46,6 +46,11 @@ class ConfigTest extends TestCase
             'sync' => [],
             'build' => [],
             'assets' => [],
+            'discovers' => [
+                'web' => false,
+                'api' => false,
+                'commands' => false,
+            ],
         ], $config->getWorkbenchAttributes());
     }
 
@@ -83,6 +88,11 @@ class ConfigTest extends TestCase
             'sync' => [],
             'build' => [],
             'assets' => [],
+            'discovers' => [
+                'web' => false,
+                'api' => false,
+                'commands' => false,
+            ],
         ], $config->getWorkbenchAttributes());
     }
 

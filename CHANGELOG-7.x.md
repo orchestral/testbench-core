@@ -2,6 +2,34 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.32.0
+
+Released: 2023-09-25
+
+### Added
+
+* Added `cachedConfigurationForWorkbench()` to `Orchestra\Testbench\Concern\InteractsWithWorkbench` trait.
+* Add the ability to read `TESTBENCH_WORKING_PATH` from environment variables for Testbench Dusk usage.
+* Supports Workbench `discovers` configuration.
+* Add the ability to properly forward Environment Variables.
+* Add `usesSqliteInMemoryDatabaseConnection` to `Orchestra\Testbench\Concerns\HandlesDatabases` trait.
+
+## 7.31.3
+
+Released: 2023-09-25
+
+### Fixes
+
+* Fixes deferring Laravel Migrations when TestCase uses `Illuminate\Foundation\Testing\RefreshDatabase`.
+
+## 7.31.2
+
+Released: 2023-09-21
+
+### Changes
+
+* Allow deferring Laravel Migrations when TestCase also uses `Illuminate\Foundation\Testing\RefreshDatabase` or `Illuminate\Foundation\Testing\LazilyRefreshDatabase`.
+
 ## 7.31.1
 
 Released: 2023-09-19

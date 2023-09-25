@@ -63,7 +63,7 @@ trait InteractsWithPublishedFiles
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertFileNotContains(array $contains, string $file, string $message = ''): void
+    protected function assertFileDoesNotContains(array $contains, string $file, string $message = ''): void
     {
         $this->assertFilenameExists($file);
 
@@ -77,11 +77,21 @@ trait InteractsWithPublishedFiles
     }
 
     /**
+     * Assert file doesn't contains data.
+     *
+     * @param  array<int, string>  $contains
+     */
+    protected function assertFileNotContains(array $contains, string $file, string $message = ''): void
+    {
+        $this->assertFileDoesNotContains($contains, $file, $message);
+    }
+
+    /**
      * Assert file does contains data.
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertMigrationFileContains(array $contains, string $file, string $message = '', string $directory = null): void
+    protected function assertMigrationFileContains(array $contains, string $file, string $message = '', ?string $directory = null): void
     {
         $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
 
@@ -99,7 +109,7 @@ trait InteractsWithPublishedFiles
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertMigrationFileNotContains(array $contains, string $file, string $message = '', string $directory = null): void
+    protected function assertMigrationFileDoesNotContains(array $contains, string $file, string $message = '', ?string $directory = null): void
     {
         $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
 
@@ -110,6 +120,16 @@ trait InteractsWithPublishedFiles
         foreach ($contains as $needle) {
             $this->assertStringNotContainsString($needle, $haystack, $message);
         }
+    }
+
+    /**
+     * Assert file doesn't contains data.
+     *
+     * @param  array<int, string>  $contains
+     */
+    protected function assertMigrationFileNotContains(array $contains, string $file, string $message = '', ?string $directory = null): void
+    {
+        $this->assertMigrationFileDoesNotContains($contains, $file, $message, $directory);
     }
 
     /**
@@ -125,7 +145,7 @@ trait InteractsWithPublishedFiles
     /**
      * Assert filename not exists.
      */
-    protected function assertFilenameNotExists(string $file, string $directory = null): void
+    protected function assertFilenameDoesNotExists(string $file): void
     {
         $appFile = $this->app->basePath($file);
 
@@ -133,9 +153,17 @@ trait InteractsWithPublishedFiles
     }
 
     /**
+     * Assert filename not exists.
+     */
+    protected function assertFilenameNotExists(string $file): void
+    {
+        $this->assertFilenameDoesNotExists($file);
+    }
+
+    /**
      * Assert migration filename exists.
      */
-    protected function assertMigrationFileExists(string $file, string $directory = null): void
+    protected function assertMigrationFileExists(string $file, ?string $directory = null): void
     {
         $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
 
@@ -145,11 +173,19 @@ trait InteractsWithPublishedFiles
     /**
      * Assert migration filename not exists.
      */
-    protected function assertMigrationFileNotExists(string $file, string $directory = null): void
+    protected function assertMigrationFileDoesNotExists(string $file, ?string $directory = null): void
     {
         $migrationFile = $this->findFirstPublishedMigrationFile($file, $directory);
 
         $this->assertTrue(\is_null($migrationFile), "Assert migration file {$file} doesn't exist");
+    }
+
+    /**
+     * Assert migration filename not exists.
+     */
+    protected function assertMigrationFileNotExists(string $file, ?string $directory = null): void
+    {
+        $this->assertMigrationFileNotExists($file, $directory);
     }
 
     /**
@@ -171,7 +207,7 @@ trait InteractsWithPublishedFiles
     /**
      * Removes generated migration files.
      */
-    protected function findFirstPublishedMigrationFile(string $filename, string $directory = null): ?string
+    protected function findFirstPublishedMigrationFile(string $filename, ?string $directory = null): ?string
     {
         $migrationPath = ! \is_null($directory)
             ? $this->app->basePath($directory)

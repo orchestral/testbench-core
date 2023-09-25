@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Illuminate\Support\Env;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 
 class DefaultConfigurationTest extends TestCase
@@ -10,7 +10,17 @@ class DefaultConfigurationTest extends TestCase
     /** @test */
     public function it_populate_expected_debug_config()
     {
-        $this->assertFalse($this->app['config']['app.debug']);
+        $this->assertSame((Env::get('TESTBENCH_PACKAGE_TESTER') === true ? true : false), $this->app['config']['app.debug']);
+    }
+
+    /**
+     * @test
+     *
+     * @group phpunit-configuration
+     */
+    public function it_populate_expected_app_key_config()
+    {
+        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', $this->app['config']['app.key']);
     }
 
     /** @test */
@@ -24,6 +34,9 @@ class DefaultConfigurationTest extends TestCase
                 'foreign_key_constraints' => false,
             ], $config);
         });
+
+        $this->assertTrue($this->usesSqliteInMemoryDatabaseConnection('testing'));
+        $this->assertFalse($this->usesSqliteInMemoryDatabaseConnection('sqlite'));
     }
 
     /** @test */
