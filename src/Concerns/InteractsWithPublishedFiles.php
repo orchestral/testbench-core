@@ -63,7 +63,7 @@ trait InteractsWithPublishedFiles
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertFileNotContains(array $contains, string $file, string $message = ''): void
+    protected function assertFileDoesNotContains(array $contains, string $file, string $message = ''): void
     {
         $this->assertFilenameExists($file);
 
@@ -74,6 +74,16 @@ trait InteractsWithPublishedFiles
         foreach ($contains as $needle) {
             $this->assertStringNotContainsString($needle, $haystack, $message);
         }
+    }
+
+    /**
+     * Assert file doesn't contains data.
+     *
+     * @param  array<int, string>  $contains
+     */
+    protected function assertFileNotContains(array $contains, string $file, string $message = ''): void
+    {
+        $this->assertFileDoesNotContains($contains, $file, $message);
     }
 
     /**
@@ -95,13 +105,23 @@ trait InteractsWithPublishedFiles
      *
      * @param  array<int, string>  $contains
      */
-    protected function assertMigrationFileNotContains(array $contains, string $file, string $message = ''): void
+    protected function assertMigrationFileDoesNotContains(array $contains, string $file, string $message = ''): void
     {
         $haystack = $this->app['files']->get($this->getMigrationFile($file));
 
         foreach ($contains as $needle) {
             $this->assertStringNotContainsString($needle, $haystack, $message);
         }
+    }
+
+    /**
+     * Assert file doesn't contains data.
+     *
+     * @param  array<int, string>  $contains
+     */
+    protected function assertMigrationFileNotContains(array $contains, string $file, string $message = ''): void
+    {
+        $this->assertMigrationFileDoesNotContains($contains, $file, $message);
     }
 
     /**
@@ -117,11 +137,19 @@ trait InteractsWithPublishedFiles
     /**
      * Assert filename not exists.
      */
-    protected function assertFilenameNotExists(string $file): void
+    protected function assertFilenameDoesNotExists(string $file): void
     {
         $appFile = $this->app->basePath($file);
 
         $this->assertTrue(! $this->app['files']->exists($appFile), "Assert file {$file} doesn't exist");
+    }
+
+    /**
+     * Assert filename not exists.
+     */
+    protected function assertFilenameNotExists(string $file): void
+    {
+        $this->assertFilenameDoesNotExists($file);
     }
 
     /**
