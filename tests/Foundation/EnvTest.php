@@ -7,7 +7,11 @@ use Orchestra\Testbench\TestCase;
 
 class EnvTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     *
+     * @group phpunit-configuration
+     */
     public function it_can_correctly_forward_env_values()
     {
         $_ENV['TESTING_TRUE_EXAMPLE'] = true;
