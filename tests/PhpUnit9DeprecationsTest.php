@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests;
 
 use ErrorException;
-use Illuminate\Support\Facades\Log;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Orchestra\Testbench\TestCase;
 
@@ -14,24 +13,11 @@ use Orchestra\Testbench\TestCase;
  */
 class PhpUnit9DeprecationsTest extends TestCase
 {
-    /** @test */
-    public function handle_php81_deprecations_using_logs()
-    {
-        $this->expectException(DeprecatedException::class);
-
-        Log::shouldReceive('channel')
-            ->once()->with('deprecations')
-            ->andReturnSelf()
-            ->shouldReceive('warning')
-            ->once()
-            ->withArgs(function ($message) {
-                return strpos($message, 'zzz in') !== false;
-            });
-
-        trigger_error('zzz', E_USER_DEPRECATED);
-    }
-
-    /** @test */
+    /**
+     * @test
+     *
+     * @define-env defineConvertDeprecationsToExceptions
+     */
     public function handle_php81_deprecations_using_phpunit_exception()
     {
         $this->expectException(DeprecatedException::class);

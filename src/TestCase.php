@@ -4,10 +4,8 @@ namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
 use Illuminate\Support\Str;
-use PHPUnit\Framework\TestCase as PHPUnit;
-use Throwable;
 
-abstract class TestCase extends PHPUnit implements Contracts\TestCase
+abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
     use Concerns\Testing;
     use Testing\Concerns\InteractsWithAuthentication;
@@ -143,20 +141,5 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
 
         static::teardownAfterClassUsingWorkbench();
         static::teardownAfterClassUsingPHPUnit();
-    }
-
-    /**
-     * This method is called when a test method did not execute successfully.
-     *
-     * @param  \Throwable  $exception
-     * @return void
-     */
-    protected function onNotSuccessfulTest(Throwable $exception): void
-    {
-        parent::onNotSuccessfulTest(
-            ! \is_null(static::$latestResponse)
-                ? static::$latestResponse->transformNotSuccessfulException($exception)
-                : $exception
-        );
     }
 }

@@ -7,6 +7,17 @@ use Orchestra\Testbench\TestCase;
 class RequestTest extends TestCase
 {
     /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
+    }
+
+    /**
      * Define routes setup.
      *
      * @param  \Illuminate\Routing\Router  $router
@@ -14,9 +25,7 @@ class RequestTest extends TestCase
      */
     protected function defineRoutes($router)
     {
-        $router->get('hello', ['uses' => function () {
-            return 'hello world';
-        }]);
+        $router->get('hello', ['uses' => fn () => 'hello world']);
     }
 
     /**

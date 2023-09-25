@@ -15,14 +15,16 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - '8.0'
           - 8.1
           - 8.2
         phpunit:
-          - "^9.5.10"
+          - "10.1.x"
+        collision:
+          - "^7.4"
+        paratest:
+          - "^7.1.4"
         dependencies:
           - "highest"
-          - "lowest"
         experimental:
           - false
 
@@ -41,25 +43,27 @@ jobs:
 
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:~6.2" "brianium/paratest:~6.4" --dev --no-interaction --no-update
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations)
-        run: ./testbench package:test --parallel --exclude-group commander,database
+      - name: Execute tests (with deprecations on PHPUnit 10)
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database --no-coverage
+        env:
+          RAY_ENABLED: false
         if: matrix.dependencies == 'highest'
 
-      - name: Execute tests (without deprecations)
-        run: ./testbench package:test --parallel --exclude-group commander,deprecations,database
+      - name: Execute tests (without deprecations on PHPUnit 10)
+        run: ./testbench package:test --parallel --exclude-group commander,deprecations,without-parallel,database --no-coverage
         env:
+          RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.dependencies != 'highest'

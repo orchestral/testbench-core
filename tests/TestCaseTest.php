@@ -8,13 +8,18 @@ use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use PHPUnit\Framework\TestCase;
 
 use function Orchestra\Testbench\container;
+use function Orchestra\Testbench\phpunit_version_compare;
 
 class TestCaseTest extends TestCase
 {
     /** @test */
     public function it_can_create_the_testcase()
     {
-        $testbench = new class($this->getName()) extends \Orchestra\Testbench\TestCase
+        $methodName = phpunit_version_compare('10', '>=')
+            ? $this->name()
+            : $this->getName();
+
+        $testbench = new class($methodName) extends \Orchestra\Testbench\TestCase
         {
             //
         };

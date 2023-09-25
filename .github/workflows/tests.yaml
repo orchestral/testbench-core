@@ -7,7 +7,7 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  tests-on-phpunit-9:
+  tests:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
@@ -16,11 +16,13 @@ jobs:
           - "ubuntu-latest"
           - "windows-latest"
         php:
-          - "8.0"
-          - "8.1"
-          - "8.2"
+          - 8.1
+          - 8.2
+          - 8.3
         phpunit:
-          - "9.x"
+          - "~10.1.0"
+          - "~10.2.0"
+          - "~10.3.0"
         dependencies:
           - "highest"
           - "lowest"
@@ -56,10 +58,73 @@ jobs:
 
       - name: Execute tests (with deprecations)
         run: vendor/bin/phpunit
+        env:
+          RAY_ENABLED: false
         if: matrix.os != 'windows-latest'
 
       - name: Execute tests (without deprecations)
-        run: vendor/bin/phpunit --exclude-group=deprecations
+        run: vendor/bin/phpunit --exclude-group deprecations
         env:
+          RAY_ENABLED: false
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.os == 'windows-latest'
+
+  tests-without-configuration:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        os:
+          - "ubuntu-latest"
+          - "windows-latest"
+        php:
+          - 8.1
+          - 8.2
+        phpunit:
+          - "~10.0.0"
+          - "~9.6.0"
+        dependencies:
+          - "highest"
+          - "lowest"
+        experimental:
+          - false
+
+    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
+          coverage: none
+
+      - name: Install PHPUnit ${{ matrix.phpunit }}
+        run: |
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--prefer-dist --no-cache"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
+
+      - name: Execute tests (with deprecations)
+        run: vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
+        env:
+          RAY_ENABLED: false
+        if: matrix.os != 'windows-latest'
+
+      - name: Execute tests (without deprecations)
+        run: vendor/bin/phpunit --exclude-group deprecations --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php tests
+        env:
+          RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.os == 'windows-latest'

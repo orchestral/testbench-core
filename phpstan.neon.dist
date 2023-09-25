@@ -15,6 +15,7 @@ parameters:
     - src/Exceptions/DeprecatedException.php
     - src/Exceptions/PHPUnitErrorException.php
     - src/Foundation/Console/TestCommand.php
+    - src/PHPUnit/TestCase.php
 
   checkGenericClassInNonGenericObjectType: false
   checkMissingIterableValueType: false

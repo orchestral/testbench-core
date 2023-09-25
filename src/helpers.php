@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
+use Orchestra\Testbench\Foundation\Config;
 use PHPUnit\Runner\Version;
 use RuntimeException;
 
@@ -17,10 +18,26 @@ use RuntimeException;
  * @param  string|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
  * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  \Orchestra\Testbench\Foundation\Config|null  $config
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
-{
+function container(
+    ?string $basePath = null,
+    ?callable $resolvingCallback = null,
+    array $options = [],
+    ?Config $config = null
+): Foundation\Application {
+    if ($config instanceof Config) {
+        $hasEnvironmentFile = ! \is_null($config['laravel'])
+            ? file_exists($config['laravel'].'/.env')
+            : (! \is_null($basePath) && file_exists("{$basePath}/.env"));
+
+        return (new Foundation\Application($config['laravel'] ?? $basePath, $resolvingCallback))->configure(array_merge($options, [
+            'load_environment_variables' => $hasEnvironmentFile,
+            'extra' => $config->getExtraAttributes(),
+        ]));
+    }
+
     return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
 }
 
@@ -162,11 +179,14 @@ function workbench_path(string $path = ''): string
  */
 function laravel_version_compare(string $version, ?string $operator = null)
 {
+    /** @phpstan-ignore-next-line */
+    $laravel = Application::VERSION === '10.x-dev' ? '10.0.0' : Application::VERSION;
+
     if (\is_null($operator)) {
-        return version_compare(Application::VERSION, $version);
+        return version_compare($laravel, $version);
     }
 
-    return version_compare(Application::VERSION, $version, $operator);
+    return version_compare($laravel, $version, $operator);
 }
 
 /**

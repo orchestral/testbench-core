@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * @property bool|null $enablesPackageDiscoveries
@@ -345,7 +344,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationBootstrappers($app)
     {
-        if ($this instanceof PHPUnitTestCase) {
+        if ($this->isRunningTestCase()) {
             $app->make('Orchestra\Testbench\Bootstrap\HandleExceptions', ['testbench' => $this])->bootstrap($app);
         } else {
             $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);

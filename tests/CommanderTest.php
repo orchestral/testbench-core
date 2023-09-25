@@ -140,7 +140,7 @@ class CommanderTest extends TestCase
             $this->assertSame([
                 '2013_07_26_182750_create_testbench_users_table',
                 '2014_10_12_000000_testbench_create_users_table',
-                '2014_10_12_100000_testbench_create_password_resets_table',
+                '2014_10_12_100000_testbench_create_password_reset_tokens_table',
                 '2019_08_19_000000_testbench_create_failed_jobs_table',
             ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });
