@@ -29,7 +29,7 @@ class DefaultConfigurationTest extends TestCase
             ], $config);
         });
 
-        $this->assertTrue($this->usesSqliteInMemoryDatabaseConnection());
+        $this->assertTrue($this->usesSqliteInMemoryDatabaseConnection('testing'));
         $this->assertFalse($this->usesSqliteInMemoryDatabaseConnection('sqlite'));
     }
 
