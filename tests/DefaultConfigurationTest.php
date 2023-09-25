@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Illuminate\Support\Env;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 
 class DefaultConfigurationTest extends TestCase
