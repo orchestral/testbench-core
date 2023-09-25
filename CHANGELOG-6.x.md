@@ -9,6 +9,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Added `cachedConfigurationForWorkbench()` to `Orchestra\Testbench\Concern\InteractsWithWorkbench` trait.
 * Add ability to read `TESTBENCH_WORKING_PATH` from environment variables for Testbench Dusk usage.
 * Supports Workbench `discovers` configuration.
+* Add ability to properly forward Environment Variables.
 
 ## 6.38.2
 
