@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Config;
+use Orchestra\Testbench\Foundation\Env;
 
 trait InteractsWithWorkbench
 {
