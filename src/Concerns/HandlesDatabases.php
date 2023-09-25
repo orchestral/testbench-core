@@ -47,6 +47,23 @@ trait HandlesDatabases
     }
 
     /**
+     * Determine if using in-memory SQLite database connection
+     *
+     * @param  string|null  $connection
+     * @return bool
+     */
+    protected function usesSqliteInMemoryDatabaseConnection(?string $connection = null): bool
+    {
+        $app = $this->app;
+
+        $connection = ! is_null($connection) ? $connection : $app['config']->get('database.default');
+
+        $database = $app['config']->get("database.connections.{$connection}");
+
+        return ! is_null($database) && $database['driver'] === 'sqlite' && $database['database'] == ':memory:';
+    }
+
+    /**
      * Define database migrations.
      *
      * @return void
