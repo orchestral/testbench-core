@@ -28,6 +28,9 @@ class DefaultConfigurationTest extends TestCase
                 'foreign_key_constraints' => false,
             ], $config);
         });
+
+        $this->assertTrue($this->usesSqliteInMemoryDatabaseConnection());
+        $this->assertFalse($this->usesSqliteInMemoryDatabaseConnection('sqlite'));
     }
 
     /** @test */
