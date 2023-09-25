@@ -3,9 +3,9 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
+use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\package_path;
 
@@ -47,6 +47,18 @@ class TestCommand extends Command
         if (! \defined('TESTBENCH_WORKING_PATH')) {
             $this->setHidden(true);
         }
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        Env::enablePutenv();
+
+        return parent::handle();
     }
 
     /**
@@ -111,8 +123,8 @@ class TestCommand extends Command
     protected function phpunitEnvironmentVariables()
     {
         return array_merge([
-            'APP_KEY' => Env::get('APP_KEY'),
-            'APP_DEBUG' => Env::get('APP_DEBUG'),
+            'APP_KEY' => Env::forward('APP_KEY'),
+            'APP_DEBUG' => Env::forward('APP_DEBUG'),
             'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
@@ -128,8 +140,8 @@ class TestCommand extends Command
     protected function paratestEnvironmentVariables()
     {
         return array_merge([
-            'APP_KEY' => Env::get('APP_KEY'),
-            'APP_DEBUG' => Env::get('APP_DEBUG'),
+            'APP_KEY' => Env::forward('APP_KEY'),
+            'APP_DEBUG' => Env::forward('APP_DEBUG'),
             'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
