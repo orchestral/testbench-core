@@ -19,12 +19,18 @@ class AssertPublishedFilesTest extends TestCase
         $this->assertFileDoesNotContains([
             "orchestra/workbench",
         ], 'composer.json');
+
+        $this->assertFileNotContains([
+            "orchestra/workbench",
+        ], 'composer.json');
     }
 
     /** @test */
     public function it_can_test_assert_file_exists()
     {
         $this->assertFilenameExists('composer.json');
+
         $this->assertFilenameDoesNotExists('composer.lock');
+        $this->assertFilenameNotExists('composer.lock');
     }
 }
