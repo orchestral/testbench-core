@@ -42,7 +42,6 @@ class AssertPublishedFilesTest extends TestCase
             'Schema::create(\'users\', function (Blueprint $table) {',
         ], 'testbench_create_users_table.php', directory: 'migrations');
 
-
         $this->assertMigrationFileDoesNotContains([
             'class TestbenchCreateUsersTable extends Migration',
         ], 'testbench_create_users_table.php', directory: 'migrations');
