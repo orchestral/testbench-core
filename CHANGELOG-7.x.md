@@ -2,7 +2,6 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-<<<<<<< HEAD
 ## Unreleased
 
 ### Added
@@ -11,7 +10,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Add ability to read `TESTBENCH_WORKING_PATH` from environment variables for Testbench Dusk usage.
 * Supports Workbench `discovers` configuration.
 * Add ability to properly forward Environment Variables.
-=======
+
 ## 7.31.3
 
 Released: 2023-09-25
@@ -19,7 +18,6 @@ Released: 2023-09-25
 ### Fixes
 
 * Fixes deferring Laravel Migrations when TestCase uses `Illuminate\Foundation\Testing\RefreshDatabase`.
->>>>>>> patch-release
 
 ## 7.31.2
 
@@ -27,7 +25,7 @@ Released: 2023-09-21
 
 ### Changes
 
-* Allow to defer running Laravel Migrations when TestCase also uses `Illuminate\Foundation\Testing\RefreshDatabase`.
+* Allow deferring Laravel Migrations when TestCase also uses `Illuminate\Foundation\Testing\RefreshDatabase` or `Illuminate\Foundation\Testing\LazilyRefreshDatabase`.
 
 ## 7.31.1
 
