@@ -176,7 +176,7 @@ class Config extends Fluent implements ConfigContract
         $filename = $filename ?? 'testbench.yaml';
         $config = $defaults;
 
-        $filename = LazyCollection::make(function () use ($filename) {
+        $filename = LazyCollection::make(static function () use ($filename) {
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";

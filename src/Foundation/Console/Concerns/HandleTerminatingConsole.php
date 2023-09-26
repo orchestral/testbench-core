@@ -32,7 +32,7 @@ trait HandleTerminatingConsole
     protected function handleTerminatingConsole(): void
     {
         Collection::make($this->beforeTerminatingCallbacks)
-            ->each(function ($callback) {
+            ->each(static function ($callback) {
                 \call_user_func($callback);
             });
     }
