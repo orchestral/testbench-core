@@ -151,7 +151,7 @@ class Commander
      */
     protected function resolveApplicationCallback()
     {
-        return function ($app) {
+        return static function ($app) {
             $app->register(TestbenchServiceProvider::class);
         };
     }
