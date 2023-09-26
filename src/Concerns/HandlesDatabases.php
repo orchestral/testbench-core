@@ -56,11 +56,11 @@ trait HandlesDatabases
     {
         $app = $this->app;
 
-        $connection = ! is_null($connection) ? $connection : $app['config']->get('database.default');
+        $connection = ! \is_null($connection) ? $connection : $app['config']->get('database.default');
 
         $database = $app['config']->get("database.connections.{$connection}");
 
-        return ! is_null($database) && $database['driver'] === 'sqlite' && $database['database'] == ':memory:';
+        return ! \is_null($database) && $database['driver'] === 'sqlite' && $database['database'] == ':memory:';
     }
 
     /**

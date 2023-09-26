@@ -13,15 +13,15 @@ class AssertPublishedFilesTest extends TestCase
     public function it_can_test_assert_file_contains()
     {
         $this->assertFileContains([
-            "laravel/laravel",
+            'laravel/laravel',
         ], 'composer.json');
 
         $this->assertFileDoesNotContains([
-            "orchestra/workbench",
+            'orchestra/workbench',
         ], 'composer.json');
 
         $this->assertFileNotContains([
-            "orchestra/workbench",
+            'orchestra/workbench',
         ], 'composer.json');
     }
 
