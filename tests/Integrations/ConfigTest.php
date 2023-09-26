@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests;
+namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Support\Facades\Config;
 use Orchestra\Testbench\TestCase;
