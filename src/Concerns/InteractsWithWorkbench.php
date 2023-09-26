@@ -97,7 +97,7 @@ trait InteractsWithWorkbench
                 $workingPath = Env::get('TESTBENCH_WORKING_PATH');
             }
 
-            static::$cachedConfigurationForWorkbench = Config::loadFromYaml($workingPath);
+            static::$cachedConfigurationForWorkbench = Config::cacheFromYaml($workingPath);
         }
 
         return static::$cachedConfigurationForWorkbench;

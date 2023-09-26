@@ -122,6 +122,13 @@ class Config extends Fluent implements ConfigContract
     ];
 
     /**
+     * The cached configuration used during tests.
+     * 
+     * @var static|null
+     */
+    protected static $cachedConfiguration;
+
+    /**
      * Load configuration from Yaml file.
      *
      * @param  string  $workingPath
@@ -160,6 +167,23 @@ class Config extends Fluent implements ConfigContract
         }
 
         return new static($config);
+    }
+
+    /**
+     * Load (and cache) configuration from Yaml file.
+     * 
+     * @param  string  $workingPath
+     * @param  string|null  $filename
+     * @param  array<string, mixed>  $defaults
+     * @return static
+     */
+    public static function cacheFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
+    {
+        if (\is_null(static::$cachedConfiguration)) {
+            static::$cachedConfiguration = static::loadFromYaml($workingPath, $filename, $defaults);
+        }
+
+        return static::$cachedConfiguration;
     }
 
     /**
