@@ -68,6 +68,8 @@ class Application
      * @param  string|null  $basePath
      * @param  string  $workingVendorPath
      * @return \Illuminate\Foundation\Application
+     *
+     * @codeCoverageIgnore
      */
     public static function createVendorSymlink(?string $basePath, string $workingVendorPath)
     {

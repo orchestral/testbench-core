@@ -176,6 +176,8 @@ class Config extends Fluent implements ConfigContract
      * @param  string|null  $filename
      * @param  array<string, mixed>  $defaults
      * @return static
+     *
+     * @codeCoverageIgnore
      */
     public static function cacheFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
