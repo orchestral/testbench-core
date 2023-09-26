@@ -86,7 +86,9 @@ class PurgeSkeletonCommand extends Command
                         ? [...$filesystem->glob($directory)]
                         : $directory;
                 })->flatten()
-                ->reject(fn ($directory) => str_contains($directory, '*'))
+                ->reject(static function ($directory) {
+                    return str_contains($directory, '*');
+                })
         );
 
         return Command::SUCCESS;

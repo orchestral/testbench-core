@@ -24,9 +24,11 @@ trait CopyTestbenchFiles
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
             yield 'testbench.yaml.dist';
-        })->map(fn ($file) => "{$workingPath}/{$file}")
-            ->filter(fn ($file) => $filesystem->exists($file))
-            ->first();
+        })->map(static function ($file) use ($workingPath) {
+            return "{$workingPath}/{$file}";
+        })->filter(static function ($file) use ($filesystem) {
+            return $filesystem->exists($file);
+        })->first();
 
         $testbenchFile = $app->basePath('testbench.yaml');
 

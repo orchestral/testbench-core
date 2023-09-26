@@ -35,8 +35,11 @@ trait HandlesConnections
 
                     /** @var mixed $configuration */
                     $configuration = Collection::make(Arr::wrap($value))
-                        ->transform(fn ($value) => env("{$keyword}_{$value}"))
-                        ->first(fn ($value) => ! \is_null($value)) ?? $config->get($name);
+                        ->transform(static function ($value) use ($keyword) {
+                            return env("{$keyword}_{$value}");
+                        })->first(static function ($value) {
+                            return ! \is_null($value);
+                        }) ?? $config->get($name);
 
                     return [
                         "{$name}" => $configuration,

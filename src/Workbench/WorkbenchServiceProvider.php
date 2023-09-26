@@ -39,7 +39,7 @@ class WorkbenchServiceProvider extends ServiceProvider
         Route::group(array_filter([
             'prefix' => '_workbench',
             'middleware' => 'web',
-        ]), function (Router $router) {
+        ]), static function (Router $router) {
             $router->get(
                 '/', [Http\Controllers\WorkbenchController::class, 'start']
             )->name('workbench.start');

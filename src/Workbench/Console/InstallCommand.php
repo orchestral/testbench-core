@@ -166,8 +166,9 @@ class InstallCommand extends Command
             $this->environmentFile,
             "{$this->environmentFile}.example",
             "{$this->environmentFile}.dist",
-        ])->filter(fn ($file) => ! $filesystem->exists("{$workingPath}/{$file}"))
-            ->values()
+        ])->reject(static function ($file) use ($filesystem, $workingPath) {
+            return $filesystem->exists("{$workingPath}/{$file}");
+        })->values()
             ->prepend('Skip exporting .env')
             ->all();
 

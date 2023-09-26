@@ -180,8 +180,9 @@ class Config extends Fluent implements ConfigContract
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";
-        })->filter(fn ($file) => file_exists($workingPath.DIRECTORY_SEPARATOR.$file))
-            ->first();
+        })->filter(static function ($file) use ($workingPath) {
+            return file_exists($workingPath.DIRECTORY_SEPARATOR.$file);
+        })->first();
 
         if (! \is_null($filename)) {
             /**
@@ -191,7 +192,7 @@ class Config extends Fluent implements ConfigContract
              */
             $config = Yaml::parseFile($workingPath.DIRECTORY_SEPARATOR.$filename);
 
-            $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
+            $config['laravel'] = transform(Arr::get($config, 'laravel'), static function ($path) use ($workingPath) {
                 return transform_relative_path($path, $workingPath);
             });
 
