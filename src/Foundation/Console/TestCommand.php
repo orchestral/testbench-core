@@ -75,8 +75,9 @@ class TestCommand extends Command
         return Collection::make([
             package_path('/'.$configurationFile),
             package_path('/'.$configurationFile.'.dist'),
-        ])->filter(fn ($path) => file_exists($path))
-            ->first() ?? './';
+        ])->filter(static function ($path) {
+            return file_exists($path);
+        })->first() ?? './';
     }
 
     /**
@@ -90,8 +91,9 @@ class TestCommand extends Command
         $file = $this->phpUnitConfigurationFile();
 
         return Collection::make(parent::phpunitArguments($options))
-            ->reject(fn ($option) => Str::startsWith($option, ['--configuration=']))
-            ->merge(["--configuration={$file}"])
+            ->reject(static function ($option) {
+                return Str::startsWith($option, ['--configuration=']);
+            })->merge(["--configuration={$file}"])
             ->all();
     }
 
@@ -106,12 +108,12 @@ class TestCommand extends Command
         $file = $this->phpUnitConfigurationFile();
 
         return Collection::make(parent::paratestArguments($options))
-            ->reject(fn (string $option) => Str::startsWith($option, ['--configuration=', '--runner=']))
-            ->merge([
+            ->reject(static function (string $option) {
+                return Str::startsWith($option, ['--configuration=', '--runner=']);
+            })->merge([
                 "--configuration={$file}",
                 "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
-            ])
-            ->all();
+            ])->all();
     }
 
     /**

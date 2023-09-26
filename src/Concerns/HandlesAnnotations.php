@@ -20,8 +20,9 @@ trait HandlesAnnotations
     {
         $this->resolvePhpUnitAnnotations()
             ->lazy()
-            ->filter(fn ($actions, string $key) => $key === $name && ! empty($actions))
-            ->flatten()
+            ->filter(static function ($actions, string $key) use ($name) {
+                return $key === $name && ! empty($actions);
+            })->flatten()
             ->filter(fn ($method) => \is_string($method) && method_exists($this, $method))
             ->each($callback ?? function ($method) use ($app) {
                 $this->{$method}($app);
