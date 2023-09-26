@@ -95,9 +95,7 @@ trait InteractsWithWorkbench
                 default => getcwd(),
             };
 
-            $config = Config::loadFromYaml($workingPath);
-
-            static::$cachedConfigurationForWorkbench = $config;
+            static::$cachedConfigurationForWorkbench = Config::loadFromYaml($workingPath);
         }
 
         return static::$cachedConfigurationForWorkbench;
@@ -112,6 +110,7 @@ trait InteractsWithWorkbench
      */
     public static function setupBeforeClassUsingWorkbench(): void
     {
+        /** @var array{laravel: string|null} $config */
         $config = static::cachedConfigurationForWorkbench();
 
         if (
@@ -131,6 +130,8 @@ trait InteractsWithWorkbench
      */
     public static function teardownAfterClassUsingWorkbench(): void
     {
+        static::$cachedConfigurationForWorkbench = null;
+
         unset($_ENV['TESTBENCH_APP_BASE_PATH']);
     }
 }
