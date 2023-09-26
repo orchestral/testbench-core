@@ -5,12 +5,17 @@ $workingPath = getcwd();
 
 require __DIR__.'/../vendor/autoload.php';
 
+$input = new Symfony\Component\Console\Input\ArgvInput();
 $files = new Illuminate\Filesystem\Filesystem();
 
+// $version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '11.x-dev' : '^11.0';
+$version = 'dev-slim-skeleton-11.x';
+
+$files->delete("{$workingPath}/laravel/.env");
 $files->deleteDirectory("{$workingPath}/skeleton");
 
 Symfony\Component\Process\Process::fromShellCommandline(
-    'composer create-project "laravel/laravel:dev-slim-skeleton-11.x" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
+    'composer create-project "laravel/laravel:'.$version.'" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
 )->mustRun();
 
 Illuminate\Support\Collection::make([

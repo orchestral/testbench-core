@@ -77,7 +77,7 @@
             "@php vendor/bin/phpstan analyse"
         ],
         "test": [
-            "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --color tests"
+            "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --exclude-group phpunit-configuration --color tests"
         ]
     },
     "config": {

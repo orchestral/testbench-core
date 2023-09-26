@@ -32,7 +32,7 @@ final class StartWorkbench
      */
     public function bootstrap(Application $app): void
     {
-        $app->instance(Config::class, $this->config);
+        $app->singleton(Config::class, fn () => $this->config);
 
         if ($this->loadWorkbenchProviders === true && class_exists(WorkbenchServiceProvider::class)) {
             $app->register(WorkbenchServiceProvider::class);

@@ -10,7 +10,9 @@ use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
@@ -331,6 +333,27 @@ trait Testing
                     $this->callbackException = $e;
                 }
             }
+        }
+    }
+
+    /**
+     * Clean up the testing environment before the next test case.
+     *
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    public static function teardownAfterClassUsingLaravel(): void
+    {
+        static::$latestResponse = null;
+
+        if (
+            static::usesTestingConcern(RefreshDatabase::class)
+            || static::usesTestingConcern(LazilyRefreshDatabase::class)
+        ) {
+            RefreshDatabaseState::$inMemoryConnections = [];
+            RefreshDatabaseState::$migrated = false;
+            RefreshDatabaseState::$lazilyRefreshed = false;
         }
     }
 

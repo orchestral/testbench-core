@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Dotenv\Dotenv;
-use Illuminate\Support\Env;
+use Orchestra\Testbench\Foundation\Env;
 
 final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables
 {
