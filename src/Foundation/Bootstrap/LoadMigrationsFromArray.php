@@ -74,10 +74,10 @@ final class LoadMigrationsFromArray
 
                 collect(Arr::wrap($this->seeders))
                     ->flatten()
-                    ->filter(function ($seederClass) {
+                    ->filter(static function ($seederClass) {
                         return ! \is_null($seederClass) && class_exists($seederClass);
                     })
-                    ->each(function ($seederClass) use ($app) {
+                    ->each(static function ($seederClass) use ($app) {
                         $app->make(ConsoleKernel::class)->call('db:seed', [
                             '--class' => $seederClass,
                         ]);
@@ -95,11 +95,11 @@ final class LoadMigrationsFromArray
     {
         $paths = Collection::make(
             ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
-        )->when($this->includesDefaultMigrations($app), function ($migrations) use ($app) {
+        )->when($this->includesDefaultMigrations($app), static function ($migrations) use ($app) {
             return $migrations->push($app->basePath('migrations'));
-        })->filter(function ($migration) {
+        })->filter(static function ($migration) {
             return \is_string($migration);
-        })->transform(function ($migration) use ($app) {
+        })->transform(static function ($migration) use ($app) {
             return transform_relative_path($migration, $app->basePath());
         })->all();
 

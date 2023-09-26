@@ -267,7 +267,7 @@ trait CreatesApplication
 
         tap($app['config'], function ($config) use ($app) {
             if (! $app->bound('env')) {
-                $app->detectEnvironment(function () use ($config) {
+                $app->detectEnvironment(static function () use ($config) {
                     return $config->get('app.env', 'workbench');
                 });
             }
@@ -291,7 +291,7 @@ trait CreatesApplication
         Facade::setFacadeApplication($app);
 
         if ($this->isRunningTestCase()) {
-            $app->detectEnvironment(function () {
+            $app->detectEnvironment(static function () {
                 return 'testing';
             });
         }

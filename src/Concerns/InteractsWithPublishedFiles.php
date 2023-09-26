@@ -185,7 +185,7 @@ trait InteractsWithPublishedFiles
     {
         $this->app['files']->delete(
             Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
-                ->filter(function ($file) {
+                ->filter(static function ($file) {
                     return Str::endsWith($file, '.php');
                 })->all()
         );

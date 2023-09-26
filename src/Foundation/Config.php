@@ -123,7 +123,7 @@ class Config extends Fluent implements ConfigContract
 
     /**
      * The cached configuration used during tests.
-     * 
+     *
      * @var static|null
      */
     protected static $cachedConfiguration;
@@ -141,11 +141,11 @@ class Config extends Fluent implements ConfigContract
         $filename = $filename ?? 'testbench.yaml';
         $config = $defaults;
 
-        $filename = LazyCollection::make(function () use ($filename) {
+        $filename = LazyCollection::make(static function () use ($filename) {
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";
-        })->filter(function ($file) use ($workingPath) {
+        })->filter(static function ($file) use ($workingPath) {
             return file_exists($workingPath.DIRECTORY_SEPARATOR.$file);
         })->first();
 
@@ -171,7 +171,7 @@ class Config extends Fluent implements ConfigContract
 
     /**
      * Load (and cache) configuration from Yaml file.
-     * 
+     *
      * @param  string  $workingPath
      * @param  string|null  $filename
      * @param  array<string, mixed>  $defaults

@@ -67,11 +67,11 @@ function default_environment_variables(): array
         Collection::make([
             'APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
             'APP_DEBUG' => true,
-        ])->when(! \defined('TESTBENCH_DUSK'), function ($variables) {
+        ])->when(! \defined('TESTBENCH_DUSK'), static function ($variables) {
             return $variables->put('DB_CONNECTION', 'testing');
-        })->transform(function ($value, $key) {
+        })->transform(static function ($value, $key) {
             return $_SERVER[$key] ?? $_ENV[$key] ?? $value;
-        })->filter(function ($value) {
+        })->filter(static function ($value) {
             return ! \is_null($value);
         })
     );
@@ -86,7 +86,7 @@ function default_environment_variables(): array
 function parse_environment_variables($variables): array
 {
     return Collection::make($variables)
-        ->transform(function ($value, $key) {
+        ->transform(static function ($value, $key) {
             if (\is_bool($value) || \in_array($value, ['true', 'false'])) {
                 $value = \in_array($value, [true, 'true']) ? '(true)' : '(false)';
             } elseif (\is_null($value) || \in_array($value, ['null'])) {

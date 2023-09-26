@@ -184,7 +184,7 @@ class Application
     {
         Env::disablePutenv();
 
-        $app->terminating(function () {
+        $app->terminating(static function () {
             Env::enablePutenv();
         });
 

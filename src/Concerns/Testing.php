@@ -199,7 +199,7 @@ trait Testing
         Collection::make($uses)
             ->reject(function ($use) {
                 return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
-            })->transform(function ($use) {
+            })->transform(static function ($use) {
                 return class_basename($use);
             })->each(function ($traitBaseName) {
                 /** @var string $traitBaseName */
