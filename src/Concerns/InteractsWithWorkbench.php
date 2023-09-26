@@ -88,17 +88,13 @@ trait InteractsWithWorkbench
      */
     public static function cachedConfigurationForWorkbench()
     {
-        if (\is_null(static::$cachedConfigurationForWorkbench)) {
-            $workingPath = match (true) {
+        return static::$cachedConfigurationForWorkbench ??= Config::cacheFromYaml(
+            match (true) {
                 \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
                 ! \is_null(Env::get('TESTBENCH_WORKING_PATH')) => Env::get('TESTBENCH_WORKING_PATH'),
                 default => getcwd(),
-            };
-
-            static::$cachedConfigurationForWorkbench = Config::cacheFromYaml($workingPath);
-        }
-
-        return static::$cachedConfigurationForWorkbench;
+            }
+        );
     }
 
     /**

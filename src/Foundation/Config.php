@@ -213,11 +213,7 @@ class Config extends Fluent implements ConfigContract
      */
     public static function cacheFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
-        if (\is_null(static::$cachedConfiguration)) {
-            static::$cachedConfiguration = static::loadFromYaml($workingPath, $filename, $defaults);
-        }
-
-        return static::$cachedConfiguration;
+        return static::$cachedConfiguration ??= static::loadFromYaml($workingPath, $filename, $defaults);
     }
 
     /**
