@@ -224,7 +224,7 @@ trait Testing
             $this->setUpFaker();
         }
 
-        LazyCollection::make(function () use ($uses) {
+        LazyCollection::make(static function () use ($uses) {
             foreach ($uses as $use) {
                 yield $use;
             }
@@ -232,7 +232,7 @@ trait Testing
             ->reject(function ($use) {
                 /** @var class-string $use */
                 return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
-            })->map(function ($use) {
+            })->map(static function ($use) {
                 /** @var class-string $use */
                 return class_basename($use);
             })->each(function ($traitBaseName) {

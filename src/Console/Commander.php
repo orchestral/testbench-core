@@ -212,7 +212,7 @@ class Commander
      */
     protected function prepareCommandSignals(): void
     {
-        Signals::resolveAvailabilityUsing(function () {
+        Signals::resolveAvailabilityUsing(static function () {
             return \extension_loaded('pcntl');
         });
 

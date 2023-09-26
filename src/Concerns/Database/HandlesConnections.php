@@ -30,7 +30,7 @@ trait HandlesConnections
 
         $config->set(
             Collection::make($options)
-                ->mapWithKeys(function ($value, $key) use ($driver, $keyword, $config) {
+                ->mapWithKeys(static function ($value, $key) use ($driver, $keyword, $config) {
                     $name = "database.connections.{$driver}.{$key}";
 
                     /** @var mixed $configuration */

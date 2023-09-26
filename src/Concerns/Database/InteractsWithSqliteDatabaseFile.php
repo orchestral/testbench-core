@@ -45,7 +45,7 @@ trait InteractsWithSqliteDatabaseFile
      */
     protected function withSqliteDatabase(callable $callback): void
     {
-        $this->withoutSqliteDatabase(function () use ($callback) {
+        $this->withoutSqliteDatabase(static function () use ($callback) {
             $filesystem = new Filesystem();
 
             $database = database_path('database.sqlite');

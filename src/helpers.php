@@ -94,7 +94,7 @@ function default_environment_variables(): array
 function parse_environment_variables($variables): array
 {
     return Collection::make($variables)
-        ->transform(function ($value, $key) {
+        ->transform(static function ($value, $key) {
             if (\is_bool($value) || \in_array($value, ['true', 'false'])) {
                 $value = \in_array($value, [true, 'true']) ? '(true)' : '(false)';
             } elseif (\is_null($value) || \in_array($value, ['null'])) {

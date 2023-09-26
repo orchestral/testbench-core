@@ -66,7 +66,7 @@ class PurgeSkeletonCommand extends Command
         ))->handle(
             LazyCollection::make($files)
                 ->map(fn ($file) => $this->laravel->basePath($file))
-                ->map(function ($file) use ($filesystem) {
+                ->map(static function ($file) use ($filesystem) {
                     return str_contains($file, '*')
                         ? [...$filesystem->glob($file)]
                         : $file;
@@ -81,7 +81,7 @@ class PurgeSkeletonCommand extends Command
         ))->handle(
             Collection::make($directories)
                 ->map(fn ($directory) => $this->laravel->basePath($directory))
-                ->map(function ($directory) use ($filesystem) {
+                ->map(static function ($directory) use ($filesystem) {
                     return str_contains($directory, '*')
                         ? [...$filesystem->glob($directory)]
                         : $directory;
