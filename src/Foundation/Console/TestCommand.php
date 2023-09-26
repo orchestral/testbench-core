@@ -130,7 +130,7 @@ class TestCommand extends Command
             'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
-            'APP_BASE_PATH' => $this->laravel->basePath(),
+            'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::phpunitEnvironmentVariables());
     }
 
@@ -147,7 +147,7 @@ class TestCommand extends Command
             'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
-            'APP_BASE_PATH' => $this->laravel->basePath(),
+            'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::paratestEnvironmentVariables());
     }
 
