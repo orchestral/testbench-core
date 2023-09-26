@@ -19,6 +19,8 @@ final class ConfigureRay
      *
      * @param  TLaravel  $app
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function bootstrap(Application $app): void
     {
