@@ -95,7 +95,7 @@ trait InteractsWithWorkbench
                 default => getcwd(),
             };
 
-            static::$cachedConfigurationForWorkbench = Config::loadFromYaml($workingPath);
+            static::$cachedConfigurationForWorkbench = Config::cacheFromYaml($workingPath);
         }
 
         return static::$cachedConfigurationForWorkbench;
