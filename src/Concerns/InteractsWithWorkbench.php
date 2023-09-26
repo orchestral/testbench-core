@@ -132,6 +132,8 @@ trait InteractsWithWorkbench
      */
     public static function teardownAfterClassUsingWorkbench(): void
     {
+        static::$cachedConfigurationForWorkbench = null;
+
         unset($_ENV['TESTBENCH_APP_BASE_PATH']);
     }
 }
