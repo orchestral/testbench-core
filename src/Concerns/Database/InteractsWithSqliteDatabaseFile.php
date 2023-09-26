@@ -69,6 +69,8 @@ trait InteractsWithSqliteDatabaseFile
      * @afterClass
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function cleanupBackupSqliteDatabaseFilesOnFailed()
     {
