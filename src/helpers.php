@@ -79,6 +79,8 @@ function after_resolving(ApplicationContract $app, string $name, ?Closure $callb
  * @return array<int, string>
  *
  * @deprecated
+ *
+ * @codeCoverageIgnore
  */
 function default_environment_variables(): array
 {
