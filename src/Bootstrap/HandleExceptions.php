@@ -50,7 +50,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      */
     protected function ensureDeprecationLoggerIsConfigured()
     {
-        with(self::$app->make('config'), function ($config) {
+        with(self::$app->make('config'), static function ($config) {
             /** @var \Illuminate\Contracts\Config\Repository $config */
             if ($config->get('logging.channels.deprecations')) {
                 return;
@@ -67,7 +67,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
             if ($driver === 'single') {
                 $config->set('logging.channels.deprecations', array_merge($config->get('logging.channels.single'), [
-                    'path' => static::$app->storagePath('logs/deprecations.log'),
+                    'path' => self::$app->storagePath('logs/deprecations.log'),
                 ]));
             } else {
                 $config->set('logging.channels.deprecations', $config->get("logging.channels.{$driver}"));

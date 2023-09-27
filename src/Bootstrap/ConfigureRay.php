@@ -19,10 +19,12 @@ final class ConfigureRay
      *
      * @param  TLaravel  $app
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function bootstrap(Application $app): void
     {
-        after_resolving($app, Settings::class, function ($settings, $app) {
+        after_resolving($app, Settings::class, static function ($settings, $app) {
             /** @var \Spatie\Ray\Settings\Settings $settings */
             /** @var \Illuminate\Contracts\Config\Repository $config */
             $config = $app->make('config');

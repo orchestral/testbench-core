@@ -20,20 +20,22 @@ trait CopyTestbenchFiles
      */
     protected function copyTestbenchConfigurationFile(Application $app, Filesystem $filesystem, string $workingPath): void
     {
-        $configurationFile = LazyCollection::make(function () {
+        $configurationFile = LazyCollection::make(static function () {
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
             yield 'testbench.yaml.dist';
-        })->map(fn ($file) => "{$workingPath}/{$file}")
-            ->filter(fn ($file) => $filesystem->exists($file))
-            ->first();
+        })->map(static function ($file) use ($workingPath) {
+            return "{$workingPath}/{$file}";
+        })->filter(static function ($file) use ($filesystem) {
+            return $filesystem->exists($file);
+        })->first();
 
         $testbenchFile = $app->basePath('testbench.yaml');
 
         if ($filesystem->exists($testbenchFile)) {
             $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
 
-            $this->beforeTerminating(function () use ($filesystem, $testbenchFile) {
+            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
                 if ($filesystem->exists("{$testbenchFile}.backup")) {
                     $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
                 }
@@ -43,7 +45,7 @@ trait CopyTestbenchFiles
         if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $testbenchFile);
 
-            $this->beforeTerminating(function () use ($filesystem, $testbenchFile) {
+            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
                 if ($filesystem->exists($testbenchFile)) {
                     $filesystem->delete($testbenchFile);
                 }
@@ -78,19 +80,20 @@ trait CopyTestbenchFiles
         }
 
         $environmentFile = $app->basePath('.env');
+        $environmentFileBackup = "{$this->environmentFile}.backup";
 
         if ($filesystem->exists($environmentFile)) {
-            $filesystem->copy($environmentFile, "{$this->environmentFile}.backup");
+            $filesystem->copy($environmentFile, $environmentFileBackup);
 
-            $this->beforeTerminating(function () use ($filesystem, $environmentFile) {
-                $filesystem->move("{$this->environmentFile}.backup", $environmentFile);
+            $this->beforeTerminating(static function () use ($filesystem, $environmentFile, $environmentFileBackup) {
+                $filesystem->move($environmentFileBackup, $environmentFile);
             });
         }
 
         if (! \is_null($configurationFile) && ! $filesystem->exists($environmentFile)) {
             $filesystem->copy($configurationFile, $environmentFile);
 
-            $this->beforeTerminating(function () use ($filesystem, $environmentFile) {
+            $this->beforeTerminating(static function () use ($filesystem, $environmentFile) {
                 $filesystem->delete($environmentFile);
             });
         }

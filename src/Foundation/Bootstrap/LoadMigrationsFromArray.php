@@ -62,10 +62,9 @@ final class LoadMigrationsFromArray
 
                 Collection::make(Arr::wrap($this->seeders))
                     ->flatten()
-                    ->filter(function ($seederClass) {
+                    ->filter(static function ($seederClass) {
                         return ! \is_null($seederClass) && class_exists($seederClass);
-                    })
-                    ->each(function ($seederClass) use ($app) {
+                    })->each(static function ($seederClass) use ($app) {
                         $app->make(ConsoleKernel::class)->call('db:seed', [
                             '--class' => $seederClass,
                         ]);
@@ -83,14 +82,15 @@ final class LoadMigrationsFromArray
     {
         $paths = Collection::make(
             ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
-        )->when(
-            $this->includesDefaultMigrations($app),
-            fn ($migrations) => $migrations->push($app->basePath('migrations'))
-        )->filter(fn ($migration) => \is_string($migration))
-            ->transform(fn ($migration) => transform_relative_path($migration, $app->basePath()))
-            ->all();
+        )->when($this->includesDefaultMigrations($app), static function ($migrations) use ($app) {
+            return $migrations->push($app->basePath('migrations'));
+        })->filter(static function ($migration) {
+            return \is_string($migration);
+        })->transform(static function ($migration) use ($app) {
+            return transform_relative_path($migration, $app->basePath());
+        })->all();
 
-        after_resolving($app, 'migrator', function ($migrator) use ($paths) {
+        after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {
                 /** @var \Illuminate\Database\Migrations\Migrator $migrator */
                 $migrator->path($path);

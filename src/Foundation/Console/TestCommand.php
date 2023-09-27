@@ -75,7 +75,7 @@ class TestCommand extends Command
         return Collection::make([
             package_path('/'.$configurationFile),
             package_path('/'.$configurationFile.'.dist'),
-        ])->filter(function ($path) {
+        ])->filter(static function ($path) {
             return file_exists($path);
         })->first() ?? './';
     }
@@ -91,7 +91,7 @@ class TestCommand extends Command
         $file = $this->phpUnitConfigurationFile();
 
         return Collection::make(parent::phpunitArguments($options))
-            ->reject(function ($option) {
+            ->reject(static function ($option) {
                 return Str::startsWith($option, ['--configuration=']);
             })->merge(["--configuration={$file}"])
             ->all();
@@ -108,13 +108,12 @@ class TestCommand extends Command
         $file = $this->phpUnitConfigurationFile();
 
         return Collection::make(parent::paratestArguments($options))
-            ->reject(function (string $option) {
+            ->reject(static function (string $option) {
                 return Str::startsWith($option, ['--configuration=', '--runner=']);
             })->merge([
                 "--configuration={$file}",
                 "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
-            ])
-            ->all();
+            ])->all();
     }
 
     /**
@@ -130,7 +129,7 @@ class TestCommand extends Command
             'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
-            'APP_BASE_PATH' => $this->laravel->basePath(),
+            'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::phpunitEnvironmentVariables());
     }
 
@@ -147,7 +146,7 @@ class TestCommand extends Command
             'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
-            'APP_BASE_PATH' => $this->laravel->basePath(),
+            'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
         ], parent::paratestEnvironmentVariables());
     }
 

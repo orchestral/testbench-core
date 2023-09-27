@@ -35,10 +35,10 @@ final class LoadEnvironmentVariablesFromArray
         $parser = new Parser();
 
         Collection::make($parser->parse($store->read()))
-            ->filter(function ($entry) {
+            ->filter(static function ($entry) {
                 /** @var \Dotenv\Parser\Entry $entry */
                 return $entry->getValue()->isDefined();
-            })->each(function ($entry) {
+            })->each(static function ($entry) {
                 /** @var \Dotenv\Parser\Entry $entry */
                 Env::getRepository()->set($entry->getName(), $entry->getValue()->get()->getChars());
             });
