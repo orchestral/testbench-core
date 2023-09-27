@@ -45,7 +45,7 @@ trait InteractsWithSqliteDatabaseFile
      */
     protected function withSqliteDatabase(callable $callback): void
     {
-        $this->withoutSqliteDatabase(function () use ($callback) {
+        $this->withoutSqliteDatabase(static function () use ($callback) {
             $filesystem = new Filesystem();
 
             $database = database_path('database.sqlite');
@@ -69,6 +69,8 @@ trait InteractsWithSqliteDatabaseFile
      * @afterClass
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function cleanupBackupSqliteDatabaseFilesOnFailed()
     {
@@ -76,8 +78,9 @@ trait InteractsWithSqliteDatabaseFile
 
         $filesystem->delete(
             Collection::make($filesystem->glob(database_path('database.sqlite.backup-*')))
-                ->filter(fn ($file) => $filesystem->exists($file))
-                ->all()
+                ->filter(static function ($file) use ($filesystem) {
+                    return $filesystem->exists($file);
+                })->all()
         );
     }
 }

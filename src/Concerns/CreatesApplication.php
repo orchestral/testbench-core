@@ -179,9 +179,9 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationProviders($app);
 
         if (! empty($overrides)) {
-            $providers->transform(
-                fn ($provider) => $overrides[$provider] ?? $provider
-            );
+            $providers->transform(static function ($provider) use ($overrides) {
+                return $overrides[$provider] ?? $provider;
+            });
         }
 
         return $providers->merge($this->getPackageProviders($app))->all();
@@ -284,7 +284,9 @@ trait CreatesApplication
 
         tap($app['config'], function ($config) use ($app) {
             if (! $app->bound('env')) {
-                $app->detectEnvironment(fn () => $config->get('app.env', 'workbench'));
+                $app->detectEnvironment(static function () use ($config) {
+                    return $config->get('app.env', 'workbench');
+                });
             }
 
             $config->set([
@@ -306,7 +308,9 @@ trait CreatesApplication
         Facade::setFacadeApplication($app);
 
         if ($this->isRunningTestCase()) {
-            $app->detectEnvironment(fn () => 'testing');
+            $app->detectEnvironment(static function () {
+                return 'testing';
+            });
         }
     }
 
@@ -405,7 +409,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationRateLimiting($app)
     {
-        RateLimiter::for('api', function (Request $request) {
+        RateLimiter::for('api', static function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }

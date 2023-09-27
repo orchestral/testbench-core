@@ -77,6 +77,8 @@ class Application
      * @param  string|null  $basePath
      * @param  string  $workingVendorPath
      * @return \Illuminate\Foundation\Application
+     *
+     * @codeCoverageIgnore
      */
     public static function createVendorSymlink(?string $basePath, string $workingVendorPath)
     {
@@ -204,7 +206,7 @@ class Application
     {
         Env::disablePutenv();
 
-        $app->terminating(function () {
+        $app->terminating(static function () {
             Env::enablePutenv();
         });
 

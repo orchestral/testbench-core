@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
-use Illuminate\Support\Str;
 
 abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
@@ -79,7 +78,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      */
     protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
     {
-        return Str::startsWith($use, [
+        return \in_array($use, [
             Testing\RefreshDatabase::class,
             Testing\DatabaseMigrations::class,
             Testing\DatabaseTransactions::class,

@@ -145,7 +145,7 @@ class Commander
      */
     protected function resolveApplicationCallback()
     {
-        return function ($app) {
+        return static function ($app) {
             $app->register(TestbenchServiceProvider::class);
         };
     }
@@ -206,7 +206,7 @@ class Commander
      */
     protected function prepareCommandSignals(): void
     {
-        Signals::resolveAvailabilityUsing(function () {
+        Signals::resolveAvailabilityUsing(static function () {
             return \extension_loaded('pcntl');
         });
 

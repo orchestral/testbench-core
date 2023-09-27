@@ -88,26 +88,13 @@ trait InteractsWithWorkbench
      */
     public static function cachedConfigurationForWorkbench()
     {
-        if (\is_null(static::$cachedConfigurationForWorkbench)) {
-            $workingPath = match (true) {
+        return static::$cachedConfigurationForWorkbench ??= Config::cacheFromYaml(
+            match (true) {
                 \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
                 ! \is_null(Env::get('TESTBENCH_WORKING_PATH')) => Env::get('TESTBENCH_WORKING_PATH'),
                 default => getcwd(),
-            };
-
-            $config = Config::loadFromYaml($workingPath);
-
-            if (
-                ! \is_null($config['laravel'])
-                && isset(static::$cachedTestCaseUses[WithWorkbench::class])
-            ) {
-                $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
             }
-
-            static::$cachedConfigurationForWorkbench = $config;
-        }
-
-        return static::$cachedConfigurationForWorkbench;
+        );
     }
 
     /**
@@ -119,7 +106,15 @@ trait InteractsWithWorkbench
      */
     public static function setupBeforeClassUsingWorkbench(): void
     {
-        static::cachedConfigurationForWorkbench();
+        /** @var array{laravel: string|null} $config */
+        $config = static::cachedConfigurationForWorkbench();
+
+        if (
+            ! \is_null($config['laravel'])
+            && isset(static::$cachedTestCaseUses[WithWorkbench::class])
+        ) {
+            $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
+        }
     }
 
     /**

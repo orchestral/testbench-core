@@ -199,8 +199,9 @@ trait InteractsWithPublishedFiles
                 ->map(fn ($file) => str_contains($file, '*') ? [...$this->app['files']->glob($file)] : $file)
                 ->flatten()
                 ->filter(fn ($file) => $this->app['files']->exists($file))
-                ->reject(fn ($file) => Str::endsWith($file, ['.gitkeep', '.gitignore']))
-                ->all()
+                ->reject(static function ($file) {
+                    return Str::endsWith($file, ['.gitkeep', '.gitignore']);
+                })->all()
         );
     }
 
@@ -223,8 +224,9 @@ trait InteractsWithPublishedFiles
     {
         $this->app['files']->delete(
             Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
-                ->filter(fn ($file) => Str::endsWith($file, '.php'))
-                ->all()
+                ->filter(static function ($file) {
+                    return Str::endsWith($file, '.php');
+                })->all()
         );
     }
 }

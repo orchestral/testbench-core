@@ -157,6 +157,13 @@ class Config extends Fluent implements ConfigContract
     ];
 
     /**
+     * The cached configuration used during tests.
+     *
+     * @var static|null
+     */
+    protected static $cachedConfiguration;
+
+    /**
      * Load configuration from Yaml file.
      *
      * @param  string  $workingPath
@@ -169,12 +176,13 @@ class Config extends Fluent implements ConfigContract
         $filename = $filename ?? 'testbench.yaml';
         $config = $defaults;
 
-        $filename = LazyCollection::make(function () use ($filename) {
+        $filename = LazyCollection::make(static function () use ($filename) {
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";
-        })->filter(fn ($file) => file_exists($workingPath.DIRECTORY_SEPARATOR.$file))
-            ->first();
+        })->filter(static function ($file) use ($workingPath) {
+            return file_exists($workingPath.DIRECTORY_SEPARATOR.$file);
+        })->first();
 
         if (! \is_null($filename)) {
             /**
@@ -184,7 +192,7 @@ class Config extends Fluent implements ConfigContract
              */
             $config = Yaml::parseFile($workingPath.DIRECTORY_SEPARATOR.$filename);
 
-            $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
+            $config['laravel'] = transform(Arr::get($config, 'laravel'), static function ($path) use ($workingPath) {
                 return transform_relative_path($path, $workingPath);
             });
 
@@ -194,6 +202,21 @@ class Config extends Fluent implements ConfigContract
         }
 
         return new static($config);
+    }
+
+    /**
+     * Load (and cache) configuration from Yaml file.
+     *
+     * @param  string  $workingPath
+     * @param  string|null  $filename
+     * @param  array<string, mixed>  $defaults
+     * @return static
+     *
+     * @codeCoverageIgnore
+     */
+    public static function cacheFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
+    {
+        return static::$cachedConfiguration ??= static::loadFromYaml($workingPath, $filename, $defaults);
     }
 
     /**

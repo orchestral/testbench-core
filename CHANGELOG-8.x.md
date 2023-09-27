@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.12.1
+
+Released: 2023-09-25
+
+### Changes
+
+* Add `Orchestra\Testbench\Foundation\Config::cacheFromYaml()` to cache `testbench.yaml` for testing environment.
+* Code refactors.
+
 ## 8.12.0
 
 Released: 2023-09-25
