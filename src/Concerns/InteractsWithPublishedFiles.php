@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 
 trait InteractsWithPublishedFiles
 {
@@ -225,7 +224,7 @@ trait InteractsWithPublishedFiles
         $this->app['files']->delete(
             Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
                 ->filter(static function ($file) {
-                    return Str::endsWith($file, '.php');
+                    return str_ends_with($file, '.php');
                 })->all()
         );
     }

@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 use Orchestra\Testbench\Foundation\Env;
 
@@ -90,7 +89,7 @@ class TestCommand extends Command
 
         return Collection::make(parent::phpunitArguments($options))
             ->reject(static function ($option) {
-                return Str::startsWith($option, ['--configuration=']);
+                return str_starts_with($option, '--configuration=');
             })->merge(["--configuration={$file}"])
             ->all();
     }
@@ -107,7 +106,8 @@ class TestCommand extends Command
 
         return Collection::make(parent::paratestArguments($options))
             ->reject(static function (string $option) {
-                return Str::startsWith($option, ['--configuration=', '--runner=']);
+                return str_starts_with($option, '--configuration=')
+                    || str_starts_with($option, '--runner=');
             })->merge([
                 "--configuration={$file}",
                 "--runner=\Orchestra\Testbench\Foundation\ParallelRunner",
