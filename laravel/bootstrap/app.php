@@ -48,7 +48,7 @@ unset($createApp);
 $router = $app->make('router');
 
 collect(glob(__DIR__.'/../routes/testbench-*.php'))
-    ->each(function ($routeFile) use ($app, $router) {
+    ->each(static function ($routeFile) use ($app, $router) {
         require $routeFile;
     });
 
