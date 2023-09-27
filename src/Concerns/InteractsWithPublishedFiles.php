@@ -200,7 +200,7 @@ trait InteractsWithPublishedFiles
                 ->flatten()
                 ->filter(fn ($file) => $this->app['files']->exists($file))
                 ->reject(static function ($file) {
-                    return Str::endsWith($file, ['.gitkeep', '.gitignore']);
+                    return str_ends_with($file, '.gitkeep') || str_ends_with($file, '.gitignore');
                 })->all()
         );
     }
