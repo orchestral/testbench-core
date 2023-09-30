@@ -39,13 +39,13 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "dev-symfony7",
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^1.10.7",
         "phpunit/phpunit": "^10.1",
-        "symfony/process": "7.0.x-dev",
-        "symfony/yaml": "7.0.x-dev",
+        "symfony/process": "^6.3 || 7.0.x-dev",
+        "symfony/yaml": "^6.3 || 7.0.x-dev",
         "vlucas/phpdotenv": "^5.4.1"
     },
     "suggest": {
@@ -83,6 +83,16 @@
     "config": {
         "sort-packages": true
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/laravel-labs/termwind"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/laravel-labs/php-cors"
+        }
+    ],
     "prefer-stable": true,
     "minimum-stability": "dev"
 }
