@@ -77,8 +77,7 @@
             "@php vendor/bin/phpunit -c ./ --color"
         ],
         "ci": [
-            "@clear",
-            "@prepare",
+            "@post-autoload-dump",
             "@lint",
             "@test"
         ]
