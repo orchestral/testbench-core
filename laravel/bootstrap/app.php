@@ -11,7 +11,7 @@ use Orchestra\Testbench\Foundation\Config;
  * @param  string  $workingPath
  * @return \Illuminate\Foundation\Application
  */
-$createApp = function (string $workingPath) {
+$createApp = static function (string $workingPath) {
     $config = Config::loadFromYaml(
         defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
     );
@@ -23,7 +23,7 @@ $createApp = function (string $workingPath) {
     return Application::create(
         basePath: $config['laravel'],
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
-        resolvingCallback: function ($app) use ($config) {
+        resolvingCallback: static function ($app) use ($config) {
             (new StartWorkbench($config))->bootstrap($app);
         },
     );
