@@ -103,7 +103,7 @@ final class LoadMigrationsFromArray
             return transform_relative_path($migration, $app->basePath());
         })->all();
 
-        $this->callAfterResolvingMigrator($app, function ($migrator) use ($paths) {
+        $this->callAfterResolvingMigrator($app, static function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {
                 $migrator->path($path);
             }

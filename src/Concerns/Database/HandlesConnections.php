@@ -6,6 +6,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Orchestra\Testbench\Foundation\Env;
 
 trait HandlesConnections
 {
@@ -30,7 +31,7 @@ trait HandlesConnections
             $configurations["database.connections.{$driver}.{$key}"] = Collection::make(
                 Arr::wrap($value)
             )->transform(static function ($value) use ($keyword) {
-                return env("{$keyword}_{$value}");
+                return Env::get("{$keyword}_{$value}");
             })->first(static function ($value) {
                 return ! \is_null($value);
             }) ?? $config->get("database.connections.{$driver}.{$key}");

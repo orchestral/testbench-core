@@ -7,16 +7,16 @@ use PHPUnit\Framework\TestCase as PHPUnit;
 
 abstract class TestCase extends PHPUnit implements Contracts\TestCase
 {
-    use Concerns\Testing,
-        Testing\Concerns\InteractsWithAuthentication,
-        Testing\Concerns\InteractsWithConsole,
-        Testing\Concerns\InteractsWithContainer,
-        Testing\Concerns\InteractsWithDatabase,
-        Testing\Concerns\InteractsWithExceptionHandling,
-        Testing\Concerns\InteractsWithSession,
-        Testing\Concerns\InteractsWithTime,
-        Testing\Concerns\MakesHttpRequests,
-        Testing\Concerns\MocksApplicationServices;
+    use Concerns\Testing;
+    use Testing\Concerns\InteractsWithAuthentication;
+    use Testing\Concerns\InteractsWithConsole;
+    use Testing\Concerns\InteractsWithContainer;
+    use Testing\Concerns\InteractsWithDatabase;
+    use Testing\Concerns\InteractsWithExceptionHandling;
+    use Testing\Concerns\InteractsWithSession;
+    use Testing\Concerns\InteractsWithTime;
+    use Testing\Concerns\MakesHttpRequests;
+    use Testing\Concerns\MocksApplicationServices;
 
     /**
      * The base URL to use while testing the application.

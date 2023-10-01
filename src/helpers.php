@@ -30,7 +30,7 @@ function container(?string $basePath = null, ?callable $resolvingCallback = null
  */
 function artisan(Contracts\TestCase $testbench, string $command, array $parameters = [])
 {
-    return tap($testbench->artisan($command, $parameters), function ($artisan) {
+    return tap($testbench->artisan($command, $parameters), static function ($artisan) {
         if ($artisan instanceof PendingCommand) {
             $artisan->run();
         }
