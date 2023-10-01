@@ -61,8 +61,8 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "@composer run clear",
-            "@composer run prepare"
+            "@clear",
+            "@prepare"
         ],
         "prepare": "@php testbench package:discover --ansi",
         "clear": [
@@ -70,18 +70,17 @@
             "@php -r \"file_exists('laravel/testbench.yaml') && unlink('laravel/testbench.yaml');\"",
             "@php -r \"file_exists('laravel/database/database.sqlite') && unlink('laravel/database/database.sqlite');\""
         ],
-        "ci": [
-            "@composer run clear",
-            "@composer run prepare",
-            "@composer run lint"
-        ],
         "lint": [
             "@php vendor/bin/phpstan analyse"
         ],
         "test": [
-            "@composer run clear",
-            "@composer run prepare",
             "@php vendor/bin/phpunit -c ./ --color"
+        ],
+        "ci": [
+            "@clear",
+            "@prepare",
+            "@lint",
+            "@test"
         ]
     },
     "config": {

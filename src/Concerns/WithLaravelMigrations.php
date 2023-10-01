@@ -28,7 +28,7 @@ trait WithLaravelMigrations
             if (! static::usesTestingConcern(RefreshDatabase::class)) {
                 $this->loadLaravelMigrations();
             } else {
-                after_resolving($this->app, 'migrator', function ($migrator, $app) {
+                after_resolving($this->app, 'migrator', static function ($migrator, $app) {
                     $migrator->path($app->basePath('migrations'));
                 });
             }

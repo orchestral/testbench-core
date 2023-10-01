@@ -157,7 +157,7 @@ class Config extends Fluent implements ConfigContract
              */
             $config = Yaml::parseFile($workingPath.DIRECTORY_SEPARATOR.$filename);
 
-            $config['laravel'] = transform(Arr::get($config, 'laravel'), function ($path) use ($workingPath) {
+            $config['laravel'] = transform(Arr::get($config, 'laravel'), static function ($path) use ($workingPath) {
                 return transform_relative_path($path, $workingPath);
             });
 
