@@ -6,6 +6,7 @@ use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
+use Orchestra\Testbench\Foundation\Env;
 use Symfony\Component\Finder\Finder;
 
 class LoadConfiguration
@@ -26,7 +27,7 @@ class LoadConfiguration
             $config->set('database.connections.testing', [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
-                'foreign_key_constraints' => env('DB_FOREIGN_KEYS', false),
+                'foreign_key_constraints' => Env::get('DB_FOREIGN_KEYS', false),
             ]);
         }
 
