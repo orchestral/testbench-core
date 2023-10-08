@@ -19,6 +19,9 @@ jobs:
           - 8.2
         phpunit:
           - "10.1.x"
+          - "10.2.x"
+          - "10.3.x"
+          - "10.4.x"
         collision:
           - "^7.4"
         dependencies:
@@ -79,7 +82,7 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-          - "10.1.x"
+          - "10.4.x"
         collision:
           - "^7.4"
         dependencies:
