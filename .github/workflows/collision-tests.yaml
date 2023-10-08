@@ -18,15 +18,14 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-          - "10.1.x"
-          - "10.2.x"
-          - "10.3.x"
-          - "10.4.x"
+          - "~10.1.0"
+          - "~10.2.0"
+          - "~10.3.0"
+          - "~10.4.0"
         collision:
           - "^7.4"
         dependencies:
           - "highest"
-          - "lowest"
         experimental:
           - false
 
@@ -82,7 +81,7 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-          - "10.4.x"
+          - "~10.4.0"
         collision:
           - "^7.4"
         dependencies:
