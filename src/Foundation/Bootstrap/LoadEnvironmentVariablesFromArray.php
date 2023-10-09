@@ -9,6 +9,9 @@ use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Foundation\Env;
 
+/**
+ * @internal
+ */
 final class LoadEnvironmentVariablesFromArray
 {
     /**

@@ -21,12 +21,12 @@ use Throwable;
 
 trait Testing
 {
-    use CreatesApplication,
-        HandlesAnnotations,
-        HandlesDatabases,
-        HandlesRoutes,
-        InteractsWithMigrations,
-        WithFactories;
+    use CreatesApplication;
+    use HandlesAnnotations;
+    use HandlesDatabases;
+    use HandlesRoutes;
+    use InteractsWithMigrations;
+    use WithFactories;
 
     /**
      * The Illuminate application instance.
