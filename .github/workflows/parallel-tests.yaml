@@ -22,7 +22,10 @@ jobs:
         php:
           - 8.2
         phpunit:
-          - "10.1.x"
+          - "~10.1.0"
+          - "~10.2.0"
+          - "~10.3.0"
+          - "~10.4.0"
         collision:
           - "^7.4"
         paratest:
@@ -36,7 +39,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -47,7 +50,8 @@ jobs:
 
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --no-interaction --no-update
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
