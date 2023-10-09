@@ -49,10 +49,11 @@
         "vlucas/phpdotenv": "^5.4.1"
     },
     "conflict": {
-        "laravel/framework": "<9.52.9"
+        "laravel/framework": "<9.52.9",
+        "nunomaduro/collision": "<6.4.0 || >=7.0.0"
     },
     "suggest": {
-        "brianium/paratest": "Allow using parallel tresting (^6.4).",
+        "brianium/paratest": "Allow using parallel testing (^6.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
         "laravel/framework": "Required for testing (^9.52.9).",
         "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
@@ -83,7 +84,7 @@
             "@php vendor/bin/phpunit -c ./ --color"
         ],
         "ci": [
-            "@audit",
+            "@composer audit",
             "@post-autoload-dump",
             "@lint",
             "@test"
