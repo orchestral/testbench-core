@@ -50,6 +50,9 @@ jobs:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
 
+      - name: Installed dependencies
+        run: composer show -D
+
       - name: Prepare Testbench
         run: composer run prepare
 
@@ -99,6 +102,9 @@ jobs:
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
+
+      - name: Installed dependencies
+        run: composer show -D
 
       - name: Prepare Testbench
         run: composer run prepare
