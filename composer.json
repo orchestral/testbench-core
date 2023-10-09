@@ -51,7 +51,7 @@
         "laravel/framework": "<8.83.27"
     },
     "suggest": {
-        "laravel/framework": "Required for testing (^8.83.26).",
+        "laravel/framework": "Required for testing (^8.83.27).",
         "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^6.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^6.0).",
