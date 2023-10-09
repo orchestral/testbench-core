@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Bootstrap;
 use Dotenv\Dotenv;
 use Orchestra\Testbench\Foundation\Env;
 
+/**
+ * @internal
+ */
 final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables
 {
     /**
