@@ -113,10 +113,6 @@ jobs:
         run: |
           composer show -D
 
-      - name: Installed dependencies
-        run: |
-          composer show -D
-
       - name: Execute tests
         run: ./testbench package:test --coverage --exclude-group commander,deprecations
         env:
