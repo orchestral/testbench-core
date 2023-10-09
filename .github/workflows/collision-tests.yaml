@@ -18,16 +18,10 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-<<<<<<< HEAD
           - "~10.1.0"
           - "~10.2.0"
           - "~10.3.0"
           - "~10.4.0"
-        collision:
-          - "^7.4"
-=======
-          - "^9.5.10"
->>>>>>> 7.x
         dependencies:
           - "highest"
         experimental:
@@ -49,7 +43,7 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:^7.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
@@ -85,13 +79,7 @@ jobs:
           - 8.1
           - 8.2
         phpunit:
-<<<<<<< HEAD
-          - "~10.4.0"
-        collision:
-          - "^7.4"
-=======
           - "^9.5.10"
->>>>>>> 7.x
         dependencies:
           - "highest"
         experimental:
@@ -113,7 +101,7 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:^6.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
