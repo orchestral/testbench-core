@@ -48,6 +48,9 @@
         "symfony/yaml": "^6.0.9",
         "vlucas/phpdotenv": "^5.4.1"
     },
+    "conflict": {
+        "laravel/framework": "<9.52.9"
+    },
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^6.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
