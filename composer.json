@@ -50,7 +50,7 @@
         "vlucas/phpdotenv": "^5.4.1"
     },
     "conflict": {
-        "laravel/framework": "<10.23.0"
+        "laravel/framework": "<10.23.1"
     },
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^6.4 || ^7.1.4).",
@@ -71,18 +71,18 @@
         ],
         "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
-        "ci": [
-            "@composer audit",
-            "@prepare",
-            "@lint",
-            "@test"
-        ],
         "lint": [
             "@php vendor/bin/pint",
             "@php vendor/bin/phpstan analyse"
         ],
         "test": [
             "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --exclude-group phpunit-configuration --color tests"
+        ],
+        "ci": [
+            "@composer audit",
+            "@post-autoload-dump",
+            "@lint",
+            "@test"
         ]
     },
     "config": {
