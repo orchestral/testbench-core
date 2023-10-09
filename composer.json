@@ -47,6 +47,9 @@
         "spatie/laravel-ray": "^1.7.1",
         "symfony/process": "^5.0"
     },
+    "conflict": {
+        "laravel/framework": "<8.83.27"
+    },
     "suggest": {
         "laravel/framework": "Required for testing (^8.83.26).",
         "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
