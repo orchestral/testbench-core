@@ -48,11 +48,15 @@
         "symfony/process": "^5.0"
     },
     "conflict": {
-        "laravel/framework": "<8.83.27"
+        "brianium/paratest": "<6.4.0 || >=7.0.0",
+        "laravel/framework": "<8.83.27 || >=9.0.0",
+        "nunomaduro/collision": "<5.0.0 || >=6.0.0"
     },
     "suggest": {
+        "brianium/paratest": "Allow using parallel testing (^6.4).",
         "laravel/framework": "Required for testing (^8.83.27).",
         "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
+        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^5.0).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^6.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^6.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^8.5.21|^9.5.10|^10.0)."
