@@ -27,7 +27,7 @@ jobs:
           - "~10.3.0"
           - "~10.4.0"
         collision:
-          - "^7.4"
+          - "^8.0"
         paratest:
           - "^7.1.4"
         dependencies:

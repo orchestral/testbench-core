@@ -47,7 +47,7 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^7.4" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:^8.0" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
@@ -81,14 +81,12 @@ jobs:
           - "ubuntu-latest"
         php:
           - 8.2
-        phpunit:
-          - "^9.5.10"
         dependencies:
           - "highest"
         experimental:
           - true
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
+    name: PHP${{ matrix.php }} with Coverage on ${{ matrix.os }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
@@ -103,8 +101,8 @@ jobs:
 
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.4" --dev --no-interaction --no-update
+          composer require "phpunit/phpunit" --no-interaction --no-update
+          composer require "nunomaduro/collision:^8.0" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
