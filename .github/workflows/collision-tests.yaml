@@ -2,9 +2,6 @@ name: collision-tests
 
 on:
   push:
-    branches-ignore:
-      - 9.x
-      - next/*
   pull_request:
   schedule:
     - cron: '0 0 1 * *'
