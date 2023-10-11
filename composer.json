@@ -51,15 +51,15 @@
     "conflict": {
         "brianium/paratest": "<7.1.4 || >=8.0.0",
         "laravel/framework": "<11.0.0 || >=12.0.0",
-        "nunomaduro/collision": "<7.4.0 || >=8.0.0",
-        "phpunit/phpunit": "<9.6.0 || >=10.5.0"
+        "nunomaduro/collision": "<8.0.0 || >=9.0.0",
+        "phpunit/phpunit": "<10.1.0 || >=10.5.0"
     },
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^7.1.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
         "laravel/framework": "Required for testing (^11.0).",
         "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
-        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^7.4).",
+        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^8.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^9.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^10.1).",
         "symfony/yaml": "Required for CLI Commander (^6.4 || ^7.0).",
