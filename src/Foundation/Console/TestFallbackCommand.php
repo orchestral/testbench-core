@@ -7,8 +7,6 @@ use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
 
-use function Orchestra\Testbench\phpunit_version_compare;
-
 class TestFallbackCommand extends Command
 {
     /**
