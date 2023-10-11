@@ -3,7 +3,6 @@ name: collision-tests
 on:
   push:
     branches-ignore:
-      - 9.x
       - next/*
   pull_request:
     branches-ignore:
