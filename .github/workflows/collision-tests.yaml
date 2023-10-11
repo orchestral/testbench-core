@@ -6,8 +6,6 @@ on:
       - 9.x
       - next/*
   pull_request:
-    branches-ignore:
-      - next/*
   schedule:
     - cron: '0 0 1 * *'
 
