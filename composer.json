@@ -39,7 +39,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
-        "laravel/framework": "^11.0 || dev-symfony7",
+        "laravel/framework": "^11.0",
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^1.10.7",
@@ -89,12 +89,6 @@
     "config": {
         "sort-packages": true
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/laravel-labs/php-cors"
-        }
-    ],
     "prefer-stable": true,
     "minimum-stability": "dev"
 }
