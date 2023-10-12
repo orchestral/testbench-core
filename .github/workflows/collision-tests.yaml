@@ -2,12 +2,7 @@ name: collision-tests
 
 on:
   push:
-    branches-ignore:
-      - 9.x
-      - next/*
   pull_request:
-    branches-ignore:
-      - next/*
   schedule:
     - cron: '0 0 1 * *'
 
@@ -22,14 +17,11 @@ jobs:
         php:
           - 8.2
         phpunit:
-          - "~10.1.0"
-          - "~10.2.0"
-          - "~10.3.0"
           - "~10.4.0"
         dependencies:
           - "highest"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -84,7 +76,7 @@ jobs:
         dependencies:
           - "highest"
         experimental:
-          - true
+          - false
 
     name: PHP${{ matrix.php }} with Coverage on ${{ matrix.os }} (${{ matrix.dependencies }})
 
