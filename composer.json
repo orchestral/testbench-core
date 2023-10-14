@@ -44,19 +44,25 @@
         "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^1.10.7",
         "phpunit/phpunit": "^10.1",
-        "symfony/process": "^6.3 || 7.0.x-dev",
-        "symfony/yaml": "^6.3 || 7.0.x-dev",
+        "symfony/process": "^7.0",
+        "symfony/yaml": "^7.0",
         "vlucas/phpdotenv": "^5.4.1"
     },
+    "conflict": {
+        "brianium/paratest": "<7.3.0 || >=8.0.0",
+        "laravel/framework": "<11.0.0 || >=12.0.0",
+        "nunomaduro/collision": "<8.0.0 || >=9.0.0",
+        "phpunit/phpunit": "<10.1.0 || >=10.5.0"
+    },
     "suggest": {
-        "brianium/paratest": "Allow using parallel tresting (^7.1.4).",
+        "brianium/paratest": "Allow using parallel tresting (^7.3).",
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
         "laravel/framework": "Required for testing (^11.0).",
         "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
-        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^7.4).",
+        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^8.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^9.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^10.1).",
-        "symfony/yaml": "Required for CLI Commander (^6.3).",
+        "symfony/yaml": "Required for CLI Commander (^6.4 || ^7.0).",
         "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
     },
     "scripts": {
@@ -66,18 +72,18 @@
         ],
         "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
-        "ci": [
-            "@composer audit",
-            "@prepare",
-            "@lint",
-            "@test"
-        ],
         "lint": [
             "@php vendor/bin/pint",
             "@php vendor/bin/phpstan analyse"
         ],
         "test": [
             "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --exclude-group phpunit-configuration --color tests"
+        ],
+        "ci": [
+            "@composer audit",
+            "@post-autoload-dump",
+            "@lint",
+            "@test"
         ]
     },
     "config": {
