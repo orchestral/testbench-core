@@ -41,7 +41,6 @@
         "laravel/framework": "^9.52.9",
         "laravel/pint": "^1.4",
         "mockery/mockery": "^1.5.1",
-        "orchestra/workbench": "^0.4 || ^0.5 || ^1.0",
         "phpstan/phpstan": "^1.10.7",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ray": "^1.32.4",
