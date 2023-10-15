@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
-use Orchestra\Workbench\Workbench;
 
 trait WithWorkbench
 {
@@ -28,7 +27,5 @@ trait WithWorkbench
         (new LoadMigrationsFromArray(
             $config['migrations'] ?? [], $config['seeders'] ?? false,
         ))->bootstrap($app);
-
-        Workbench::discover($app);
     }
 }
