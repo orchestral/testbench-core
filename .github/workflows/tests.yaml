@@ -23,6 +23,7 @@ jobs:
           - "~10.2.0"
           - "~10.3.0"
           - "~10.4.0"
+          - "~11.0.0"
         dependencies:
           - "highest"
           - "lowest"
