@@ -92,7 +92,7 @@
             "@post-autoload-dump",
             "@lint",
             "@test"
-        ],
+        ]
     },
     "config": {
         "sort-packages": true
