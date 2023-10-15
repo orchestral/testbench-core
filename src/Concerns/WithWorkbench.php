@@ -27,5 +27,9 @@ trait WithWorkbench
         (new LoadMigrationsFromArray(
             $config['migrations'] ?? [], $config['seeders'] ?? false,
         ))->bootstrap($app);
+
+        $app->booted(static function ($app) {
+            Workbench::discover($app);
+        });
     }
 }

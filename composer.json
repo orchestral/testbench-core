@@ -52,6 +52,7 @@
         "brianium/paratest": "<6.4.0 || >=7.0.0",
         "laravel/framework": "<9.52.9 || >=10.0.0",
         "nunomaduro/collision": "<6.2.0 || >=7.0.0",
+        "orchestra/workbench": "<0.4.0",
         "phpunit/phpunit": "<9.5.10 || >=10.0.0"
     },
     "suggest": {
