@@ -10,6 +10,7 @@ migrations:
 workbench:
   discovers:
     web: true
+    api: true
     commands: true
 
 purge:
