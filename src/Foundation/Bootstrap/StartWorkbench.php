@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation\Bootstrap;
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Contracts\Config;
 use Orchestra\Testbench\Workbench\WorkbenchServiceProvider as FallbackServicePorvider;
+use Orchestra\Workbench\Bootstrap\DiscoverRoutes;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 
 /**
@@ -41,6 +42,8 @@ final class StartWorkbench
                     ? WorkbenchServiceProvider::class
                     : FallbackServicePorvider::class
             );
+        } elseif (class_exists(DiscoverRoutes::class)) {
+            (new DiscoverRoutes())->bootstrap($app);
         }
     }
 }
