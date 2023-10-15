@@ -43,7 +43,7 @@
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^1.10.7",
-        "phpunit/phpunit": "^10.1",
+        "phpunit/phpunit": "^10.1 || ^11.0",
         "symfony/process": "^7.0",
         "symfony/yaml": "^7.0",
         "vlucas/phpdotenv": "^5.4.1"
@@ -52,7 +52,7 @@
         "brianium/paratest": "<7.3.0 || >=8.0.0",
         "laravel/framework": "<11.0.0 || >=12.0.0",
         "nunomaduro/collision": "<8.0.0 || >=9.0.0",
-        "phpunit/phpunit": "<10.1.0 || >=10.5.0"
+        "phpunit/phpunit": "<10.1.0 || >=11.1.0"
     },
     "suggest": {
         "brianium/paratest": "Allow using parallel tresting (^7.3).",
