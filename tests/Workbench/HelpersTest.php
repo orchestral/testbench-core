@@ -40,6 +40,7 @@ class HelpersTest extends TestCase
                 'web' => true,
                 'api' => false,
                 'commands' => false,
+                'views' => false,
             ],
         ], workbench());
     }
@@ -60,6 +61,7 @@ class HelpersTest extends TestCase
                 'web' => false,
                 'api' => false,
                 'commands' => false,
+                'views' => false,
             ],
         ], workbench());
     }
