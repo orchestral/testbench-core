@@ -53,7 +53,6 @@ class ConfigTest extends TestCase
             ],
         ], $config->getWorkbenchAttributes());
 
-
         $this->assertSame([
             'web' => false,
             'api' => false,
