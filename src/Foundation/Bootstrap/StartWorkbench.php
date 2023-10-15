@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Contracts\Config;
+use Orchestra\Workbench\Bootstrap\DiscoverRoutes;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 
 /**
@@ -36,6 +37,8 @@ final class StartWorkbench
 
         if ($this->loadWorkbenchProviders === true && class_exists(WorkbenchServiceProvider::class)) {
             $app->register(WorkbenchServiceProvider::class);
+        } elseif (class_exists(DiscoverRoutes::class)) {
+            (new DiscoverRoutes())->bootstrap($app);
         }
     }
 }

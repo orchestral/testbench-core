@@ -52,6 +52,12 @@ class ConfigTest extends TestCase
                 'commands' => false,
             ],
         ], $config->getWorkbenchAttributes());
+
+        $this->assertSame([
+            'web' => false,
+            'api' => false,
+            'commands' => false,
+        ], $config->getWorkbenchDiscoversAttributes());
     }
 
     /** @test */
@@ -94,6 +100,12 @@ class ConfigTest extends TestCase
                 'commands' => false,
             ],
         ], $config->getWorkbenchAttributes());
+
+        $this->assertSame([
+            'web' => false,
+            'api' => false,
+            'commands' => false,
+        ], $config->getWorkbenchDiscoversAttributes());
     }
 
     /** @test */

@@ -27,7 +27,8 @@
         "psr-4": {
             "Orchestra\\Testbench\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/",
-            "Workbench\\Database\\": "workbench/database/"
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
         }
     },
     "bin": [
@@ -53,7 +54,7 @@
         "brianium/paratest": "<6.4.0 || >=7.0.0 <7.1.4 || >=8.0.0",
         "laravel/framework": "<10.23.1 || >=11.0.0",
         "nunomaduro/collision": "<6.4.0 || >=7.0.0 <7.4.0 || >=8.0.0",
-        "orchestra/workbench": "<0.4.0",
+        "orchestra/workbench": "<1.0.0",
         "phpunit/phpunit": "<9.6.0 || >=10.5.0"
     },
     "suggest": {

@@ -286,4 +286,16 @@ class Config extends Fluent implements ConfigContract
         /** @var TWorkbenchConfig $config */
         return $config;
     }
+
+    /**
+     * Get workbench discovers attributes.
+     *
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TWorkbenchConfig
+     */
+    public function getWorkbenchDiscoversAttributes(): array
+    {
+        return Arr::get($this->getWorkbenchAttributes(), 'discovers');
+    }
 }
