@@ -7,5 +7,9 @@ env:
 migrations:
   - workbench/database/migrations
 
+workbench:
+  discovers:
+    web: true
+
 purge:
   directories: public/vendor/*
