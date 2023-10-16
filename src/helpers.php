@@ -21,7 +21,7 @@ use RuntimeException;
  */
 function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
 {
-    return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
+    return Foundation\Application::make($basePath, $resolvingCallback, $options);
 }
 
 /**
