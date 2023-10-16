@@ -67,5 +67,9 @@ final class DiscoverRoutes
 
             $view->addNamespace('workbench', $path);
         });
+
+        after_resolving($app, 'blade.compiler', static function ($blade, $app) {
+            $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
+        });
     }
 }

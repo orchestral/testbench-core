@@ -17,6 +17,14 @@ class DiscoversTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_views_from_discovers()
+    {
+        $this->get('/testbench')
+            ->assertOk()
+            ->assertSee('Alert Component');
+    }
+
+    /** @test */
     public function it_can_resolve_commands_from_discovers()
     {
         $this->artisan('workbench:inspire')->assertExitCode(0);
