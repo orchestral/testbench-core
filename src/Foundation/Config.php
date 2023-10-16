@@ -12,6 +12,18 @@ use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\transform_relative_path;
 
 /**
+ * @phpstan-type TExtraConfig array{
+ *   env: array,
+ *   providers: array<int, class-string>,
+ *   dont-discover: array<int, string>,
+ *   bootstrappers: class-string|array<int, class-string>|null
+ * }
+ * @phpstan-type TOptionalExtraConfig array{
+ *   env?: array,
+ *   providers?: array<int, class-string>,
+ *   dont-discover?: array<int, string>,
+ *   bootstrappers?: class-string|array<int, class-string>|null
+ * }
  * @phpstan-type TWorkbenchConfig array{
  *   start: string,
  *   user: string|int|null,
@@ -208,7 +220,9 @@ class Config extends Fluent implements ConfigContract
     /**
      * Get extra attributes.
      *
-     * @return array{env: array, bootstrappers: array, providers: array, dont-discover: array}
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TExtraConfig
      */
     public function getExtraAttributes(): array
     {

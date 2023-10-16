@@ -4,6 +4,11 @@ namespace Orchestra\Testbench\Contracts;
 
 use ArrayAccess;
 
+/**
+ * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
+ * @phpstan-import-type TWorkbenchConfig from \Orchestra\Testbench\Foundation\Config
+ * @phpstan-import-type TWorkbenchDiscoversConfig from \Orchestra\Testbench\Foundation\Config
+ */
 interface Config extends ArrayAccess
 {
     /**
@@ -17,21 +22,27 @@ interface Config extends ArrayAccess
     /**
      * Get extra attributes.
      *
-     * @return array{env: array, bootstrappers: array, providers: array, dont-discover: array}
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TExtraConfig
      */
     public function getExtraAttributes(): array;
 
     /**
      * Get workbench attributes.
      *
-     * @return array{start: string, user: string|int|null, guard: string|null}
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TWorkbenchConfig
      */
     public function getWorkbenchAttributes(): array;
 
     /**
      * Get workbench discovers attributes.
      *
-     * @return array{web: bool, api: bool, commands: bool, views: bool}
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TWorkbenchDiscoversConfig
      */
     public function getWorkbenchDiscoversAttributes(): array;
 }
