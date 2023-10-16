@@ -59,13 +59,7 @@ final class DiscoverRoutes
 
         after_resolving($app, 'view', static function ($view, $app) use ($config) {
             /** @var \Illuminate\Contracts\View\Factory $view */
-            $path = workbench_path('/resources/views');
-
-            if (($config['views'] ?? false) === true && method_exists($view, 'addLocation')) {
-                $view->addLocation($path);
-            }
-
-            $view->addNamespace('workbench', $path);
+            $view->addNamespace('workbench', workbench_path('/resources/views'));
         });
 
         after_resolving($app, 'blade.compiler', static function ($blade) {
