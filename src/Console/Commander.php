@@ -131,7 +131,7 @@ class Commander
                 resolvingCallback: function ($app) {
                     (new StartWorkbench($this->config))->bootstrap($app);
 
-                    $app->booted(function () use ($app) {
+                    $app->booted(function ($app) {
                         (new DiscoverRoutes($this->config))->bootstrap($app);
                     });
 

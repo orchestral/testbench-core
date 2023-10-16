@@ -27,7 +27,7 @@ $createApp = static function (string $workingPath) {
         resolvingCallback: static function ($app) use ($config) {
             (new StartWorkbench($config))->bootstrap($app);
 
-            $app->booted(function ($app) use ($config) {
+            $app->booted(static function ($app) use ($config) {
                 (new DiscoverRoutes($config))->bootstrap($app);
             });
         },
