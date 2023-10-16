@@ -28,10 +28,10 @@ function container(
     ?Config $config = null
 ): Foundation\Application {
     if ($config instanceof Config) {
-        return Foundation\Application::fromConfig($config, $resolvingCallback, $options);
+        return Foundation\Application::makeFromConfig($config, $resolvingCallback, $options);
     }
 
-    return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
+    return Foundation\Application::make($basePath, $resolvingCallback, $options);
 }
 
 /**

@@ -72,20 +72,38 @@ class Application
     }
 
     /**
+     * Create new application resolver.
+     *
+     * @param  string|null  $basePath
+     * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
+     * @param  array<string, mixed>  $options
+     * @return static
+     *
+     * @phpstan-param TConfig  $options
+     */
+    public static function make(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
+    {
+        return (new static($basePath, $resolvingCallback))->configure($options);
+    }
+
+    /**
      * Create new application resolver from configuration file.
      *
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
+     * @param  array<string, mixed>  $options
      * @return static
+     *
+     * @phpstan-param TConfig  $options
      */
-    public static function fromConfig(ConfigContract $config, ?callable $resolvingCallback = null)
+    public static function makeFromConfig(ConfigContract $config, ?callable $resolvingCallback = null, array $options = [])
     {
-        $workingPath = $config['laravel'] ?? static::applicationBasePath();
+        $basePath = $config['laravel'] ?? static::applicationBasePath();
 
-        return (new static($workingPath, $resolvingCallback))->configure([
-            'load_environment_variables' => file_exists("{$workingPath}/.env"),
+        return (new static($config['laravel'], $resolvingCallback))->configure(array_merge($options, [
+            'load_environment_variables' => file_exists("{$basePath}/.env"),
             'extra' => $config->getExtraAttributes(),
-        ]);
+        ]));
     }
 
     /**
@@ -118,7 +136,7 @@ class Application
      */
     public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
     {
-        return (new static($basePath, $resolvingCallback))->configure($options)->createApplication();
+        return static::make($basePath, $resolvingCallback, $options)->createApplication();
     }
 
     /**
@@ -126,11 +144,14 @@ class Application
      *
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
+     * @param  array<string, mixed>  $options
      * @return \Illuminate\Foundation\Application
+     *
+     * @phpstan-param TConfig  $options
      */
-    public static function createFromConfig(ConfigContract $config, ?callable $resolvingCallback = null)
+    public static function createFromConfig(ConfigContract $config, ?callable $resolvingCallback = null, array $options = [])
     {
-        return static::fromConfig($config, $resolvingCallback)->createApplication();
+        return static::makeFromConfig($config, $resolvingCallback, $options)->createApplication();
     }
 
     /**
