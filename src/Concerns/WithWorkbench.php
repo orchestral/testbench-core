@@ -24,7 +24,10 @@ trait WithWorkbench
         $config = static::cachedConfigurationForWorkbench();
 
         (new StartWorkbench($config))->bootstrap($app);
-        (new DiscoverRoutes($config))->bootstrap($app);
+
+        $app->booted(static function ($app) use ($config) {
+            (new DiscoverRoutes($config))->bootstrap($app);
+        });
 
         (new LoadMigrationsFromArray(
             $config['migrations'] ?? [], $config['seeders'] ?? false,

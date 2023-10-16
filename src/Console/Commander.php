@@ -6,6 +6,7 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
@@ -15,7 +16,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
-
 use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
@@ -107,6 +107,10 @@ class Commander
                 $this->getBasePath(),
                 function ($app) {
                     (new StartWorkbench($this->config))->bootstrap($app);
+
+                    $app->booted(function ($app) {
+                        (new DiscoverRoutes($this->config))->bootstrap($app);
+                    });
 
                     (new LoadMigrationsFromArray(
                         $this->config['migrations'] ?? [],
