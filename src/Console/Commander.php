@@ -11,6 +11,7 @@ use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
@@ -129,6 +130,10 @@ class Commander
                 basePath: $this->getBasePath(),
                 resolvingCallback: function ($app) {
                     (new StartWorkbench($this->config))->bootstrap($app);
+
+                    $app->booted(function () use ($app) {
+                        (new DiscoverRoutes($this->config))->bootstrap($app);
+                    });
 
                     (new LoadMigrationsFromArray(
                         $this->config['migrations'] ?? [],

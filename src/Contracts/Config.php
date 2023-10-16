@@ -52,7 +52,7 @@ interface Config extends ArrayAccess
      *
      * @return array<string, mixed>
      *
-     * @phpstan-return TWorkbenchConfig
+     * @phpstan-return TWorkbenchDiscoversConfig
      */
     public function getWorkbenchDiscoversAttributes(): array;
 }
