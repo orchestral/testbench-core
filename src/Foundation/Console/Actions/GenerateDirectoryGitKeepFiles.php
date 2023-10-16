@@ -6,7 +6,7 @@ use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
-class EnsureDirectoryExists extends Action
+class GenerateDirectoryGitKeepFiles extends Action
 {
     /**
      * Construct a new action instance.
@@ -33,19 +33,11 @@ class EnsureDirectoryExists extends Action
     {
         LazyCollection::make($directories)
             ->each(function ($directory) {
-                if ($this->filesystem->isDirectory($directory)) {
-                    $this->components?->twoColumnDetail(
-                        sprintf('Directory [%s] already exists', $this->pathLocation($directory)),
-                        '<fg=yellow;options=bold>SKIPPED</>'
-                    );
+                if (! file_exists("{$directory}/.gitkeep")) {
+                    $this->filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$directory}/.gitkeep");
 
-                    return;
+                    $this->components?->task(sprintf('Add .gitkeep to [%s] directory', $this->pathLocation($directory)));
                 }
-
-                $this->filesystem->ensureDirectoryExists($directory, 0755, true);
-                $this->filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$directory}/.gitkeep");
-
-                $this->components?->task(sprintf('Prepare [%s] directory', $this->pathLocation($directory)));
             });
     }
 }
