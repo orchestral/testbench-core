@@ -73,6 +73,7 @@ final class DiscoverRoutes
         after_resolving($app, 'blade.compiler', static function ($blade) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
             $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
+            $blade->anonymousComponentNamespace(workbench_path('/resources/views/components'), 'workbench');
         });
     }
 }
