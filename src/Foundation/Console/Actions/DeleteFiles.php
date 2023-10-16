@@ -9,7 +9,7 @@ use Illuminate\Support\LazyCollection;
 class DeleteFiles extends Action
 {
     /**
-     * Construct a new delete files instance.
+     * Construct a new action instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  \Illuminate\Console\View\Components\Factory  $components
