@@ -72,6 +72,23 @@ class Application
     }
 
     /**
+     * Create new application resolver from configuration file.
+     *
+     * @param  \Orchestra\Testbench\Contracts\Config  $config
+     * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
+     * @return static
+     */
+    public static function fromConfig(ConfigContract $config, ?callable $resolvingCallback = null)
+    {
+        $workingPath = $config['laravel'] ?? static::applicationBasePath();
+
+        return (new static($workingPath, $resolvingCallback))->configure([
+            'load_environment_variables' => file_exists("{$workingPath}/.env"),
+            'extra' => $config->getExtraAttributes(),
+        ]);
+    }
+
+    /**
      * Create symlink to vendor path via new application instance.
      *
      * @param  string|null  $basePath
@@ -113,12 +130,7 @@ class Application
      */
     public static function createFromConfig(ConfigContract $config, ?callable $resolvingCallback = null)
     {
-        $workingPath = $config['laravel'] ?? static::applicationBasePath();
-
-        return (new static($workingPath, $resolvingCallback))->configure([
-            'load_environment_variables' => file_exists("{$workingPath}/.env"),
-            'extra' => $config->getExtraAttributes(),
-        ])->createApplication();
+        return static::fromConfig($config, $resolvingCallback)->createApplication();
     }
 
     /**
