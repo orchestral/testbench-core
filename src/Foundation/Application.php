@@ -128,8 +128,8 @@ class Application
      * Create new application instance.
      *
      * @param  string|null  $basePath
-     * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
-     * @param  array  $options
+     * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
+     * @param  array<string, mixed>  $options
      * @return \Illuminate\Foundation\Application
      *
      * @phpstan-param TConfig  $options
@@ -157,7 +157,7 @@ class Application
     /**
      * Configure the application options.
      *
-     * @param  array  $options
+     * @param  array<string, mixed>  $options
      * @return $this
      *
      * @phpstan-param TConfig  $options
