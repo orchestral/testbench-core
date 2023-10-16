@@ -26,7 +26,7 @@ class WithWorkbenchTest extends TestCase
         $this->assertSame([
             'env' => ["APP_NAME='Testbench'"],
             'bootstrappers' => [],
-            'providers' => ['Workbench\App\Providers\TestbenchServiceProvider'],
+            'providers' => ['Workbench\App\Providers\WorkbenchServiceProvider'],
             'dont-discover' => [],
         ], $cachedConfig->getExtraAttributes());
     }

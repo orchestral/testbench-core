@@ -9,17 +9,15 @@ use Orchestra\Workbench\WorkbenchServiceProvider;
 /**
  * @internal
  */
-final class StartWorkbench
+class StartWorkbench
 {
     /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
      * @param  \Orchestra\Testbench\Contracts\Config  $config
-     * @param  bool  $loadWorkbenchProviders
      */
     public function __construct(
         public Config $config,
-        public bool $loadWorkbenchProviders = true
     ) {
         //
     }
@@ -34,7 +32,18 @@ final class StartWorkbench
     {
         $app->singleton(Config::class, fn () => $this->config);
 
-        if ($this->loadWorkbenchProviders === true && class_exists(WorkbenchServiceProvider::class)) {
+        $this->loadWorkbenchProviders($app);
+    }
+
+    /**
+     * Load Workbench providers.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    protected function loadWorkbenchProviders(Application $app): void
+    {
+        if (class_exists(WorkbenchServiceProvider::class)) {
             $app->register(WorkbenchServiceProvider::class);
         }
     }
