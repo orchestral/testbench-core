@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 
 /**
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
@@ -101,6 +102,23 @@ class Application
     public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
     {
         return (new static($basePath, $resolvingCallback))->configure($options)->createApplication();
+    }
+
+    /**
+     * Create new application instance from configuration file.
+     *
+     * @param  \Orchestra\Testbench\Contracts\Config  $config
+     * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
+     * @return \Illuminate\Foundation\Application
+     */
+    public static function createFromConfig(ConfigContract $config, ?callable $resolvingCallback = null)
+    {
+        $workingPath = $config['laravel'] ?? static::applicationBasePath();
+
+        return (new static($workingPath, $resolvingCallback))->configure([
+            'load_environment_variables' => file_exists("{$workingPath}/.env"),
+            'extra' => $config->getExtraAttributes(),
+        ])->createApplication();
     }
 
     /**
