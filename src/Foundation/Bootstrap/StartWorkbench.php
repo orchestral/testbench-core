@@ -8,7 +8,7 @@ use Orchestra\Testbench\Contracts\Config;
 /**
  * @internal
  */
-final class StartWorkbench
+class StartWorkbench
 {
     /**
      * The project configuration.
