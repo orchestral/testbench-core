@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
 
@@ -25,6 +26,10 @@ $createApp = static function (string $workingPath) {
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
         resolvingCallback: static function ($app) use ($config) {
             (new StartWorkbench($config))->bootstrap($app);
+
+            $app->booted(static function ($app) use ($config) {
+                (new DiscoverRoutes($config))->bootstrap($app);
+            });
         },
     );
 };

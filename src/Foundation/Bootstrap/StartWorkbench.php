@@ -9,7 +9,7 @@ use Orchestra\Workbench\WorkbenchServiceProvider;
 /**
  * @internal
  */
-class StartWorkbench
+final class StartWorkbench
 {
     /**
      * Construct a new Create Vendor Symlink bootstrapper.

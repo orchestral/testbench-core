@@ -28,17 +28,10 @@ function container(
     Config $config = null
 ): Foundation\Application {
     if ($config instanceof Config) {
-        $hasEnvironmentFile = ! \is_null($config['laravel'])
-            ? file_exists($config['laravel'].'/.env')
-            : (! \is_null($basePath) && file_exists("{$basePath}/.env"));
-
-        return (new Foundation\Application($config['laravel'] ?? $basePath, $resolvingCallback))->configure(array_merge($options, [
-            'load_environment_variables' => $hasEnvironmentFile,
-            'extra' => $config->getExtraAttributes(),
-        ]));
+        return Foundation\Application::makeFromConfig($config, $resolvingCallback, $options);
     }
 
-    return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
+    return Foundation\Application::make($basePath, $resolvingCallback, $options);
 }
 
 /**
