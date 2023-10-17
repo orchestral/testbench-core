@@ -49,12 +49,14 @@ use function Orchestra\Testbench\transform_relative_path;
  * @phpstan-type TWorkbenchDiscoversConfig array{
  *   web: bool,
  *   api: bool,
- *   commands: bool
+ *   commands: bool,
+ *   views: bool
  * }
  * @phpstan-type TWorkbenchOptionalDiscoversConfig array{
  *   web?: bool,
  *   api?: bool,
- *   commands?: bool
+ *   commands?: bool,
+ *   views?: bool
  * }
  * @phpstan-type TConfig array{
  *   laravel: string|null,
@@ -117,6 +119,7 @@ class Config extends Fluent implements ConfigContract
             'web' => false,
             'api' => false,
             'commands' => false,
+            'views' => false,
         ],
     ];
 
@@ -131,6 +134,7 @@ class Config extends Fluent implements ConfigContract
         'web' => false,
         'api' => false,
         'commands' => false,
+        'views' => false,
     ];
 
     /**
