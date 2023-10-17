@@ -6,6 +6,8 @@ use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
+use function Orchestra\Testbench\workbench_path;
+
 /**
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
  * @phpstan-import-type TOptionalExtraConfig from \Orchestra\Testbench\Foundation\Config
