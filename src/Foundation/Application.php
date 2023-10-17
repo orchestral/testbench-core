@@ -235,6 +235,8 @@ class Application
 
         if (file_exists($app->basePath('app/Console/Kernel.php')) && class_exists('App\Console\Kernel')) {
             $kernel = 'App\Console\Kernel';
+        } elseif (file_exists(workbench_path('app/Console/Kernel.php')) && class_exists('Workbench\App\Console\Kernel')) {
+            $kernel = 'Workbench\App\Console\Kernel';
         }
 
         $app->singleton('Illuminate\Contracts\Console\Kernel', $kernel);
@@ -252,6 +254,8 @@ class Application
 
         if (file_exists($app->basePath('app/Http/Kernel.php')) && class_exists('App\Http\Kernel')) {
             $kernel = 'App\Http\Kernel';
+        } elseif (file_exists(workbench_path('app/Http/Kernel.php')) && class_exists('Workbench\App\Http\Kernel')) {
+            $kernel = 'Workbench\App\Http\Kernel';
         }
 
         $app->singleton('Illuminate\Contracts\Http\Kernel', $kernel);
