@@ -71,14 +71,17 @@ final class DiscoverRoutes
 
             if (($config['views'] ?? false) === true && method_exists($view, 'addLocation')) {
                 $view->addLocation($path);
+            } else {
+                $view->addNamespace('workbench', $path);
             }
-
-            $view->addNamespace('workbench', $path);
         });
 
-        after_resolving($app, 'blade.compiler', static function ($blade) {
+        after_resolving($app, 'blade.compiler', static function ($blade) use ($config) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
-            $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
+
+            if (($config['views'] ?? false) === false) {
+                $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
+            }
         });
     }
 }
