@@ -5,27 +5,11 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
-
-use function Orchestra\Testbench\workbench_path;
+use Orchestra\Testbench\Foundation\WorkbenchFinder;
 
 trait InteractsWithWorkbench
 {
     use InteractsWithPHPUnit;
-
-    /**
-     * The cached core workbench bindings.
-     *
-     * @var array{kernel: array{console: string|null, http: string|null}, handler: array{exception: string|null}}
-     */
-    protected static $cachedWorkbenchBindings = [
-        'kernel' => [
-            'console' => null,
-            'http' => null,
-        ],
-        'handler' => [
-            'exception' => null,
-        ],
-    ];
 
     /**
      * The cached test case configuration.
@@ -107,13 +91,7 @@ trait InteractsWithWorkbench
     protected function applicationConsoleKernelUsingWorkbench($app): string
     {
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            if (! isset(static::$cachedWorkbenchBindings['kernel']['console'])) {
-                static::$cachedWorkbenchBindings['kernel']['console'] = file_exists(workbench_path('/app/Console/Kernel.php'))
-                    ? 'Workbench\App\Console\Kernel'
-                    : 'Orchestra\Testbench\Console\Kernel';
-            }
-
-            return static::$cachedWorkbenchBindings['kernel']['console'];
+            return WorkbenchFinder::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
         }
 
         return 'Orchestra\Testbench\Console\Kernel';
@@ -128,13 +106,7 @@ trait InteractsWithWorkbench
     protected function applicationHttpKernelUsingWorkbench($app): string
     {
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            if (! isset(static::$cachedWorkbenchBindings['kernel']['http'])) {
-                static::$cachedWorkbenchBindings['kernel']['http'] = file_exists(workbench_path('/app/Http/Kernel.php'))
-                    ? 'Workbench\App\Http\Kernel'
-                    : 'Orchestra\Testbench\Http\Kernel';
-            }
-
-            return static::$cachedWorkbenchBindings['kernel']['http'];
+            return WorkbenchFinder::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
         }
 
         return 'Orchestra\Testbench\Http\Kernel';
@@ -149,13 +121,7 @@ trait InteractsWithWorkbench
     protected function applicationExceptionHandlerUsingWorkbench($app): string
     {
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            if (! isset(static::$cachedWorkbenchBindings['handler']['exception'])) {
-                static::$cachedWorkbenchBindings['handler']['exception'] = file_exists(workbench_path('/app/Exceptions/Exceptions.php'))
-                    ? 'Workbench\App\Exceptions\Handler'
-                    : 'Orchestra\Testbench\Exceptions\Handler';
-            }
-
-            return static::$cachedWorkbenchBindings['handler']['exception'];
+            return WorkbenchFinder::applicationExceptionHandler() ?? 'Orchestra\Testbench\Exceptions\Handler';
         }
 
         return 'Orchestra\Testbench\Exceptions\Handler';
