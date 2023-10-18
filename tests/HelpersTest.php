@@ -57,5 +57,10 @@ class HelpersTest extends TestCase
             realpath(__DIR__.DIRECTORY_SEPARATOR.'HelpersTest.php'),
             package_path('tests'.DIRECTORY_SEPARATOR.'HelpersTest.php')
         );
+
+        $this->assertSame(
+            realpath(__DIR__.DIRECTORY_SEPARATOR.'HelpersTest.php'),
+            package_path(DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'HelpersTest.php')
+        );
     }
 }
