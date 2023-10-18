@@ -21,7 +21,8 @@ class DiscoversTest extends TestCase
     {
         $this->get('/testbench')
             ->assertOk()
-            ->assertSee('Alert Component');
+            ->assertSee('Alert Component')
+            ->assertSee('Notification Component');
     }
 
     /** @test */
