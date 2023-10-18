@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Testbench\Foundation\WorkbenchFinder;
 
 trait InteractsWithWorkbench
 {
@@ -22,7 +23,7 @@ trait InteractsWithWorkbench
      *
      * @return string|null
      */
-    public static function applicationBasePathUsingWorkbench()
+    public static function applicationBasePathUsingWorkbench(): ?string
     {
         if (! static::usesTestingConcern()) {
             return $_ENV['APP_BASE_PATH'] ?? null;
@@ -36,7 +37,7 @@ trait InteractsWithWorkbench
      *
      * @return array<int, string>|null
      */
-    public function ignorePackageDiscoveriesFromUsingWorkbench()
+    public function ignorePackageDiscoveriesFromUsingWorkbench(): ?array
     {
         if (property_exists($this, 'enablesPackageDiscoveries') && \is_bool($this->enablesPackageDiscoveries)) {
             return $this->enablesPackageDiscoveries === false ? ['*'] : [];
@@ -53,7 +54,7 @@ trait InteractsWithWorkbench
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>|null
      */
-    protected function getPackageBootstrappersUsingWorkbench($app)
+    protected function getPackageBootstrappersUsingWorkbench($app): ?array
     {
         if (empty($bootstrappers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['bootstrappers'] ?? null))) {
             return null;
@@ -70,7 +71,7 @@ trait InteractsWithWorkbench
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>|null
      */
-    protected function getPackageProvidersUsingWorkbench($app)
+    protected function getPackageProvidersUsingWorkbench($app): ?array
     {
         if (empty($providers = (static::$cachedConfigurationForWorkbench?->getExtraAttributes()['providers'] ?? null))) {
             return null;
@@ -79,6 +80,51 @@ trait InteractsWithWorkbench
         return static::usesTestingConcern(WithWorkbench::class)
             ? Arr::wrap($providers)
             : [];
+    }
+
+    /**
+     * Resolve application Console Kernel implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return string
+     */
+    protected function applicationConsoleKernelUsingWorkbench($app): string
+    {
+        if (static::usesTestingConcern(WithWorkbench::class)) {
+            return WorkbenchFinder::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
+        }
+
+        return 'Orchestra\Testbench\Console\Kernel';
+    }
+
+    /**
+     * Get application HTTP Kernel implementation using Workbench.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return string
+     */
+    protected function applicationHttpKernelUsingWorkbench($app): string
+    {
+        if (static::usesTestingConcern(WithWorkbench::class)) {
+            return WorkbenchFinder::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
+        }
+
+        return 'Orchestra\Testbench\Http\Kernel';
+    }
+
+    /**
+     * Get application HTTP exception handler using Workbench.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return string
+     */
+    protected function applicationExceptionHandlerUsingWorkbench($app): string
+    {
+        if (static::usesTestingConcern(WithWorkbench::class)) {
+            return WorkbenchFinder::applicationExceptionHandler() ?? 'Orchestra\Testbench\Exceptions\Handler';
+        }
+
+        return 'Orchestra\Testbench\Exceptions\Handler';
     }
 
     /**
