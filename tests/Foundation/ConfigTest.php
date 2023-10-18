@@ -50,6 +50,7 @@ class ConfigTest extends TestCase
                 'web' => false,
                 'api' => false,
                 'commands' => false,
+                'views' => false,
             ],
         ], $config->getWorkbenchAttributes());
 
@@ -57,6 +58,7 @@ class ConfigTest extends TestCase
             'web' => false,
             'api' => false,
             'commands' => false,
+            'views' => false,
         ], $config->getWorkbenchDiscoversAttributes());
     }
 
@@ -98,6 +100,7 @@ class ConfigTest extends TestCase
                 'web' => false,
                 'api' => false,
                 'commands' => false,
+                'views' => false,
             ],
         ], $config->getWorkbenchAttributes());
 
@@ -105,6 +108,7 @@ class ConfigTest extends TestCase
             'web' => false,
             'api' => false,
             'commands' => false,
+            'views' => false,
         ], $config->getWorkbenchDiscoversAttributes());
     }
 

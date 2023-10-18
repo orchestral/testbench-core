@@ -128,7 +128,7 @@ class Application
      * Create new application instance.
      *
      * @param  string|null  $basePath
-     * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
+     * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      * @param  array<string, mixed>  $options
      * @return \Illuminate\Foundation\Application
      *
@@ -282,7 +282,7 @@ class Application
      */
     protected function resolveApplicationConsoleKernel($app)
     {
-        $kernel = 'Orchestra\Testbench\Console\Kernel';
+        $kernel = WorkbenchFinder::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
 
         if (file_exists($app->basePath('app/Console/Kernel.php')) && class_exists('App\Console\Kernel')) {
             $kernel = 'App\Console\Kernel';
@@ -299,7 +299,7 @@ class Application
      */
     protected function resolveApplicationHttpKernel($app)
     {
-        $kernel = 'Orchestra\Testbench\Http\Kernel';
+        $kernel = WorkbenchFinder::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
 
         if (file_exists($app->basePath('app/Http/Kernel.php')) && class_exists('App\Http\Kernel')) {
             $kernel = 'App\Http\Kernel';

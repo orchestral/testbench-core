@@ -65,15 +65,23 @@ final class DiscoverRoutes
             );
         });
 
-        after_resolving($app, 'view', static function ($view) {
-            /** @var \Illuminate\Contracts\View\Factory $view */
-            $view->addNamespace('workbench', workbench_path('/resources/views'));
+        after_resolving($app, 'view', static function ($view) use ($config) {
+            /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
+            $path = workbench_path('/resources/views');
+
+            if (($config['views'] ?? false) === true && method_exists($view, 'addLocation')) {
+                $view->addLocation($path);
+            } else {
+                $view->addNamespace('workbench', $path);
+            }
         });
 
-        after_resolving($app, 'blade.compiler', static function ($blade) {
+        after_resolving($app, 'blade.compiler', static function ($blade) use ($config) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
-            $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
-            $blade->anonymousComponentNamespace(workbench_path('/resources/views/components'), 'workbench');
+            if (($config['views'] ?? false) === false) {
+                $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
+                $blade->anonymousComponentNamespace(workbench_path('/resources/views/components'), 'workbench');
+            }
         });
     }
 }
