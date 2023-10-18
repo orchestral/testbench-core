@@ -22,9 +22,7 @@ trait WithWorkbench
         /** @var \Orchestra\Testbench\Contracts\Config $config */
         $config = static::cachedConfigurationForWorkbench();
 
-        $app->booted(static function ($app) use ($config) {
-            (new DiscoverRoutes($config))->bootstrap($app);
-        });
+        (new StartWorkbench($config))->bootstrap($app);
 
         (new LoadMigrationsFromArray(
             $config['migrations'] ?? [], $config['seeders'] ?? false,
