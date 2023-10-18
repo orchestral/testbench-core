@@ -78,7 +78,6 @@ final class DiscoverRoutes
 
         after_resolving($app, 'blade.compiler', static function ($blade) use ($config) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
-
             if (($config['views'] ?? false) === false) {
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }

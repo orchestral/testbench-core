@@ -6,6 +6,7 @@ use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
+
 use function Orchestra\Testbench\default_environment_variables;
 
 /**
