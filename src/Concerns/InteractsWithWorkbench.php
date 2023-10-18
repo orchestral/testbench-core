@@ -6,6 +6,8 @@ use Illuminate\Support\Arr;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
 
+use function Orchestra\Testbench\workbench_path;
+
 trait InteractsWithWorkbench
 {
     use InteractsWithPHPUnit;
@@ -22,7 +24,7 @@ trait InteractsWithWorkbench
      *
      * @return string|null
      */
-    public static function applicationBasePathUsingWorkbench()
+    public static function applicationBasePathUsingWorkbench(): ?string
     {
         if (! static::usesTestingConcern()) {
             return $_ENV['APP_BASE_PATH'] ?? null;
@@ -36,7 +38,7 @@ trait InteractsWithWorkbench
      *
      * @return array<int, string>|null
      */
-    public function ignorePackageDiscoveriesFromUsingWorkbench()
+    public function ignorePackageDiscoveriesFromUsingWorkbench(): ?array
     {
         if (property_exists($this, 'enablesPackageDiscoveries') && \is_bool($this->enablesPackageDiscoveries)) {
             return $this->enablesPackageDiscoveries === false ? ['*'] : [];
@@ -53,7 +55,7 @@ trait InteractsWithWorkbench
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>|null
      */
-    protected function getPackageBootstrappersUsingWorkbench($app)
+    protected function getPackageBootstrappersUsingWorkbench($app): ?array
     {
         if (empty($bootstrappers = (optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['bootstrappers'] ?? null))) {
             return null;
@@ -70,7 +72,7 @@ trait InteractsWithWorkbench
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>|null
      */
-    protected function getPackageProvidersUsingWorkbench($app)
+    protected function getPackageProvidersUsingWorkbench($app): ?array
     {
         if (empty($providers = (optional(static::$cachedConfigurationForWorkbench)->getExtraAttributes()['providers'] ?? null))) {
             return null;
@@ -80,6 +82,45 @@ trait InteractsWithWorkbench
             ? Arr::wrap($providers)
             : [];
     }
+
+    /**
+     * Resolve application Console Kernel implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return string
+     */
+    protected function applicationConsoleKernelUsingWorkbench($app): string
+    {
+        return static::usesTestingConcern(WithWorkbench::class) && file_exists(workbench_path('/app/Console/Kernel.php'))
+            ? 'Workbench\App\Console\Kernel'
+            : 'Orchestra\Testbench\Console\Kernel';
+    }
+
+    /**
+     * Get application HTTP Kernel implementation using Workbench.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return string
+     */
+    protected function applicationHttpKernelUsingWorkbench($app): string
+    {
+        return static::usesTestingConcern(WithWorkbench::class) && file_exists(workbench_path('/app/Http/Kernel.php'))
+            ? 'Workbench\App\Http\Kernel'
+            : 'Orchestra\Testbench\Http\Kernel';
+    }
+
+
+    /**
+     * Get application HTTP exception handler using Workbench.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return string
+     */
+    protected function applicationExceptionHandlerUsingWorkbench($app)
+    {
+        $app->singleton('Illuminate\Contracts\Debug\ExceptionHandler', 'Orchestra\Testbench\Exceptions\Handler');
+    }
+
 
     /**
      * Define or get the cached uses for test case.
