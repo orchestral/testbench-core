@@ -9,6 +9,17 @@ class DiscoversTest extends TestCase
 {
     use WithWorkbench;
 
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
+    }
+
     /** @test */
     public function it_can_resolve_web_routes_from_discovers()
     {
