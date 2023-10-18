@@ -23,8 +23,6 @@ trait WithWorkbench
         /** @var \Orchestra\Testbench\Contracts\Config $config */
         $config = static::cachedConfigurationForWorkbench();
 
-        (new StartWorkbench($config))->bootstrap($app);
-
         $app->booted(static function ($app) use ($config) {
             (new DiscoverRoutes($config))->bootstrap($app);
         });
@@ -32,5 +30,15 @@ trait WithWorkbench
         (new LoadMigrationsFromArray(
             $config['migrations'] ?? [], $config['seeders'] ?? false,
         ))->bootstrap($app);
+    }
+
+    /**
+     * Bootstrap discover routes.
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    protected function bootDiscoverRoutes($app): void
+    {
+        (new DiscoverRoutes(static::cachedConfigurationForWorkbench()))->bootstrap($app);
     }
 }
