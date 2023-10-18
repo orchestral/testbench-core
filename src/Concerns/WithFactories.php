@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Concerns;
 use Exception;
 use Illuminate\Database\Eloquent\Factory as ModelFactory;
 
+/**
+ * @deprecated
+ */
 trait WithFactories
 {
     /**
