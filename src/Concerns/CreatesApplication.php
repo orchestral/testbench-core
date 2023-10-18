@@ -357,7 +357,8 @@ trait CreatesApplication
         $this->getEnvironmentSetUp($app);
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            (new DiscoverRoutes(static::cachedConfigurationForWorkbench()))->bootstrap($app);
+            /** @phpstan-ignore-next-line */
+            $this->bootDiscoverRoutesForWorkbench($app);
         }
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);

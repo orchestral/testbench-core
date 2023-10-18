@@ -34,11 +34,15 @@ trait WithWorkbench
 
     /**
      * Bootstrap discover routes.
+     *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
-    protected function bootDiscoverRoutes($app): void
+    protected function bootDiscoverRoutesForWorkbench($app): void
     {
-        (new DiscoverRoutes(static::cachedConfigurationForWorkbench()))->bootstrap($app);
+        /** @var \Orchestra\Testbench\Contracts\Config $config */
+        $config = static::cachedConfigurationForWorkbench();
+
+        (new DiscoverRoutes($config))->bootstrap($app);
     }
 }
