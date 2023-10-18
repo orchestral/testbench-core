@@ -23,6 +23,8 @@ trait WithWorkbench
         /** @var \Orchestra\Testbench\Contracts\Config $config */
         $config = static::cachedConfigurationForWorkbench();
 
+        (new StartWorkbench($config))->bootstrap($app);
+
         (new LoadMigrationsFromArray(
             $config['migrations'] ?? [], $config['seeders'] ?? false,
         ))->bootstrap($app);
