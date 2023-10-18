@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
+use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 
 trait WithWorkbench
 {
@@ -22,9 +23,7 @@ trait WithWorkbench
         /** @var \Orchestra\Testbench\Contracts\Config $config */
         $config = static::cachedConfigurationForWorkbench();
 
-        $app->booted(static function ($app) use ($config) {
-            (new DiscoverRoutes($config))->bootstrap($app);
-        });
+        (new StartWorkbench($config))->bootstrap($app);
 
         (new LoadMigrationsFromArray(
             $config['migrations'] ?? [], $config['seeders'] ?? false,
