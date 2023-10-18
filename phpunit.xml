@@ -33,7 +33,7 @@
             <file>src/Exceptions/DeprecatedException.php</file>
             <file>src/Exceptions/Handler.php</file>
             <file>src/Exceptions/PHPUnitErrorException.php</file>
-            <file>src/Foundation/Bootstrap/StartWorkbench.php</file>
+            <file>src/Foundation/Bootstrap/RegisterWorkbenchProvider.php</file>
             <file>src/Foundation/Console/Concerns/InteractsWithIO.php</file>
             <file>src/Foundation/Console/Kernel.php</file>
             <file>src/Foundation/Console/PurgeSkeletonCommand.php</file>

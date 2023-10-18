@@ -3,41 +3,32 @@
 namespace Orchestra\Testbench\Tests\Factories;
 
 use Carbon\CarbonInterface;
-use Illuminate\Foundation\Auth\User;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\TestCase;
 
 class UserFactoryTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function it_can_make_user_from_factory()
-    {
-        $user = UserFactory::new()->make([
-            'name' => 'Mior Muhammad Zaki',
-            'email' => 'crynobone@gmail.com',
-        ]);
+    use WithWorkbench;
 
-        $this->assertInstanceOf(User::class, $user);
-        $this->assertSame('Mior Muhammad Zaki', $user->name);
-        $this->assertSame('crynobone@gmail.com', $user->email);
+    /** @test */
+    public function it_can_generate_user()
+    {
+        $user = UserFactory::new()->make();
+
+        $this->assertFalse($user->exists);
+        $this->assertNotNull($user->email);
+        $this->assertNotNull($user->email_verified_at);
         $this->assertInstanceOf(CarbonInterface::class, $user->email_verified_at);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_make_unverified_user_from_factory()
+    /** @test */
+    public function it_can_generate_unverified_user()
     {
-        $user = UserFactory::new()->unverified()->make([
-            'name' => 'Mior Muhammad Zaki',
-            'email' => 'crynobone@gmail.com',
-        ]);
+        $user = UserFactory::new()->unverified()->make();
 
-        $this->assertInstanceOf(User::class, $user);
-        $this->assertSame('Mior Muhammad Zaki', $user->name);
-        $this->assertSame('crynobone@gmail.com', $user->email);
+        $this->assertFalse($user->exists);
+        $this->assertNotNull($user->email);
         $this->assertNull($user->email_verified_at);
     }
 }

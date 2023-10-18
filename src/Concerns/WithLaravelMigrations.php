@@ -19,7 +19,7 @@ trait WithLaravelMigrations
     protected function setUpWithLaravelMigrations(): void
     {
         /** @var bool $loadLaravelMigrations */
-        $loadLaravelMigrations = static::$cachedConfigurationForWorkbench?->getWorkbenchAttributes()['install'] ?? false;
+        $loadLaravelMigrations = static::cachedConfigurationForWorkbench()->getWorkbenchAttributes()['install'] ?? false;
 
         if (! ($loadLaravelMigrations && static::usesTestingConcern(WithWorkbench::class))) {
             if (! is_dir($this->app->basePath('migrations'))) {
