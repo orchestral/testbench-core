@@ -373,6 +373,11 @@ trait CreatesApplication
 
         $this->resolveApplicationRateLimiting($app);
 
+        if (static::usesTestingConcern(WithWorkbench::class)) {
+            /** @phpstan-ignore-next-line */
+            $this->bootDiscoverRoutesForWorkbench($app);
+        }
+
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
