@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Factories;
 
 use Carbon\CarbonInterface;
+use Illuminate\Foundation\Auth\User;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\TestCase;
@@ -16,6 +17,7 @@ class UserFactoryTest extends TestCase
     {
         $user = UserFactory::new()->make();
 
+        $this->assertInstanceOf(User::class, $user);
         $this->assertFalse($user->exists);
         $this->assertNotNull($user->email);
         $this->assertNotNull($user->email_verified_at);
@@ -28,6 +30,7 @@ class UserFactoryTest extends TestCase
     {
         $user = UserFactory::new()->unverified()->make();
 
+        $this->assertInstanceOf(User::class, $user);
         $this->assertFalse($user->exists);
         $this->assertNotNull($user->email);
         $this->assertNull($user->email_verified_at);
