@@ -374,13 +374,24 @@ trait CreatesApplication
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
+        $this->refreshApplicationRouteNameLookups($app);
+    }
+
+    /**
+     * Refresh route name lookup for the application.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    final protected function refreshApplicationRouteNameLookups($app)
+    {
         $refreshNameLookups = static function ($app) {
             $app['router']->getRoutes()->refreshNameLookups();
         };
 
         $refreshNameLookups($app);
 
-        $app->resolving('url', static function ($url, $app) use ($refreshNameLookups) {
+        $app->resolving('url', static function () use ($app, $refreshNameLookups) {
             $refreshNameLookups($app);
         });
     }
