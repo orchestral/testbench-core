@@ -49,7 +49,6 @@ trait InteractsWithSqliteDatabaseFile
             $filesystem = new Filesystem();
 
             $database = database_path('database.sqlite');
-            $time = time();
 
             if (! $filesystem->exists($database)) {
                 $filesystem->copy($example = "{$database}.example", $database);
