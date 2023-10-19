@@ -1,11 +1,12 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Fixtures\Controllers;
+namespace Workbench\App\Http\Controllers;
 
 use Closure;
+use Illuminate\Routing\Controller;
 use PHPUnit\Framework\Assert;
 
-class Controller extends \Illuminate\Routing\Controller
+class ExampleController extends Controller
 {
     public function __construct()
     {
@@ -13,7 +14,7 @@ class Controller extends \Illuminate\Routing\Controller
             $route = app('router')->getCurrentRoute();
 
             Assert::assertSame('index', $route->getActionMethod());
-            Assert::assertSame(Controller::class, \get_class($route->getController()));
+            Assert::assertSame(ExampleController::class, \get_class($route->getController()));
 
             return $next($request);
         });
@@ -21,6 +22,6 @@ class Controller extends \Illuminate\Routing\Controller
 
     public function index()
     {
-        return 'Controller@index';
+        return 'ExampleController@index';
     }
 }

@@ -14,7 +14,7 @@ class CacheRouteTest extends TestCase
         $this->defineCacheRoutes(<<<PHP
 <?php
 
-Route::get('stubs-controller', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller@index');
+Route::get('stubs-controller', 'Workbench\App\Http\Controllers\ExampleController@index');
 PHP);
 
         parent::setUp();
@@ -25,6 +25,6 @@ PHP);
     {
         $this->get('stubs-controller')
             ->assertOk()
-            ->assertSee('Controller@index');
+            ->assertSee('ExampleController@index');
     }
 }
