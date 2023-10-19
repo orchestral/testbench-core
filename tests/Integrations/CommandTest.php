@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Console\Application as Artisan;
 use Orchestra\Testbench\TestCase;
-use Orchestra\Testbench\Tests\Fixtures\Commands\DummyCommand;
+use Workbench\App\Console\Commands\DummyCommand;
 
 class CommandTest extends TestCase
 {
