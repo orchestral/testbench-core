@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Routing\Router;
 use Orchestra\Testbench\TestCase;
+use Workbench\App\Http\Controllers\ExampleController;
 
 class RouteTest extends TestCase
 {
@@ -40,7 +41,7 @@ class RouteTest extends TestCase
             })->name('boss.bye');
         });
 
-        $router->resource('foo', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller');
+        $router->resource('foo', ExampleController::class);
     }
 
     /** @test */
@@ -73,7 +74,7 @@ class RouteTest extends TestCase
         $response = $this->call('GET', 'foo');
 
         $response->assertStatus(200);
-        $this->assertEquals('Controller@index', $response->getContent());
+        $this->assertEquals('ExampleController@index', $response->getContent());
     }
 
     /** @test */
