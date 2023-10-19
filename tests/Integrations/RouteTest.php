@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 use Exception;
 use Illuminate\Routing\Router;
 use Orchestra\Testbench\TestCase;
+use Workbench\App\Http\Controllers\ExampleController;
 
 class RouteTest extends TestCase
 {
@@ -31,7 +32,7 @@ class RouteTest extends TestCase
             $router->get('goodbye', fn () => 'goodbye boss')->name('boss.bye');
         });
 
-        $router->resource('foo', 'Orchestra\Testbench\Tests\Fixtures\Controllers\Controller');
+        $router->resource('foo', ExampleController::class);
     }
 
     /** @test */
@@ -64,7 +65,7 @@ class RouteTest extends TestCase
         $response = $this->call('GET', 'foo');
 
         $response->assertStatus(200);
-        $this->assertEquals('Controller@index', $response->getContent());
+        $this->assertEquals('ExampleController@index', $response->getContent());
     }
 
     /** @test */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Fixtures\Commands;
+namespace Workbench\App\Console\Commands;
 
 use Illuminate\Console\Command;
 
