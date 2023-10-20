@@ -2,11 +2,10 @@
 
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
-use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
-use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Workbench;
+use Orchestra\Testbench\Workbench\Workbench;
+
 use function Orchestra\Testbench\default_environment_variables;
 
 /**

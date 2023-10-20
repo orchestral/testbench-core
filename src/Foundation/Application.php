@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use Orchestra\Testbench\Workbench\Workbench;
 
 /**
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
@@ -173,6 +174,11 @@ class Application
     protected function resolveApplication()
     {
         return tap($this->resolveApplicationFromTrait(), function ($app) {
+            $app->bind(
+                'Illuminate\Foundation\Bootstrap\LoadConfiguration',
+                'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
+            );
+
             if (\is_callable($this->resolvingCallback)) {
                 \call_user_func($this->resolvingCallback, $app);
             }
