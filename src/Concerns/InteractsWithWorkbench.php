@@ -3,20 +3,11 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Arr;
-use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\Foundation\WorkbenchFinder;
+use Orchestra\Testbench\Foundation\Workbench;
 
 trait InteractsWithWorkbench
 {
     use InteractsWithPHPUnit;
-
-    /**
-     * The cached test case configuration.
-     *
-     * @var \Orchestra\Testbench\Contracts\Config|null
-     */
-    protected static $cachedConfigurationForWorkbench;
 
     /**
      * Get Application's base path.
@@ -91,7 +82,7 @@ trait InteractsWithWorkbench
     protected function applicationConsoleKernelUsingWorkbench($app): string
     {
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            return WorkbenchFinder::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
+            return Workbench::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
         }
 
         return 'Orchestra\Testbench\Console\Kernel';
@@ -106,7 +97,7 @@ trait InteractsWithWorkbench
     protected function applicationHttpKernelUsingWorkbench($app): string
     {
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            return WorkbenchFinder::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
+            return Workbench::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
         }
 
         return 'Orchestra\Testbench\Http\Kernel';
@@ -121,7 +112,7 @@ trait InteractsWithWorkbench
     protected function applicationExceptionHandlerUsingWorkbench($app): string
     {
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            return WorkbenchFinder::applicationExceptionHandler() ?? 'Orchestra\Testbench\Exceptions\Handler';
+            return Workbench::applicationExceptionHandler() ?? 'Orchestra\Testbench\Exceptions\Handler';
         }
 
         return 'Orchestra\Testbench\Exceptions\Handler';
@@ -134,13 +125,7 @@ trait InteractsWithWorkbench
      */
     public static function cachedConfigurationForWorkbench()
     {
-        return static::$cachedConfigurationForWorkbench ??= Config::cacheFromYaml(
-            match (true) {
-                \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
-                ! \is_null(Env::get('TESTBENCH_WORKING_PATH')) => Env::get('TESTBENCH_WORKING_PATH'),
-                default => getcwd(),
-            }
-        );
+        return Workbench::configuration();
     }
 
     /**
@@ -172,8 +157,6 @@ trait InteractsWithWorkbench
      */
     public static function teardownAfterClassUsingWorkbench(): void
     {
-        static::$cachedConfigurationForWorkbench = null;
-
         unset($_ENV['TESTBENCH_APP_BASE_PATH']);
     }
 }
