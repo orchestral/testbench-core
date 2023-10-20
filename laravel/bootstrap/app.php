@@ -6,7 +6,7 @@ use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
-
+use Orchestra\Testbench\Foundation\Workbench;
 use function Orchestra\Testbench\default_environment_variables;
 
 /**
@@ -25,11 +25,8 @@ $createApp = static function (string $workingPath) {
     return Application::create(
         $config['laravel'],
         static function ($app) use ($config, $hasEnvironmentFile) {
-            (new StartWorkbench($config))->bootstrap($app);
-
-            $app->booted(static function ($app) use ($config) {
-                (new DiscoverRoutes($config))->bootstrap($app);
-            });
+            Workbench::start($app, $config);
+            Workbench::discoverRoutes($app, $config);
 
             if ($hasEnvironmentFile === false) {
                 (new LoadEnvironmentVariablesFromArray(
