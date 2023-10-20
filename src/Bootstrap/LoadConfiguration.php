@@ -66,9 +66,7 @@ class LoadConfiguration
                 }
             })
                 ->collect()
-                ->transform(function ($path, $key) {
-                    return $this->resolveConfigurationFile($path, $key);
-                })
+                ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
         });
