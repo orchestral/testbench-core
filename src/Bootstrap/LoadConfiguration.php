@@ -10,6 +10,8 @@ use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\Workbench;
 use Symfony\Component\Finder\Finder;
 
+use function Orchestra\Testbench\workbench_path;
+
 class LoadConfiguration
 {
     /**
@@ -44,7 +46,7 @@ class LoadConfiguration
      */
     protected function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
-        $workbenchConfig = Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false && is_dir(workbench_path('config'));
+        $workbenchConfig = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false) && is_dir(workbench_path('config'));
 
         foreach ($this->getConfigurationFiles($app) as $key => $path) {
             if ($workbenchConfig === true && is_file(workbench_path("config/{$key}.php"))) {
