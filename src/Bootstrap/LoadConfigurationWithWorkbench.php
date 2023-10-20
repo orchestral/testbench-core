@@ -3,10 +3,11 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Enumerable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
+
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -52,25 +53,25 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
     /**
      * Extend the loaded configuration.
      *
-     * @param  \Illuminate\Support\Enumerable  $configurations
-     * @return void
+     * @param  \Illuminate\Support\Collection  $configurations
+     * @return \Illuminate\Support\Collection
      */
-    protected function extendsLoadedConfiguration(Enumerable $configurations): void
+    protected function extendsLoadedConfiguration(Collection $configurations): Collection
     {
         if ($this->usesWorkbenchConfigFile === false) {
-            return;
+            return $configurations;
         }
 
-        $workbenchConfigurations = LazyCollection::make(static function () {
-            if (is_dir(workbench_path('config'))) {
-                foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
-                    yield basename($file->getRealPath(), '.php') => $file->getRealPath();
-                }
+        LazyCollection::make(static function () {
+            foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
+                yield basename($file->getRealPath(), '.php') => $file->getRealPath();
             }
         })->reject(static function ($path, $key) use ($configurations) {
             return $configurations->has($key);
         })->each(static function ($path, $key) use ($configurations) {
             $configurations->put($key, $path);
         });
+
+        return $configurations;
     }
 }

@@ -5,13 +5,10 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Enumerable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
-
-use function Orchestra\Testbench\workbench_path;
 
 /**
  * @internal
@@ -56,27 +53,23 @@ class LoadConfiguration
      */
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
-        $workbenchConfig = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false) && is_dir(workbench_path('config'));
+        $this->extendsLoadedConfiguration(
+            LazyCollection::make(static function () use ($app) {
+                $path = is_dir($app->basePath('config'))
+                    ? $app->basePath('config')
+                    : realpath(__DIR__.'/../../laravel/config');
 
-        $configurations = LazyCollection::make(static function () use ($app) {
-            $path = is_dir($app->basePath('config'))
-                ? $app->basePath('config')
-                : realpath(__DIR__.'/../../laravel/config');
-
-            if (\is_string($path)) {
-                foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-                    yield basename($file->getRealPath(), '.php') => $file->getRealPath();
+                if (\is_string($path)) {
+                    foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
+                        yield basename($file->getRealPath(), '.php') => $file->getRealPath();
+                    }
                 }
-            }
-        })
-            ->collect()
-            ->transform(function ($path, $key) {
-                return $this->resolveConfigurationFile($path, $key);
-            });
-
-        $this->extendsLoadedConfiguration($configurations);
-
-        $configurations->each(static function ($path, $key) use ($config) {
+            })
+                ->collect()
+                ->transform(function ($path, $key) {
+                    return $this->resolveConfigurationFile($path, $key);
+                })
+        )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
         });
     }
@@ -96,11 +89,11 @@ class LoadConfiguration
     /**
      * Extend the loaded configuration.
      *
-     * @param  \Illuminate\Support\Enumerable  $collection
-     * @return void
+     * @param  \Illuminate\Support\Collection  $configurations
+     * @return \Illuminate\Support\Collection
      */
-    protected function extendsLoadedConfiguration(Enumerable $collection): void
+    protected function extendsLoadedConfiguration(Collection $configurations): Collection
     {
-        //
+        return $configurations;
     }
 }
