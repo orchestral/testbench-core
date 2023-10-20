@@ -68,7 +68,7 @@ class LoadConfiguration
                     ? workbench_path("config/{$key}.php")
                     : $path;
             })
-            ->tap(static function ($loadedConfigurations) {
+            ->when($workbenchConfig, static function ($loadedConfigurations) {
                 $loadedConfigurations->merge(
                     LazyCollection::make(static function () {
                         if (is_dir(workbench_path('config'))) {
