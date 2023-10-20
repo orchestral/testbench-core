@@ -2,10 +2,19 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
+
 use function Orchestra\Testbench\workbench_path;
 
-class WorkbenchFinder
+class Workbench
 {
+    /**
+     * The cached test case configuration.
+     *
+     * @var \Orchestra\Testbench\Contracts\Config|null
+     */
+    protected static $cachedConfiguration;
+
     /**
      * The cached core workbench bindings.
      *
@@ -15,6 +24,28 @@ class WorkbenchFinder
         'kernel' => [],
         'handler' => [],
     ];
+
+    /**
+     * Resolve the configuration.
+     *
+     * @return \Orchestra\Testbench\Contracts\Config
+     */
+    public static function configuration(): ConfigContract
+    {
+        if (\is_null(static::$cachedConfiguration)) {
+            $workingPath = getcwd();
+
+            if (\defined('TESTBENCH_WORKING_PATH')) {
+                $workingPath = TESTBENCH_WORKING_PATH;
+            } elseif (! \is_null(Env::get('TESTBENCH_WORKING_PATH'))) {
+                $workingPath = Env::get('TESTBENCH_WORKING_PATH');
+            }
+
+            static::$cachedConfiguration = Config::cacheFromYaml($workingPath);
+        }
+
+        return static::$cachedConfiguration;
+    }
 
     /**
      * Get application Console Kernel implementation.
@@ -62,5 +93,20 @@ class WorkbenchFinder
         }
 
         return static::$cachedCoreBindings['handler']['exception'];
+    }
+
+    /**
+     * Flush the cached configuration.
+     *
+     * @return void
+     */
+    public static function flush(): void
+    {
+        static::$cachedConfiguration = null;
+
+        static::$cachedCoreBindings = [
+            'kernel' => [],
+            'handler' => [],
+        ];
     }
 }
