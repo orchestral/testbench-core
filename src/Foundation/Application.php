@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
-
+use Orchestra\Testbench\Foundation\Workbench;
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -233,7 +233,7 @@ class Application
      */
     protected function resolveApplicationConsoleKernel($app)
     {
-        $kernel = WorkbenchFinder::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
+        $kernel = Workbench::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
 
         if (file_exists($app->basePath('app/Console/Kernel.php')) && class_exists('App\Console\Kernel')) {
             $kernel = 'App\Console\Kernel';
@@ -250,7 +250,7 @@ class Application
      */
     protected function resolveApplicationHttpKernel($app)
     {
-        $kernel = WorkbenchFinder::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
+        $kernel = Workbench::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
 
         if (file_exists($app->basePath('app/Http/Kernel.php')) && class_exists('App\Http\Kernel')) {
             $kernel = 'App\Http\Kernel';

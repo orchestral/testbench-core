@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Foundation\Workbench;
 use Orchestra\Testbench\TestCase;
 
 class WithWorkbenchTest extends TestCase
@@ -17,7 +18,7 @@ class WithWorkbenchTest extends TestCase
      */
     public function it_can_be_resolved()
     {
-        $cachedConfig = static::$cachedConfigurationForWorkbench;
+        $cachedConfig = Workbench::configuration();
 
         $this->assertInstanceOf(ConfigContract::class, $cachedConfig);
 
@@ -38,9 +39,9 @@ class WithWorkbenchTest extends TestCase
      */
     public function it_can_be_manually_resolved()
     {
-        $cachedConfig = static::$cachedConfigurationForWorkbench;
+        $cachedConfig = static::cachedConfigurationForWorkbench();
 
-        static::$cachedConfigurationForWorkbench = null;
+        Workbench::flush();
 
         $config = static::cachedConfigurationForWorkbench();
 
