@@ -5,9 +5,10 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Enumerable;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\Foundation\Workbench;
+use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\workbench_path;
@@ -17,7 +18,7 @@ use function Orchestra\Testbench\workbench_path;
  *
  * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
  */
-final class LoadConfiguration
+class LoadConfiguration
 {
     /**
      * Bootstrap the given application.
@@ -57,7 +58,7 @@ final class LoadConfiguration
     {
         $workbenchConfig = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false) && is_dir(workbench_path('config'));
 
-        LazyCollection::make(static function () use ($app) {
+        $configurations = LazyCollection::make(static function () use ($app) {
             $path = is_dir($app->basePath('config'))
                 ? $app->basePath('config')
                 : realpath(__DIR__.'/../../laravel/config');
@@ -69,25 +70,37 @@ final class LoadConfiguration
             }
         })
             ->collect()
-            ->transform(static function ($path, $key) use ($workbenchConfig) {
-                return $workbenchConfig === true && is_file(workbench_path("config/{$key}.php"))
-                    ? workbench_path("config/{$key}.php")
-                    : $path;
-            })
-            ->tap(static function ($loadedConfigurations) {
-                $loadedConfigurations->merge(
-                    LazyCollection::make(static function () {
-                        if (is_dir(workbench_path('config'))) {
-                            foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
-                                yield basename($file->getRealPath(), '.php') => $file->getRealPath();
-                            }
-                        }
-                    })->reject(static function ($path, $key) use ($loadedConfigurations) {
-                        return $loadedConfigurations->has($key);
-                    })
-                );
-            })->each(static function ($path, $key) use ($config) {
-                $config->set($key, require $path);
+            ->transform(function ($path, $key) {
+                return $this->resolveConfigurationFile($path, $key);
             });
+
+        $this->extendsLoadedConfiguration($configurations);
+
+        $configurations->each(static function ($path, $key) use ($config) {
+            $config->set($key, require $path);
+        });
+    }
+
+    /**
+     * Resolve the configuration file.
+     *
+     * @param  string  $path
+     * @param  string  $key
+     * @return string
+     */
+    protected function resolveConfigurationFile(string $path, string $key): string
+    {
+        return $path;
+    }
+
+    /**
+     * Extend the loaded configuration.
+     *
+     * @param  \Illuminate\Support\Enumerable  $collection
+     * @return void
+     */
+    protected function extendsLoadedConfiguration(Enumerable $collection): void
+    {
+        //
     }
 }

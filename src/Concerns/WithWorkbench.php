@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
-use Orchestra\Testbench\Foundation\Workbench;
+use Orchestra\Testbench\Workbench\Workbench;
 
 trait WithWorkbench
 {

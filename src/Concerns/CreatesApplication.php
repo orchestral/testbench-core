@@ -241,7 +241,9 @@ trait CreatesApplication
         return tap(new Application($this->getBasePath()), function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
-                'Orchestra\Testbench\Bootstrap\LoadConfiguration'
+                static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
+                    ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
+                    : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
             );
 
             PackageManifest::swap($app, $this);
