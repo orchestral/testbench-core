@@ -3,7 +3,7 @@
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Workbench;
+use Orchestra\Testbench\Workbench\Workbench;
 
 /**
  * Create Laravel application.
