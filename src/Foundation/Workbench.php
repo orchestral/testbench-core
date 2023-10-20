@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Routing\Router;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
-use Orchestra\Testbench\Workbench\WorkbenchServiceProvider as FallbackServicePorvider;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 
 use function Orchestra\Testbench\after_resolving;
@@ -58,11 +57,9 @@ class Workbench
     {
         static::start($app, $config);
 
-        $app->register(
-            class_exists(WorkbenchServiceProvider::class)
-                ? WorkbenchServiceProvider::class
-                : FallbackServicePorvider::class
-        );
+        if (class_exists(WorkbenchServiceProvider::class)) {
+            $app->register(WorkbenchServiceProvider::class);
+        }
     }
 
     /**
