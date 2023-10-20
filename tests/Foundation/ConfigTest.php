@@ -42,6 +42,7 @@ class ConfigTest extends TestCase
             'build' => [],
             'assets' => [],
             'discovers' => [
+                'config' => false,
                 'web' => false,
                 'api' => false,
                 'commands' => false,
@@ -50,6 +51,7 @@ class ConfigTest extends TestCase
         ], $config->getWorkbenchAttributes());
 
         $this->assertSame([
+            'config' => false,
             'web' => false,
             'api' => false,
             'commands' => false,
@@ -87,6 +89,7 @@ class ConfigTest extends TestCase
             'build' => [],
             'assets' => [],
             'discovers' => [
+                'config' => false,
                 'web' => false,
                 'api' => false,
                 'commands' => false,
@@ -95,6 +98,7 @@ class ConfigTest extends TestCase
         ], $config->getWorkbenchAttributes());
 
         $this->assertSame([
+            'config' => false,
             'web' => false,
             'api' => false,
             'commands' => false,

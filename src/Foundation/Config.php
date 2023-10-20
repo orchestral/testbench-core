@@ -47,12 +47,14 @@ use function Orchestra\Testbench\transform_relative_path;
  *   discovers?: TWorkbenchOptionalDiscoversConfig
  * }
  * @phpstan-type TWorkbenchDiscoversConfig array{
+ *   config: bool,
  *   web: bool,
  *   api: bool,
  *   commands: bool,
  *   views: bool
  * }
  * @phpstan-type TWorkbenchOptionalDiscoversConfig array{
+ *   config?: bool,
  *   web?: bool,
  *   api?: bool,
  *   commands?: bool,
@@ -116,6 +118,7 @@ class Config extends Fluent implements ConfigContract
         'build' => [],
         'assets' => [],
         'discovers' => [
+            'config' => false,
             'web' => false,
             'api' => false,
             'commands' => false,
@@ -131,6 +134,7 @@ class Config extends Fluent implements ConfigContract
      * @phpstan-var TWorkbenchDiscoversConfig
      */
     protected $workbenchDiscoversConfig = [
+        'config' => false,
         'web' => false,
         'api' => false,
         'commands' => false,
