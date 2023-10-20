@@ -7,7 +7,10 @@ use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Testbench\Foundation\Workbench;
 use Symfony\Component\Finder\Finder;
+
+use function Orchestra\Testbench\workbench_path;
 
 /**
  * @internal
@@ -52,8 +55,14 @@ final class LoadConfiguration
      */
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
+        $workbenchConfig = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false) && is_dir(workbench_path('config'));
+
         foreach ($this->getConfigurationFiles($app) as $key => $path) {
-            $config->set($key, require $path);
+            if ($workbenchConfig === true && is_file(workbench_path("config/{$key}.php"))) {
+                $config->set($key, require workbench_path("config/{$key}.php"));
+            } else {
+                $config->set($key, require $path);
+            }
         }
     }
 

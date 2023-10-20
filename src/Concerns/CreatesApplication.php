@@ -372,6 +372,11 @@ trait CreatesApplication
 
         $this->resolveApplicationRateLimiting($app);
 
+        if (static::usesTestingConcern(WithWorkbench::class)) {
+            /** @phpstan-ignore-next-line */
+            $this->bootDiscoverRoutesForWorkbench($app);
+        }
+
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
@@ -385,13 +390,24 @@ trait CreatesApplication
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
+        $this->refreshApplicationRouteNameLookups($app);
+    }
+
+    /**
+     * Refresh route name lookup for the application.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    final protected function refreshApplicationRouteNameLookups($app)
+    {
         $refreshNameLookups = static function ($app) {
             $app['router']->getRoutes()->refreshNameLookups();
         };
 
         $refreshNameLookups($app);
 
-        $app->resolving('url', fn ($url, $app) => $refreshNameLookups($app));
+        $app->resolving('url', fn () => $refreshNameLookups($app));
     }
 
     /**

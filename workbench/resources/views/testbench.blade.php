@@ -4,5 +4,6 @@
     </head>
     <body>
         <x-workbench::alert />
+        <x-workbench::notification />
     </body>
 </html>

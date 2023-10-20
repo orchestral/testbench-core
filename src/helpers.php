@@ -132,9 +132,9 @@ function package_path(string $path = ''): string
         return transform_relative_path($path, $workingPath);
     }
 
-    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return $workingPath.DIRECTORY_SEPARATOR.$path;
+    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
 }
 
 /**
@@ -160,7 +160,7 @@ function workbench(): array
  */
 function workbench_path(string $path = ''): string
 {
-    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
     return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
 }

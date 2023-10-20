@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
+use Orchestra\Testbench\Foundation\Bootstrap\RegisterWorkbenchProvider;
 use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
@@ -124,6 +125,7 @@ class Commander
                 basePath: $this->getBasePath(),
                 resolvingCallback: function ($app) {
                     (new StartWorkbench($this->config))->bootstrap($app);
+                    (new RegisterWorkbenchProvider())->bootstrap($app);
 
                     $app->booted(function ($app) {
                         (new DiscoverRoutes($this->config))->bootstrap($app);
