@@ -3,8 +3,6 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
-use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\workbench_path;
 

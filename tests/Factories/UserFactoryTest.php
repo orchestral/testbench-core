@@ -24,7 +24,6 @@ class UserFactoryTest extends TestCase
         $this->assertInstanceOf(CarbonInterface::class, $user->email_verified_at);
     }
 
-
     /** @test */
     public function it_can_generate_unverified_user()
     {

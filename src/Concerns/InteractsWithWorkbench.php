@@ -3,9 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Arr;
-use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\Foundation\Workbench\ConfigFinder;
 use Orchestra\Testbench\Foundation\Workbench;
 
 trait InteractsWithWorkbench
