@@ -37,6 +37,12 @@ class DiscoversTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_route_name_from_discovers()
+    {
+        $this->assertSame(url('/testbench'), route('testbench'));
+    }
+
+    /** @test */
     public function it_can_resolve_commands_from_discovers()
     {
         $this->artisan('workbench:inspire')->assertOk();
