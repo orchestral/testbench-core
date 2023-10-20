@@ -2,10 +2,11 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Enumerable;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
-
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -13,6 +14,27 @@ use function Orchestra\Testbench\workbench_path;
  */
 class LoadConfigurationWithWorkbench extends LoadConfiguration
 {
+    /**
+     * Determine if workbench config file should be loaded.
+     *
+     * @var bool
+     */
+    protected $usesWorkbenchConfigFile = false;
+
+    /**
+     * Bootstrap the given application.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    public function bootstrap(Application $app): void
+    {
+        $this->usesWorkbenchConfigFile = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false)
+            && is_dir(workbench_path('config'));
+
+        parent::bootstrap($app);
+    }
+
     /**
      * Resolve the configuration file.
      *
@@ -22,7 +44,7 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
      */
     protected function resolveConfigurationFile(string $path, string $key): string
     {
-        return is_file(workbench_path("config/{$key}.php"))
+        return $this->usesWorkbenchConfigFile === true && is_file(workbench_path("config/{$key}.php"))
             ? workbench_path("config/{$key}.php")
             : $path;
     }
@@ -35,6 +57,10 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
      */
     protected function extendsLoadedConfiguration(Enumerable $configurations): void
     {
+        if ($this->usesWorkbenchConfigFile === false) {
+            return;
+        }
+
         $workbenchConfigurations = LazyCollection::make(static function () {
             if (is_dir(workbench_path('config'))) {
                 foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
