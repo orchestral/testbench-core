@@ -54,7 +54,7 @@ class Workbench
      */
     public static function discoverRoutes(ApplicationContract $app, ConfigContract $config): void
     {
-        /** @var TWorkbenchDiscoversConfig $config */
+        /** @var TWorkbenchDiscoversConfig $discoversConfig */
         $discoversConfig = $config->getWorkbenchDiscoversAttributes();
 
         $app->booted(function ($app) use ($discoversConfig) {
