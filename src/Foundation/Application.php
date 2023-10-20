@@ -174,11 +174,6 @@ class Application
     protected function resolveApplication()
     {
         return tap($this->resolveApplicationFromTrait(), function ($app) {
-            $app->bind(
-                'Illuminate\Foundation\Bootstrap\LoadConfiguration',
-                'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
-            );
-
             if (\is_callable($this->resolvingCallback)) {
                 \call_user_func($this->resolvingCallback, $app);
             }
