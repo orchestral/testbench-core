@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Support\Enumerable;
 use Illuminate\Support\LazyCollection;
 use Symfony\Component\Finder\Finder;
+
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -34,16 +35,16 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
      */
     protected function extendsLoadedConfiguration(Enumerable $configurations): void
     {
-        $configurations->merge(
-            LazyCollection::make(static function () {
-                if (is_dir(workbench_path('config'))) {
-                    foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
-                        yield basename($file->getRealPath(), '.php') => $file->getRealPath();
-                    }
+        $workbenchConfigurations = LazyCollection::make(static function () {
+            if (is_dir(workbench_path('config'))) {
+                foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
+                    yield basename($file->getRealPath(), '.php') => $file->getRealPath();
                 }
-            })->reject(static function ($path, $key) use ($configurations) {
-                return $configurations->has($key);
-            })
-        );
+            }
+        })->reject(static function ($path, $key) use ($configurations) {
+            return $configurations->has($key);
+        })->each(static function ($path, $key) use ($configurations) {
+            $configurations->put($key, $path);
+        });
     }
 }
