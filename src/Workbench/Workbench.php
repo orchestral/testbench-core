@@ -5,9 +5,9 @@ namespace Orchestra\Testbench\Workbench;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Routing\Router;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
-use Orchestra\Workbench\WorkbenchServiceProvider;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Workbench\WorkbenchServiceProvider;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\workbench_path;
