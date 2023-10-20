@@ -6,10 +6,10 @@ use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\Workbench;
 use Symfony\Component\Finder\Finder;
-
 use function Orchestra\Testbench\workbench_path;
 
 class LoadConfiguration
@@ -48,31 +48,24 @@ class LoadConfiguration
     {
         $workbenchConfig = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false) && is_dir(workbench_path('config'));
 
-        foreach ($this->getConfigurationFiles($app) as $key => $path) {
-            if ($workbenchConfig === true && is_file(workbench_path("config/{$key}.php"))) {
-                $config->set($key, require workbench_path("config/{$key}.php"));
-            } else {
-                $config->set($key, require $path);
-            }
-        }
-    }
+        $configurations = LazyCollection::make(static function () use ($app) {
+            $path = is_dir($app->basePath('config'))
+                ? $app->basePath('config')
+                : realpath(__DIR__.'/../../laravel/config');
 
-    /**
-     * Get all of the configuration files for the application.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return \Generator
-     */
-    protected function getConfigurationFiles(Application $app): Generator
-    {
-        $path = is_dir($app->basePath('config'))
-            ? $app->basePath('config')
-            : realpath(__DIR__.'/../../laravel/config');
-
-        if (\is_string($path)) {
-            foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-                yield basename($file->getRealPath(), '.php') => $file->getRealPath();
+            if (\is_string($path)) {
+                foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
+                    yield basename($file->getRealPath(), '.php') => $file->getRealPath();
+                }
             }
-        }
+        })
+        ->collect()
+        ->transform(static function ($path, $key) use ($workbenchConfig) {
+            return $workbenchConfig === true && is_file(workbench_path("config/{$key}.php"))
+                ? workbench_path("config/{$key}.php")
+                : $path;
+        })->each(static function ($path, $key) use ($config) {
+            $config->set($key, require $path);
+        });
     }
 }
