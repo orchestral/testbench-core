@@ -43,4 +43,10 @@ class DiscoversTest extends TestCase
     {
         $this->assertSame(InstalledVersions::isInstalled('orchestra/workbench'), config('workbench.installed'));
     }
+
+    /** @test */
+    public function it_can_discover_translation_files()
+    {
+        $this->assertSame('Good Morning', __('workbench::welcome.morning'));
+    }
 }
