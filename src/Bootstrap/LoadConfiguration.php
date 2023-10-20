@@ -12,6 +12,9 @@ use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\workbench_path;
 
+/**
+ * @internal
+ */
 class LoadConfiguration
 {
     /**
@@ -48,7 +51,7 @@ class LoadConfiguration
     {
         $workbenchConfig = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false) && is_dir(workbench_path('config'));
 
-        $loadedConfigurations = LazyCollection::make(static function () use ($app) {
+        LazyCollection::make(static function () use ($app) {
             $path = is_dir($app->basePath('config'))
                 ? $app->basePath('config')
                 : realpath(__DIR__.'/../../laravel/config');
@@ -64,22 +67,21 @@ class LoadConfiguration
                 return $workbenchConfig === true && is_file(workbench_path("config/{$key}.php"))
                     ? workbench_path("config/{$key}.php")
                     : $path;
+            })
+            ->tap(static function ($loadedConfigurations) {
+                $loadedConfigurations->merge(
+                    LazyCollection::make(static function () {
+                        if (is_dir(workbench_path('config'))) {
+                            foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
+                                yield basename($file->getRealPath(), '.php') => $file->getRealPath();
+                            }
+                        }
+                    })->reject(static function ($path, $key) use ($loadedConfigurations) {
+                        return $loadedConfigurations->has($key);
+                    })
+                );
+            })->each(static function ($path, $key) use ($config) {
+                $config->set($key, require $path);
             });
-
-        if ($workbenchConfig === true) {
-            $loadedConfigurations->merge(
-                LazyCollection::make(static function () {
-                    foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
-                        yield basename($file->getRealPath(), '.php') => $file->getRealPath();
-                    }
-                })->reject(function ($path, $key) use ($loadedConfigurations) {
-                    return $loadedConfigurations->has($key);
-                })
-            );
-        }
-
-        $loadedConfigurations->each(static function ($path, $key) use ($config) {
-            $config->set($key, require $path);
-        });
     }
 }
