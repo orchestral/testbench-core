@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use PHPUnit\Framework\Attributes\AfterClass;
+use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 
 #[IgnoreMethodForCodeCoverage(InteractsWithSqliteDatabaseFile::class, 'cleanupBackupSqliteDatabaseFilesOnFailed')]
 trait InteractsWithSqliteDatabaseFile

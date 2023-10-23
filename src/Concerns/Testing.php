@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\LazyCollection;
 use Illuminate\View\Component;
 use Mockery;
-use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
+use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
