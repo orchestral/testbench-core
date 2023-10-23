@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
-use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 use Symfony\Component\Yaml\Yaml;
 
 use function Orchestra\Testbench\parse_environment_variables;
@@ -92,7 +91,6 @@ use function Orchestra\Testbench\transform_relative_path;
  *   workbench?: TOptionalWorkbenchConfig|null
  * }
  */
-#[IgnoreMethodForCodeCoverage(Config::class, 'cacheFromYaml')]
 class Config extends Fluent implements ConfigContract
 {
     /**
@@ -221,6 +219,8 @@ class Config extends Fluent implements ConfigContract
      * @param  string|null  $filename
      * @param  array<string, mixed>  $defaults
      * @return static
+     *
+     * @codeCoverageIgnore
      */
     public static function cacheFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {

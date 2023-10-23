@@ -8,7 +8,6 @@ use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Workbench\WorkbenchServiceProvider;
-use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\workbench_path;
@@ -16,8 +15,6 @@ use function Orchestra\Testbench\workbench_path;
 /**
  * @phpstan-import-type TWorkbenchDiscoversConfig from \Orchestra\Testbench\Foundation\Config
  */
-#[IgnoreMethodForCodeCoverage(Workbench::class, 'configuration')]
-#[IgnoreMethodForCodeCoverage(Workbench::class, 'flush')]
 class Workbench
 {
     /**
@@ -128,6 +125,8 @@ class Workbench
      * Resolve the configuration.
      *
      * @return \Orchestra\Testbench\Contracts\Config
+     *
+     * @codeCoverageIgnore
      */
     public static function configuration(): ConfigContract
     {
@@ -198,6 +197,8 @@ class Workbench
      * Flush the cached configuration.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function flush(): void
     {

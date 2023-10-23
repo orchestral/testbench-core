@@ -20,11 +20,9 @@ use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\LazyCollection;
 use Illuminate\View\Component;
 use Mockery;
-use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
-#[IgnoreMethodForCodeCoverage(Testing::class, 'teardownAfterClassUsingLaravel')]
 trait Testing
 {
     use CreatesApplication;
@@ -343,6 +341,8 @@ trait Testing
      * Clean up the testing environment before the next test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function teardownAfterClassUsingLaravel(): void
     {
