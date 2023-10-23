@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use ReflectionClass;
@@ -106,9 +107,8 @@ trait InteractsWithPHPUnit
      * Prepare the testing environment before the running the test case.
      *
      * @return void
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function setupBeforeClassUsingPHPUnit(): void
     {
         static::cachedUsesForTestCase();
@@ -118,9 +118,8 @@ trait InteractsWithPHPUnit
      * Clean up the testing environment before the next test case.
      *
      * @return void
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function teardownAfterClassUsingPHPUnit(): void
     {
         static::$cachedTestCaseUses = null;

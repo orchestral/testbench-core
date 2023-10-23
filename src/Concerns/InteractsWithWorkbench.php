@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Workbench\Workbench;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 trait InteractsWithWorkbench
 {
@@ -132,9 +133,8 @@ trait InteractsWithWorkbench
      * Prepare the testing environment before the running the test case.
      *
      * @return void
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function setupBeforeClassUsingWorkbench(): void
     {
         /** @var array{laravel: string|null} $config */
@@ -152,9 +152,8 @@ trait InteractsWithWorkbench
      * Clean up the testing environment before the next test case.
      *
      * @return void
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function teardownAfterClassUsingWorkbench(): void
     {
         unset($_ENV['TESTBENCH_APP_BASE_PATH']);
