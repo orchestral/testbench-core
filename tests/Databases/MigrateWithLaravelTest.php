@@ -48,6 +48,7 @@ class MigrateWithLaravelTest extends TestCase
 
     /**
      * @test
+     *
      * @requires  PHP >= 8.0
      */
     #[DefineDatabase('runApplicationMigrations')]
