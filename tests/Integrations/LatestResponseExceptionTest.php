@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(TestCase::class)]
 class LatestResponseExceptionTest extends TestCase
 {
     /**
