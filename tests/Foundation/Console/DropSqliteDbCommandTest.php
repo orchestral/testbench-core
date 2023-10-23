@@ -6,10 +6,10 @@ use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
+use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
 use PHPUnit\Framework\Attributes\Test;
 
-#[RequiresOperatingSystemFamily('Linux|DAR')]
+#[RequiresOperatingSystem('Linux|DAR')]
 #[Group('database')]
 class DropSqliteDbCommandTest extends TestCase
 {

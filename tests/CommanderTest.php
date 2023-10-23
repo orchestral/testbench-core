@@ -8,12 +8,12 @@ use Illuminate\Support\ProcessUtils;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
+use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-#[RequiresOperatingSystemFamily('Linux|DAR')]
+#[RequiresOperatingSystem('Linux|DAR')]
 class CommanderTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
