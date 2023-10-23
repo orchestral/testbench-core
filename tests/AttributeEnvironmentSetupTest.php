@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Orchestra\Testbench\Attributes\Define;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -9,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 class AttributeEnvironmentSetupTest extends TestCase
 {
     /** @test */
-    #[DefineEnvironment('firstConfig')]
+    #[Define('env', 'firstConfig')]
     public function it_loads_first_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
@@ -27,7 +28,7 @@ class AttributeEnvironmentSetupTest extends TestCase
     }
 
     /** @test */
-    #[DefineEnvironment('firstConfig')]
+    #[Define('env', 'firstConfig')]
     #[DefineEnvironment('secondConfig')]
     public function it_loads_both_config_helper()
     {
