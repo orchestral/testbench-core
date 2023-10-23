@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
-use Orchestra\Testbench\Foundation\Workbench;
 use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Workbench\Workbench;
 
 class WithWorkbenchTest extends TestCase
 {
@@ -13,8 +13,6 @@ class WithWorkbenchTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers Orchestra\Testbench\Concerns\InteractsWithWorkbench
      */
     public function it_can_be_resolved()
     {
@@ -34,8 +32,6 @@ class WithWorkbenchTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers Orchestra\Testbench\Concerns\InteractsWithWorkbench
      */
     public function it_can_be_manually_resolved()
     {

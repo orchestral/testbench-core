@@ -11,13 +11,11 @@ use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Application;
-use Orchestra\Testbench\Foundation\Bootstrap\DiscoverRoutes;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
-use Orchestra\Testbench\Foundation\Bootstrap\RegisterWorkbenchProvider;
-use Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
+use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -89,6 +87,7 @@ class Commander
             $status = $this->handleException($output, $error);
         } finally {
             $this->handleTerminatingConsole();
+            Workbench::flush();
         }
 
         exit($status);
@@ -124,12 +123,8 @@ class Commander
             $this->app = Application::create(
                 basePath: $this->getBasePath(),
                 resolvingCallback: function ($app) {
-                    (new StartWorkbench($this->config))->bootstrap($app);
-                    (new RegisterWorkbenchProvider())->bootstrap($app);
-
-                    $app->booted(function ($app) {
-                        (new DiscoverRoutes($this->config))->bootstrap($app);
-                    });
+                    Workbench::startWithProviders($app, $this->config);
+                    Workbench::discoverRoutes($app, $this->config);
 
                     (new LoadMigrationsFromArray(
                         $this->config['migrations'] ?? [],

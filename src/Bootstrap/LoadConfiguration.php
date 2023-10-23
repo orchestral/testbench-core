@@ -2,22 +2,20 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
-use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\Foundation\Workbench;
 use Symfony\Component\Finder\Finder;
-
-use function Orchestra\Testbench\workbench_path;
 
 /**
  * @internal
  *
  * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
  */
-final class LoadConfiguration
+class LoadConfiguration
 {
     /**
      * Bootstrap the given application.
@@ -55,33 +53,45 @@ final class LoadConfiguration
      */
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
-        $workbenchConfig = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false) && is_dir(workbench_path('config'));
+        $this->extendsLoadedConfiguration(
+            LazyCollection::make(static function () use ($app) {
+                $path = is_dir($app->basePath('config'))
+                    ? $app->basePath('config')
+                    : realpath(__DIR__.'/../../laravel/config');
 
-        foreach ($this->getConfigurationFiles($app) as $key => $path) {
-            if ($workbenchConfig === true && is_file(workbench_path("config/{$key}.php"))) {
-                $config->set($key, require workbench_path("config/{$key}.php"));
-            } else {
-                $config->set($key, require $path);
-            }
-        }
+                if (\is_string($path)) {
+                    foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
+                        yield basename($file->getRealPath(), '.php') => $file->getRealPath();
+                    }
+                }
+            })
+                ->collect()
+                ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
+        )->each(static function ($path, $key) use ($config) {
+            $config->set($key, require $path);
+        });
     }
 
     /**
-     * Get all of the configuration files for the application.
+     * Resolve the configuration file.
      *
-     * @param  TLaravel  $app
-     * @return \Generator<string, mixed>
+     * @param  string  $path
+     * @param  string  $key
+     * @return string
      */
-    private function getConfigurationFiles(Application $app): Generator
+    protected function resolveConfigurationFile(string $path, string $key): string
     {
-        $path = is_dir($app->basePath('config'))
-            ? $app->basePath('config')
-            : realpath(__DIR__.'/../../laravel/config');
+        return $path;
+    }
 
-        if (\is_string($path)) {
-            foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-                yield basename($file->getRealPath(), '.php') => $file->getRealPath();
-            }
-        }
+    /**
+     * Extend the loaded configuration.
+     *
+     * @param  \Illuminate\Support\Collection  $configurations
+     * @return \Illuminate\Support\Collection
+     */
+    protected function extendsLoadedConfiguration(Collection $configurations): Collection
+    {
+        return $configurations;
     }
 }

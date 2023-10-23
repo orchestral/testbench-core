@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Workbench;
 
+use Composer\InstalledVersions;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
@@ -37,8 +38,26 @@ class DiscoversTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_route_name_from_discovers()
+    {
+        $this->assertSame(url('/testbench'), route('testbench'));
+    }
+
+    /** @test */
     public function it_can_resolve_commands_from_discovers()
     {
         $this->artisan('workbench:inspire')->assertOk();
+    }
+
+    /** @test */
+    public function it_can_discover_config_files()
+    {
+        $this->assertSame(InstalledVersions::isInstalled('orchestra/workbench'), config('workbench.installed'));
+    }
+
+    /** @test */
+    public function it_can_discover_translation_files()
+    {
+        $this->assertSame('Good Morning', __('workbench::welcome.morning'));
     }
 }

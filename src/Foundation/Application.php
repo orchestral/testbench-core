@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Workbench\Workbench;
 
 /**
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
