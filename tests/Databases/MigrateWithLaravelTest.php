@@ -5,8 +5,8 @@ namespace Orchestra\Testbench\Tests\Databases;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\TestCase;
-
 use function Orchestra\Testbench\after_resolving;
 
 class MigrateWithLaravelTest extends TestCase
@@ -45,11 +45,8 @@ class MigrateWithLaravelTest extends TestCase
         $this->assertTrue(Hash::check('456', $users->password));
     }
 
-    /**
-     * @test
-     *
-     * @define-db runApplicationMigrations
-     */
+    /** @test */
+    #[DefineDatabase('runApplicationMigrations')]
     public function it_runs_the_migrations()
     {
         $now = Carbon::now();
