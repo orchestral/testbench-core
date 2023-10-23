@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Console\Application as Artisan;
 use Orchestra\Testbench\TestCase;
-use Workbench\App\Console\Commands\DummyCommand;
 use PHPUnit\Framework\Attributes\Test;
+use Workbench\App\Console\Commands\DummyCommand;
 
 class CommandTest extends TestCase
 {

@@ -6,7 +6,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ProcessUtils;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
-use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;

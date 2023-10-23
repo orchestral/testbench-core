@@ -7,6 +7,7 @@ use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Runner\Version;
+
 use function Orchestra\Testbench\laravel_version_compare;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\parse_environment_variables;
