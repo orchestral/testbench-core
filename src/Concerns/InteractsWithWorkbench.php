@@ -4,10 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Workbench\Workbench;
-use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 
-#[IgnoreMethodForCodeCoverage(InteractsWithWorkbench::class, 'setupBeforeClassUsingWorkbench')]
-#[IgnoreMethodForCodeCoverage(InteractsWithWorkbench::class, 'teardownAfterClassUsingWorkbench')]
 trait InteractsWithWorkbench
 {
     use InteractsWithPHPUnit;
@@ -135,6 +132,8 @@ trait InteractsWithWorkbench
      * Prepare the testing environment before the running the test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function setupBeforeClassUsingWorkbench(): void
     {
@@ -153,6 +152,8 @@ trait InteractsWithWorkbench
      * Clean up the testing environment before the next test case.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function teardownAfterClassUsingWorkbench(): void
     {

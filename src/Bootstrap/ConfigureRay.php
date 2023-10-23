@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
-use PHPUnit\Framework\Attributes\IgnoreClassForCodeCoverage;
 use Spatie\Ray\Settings\Settings;
 
 use function Orchestra\Testbench\after_resolving;

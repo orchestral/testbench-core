@@ -6,9 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use PHPUnit\Framework\Attributes\AfterClass;
-use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 
-#[IgnoreMethodForCodeCoverage(InteractsWithSqliteDatabaseFile::class, 'cleanupBackupSqliteDatabaseFilesOnFailed')]
 trait InteractsWithSqliteDatabaseFile
 {
     use InteractsWithPublishedFiles;
@@ -69,6 +67,8 @@ trait InteractsWithSqliteDatabaseFile
      * Tear down the Dusk test case class.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     #[AfterClass]
     public static function cleanupBackupSqliteDatabaseFilesOnFailed()
