@@ -7,10 +7,11 @@ use Illuminate\Filesystem\Filesystem;
 use Mockery as m;
 use Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class GeneratesFileTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_generates_file()
     {
         $filesystem = m::mock(Filesystem::class);
@@ -28,7 +29,7 @@ class GeneratesFileTest extends TestCase
         ))->handle('a', 'b');
     }
 
-    /** @test */
+    #[Test]
     public function it_cannot_generates_file_when_file_already_generated()
     {
         $filesystem = m::mock(Filesystem::class);
@@ -47,7 +48,7 @@ class GeneratesFileTest extends TestCase
         ))->handle('a', 'b');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_generates_file_when_file_already_generated_using_force()
     {
         $filesystem = m::mock(Filesystem::class);
@@ -66,7 +67,7 @@ class GeneratesFileTest extends TestCase
         ))->handle('a', 'b');
     }
 
-    /** @test */
+    #[Test]
     public function it_cannot_generates_file_when_source_file_does_not_exists()
     {
         $filesystem = m::mock(Filesystem::class);

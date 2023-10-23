@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Concerns\WithLaravelMigrations;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class RefreshDatabaseTest extends TestCase
 {
@@ -25,7 +26,7 @@ class RefreshDatabaseTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    /** @test */
+    #[Test]
     public function it_runs_the_migrations()
     {
         $users = DB::table('testbench_users')->where('id', '=', 1)->first();

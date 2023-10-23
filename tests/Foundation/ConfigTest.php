@@ -4,11 +4,12 @@ namespace Orchestra\Testbench\Tests\Foundation;
 
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_load_configuration_file()
     {
         $config = Config::loadFromYaml(__DIR__.'/stubs/');
@@ -64,7 +65,7 @@ class ConfigTest extends TestCase
         ], $config->getWorkbenchDiscoversAttributes());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_load_default_configuration()
     {
         $config = new Config();
@@ -116,7 +117,7 @@ class ConfigTest extends TestCase
         ], $config->getWorkbenchDiscoversAttributes());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_add_additional_providers_to_configuration_file()
     {
         $config = Config::loadFromYaml(__DIR__.'/stubs/');
@@ -135,7 +136,7 @@ class ConfigTest extends TestCase
         ], $config['providers']);
     }
 
-    /** @test */
+    #[Test]
     public function it_cant_add_duplicated_providers_to_configuration_file()
     {
         $config = Config::loadFromYaml(__DIR__.'/stubs/');

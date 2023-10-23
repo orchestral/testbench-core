@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class RequestTest extends TestCase
 {
@@ -44,7 +45,7 @@ class RequestTest extends TestCase
         }]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_request_information()
     {
         $this->call('GET', 'hello?foo=bar');
@@ -54,7 +55,7 @@ class RequestTest extends TestCase
         $this->assertSame(['foo' => 'bar'], request()->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_flashes_request_values()
     {
         $this->call('GET', 'web/hello');

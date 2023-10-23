@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Foundation\Console;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @requires OS Linux|DAR
@@ -28,7 +29,7 @@ class DropSqliteDbCommandTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function it_can_drop_database_using_command()
     {
         $this->withSqliteDatabase(function () {
@@ -42,7 +43,7 @@ class DropSqliteDbCommandTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_cannot_drop_database_using_command_when_database_doesnt_exists()
     {
         $this->withoutSqliteDatabase(function () {

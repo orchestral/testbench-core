@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\artisan;
 
@@ -35,7 +36,7 @@ class MigrateDatabaseTest extends TestCase
         artisan($this, 'migrate', ['--database' => 'testing']);
     }
 
-    /** @test */
+    #[Test]
     public function it_runs_the_migrations()
     {
         $user = DB::table('testbench_users')->where('id', '=', 1)->first();

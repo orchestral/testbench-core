@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 use Exception;
 use Illuminate\Routing\Router;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Http\Controllers\ExampleController;
 
 class RouteTest extends TestCase
@@ -35,7 +36,7 @@ class RouteTest extends TestCase
         $router->resource('foo', ExampleController::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_get_routes()
     {
         $crawler = $this->call('GET', 'hello');
@@ -47,7 +48,7 @@ class RouteTest extends TestCase
         $this->assertEquals('goodbye world', $crawler->getContent());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_get_routes_with_prefixes()
     {
         $crawler = $this->call('GET', 'boss/hello');
@@ -59,7 +60,7 @@ class RouteTest extends TestCase
         $this->assertEquals('goodbye boss', $crawler->getContent());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_resource_controller()
     {
         $response = $this->call('GET', 'foo');
@@ -68,7 +69,7 @@ class RouteTest extends TestCase
         $this->assertEquals('ExampleController@index', $response->getContent());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_domain_route()
     {
         $response = $this->get('http://api.localhost/hello');
@@ -77,7 +78,7 @@ class RouteTest extends TestCase
         $this->assertEquals('hello from api', $response->getContent());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_name_routes()
     {
         $this->app['router']->get('passthrough', fn () => route('bye'))->name('pass');
@@ -88,7 +89,7 @@ class RouteTest extends TestCase
         $this->assertEquals('http://localhost/goodbye', $response->getContent());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_route_throwing_exception()
     {
         $this->app['router']->get('bad-route', fn () => throw new Exception('Route error!'))->name('bad');

@@ -8,10 +8,10 @@ use Orchestra\Testbench\Foundation\Console\TestCommand;
 use Orchestra\Testbench\Foundation\Console\TestFallbackCommand;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 
-/**
- * @covers \Orchestra\Testbench\Foundation\TestbenchServiceProvider
- */
+#[CoversClass(TestbenchServiceProvider::class)]
 class TestbenchServiceProviderTest extends TestCase
 {
     /**
@@ -27,7 +27,7 @@ class TestbenchServiceProviderTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function it_register_the_correct_command()
     {
         tap($this->app[ConsoleKernel::class]->all(), function ($commands) {

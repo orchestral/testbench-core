@@ -7,10 +7,11 @@ use Illuminate\Database\Migrations\Migrator;
 use Mockery as m;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class LoadMigrationsFromArrayTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function test_it_can_register_migrations()
     {
         $this->instance('migrator', $migrator = m::mock(Migrator::class));
@@ -23,7 +24,7 @@ class LoadMigrationsFromArrayTest extends TestCase
         (new LoadMigrationsFromArray($paths))->bootstrap($this->app);
     }
 
-    /** @test */
+    #[Test]
     public function test_it_can_skip_migrations_registration()
     {
         $this->instance('migrator', $migrator = m::mock(Migrator::class));
@@ -33,7 +34,7 @@ class LoadMigrationsFromArrayTest extends TestCase
         (new LoadMigrationsFromArray(false))->bootstrap($this->app);
     }
 
-    /**  @test */
+    #[Test]
     public function it_can_seed_database_after_refreshed()
     {
         (new LoadMigrationsFromArray(false, [
@@ -49,7 +50,7 @@ class LoadMigrationsFromArrayTest extends TestCase
         app('events')->dispatch(new DatabaseRefreshed());
     }
 
-    /**  @test */
+    #[Test]
     public function it_can_skip_database_seeding_after_refreshed()
     {
         (new LoadMigrationsFromArray(false, false))->bootstrap($this->app);

@@ -6,10 +6,11 @@ use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Mockery as m;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class DeleteDirectoriesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_ensure_directory_exists()
     {
         $filesystem = m::mock(Filesystem::class);
