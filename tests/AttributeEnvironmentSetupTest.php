@@ -4,11 +4,13 @@ namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpunit;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @requires PHPUnit >= 10.1
  */
+#[RequiresPhpunit('^10.1')]
 class AttributeEnvironmentSetupTest extends TestCase
 {
     #[Test]
