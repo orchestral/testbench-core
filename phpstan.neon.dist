@@ -9,6 +9,7 @@ parameters:
   level: 8
 
   ignoreErrors:
+    - '#Call to an undefined method Orchestra\\Testbench\\[a-zA-Z\\]+::parseTestMethod(Annotations|Attributes)\(\)#'
     - '#Unsafe usage of new static#'
 
   excludePaths:

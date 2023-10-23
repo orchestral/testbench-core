@@ -7,6 +7,13 @@ use ReflectionMethod;
 
 class AttributeParser
 {
+    /**
+     * Parse attribute for method.
+     *
+     * @param  string  $className
+     * @param  string  $methodName
+     * @return array
+     */
     public static function forMethod(string $className, string $methodName): array
     {
         $attributes = [];

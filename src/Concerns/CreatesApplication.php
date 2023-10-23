@@ -366,11 +366,14 @@ trait CreatesApplication
         }
 
         if (static::usesTestingConcern(HandlesAnnotations::class)) {
+            /** @phpstan-ignore-next-line */
             $this->parseTestMethodAnnotations($app, 'environment-setup');
+            /** @phpstan-ignore-next-line */
             $this->parseTestMethodAnnotations($app, 'define-env');
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
+            /** @phpstan-ignore-next-line */
             $this->parseTestMethodAttributes($app, DefineEnvironment::class);
         }
 
