@@ -2,8 +2,10 @@
 
 namespace Orchestra\Testbench\Attributes;
 
+use Attribute;
+
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-class Environment
+final class DefineEnvironment
 {
     public function __construct(
         public string $method

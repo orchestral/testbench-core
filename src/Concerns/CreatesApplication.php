@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
+use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
 
@@ -364,9 +365,13 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        if (method_exists($this, 'parseTestMethodAnnotations')) {
+        if (static::usesTestingConcern(HandlesAnnotations::class)) {
             $this->parseTestMethodAnnotations($app, 'environment-setup');
             $this->parseTestMethodAnnotations($app, 'define-env');
+        }
+
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            $this->parseTestMethodAttributes($app, DefineEnvironment::class);
         }
 
         $this->defineEnvironment($app);
