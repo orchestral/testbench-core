@@ -19,30 +19,32 @@ class AttributeParser
     {
         $attributes = [];
 
-        foreach ((new ReflectionMethod($className, $methodName))->getAttributes() as $attribute) {
-            if (
-                ! str_starts_with($attribute->getName(), 'Orchestra\\Testbench\\Attributes\\')
-                && ! str_starts_with($attribute->getName(), 'Orchestra\\Testbench\\Dusk\\Attributes\\')
-            ) {
-                continue;
-            }
-
-            try {
-                if ($attribute->getName() === Define::class) {
-                    $instance = $attribute->newInstance()->resolve();
-                } else {
-                    $instance = $attribute->newInstance();
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            foreach ((new ReflectionMethod($className, $methodName))->getAttributes() as $attribute) {
+                if (
+                    ! str_starts_with($attribute->getName(), 'Orchestra\\Testbench\\Attributes\\')
+                    && ! str_starts_with($attribute->getName(), 'Orchestra\\Testbench\\Dusk\\Attributes\\')
+                ) {
+                    continue;
                 }
 
-                $name = \get_class($instance);
+                try {
+                    if ($attribute->getName() === Define::class) {
+                        $instance = $attribute->newInstance()->resolve();
+                    } else {
+                        $instance = $attribute->newInstance();
+                    }
 
-                if (! isset($attributes[$name])) {
-                    $attributes[$name] = [];
+                    $name = \get_class($instance);
+
+                    if (! isset($attributes[$name])) {
+                        $attributes[$name] = [];
+                    }
+
+                    array_push($attributes[$name], $instance);
+                } catch (Error $e) {
+                    //
                 }
-
-                array_push($attributes[$name], $instance);
-            } catch (Error $e) {
-                //
             }
         }
 
