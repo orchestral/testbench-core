@@ -3,17 +3,16 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Support\Facades\Log;
+use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 
-/**
- * @group deprecations
- *
- * @requires PHPUnit >= 10
- */
+#[Group('deprecations')]
 class PhpUnit10DeprecationsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function handle_php81_deprecations_using_logs()
     {
         Log::shouldReceive('channel')
@@ -26,11 +25,8 @@ class PhpUnit10DeprecationsTest extends TestCase
         trigger_error('zzz', E_USER_DEPRECATED);
     }
 
-    /**
-     * @test
-     *
-     * @define-env defineConvertDeprecationsToExceptions
-     */
+    #[Test]
+    #[DefineEnvironment('defineConvertDeprecationsToExceptions')]
     public function handle_php81_deprecations_using_laravel_exception()
     {
         $this->expectException(DeprecatedException::class);
