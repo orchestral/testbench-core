@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\TestCase;
+
 use function Orchestra\Testbench\after_resolving;
 
 class MigrateWithLaravelTest extends TestCase
