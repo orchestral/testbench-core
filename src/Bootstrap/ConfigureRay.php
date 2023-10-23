@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
 use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
+use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 use Spatie\Ray\Settings\Settings;
-
 use function Orchestra\Testbench\after_resolving;
 
 /**
@@ -13,6 +13,7 @@ use function Orchestra\Testbench\after_resolving;
  *
  * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
  */
+#[IgnoreMethodForCodeCoverage(ConfigureRay::class, 'bootstrap')]
 final class ConfigureRay
 {
     /**
@@ -21,7 +22,6 @@ final class ConfigureRay
      * @param  TLaravel  $app
      * @return void
      */
-    #[CodeCoverageIgnore]
     public function bootstrap(Application $app): void
     {
         after_resolving($app, Settings::class, static function ($settings, $app) {

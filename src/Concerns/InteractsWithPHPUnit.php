@@ -5,10 +5,13 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
+use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use ReflectionClass;
 
+#[IgnoreMethodForCodeCoverage(InteractsWithPHPUnit::class, 'setupBeforeClassUsingPHPUnit')]
+#[IgnoreMethodForCodeCoverage(InteractsWithPHPUnit::class, 'teardownAfterClassUsingPHPUnit')]
 trait InteractsWithPHPUnit
 {
     /**
@@ -108,7 +111,6 @@ trait InteractsWithPHPUnit
      *
      * @return void
      */
-    #[CodeCoverageIgnore]
     public static function setupBeforeClassUsingPHPUnit(): void
     {
         static::cachedUsesForTestCase();
@@ -119,7 +121,6 @@ trait InteractsWithPHPUnit
      *
      * @return void
      */
-    #[CodeCoverageIgnore]
     public static function teardownAfterClassUsingPHPUnit(): void
     {
         static::$cachedTestCaseUses = null;
