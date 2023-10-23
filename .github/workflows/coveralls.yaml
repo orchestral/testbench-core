@@ -15,7 +15,7 @@ jobs:
         php:
           - 8.1
         phpunit:
-          - "10.1.x"
+          - "10.4.x"
         dependencies:
           - "highest"
         experimental:
