@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Concerns\Database;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
+use PHPUnit\Framework\Attributes\AfterClass;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 trait InteractsWithSqliteDatabaseFile
 {
@@ -65,12 +67,10 @@ trait InteractsWithSqliteDatabaseFile
     /**
      * Tear down the Dusk test case class.
      *
-     * @afterClass
-     *
      * @return void
-     *
-     * @codeCoverageIgnore
      */
+    #[AfterClass]
+    #[CodeCoverageIgnore]
     public static function cleanupBackupSqliteDatabaseFilesOnFailed()
     {
         $filesystem = new Filesystem();

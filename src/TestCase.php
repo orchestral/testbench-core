@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
 abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
@@ -121,9 +122,8 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      * Prepare the testing environment before the running the test case.
      *
      * @return void
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function setUpBeforeClass(): void
     {
         static::setupBeforeClassUsingPHPUnit();
@@ -134,9 +134,8 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      * Clean up the testing environment before the next test case.
      *
      * @return void
-     *
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function tearDownAfterClass(): void
     {
         static::teardownAfterClassUsingLaravel();
