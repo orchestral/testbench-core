@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Foundation\Application;
 
 trait HandlesRoutes
@@ -30,9 +31,15 @@ trait HandlesRoutes
                 $this->defineWebRoutes($router);
             });
 
-        if (method_exists($this, 'parseTestMethodAnnotations')) {
+        if (static::usesTestingConcern(HandlesAnnotations::class)) {
             $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
                 $this->{$method}($router);
+            });
+        }
+
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            $this->parseTestMethodAttributes($app, DefineRoute::class, function (DefineRoute $attribute) use ($router) {
+                $this->{$attribute->method}($router);
             });
         }
 

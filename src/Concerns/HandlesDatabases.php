@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
+use Orchestra\Testbench\Attributes\DefineDatabase;
 
 trait HandlesDatabases
 {
@@ -33,8 +34,12 @@ trait HandlesDatabases
 
         $this->defineDatabaseMigrations();
 
-        if (method_exists($this, 'parseTestMethodAnnotations')) {
+        if (static::usesTestingConcern(HandlesAnnotations::class)) {
             $this->parseTestMethodAnnotations($this->app, 'define-db');
+        }
+
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
         }
 
         $callback();
