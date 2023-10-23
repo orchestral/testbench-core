@@ -6,9 +6,9 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
-use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversFunction('\Orchestra\Testbench\TestCase::onNotSuccessfulTest')]
+#[CoversClass(TestCase::class)]
 class LatestResponseExceptionTest extends TestCase
 {
     /**
