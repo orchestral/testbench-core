@@ -28,17 +28,10 @@ function container(
     Config $config = null
 ): Foundation\Application {
     if ($config instanceof Config) {
-        $hasEnvironmentFile = ! \is_null($config['laravel'])
-            ? file_exists($config['laravel'].'/.env')
-            : (! \is_null($basePath) && file_exists("{$basePath}/.env"));
-
-        return (new Foundation\Application($config['laravel'] ?? $basePath, $resolvingCallback))->configure(array_merge($options, [
-            'load_environment_variables' => $hasEnvironmentFile,
-            'extra' => $config->getExtraAttributes(),
-        ]));
+        return Foundation\Application::makeFromConfig($config, $resolvingCallback, $options);
     }
 
-    return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
+    return Foundation\Application::make($basePath, $resolvingCallback, $options);
 }
 
 /**
@@ -118,7 +111,7 @@ function parse_environment_variables($variables): array
  */
 function transform_relative_path(string $path, string $workingPath): string
 {
-    return Str::startsWith($path, './')
+    return str_starts_with($path, './')
         ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
         : $path;
 }
@@ -135,13 +128,13 @@ function package_path(string $path = ''): string
         ? TESTBENCH_WORKING_PATH
         : getcwd();
 
-    if (Str::startsWith($path, './')) {
+    if (str_starts_with($path, './')) {
         return transform_relative_path($path, $workingPath);
     }
 
-    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return $workingPath.DIRECTORY_SEPARATOR.$path;
+    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
 }
 
 /**
@@ -167,7 +160,7 @@ function workbench(): array
  */
 function workbench_path(string $path = ''): string
 {
-    $path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '';
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
     return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
 }

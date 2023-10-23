@@ -22,6 +22,8 @@ jobs:
           - "~10.1.0"
           - "~10.2.0"
           - "~10.3.0"
+          - "~10.4.0"
+          - "~11.0.0"
         dependencies:
           - "highest"
           - "lowest"
@@ -32,7 +34,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

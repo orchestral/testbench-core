@@ -7,8 +7,6 @@ use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
 
-use function Orchestra\Testbench\phpunit_version_compare;
-
 class TestFallbackCommand extends Command
 {
     /**
@@ -74,11 +72,7 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $version = '7.4';
-
-        if (phpunit_version_compare('10.3', '>=')) {
-            $version = '7.8';
-        }
+        $version = '8.0';
 
         $command = sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 

@@ -37,9 +37,11 @@ class HelpersTest extends TestCase
             'build' => [],
             'assets' => [],
             'discovers' => [
+                'config' => false,
                 'web' => true,
                 'api' => false,
                 'commands' => false,
+                'views' => false,
             ],
         ], workbench());
     }
@@ -57,9 +59,11 @@ class HelpersTest extends TestCase
             'build' => [],
             'assets' => [],
             'discovers' => [
+                'config' => false,
                 'web' => false,
                 'api' => false,
                 'commands' => false,
+                'views' => false,
             ],
         ], workbench());
     }

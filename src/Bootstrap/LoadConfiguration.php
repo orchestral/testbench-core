@@ -2,10 +2,12 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
-use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Foundation\Env;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -13,7 +15,7 @@ use Symfony\Component\Finder\Finder;
  *
  * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
  */
-final class LoadConfiguration
+class LoadConfiguration
 {
     /**
      * Bootstrap the given application.
@@ -31,7 +33,7 @@ final class LoadConfiguration
             $config->set('database.connections.testing', [
                 'driver' => 'sqlite',
                 'database' => ':memory:',
-                'foreign_key_constraints' => env('DB_FOREIGN_KEYS', false),
+                'foreign_key_constraints' => Env::get('DB_FOREIGN_KEYS', false),
             ]);
         }
 
@@ -51,27 +53,45 @@ final class LoadConfiguration
      */
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
-        foreach ($this->getConfigurationFiles($app) as $key => $path) {
+        $this->extendsLoadedConfiguration(
+            LazyCollection::make(static function () use ($app) {
+                $path = is_dir($app->basePath('config'))
+                    ? $app->basePath('config')
+                    : realpath(__DIR__.'/../../laravel/config');
+
+                if (\is_string($path)) {
+                    foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
+                        yield basename($file->getRealPath(), '.php') => $file->getRealPath();
+                    }
+                }
+            })
+                ->collect()
+                ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
+        )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
-        }
+        });
     }
 
     /**
-     * Get all of the configuration files for the application.
+     * Resolve the configuration file.
      *
-     * @param  TLaravel  $app
-     * @return \Generator<string, mixed>
+     * @param  string  $path
+     * @param  string  $key
+     * @return string
      */
-    private function getConfigurationFiles(Application $app): Generator
+    protected function resolveConfigurationFile(string $path, string $key): string
     {
-        $path = is_dir($app->basePath('config'))
-            ? $app->basePath('config')
-            : realpath(__DIR__.'/../../laravel/config');
+        return $path;
+    }
 
-        if (\is_string($path)) {
-            foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-                yield basename($file->getRealPath(), '.php') => $file->getRealPath();
-            }
-        }
+    /**
+     * Extend the loaded configuration.
+     *
+     * @param  \Illuminate\Support\Collection  $configurations
+     * @return \Illuminate\Support\Collection
+     */
+    protected function extendsLoadedConfiguration(Collection $configurations): Collection
+    {
+        return $configurations;
     }
 }

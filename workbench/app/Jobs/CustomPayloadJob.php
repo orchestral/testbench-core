@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Fixtures\Jobs;
+namespace Workbench\App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 
