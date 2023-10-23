@@ -13,7 +13,6 @@ use function Orchestra\Testbench\after_resolving;
  *
  * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
  */
-#[IgnoreClassForCodeCoverage(ConfigureRay::class)]
 final class ConfigureRay
 {
     /**
@@ -21,6 +20,8 @@ final class ConfigureRay
      *
      * @param  TLaravel  $app
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function bootstrap(Application $app): void
     {
