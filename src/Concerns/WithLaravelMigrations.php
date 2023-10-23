@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Orchestra\Testbench\after_resolving;
@@ -25,7 +26,7 @@ trait WithLaravelMigrations
                 return;
             }
 
-            if (! static::usesTestingConcern(RefreshDatabase::class)) {
+            if (! static::usesTestingConcern(LazilyRefreshDatabase::class) && ! static::usesTestingConcern(RefreshDatabase::class)) {
                 $this->loadLaravelMigrations();
             } else {
                 after_resolving($this->app, 'migrator', static function ($migrator, $app) {

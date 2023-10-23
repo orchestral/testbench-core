@@ -31,9 +31,7 @@ class TestbenchTest extends TestCase
 
     protected function registerCustomQueuePayload($app)
     {
-        $app->bind('one.time.password', function () {
-            return random_int(1, 10);
-        });
+        $app->bind('one.time.password', fn () => random_int(1, 10));
 
         Queue::createPayloadUsing(function () use ($app) {
             $password = $app->make('one.time.password');
@@ -44,7 +42,7 @@ class TestbenchTest extends TestCase
         });
     }
 
-    public function customQueuePayloadDataProvider()
+    public static function customQueuePayloadDataProvider()
     {
         yield ['laravel.com'];
         yield ['blog.laravel.com'];

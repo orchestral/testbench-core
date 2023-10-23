@@ -4,7 +4,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 1 * *'
 
 jobs:
   audit-dependencies:
@@ -15,10 +15,8 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - 7.3
-          - 7.4
-          - '8.0'
           - 8.1
+          - 8.2
         experimental:
           - true
 

@@ -2,9 +2,12 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
 
@@ -61,6 +64,8 @@ trait CreatesApplication
     /**
      * Resolve application bindings.
      *
+     * @internal
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -95,6 +100,8 @@ trait CreatesApplication
 
     /**
      * Resolve application aliases.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<string, class-string>
@@ -150,7 +157,7 @@ trait CreatesApplication
      * Override application aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array<int, class-string>
+     * @return array<class-string, class-string>
      */
     protected function overrideApplicationProviders($app)
     {
@@ -159,6 +166,8 @@ trait CreatesApplication
 
     /**
      * Resolve application aliases.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
@@ -262,6 +271,7 @@ trait CreatesApplication
     protected function resolveApplicationConfiguration($app)
     {
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
+        $app->make('Orchestra\Testbench\Bootstrap\ConfigureRay')->bootstrap($app);
 
         tap($this->getApplicationTimezone($app), static function ($timezone) {
             ! \is_null($timezone) && date_default_timezone_set($timezone);
@@ -340,7 +350,12 @@ trait CreatesApplication
      */
     protected function resolveApplicationBootstrappers($app)
     {
-        $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
+        if ($this->isRunningTestCase()) {
+            $app->make('Orchestra\Testbench\Bootstrap\HandleExceptions', ['testbench' => $this])->bootstrap($app);
+        } else {
+            $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
+        }
+
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
@@ -356,6 +371,8 @@ trait CreatesApplication
 
         $this->defineEnvironment($app);
         $this->getEnvironmentSetUp($app);
+
+        $this->resolveApplicationRateLimiting($app);
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
             /** @phpstan-ignore-next-line */
@@ -392,13 +409,26 @@ trait CreatesApplication
 
         $refreshNameLookups($app);
 
-        $app->resolving('url', static function () use ($app, $refreshNameLookups) {
-            $refreshNameLookups($app);
+        $app->resolving('url', fn () => $refreshNameLookups($app));
+    }
+
+    /**
+     * Resolve application rate limiting configuration.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationRateLimiting($app)
+    {
+        RateLimiter::for('api', static function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }
 
     /**
      * Reset artisan commands for the application.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void

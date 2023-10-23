@@ -1,6 +1,21 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_duplicate_queries_to_ray\\.$#"
+			count: 1
+			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_queries_to_ray\\.$#"
+			count: 1
+			path: src/Bootstrap/ConfigureRay.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Ray\\\\Settings\\\\Settings\\:\\:\\$send_slow_queries_to_ray\\.$#"
+			count: 1
+			path: src/Bootstrap/ConfigureRay.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentFile\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
@@ -9,18 +24,3 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callSetUpTestCaseCallbacks\\(\\)\\.$#"
-			count: 1
-			path: src/TestCase.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callTearDownTestCaseCallbacks\\(\\)\\.$#"
-			count: 1
-			path: src/TestCase.php
-
-		-
-			message: "#^Property Orchestra\\\\Testbench\\\\TestCase\\:\\:\\$app \\(Illuminate\\\\Foundation\\\\Application\\) does not accept null\\.$#"
-			count: 1
-			path: src/TestCase.php

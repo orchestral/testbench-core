@@ -3,20 +3,19 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
-use PHPUnit\Framework\TestCase as PHPUnit;
 
-abstract class TestCase extends PHPUnit implements Contracts\TestCase
+abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
     use Concerns\Testing;
     use Testing\Concerns\InteractsWithAuthentication;
     use Testing\Concerns\InteractsWithConsole;
     use Testing\Concerns\InteractsWithContainer;
     use Testing\Concerns\InteractsWithDatabase;
+    use Testing\Concerns\InteractsWithDeprecationHandling;
     use Testing\Concerns\InteractsWithExceptionHandling;
     use Testing\Concerns\InteractsWithSession;
     use Testing\Concerns\InteractsWithTime;
     use Testing\Concerns\MakesHttpRequests;
-    use Testing\Concerns\MocksApplicationServices;
 
     /**
      * The base URL to use while testing the application.
@@ -26,12 +25,28 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
     protected $baseUrl = 'http://localhost';
 
     /**
+     * Automatically loads environment file if available.
+     *
+     * @var bool
+     */
+    protected $loadEnvironmentVariables = true;
+
+    /**
+     * Automatically enables package discoveries.
+     *
+     * @var bool
+     */
+    protected $enablesPackageDiscoveries = false;
+
+    /**
      * Setup the test environment.
      *
      * @return void
      */
     protected function setUp(): void
     {
+        static::$latestResponse = null;
+
         $this->setUpTheTestEnvironment();
     }
 
@@ -79,7 +94,6 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             Testing\Concerns\InteractsWithSession::class,
             Testing\Concerns\InteractsWithTime::class,
             Testing\Concerns\MakesHttpRequests::class,
-            Testing\Concerns\MocksApplicationServices::class,
             Concerns\CreatesApplication::class,
             Concerns\Database\HandlesConnections::class,
             Concerns\HandlesAnnotations::class,
@@ -126,6 +140,8 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
      */
     public static function tearDownAfterClass(): void
     {
+        static::$latestResponse = null;
+
         static::teardownAfterClassUsingWorkbench();
         static::teardownAfterClassUsingPHPUnit();
     }

@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Integrations;
 
+use Illuminate\Support\Facades\Config;
 use Orchestra\Testbench\TestCase;
 
 class ConfigTest extends TestCase
@@ -24,7 +25,7 @@ class ConfigTest extends TestCase
     /** @test */
     public function it_loads_config_facade()
     {
-        $this->assertEquals('testbench', \Config::get('database.default'));
+        $this->assertEquals('testbench', Config::get('database.default'));
     }
 
     /** @test */

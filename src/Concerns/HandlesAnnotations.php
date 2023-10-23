@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Support\Collection;
 
+/**
+ * @internal
+ */
 trait HandlesAnnotations
 {
     /**
@@ -16,15 +19,13 @@ trait HandlesAnnotations
     protected function parseTestMethodAnnotations($app, string $name, ?Closure $callback = null): void
     {
         $this->resolvePhpUnitAnnotations()
-            ->filter(static function ($actions, $key) use ($name) {
-                return $key === $name;
-            })->each(function ($actions) use ($app, $callback) {
-                Collection::make($actions ?? [])
-                    ->filter(function ($method) {
-                        return ! \is_null($method) && method_exists($this, $method);
-                    })->each($callback ?? function ($method) use ($app) {
-                        $this->{$method}($app);
-                    });
+            ->lazy()
+            ->filter(static function ($actions, string $key) use ($name) {
+                return $key === $name && ! empty($actions);
+            })->flatten()
+            ->filter(fn ($method) => \is_string($method) && method_exists($this, $method))
+            ->each($callback ?? function ($method) use ($app) {
+                $this->{$method}($app);
             });
     }
 

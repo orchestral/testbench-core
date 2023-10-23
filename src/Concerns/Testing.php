@@ -6,15 +6,18 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseTruncation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Queue\Queue;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\Support\LazyCollection;
+use Illuminate\View\Component;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Throwable;
@@ -31,7 +34,7 @@ trait Testing
     /**
      * The Illuminate application instance.
      *
-     * @var \Illuminate\Foundation\Application
+     * @var \Illuminate\Foundation\Application|null
      */
     protected $app;
 
@@ -59,7 +62,7 @@ trait Testing
     /**
      * The exception thrown while running an application destruction callback.
      *
-     * @var \Throwable
+     * @var \Throwable|null
      */
     protected $callbackException;
 
@@ -73,6 +76,8 @@ trait Testing
     /**
      * Setup the test environment.
      *
+     * @internal
+     *
      * @return void
      */
     final protected function setUpTheTestEnvironment(): void
@@ -82,6 +87,9 @@ trait Testing
 
             $this->setUpParallelTestingCallbacks();
         }
+
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = $this->app;
 
         foreach ($this->afterApplicationRefreshedCallbacks as $callback) {
             \call_user_func($callback);
@@ -93,13 +101,15 @@ trait Testing
             \call_user_func($callback);
         }
 
-        Model::setEventDispatcher($this->app['events']);
+        Model::setEventDispatcher($app['events']);
 
         $this->setUpHasRun = true;
     }
 
     /**
      * Clean up the testing environment before the next test.
+     *
+     * @internal
      *
      * @return void
      */
@@ -110,7 +120,7 @@ trait Testing
 
             $this->tearDownParallelTestingCallbacks();
 
-            $this->app->flush();
+            $this->app?->flush();
 
             $this->app = null;
         }
@@ -142,9 +152,20 @@ trait Testing
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
 
-        Artisan::forgetBootstrappers();
+        if (property_exists($this, 'originalExceptionHandler')) {
+            $this->originalExceptionHandler = null;
+        }
 
+        if (property_exists($this, 'originalDeprecationHandler')) {
+            $this->originalDeprecationHandler = null;
+        }
+
+        Artisan::forgetBootstrappers();
+        Component::flushCache();
+        Component::forgetComponentsResolver();
+        Component::forgetFactory();
         Queue::createPayloadUsing(null);
+        HandleExceptions::forgetApp();
 
         if ($this->callbackException) {
             throw $this->callbackException;
@@ -153,6 +174,8 @@ trait Testing
 
     /**
      * Boot the testing helper traits.
+     *
+     * @internal
      *
      * @param  array<class-string, class-string>  $uses
      * @return array<class-string, class-string>
@@ -173,6 +196,11 @@ trait Testing
             if (isset($uses[DatabaseMigrations::class])) {
                 /** @phpstan-ignore-next-line */
                 $this->runDatabaseMigrations();
+            }
+
+            if (isset($uses[DatabaseTruncation::class])) {
+                /** @phpstan-ignore-next-line */
+                $this->truncateDatabaseTables();
             }
         });
 
@@ -196,10 +224,16 @@ trait Testing
             $this->setUpFaker();
         }
 
-        Collection::make($uses)
+        LazyCollection::make(static function () use ($uses) {
+            foreach ($uses as $use) {
+                yield $use;
+            }
+        })
             ->reject(function ($use) {
+                /** @var class-string $use */
                 return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
-            })->transform(static function ($use) {
+            })->map(static function ($use) {
+                /** @var class-string $use */
                 return class_basename($use);
             })->each(function ($traitBaseName) {
                 /** @var string $traitBaseName */
@@ -234,6 +268,7 @@ trait Testing
     protected function setUpParallelTestingCallbacks(): void
     {
         if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+            /** @phpstan-ignore-next-line */
             ParallelTesting::callSetUpTestCaseCallbacks($this);
         }
     }
@@ -244,6 +279,7 @@ trait Testing
     protected function tearDownParallelTestingCallbacks(): void
     {
         if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+            /** @phpstan-ignore-next-line */
             ParallelTesting::callTearDownTestCaseCallbacks($this);
         }
     }

@@ -12,13 +12,15 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * @internal
+ *
+ * @phpstan-type TLaravel \Illuminate\Contracts\Foundation\Application
  */
 class LoadConfiguration
 {
     /**
      * Bootstrap the given application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  TLaravel  $app
      * @return void
      */
     public function bootstrap(Application $app): void
@@ -35,17 +37,21 @@ class LoadConfiguration
             ]);
         }
 
+        if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
+            $config->set('database.default', 'testing');
+        }
+
         mb_internal_encoding('UTF-8');
     }
 
     /**
      * Load the configuration items from all of the files.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  TLaravel  $app
      * @param  \Illuminate\Contracts\Config\Repository  $config
      * @return void
      */
-    protected function loadConfigurationFiles(Application $app, RepositoryContract $config): void
+    private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
         $this->extendsLoadedConfiguration(
             LazyCollection::make(static function () use ($app) {
@@ -60,9 +66,7 @@ class LoadConfiguration
                 }
             })
                 ->collect()
-                ->transform(function ($path, $key) {
-                    return $this->resolveConfigurationFile($path, $key);
-                })
+                ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
         });

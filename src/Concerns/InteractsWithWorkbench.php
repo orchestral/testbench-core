@@ -35,7 +35,7 @@ trait InteractsWithWorkbench
         }
 
         return static::usesTestingConcern(WithWorkbench::class)
-            ? static::cachedConfigurationForWorkbench()->getExtraAttributes()['dont-discover'] ?? []
+            ? static::cachedConfigurationForWorkbench()?->getExtraAttributes()['dont-discover'] ?? []
             : null;
     }
 
@@ -47,7 +47,7 @@ trait InteractsWithWorkbench
      */
     protected function getPackageBootstrappersUsingWorkbench($app): ?array
     {
-        if (empty($bootstrappers = static::cachedConfigurationForWorkbench()->getExtraAttributes()['bootstrappers'] ?? null)) {
+        if (empty($bootstrappers = static::cachedConfigurationForWorkbench()?->getExtraAttributes()['bootstrappers'] ?? null)) {
             return null;
         }
 
@@ -64,7 +64,7 @@ trait InteractsWithWorkbench
      */
     protected function getPackageProvidersUsingWorkbench($app): ?array
     {
-        if (empty($providers = static::cachedConfigurationForWorkbench()->getExtraAttributes()['providers'] ?? null)) {
+        if (empty($providers = static::cachedConfigurationForWorkbench()?->getExtraAttributes()['providers'] ?? null)) {
             return null;
         }
 
@@ -121,7 +121,7 @@ trait InteractsWithWorkbench
     /**
      * Define or get the cached uses for test case.
      *
-     * @return \Orchestra\Testbench\Contracts\Config
+     * @return \Orchestra\Testbench\Contracts\Config|null
      */
     public static function cachedConfigurationForWorkbench()
     {

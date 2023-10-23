@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
+use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 trait HandlesDatabases
 {
@@ -16,13 +17,17 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        tap($this->app['config'], function ($config) {
+        if (\is_null($app = $this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
+        tap($app['config'], function ($config) {
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'pgsql', 'POSTGRES');
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'sqlsrv', 'MSSQL');
         });
 
-        $this->app['events']->listen(DatabaseRefreshed::class, function () {
+        $app['events']->listen(DatabaseRefreshed::class, function () {
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
         });
 
@@ -34,7 +39,7 @@ trait HandlesDatabases
         $this->defineDatabaseMigrations();
 
         if (method_exists($this, 'parseTestMethodAnnotations')) {
-            $this->parseTestMethodAnnotations($this->app, 'define-db');
+            $this->parseTestMethodAnnotations($app, 'define-db');
         }
 
         $callback();
@@ -54,11 +59,18 @@ trait HandlesDatabases
      */
     protected function usesSqliteInMemoryDatabaseConnection(?string $connection = null): bool
     {
-        $app = $this->app;
+        if (\is_null($app = $this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
 
-        $connection = ! \is_null($connection) ? $connection : $app['config']->get('database.default');
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app->make('config');
 
-        $database = $app['config']->get("database.connections.{$connection}");
+        /** @var string $connection */
+        $connection = ! \is_null($connection) ? $connection : $config->get('database.default');
+
+        /** @var array{driver: string, database: string}|null $database */
+        $database = $config->get("database.connections.{$connection}");
 
         return ! \is_null($database) && $database['driver'] === 'sqlite' && $database['database'] == ':memory:';
     }

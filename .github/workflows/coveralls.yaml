@@ -14,8 +14,10 @@ jobs:
           - "ubuntu-latest"
         php:
           - 8.1
+        phpunit:
+          - "10.1.x"
         dependencies:
-          - "locked"
+          - "highest"
         experimental:
           - false
 
@@ -32,20 +34,24 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, sqlite3, pdo_sqlite, bcmath, fileinfo
           coverage: xdebug
 
+      - name: Install PHPUnit ${{ matrix.phpunit }}
+        run: |
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist"
+          composer-options: "--prefer-dist --prefer-stable"
 
       - name: Installed dependencies
-        run: composer show -D
-
-      - name: Prepare Testbench
-        run: composer run prepare
+        run: |
+          composer show -D
 
       - name: Execute tests
         run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          RAY_ENABLED: false
 
       - name: Upload coverage results to Coveralls
         env:

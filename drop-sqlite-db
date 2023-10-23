@@ -14,7 +14,11 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
 }
 
 $config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
-    $workingPath, 'testbench.yaml', ['providers' => [], 'dont-discover' => []],
+    workingPath: $workingPath,
+    defaults: [
+        'providers' => [],
+        'dont-discover' => [],
+    ],
 );
 
 $directory = ($config['laravel'] ? $config['laravel'] : $skeletonPath).'/database';

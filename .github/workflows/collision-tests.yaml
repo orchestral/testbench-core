@@ -4,7 +4,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 1 * *'
 
 jobs:
   tests:
@@ -15,14 +15,14 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - 7.3
-          - 7.4
-          - '8.0'
           - 8.1
+          - 8.2
         phpunit:
-          - "^9.5.10"
+          - "~10.1.0"
+          - "~10.2.0"
+          - "~10.3.0"
+          - "~10.4.0"
         dependencies:
-          - "locked"
           - "highest"
         experimental:
           - false
@@ -43,19 +43,78 @@ jobs:
       - name: Install PHPUnit ${{ matrix.phpunit }}
         run: |
           composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^5.0" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:^7.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
-        run: composer show -D
+        run: |
+          composer show -D
 
-      - name: Prepare Testbench
-        run: composer run prepare
+      - name: Execute tests (with deprecations on PHPUnit 10)
+        run: ./testbench package:test --exclude-group commander
+        env:
+          RAY_ENABLED: false
+        if: matrix.dependencies == 'highest'
+
+      - name: Execute tests (without deprecations on PHPUnit 10)
+        run: ./testbench package:test --exclude-group commander,deprecations
+        env:
+          RAY_ENABLED: false
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
+        if: matrix.dependencies != 'highest'
+
+  tests-with-coverage:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        os:
+          - "ubuntu-latest"
+        php:
+          - 8.1
+          - 8.2
+        phpunit:
+          - "^9.5.10"
+        dependencies:
+          - "highest"
+        experimental:
+          - false
+
+    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
+          coverage: xdebug
+
+      - name: Install PHPUnit ${{ matrix.phpunit }}
+        run: |
+          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+          composer require "nunomaduro/collision:^6.4" --dev --no-interaction --no-update
+
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
 
       - name: Execute tests
-        run: ./testbench package:test
+        run: ./testbench package:test --coverage --exclude-group commander,deprecations
+        env:
+          RAY_ENABLED: false
+          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false

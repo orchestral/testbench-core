@@ -3,21 +3,35 @@
 namespace Orchestra\Testbench;
 
 use Closure;
+use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
+use Orchestra\Testbench\Foundation\Config;
+use PHPUnit\Runner\Version;
+use RuntimeException;
 
 /**
  * Create Laravel application instance.
  *
  * @param  string|null  $basePath
- * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
- * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
+ * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  \Orchestra\Testbench\Foundation\Config|null  $config
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
-{
-    return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
+function container(
+    ?string $basePath = null,
+    ?callable $resolvingCallback = null,
+    array $options = [],
+    ?Config $config = null
+): Foundation\Application {
+    if ($config instanceof Config) {
+        return Foundation\Application::makeFromConfig($config, $resolvingCallback, $options);
+    }
+
+    return Foundation\Application::make($basePath, $resolvingCallback, $options);
 }
 
 /**
@@ -26,15 +40,13 @@ function container(?string $basePath = null, ?callable $resolvingCallback = null
  * @param  \Orchestra\Testbench\Contracts\TestCase  $testbench
  * @param  string  $command
  * @param  array<string, mixed>  $parameters
- * @return \Illuminate\Testing\PendingCommand|int
+ * @return int
  */
-function artisan(Contracts\TestCase $testbench, string $command, array $parameters = [])
+function artisan(Contracts\TestCase $testbench, string $command, array $parameters = []): int
 {
-    return tap($testbench->artisan($command, $parameters), static function ($artisan) {
-        if ($artisan instanceof PendingCommand) {
-            $artisan->run();
-        }
-    });
+    $command = $testbench->artisan($command, $parameters);
+
+    return $command instanceof PendingCommand ? $command->run() : $command;
 }
 
 /**
@@ -45,7 +57,7 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
  * @param  (\Closure(object, \Illuminate\Contracts\Foundation\Application):(mixed))|null  $callback
  * @return void
  */
-function after_resolving($app, string $name, ?Closure $callback = null): void
+function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
 {
     $app->afterResolving($name, $callback);
 
@@ -65,18 +77,7 @@ function after_resolving($app, string $name, ?Closure $callback = null): void
  */
 function default_environment_variables(): array
 {
-    return parse_environment_variables(
-        Collection::make([
-            'APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
-            'APP_DEBUG' => true,
-        ])->when(! \defined('TESTBENCH_DUSK'), static function ($variables) {
-            return $variables->put('DB_CONNECTION', 'testing');
-        })->transform(static function ($value, $key) {
-            return $_SERVER[$key] ?? $_ENV[$key] ?? $value;
-        })->filter(static function ($value) {
-            return ! \is_null($value);
-        })
-    );
+    return [];
 }
 
 /**
@@ -110,7 +111,7 @@ function parse_environment_variables($variables): array
  */
 function transform_relative_path(string $path, string $workingPath): string
 {
-    return Str::startsWith($path, './')
+    return str_starts_with($path, './')
         ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
         : $path;
 }
@@ -127,7 +128,7 @@ function package_path(string $path = ''): string
         ? TESTBENCH_WORKING_PATH
         : getcwd();
 
-    if (Str::startsWith($path, './')) {
+    if (str_starts_with($path, './')) {
         return transform_relative_path($path, $workingPath);
     }
 
@@ -162,4 +163,43 @@ function workbench_path(string $path = ''): string
     $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
     return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
+}
+
+/**
+ * Laravel version compare.
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ * @return int|bool
+ */
+function laravel_version_compare(string $version, ?string $operator = null)
+{
+    /** @phpstan-ignore-next-line */
+    $laravel = Application::VERSION === '10.x-dev' ? '10.0.0' : Application::VERSION;
+
+    if (\is_null($operator)) {
+        return version_compare($laravel, $version);
+    }
+
+    return version_compare($laravel, $version, $operator);
+}
+
+/**
+ * PHPUnit version compare.
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ * @return int|bool
+ */
+function phpunit_version_compare(string $version, ?string $operator = null)
+{
+    if (! class_exists(Version::class)) {
+        throw new RuntimeException('Unable to verify PHPUnit version');
+    }
+
+    if (\is_null($operator)) {
+        return version_compare(Version::id(), $version);
+    }
+
+    return version_compare(Version::id(), $version, $operator);
 }

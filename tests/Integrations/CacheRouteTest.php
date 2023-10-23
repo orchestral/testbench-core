@@ -20,7 +20,11 @@ PHP);
         parent::setUp();
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @group without-parallel
+     */
     public function it_can_cache_route()
     {
         $this->get('stubs-controller')

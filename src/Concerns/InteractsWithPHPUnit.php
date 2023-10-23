@@ -4,8 +4,11 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
+
+use function Orchestra\Testbench\phpunit_version_compare;
 
 trait InteractsWithPHPUnit
 {
@@ -41,11 +44,15 @@ trait InteractsWithPHPUnit
             return new Collection();
         }
 
+        [$registry, $methodName] = phpunit_version_compare('10', '>=')
+            ? [PHPUnit10Registry::getInstance(), $this->name()] /** @phpstan-ignore-line */
+            : [PHPUnit9Registry::getInstance(), $this->getName(false)]; /** @phpstan-ignore-line */
+
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
-            function () use ($instance) {
-                return PHPUnit9Registry::getInstance()->forMethod($instance->getName(), $this->getName(false))->symbolAnnotations();
-            }, [], false
+            fn () => $registry->forMethod($instance->getName(), $methodName)->symbolAnnotations(),
+            [],
+            false
         );
 
         return Collection::make($annotations);
@@ -102,9 +109,12 @@ trait InteractsWithPHPUnit
     {
         static::$cachedTestCaseUses = null;
 
+        $registry = phpunit_version_compare('10', '>=')
+            ? PHPUnit10Registry::getInstance() /** @phpstan-ignore-line */
+            : PHPUnit9Registry::getInstance(); /** @phpstan-ignore-line */
         (function () {
             $this->classDocBlocks = [];
             $this->methodDocBlocks = [];
-        })->call(PHPUnit9Registry::getInstance());
+        })->call($registry);
     }
 }

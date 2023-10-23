@@ -7,6 +7,7 @@ use Illuminate\Routing\Router;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Workbench\WorkbenchServiceProvider;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\workbench_path;
@@ -45,6 +46,22 @@ class Workbench
         $app->singleton(ConfigContract::class, static function () use ($config) {
             return $config;
         });
+    }
+
+    /**
+     * Start Workbench with providers.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Orchestra\Testbench\Contracts\Config  $config
+     * @return void
+     */
+    public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
+    {
+        static::start($app, $config);
+
+        if (class_exists(WorkbenchServiceProvider::class)) {
+            $app->register(WorkbenchServiceProvider::class);
+        }
     }
 
     /**

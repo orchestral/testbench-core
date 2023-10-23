@@ -44,8 +44,8 @@ final class CreateVendorSymlink
             ! $filesystem->isFile("{$appVendorPath}/autoload.php") ||
             $filesystem->hash("{$appVendorPath}/autoload.php") !== $filesystem->hash("{$this->workingPath}/autoload.php")
         ) {
-            if ($filesystem->exists($app->basePath('bootstrap/cache/packages.php'))) {
-                $filesystem->delete($app->basePath('bootstrap/cache/packages.php'));
+            if ($filesystem->exists($app->bootstrapPath('cache/packages.php'))) {
+                $filesystem->delete($app->bootstrapPath('cache/packages.php'));
             }
 
             if (is_link($appVendorPath)) {
@@ -54,7 +54,7 @@ final class CreateVendorSymlink
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
-            } catch (ErrorException $e) {
+            } catch (ErrorException) {
                 //
             }
         }
