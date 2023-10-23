@@ -5,12 +5,12 @@ namespace Orchestra\Testbench\Tests\Foundation\Console;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
+use PHPUnit\Framework\Attributes\Test;
 
-/**
- * @requires OS Linux|DAR
- *
- * @group database
- */
+#[RequiresOperatingSystem('Linux|DAR')]
+#[Group('database')]
 class CreateSqliteDbCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
@@ -28,7 +28,7 @@ class CreateSqliteDbCommandTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function it_can_generate_database_using_command()
     {
         $this->withoutSqliteDatabase(function () {
@@ -42,7 +42,7 @@ class CreateSqliteDbCommandTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_cannot_generate_database_using_command_when_database_already_exists()
     {
         $this->withSqliteDatabase(function () {

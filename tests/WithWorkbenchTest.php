@@ -6,14 +6,13 @@ use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Workbench\Workbench;
+use PHPUnit\Framework\Attributes\Test;
 
 class WithWorkbenchTest extends TestCase
 {
     use WithWorkbench;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_be_resolved()
     {
         $cachedConfig = Workbench::configuration();
@@ -30,9 +29,7 @@ class WithWorkbenchTest extends TestCase
         ], $cachedConfig->getExtraAttributes());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_be_manually_resolved()
     {
         $cachedConfig = static::cachedConfigurationForWorkbench();

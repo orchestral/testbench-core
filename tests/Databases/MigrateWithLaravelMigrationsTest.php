@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\Concerns\WithLaravelMigrations;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class MigrateWithLaravelMigrationsTest extends TestCase
 {
@@ -24,7 +25,7 @@ class MigrateWithLaravelMigrationsTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    /** @test */
+    #[Test]
     public function it_loads_the_migrations()
     {
         $now = Carbon::now();

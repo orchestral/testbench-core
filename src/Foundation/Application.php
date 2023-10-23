@@ -82,7 +82,7 @@ class Application
      *
      * @phpstan-param TConfig  $options
      */
-    public static function make(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
+    public static function make(string $basePath = null, callable $resolvingCallback = null, array $options = [])
     {
         return (new static($basePath, $resolvingCallback))->configure($options);
     }
@@ -97,7 +97,7 @@ class Application
      *
      * @phpstan-param TConfig  $options
      */
-    public static function makeFromConfig(ConfigContract $config, ?callable $resolvingCallback = null, array $options = [])
+    public static function makeFromConfig(ConfigContract $config, callable $resolvingCallback = null, array $options = [])
     {
         $basePath = $config['laravel'] ?? static::applicationBasePath();
 
@@ -150,7 +150,7 @@ class Application
      *
      * @phpstan-param TConfig  $options
      */
-    public static function createFromConfig(ConfigContract $config, ?callable $resolvingCallback = null, array $options = [])
+    public static function createFromConfig(ConfigContract $config, callable $resolvingCallback = null, array $options = [])
     {
         return static::makeFromConfig($config, $resolvingCallback, $options)->createApplication();
     }

@@ -16,7 +16,7 @@ trait HandlesAttributes
      * @param  \Illuminate\Foundation\Application  $app
      * @param  class-string  $attribute
      */
-    protected function parseTestMethodAttributes($app, string $attribute, ?Closure $callback = null): void
+    protected function parseTestMethodAttributes($app, string $attribute, Closure $callback = null): void
     {
         $this->resolvePhpUnitAttributes()
             ->lazy()

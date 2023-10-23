@@ -4,13 +4,14 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatesApplicationTest extends TestCase
 {
     use CreatesApplication;
 
-    /** @test */
+    #[Test]
     public function it_properly_loads_laravel_application()
     {
         $app = $this->createApplication();

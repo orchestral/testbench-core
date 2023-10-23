@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class AggregateServiceProviderTest extends TestCase
 {
@@ -19,7 +20,7 @@ class AggregateServiceProviderTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function it_populate_expected_services()
     {
         $this->assertTrue($this->app->bound('parent.loaded'));

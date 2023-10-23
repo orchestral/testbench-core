@@ -4,14 +4,13 @@ namespace Orchestra\Testbench\Tests\Foundation;
 
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 
 class EnvTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @group phpunit-configuration
-     */
+    #[Test]
+    #[Group('phpunit-configuration')]
     public function it_can_correctly_forward_env_values()
     {
         $_ENV['TESTING_TRUE_EXAMPLE'] = true;

@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Workbench;
 use Composer\InstalledVersions;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class DiscoversTest extends TestCase
 {
@@ -21,14 +22,14 @@ class DiscoversTest extends TestCase
         $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_web_routes_from_discovers()
     {
         $this->get('/hello')
             ->assertOk();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_views_from_discovers()
     {
         $this->get('/testbench')
@@ -37,25 +38,25 @@ class DiscoversTest extends TestCase
             ->assertSee('Notification Component');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_route_name_from_discovers()
     {
         $this->assertSame(url('/testbench'), route('testbench'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_commands_from_discovers()
     {
         $this->artisan('workbench:inspire')->assertOk();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_discover_config_files()
     {
         $this->assertSame(InstalledVersions::isInstalled('orchestra/workbench'), config('workbench.installed'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_discover_translation_files()
     {
         $this->assertSame('Good Morning', __('workbench::welcome.morning'));

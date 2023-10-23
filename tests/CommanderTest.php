@@ -6,23 +6,20 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ProcessUtils;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
-use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-/**
- * @requires OS Linux|DAR
- */
+#[RequiresOperatingSystem('Linux|DAR')]
 class CommanderTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
 
-    /**
-     * @test
-     *
-     * @group commander
-     */
+    #[Test]
+    #[Group('commander')]
     public function it_can_call_commander_using_cli_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
@@ -35,11 +32,8 @@ class CommanderTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @group commander
-     */
+    #[Test]
+    #[Group('commander')]
     public function it_can_call_commander_using_cli_and_get_current_environment()
     {
         $this->withoutSqliteDatabase(function () {
@@ -54,11 +48,8 @@ class CommanderTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @group commander
-     */
+    #[Test]
+    #[Group('commander')]
     public function it_output_correct_defaults()
     {
         $this->withoutSqliteDatabase(function () {
@@ -75,11 +66,8 @@ class CommanderTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @group commander
-     */
+    #[Test]
+    #[Group('commander')]
     public function it_output_correct_defaults_with_database_file()
     {
         $this->withSqliteDatabase(function () {
@@ -96,11 +84,8 @@ class CommanderTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @group commander
-     */
+    #[Test]
+    #[Group('commander')]
     public function it_output_correct_defaults_with_environment_overrides()
     {
         $this->withSqliteDatabase(function () {
@@ -121,11 +106,8 @@ class CommanderTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @group commander
-     */
+    #[Test]
+    #[Group('commander')]
     public function it_can_call_commander_using_cli_and_run_migration()
     {
         $this->withSqliteDatabase(function () {
@@ -146,11 +128,8 @@ class CommanderTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @group commander
-     */
+    #[Test]
+    #[Group('commander')]
     public function it_can_call_commander_using_cli_and_run_migration_without_default_migration()
     {
         $this->withSqliteDatabase(function () {

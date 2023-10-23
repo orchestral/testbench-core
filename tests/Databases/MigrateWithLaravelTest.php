@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\after_resolving;
 
@@ -23,11 +24,8 @@ class MigrateWithLaravelTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    /**
-     * @test
-     *
-     * @define-db loadApplicationMigrations
-     */
+    #[Test]
+    #[DefineDatabase('loadApplicationMigrations')]
     public function it_loads_the_migrations()
     {
         $now = Carbon::now();
@@ -46,7 +44,7 @@ class MigrateWithLaravelTest extends TestCase
         $this->assertTrue(Hash::check('456', $users->password));
     }
 
-    /** @test */
+    #[Test]
     #[DefineDatabase('runApplicationMigrations')]
     public function it_runs_the_migrations()
     {

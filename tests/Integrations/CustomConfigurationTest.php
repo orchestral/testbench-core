@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CustomConfigurationTest extends TestCase
 {
@@ -19,7 +20,7 @@ class CustomConfigurationTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function it_can_override_existing_configuration_on_register()
     {
         $this->assertSame('bar', config('database.redis.foo'));

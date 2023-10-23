@@ -7,12 +7,13 @@ use Illuminate\Foundation\Auth\User;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class UserFactoryTest extends TestCase
 {
     use WithWorkbench;
 
-    /** @test */
+    #[Test]
     public function it_can_generate_user()
     {
         $user = UserFactory::new()->make();
@@ -24,7 +25,7 @@ class UserFactoryTest extends TestCase
         $this->assertInstanceOf(CarbonInterface::class, $user->email_verified_at);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_generate_unverified_user()
     {
         $user = UserFactory::new()->unverified()->make();

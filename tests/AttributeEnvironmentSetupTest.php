@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 class AttributeEnvironmentSetupTest extends TestCase
 {
-    /** @test */
+    #[Test]
     #[DefineEnvironment('firstConfig')]
     public function it_loads_first_config_helper()
     {
@@ -17,7 +17,7 @@ class AttributeEnvironmentSetupTest extends TestCase
         $this->assertNull(config('testbench.two'));
     }
 
-    /** @test */
+    #[Test]
     #[DefineEnvironment('secondConfig')]
     public function it_loads_second_config_helper()
     {
@@ -26,7 +26,7 @@ class AttributeEnvironmentSetupTest extends TestCase
         $this->assertSame('testbench', config('testbench.two'));
     }
 
-    /** @test */
+    #[Test]
     #[DefineEnvironment('firstConfig')]
     #[DefineEnvironment('secondConfig')]
     public function it_loads_both_config_helper()
