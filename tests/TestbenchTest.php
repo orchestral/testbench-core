@@ -9,6 +9,7 @@ use Workbench\App\Jobs\CustomPayloadJob;
 
 class TestbenchTest extends TestCase
 {
+    /** @test */
     public function it_can_resolve_uses_testing_concerns()
     {
         $this->assertTrue(static::usesTestingConcern(\Orchestra\Testbench\Concerns\Testing::class));
