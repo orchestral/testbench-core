@@ -7,6 +7,9 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+/**
+ * @requires PHP >= 8.0
+ */
 class AttributeEnvironmentSetupTest extends TestCase
 {
     /** @test */
