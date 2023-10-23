@@ -3,14 +3,15 @@
 namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
+#[RequiresPhpunit('>=10.1.0 <11.0.0')]
 class AnnotationEnvironmentSetupTest extends TestCase
 {
     /**
-     * @test
-     *
      * @environment-setup firstConfig
      */
+    #[Test]
     public function it_loads_first_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
@@ -19,10 +20,9 @@ class AnnotationEnvironmentSetupTest extends TestCase
     }
 
     /**
-     * @test
-     *
      * @environment-setup secondConfig
      */
+    #[Test]
     public function it_loads_second_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
@@ -31,11 +31,10 @@ class AnnotationEnvironmentSetupTest extends TestCase
     }
 
     /**
-     * @test
-     *
      * @environment-setup firstConfig
      * @environment-setup secondConfig
      */
+    #[Test]
     public function it_loads_both_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));

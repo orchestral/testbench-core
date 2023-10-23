@@ -69,12 +69,8 @@ trait InteractsWithPHPUnit
             return new Collection();
         }
 
-        $methodName = phpunit_version_compare('10', '>=')
-            ? $this->name() /** @phpstan-ignore-line */
-            : $this->getName(false); /** @phpstan-ignore-line */
-
         return Collection::make(
-            AttributeParser::forMethod($instance->getName(), $methodName)
+            AttributeParser::forMethod($instance->getName(), $this->name())
         );
     }
 
