@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Foundation\Console;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
@@ -12,6 +13,8 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @group database
  */
+#[RequiresOperatingSystemFamily('Linux|DAR')]
+#[Group('database')]
 class CreateSqliteDbCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;

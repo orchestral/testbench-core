@@ -7,11 +7,8 @@ use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-/**
- * @requires OS Linux|DAR
- *
- * @group database
- */
+#[RequiresOperatingSystemFamily('Linux|DAR')]
+#[Group('database')]
 class DropSqliteDbCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;

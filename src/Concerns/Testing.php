@@ -24,6 +24,7 @@ use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
+#[IgnoreMethodForCodeCoverage(Testing::class, 'teardownAfterClassUsingLaravel')]
 trait Testing
 {
     use CreatesApplication;
@@ -343,7 +344,6 @@ trait Testing
      *
      * @return void
      */
-    #[CodeCoverageIgnore]
     public static function teardownAfterClassUsingLaravel(): void
     {
         static::$latestResponse = null;
