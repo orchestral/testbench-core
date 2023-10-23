@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use Orchestra\Testbench\Foundation\Config;
-use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
+use PHPUnit\Framework\Attributes\IgnoreFunctionForCodeCoverage;
 use PHPUnit\Runner\Version;
 use RuntimeException;
 
@@ -74,7 +74,7 @@ function after_resolving(ApplicationContract $app, string $name, Closure $callba
  *
  * @deprecated
  */
-#[CodeCoverageIgnore]
+#[IgnoreFunctionForCodeCoverage]
 function default_environment_variables(): array
 {
     return [];
