@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
-use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
+use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 
 /**
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
@@ -19,6 +19,7 @@ use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
  *   enabled_package_discoveries?: bool
  * }
  */
+#[IgnoreMethodForCodeCoverage(Application::class, 'createVendorSymlink')]
 class Application
 {
     use CreatesApplication {
@@ -115,7 +116,6 @@ class Application
      * @param  string  $workingVendorPath
      * @return \Illuminate\Foundation\Application
      */
-    #[CodeCoverageIgnore]
     public static function createVendorSymlink(?string $basePath, string $workingVendorPath)
     {
         $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);

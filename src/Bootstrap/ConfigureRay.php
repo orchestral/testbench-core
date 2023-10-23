@@ -3,9 +3,9 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
-use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 use Spatie\Ray\Settings\Settings;
+
 use function Orchestra\Testbench\after_resolving;
 
 /**

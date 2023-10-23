@@ -6,8 +6,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use PHPUnit\Framework\Attributes\AfterClass;
-use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 
+#[IgnoreMethodForCodeCoverage(InteractsWithSqliteDatabaseFile::class, 'cleanupBackupSqliteDatabaseFilesOnFailed')]
 trait InteractsWithSqliteDatabaseFile
 {
     use InteractsWithPublishedFiles;
@@ -70,7 +70,6 @@ trait InteractsWithSqliteDatabaseFile
      * @return void
      */
     #[AfterClass]
-    #[CodeCoverageIgnore]
     public static function cleanupBackupSqliteDatabaseFilesOnFailed()
     {
         $filesystem = new Filesystem();
