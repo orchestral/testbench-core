@@ -7,13 +7,9 @@ use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\RequiresPhpunit;
 use PHPUnit\Framework\Attributes\Test;
 
-/**
- * @requires PHPUnit >= 10.1
- */
-#[RequiresPhpunit('^10.1')]
 class AttributeEnvironmentSetupTest extends TestCase
 {
-    #[Test]
+    /** @test */
     #[DefineEnvironment('firstConfig')]
     public function it_loads_first_config_helper()
     {
@@ -22,7 +18,7 @@ class AttributeEnvironmentSetupTest extends TestCase
         $this->assertNull(config('testbench.two'));
     }
 
-    #[Test]
+    /** @test */
     #[DefineEnvironment('secondConfig')]
     public function it_loads_second_config_helper()
     {
@@ -31,7 +27,7 @@ class AttributeEnvironmentSetupTest extends TestCase
         $this->assertSame('testbench', config('testbench.two'));
     }
 
-    #[Test]
+    /** @test */
     #[DefineEnvironment('firstConfig')]
     #[DefineEnvironment('secondConfig')]
     public function it_loads_both_config_helper()
