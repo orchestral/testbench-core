@@ -26,6 +26,7 @@ trait Testing
 {
     use CreatesApplication;
     use HandlesAnnotations;
+    use HandlesAttributes;
     use HandlesDatabases;
     use HandlesRoutes;
     use InteractsWithMigrations;
