@@ -6,7 +6,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
-use PHPUnit\Framework\Attributes\CoversClass;
 
 class LatestResponseExceptionTest extends TestCase
 {
