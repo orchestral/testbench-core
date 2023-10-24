@@ -2,7 +2,6 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-
 ## 7.34.1
 
 Released: 2023-10-24

@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.14.1
+
+Released: 2023-10-24
+
+### Fixes
+
+* Fixes compatibility with Testbench Dusk when handling PHPUnit Attributes.
+
 ## 8.14.0
 
 Released: 2023-10-24
@@ -15,7 +23,7 @@ Released: 2023-10-24
   - `make()`
   - `makeFromConfig()`
   - `createFromConfig()`
-* Added support for PHPUnit Attribute as replacements to Annotations:
+* Added support for PHPUnit Attributes as replacements to Annotations:
   - `@define-env` and `@environment-setup` will be replaced with `Orchestra\Testbench\Attributes\DefineEnvironment`.
   - `@define-db` will be replaced with `Orchestra\Testbench\Attributes\DefineDatabase`.
   - `@define-route` will be replaced with `Orchestra\Testbench\Attributes\DefineRoute`.
