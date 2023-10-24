@@ -28,11 +28,14 @@ class AttributeParser
             }
 
             try {
-                if ($attribute->getName() === Define::class) {
-                    /** @phpstan-ignore-next-line */
-                    $instance = $attribute->newInstance()->resolve();
-                } else {
-                    $instance = $attribute->newInstance();
+                $instance = $attribute->getName() === Define::class
+                    ? transform($attribute->newInstance(), static function ($instance) {
+                        /** @var \Orchestra\Testbench\Attributes\Define $instance */
+                        return $instance->resolve();
+                    }) : $attribute->newInstance();
+
+                if (\is_null($instance)) {
+                    continue;
                 }
 
                 $name = \get_class($instance);
