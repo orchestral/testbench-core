@@ -30,7 +30,9 @@ class AttributeParser
 
                 try {
                     if ($attribute->getName() === Define::class) {
-                        $instance = $attribute->newInstance()->resolve();
+                        $instance = transform($attribute->newInstance(), function (Define $instance) {
+                            return $instance->resolve();
+                        });
                     } else {
                         $instance = $attribute->newInstance();
                     }
