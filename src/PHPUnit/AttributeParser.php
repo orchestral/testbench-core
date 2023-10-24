@@ -29,13 +29,10 @@ class AttributeParser
                 }
 
                 try {
-                    if ($attribute->getName() === Define::class) {
-                        $instance = transform($attribute->newInstance(), function (Define $instance) {
+                    $instance = $attribute->getName() === Define::class
+                        ? transform($attribute->newInstance(), static function (Define $instance) {
                             return $instance->resolve();
-                        });
-                    } else {
-                        $instance = $attribute->newInstance();
-                    }
+                        }) : $attribute->newInstance();
 
                     $name = \get_class($instance);
 
