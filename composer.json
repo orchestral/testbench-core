@@ -38,6 +38,7 @@
         "php": "^8.0"
     },
     "require-dev": {
+        "composer-runtime-api": "^2.2",
         "fakerphp/faker": "^1.21",
         "laravel/framework": "^9.52.9",
         "laravel/pint": "^1.4",
