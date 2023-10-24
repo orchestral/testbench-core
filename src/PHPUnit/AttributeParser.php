@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\PHPUnit;
 
 use Error;
+use Orchestra\Testbench\Attributes\Define;
 use ReflectionMethod;
 
 class AttributeParser
@@ -27,13 +28,23 @@ class AttributeParser
             }
 
             try {
-                $instance = $attribute->newInstance();
+                $instance = $attribute->getName() === Define::class
+                    ? transform($attribute->newInstance(), static function ($instance) {
+                        /** @var \Orchestra\Testbench\Attributes\Define $instance */
+                        return $instance->resolve();
+                    }) : $attribute->newInstance();
 
-                if (! isset($attributes[$attribute->getName()])) {
-                    $attributes[$attribute->getName()] = [];
+                if (\is_null($instance)) {
+                    continue;
                 }
 
-                array_push($attributes[$attribute->getName()], $instance);
+                $name = \get_class($instance);
+
+                if (! isset($attributes[$name])) {
+                    $attributes[$name] = [];
+                }
+
+                array_push($attributes[$name], $instance);
             } catch (Error $e) {
                 //
             }
