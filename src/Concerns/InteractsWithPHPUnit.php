@@ -78,9 +78,14 @@ trait InteractsWithPHPUnit
             ? $this->name() /** @phpstan-ignore-line */
             : $this->getName(false); /** @phpstan-ignore-line */
 
-        return Collection::make(
-            AttributeParser::forMethod($instance->getName(), $methodName)
+        /** @var array<class-string, object> $attributes */
+        $attributes = rescue(
+            fn () => AttributeParser::forMethod($instance->getName(), $methodName),
+            [],
+            false
         );
+
+        return Collection::make($attributes);
     }
 
     /**
