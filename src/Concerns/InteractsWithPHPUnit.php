@@ -64,7 +64,7 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<string, mixed>
+     * @return \Illuminate\Support\Collection<class-string, object>
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
