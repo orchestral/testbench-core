@@ -29,3 +29,8 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
+
+		-
+			message: "#^Variable \\$attributes in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: src/TestCase.php

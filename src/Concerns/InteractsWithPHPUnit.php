@@ -59,7 +59,7 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<string, mixed>
+     * @return \Illuminate\Support\Collection<class-string, object>
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
@@ -69,9 +69,14 @@ trait InteractsWithPHPUnit
             return new Collection();
         }
 
-        return Collection::make(
-            AttributeParser::forMethod($instance->getName(), $this->name())
+        /** @var array<class-string, object> $attributes */
+        $attributes = rescue(
+            fn () => AttributeParser::forMethod($instance->getName(), $this->name()),
+            [],
+            false
         );
+
+        return Collection::make($attributes);
     }
 
     /**
