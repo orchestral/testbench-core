@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Workbench\Workbench;
@@ -23,17 +22,12 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
     protected $usesWorkbenchConfigFile = false;
 
     /**
-     * Bootstrap the given application.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return void
+     * Construct a new bootstrap class.
      */
-    public function bootstrap(Application $app): void
+    public function __construct()
     {
         $this->usesWorkbenchConfigFile = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false)
             && is_dir(workbench_path('config'));
-
-        parent::bootstrap($app);
     }
 
     /**
