@@ -40,7 +40,7 @@ final class Define
      */
     public function resolve(): ?object
     {
-        switch ($this->group) {
+        switch (strtolower($this->group)) {
             case 'env':
                 return new DefineEnvironment($this->method);
             case 'db':

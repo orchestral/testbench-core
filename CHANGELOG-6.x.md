@@ -2,6 +2,32 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.41.0
+
+Released: 2023-10-24
+
+### Added
+
+* Added `Orchestra\Testbench\Workbench\Workbench` to handle integrations with Workbench.
+* Added `Orchestra\Testbench\Foundation\Config::getWorkbenchDiscoversAttributes()` method.
+* Added `Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile` trait.
+* Added support for PHPUnit Attribute as replacements to Annotations:
+  - `@define-env` and `@environment-setup` will be replaced with `Orchestra\Testbench\Attributes\DefineEnvironment`.
+  - `@define-db` will be replaced with `Orchestra\Testbench\Attributes\DefineDatabase`.
+  - `@define-route` will be replaced with `Orchestra\Testbench\Attributes\DefineRoute`.
+
+### Fixes
+
+* Fixes generating path using `Orchestra\Testbench\package_path()` and `Orchestra\Testbench\workbench_path()`.
+
+### Deprecated
+
+* Deprecate `Orchestra\Testbench\Concerns\WithFactories`.
+
+### Removed
+
+* Remove `Orchestra\Testbench\Foundation\Bootstrap\StartWorkbench`, use `Orchestra\Testbench\Workbench\Workbench::start()` instead.
+
 ## 6.40.0
 
 Released: 2023-10-09
