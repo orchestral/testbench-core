@@ -7,10 +7,11 @@ use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class DefineTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_resolve_environment_definition()
     {
         $attribute = (new Define('env', 'setupEnvironmentData'))->resolve();
@@ -19,7 +20,7 @@ class DefineTest extends TestCase
         $this->assertSame('setupEnvironmentData', $attribute->method);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_database_definition()
     {
         $attribute = (new Define('db', 'setupDatabaseData'))->resolve();
@@ -28,7 +29,7 @@ class DefineTest extends TestCase
         $this->assertSame('setupDatabaseData', $attribute->method);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_route_definition()
     {
         $attribute = (new Define('route', 'setupRouteData'))->resolve();
@@ -37,7 +38,7 @@ class DefineTest extends TestCase
         $this->assertSame('setupRouteData', $attribute->method);
     }
 
-    /** @test */
+    #[Test]
     public function it_cannot_resolve_unknown_definition()
     {
         $attribute = (new Define('unknown', 'setupRouteData'))->resolve();
