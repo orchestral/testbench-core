@@ -29,9 +29,14 @@ class AttributeParser
 
             try {
                 $instance = $attribute->getName() === Define::class
-                    ? transform($attribute->newInstance(), static function (Define $instance) {
+                    ? transform($attribute->newInstance(), static function ($instance) {
+                        /** @var \Orchestra\Testbench\Attributes\Define $instance */
                         return $instance->resolve();
                     }) : $attribute->newInstance();
+
+                if (\is_null($instance)) {
+                    continue;
+                }
 
                 $name = \get_class($instance);
 
