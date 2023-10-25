@@ -119,7 +119,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TPurgeConfig
      */
-    protected $purgeConfig = [
+    protected array $purgeConfig = [
         'directories' => [],
         'files' => [],
     ];
@@ -131,7 +131,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TWorkbenchConfig
      */
-    protected $workbenchConfig = [
+    protected array $workbenchConfig = [
         'start' => '/',
         'user' => null,
         'guard' => null,
@@ -156,7 +156,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TWorkbenchDiscoversConfig
      */
-    protected $workbenchDiscoversConfig = [
+    protected array $workbenchDiscoversConfig = [
         'config' => false,
         'web' => false,
         'api' => false,
