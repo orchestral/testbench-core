@@ -15,7 +15,7 @@ use Mockery;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
-trait TestingHooks
+trait ApplicationTestingHooks
 {
     /**
      * The Illuminate application instance.
@@ -55,13 +55,19 @@ trait TestingHooks
     /**
      * Setup the testing hooks.
      *
-     * @param  \Illuminate\Foundation\Application  $app
      * @param  (\Closure():(void))|null  $callback
      * @return void
      */
-    protected function setUpTheTestingHooks($app, ?Closure $callback = null): void
+    protected function setUpTheApplicationTestingHooks(?Closure $callback = null): void
     {
-        $this->setUpParallelTestingCallbacks();
+        if (! $this->app) {
+            $this->refreshApplication();
+
+            $this->setUpParallelTestingCallbacks();
+        }
+
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = $this->app;
 
         $this->callAfterApplicationRefreshedCallbacks();
 
@@ -77,18 +83,19 @@ trait TestingHooks
     /**
      * Teardown the testing hooks.
      *
-     * @param  \Illuminate\Foundation\Application|null  $app
      * @param  (\Closure():(void))|null  $callback
      * @return void
      */
-    protected function tearDownTheTestingHooks($app, ?Closure $callback = null): void
+    protected function tearDownTheApplicationTestingHooks(?Closure $callback = null): void
     {
-        if ($app) {
+        if ($this->app) {
             $this->callBeforeApplicationDestroyedCallbacks();
 
             $this->tearDownParallelTestingCallbacks();
 
-            $app->flush();
+            $this->app?->flush();
+
+            $this->app = null;
         }
 
         if (! \is_null($callback)) {
@@ -229,4 +236,11 @@ trait TestingHooks
             }
         }
     }
+
+    /**
+     * Refresh the application instance.
+     *
+     * @return void
+     */
+    abstract protected function refreshApplication();
 }

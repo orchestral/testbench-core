@@ -13,13 +13,13 @@ use Illuminate\Support\LazyCollection;
 
 trait Testing
 {
+    use ApplicationTestingHooks;
     use CreatesApplication;
     use HandlesAnnotations;
     use HandlesAttributes;
     use HandlesDatabases;
     use HandlesRoutes;
     use InteractsWithMigrations;
-    use TestingHooks;
     use WithFactories;
 
     /**
@@ -38,14 +38,7 @@ trait Testing
      */
     final protected function setUpTheTestEnvironment(): void
     {
-        if (! $this->app) {
-            $this->refreshApplication();
-        }
-
-        /** @var \Illuminate\Foundation\Application $app */
-        $app = $this->app;
-
-        $this->setUpTheTestingHooks($app, function () {
+        $this->setUpTheApplicationTestingHooks(function () {
             $this->setUpTraits();
             $this->setUpHasRun = true;
         });
@@ -60,11 +53,7 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
-        $this->tearDownTheTestingHooks($this->app, function () {
-            if (! \is_null($this->app)) {
-                $this->app = null;
-            }
-
+        $this->tearDownTheApplicationTestingHooks(function () {
             $this->setUpHasRun = false;
 
             if (property_exists($this, 'serverVariables')) {
@@ -190,11 +179,4 @@ trait Testing
      * @return array<class-string, class-string>
      */
     abstract protected function setUpTraits();
-
-    /**
-     * Refresh the application instance.
-     *
-     * @return void
-     */
-    abstract protected function refreshApplication();
 }
