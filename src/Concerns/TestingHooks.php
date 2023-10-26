@@ -196,7 +196,6 @@ trait TestingHooks
      */
     protected function callAfterApplicationCreatedCallbacks(): void
     {
-
         foreach ($this->afterApplicationCreatedCallbacks as $callback) {
             \call_user_func($callback);
         }
