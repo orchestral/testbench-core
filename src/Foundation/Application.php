@@ -8,6 +8,8 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Workbench\Workbench;
 
 /**
+ * @api
+ *
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
  * @phpstan-import-type TOptionalExtraConfig from \Orchestra\Testbench\Foundation\Config
  *
