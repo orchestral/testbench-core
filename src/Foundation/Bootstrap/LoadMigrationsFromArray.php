@@ -14,6 +14,9 @@ use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\transform_relative_path;
 use function Orchestra\Testbench\workbench;
 
+/**
+ * @internal
+ */
 final class LoadMigrationsFromArray
 {
     /**
