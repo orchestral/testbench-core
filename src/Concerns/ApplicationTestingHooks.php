@@ -85,6 +85,8 @@ trait ApplicationTestingHooks
      *
      * @param  (\Closure():(void))|null  $callback
      * @return void
+     *
+     * @throws \Throwable
      */
     final protected function tearDownTheApplicationTestingHooks(?Closure $callback = null): void
     {
