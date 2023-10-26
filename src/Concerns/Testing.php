@@ -2,11 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Carbon\Carbon;
-use Carbon\CarbonImmutable;
-use Illuminate\Console\Application as Artisan;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
@@ -14,13 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Queue\Queue;
-use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\LazyCollection;
-use Illuminate\View\Component;
-use Mockery;
-use PHPUnit\Framework\TestCase;
-use Throwable;
 
 trait Testing
 {
@@ -30,42 +19,8 @@ trait Testing
     use HandlesDatabases;
     use HandlesRoutes;
     use InteractsWithMigrations;
+    use TestingHooks;
     use WithFactories;
-
-    /**
-     * The Illuminate application instance.
-     *
-     * @var \Illuminate\Foundation\Application|null
-     */
-    protected $app;
-
-    /**
-     * The callbacks that should be run after the application is created.
-     *
-     * @var array<int, callable():void>
-     */
-    protected $afterApplicationCreatedCallbacks = [];
-
-    /**
-     * The callbacks that should be run after the application is refreshed.
-     *
-     * @var array<int, callable():void>
-     */
-    protected $afterApplicationRefreshedCallbacks = [];
-
-    /**
-     * The callbacks that should be run before the application is destroyed.
-     *
-     * @var array<int, callable():void>
-     */
-    protected $beforeApplicationDestroyedCallbacks = [];
-
-    /**
-     * The exception thrown while running an application destruction callback.
-     *
-     * @var \Throwable|null
-     */
-    protected $callbackException;
 
     /**
      * Indicates if we have made it through the base setUp function.
@@ -85,26 +40,15 @@ trait Testing
     {
         if (! $this->app) {
             $this->refreshApplication();
-
-            $this->setUpParallelTestingCallbacks();
         }
 
         /** @var \Illuminate\Foundation\Application $app */
         $app = $this->app;
 
-        foreach ($this->afterApplicationRefreshedCallbacks as $callback) {
-            \call_user_func($callback);
-        }
-
-        $this->setUpTraits();
-
-        foreach ($this->afterApplicationCreatedCallbacks as $callback) {
-            \call_user_func($callback);
-        }
-
-        Model::setEventDispatcher($app['events']);
-
-        $this->setUpHasRun = true;
+        $this->setUpTheTestingHooks($app, function () {
+            $this->setUpTraits();
+            $this->setUpHasRun = true;
+        });
     }
 
     /**
@@ -116,61 +60,29 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
-        if ($this->app) {
-            $this->callBeforeApplicationDestroyedCallbacks();
-
-            $this->tearDownParallelTestingCallbacks();
-
-            $this->app?->flush();
-
-            $this->app = null;
-        }
-
-        $this->setUpHasRun = false;
-
-        if (property_exists($this, 'serverVariables')) {
-            $this->serverVariables = [];
-        }
-
-        if (property_exists($this, 'defaultHeaders')) {
-            $this->defaultHeaders = [];
-        }
-
-        if (class_exists(Mockery::class)) {
-            if ($container = Mockery::getContainer()) {
-                $this->addToAssertionCount($container->mockery_getExpectationCount());
+        $this->tearDownTheTestingHooks($this->app, function () {
+            if (! \is_null($this->app)) {
+                $this->app = null;
             }
 
-            Mockery::close();
-        }
+            $this->setUpHasRun = false;
 
-        Carbon::setTestNow();
+            if (property_exists($this, 'serverVariables')) {
+                $this->serverVariables = [];
+            }
 
-        if (class_exists(CarbonImmutable::class)) {
-            CarbonImmutable::setTestNow();
-        }
+            if (property_exists($this, 'defaultHeaders')) {
+                $this->defaultHeaders = [];
+            }
 
-        $this->afterApplicationCreatedCallbacks = [];
-        $this->beforeApplicationDestroyedCallbacks = [];
+            if (property_exists($this, 'originalExceptionHandler')) {
+                $this->originalExceptionHandler = null;
+            }
 
-        if (property_exists($this, 'originalExceptionHandler')) {
-            $this->originalExceptionHandler = null;
-        }
-
-        if (property_exists($this, 'originalDeprecationHandler')) {
-            $this->originalDeprecationHandler = null;
-        }
-
-        Artisan::forgetBootstrappers();
-        Component::flushCache();
-        Component::forgetComponentsResolver();
-        Component::forgetFactory();
-        Queue::createPayloadUsing(null);
-        HandleExceptions::forgetApp();
-
-        if ($this->callbackException) {
-            throw $this->callbackException;
-        }
+            if (property_exists($this, 'originalDeprecationHandler')) {
+                $this->originalDeprecationHandler = null;
+            }
+        });
     }
 
     /**
@@ -264,87 +176,6 @@ trait Testing
     }
 
     /**
-     * Setup parallel testing callback.
-     */
-    protected function setUpParallelTestingCallbacks(): void
-    {
-        if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
-            /** @phpstan-ignore-next-line */
-            ParallelTesting::callSetUpTestCaseCallbacks($this);
-        }
-    }
-
-    /**
-     * Teardown parallel testing callback.
-     */
-    protected function tearDownParallelTestingCallbacks(): void
-    {
-        if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
-            /** @phpstan-ignore-next-line */
-            ParallelTesting::callTearDownTestCaseCallbacks($this);
-        }
-    }
-
-    /**
-     * Register a callback to be run after the application is refreshed.
-     *
-     * @param  callable():void  $callback
-     * @return void
-     */
-    protected function afterApplicationRefreshed(callable $callback): void
-    {
-        $this->afterApplicationRefreshedCallbacks[] = $callback;
-
-        if ($this->setUpHasRun) {
-            \call_user_func($callback);
-        }
-    }
-
-    /**
-     * Register a callback to be run after the application is created.
-     *
-     * @param  callable():void  $callback
-     * @return void
-     */
-    protected function afterApplicationCreated(callable $callback): void
-    {
-        $this->afterApplicationCreatedCallbacks[] = $callback;
-
-        if ($this->setUpHasRun) {
-            \call_user_func($callback);
-        }
-    }
-
-    /**
-     * Register a callback to be run before the application is destroyed.
-     *
-     * @param  callable():void  $callback
-     * @return void
-     */
-    protected function beforeApplicationDestroyed(callable $callback): void
-    {
-        array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
-    }
-
-    /**
-     * Execute the application's pre-destruction callbacks.
-     *
-     * @return void
-     */
-    protected function callBeforeApplicationDestroyedCallbacks()
-    {
-        foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
-            try {
-                \call_user_func($callback);
-            } catch (Throwable $e) {
-                if (! $this->callbackException) {
-                    $this->callbackException = $e;
-                }
-            }
-        }
-    }
-
-    /**
      * Reload the application instance with cached routes.
      */
     protected function reloadApplication(): void
@@ -359,11 +190,4 @@ trait Testing
      * @return array<class-string, class-string>
      */
     abstract protected function setUpTraits();
-
-    /**
-     * Refresh the application instance.
-     *
-     * @return void
-     */
-    abstract protected function refreshApplication();
 }
