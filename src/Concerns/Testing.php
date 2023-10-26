@@ -190,4 +190,11 @@ trait Testing
      * @return array<class-string, class-string>
      */
     abstract protected function setUpTraits();
+
+    /**
+     * Refresh the application instance.
+     *
+     * @return void
+     */
+    abstract protected function refreshApplication();
 }
