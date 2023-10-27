@@ -13,6 +13,8 @@ use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\workbench_path;
 
 /**
+ * @api
+ *
  * @phpstan-import-type TWorkbenchDiscoversConfig from \Orchestra\Testbench\Foundation\Config
  */
 class Workbench

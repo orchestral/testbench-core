@@ -12,6 +12,8 @@ use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\transform_relative_path;
 
 /**
+ * @api
+ *
  * @phpstan-type TExtraConfig array{
  *   env: array,
  *   providers: array<int, class-string>,
