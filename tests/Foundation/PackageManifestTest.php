@@ -5,14 +5,13 @@ namespace Orchestra\Testbench\Tests\Foundation;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 
 class PackageManifestTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @group core
-     */
+    #[Test]
+    #[Group('core')]
     public function it_can_build_manifest()
     {
         if (! \defined('TESTBENCH_WORKING_PATH')) {
@@ -42,11 +41,8 @@ class PackageManifestTest extends TestCase
         $this->app['files']->delete($manifestPath);
     }
 
-    /**
-     * @test
-     *
-     * @group core
-     */
+    #[Test]
+    #[Group('core')]
     public function it_can_build_manifest_without_root_composer_file()
     {
         $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
@@ -76,11 +72,8 @@ class PackageManifestTest extends TestCase
         $this->app['files']->delete($manifestPath);
     }
 
-    /**
-     * @test
-     *
-     * @group core
-     */
+    #[Test]
+    #[Group('core')]
     public function it_can_build_manifest_without_any_discovery()
     {
         $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';

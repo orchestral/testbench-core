@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class DontDiscoverPackagesTest extends TestCase
 {
@@ -16,7 +17,7 @@ class DontDiscoverPackagesTest extends TestCase
         return ['spatie/laravel-ray', '*'];
     }
 
-    /** @test */
+    #[Test]
     public function it_cant_auto_detect_packages()
     {
         $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();

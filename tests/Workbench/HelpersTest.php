@@ -5,13 +5,14 @@ namespace Orchestra\Testbench\Tests\Workbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\workbench;
 use function Orchestra\Testbench\workbench_path;
 
 class HelpersTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_resolve_workbench()
     {
         $this->instance(ConfigContract::class, new Config([
@@ -46,7 +47,7 @@ class HelpersTest extends TestCase
         ], workbench());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_workbench_without_bound()
     {
         $this->assertSame([
@@ -68,11 +69,8 @@ class HelpersTest extends TestCase
         ], workbench());
     }
 
-    /**
-     * @test
-     *
-     * @group workbench
-     */
+    #[Test]
+    #[Group('workbench')]
     public function it_can_resolve_workbench_path()
     {
         $this->assertSame(

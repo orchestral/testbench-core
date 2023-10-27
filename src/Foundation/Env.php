@@ -2,6 +2,9 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+/**
+ * @api
+ */
 class Env extends \Illuminate\Support\Env
 {
     /**

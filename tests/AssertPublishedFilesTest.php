@@ -4,12 +4,13 @@ namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class AssertPublishedFilesTest extends TestCase
 {
     use InteractsWithPublishedFiles;
 
-    /** @test */
+    #[Test]
     public function it_can_test_assert_file_contains()
     {
         $this->assertFileContains([
@@ -25,7 +26,7 @@ class AssertPublishedFilesTest extends TestCase
         ], 'composer.json');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_test_assert_file_exists()
     {
         $this->assertFilenameExists('composer.json');
@@ -34,7 +35,7 @@ class AssertPublishedFilesTest extends TestCase
         $this->assertFilenameNotExists('composer.lock');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_test_assert_migrations_files()
     {
         $this->assertMigrationFileContains([

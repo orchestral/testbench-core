@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Concerns\Database;
 use Illuminate\Contracts\Config\Repository;
 use Mockery as m;
 use Orchestra\Testbench\Concerns\Database\HandlesConnections;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class HandlesConnectionsTest extends TestCase
@@ -19,7 +20,7 @@ class HandlesConnectionsTest extends TestCase
         m::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_build_mysql_connection()
     {
         $config = m::mock(Repository::class);

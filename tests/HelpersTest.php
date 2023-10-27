@@ -4,6 +4,8 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Runner\Version;
 
 use function Orchestra\Testbench\laravel_version_compare;
@@ -14,7 +16,7 @@ use function Orchestra\Testbench\transform_relative_path;
 
 class HelpersTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_parse_environment_variables()
     {
         $given = [
@@ -36,7 +38,7 @@ class HelpersTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_use_transform_relative_path()
     {
         $this->assertSame(
@@ -45,11 +47,8 @@ class HelpersTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     *
-     * @group workbench
-     */
+    #[Test]
+    #[Group('workbench')]
     public function it_can_use_package_path()
     {
         $this->assertSame(
@@ -68,7 +67,7 @@ class HelpersTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_compare_laravel_version()
     {
         $laravel = Application::VERSION === '11.x-dev' ? '11.0.0' : Application::VERSION;
@@ -77,7 +76,7 @@ class HelpersTest extends TestCase
         $this->assertTrue(laravel_version_compare($laravel, '=='));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_compare_phpunit_version()
     {
         $this->assertSame(0, phpunit_version_compare(Version::id()));

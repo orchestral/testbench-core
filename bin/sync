@@ -73,6 +73,10 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
 
 transform([
+    "env('BCRYPT_ROUNDS', 12)," => "env('BCRYPT_ROUNDS', 10),",
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/hashing.php"));
+
+transform([
     "env('QUEUE_CONNECTION', 'database')" => "env('QUEUE_CONNECTION', 'sync')",
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/queue.php"));
 

@@ -4,24 +4,24 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Contracts\Bus\QueueingDispatcher;
 use Illuminate\Queue\Queue;
+use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Jobs\CustomPayloadJob;
 
 class TestbenchTest extends TestCase
 {
+    #[Test]
     public function it_can_resolve_uses_testing_concerns()
     {
         $this->assertTrue(static::usesTestingConcern(\Orchestra\Testbench\Concerns\Testing::class));
         $this->assertFalse(static::usesTestingConcern(\Orchestra\Testbench\Concerns\WithWorkbench::class));
     }
 
-    /**
-     * @test
-     *
-     * @define-env registerCustomQueuePayload
-     *
-     * @dataProvider customQueuePayloadDataProvider
-     */
+    #[Test]
+    #[DataProvider('customQueuePayloadDataProvider')]
+    #[DefineEnvironment('registerCustomQueuePayload')]
     public function it_can_handle_custom_queue_payload()
     {
         $dispatcher = $this->app->make(QueueingDispatcher::class);

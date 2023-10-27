@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
+use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 trait HandlesDatabases
@@ -38,8 +39,12 @@ trait HandlesDatabases
 
         $this->defineDatabaseMigrations();
 
-        if (method_exists($this, 'parseTestMethodAnnotations')) {
+        if (static::usesTestingConcern(HandlesAnnotations::class)) {
             $this->parseTestMethodAnnotations($app, 'define-db');
+        }
+
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            $this->parseTestMethodAttributes($app, DefineDatabase::class);
         }
 
         $callback();

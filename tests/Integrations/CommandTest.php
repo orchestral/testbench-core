@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Console\Application as Artisan;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Console\Commands\DummyCommand;
 
 class CommandTest extends TestCase
@@ -17,7 +18,7 @@ class CommandTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_show_expected_output()
     {
         $this->artisan('sample:command')

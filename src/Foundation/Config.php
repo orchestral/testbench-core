@@ -12,6 +12,8 @@ use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\transform_relative_path;
 
 /**
+ * @api
+ *
  * @phpstan-type TExtraConfig array{
  *   env: array,
  *   providers: array<int, class-string>,
@@ -119,7 +121,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TPurgeConfig
      */
-    protected $purgeConfig = [
+    protected array $purgeConfig = [
         'directories' => [],
         'files' => [],
     ];
@@ -131,7 +133,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TWorkbenchConfig
      */
-    protected $workbenchConfig = [
+    protected array $workbenchConfig = [
         'start' => '/',
         'user' => null,
         'guard' => null,
@@ -156,7 +158,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TWorkbenchDiscoversConfig
      */
-    protected $workbenchDiscoversConfig = [
+    protected array $workbenchDiscoversConfig = [
         'config' => false,
         'web' => false,
         'api' => false,

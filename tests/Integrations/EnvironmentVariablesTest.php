@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Foundation\Auth\User;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 
 class EnvironmentVariablesTest extends TestCase
 {
@@ -29,11 +31,8 @@ class EnvironmentVariablesTest extends TestCase
         $this->loadLaravelMigrations(['--database' => 'testing']);
     }
 
-    /**
-     * @test
-     *
-     * @group commander
-     */
+    #[Test]
+    #[Group('commander')]
     public function it_can_be_used_without_having_an_environment_variables_file()
     {
         $user = UserFactory::new()->create();

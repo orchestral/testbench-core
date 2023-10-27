@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Test;
 
 class CacheRouteTest extends TestCase
 {
@@ -20,11 +22,8 @@ PHP);
         parent::setUp();
     }
 
-    /**
-     * @test
-     *
-     * @group without-parallel
-     */
+    #[Test]
+    #[Group('without-parallel')]
     public function it_can_cache_route()
     {
         $this->get('stubs-controller')

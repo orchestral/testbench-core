@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Databases;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class MigrateWithRealpathTest extends TestCase
 {
@@ -31,7 +32,7 @@ class MigrateWithRealpathTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    /** @test */
+    #[Test]
     public function it_runs_the_migrations()
     {
         $users = DB::table('testbench_users')->where('id', '=', 1)->first();

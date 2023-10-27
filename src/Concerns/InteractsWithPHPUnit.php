@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\PHPUnit\AttributeParser;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use ReflectionClass;
@@ -51,6 +52,31 @@ trait InteractsWithPHPUnit
         );
 
         return Collection::make($annotations);
+    }
+
+    /**
+     * Resolve PHPUnit method attributes.
+     *
+     * @phpunit-overrides
+     *
+     * @return \Illuminate\Support\Collection<class-string, object>
+     */
+    protected function resolvePhpUnitAttributes(): Collection
+    {
+        $instance = new ReflectionClass($this);
+
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+            return new Collection();
+        }
+
+        /** @var array<class-string, object> $attributes */
+        $attributes = rescue(
+            fn () => AttributeParser::forMethod($instance->getName(), $this->name()),
+            [],
+            false
+        );
+
+        return Collection::make($attributes);
     }
 
     /**
