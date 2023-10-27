@@ -40,8 +40,9 @@ trait Testing
     {
         $this->setUpTheApplicationTestingHooks(function () {
             $this->setUpTraits();
-            $this->setUpHasRun = true;
         });
+
+        $this->setUpHasRun = true;
     }
 
     /**
