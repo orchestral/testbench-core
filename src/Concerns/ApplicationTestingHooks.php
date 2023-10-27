@@ -105,6 +105,7 @@ trait ApplicationTestingHooks
         }
 
         if (class_exists(Mockery::class)) {
+            /** @phpstan-ignore-next-line */
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }

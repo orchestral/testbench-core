@@ -24,6 +24,7 @@ use Throwable;
 
 trait Testing
 {
+    use ApplicationTestingHooks;
     use CreatesApplication;
     use HandlesAnnotations;
     use HandlesAttributes;
@@ -83,26 +84,9 @@ trait Testing
      */
     final protected function setUpTheTestEnvironment(): void
     {
-        if (! $this->app) {
-            $this->refreshApplication();
-
-            $this->setUpParallelTestingCallbacks();
-        }
-
-        /** @var \Illuminate\Foundation\Application $app */
-        $app = $this->app;
-
-        foreach ($this->afterApplicationRefreshedCallbacks as $callback) {
-            \call_user_func($callback);
-        }
-
-        $this->setUpTraits();
-
-        foreach ($this->afterApplicationCreatedCallbacks as $callback) {
-            \call_user_func($callback);
-        }
-
-        Model::setEventDispatcher($app['events']);
+        $this->setUpTheApplicationTestingHooks(function () {
+            $this->setUpTraits();
+        });
 
         $this->setUpHasRun = true;
     }
@@ -116,62 +100,25 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
-        if ($this->app) {
-            $this->callBeforeApplicationDestroyedCallbacks();
+        $this->tearDownTheApplicationTestingHooks(function () {
+            $this->setUpHasRun = false;
 
-            $this->tearDownParallelTestingCallbacks();
-
-            $this->app?->flush();
-
-            $this->app = null;
-        }
-
-        $this->setUpHasRun = false;
-
-        if (property_exists($this, 'serverVariables')) {
-            $this->serverVariables = [];
-        }
-
-        if (property_exists($this, 'defaultHeaders')) {
-            $this->defaultHeaders = [];
-        }
-
-        if (class_exists(Mockery::class)) {
-            /** @phpstan-ignore-next-line */
-            if ($container = Mockery::getContainer()) {
-                $this->addToAssertionCount($container->mockery_getExpectationCount());
+            if (property_exists($this, 'serverVariables')) {
+                $this->serverVariables = [];
             }
 
-            Mockery::close();
-        }
+            if (property_exists($this, 'defaultHeaders')) {
+                $this->defaultHeaders = [];
+            }
 
-        Carbon::setTestNow();
+            if (property_exists($this, 'originalExceptionHandler')) {
+                $this->originalExceptionHandler = null;
+            }
 
-        if (class_exists(CarbonImmutable::class)) {
-            CarbonImmutable::setTestNow();
-        }
-
-        $this->afterApplicationCreatedCallbacks = [];
-        $this->beforeApplicationDestroyedCallbacks = [];
-
-        if (property_exists($this, 'originalExceptionHandler')) {
-            $this->originalExceptionHandler = null;
-        }
-
-        if (property_exists($this, 'originalDeprecationHandler')) {
-            $this->originalDeprecationHandler = null;
-        }
-
-        Artisan::forgetBootstrappers();
-        Component::flushCache();
-        Component::forgetComponentsResolver();
-        Component::forgetFactory();
-        Queue::createPayloadUsing(null);
-        HandleExceptions::forgetApp();
-
-        if ($this->callbackException) {
-            throw $this->callbackException;
-        }
+            if (property_exists($this, 'originalDeprecationHandler')) {
+                $this->originalDeprecationHandler = null;
+            }
+        });
     }
 
     /**
@@ -262,87 +209,6 @@ trait Testing
     protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
     {
         return false;
-    }
-
-    /**
-     * Setup parallel testing callback.
-     */
-    protected function setUpParallelTestingCallbacks(): void
-    {
-        if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
-            /** @phpstan-ignore-next-line */
-            ParallelTesting::callSetUpTestCaseCallbacks($this);
-        }
-    }
-
-    /**
-     * Teardown parallel testing callback.
-     */
-    protected function tearDownParallelTestingCallbacks(): void
-    {
-        if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
-            /** @phpstan-ignore-next-line */
-            ParallelTesting::callTearDownTestCaseCallbacks($this);
-        }
-    }
-
-    /**
-     * Register a callback to be run after the application is refreshed.
-     *
-     * @param  callable():void  $callback
-     * @return void
-     */
-    protected function afterApplicationRefreshed(callable $callback): void
-    {
-        $this->afterApplicationRefreshedCallbacks[] = $callback;
-
-        if ($this->setUpHasRun) {
-            \call_user_func($callback);
-        }
-    }
-
-    /**
-     * Register a callback to be run after the application is created.
-     *
-     * @param  callable():void  $callback
-     * @return void
-     */
-    protected function afterApplicationCreated(callable $callback): void
-    {
-        $this->afterApplicationCreatedCallbacks[] = $callback;
-
-        if ($this->setUpHasRun) {
-            \call_user_func($callback);
-        }
-    }
-
-    /**
-     * Register a callback to be run before the application is destroyed.
-     *
-     * @param  callable():void  $callback
-     * @return void
-     */
-    protected function beforeApplicationDestroyed(callable $callback): void
-    {
-        array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
-    }
-
-    /**
-     * Execute the application's pre-destruction callbacks.
-     *
-     * @return void
-     */
-    protected function callBeforeApplicationDestroyedCallbacks()
-    {
-        foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
-            try {
-                \call_user_func($callback);
-            } catch (Throwable $e) {
-                if (! $this->callbackException) {
-                    $this->callbackException = $e;
-                }
-            }
-        }
     }
 
     /**
