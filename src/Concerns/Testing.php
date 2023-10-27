@@ -151,6 +151,15 @@ trait Testing
     }
 
     /**
+     * Reload the application instance with cached routes.
+     */
+    protected function reloadApplication(): void
+    {
+        $this->tearDownTheTestEnvironment();
+        $this->setUpTheTestEnvironment();
+    }
+
+    /**
      * Clean up the testing environment before the next test case.
      *
      * @return void
@@ -178,15 +187,6 @@ trait Testing
      * @return bool
      */
     abstract protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool;
-
-    /**
-     * Reload the application instance with cached routes.
-     */
-    protected function reloadApplication(): void
-    {
-        $this->tearDownTheTestEnvironment();
-        $this->setUpTheTestEnvironment();
-    }
 
     /**
      * Boot the testing helper traits.
