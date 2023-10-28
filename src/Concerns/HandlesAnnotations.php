@@ -7,6 +7,8 @@ use Illuminate\Support\Collection;
 
 /**
  * @internal
+ *
+ * @deprecated
  */
 trait HandlesAnnotations
 {
