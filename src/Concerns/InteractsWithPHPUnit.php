@@ -69,7 +69,7 @@ trait InteractsWithPHPUnit
 
         /** @var array<class-string, object> $attributes */
         $attributes = rescue(
-            fn () =>  AttributeParser::forMethod($instance->getName(), $this->getName(false)),
+            fn () => AttributeParser::forMethod($instance->getName(), $this->getName(false)),
             [],
             false
         );
