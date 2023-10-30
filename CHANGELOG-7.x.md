@@ -2,6 +2,13 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.34.1
+
+Released: 2023-10-30
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\ApplicationTestingHooks` concern based from `Orchestra\Testbench\Concerns\Testing`.
 
 ## 7.34.1
 
