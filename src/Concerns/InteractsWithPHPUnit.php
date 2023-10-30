@@ -69,9 +69,9 @@ trait InteractsWithPHPUnit
 
         /** @var array<class-string, object> $attributes */
         $attributes = rescue(
-            function () use ($instance) {
-                return AttributeParser::forMethod($instance->getName(), $this->getName(false));
-            }, [], false
+            fn () =>  AttributeParser::forMethod($instance->getName(), $this->getName(false)),
+            [],
+            false
         );
 
         return Collection::make($attributes);
