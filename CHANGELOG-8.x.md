@@ -2,6 +2,30 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.14.4
+
+Released: 2023-11-02
+
+### Changes
+
+* Update skeleton to match v10.2.8.
+
+## 8.14.3
+
+Released: 2023-10-31
+
+### Changes
+
+* Update skeleton to match v10.2.7.
+
+## 8.14.2
+
+Released: 2023-10-30
+
+### Added
+
+* Added `Orchestra\Testbench\Concerns\ApplicationTestingHooks` concern based from `Orchestra\Testbench\Concerns\Testing`.
+
 ## 8.14.1
 
 Released: 2023-10-24

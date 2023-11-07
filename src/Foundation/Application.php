@@ -29,20 +29,13 @@ class Application
     }
 
     /**
-     * The application base path.
-     *
-     * @var string|null
-     */
-    protected $basePath;
-
-    /**
      * List of configurations.
      *
      * @var array<string, mixed>
      *
      * @phpstan-var TExtraConfig
      */
-    protected $config = [
+    protected array $config = [
         'env' => [],
         'providers' => [],
         'dont-discover' => [],
@@ -61,7 +54,7 @@ class Application
      *
      * @var bool
      */
-    protected $loadEnvironmentVariables = false;
+    protected bool $loadEnvironmentVariables = false;
 
     /**
      * Create new application resolver.
@@ -69,9 +62,10 @@ class Application
      * @param  string|null  $basePath
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      */
-    public function __construct(string $basePath = null, callable $resolvingCallback = null)
-    {
-        $this->basePath = $basePath;
+    public function __construct(
+        protected ?string $basePath = null,
+        callable $resolvingCallback = null
+    ) {
         $this->resolvingCallback = $resolvingCallback;
     }
 

@@ -33,6 +33,8 @@ trait InteractsWithPHPUnit
      * @phpunit-overrides
      *
      * @return \Illuminate\Support\Collection<string, mixed>
+     *
+     * @deprecated
      */
     protected function resolvePhpUnitAnnotations(): Collection
     {

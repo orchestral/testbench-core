@@ -11,7 +11,7 @@ trait HandleTerminatingConsole
      *
      * @var array<int, (callable(\Illuminate\Filesystem\Filesystem):void)>
      */
-    protected $beforeTerminatingCallbacks = [];
+    protected array $beforeTerminatingCallbacks = [];
 
     /**
      * Register a callback to be run before terminating the command.

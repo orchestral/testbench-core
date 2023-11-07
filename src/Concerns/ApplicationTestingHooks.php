@@ -12,7 +12,7 @@ use Illuminate\Queue\Queue;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\View\Component;
 use Mockery;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Throwable;
 
 trait ApplicationTestingHooks
@@ -29,28 +29,28 @@ trait ApplicationTestingHooks
      *
      * @var array<int, callable():void>
      */
-    protected $afterApplicationCreatedCallbacks = [];
+    protected array $afterApplicationCreatedCallbacks = [];
 
     /**
      * The callbacks that should be run after the application is refreshed.
      *
      * @var array<int, callable():void>
      */
-    protected $afterApplicationRefreshedCallbacks = [];
+    protected array $afterApplicationRefreshedCallbacks = [];
 
     /**
      * The callbacks that should be run before the application is destroyed.
      *
      * @var array<int, callable():void>
      */
-    protected $beforeApplicationDestroyedCallbacks = [];
+    protected array $beforeApplicationDestroyedCallbacks = [];
 
     /**
      * The exception thrown while running an application destruction callback.
      *
      * @var \Throwable|null
      */
-    protected $callbackException;
+    protected ?Throwable $callbackException = null;
 
     /**
      * Setup the testing hooks.
@@ -104,7 +104,7 @@ trait ApplicationTestingHooks
             \call_user_func($callback);
         }
 
-        if (class_exists(Mockery::class)) {
+        if (class_exists(Mockery::class) && $this instanceof PHPUnitTestCase) {
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }
@@ -138,7 +138,7 @@ trait ApplicationTestingHooks
      */
     protected function setUpParallelTestingCallbacks(): void
     {
-        if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+        if (class_exists(ParallelTesting::class) && $this instanceof PHPUnitTestCase) {
             /** @phpstan-ignore-next-line */
             ParallelTesting::callSetUpTestCaseCallbacks($this);
         }
@@ -149,7 +149,7 @@ trait ApplicationTestingHooks
      */
     protected function tearDownParallelTestingCallbacks(): void
     {
-        if (class_exists(ParallelTesting::class) && $this instanceof TestCase) {
+        if (class_exists(ParallelTesting::class) && $this instanceof PHPUnitTestCase) {
             /** @phpstan-ignore-next-line */
             ParallelTesting::callTearDownTestCaseCallbacks($this);
         }
