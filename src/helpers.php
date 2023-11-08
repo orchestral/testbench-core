@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
+use InvalidArgumentException;
 use Orchestra\Testbench\Foundation\Config;
 use PHPUnit\Runner\Version;
 use RuntimeException;
@@ -150,6 +151,27 @@ function workbench(): array
         : new Foundation\Config();
 
     return $config->getWorkbenchAttributes();
+}
+
+/**
+ * Get the migration path by type.
+ *
+ * @param  ?string  $type
+ * @return string
+ *
+ * @throws \InvalidArgumentException
+ */
+function laravel_migration_path(?string $type = null): string
+{
+    $path = realpath(
+        \is_null($type) ? base_path('migrations') : base_path("migrations/{$type}")
+    );
+
+    if ($path === false) {
+        throw new InvalidArgumentException(sprintf('Unable to resolve migration path for type [%s]', $type ?? 'laravel'));
+    }
+
+    return $path;
 }
 
 /**

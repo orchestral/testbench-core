@@ -19,8 +19,10 @@ class EnvTest extends TestCase
         $_ENV['TESTING_EMPTY_EXAMPLE'] = '';
 
         $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::forward('APP_KEY'));
-        $this->assertSame('(null)', Env::forward('ASSET_URL'));
-        $this->assertSame('(null)', Env::forward('LOG_DEPRECATIONS_CHANNEL'));
+        $this->assertFalse(Env::forward('ASSET_URL'));
+        $this->assertSame('(null)', Env::forward('ASSET_URL', null));
+        $this->assertSame(Env::get('TESTBENCH_PACKAGE_TESTER') ? '(null)' : false, Env::forward('LOG_DEPRECATIONS_CHANNEL'));
+        $this->assertSame('(null)', Env::forward('LOG_DEPRECATIONS_CHANNEL', null));
         $this->assertSame('(true)', Env::forward('TESTING_TRUE_EXAMPLE'));
         $this->assertSame('(false)', Env::forward('TESTING_FALSE_EXAMPLE'));
         $this->assertSame('(empty)', Env::forward('TESTING_EMPTY_EXAMPLE'));
