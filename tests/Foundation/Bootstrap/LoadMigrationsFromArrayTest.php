@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 class LoadMigrationsFromArrayTest extends TestCase
 {
     #[Test]
-    public function test_it_can_register_migrations()
+    public function it_can_register_migrations()
     {
         $this->instance('migrator', $migrator = m::mock(Migrator::class));
 
@@ -25,7 +25,7 @@ class LoadMigrationsFromArrayTest extends TestCase
     }
 
     #[Test]
-    public function test_it_can_skip_migrations_registration()
+    public function it_can_skip_migrations_registration()
     {
         $this->instance('migrator', $migrator = m::mock(Migrator::class));
 

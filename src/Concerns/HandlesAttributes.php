@@ -23,10 +23,18 @@ trait HandlesAttributes
             ->filter(static function ($attributes, string $key) use ($attribute) {
                 return $key === $attribute && ! empty($attributes);
             })->flatten()
-            ->filter(fn ($instance) => \is_string($instance->method) && method_exists($this, $instance->method))
-            ->each($callback ?? function ($instance) use ($app) {
-                $this->{$instance->method}($app);
-            });
+            ->when(
+                \is_null($callback),
+                function ($attributes) use ($app) {
+                    $attributes->filter(fn ($instance) => \is_string($instance->method) && method_exists($this, $instance->method))
+                        ->each(function ($instance) use ($app) {
+                            $this->{$instance->method}($app);
+                        });
+                },
+                static function ($attributes) use ($callback) {
+                    $attributes->each($callback);
+                }
+            );
     }
 
     /**
