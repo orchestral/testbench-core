@@ -69,7 +69,10 @@ trait InteractsWithMigrations
 
         $this->beforeApplicationDestroyed(function () use ($database) {
             $options = $this->resolveLaravelMigrationsOptions($database);
-            $options['--path'] = migration_path('laravel');
+            $options['--path'] = array_filter([
+                is_dir(base_path('migrations')) ? base_path('migrations') : null,
+                migration_path('laravel'),
+            ]);
             $options['--realpath'] = true;
 
             (new MigrateProcessor($this, $options))->rollback();
@@ -85,7 +88,10 @@ trait InteractsWithMigrations
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
         $options = $this->resolveLaravelMigrationsOptions($database);
-        $options['--path'] = migration_path('laravel');
+        $options['--path'] = array_filter([
+            is_dir(base_path('migrations')) ? base_path('migrations') : null,
+            migration_path('laravel'),
+        ]);
         $options['--realpath'] = true;
 
         (new MigrateProcessor($this, $options))->up();
