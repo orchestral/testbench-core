@@ -176,7 +176,7 @@ function workbench_path(string $path = ''): string
 function laravel_migration_path(?string $type = null): string
 {
     $path = realpath(
-        is_null($type) ? base_path('migrations') : base_path("migrations/{$type}")
+        \is_null($type) ? base_path('migrations') : base_path("migrations/{$type}")
     );
 
     if ($path === false) {

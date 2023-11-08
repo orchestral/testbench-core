@@ -6,12 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\Concerns\WithLaravelMigrations;
-use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
 class MigrateWithLaravelMigrationsTest extends TestCase
 {
-    use WithLaravelMigrations, WithWorkbench;
+    use WithLaravelMigrations;
 
     /**
      * Define environment setup.
