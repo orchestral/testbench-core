@@ -84,6 +84,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertFalse(Schema::hasTable('notifications'));
         $this->assertFalse(Schema::hasTable('sessions'));
     }
+
     /** @test */
     #[WithMigration('session')]
     public function it_loads_session_migrations()

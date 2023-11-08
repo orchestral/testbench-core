@@ -18,7 +18,7 @@ class LoadMigrationsFromArrayTest extends TestCase
         $paths = [__DIR__.'/../../migrations'];
 
         $migrator->shouldReceive('path')->once()->with($paths[0])->andReturnNull()
-            ->shouldReceive('path')->twice()->with($this->app->basePath('migrations'))->andReturnNull();
+            ->shouldReceive('path')->once()->with($this->app->basePath('migrations'))->andReturnNull();
 
         (new LoadMigrationsFromArray($paths))->bootstrap($this->app);
     }

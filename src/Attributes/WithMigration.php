@@ -19,6 +19,6 @@ final class WithMigration
      */
     public function __construct()
     {
-        $this->types = array_merge(['laravel'], func_get_args());
+        $this->types = array_merge(['laravel'], \func_get_args());
     }
 }
