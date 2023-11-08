@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Env;
 
-use function Orchestra\Testbench\migration_path;
+use function Orchestra\Testbench\laravel_migration_path;
 use function Orchestra\Testbench\transform_relative_path;
 use function Orchestra\Testbench\workbench;
 
@@ -102,7 +102,7 @@ final class LoadMigrationsFromArray
         )->when($this->includesDefaultMigrations($app), static function ($migrations) use ($app) {
             return $migrations->push(...array_filter([
                 is_dir($app->basePath('migrations')) ? $app->basePath('migrations') : null,
-                migration_path('laravel'),
+                laravel_migration_path(),
             ]));
         })->filter(static function ($migration) {
             return \is_string($migration);

@@ -168,17 +168,19 @@ function workbench_path(string $path = ''): string
 /**
  * Get the migration path by type.
  *
- * @param  string  $type
+ * @param  ?string  $type
  * @return string
  *
  * @throws \InvalidArgumentException
  */
-function migration_path(string $type = 'laravel'): string
+function laravel_migration_path(?string $type = null): string
 {
-    $path = realpath(__DIR__.'/../database/migrations/'.$type);
+    $path = realpath(
+        is_null($type) ? base_path('migrations') : base_path("migrations/{$type}")
+    );
 
     if ($path === false) {
-        throw new InvalidArgumentException("Unable to resolve migration path for type [{$type}]");
+        throw new InvalidArgumentException(sprintf('Unable to resolve migration path for type [%s]', $type ?? 'laravel'));
     }
 
     return $path;
