@@ -16,11 +16,9 @@ final class WithMigration
 
     /**
      * Construct a new attribute.
-     *
-     * @param  array<int, string>  $types
      */
-    public function __construct(...$types)
+    public function __construct()
     {
-        $this->types = array_merge(['laravel'], $types);
+        $this->types = array_merge(['laravel'], func_get_args());
     }
 }
