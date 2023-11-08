@@ -13,7 +13,7 @@ class AttributeParser
     /**
      * Parse attribute for method.
      *
-     * @param  string  $className
+     * @param  class-string  $className
      * @param  string  $methodName
      * @return array
      */
@@ -76,7 +76,7 @@ class AttributeParser
      * Resolve given attribute.
      *
      * @param  \ReflectionAttribute  $attribute
-     * @return array{0: string|null, 1: object|null}
+     * @return array{0: class-string|null, 1: object|null}
      */
     protected static function resolveAttribute(ReflectionAttribute $attribute): array
     {
@@ -91,6 +91,7 @@ class AttributeParser
                 return [null, null];
             }
 
+            /** @var class-string $name */
             $name = \get_class($instance);
 
             return [$name, $instance];
