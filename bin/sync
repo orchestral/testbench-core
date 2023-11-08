@@ -36,13 +36,24 @@ $files->move("{$workingPath}/laravel/database/migrations/2014_10_12_000000_creat
 $files->move("{$workingPath}/laravel/database/migrations/2014_10_12_100000_create_password_resets_table.php", "{$workingPath}/database/migrations/laravel/2014_10_12_100000_testbench_create_password_resets_table.php");
 $files->move("{$workingPath}/laravel/database/migrations/2019_08_19_000000_create_failed_jobs_table.php", "{$workingPath}/database/migrations/laravel/2019_08_19_000000_testbench_create_failed_jobs_table.php");
 
-foreach ([
-    '2014_10_12_000000_testbench_create_users_table',
-    '2014_10_12_100000_testbench_create_password_resets_table',
-    '2019_08_19_000000_testbench_create_failed_jobs_table',
-] as $migration) {
-    $files->replaceInFile('class Create', 'class TestbenchCreate', "{$workingPath}/database/migrations/laravel/{$migration}.php");
-}
+Illuminate\Support\Collection::make([
+    'cache/0000_00_00_000000_testbench_create_cache_table' => 'src/Illuminate/Cache/Console/stubs/cache.stub',
+    'notifications/0000_00_00_000000_testbench_create_notifications_table' => 'src/Illuminate/Notifications/Console/stubs/notifications.stub',
+    'session/0000_00_00_000000_testbench_create_sessions_table' => 'src/Illuminate/Session/Console/stubs/database.stub',
+])->transform(fn ($file) => "{$workingPath}/vendor/laravel/framework/{$file}")
+->each(function ($from, $to) use ($files, $workingPath) {
+    $files->copy($from, "{$workingPath}/database/migrations/{$to}.php");
+})->keys()
+->push(...[
+    'laravel/2014_10_12_000000_testbench_create_users_table',
+    'laravel/2014_10_12_100000_testbench_create_password_resets_table',
+    'laravel/2019_08_19_000000_testbench_create_failed_jobs_table',
+    'cache/0000_00_00_000000_testbench_create_cache_table',
+    'notifications/0000_00_00_000000_testbench_create_notifications_table',
+    'session/0000_00_00_000000_testbench_create_sessions_table',
+])->each(function ($migration) use ($files, $workingPath) {
+    $files->replaceInFile('class Create', 'class TestbenchCreate', "{$workingPath}/database/migrations/{$migration}.php");
+});
 
 transform([
     "getcwd()" => "__DIR__.'/public'",
