@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Concerns;
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
 
+use function Orchestra\Testbench\migration_path;
+
 trait InteractsWithMigrations
 {
     /**
@@ -67,7 +69,8 @@ trait InteractsWithMigrations
 
         $this->beforeApplicationDestroyed(function () use ($database) {
             $options = $this->resolveLaravelMigrationsOptions($database);
-            $options['--path'] = 'migrations';
+            $options['--path'] = migration_path('laravel');
+            $options['--realpath'] = true;
 
             (new MigrateProcessor($this, $options))->rollback();
         });
@@ -82,7 +85,8 @@ trait InteractsWithMigrations
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
         $options = $this->resolveLaravelMigrationsOptions($database);
-        $options['--path'] = 'migrations';
+        $options['--path'] = migration_path('laravel');
+        $options['--realpath'] = true;
 
         (new MigrateProcessor($this, $options))->up();
 

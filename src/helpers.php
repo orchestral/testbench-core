@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
+use InvalidArgumentException;
 
 /**
  * Create Laravel application instance.
@@ -162,4 +163,23 @@ function workbench_path(string $path = ''): string
     $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
     return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
+}
+
+/**
+ * Get the migration path by type.
+ *
+ * @param  string  $type
+ * @return string
+ *
+ * @throws \InvalidArgumentException
+ */
+function migration_path(string $type = 'laravel'): string
+{
+    $path = realpath(__DIR__.'/../database/migrations/'.$type);
+
+    if ($path === false) {
+        throw new InvalidArgumentException("Unable to resolve migration path for type [{$type}]");
+    }
+
+    return $path;
 }

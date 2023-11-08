@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\migration_path;
 
 trait WithLaravelMigrations
 {
@@ -21,15 +22,14 @@ trait WithLaravelMigrations
         $loadLaravelMigrations = static::cachedConfigurationForWorkbench()->getWorkbenchAttributes()['install'] ?? false;
 
         if (! ($loadLaravelMigrations && static::usesTestingConcern(WithWorkbench::class))) {
-            if (! is_dir($this->app->basePath('migrations'))) {
-                return;
-            }
-
             if (! static::usesTestingConcern(RefreshDatabase::class)) {
                 $this->loadLaravelMigrations();
             } else {
                 after_resolving($this->app, 'migrator', static function ($migrator, $app) {
-                    $migrator->path($app->basePath('migrations'));
+                    $migrator->path(...array_filter([
+                        is_dir($app->basePath('migrations')) ? $app->basePath('migrations') : null,
+                        migration_path('laravel'),
+                    ]));
                 });
             }
         }
