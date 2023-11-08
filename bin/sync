@@ -10,6 +10,15 @@ require __DIR__.'/../vendor/autoload.php';
 $files = new Illuminate\Filesystem\Filesystem();
 
 $files->deleteDirectory("{$workingPath}/skeleton");
+if ($files->isDirectory("{$workingPath}/laravel/migrations")) {
+    $files->deleteDirectory("{$workingPath}/laravel/migrations");
+}
+
+$files->ensureDirectoryExists("{$workingPath}/laravel/migrations");
+$files->ensureDirectoryExists("{$workingPath}/laravel/migrations/cache");
+$files->ensureDirectoryExists("{$workingPath}/laravel/migrations/notifications");
+$files->ensureDirectoryExists("{$workingPath}/laravel/migrations/queue");
+$files->ensureDirectoryExists("{$workingPath}/laravel/migrations/session");
 
 Symfony\Component\Process\Process::fromShellCommandline(
     'composer create-project "laravel/laravel:8.x-dev" skeleton --no-scripts --no-plugins --quiet --no-install', $workingPath
