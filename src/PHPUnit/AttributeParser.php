@@ -50,8 +50,6 @@ class AttributeParser
                 } else {
                     array_push($attributes[$name], $instance);
                 }
-
-                array_push($attributes[$name], $instance);
             }
         }
 
