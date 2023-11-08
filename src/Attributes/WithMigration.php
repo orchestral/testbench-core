@@ -8,19 +8,19 @@ use Attribute;
 final class WithMigration
 {
     /**
-     * The target type.
+     * The target types.
      *
-     * @var string
+     * @var array
      */
-    public $type;
+    public $types = [];
 
     /**
      * Construct a new attribute.
      *
-     * @param  string  $type
+     * @param  array<int, string>  $types
      */
-    public function __construct(string $type = 'laravel')
+    public function __construct(...$types)
     {
-        $this->type = $type;
+        $this->types = ['laravel', ...$types];
     }
 }

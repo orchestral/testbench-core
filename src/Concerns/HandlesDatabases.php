@@ -5,6 +5,10 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
+use Orchestra\Testbench\Attributes\WithMigration;
+
+use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\laravel_migration_path;
 
 trait HandlesDatabases
 {
@@ -41,6 +45,17 @@ trait HandlesDatabases
         if (static::usesTestingConcern(HandlesAttributes::class)) {
             $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
         }
+
+        $this->parseTestMethodAttributes($this->app, WithMigration::class, function (WithMigration $attribute) {
+            after_resolving($this->app, 'migrator', static function ($migrator, $app) use ($attribute) {
+                /** @var \Illuminate\Database\Migrations\Migrator $migrator */
+                collect($attribute->types)->transform(static function ($type) {
+                    return laravel_migration_path($type !== 'laravel' ? $type : null);
+                })->each(static function ($migration) use ($migrator) {
+                    $migrator->path($migration);
+                });
+            });
+        });
 
         $callback();
 

@@ -29,6 +29,7 @@ trait WithLaravelMigrations
             $this->loadLaravelMigrations();
         } else {
             after_resolving($this->app, 'migrator', static function ($migrator, $app) {
+                /** @var \Illuminate\Database\Migrations\Migrator $migrator */
                 $migrator->path(laravel_migration_path());
             });
         }
