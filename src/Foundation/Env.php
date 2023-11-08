@@ -16,7 +16,7 @@ class Env extends \Illuminate\Support\Env
      */
     public static function forward(string $key, $default = null)
     {
-        if (func_num_args() === 1) {
+        if (\func_num_args() === 1) {
             $default = new UndefinedValue();
         }
 
