@@ -21,13 +21,15 @@ trait WithLaravelMigrations
         $loadLaravelMigrations = static::cachedConfigurationForWorkbench()->getWorkbenchAttributes()['install'] ?? false;
 
         if (! ($loadLaravelMigrations && static::usesTestingConcern(WithWorkbench::class))) {
-            if (! static::usesTestingConcern(RefreshDatabase::class)) {
-                $this->loadLaravelMigrations();
-            } elseif (is_dir($app->basePath('migrations'))) {
-                after_resolving($this->app, 'migrator', static function ($migrator, $app) {
-                    $migrator->path($app->basePath('migrations'));
-                });
-            }
+            return;
+        }
+
+        if (! static::usesTestingConcern(RefreshDatabase::class)) {
+            $this->loadLaravelMigrations();
+        } elseif (is_dir($this->app->basePath('migrations'))) {
+            after_resolving($this->app, 'migrator', static function ($migrator, $app) {
+                $migrator->path($app->basePath('migrations'));
+            });
         }
     }
 }
