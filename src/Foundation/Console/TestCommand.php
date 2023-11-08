@@ -148,7 +148,7 @@ class TestCommand extends Command
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
             'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
         ])->merge(parent::phpunitEnvironmentVariables())
-        ->all();
+            ->all();
     }
 
     /**
@@ -185,6 +185,6 @@ class TestCommand extends Command
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
             'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
         ])->merge(parent::paratestEnvironmentVariables())
-        ->all();
+            ->all();
     }
 }
