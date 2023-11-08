@@ -55,12 +55,12 @@ $files->move("{$workingPath}/laravel/database/migrations/2014_10_12_100000_creat
 $files->move("{$workingPath}/laravel/database/migrations/2019_08_19_000000_create_failed_jobs_table.php", "{$workingPath}/laravel/migrations/2019_08_19_000000_testbench_create_failed_jobs_table.php");
 
 Illuminate\Support\Collection::make([
-    'cache/0000_00_00_000000_testbench_create_cache_table' => 'Cache/Console/stubs/cache.stub',
-    'notifications/0000_00_00_000000_testbench_create_notifications_table' => 'Notifications/Console/stubs/notifications.stub',
-    'queue/0000_00_00_000000_testbench_create_jobs_table' => 'Queue/Console/stubs/jobs.stub',
-    'queue/0000_00_00_000000_testbench_create_job_batches_table' => 'Queue/Console/stubs/batches.stub',
-    // 'queue/0000_00_00_000000_testbench_create_failed_jobs_table' => 'Queue/Console/stubs/failed_jobs.stub',
-    'session/0000_00_00_000000_testbench_create_sessions_table' => 'Session/Console/stubs/database.stub',
+    'cache/0001_01_01_000000_testbench_create_cache_table' => 'Cache/Console/stubs/cache.stub',
+    'notifications/0001_01_01_000000_testbench_create_notifications_table' => 'Notifications/Console/stubs/notifications.stub',
+    'queue/0001_01_01_000000_testbench_create_jobs_table' => 'Queue/Console/stubs/jobs.stub',
+    'queue/0001_01_01_000000_testbench_create_job_batches_table' => 'Queue/Console/stubs/batches.stub',
+    // 'queue/0001_01_01_000000_testbench_create_failed_jobs_table' => 'Queue/Console/stubs/failed_jobs.stub',
+    'session/0001_01_01_000000_testbench_create_sessions_table' => 'Session/Console/stubs/database.stub',
 ])->transform(fn ($file) => "{$workingPath}/vendor/laravel/framework/src/Illuminate/{$file}")
 ->each(function ($from, $to) use ($files, $workingPath) {
     $files->copy($from, "{$workingPath}/laravel/migrations/{$to}.php");
@@ -73,9 +73,9 @@ Illuminate\Support\Collection::make([
     $files->replaceInFile('class Create', 'class TestbenchCreate', "{$workingPath}/laravel/migrations/{$migration}.php");
 })->filter(fn ($migration) => str_starts_with($migration, 'queue'))
 ->mapWithKeys(fn ($migration) => match ($migration) {
-    'queue/0000_00_00_000000_testbench_create_jobs_table' => [$migration => 'jobs'],
-    'queue/0000_00_00_000000_testbench_create_job_batches_table' => [$migration => 'job_batches'],
-    // 'queue/0000_00_00_000000_testbench_create_failed_jobs_table' => [$migration => 'failed_jobs'],
+    'queue/0001_01_01_000000_testbench_create_jobs_table' => [$migration => 'jobs'],
+    'queue/0001_01_01_000000_testbench_create_job_batches_table' => [$migration => 'job_batches'],
+    // 'queue/0001_01_01_000000_testbench_create_failed_jobs_table' => [$migration => 'failed_jobs'],
 })->each(function ($table, $migration) use ($files, $workingPath) {
     $files->replaceInFile(['{{tableClassName}}', '{{table}}'], [Str::studly($table), $table], "{$workingPath}/laravel/migrations/{$migration}.php");
 });
