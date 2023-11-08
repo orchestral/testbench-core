@@ -47,6 +47,7 @@ class RequestTest extends TestCase
 
     /**
      * @test
+     *
      * @group session
      */
     public function it_flashes_request_values()
