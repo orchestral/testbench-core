@@ -121,34 +121,34 @@ class TestCommand extends Command
      */
     protected function phpunitEnvironmentVariables()
     {
-        return array_merge([
+        return Collection::make([
+            'APP_KEY',
+            'APP_DEBUG',
+            'RAY_ENABLED',
+            'SEND_CACHE_TO_RAY',
+            'SEND_DUMPS_TO_RAY',
+            'SEND_JOBS_TO_RAY',
+            'SEND_LOG_CALLS_TO_RAY',
+            'SEND_QUERIES_TO_RAY',
+            'SEND_DUPLICATE_QUERIES_TO_RAY',
+            'SEND_SLOW_QUERIES_TO_RAY',
+            'RAY_SLOW_QUERY_THRESHOLD_IN_MS',
+            'SEND_REQUESTS_TO_RAY',
+            'SEND_HTTP_CLIENT_REQUESTS_TO_RAY',
+            'SEND_VIEWS_TO_RAY',
+            'SEND_DEPRECATED_NOTICES_TO_RAY',
+            'RAY_HOST',
+            'RAY_PORT',
+            'RAY_REMOTE_PATH',
+        ])->mapWithKeys(static function ($key) {
+            return [$key => Env::forward($key)];
+        })->merge([
             'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
             'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
-            ...collect([
-                'APP_KEY',
-                'APP_DEBUG',
-                'RAY_ENABLED',
-                'SEND_CACHE_TO_RAY',
-                'SEND_DUMPS_TO_RAY',
-                'SEND_JOBS_TO_RAY',
-                'SEND_LOG_CALLS_TO_RAY',
-                'SEND_QUERIES_TO_RAY',
-                'SEND_DUPLICATE_QUERIES_TO_RAY',
-                'SEND_SLOW_QUERIES_TO_RAY',
-                'RAY_SLOW_QUERY_THRESHOLD_IN_MS',
-                'SEND_REQUESTS_TO_RAY',
-                'SEND_HTTP_CLIENT_REQUESTS_TO_RAY',
-                'SEND_VIEWS_TO_RAY',
-                'SEND_DEPRECATED_NOTICES_TO_RAY',
-                'RAY_HOST',
-                'RAY_PORT',
-                'RAY_REMOTE_PATH',
-            ])->mapWithKeys(static function ($key) {
-                return [$key => Env::forward($key)];
-            })->all(),
-        ], parent::phpunitEnvironmentVariables());
+        ])->merge(parent::phpunitEnvironmentVariables())
+        ->all();
     }
 
     /**
@@ -158,33 +158,33 @@ class TestCommand extends Command
      */
     protected function paratestEnvironmentVariables()
     {
-        return array_merge([
+        return Collection::make([
+            'APP_KEY',
+            'APP_DEBUG',
+            'RAY_ENABLED',
+            'SEND_CACHE_TO_RAY',
+            'SEND_DUMPS_TO_RAY',
+            'SEND_JOBS_TO_RAY',
+            'SEND_LOG_CALLS_TO_RAY',
+            'SEND_QUERIES_TO_RAY',
+            'SEND_DUPLICATE_QUERIES_TO_RAY',
+            'SEND_SLOW_QUERIES_TO_RAY',
+            'RAY_SLOW_QUERY_THRESHOLD_IN_MS',
+            'SEND_REQUESTS_TO_RAY',
+            'SEND_HTTP_CLIENT_REQUESTS_TO_RAY',
+            'SEND_VIEWS_TO_RAY',
+            'SEND_DEPRECATED_NOTICES_TO_RAY',
+            'RAY_HOST',
+            'RAY_PORT',
+            'RAY_REMOTE_PATH',
+        ])->mapWithKeys(static function ($key) {
+            return [$key => Env::forward($key)];
+        })->merge([
             'APP_ENV' => 'testing',
             'TESTBENCH_PACKAGE_TESTER' => '(true)',
             'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
             'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
-            ...collect([
-                'APP_KEY',
-                'APP_DEBUG',
-                'RAY_ENABLED',
-                'SEND_CACHE_TO_RAY',
-                'SEND_DUMPS_TO_RAY',
-                'SEND_JOBS_TO_RAY',
-                'SEND_LOG_CALLS_TO_RAY',
-                'SEND_QUERIES_TO_RAY',
-                'SEND_DUPLICATE_QUERIES_TO_RAY',
-                'SEND_SLOW_QUERIES_TO_RAY',
-                'RAY_SLOW_QUERY_THRESHOLD_IN_MS',
-                'SEND_REQUESTS_TO_RAY',
-                'SEND_HTTP_CLIENT_REQUESTS_TO_RAY',
-                'SEND_VIEWS_TO_RAY',
-                'SEND_DEPRECATED_NOTICES_TO_RAY',
-                'RAY_HOST',
-                'RAY_PORT',
-                'RAY_REMOTE_PATH',
-            ])->mapWithKeys(static function ($key) {
-                return [$key => Env::forward($key)];
-            })->all(),
-        ], parent::paratestEnvironmentVariables());
+        ])->merge(parent::paratestEnvironmentVariables())
+        ->all();
     }
 }
