@@ -55,11 +55,11 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations)
-        run: ./testbench package:test --parallel --exclude-group commander,database
+        run: ./testbench package:test --parallel --exclude-group commander,database,session
         if: matrix.dependencies == 'highest'
 
       - name: Execute tests (without deprecations)
-        run: ./testbench package:test --parallel --exclude-group commander,deprecations,database
+        run: ./testbench package:test --parallel --exclude-group commander,database,session,deprecations
         env:
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.dependencies != 'highest'
