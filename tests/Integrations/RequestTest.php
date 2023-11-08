@@ -45,7 +45,10 @@ class RequestTest extends TestCase
         $this->assertSame(['foo' => 'bar'], request()->all());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group session
+     */
     public function it_flashes_request_values()
     {
         $this->call('GET', 'web/hello');
