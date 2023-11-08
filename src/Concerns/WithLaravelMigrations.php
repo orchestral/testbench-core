@@ -20,10 +20,7 @@ trait WithLaravelMigrations
         /** @var bool $loadLaravelMigrations */
         $loadLaravelMigrations = static::cachedConfigurationForWorkbench()->getWorkbenchAttributes()['install'] ?? false;
 
-        if (! is_dir($this->app->basePath('migrations'))
-            || ! $loadLaravelMigrations
-            || ! static::usesTestingConcern(WithWorkbench::class)
-        ) {
+        if (! ($loadLaravelMigrations && is_dir($this->app->basePath('migrations')))) {
             return;
         }
 
