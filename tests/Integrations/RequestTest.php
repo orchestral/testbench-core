@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 class RequestTest extends TestCase
@@ -56,6 +57,7 @@ class RequestTest extends TestCase
     }
 
     #[Test]
+    #[Group('session')]
     public function it_flashes_request_values()
     {
         $this->call('GET', 'web/hello');
