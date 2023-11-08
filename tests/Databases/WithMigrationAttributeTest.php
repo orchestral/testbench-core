@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\TestCase;
 
-/**
- * @requires PHP >= 8.0
- */
 #[WithMigration]
 class WithMigrationAttributeTest extends TestCase
 {
