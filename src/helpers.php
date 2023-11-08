@@ -161,7 +161,7 @@ function workbench(): array
  *
  * @throws \InvalidArgumentException
  */
-function laravel_migration_path(?string $type = null): string
+function laravel_migration_path(string $type = null): string
 {
     $path = realpath(
         \is_null($type) ? base_path('migrations') : base_path("migrations/{$type}")

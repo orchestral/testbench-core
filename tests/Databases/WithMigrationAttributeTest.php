@@ -31,7 +31,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertFalse(Schema::hasTable('cache'));
         $this->assertFalse(Schema::hasTable('cache_locks'));
-        $this->assertFalse(Schema::hasTable('jobs'));
+        $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertFalse(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertFalse(Schema::hasTable('notifications'));
@@ -46,7 +46,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertTrue(Schema::hasTable('cache'));
         $this->assertTrue(Schema::hasTable('cache_locks'));
-        $this->assertFalse(Schema::hasTable('jobs'));
+        $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertFalse(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertFalse(Schema::hasTable('notifications'));
@@ -61,7 +61,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertFalse(Schema::hasTable('cache'));
         $this->assertFalse(Schema::hasTable('cache_locks'));
-        $this->assertFalse(Schema::hasTable('jobs'));
+        $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertFalse(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertTrue(Schema::hasTable('notifications'));
@@ -91,7 +91,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertFalse(Schema::hasTable('cache'));
         $this->assertFalse(Schema::hasTable('cache_locks'));
-        $this->assertFalse(Schema::hasTable('jobs'));
+        $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertFalse(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertFalse(Schema::hasTable('notifications'));
