@@ -23,12 +23,14 @@ trait HandlesAttributes
             ->filter(static function ($attributes, string $key) use ($attribute) {
                 return $key === $attribute && ! empty($attributes);
             })->flatten()
-            ->when(\is_null($callback), function ($attributes) {
+            ->when(\is_null($callback), function ($attributes) use ($app) {
                 return $attributes->filter(function ($instance) {
                     return \is_string($instance->method) && method_exists($this, $instance->method);
+                })->each(function ($instance) use ($app) {
+                    call_user_func([$this, $instance->method], $app);
                 });
-            })->each($callback ?? function ($instance) use ($app) {
-                $this->{$instance->method}($app);
+            }, static function ($attributes) use ($callback) {
+                $attributes->each($callback);
             });
     }
 
