@@ -58,8 +58,12 @@ function remote(string $command, array $env = []): Process
         }
     );
 
+    $commander = realpath(__DIR__.'/../vendor/autoload.php') !== false
+        ? 'testbench'
+        : package_path('vendor/bin/testbench');
+
     return Process::fromShellCommandline(
-        implode(' ', [$phpBinary, 'testbench', $command]),
+        implode(' ', [$phpBinary, $commander, $command]),
         package_path(),
         array_merge(defined_environment_variables(), $env)
     );
