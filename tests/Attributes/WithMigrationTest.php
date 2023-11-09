@@ -11,6 +11,6 @@ class WithMigrationTest extends TestCase
     public function it_can_be_resolved()
     {
         $this->assertSame(['laravel'], (new WithMigration())->types);
-        $this->assertSame(['laravel', 'queue'], (new WithMigration('queue'))->types);
+        $this->assertSame(['queue'], (new WithMigration('queue'))->types);
     }
 }

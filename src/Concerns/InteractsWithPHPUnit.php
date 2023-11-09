@@ -18,6 +18,20 @@ trait InteractsWithPHPUnit
     protected static $cachedTestCaseUses;
 
     /**
+     * The cached class attributes for test case.
+     *
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
+     */
+    protected static $cachedTestCaseClassAttributes = [];
+
+    /**
+     * The cached method attributes for test case.
+     *
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
+     */
+    protected static $cachedTestCaseMethodAttributes = [];
+
+    /**
      * Determine if the trait is used within testing.
      *
      * @return bool
@@ -61,7 +75,7 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<class-string, object>
+     * @return \Illuminate\Support\Collection<class-string, array<int, object>>
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
@@ -71,14 +85,35 @@ trait InteractsWithPHPUnit
             return new Collection();
         }
 
-        /** @var array<class-string, object> $attributes */
-        $attributes = rescue(
-            fn () => AttributeParser::forMethod($instance->getName(), $this->name()),
-            [],
-            false
-        );
+        $className = $instance->getName();
+        $methodName = $this->name();
 
-        return Collection::make($attributes);
+        if (! isset(static::$cachedTestCaseClassAttributes[$className])) {
+            static::$cachedTestCaseClassAttributes[$className] = rescue(static function () use ($className) {
+                return AttributeParser::forClass($className);
+            }, [], false);
+        }
+
+        if (! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
+            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] = rescue(static function () use ($className, $methodName) {
+                return AttributeParser::forMethod($className, $methodName);
+            }, [], false);
+        }
+
+        $attributes = Collection::make(array_merge(
+            static::$cachedTestCaseClassAttributes[$className],
+            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"]
+        ))->groupBy('key')
+            ->map(static function ($attributes) {
+                /** @var \Illuminate\Support\Collection<int, array{key: class-string, instance: object}> $attributes */
+                return $attributes->map(static function ($attribute) {
+                    /** @var array{key: class-string, instance: object} $attribute */
+                    return $attribute['instance'];
+                });
+            });
+
+        /** @var \Illuminate\Support\Collection<class-string, array<int, object>> $attributes */
+        return $attributes;
     }
 
     /**
@@ -131,6 +166,8 @@ trait InteractsWithPHPUnit
     public static function teardownAfterClassUsingPHPUnit(): void
     {
         static::$cachedTestCaseUses = null;
+        static::$cachedTestCaseClassAttributes = [];
+        static::$cachedTestCaseMethodAttributes = [];
 
         $registry = PHPUnit10Registry::getInstance(); /** @phpstan-ignore-line */
         (function () {
