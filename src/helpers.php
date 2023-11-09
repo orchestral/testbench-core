@@ -80,8 +80,12 @@ function remote(string $command, array $env = []): Process
         ->put('TESTBENCH_WORKING_PATH', package_path())
         ->all();
 
+    $commander = is_file(realpath(__DIR__.'/../vendor/autoload.php'))
+        ? 'testbench'
+        : package_path('vendor/bin/testbench');
+
     return Process::fromShellCommandline(
-        command: implode(' ', [$phpBinary, 'testbench', $command]),
+        command: implode(' ', [$phpBinary, ProcessUtils::escapeArgument((string) $commander), $command]),
         cwd: (string) realpath(__DIR__.'/../'),
         env: $environmentVariables
     );
