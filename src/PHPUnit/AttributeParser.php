@@ -11,13 +11,12 @@ use ReflectionMethod;
 class AttributeParser
 {
     /**
-     * Parse attribute for method.
+     * Parse attribute for class.
      *
      * @param  class-string  $className
-     * @param  string  $methodName
-     * @return array
+     * @return array<int, array{key: class-string, instance: object}>
      */
-    public static function forMethod(string $className, string $methodName): array
+    public static function forClass(string $className): array
     {
         $attributes = [];
 
@@ -29,13 +28,23 @@ class AttributeParser
             [$name, $instance] = static::resolveAttribute($attribute);
 
             if (! \is_null($name) && ! \is_null($instance)) {
-                if (! isset($attributes[$name])) {
-                    $attributes[$name] = [$instance];
-                } else {
-                    array_push($attributes[$name], $instance);
-                }
+                array_push($attributes, ['key' => $name, 'instance' => $instance]);
             }
         }
+
+        return $attributes;
+    }
+
+    /**
+     * Parse attribute for method.
+     *
+     * @param  class-string  $className
+     * @param  string  $methodName
+     * @return array<int, array{key: class-string, instance: object}>
+     */
+    public static function forMethod(string $className, string $methodName): array
+    {
+        $attributes = [];
 
         foreach ((new ReflectionMethod($className, $methodName))->getAttributes() as $attribute) {
             if (! static::validAttribute($attribute)) {
@@ -45,11 +54,7 @@ class AttributeParser
             [$name, $instance] = static::resolveAttribute($attribute);
 
             if (! \is_null($name) && ! \is_null($instance)) {
-                if (! isset($attributes[$name])) {
-                    $attributes[$name] = [$instance];
-                } else {
-                    array_push($attributes[$name], $instance);
-                }
+                array_push($attributes, ['key' => $name, 'instance' => $instance]);
             }
         }
 

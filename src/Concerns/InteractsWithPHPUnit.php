@@ -21,6 +21,20 @@ trait InteractsWithPHPUnit
     protected static $cachedTestCaseUses;
 
     /**
+     * The cached class attributes for test case.
+     *
+     * @var array<string, array<class-string, object>>
+     */
+    protected static $cachedTestCaseClassAttributes = [];
+
+    /**
+     * The cached method attributes for test case.
+     *
+     * @var array<string, array<class-string, object>>
+     */
+    protected static $cachedTestCaseMethodAttributes = [];
+
+    /**
      * Determine if the trait is used within testing.
      *
      * @return bool
@@ -64,7 +78,7 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<class-string, object>
+     * @return \Illuminate\Support\Collection<class-string, array<int, object>>
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
@@ -74,18 +88,35 @@ trait InteractsWithPHPUnit
             return new Collection();
         }
 
+        $className = $instance->getName();
         $methodName = phpunit_version_compare('10', '>=')
             ? $this->name() /** @phpstan-ignore-line */
             : $this->getName(false); /** @phpstan-ignore-line */
 
-        /** @var array<class-string, object> $attributes */
-        $attributes = rescue(
-            fn () => AttributeParser::forMethod($instance->getName(), $methodName),
-            [],
-            false
-        );
+        if (! isset(static::$cachedTestCaseClassAttributes[$className])) {
+            static::$cachedTestCaseClassAttributes[$className] = rescue(static function () use ($className) {
+                return AttributeParser::forClass($className);
+            }, [], false);
+        }
 
-        return Collection::make($attributes);
+        if (! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
+            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] = rescue(static function () use ($className, $methodName) {
+                return AttributeParser::forMethod($className, $methodName);
+            }, [], false);
+        }
+
+        /** @var \Illuminate\Support\Collection<class-string, array<int, object>> $attributes */
+        $attributes = Collection::make(array_merge(
+            static::$cachedTestCaseClassAttributes[$className],
+            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"]
+        ))->groupBy('key')
+            ->transform(static function ($attributes) {
+                return $attributes->transform(static function ($attribute) {
+                    return $attribute['instance'];
+                });
+            });
+
+        return $attributes;
     }
 
     /**
@@ -138,10 +169,13 @@ trait InteractsWithPHPUnit
     public static function teardownAfterClassUsingPHPUnit(): void
     {
         static::$cachedTestCaseUses = null;
+        static::$cachedTestCaseClassAttributes = [];
+        static::$cachedTestCaseMethodAttributes = [];
 
         $registry = phpunit_version_compare('10', '>=')
             ? PHPUnit10Registry::getInstance() /** @phpstan-ignore-line */
             : PHPUnit9Registry::getInstance(); /** @phpstan-ignore-line */
+
         (function () {
             $this->classDocBlocks = [];
             $this->methodDocBlocks = [];
