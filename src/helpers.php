@@ -65,16 +65,25 @@ function remote(string $command, array $env = []): Process
 {
     $phpBinary = transform(
         \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
-        fn ($phpBinary) => ProcessUtils::escapeArgument((string) $phpBinary)
+        static function ($phpBinary) {
+            return ProcessUtils::escapeArgument((string) $phpBinary);
+        }
     );
+
+    /** @var array<string, mixed> $environmentVariables */
+    $environmentVariables = Collection::make($_ENV)
+        ->keys()
+        ->mapWithKeys(static function (string $key) {
+            return [$key => Env::forward($key)];
+        })
+        ->merge($env)
+        ->put('TESTBENCH_WORKING_PATH', package_path())
+        ->all();
 
     return Process::fromShellCommandline(
         command: implode(' ', [$phpBinary, 'testbench', $command]),
         cwd: (string) realpath(__DIR__.'/../'),
-        env: array_merge([
-            'APP_ENV' => Env::forward('APP_ENV'),
-            'APP_KEY' => Env::forward('APP_KEY'),
-        ], $env)
+        env: $environmentVariables
     );
 }
 
