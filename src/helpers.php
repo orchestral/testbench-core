@@ -4,9 +4,13 @@ namespace Orchestra\Testbench;
 
 use Closure;
 use Illuminate\Support\Collection;
+use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
+use Orchestra\Testbench\Foundation\Env;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
 /**
  * Create Laravel application instance.
@@ -36,6 +40,32 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
             $artisan->run();
         }
     });
+}
+
+/**
+ * Run remote action using Testbench CLI.
+ *
+ * @param  string  $command
+ * @param  array  $env
+ * @return \Symfony\Component\Process\Process
+ */
+function remote(string $command, array $env = []): Process
+{
+    $phpBinary = transform(
+        \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
+        static function ($phpBinary) {
+            return ProcessUtils::escapeArgument((string) $phpBinary);
+        }
+    );
+
+    return Process::fromShellCommandline(
+        implode(' ', [$phpBinary, 'testbench', $command]),
+        (string) realpath(__DIR__.'/../'),
+        array_merge([
+            'APP_ENV' => Env::forward('APP_ENV'),
+            'APP_KEY' => Env::forward('APP_KEY'),
+        ], $env)
+    );
 }
 
 /**
