@@ -6,11 +6,15 @@ use Closure;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
+use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use PHPUnit\Runner\Version;
 use RuntimeException;
+use Orchestra\Testbench\Foundation\Env;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
 /**
  * Create Laravel application instance.
@@ -38,6 +42,39 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
     $command = $testbench->artisan($command, $parameters);
 
     return $command instanceof PendingCommand ? $command->run() : $command;
+}
+
+/**
+ * Run remote action using Testbench CLI.
+ *
+ * @param  string  $command
+ * @param  array  $env
+ * @return \Symfony\Component\Process\Process
+ */
+function remote(string $command, array $env = []): Process
+{
+    $phpBinary = transform(
+        \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
+        static function ($phpBinary) {
+            return ProcessUtils::escapeArgument((string) $phpBinary);
+        }
+    );
+
+    /** @var array<string, mixed> $environmentVariables */
+    $environmentVariables = Collection::make($_ENV)
+        ->keys()
+        ->mapWithKeys(static function (string $key) {
+            return [$key => Env::forward($key)];
+        })
+        ->merge($env)
+        ->put('TESTBENCH_WORKING_PATH', package_path())
+        ->all();
+
+    return Process::fromShellCommandline(
+        command: implode(' ', [$phpBinary, 'testbench', $command]),
+        cwd: (string) realpath(__DIR__.'/../'),
+        env: $environmentVariables
+    );
 }
 
 /**
