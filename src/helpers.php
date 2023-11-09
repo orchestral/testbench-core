@@ -86,7 +86,7 @@ function remote(string $command, array $env = []): Process
 
     return Process::fromShellCommandline(
         command: implode(' ', [$phpBinary, ProcessUtils::escapeArgument((string) $commander), $command]),
-        cwd: (string) realpath(__DIR__.'/../'),
+        cwd: package_path(),
         env: $environmentVariables
     );
 }
