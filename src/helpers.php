@@ -10,9 +10,9 @@ use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
+use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
 use RuntimeException;
-use Orchestra\Testbench\Foundation\Env;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
