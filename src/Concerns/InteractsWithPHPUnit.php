@@ -92,7 +92,6 @@ trait InteractsWithPHPUnit
         $methodName = phpunit_version_compare('10', '>=')
             ? $this->name() /** @phpstan-ignore-line */
             : $this->getName(false); /** @phpstan-ignore-line */
-
         if (! isset(static::$cachedTestCaseClassAttributes[$className])) {
             static::$cachedTestCaseClassAttributes[$className] = rescue(static function () use ($className) {
                 return AttributeParser::forClass($className);
@@ -175,7 +174,6 @@ trait InteractsWithPHPUnit
         $registry = phpunit_version_compare('10', '>=')
             ? PHPUnit10Registry::getInstance() /** @phpstan-ignore-line */
             : PHPUnit9Registry::getInstance(); /** @phpstan-ignore-line */
-
         (function () {
             $this->classDocBlocks = [];
             $this->methodDocBlocks = [];
