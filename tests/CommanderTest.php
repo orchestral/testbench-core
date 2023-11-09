@@ -4,12 +4,11 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\ProcessUtils;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\TestCase;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
+
+use function Orchestra\Testbench\remote;
 
 /**
  * @requires OS Linux|DAR
@@ -26,9 +25,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
-            $command = [static::phpBinary(), 'testbench', '--version', '--no-ansi'];
-
-            $process = $this->processFromShellCommandline($command);
+            $process = remote('--version --no-ansi');
             $process->mustRun();
 
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $process->getOutput());
@@ -43,11 +40,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_environment()
     {
         $this->withoutSqliteDatabase(function () {
-            $command = [$this->phpBinary(), 'testbench', 'env'];
-
-            $process = $this->processFromShellCommandLine($command, [
-                'APP_ENV' => 'workbench',
-            ]);
+            $process = remote('env', ['APP_ENV' => 'workbench']);
             $process->mustRun();
 
             $this->assertSame('INFO  The application environment is [workbench].', trim($process->getOutput()));
@@ -62,9 +55,7 @@ class CommanderTest extends TestCase
     public function it_output_correct_defaults()
     {
         $this->withoutSqliteDatabase(function () {
-            $command = [static::phpBinary(), 'testbench', 'about', '--json'];
-
-            $process = $this->processFromShellCommandline($command);
+            $process = remote('about --json');
             $process->mustRun();
 
             $output = json_decode($process->getOutput(), true);
@@ -83,9 +74,7 @@ class CommanderTest extends TestCase
     public function it_output_correct_defaults_with_database_file()
     {
         $this->withSqliteDatabase(function () {
-            $command = [static::phpBinary(), 'testbench', 'about', '--json'];
-
-            $process = $this->processFromShellCommandLine($command);
+            $process = remote('about --json');
             $process->mustRun();
 
             $output = json_decode($process->getOutput(), true);
@@ -104,9 +93,7 @@ class CommanderTest extends TestCase
     public function it_output_correct_defaults_with_environment_overrides()
     {
         $this->withSqliteDatabase(function () {
-            $command = [static::phpBinary(), 'testbench', 'about', '--json'];
-
-            $process = $this->processFromShellCommandLine($command, [
+            $process = remote('about --json', [
                 'APP_NAME' => 'Testbench Tests',
                 'APP_DEBUG' => '(false)',
                 'DB_CONNECTION' => 'testing',
@@ -129,12 +116,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_run_migration()
     {
         $this->withSqliteDatabase(function () {
-            $command = [$this->phpBinary(), 'testbench', 'migrate'];
-
-            $process = $this->processFromShellCommandLine($command, [
-                'DB_CONNECTION' => 'sqlite',
-            ]);
-
+            $process = remote('migrate', ['DB_CONNECTION' => 'sqlite']);
             $process->mustRun();
 
             $this->assertSame([
@@ -154,43 +136,15 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_run_migration_without_default_migration()
     {
         $this->withSqliteDatabase(function () {
-            $command = [$this->phpBinary(), 'testbench', 'migrate'];
-
-            $process = $this->processFromShellCommandLine($command, [
+            $process = remote('migrate', [
                 'DB_CONNECTION' => 'sqlite',
                 'TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS' => '(true)',
             ]);
-
             $process->mustRun();
 
             $this->assertSame([
                 '2013_07_26_182750_create_testbench_users_table',
             ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });
-    }
-
-    /**
-     * Create Process from shell command line.
-     *
-     * @param  string|array<int, string>  $command
-     * @param  array<string, mixed>  $variables
-     * @return \Symfony\Component\Process\Process
-     */
-    protected function processFromShellCommandLine($command, array $variables = []): Process
-    {
-        $command = \is_array($command) ? implode(' ', $command) : $command;
-
-        return Process::fromShellCommandline($command, __DIR__.'/../', $variables);
-    }
-
-    /**
-     * PHP Binary path.
-     */
-    public static function phpBinary(): string
-    {
-        return transform(
-            \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
-            fn ($phpBinary) => ProcessUtils::escapeArgument($phpBinary)
-        );
     }
 }

@@ -6,12 +6,16 @@ use Closure;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
+use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Testbench\Foundation\Config;
+use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
 use RuntimeException;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
 /**
  * Create Laravel application instance.
@@ -48,6 +52,30 @@ function artisan(Contracts\TestCase $testbench, string $command, array $paramete
     $command = $testbench->artisan($command, $parameters);
 
     return $command instanceof PendingCommand ? $command->run() : $command;
+}
+
+/**
+ * Run remote action using Testbench CLI.
+ *
+ * @param  string  $command
+ * @param  array  $env
+ * @return \Symfony\Component\Process\Process
+ */
+function remote(string $command, array $env = []): Process
+{
+    $phpBinary = transform(
+        \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
+        fn ($phpBinary) => ProcessUtils::escapeArgument((string) $phpBinary)
+    );
+
+    return Process::fromShellCommandline(
+        command: implode(' ', [$phpBinary, 'testbench', $command]),
+        cwd: (string) realpath(__DIR__.'/../'),
+        env: array_merge([
+            'APP_ENV' => Env::forward('APP_ENV'),
+            'APP_KEY' => Env::forward('APP_KEY'),
+        ], $env)
+    );
 }
 
 /**
