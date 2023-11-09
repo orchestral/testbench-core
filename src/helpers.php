@@ -75,7 +75,7 @@ function remote(string $command, array $env = []): Process
         : ProcessUtils::escapeArgument((string) package_path('vendor/bin/testbench'));
 
     return Process::fromShellCommandline(
-        command: implode(' ', [$phpBinary, ProcessUtils::escapeArgument((string) $commander), $command]),
+        command: implode(' ', [$phpBinary, $commander, $command]),
         cwd: package_path(),
         env: array_merge(defined_environment_variables(), $env)
     );
