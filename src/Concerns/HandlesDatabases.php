@@ -59,11 +59,11 @@ trait HandlesDatabases
         $this->defineDatabaseMigrations();
 
         if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($this->app, 'define-db');
+            $this->parseTestMethodAnnotations($app, 'define-db');
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
+            $this->parseTestMethodAttributes($app, DefineDatabase::class);
         }
 
         $callback();
