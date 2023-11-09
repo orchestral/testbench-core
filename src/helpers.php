@@ -62,7 +62,7 @@ function remote(string $command, array $env = []): Process
 
     $commander = realpath(__DIR__.'/../vendor/autoload.php') !== false
         ? $binary
-        : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$$binary}"));
+        : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$binary}"));
 
     return Process::fromShellCommandline(
         implode(' ', [$phpBinary, $commander, $command]),
