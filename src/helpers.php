@@ -58,9 +58,11 @@ function remote(string $command, array $env = []): Process
         }
     );
 
+    $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
+
     $commander = realpath(__DIR__.'/../vendor/autoload.php') !== false
-        ? 'testbench'
-        : ProcessUtils::escapeArgument((string) package_path('vendor/bin/testbench'));
+        ? $binary
+        : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$$binary}"));
 
     return Process::fromShellCommandline(
         implode(' ', [$phpBinary, $commander, $command]),
