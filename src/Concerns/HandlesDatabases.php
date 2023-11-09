@@ -42,15 +42,7 @@ trait HandlesDatabases
             $this->setUpWithLaravelMigrations();
         }
 
-        $this->defineDatabaseMigrations();
-
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($app, 'define-db');
-        }
-
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, DefineDatabase::class);
-
             $this->parseTestMethodAttributes($app, WithMigration::class, static function (WithMigration $attribute) use ($app) {
                 after_resolving($app, 'migrator', static function ($migrator) use ($attribute) {
                     /** @var \Illuminate\Database\Migrations\Migrator $migrator */
@@ -62,6 +54,16 @@ trait HandlesDatabases
                         });
                 });
             });
+        }
+
+        $this->defineDatabaseMigrations();
+
+        if (static::usesTestingConcern(HandlesAnnotations::class)) {
+            $this->parseTestMethodAnnotations($this->app, 'define-db');
+        }
+
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
         }
 
         $callback();
