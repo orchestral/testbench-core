@@ -23,14 +23,14 @@ trait InteractsWithPHPUnit
     /**
      * The cached class attributes for test case.
      *
-     * @var array<string, array<class-string, object>>
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
      */
     protected static $cachedTestCaseClassAttributes = [];
 
     /**
      * The cached method attributes for test case.
      *
-     * @var array<string, array<class-string, object>>
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
      */
     protected static $cachedTestCaseMethodAttributes = [];
 
@@ -104,17 +104,19 @@ trait InteractsWithPHPUnit
             }, [], false);
         }
 
-        /** @var \Illuminate\Support\Collection<class-string, array<int, object>> $attributes */
         $attributes = Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
             static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"]
         ))->groupBy('key')
-            ->transform(static function ($attributes) {
-                return $attributes->transform(static function ($attribute) {
+            ->map(static function ($attributes) {
+                /** @var \Illuminate\Support\Collection<int, array{key: class-string, instance: object}> $attributes */
+                return $attributes->map(static function ($attribute) {
+                    /** @var array{key: class-string, instance: object} $attribute */
                     return $attribute['instance'];
                 });
             });
 
+        /** @var \Illuminate\Support\Collection<class-string, array<int, object>> $attributes */
         return $attributes;
     }
 
