@@ -5,6 +5,7 @@ define('TESTBENCH_CORE', true);
 define('TESTBENCH_WORKING_PATH', $workingPath = getcwd());
 
 if (isset($_composer_autoload_path)) {
+    // Composer bin environment.
     require $_composer_autoload_path;
 } elseif (file_exists(__DIR__.'/vendor/autoload.php')) {
     // Development environment.
