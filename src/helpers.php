@@ -60,20 +60,10 @@ function remote(string $command, array $env = []): Process
         }
     );
 
-    /** @var array<string, mixed> $environmentVariables */
-    $environmentVariables = Collection::make($_ENV)
-        ->keys()
-        ->mapWithKeys(static function (string $key) {
-            return [$key => Env::forward($key)];
-        })
-        ->merge($env)
-        ->put('TESTBENCH_WORKING_PATH', package_path())
-        ->all();
-
     return Process::fromShellCommandline(
         command: implode(' ', [$phpBinary, 'testbench', $command]),
-        cwd: (string) realpath(__DIR__.'/../'),
-        env: $environmentVariables
+        cwd: package_path(),
+        env: array_merge(defined_environment_variables(), $env)
     );
 }
 
@@ -106,6 +96,22 @@ function after_resolving(ApplicationContract $app, string $name, ?Closure $callb
 function default_environment_variables(): array
 {
     return [];
+}
+
+/**
+ * Get defined environment variables.
+ *
+ * @return array<string, mixed>
+ */
+function defined_environment_variables(): array
+{
+    return Collection::make(array_merge($_SERVER, $_ENV))
+        ->keys()
+        ->mapWithKeys(static function (string $key) {
+            return [$key => Env::forward($key)];
+        })
+        ->put('TESTBENCH_WORKING_PATH', package_path())
+        ->all();
 }
 
 /**
