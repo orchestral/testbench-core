@@ -113,26 +113,7 @@ function defined_environment_variables(): array
 {
     return Collection::make(array_merge($_SERVER, $_ENV))
         ->keys()
-        ->merge([
-            'APP_KEY',
-            'APP_DEBUG',
-            'RAY_ENABLED',
-            'SEND_CACHE_TO_RAY',
-            'SEND_DUMPS_TO_RAY',
-            'SEND_JOBS_TO_RAY',
-            'SEND_LOG_CALLS_TO_RAY',
-            'SEND_QUERIES_TO_RAY',
-            'SEND_DUPLICATE_QUERIES_TO_RAY',
-            'SEND_SLOW_QUERIES_TO_RAY',
-            'RAY_SLOW_QUERY_THRESHOLD_IN_MS',
-            'SEND_REQUESTS_TO_RAY',
-            'SEND_HTTP_CLIENT_REQUESTS_TO_RAY',
-            'SEND_VIEWS_TO_RAY',
-            'SEND_DEPRECATED_NOTICES_TO_RAY',
-            'RAY_HOST',
-            'RAY_PORT',
-            'RAY_REMOTE_PATH',
-        ])->mapWithKeys(static function (string $key) {
+        ->mapWithKeys(static function (string $key) {
             return [$key => Env::forward($key)];
         })->put('TESTBENCH_WORKING_PATH', package_path())
         ->all();
