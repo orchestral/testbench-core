@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.35.1
+
+Released: 2023-11-10
+
+### Changes
+
+* Move `$setupHasRun` property to `Orchestra\Testbench\Concerns\ApplicationTestingHooks`.
+
 ## 7.35.0
 
 Released: 2023-11-10
