@@ -99,20 +99,6 @@ function after_resolving(ApplicationContract $app, string $name, Closure $callba
 }
 
 /**
- * Get default environment variables.
- *
- * @return array<int, string>
- *
- * @deprecated
- *
- * @codeCoverageIgnore
- */
-function default_environment_variables(): array
-{
-    return [];
-}
-
-/**
  * Get defined environment variables.
  *
  * @return array<string, mixed>
