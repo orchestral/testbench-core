@@ -8,6 +8,9 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 
+/**
+ * @internal
+ */
 class AttributeParser
 {
     /**
