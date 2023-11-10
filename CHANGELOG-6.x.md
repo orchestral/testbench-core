@@ -16,7 +16,7 @@ Released: 2023-11-10
 
 ### Changes
 
-* Mark following classes as `@api`:
+* Mark the following classes as `@api`:
     - `Orchestra\Testbench\Foundation\Application`
     - `Orchestra\Testbench\Foundation\Config`
     - `Orchestra\Testbench\Foundation\Env`
