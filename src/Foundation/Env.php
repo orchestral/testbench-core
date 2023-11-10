@@ -16,8 +16,17 @@ class Env extends \Illuminate\Support\Env
      */
     public static function forward(string $key, $default = null)
     {
-        $value = static::get($key, $default);
+        return static::encode(static::get($key, $default));
+    }
 
+    /**
+     * Encode environment variable value.
+     *
+     * @param  mixed  $value
+     * @return mixed
+     */
+    public static function encode($value)
+    {
         if (\is_null($value)) {
             return '(null)';
         }
