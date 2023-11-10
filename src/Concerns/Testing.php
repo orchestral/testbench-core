@@ -23,48 +23,6 @@ trait Testing
     use WithFactories;
 
     /**
-     * The Illuminate application instance.
-     *
-     * @var \Illuminate\Foundation\Application|null
-     */
-    protected $app;
-
-    /**
-     * The callbacks that should be run after the application is created.
-     *
-     * @var array<int, callable():void>
-     */
-    protected $afterApplicationCreatedCallbacks = [];
-
-    /**
-     * The callbacks that should be run after the application is refreshed.
-     *
-     * @var array<int, callable():void>
-     */
-    protected $afterApplicationRefreshedCallbacks = [];
-
-    /**
-     * The callbacks that should be run before the application is destroyed.
-     *
-     * @var array<int, callable():void>
-     */
-    protected $beforeApplicationDestroyedCallbacks = [];
-
-    /**
-     * The exception thrown while running an application destruction callback.
-     *
-     * @var \Throwable|null
-     */
-    protected $callbackException;
-
-    /**
-     * Indicates if we have made it through the base setUp function.
-     *
-     * @var bool
-     */
-    protected $setUpHasRun = false;
-
-    /**
      * Setup the test environment.
      *
      * @internal
@@ -76,8 +34,6 @@ trait Testing
         $this->setUpTheApplicationTestingHooks(function () {
             $this->setUpTraits();
         });
-
-        $this->setUpHasRun = true;
     }
 
     /**
@@ -90,8 +46,6 @@ trait Testing
     final protected function tearDownTheTestEnvironment(): void
     {
         $this->tearDownTheApplicationTestingHooks(function () {
-            $this->setUpHasRun = false;
-
             if (property_exists($this, 'serverVariables')) {
                 $this->serverVariables = [];
             }
