@@ -24,13 +24,6 @@ trait Testing
     use WithFactories;
 
     /**
-     * Indicates if we have made it through the base setUp function.
-     *
-     * @var bool
-     */
-    protected bool $setUpHasRun = false;
-
-    /**
      * Setup the test environment.
      *
      * @internal
@@ -42,8 +35,6 @@ trait Testing
         $this->setUpTheApplicationTestingHooks(function () {
             $this->setUpTraits();
         });
-
-        $this->setUpHasRun = true;
     }
 
     /**
@@ -56,8 +47,6 @@ trait Testing
     final protected function tearDownTheTestEnvironment(): void
     {
         $this->tearDownTheApplicationTestingHooks(function () {
-            $this->setUpHasRun = false;
-
             if (property_exists($this, 'serverVariables')) {
                 $this->serverVariables = [];
             }

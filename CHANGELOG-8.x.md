@@ -2,6 +2,25 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.15.0
+
+Released: 2023-11-10
+
+### Added
+
+* Added new PHPUnit Attribute to run the default `laravel`, `cache`, `notifications`, `queue` and `session` database migrations using `Orchestra\Testbench\Attributes\WithMigration`.
+* Added `Orchestra\Testbench\defined_environment_variables()` function.
+* Added `Orchestra\Testbench\laravel_migration_path()` function.
+* Added `Orchestra\Testbench\remote()` function.
+
+### Changes
+
+* Mark the following classes as `@api`:
+    - `Orchestra\Testbench\Foundation\Application`
+    - `Orchestra\Testbench\Foundation\Config`
+    - `Orchestra\Testbench\Foundation\Env`
+* Cache results from `Orchestra\Testbench\PHPUnit\AttributeParser`.
+
 ## 8.14.4
 
 Released: 2023-11-02

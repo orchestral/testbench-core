@@ -53,6 +53,13 @@ trait ApplicationTestingHooks
     protected ?Throwable $callbackException = null;
 
     /**
+     * Indicates if we have made it through the base setUp function.
+     *
+     * @var bool
+     */
+    protected bool $setUpHasRun = false;
+
+    /**
      * Setup the testing hooks.
      *
      * @param  (\Closure():(void))|null  $callback
@@ -65,6 +72,8 @@ trait ApplicationTestingHooks
 
             $this->setUpParallelTestingCallbacks();
         }
+
+        $this->setUpHasRun = true;
 
         /** @var \Illuminate\Foundation\Application $app */
         $app = $this->app;
@@ -99,6 +108,8 @@ trait ApplicationTestingHooks
 
             $this->app = null;
         }
+
+        $this->setUpHasRun = false;
 
         if (! \is_null($callback)) {
             \call_user_func($callback);
