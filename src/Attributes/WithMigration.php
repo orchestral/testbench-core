@@ -12,7 +12,7 @@ final class WithMigration
      *
      * @var array
      */
-    public $types = [];
+    public array $types = [];
 
     /**
      * Construct a new attribute.
