@@ -8,29 +8,16 @@ use Attribute;
 final class Define
 {
     /**
-     * The target group (env, db, route).
-     *
-     * @var string
-     */
-    public $group;
-
-    /**
-     * The target method.
-     *
-     * @var string
-     */
-    public $method;
-
-    /**
      * Construct a new attribute.
      *
      * @param  string  $group
      * @param  string  $method
      */
-    public function __construct(string $group, string $method)
-    {
-        $this->group = $group;
-        $this->method = $method;
+    public function __construct(
+        public string $group,
+        public string $method
+    ) {
+        //
     }
 
     /**
