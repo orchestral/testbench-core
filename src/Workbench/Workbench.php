@@ -91,6 +91,10 @@ class Workbench
             /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
             $path = workbench_path('/resources/views');
 
+            if (! is_dir($path)) {
+                return;
+            }
+
             if (($discoversConfig['views'] ?? false) === true && method_exists($view, 'addLocation')) {
                 $view->addLocation($path);
             } else {
