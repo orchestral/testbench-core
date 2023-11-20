@@ -22,6 +22,17 @@ class Env extends \Illuminate\Support\Env
             return false;
         }
 
+        return static::encode($value);
+    }
+
+    /**
+     * Encode environment variable value.
+     *
+     * @param  mixed  $value
+     * @return mixed
+     */
+    public static function encode($value)
+    {
         if (\is_null($value)) {
             return '(null)';
         }

@@ -8,19 +8,13 @@ use Attribute;
 final class DefineDatabase
 {
     /**
-     * The target method.
-     *
-     * @var string
-     */
-    public $method;
-
-    /**
      * Construct a new attribute.
      *
      * @param  string  $method
      */
-    public function __construct(string $method)
-    {
-        $this->method = $method;
+    public function __construct(
+        public string $method
+    ) {
+        //
     }
 }

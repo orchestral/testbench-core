@@ -70,9 +70,11 @@ function remote(string $command, array $env = []): Process
         }
     );
 
+    $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
+
     $commander = realpath(__DIR__.'/../vendor/autoload.php') !== false
-        ? 'testbench'
-        : ProcessUtils::escapeArgument((string) package_path('vendor/bin/testbench'));
+        ? $binary
+        : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$binary}"));
 
     return Process::fromShellCommandline(
         command: implode(' ', [$phpBinary, $commander, $command]),
@@ -99,20 +101,6 @@ function after_resolving(ApplicationContract $app, string $name, Closure $callba
 }
 
 /**
- * Get default environment variables.
- *
- * @return array<int, string>
- *
- * @deprecated
- *
- * @codeCoverageIgnore
- */
-function default_environment_variables(): array
-{
-    return [];
-}
-
-/**
  * Get defined environment variables.
  *
  * @return array<string, mixed>
@@ -123,8 +111,7 @@ function defined_environment_variables(): array
         ->keys()
         ->mapWithKeys(static function (string $key) {
             return [$key => Env::forward($key)];
-        })
-        ->put('TESTBENCH_WORKING_PATH', package_path())
+        })->put('TESTBENCH_WORKING_PATH', package_path())
         ->all();
 }
 
