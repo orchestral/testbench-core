@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Workbench;
 
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
@@ -98,15 +99,25 @@ class Workbench
 
         after_resolving($app, 'translator', static function ($translator) {
             /** @var \Illuminate\Contracts\Translation\Loader $translator */
-            $translator->addNamespace(
-                'workbench',
-                is_dir(workbench_path('/lang')) ? workbench_path('/lang') : workbench_path('/resources/lang')
-            );
+            $path = Collection::make([
+                workbench_path('/lang'),
+                workbench_path('/resources/lang'),
+            ])->filter(static function ($path) {
+                return is_dir($path);
+            })->first();
+
+            if (\is_null($path)) {
+                return;
+            }
+
+            $translator->addNamespace('workbench', $path);
         });
 
         after_resolving($app, 'view', static function ($view) use ($discoversConfig) {
             /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
-            $path = workbench_path('/resources/views');
+            if (! is_dir($path = workbench_path('/resources/views'))) {
+                return;
+            }
 
             if (($discoversConfig['views'] ?? false) === true && method_exists($view, 'addLocation')) {
                 $view->addLocation($path);
