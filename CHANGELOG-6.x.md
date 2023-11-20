@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.42.1
+
+Released: 2023-11-21
+
+### Added
+
+* Added `encode()` method to `Orchestra\Testbench\Foundation\Env` class.
+
+### Fixes
+
+* Fixes registering discovery paths when the path doesn't exist.
+
 ## 6.42.0
 
 Released: 2023-11-10
