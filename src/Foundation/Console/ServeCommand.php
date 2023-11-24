@@ -18,6 +18,7 @@ class ServeCommand extends Command
      * @param  \Symfony\Component\Console\Output\OutputInterface  $output
      * @return int
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (
@@ -45,6 +46,7 @@ class ServeCommand extends Command
      * @param  string|null  $key
      * @return string|array|bool|null
      */
+    #[\Override]
     public function option($key = null)
     {
         $value = parent::option($key);
