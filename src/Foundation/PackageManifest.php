@@ -37,7 +37,6 @@ class PackageManifest extends IlluminatePackageManifest
      * @param  string  $manifestPath
      * @param  \Orchestra\Testbench\Contracts\TestCase|object|null  $testbench
      */
-    #[\Override]
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
     {
         parent::__construct($files, $basePath, $manifestPath);
