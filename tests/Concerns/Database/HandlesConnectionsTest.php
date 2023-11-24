@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests\Concerns\Database;
 use Illuminate\Contracts\Config\Repository;
 use Mockery as m;
 use Orchestra\Testbench\Concerns\Database\HandlesConnections;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class HandlesConnectionsTest extends TestCase
