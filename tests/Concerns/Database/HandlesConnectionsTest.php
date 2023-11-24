@@ -32,6 +32,7 @@ class HandlesConnectionsTest extends TestCase
             ->shouldReceive('get')->once()->with('database.connections.mysql.database')->andReturn('laravel')
             ->shouldReceive('get')->once()->with('database.connections.mysql.username')->andReturn('root')
             ->shouldReceive('get')->once()->with('database.connections.mysql.password')->andReturn('secret')
+            ->shouldReceive('get')->once()->with('database.connections.mysql.collation')->andReturn('utf8mb4_0900_ai_ci')
             ->shouldReceive('set')->once()->with([
                 'database.connections.mysql.url' => 'mysql://127.0.0.1:3306',
                 'database.connections.mysql.host' => '127.0.0.1',
@@ -39,6 +40,7 @@ class HandlesConnectionsTest extends TestCase
                 'database.connections.mysql.database' => 'laravel',
                 'database.connections.mysql.username' => 'root',
                 'database.connections.mysql.password' => 'secret',
+                'database.connections.mysql.collation' => 'utf8mb4_0900_ai_ci',
             ]);
 
         $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
