@@ -31,7 +31,6 @@ transform([
     "getcwd()" => "__DIR__.'/public'",
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
 
-
 Symfony\Component\Process\Process::fromShellCommandline(
     'composer create-project "laravel/laravel:'.$version.'" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
 )->mustRun();
