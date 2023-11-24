@@ -16,6 +16,7 @@ final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\Lo
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return \Dotenv\Dotenv
      */
+    #[\Override]
     protected function createDotenv($app)
     {
         if (! file_exists(implode(DIRECTORY_SEPARATOR, [$app->environmentPath(), $app->environmentFile()]))) {
