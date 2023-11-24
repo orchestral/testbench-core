@@ -26,6 +26,12 @@ $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/notifications")
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/queue");
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/session");
 
+$files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php", "{$workingPath}/laravel/server.php");
+transform([
+    "getcwd()" => "__DIR__.'/public'",
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
+
+
 Symfony\Component\Process\Process::fromShellCommandline(
     'composer create-project "laravel/laravel:'.$version.'" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
 )->mustRun();
@@ -81,11 +87,6 @@ transform([
     PHP_EOL.'DB_USERNAME=' => PHP_EOL.'# DB_USERNAME=',
     PHP_EOL.'DB_PASSWORD=' => PHP_EOL.'# DB_PASSWORD=',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
-
-$files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php", "{$workingPath}/laravel/server.php");
-transform([
-    "getcwd()" => "__DIR__.'/public'",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
 
 Illuminate\Support\Collection::make([
     'config/*.php',
