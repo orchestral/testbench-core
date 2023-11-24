@@ -78,7 +78,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      * @param  class-string  $use
      * @return bool
      */
-    #[\Override]
     protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
     {
         return \in_array($use, [
