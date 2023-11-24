@@ -13,6 +13,7 @@ if (phpunit_version_compare('10.1', '>=')) {
         /**
          * {@inheritdoc}
          */
+        #[\Override]
         protected function transformException(Throwable $error): Throwable
         {
             /** @var \Illuminate\Testing\TestResponse|null $response */
@@ -31,6 +32,7 @@ if (phpunit_version_compare('10.1', '>=')) {
         /**
          * {@inheritdoc}
          */
+        #[\Override]
         protected function runTest(): mixed
         {
             $result = null;

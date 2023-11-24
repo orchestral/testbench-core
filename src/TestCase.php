@@ -43,6 +43,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      *
      * @return void
      */
+    #[\Override]
     protected function setUp(): void
     {
         static::$latestResponse = null;
@@ -55,6 +56,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      *
      * @return void
      */
+    #[\Override]
     protected function tearDown(): void
     {
         $this->tearDownTheTestEnvironment();
@@ -76,6 +78,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      * @param  class-string  $use
      * @return bool
      */
+    #[\Override]
     protected function setUpTheTestEnvironmentTraitToBeIgnored(string $use): bool
     {
         return \in_array($use, [
@@ -126,6 +129,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      *
      * @codeCoverageIgnore
      */
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         static::setupBeforeClassUsingPHPUnit();
@@ -139,6 +143,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      *
      * @codeCoverageIgnore
      */
+    #[\Override]
     public static function tearDownAfterClass(): void
     {
         static::$latestResponse = null;
