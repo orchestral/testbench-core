@@ -11,6 +11,7 @@ class ParallelRunner extends \Illuminate\Testing\ParallelRunner
      *
      * @return \Illuminate\Contracts\Foundation\Application
      */
+    #[\Override]
     protected function createApplication()
     {
         if (! \defined('TESTBENCH_WORKING_PATH')) {

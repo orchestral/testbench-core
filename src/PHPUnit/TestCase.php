@@ -9,6 +9,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function transformException(Throwable $error): Throwable
     {
         /** @var \Illuminate\Testing\TestResponse|null $response */
