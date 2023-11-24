@@ -39,6 +39,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      *
      * @throws \Orchestra\Testbench\Exceptions\DeprecatedException
      */
+    #[\Override]
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
         parent::handleDeprecationError($message, $file, $line, $level);
@@ -55,6 +56,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      *
      * @return void
      */
+    #[\Override]
     protected function ensureDeprecationLoggerIsConfigured()
     {
         with(self::$app->make('config'), static function ($config) {
@@ -92,6 +94,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      *
      * @return bool
      */
+    #[\Override]
     protected function shouldIgnoreDeprecationErrors()
     {
         return ! class_exists(LogManager::class)
