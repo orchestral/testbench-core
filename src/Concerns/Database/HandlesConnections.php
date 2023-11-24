@@ -25,6 +25,7 @@ trait HandlesConnections
             'database' => ['DB', 'DATABASE'],
             'username' => ['USER', 'USERNAME'],
             'password' => 'PASSWORD',
+            'collation' => 'COLLATION',
         ];
 
         foreach ($options as $key => $value) {
