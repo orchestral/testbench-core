@@ -56,6 +56,7 @@ class TestCommand extends Command
      *
      * @return mixed
      */
+    #[\Override]
     public function handle()
     {
         Env::enablePutenv();
@@ -86,6 +87,7 @@ class TestCommand extends Command
      * @param  array  $options
      * @return array
      */
+    #[\Override]
     protected function phpunitArguments($options)
     {
         $file = $this->phpUnitConfigurationFile();
@@ -103,6 +105,7 @@ class TestCommand extends Command
      * @param  array  $options
      * @return array
      */
+    #[\Override]
     protected function paratestArguments($options)
     {
         $file = $this->phpUnitConfigurationFile();
@@ -122,6 +125,7 @@ class TestCommand extends Command
      *
      * @return array
      */
+    #[\Override]
     protected function phpunitEnvironmentVariables()
     {
         return Collection::make(defined_environment_variables())
@@ -139,6 +143,7 @@ class TestCommand extends Command
      *
      * @return array
      */
+    #[\Override]
     protected function paratestEnvironmentVariables()
     {
         return Collection::make(defined_environment_variables())
@@ -156,6 +161,7 @@ class TestCommand extends Command
      *
      * @return string
      */
+    #[\Override]
     protected function getConfigurationFile()
     {
         return $this->phpUnitConfigurationFile();

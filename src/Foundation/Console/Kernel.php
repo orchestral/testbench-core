@@ -11,6 +11,7 @@ abstract class Kernel extends ConsoleKernel
      *
      * @return array
      */
+    #[\Override]
     protected function bootstrappers()
     {
         return [];
