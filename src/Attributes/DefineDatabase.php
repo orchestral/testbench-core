@@ -31,7 +31,7 @@ final class DefineDatabase
      */
     public function handle(Application $app, Closure $callback): void
     {
-        call_user_func($callback, $this->method, [$app]);
+        \call_user_func($callback, $this->method, [$app]);
 
         if ($this->reset === true) {
             RefreshDatabaseState::$migrated = false;

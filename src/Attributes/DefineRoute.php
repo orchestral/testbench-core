@@ -26,6 +26,6 @@ final class DefineRoute
      */
     public function handle(Application $app, Closure $callback): void
     {
-        call_user_func($callback, $this->method, [$app['router']]);
+        \call_user_func($callback, $this->method, [$app['router']]);
     }
 }
