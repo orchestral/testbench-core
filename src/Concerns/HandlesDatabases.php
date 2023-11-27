@@ -44,10 +44,16 @@ trait HandlesDatabases
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
+            $attributeCallbacks = $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
         }
 
         $callback();
+
+        if (isset($attributeCallbacks) && $attributeCallbacks->isNotEmpty()) {
+            $attributeCallbacks->each(function ($callback) {
+                value($callback);
+            });
+        }
 
         $this->defineDatabaseSeeders();
 

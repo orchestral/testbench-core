@@ -18,13 +18,21 @@ final class DefineDatabase
     public $method;
 
     /**
+     * Determine if target should be deferred.
+     *
+     * @var bool
+     */
+    public $defer = true;
+
+    /**
      * Construct a new attribute.
      *
      * @param  string  $method
      */
-    public function __construct(string $method)
+    public function __construct(string $method, bool $defer = true)
     {
         $this->method = $method;
+        $this->defer = $defer;
     }
 
     /**
@@ -32,12 +40,23 @@ final class DefineDatabase
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  \Closure  $action
+     * @return \Closure|null
      */
-    public function handle(Application $app, Closure $action): void
+    public function handle(Application $app, Closure $action)
     {
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
 
-        \call_user_func($action, $this->method, [$app]);
+        $resolver = function () use ($app, $action) {
+            \call_user_func($action, $this->method, [$app]);
+        };
+
+        if ($this->defer === false) {
+            value($resolver);
+
+            return null;
+        }
+
+        return $resolver;
     }
 }

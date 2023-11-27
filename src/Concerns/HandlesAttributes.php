@@ -16,18 +16,18 @@ trait HandlesAttributes
      * @param  \Illuminate\Foundation\Application  $app
      * @param  class-string  $attribute
      */
-    protected function parseTestMethodAttributes($app, string $attribute, ?Closure $callback = null): void
+    protected function parseTestMethodAttributes($app, string $attribute): Collection
     {
-        $this->resolvePhpUnitAttributes()
-            ->lazy()
+        return $this->resolvePhpUnitAttributes()
             ->filter(static function ($attributes, string $key) use ($attribute) {
                 return $key === $attribute && ! empty($attributes);
             })->flatten()
-            ->each(function ($instance) use ($app) {
-                $instance->handle($app, function ($method, $parameters) {
+            ->map(function ($instance) use ($app) {
+                return $instance->handle($app, function ($method, $parameters) {
                     $this->{$method}(...$parameters);
                 });
-            });
+            })->filter()
+            ->values();
     }
 
     /**
