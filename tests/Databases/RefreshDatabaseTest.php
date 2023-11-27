@@ -71,9 +71,11 @@ class RefreshDatabaseTest extends TestCase
 
     public function addAdditionalTableAtRuntime()
     {
-        Schema::create('testbench_auths', function (Blueprint $table) {
-            $table->id();
-            $table->text('two_factor_secret')->nullable();
+        $this->afterApplicationCreated(function () {
+            Schema::create('testbench_auths', function (Blueprint $table) {
+                $table->id();
+                $table->text('two_factor_secret')->nullable();
+            });
         });
     }
 }
