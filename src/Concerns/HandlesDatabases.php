@@ -43,17 +43,7 @@ trait HandlesDatabases
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, WithMigration::class, static function (WithMigration $attribute) use ($app) {
-                after_resolving($app, 'migrator', static function ($migrator) use ($attribute) {
-                    /** @var \Illuminate\Database\Migrations\Migrator $migrator */
-                    Collection::make($attribute->types)
-                        ->transform(static function ($type) {
-                            return laravel_migration_path($type !== 'laravel' ? $type : null);
-                        })->each(static function ($migration) use ($migrator) {
-                            $migrator->path($migration);
-                        });
-                });
-            });
+            $this->parseTestMethodAttributes($app, WithMigration::class);
         }
 
         $this->defineDatabaseMigrations();

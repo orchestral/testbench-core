@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Closure;
 use Illuminate\Support\Collection;
 
 /**
@@ -16,26 +15,15 @@ trait HandlesAttributes
      * @param  \Illuminate\Foundation\Application  $app
      * @param  class-string  $attribute
      */
-    protected function parseTestMethodAttributes($app, string $attribute, Closure $callback = null): void
+    protected function parseTestMethodAttributes($app, string $attribute): void
     {
-        $callback = $callback ?? fn ($instance) => $this->{$instance->method}($app);
-
         $this->resolvePhpUnitAttributes()
             ->lazy()
             ->filter(static function ($attributes, string $key) use ($attribute) {
                 return $key === $attribute && ! empty($attributes);
             })->flatten()
-            ->each(function ($instance) use ($callback) {
-                /** @var object $instance */
-                if (method_exists($instance, 'before')) {
-                    $instance->before();
-                }
-
-                value($callback, $instance);
-
-                if (method_exists($instance, 'after')) {
-                    $instance->after();
-                }
+            ->each(function ($instance) use ($app) {
+                $instance->handle($app, fn ($method, $parameters) => $this->{$method}(...$parameters));
             });
     }
 
