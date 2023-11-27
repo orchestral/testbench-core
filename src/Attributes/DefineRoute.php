@@ -24,10 +24,10 @@ final class DefineRoute
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Closure  $callback
+     * @param  \Closure  $action
      */
-    public function handle(Application $app, Closure $callback): void
+    public function handle(Application $app, Closure $action): void
     {
-        \call_user_func($callback, $this->method, [$app['router']]);
+        \call_user_func($action, $this->method, [$app['router']]);
     }
 }

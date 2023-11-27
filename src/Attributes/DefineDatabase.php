@@ -27,17 +27,17 @@ final class DefineDatabase
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Closure  $callback
+     * @param  \Closure  $action
      * @return \Closure|null
      */
-    public function handle(Application $app, Closure $callback): ?Closure
+    public function handle(Application $app, Closure $action): ?Closure
     {
         RefreshDatabaseState::$inMemoryConnections = [];
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
 
-        $resolver = function () use ($app, $callback) {
-            \call_user_func($callback, $this->method, [$app]);
+        $resolver = function () use ($app, $action) {
+            \call_user_func($action, $this->method, [$app]);
         };
 
         if ($this->defer === false) {
