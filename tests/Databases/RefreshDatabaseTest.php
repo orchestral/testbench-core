@@ -77,5 +77,9 @@ class RefreshDatabaseTest extends TestCase
                 $table->text('two_factor_secret')->nullable();
             });
         });
+
+        $this->beforeApplicationDestroyed(function () {
+            Schema::drop('testbench_auths');
+        });
     }
 }
