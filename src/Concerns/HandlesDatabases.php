@@ -4,13 +4,9 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
-use Illuminate\Support\Collection;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
-
-use function Orchestra\Testbench\after_resolving;
-use function Orchestra\Testbench\laravel_migration_path;
 
 trait HandlesDatabases
 {
@@ -43,17 +39,7 @@ trait HandlesDatabases
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, WithMigration::class, static function (WithMigration $attribute) use ($app) {
-                after_resolving($app, 'migrator', static function ($migrator) use ($attribute) {
-                    /** @var \Illuminate\Database\Migrations\Migrator $migrator */
-                    Collection::make($attribute->types)
-                        ->transform(static function ($type) {
-                            return laravel_migration_path($type !== 'laravel' ? $type : null);
-                        })->each(static function ($migration) use ($migrator) {
-                            $migrator->path($migration);
-                        });
-                });
-            });
+            $this->parseTestMethodAttributes($app, WithMigration::class);
         }
 
         $this->defineDatabaseMigrations();
@@ -63,10 +49,16 @@ trait HandlesDatabases
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, DefineDatabase::class);
+            $attributeCallbacks = $this->parseTestMethodAttributes($app, DefineDatabase::class);
         }
 
         $callback();
+
+        if (isset($attributeCallbacks) && $attributeCallbacks->isNotEmpty()) {
+            $attributeCallbacks->each(function ($callback) {
+                value($callback);
+            });
+        }
 
         $this->defineDatabaseSeeders();
 
