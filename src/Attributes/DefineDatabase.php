@@ -15,7 +15,7 @@ final class DefineDatabase
      */
     public function __construct(
         public string $method,
-        public bool $reset = true
+        public bool $reset = false
     ) {
         //
     }
