@@ -76,5 +76,13 @@ class RefreshDatabaseTest extends TestCase
         $this->beforeApplicationDestroyed(function () {
             Schema::drop('testbench_auths');
         });
+
+        $this->beforeApplicationDestroyed(function () {
+            Schema::drop('testbench_auths');
+        });
+
+        $this->beforeApplicationDestroyed(function () {
+            Schema::drop('testbench_auths');
+        });
     }
 }
