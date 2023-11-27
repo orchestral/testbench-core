@@ -38,9 +38,7 @@ trait HandlesRoutes
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, DefineRoute::class, function (DefineRoute $attribute) use ($router) {
-                $this->{$attribute->method}($router);
-            });
+            $this->parseTestMethodAttributes($app, DefineRoute::class);
         }
 
         $router->getRoutes()->refreshNameLookups();
