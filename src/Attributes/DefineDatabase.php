@@ -12,6 +12,7 @@ final class DefineDatabase
      * Construct a new attribute.
      *
      * @param  string  $method
+     * @param  bool  $reset
      */
     public function __construct(
         public string $method,

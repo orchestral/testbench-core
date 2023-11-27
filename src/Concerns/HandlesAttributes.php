@@ -26,6 +26,7 @@ trait HandlesAttributes
                 return $key === $attribute && ! empty($attributes);
             })->flatten()
             ->each(function ($instance) use ($callback) {
+                /** @var object $instance */
                 if (method_exists($instance, 'before')) {
                     $instance->before();
                 }
