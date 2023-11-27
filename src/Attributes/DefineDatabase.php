@@ -17,8 +17,7 @@ final class DefineDatabase
      * @param  bool  $reset
      */
     public function __construct(
-        public string $method,
-        public bool $reset = false
+        public string $method
     ) {
         //
     }
@@ -33,8 +32,6 @@ final class DefineDatabase
     {
         \call_user_func($callback, $this->method, [$app]);
 
-        if ($this->reset === true) {
-            RefreshDatabaseState::$migrated = false;
-        }
+        RefreshDatabaseState::$migrated = false;
     }
 }
