@@ -46,6 +46,7 @@ class RefreshDatabaseTest extends TestCase
 
     /**
      * @test
+     *
      * @requires PHP >= 8.0
      */
     #[DefineDatabase('addAdditionalTableAtRuntime')]
