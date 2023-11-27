@@ -26,6 +26,6 @@ parameters:
 			path: src/Bootstrap/LoadEnvironmentVariables.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\LazyCollection\\<int,mixed\\>\\:\\:each\\(\\) expects callable\\(mixed, int\\)\\: mixed, Closure\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$app of method Orchestra\\\\Testbench\\\\TestCase\\:\\:parseTestMethodAttributes\\(\\) expects Illuminate\\\\Foundation\\\\Application, Illuminate\\\\Foundation\\\\Application\\|null given\\.$#"
 			count: 1
 			path: src/TestCase.php
