@@ -27,6 +27,8 @@ trait HandlesAttributes
                 if ($attributes->isNotEmpty()) {
                     value($callback, $attributes);
                 }
+
+                return $attributes;
             })
             ->map(function ($instance) use ($app) {
                 return $instance->handle($app, fn ($method, $parameters) => $this->{$method}(...$parameters));
