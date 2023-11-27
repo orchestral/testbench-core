@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Attributes;
 use Attribute;
 use Closure;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class DefineDatabase
@@ -31,6 +32,10 @@ final class DefineDatabase
      */
     public function handle(Application $app, Closure $callback): ?Closure
     {
+        RefreshDatabaseState::$inMemoryConnections = [];
+        RefreshDatabaseState::$migrated = false;
+        RefreshDatabaseState::$lazilyRefreshed = false;
+
         $resolver = function () use ($app, $callback) {
             \call_user_func($callback, $this->method, [$app]);
         };

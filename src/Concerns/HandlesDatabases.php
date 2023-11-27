@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
@@ -50,11 +49,7 @@ trait HandlesDatabases
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $attributeCallbacks = $this->parseTestMethodAttributes($app, DefineDatabase::class, function () {
-                RefreshDatabaseState::$inMemoryConnections = [];
-                RefreshDatabaseState::$migrated = false;
-                RefreshDatabaseState::$lazilyRefreshed = false;
-            });
+            $attributeCallbacks = $this->parseTestMethodAttributes($app, DefineDatabase::class);
         }
 
         $callback();
