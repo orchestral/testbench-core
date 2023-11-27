@@ -29,10 +29,10 @@ final class DefineDatabase
      */
     public function handle(Application $app, Closure $callback): void
     {
-        \call_user_func($callback, $this->method, [$app]);
-
         RefreshDatabaseState::$inMemoryConnections = [];
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
+
+        \call_user_func($callback, $this->method, [$app]);
     }
 }
