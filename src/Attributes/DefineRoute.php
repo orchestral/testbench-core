@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
+use Closure;
+use Illuminate\Foundation\Application;
 
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class DefineRoute
