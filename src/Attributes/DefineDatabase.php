@@ -32,6 +32,8 @@ final class DefineDatabase
     {
         \call_user_func($callback, $this->method, [$app]);
 
+        RefreshDatabaseState::$inMemoryConnections = [];
         RefreshDatabaseState::$migrated = false;
+        RefreshDatabaseState::$lazilyRefreshed = false;
     }
 }
