@@ -7,11 +7,10 @@ use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\WithMigration;
+use Orchestra\Testbench\Foundation\Bootstrap\SyncDatabaseEnvironmentVariables;
 
 trait HandlesDatabases
 {
-    use Database\HandlesConnections;
-
     /**
      * Setup database requirements.
      *
@@ -19,11 +18,7 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        tap($this->app['config'], function ($config) {
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'pgsql', 'POSTGRES');
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'sqlsrv', 'MSSQL');
-        });
+        (new SyncDatabaseEnvironmentVariables())->bootstrap($this->app);
 
         $this->app['events']->listen(DatabaseRefreshed::class, function () {
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
