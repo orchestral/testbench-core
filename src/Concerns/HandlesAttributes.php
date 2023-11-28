@@ -14,6 +14,7 @@ trait HandlesAttributes
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  class-string  $attribute
+     * @return \Illuminate\Support\Collection<int, (\Closure():void)>
      */
     protected function parseTestMethodAttributes($app, string $attribute): Collection
     {
