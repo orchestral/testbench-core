@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
 use Closure;
-use Illuminate\Foundation\Application;
 
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class DefineRoute
@@ -30,10 +29,13 @@ final class DefineRoute
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Closure  $action
+     * @param  \Closure():void  $action
      */
-    public function handle(Application $app, Closure $action): void
+    public function handle($app, Closure $action): void
     {
-        \call_user_func($action, $this->method, [$app['router']]);
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $app->make('router');
+
+        \call_user_func($action, $this->method, [$router]);
     }
 }

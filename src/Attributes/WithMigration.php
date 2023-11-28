@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
-use Illuminate\Foundation\Application;
+use Closure;
 use Illuminate\Support\Collection;
 
 use function Orchestra\Testbench\after_resolving;
@@ -31,8 +31,9 @@ final class WithMigration
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
+     * @param  \Closure():void  $action
      */
-    public function handle(Application $app): void
+    public function handle($app, Closure $action): void
     {
         $types = Collection::make($this->types)
             ->transform(static function ($type) {
