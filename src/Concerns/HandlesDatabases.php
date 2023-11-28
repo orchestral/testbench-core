@@ -39,7 +39,7 @@ trait HandlesDatabases
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($this->app, WithMigration::class);
+            $this->parseTestMethodAttributes($app, WithMigration::class);
         }
 
         $this->defineDatabaseMigrations();
@@ -49,7 +49,7 @@ trait HandlesDatabases
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $attributeCallbacks = $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
+            $attributeCallbacks = $this->parseTestMethodAttributes($app, DefineDatabase::class);
         }
 
         $callback();
