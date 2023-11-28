@@ -7,14 +7,18 @@ This changelog references the relevant changes (bug and security fixes) done to 
 ### Added
 
 * Added `Orchestra\Testbench\Attributes\ResetRefreshDatabase` attribute to force refreshing database before executing the test.
+* Added `Orchestra\Testbench\Foundation\Bootstrap\SyncDatabaseEnvironmentVariables` bootstrap class and allow database collation to be configurable via environment variables using `MYSQL_COLLATION`, `POSTGRES_COLLATION` and `MSSQL_COLLATION`.
 
 ### Changes
 
 * Refactor handling attributes: 
   - Add ability to handle actions directly from the attribute.
   - Add ability to set `defer` when using `Orchestra\Testbench\Attributes\DefineDatabase`.
-* Allow database collation to be configurable via environment variables using `MYSQL_COLLATION`, `POSTGRES_COLLATION` and `MSSQL_COLLATION`.
 * Add `#[Override]` attribute to relevant methods, this require `symfony/polyfill-php83` as backward compatibility for PHP 8.1 and 8.2.
+
+### Deprecated
+
+* Deprecate `Orchestra\Testbench\Concerns\Database\HandlesConnections` trait.
 
 ## 8.15.2
 

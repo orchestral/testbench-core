@@ -8,11 +8,10 @@ use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
+use Orchestra\Testbench\Foundation\Bootstrap\SyncDatabaseEnvironmentVariables;
 
 trait HandlesDatabases
 {
-    use Database\HandlesConnections;
-
     /**
      * Setup database requirements.
      *
@@ -24,11 +23,7 @@ trait HandlesDatabases
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 
-        tap($app['config'], function ($config) {
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'pgsql', 'POSTGRES');
-            $this->usesDatabaseConnectionsEnvironmentVariables($config, 'sqlsrv', 'MSSQL');
-        });
+        (new SyncDatabaseEnvironmentVariables())->bootstrap($app);
 
         $app['events']->listen(DatabaseRefreshed::class, function () {
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
