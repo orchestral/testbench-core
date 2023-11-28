@@ -12,7 +12,7 @@ $files = new Illuminate\Filesystem\Filesystem();
 
 # @TODO
 // $version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '11.x-dev' : '^11.0';
-$version = 'dev-slim-skeleton-11.x';
+$version = '11.x-dev';
 
 $files->delete("{$workingPath}/laravel/.env");
 $files->deleteDirectory("{$workingPath}/skeleton");
