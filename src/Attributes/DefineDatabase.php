@@ -5,9 +5,10 @@ namespace Orchestra\Testbench\Attributes;
 use Attribute;
 use Closure;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
+use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final class DefineDatabase
+final class DefineDatabase implements ActionableContract
 {
     /**
      * Construct a new attribute.
@@ -26,7 +27,7 @@ final class DefineDatabase
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Closure():void  $action
+     * @param  \Closure(string, array<int, mixed>):void  $action
      * @return \Closure|null
      */
     public function handle($app, Closure $action): ?Closure
