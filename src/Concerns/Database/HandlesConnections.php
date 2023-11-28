@@ -6,6 +6,7 @@ use Orchestra\Testbench\Foundation\Concerns\HandlesDatabaseConnections;
 
 /**
  * @internal
+ *
  * @deprecated
  */
 trait HandlesConnections
