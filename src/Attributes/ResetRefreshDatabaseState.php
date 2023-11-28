@@ -17,6 +17,7 @@ final class ResetRefreshDatabaseState
      */
     public function handle($app, Closure $action): void
     {
+        RefreshDatabaseState::$inMemoryConnections = [];
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
     }
