@@ -14,6 +14,7 @@ final class DefineDatabase
      * Construct a new attribute.
      *
      * @param  string  $method
+     * @param  bool  $defer
      */
     public function __construct(
         public string $method,
@@ -29,7 +30,7 @@ final class DefineDatabase
      * @param  \Closure  $action
      * @return \Closure|null
      */
-    public function handle(Application $app, Closure $action)
+    public function handle(Application $app, Closure $action): ?Closure
     {
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
