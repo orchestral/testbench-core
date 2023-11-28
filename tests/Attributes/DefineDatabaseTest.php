@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Foundation\Application;
 use Mockery as m;
 use Orchestra\Testbench\Attributes\DefineDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DefineDatabaseTest extends TestCase
@@ -18,7 +19,7 @@ class DefineDatabaseTest extends TestCase
         m::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_definition()
     {
         $attribute = new DefineDatabase('defineCallback', defer: false);
@@ -28,7 +29,7 @@ class DefineDatabaseTest extends TestCase
         $this->assertFalse($attribute->defer);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_defer_definition()
     {
         $attribute = new DefineDatabase('defineCallback', defer: true);
@@ -47,7 +48,7 @@ class DefineDatabaseTest extends TestCase
         $callback();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_eager_definition()
     {
         $attribute = new DefineDatabase('defineCallback', defer: false);

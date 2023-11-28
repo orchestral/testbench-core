@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
 use Mockery as m;
 use Orchestra\Testbench\Attributes\DefineRoute;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DefineRouteTest extends TestCase
@@ -18,7 +19,7 @@ class DefineRouteTest extends TestCase
         m::close();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_definition()
     {
         $attribute = new DefineRoute('defineCallback');
@@ -27,7 +28,7 @@ class DefineRouteTest extends TestCase
         $this->assertSame('defineCallback', $attribute->method);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_definition()
     {
         $attribute = new DefineRoute('defineCallback');
