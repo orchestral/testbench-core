@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\ApplicationBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
@@ -238,16 +239,22 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap(new Application($this->getBasePath()), function ($app) {
-            $app->bind(
-                'Illuminate\Foundation\Bootstrap\LoadConfiguration',
-                static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
-                    ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
-                    : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
-            );
+        return tap(
+            (new ApplicationBuilder(new Application($this->getBasePath())))
+                ->withMiddleware(fn ($middleware) => $middleware)
+                ->withCommands()
+                ->create(),
+            function ($app) {
+                $app->bind(
+                    'Illuminate\Foundation\Bootstrap\LoadConfiguration',
+                    static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
+                        ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
+                        : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
+                );
 
-            PackageManifest::swap($app, $this);
-        });
+                PackageManifest::swap($app, $this);
+            }
+        );
     }
 
     /**

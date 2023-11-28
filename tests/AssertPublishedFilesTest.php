@@ -47,7 +47,7 @@ class AssertPublishedFilesTest extends TestCase
             'class TestbenchCreateUsersTable extends Migration',
         ], 'testbench_create_users_table.php', directory: 'migrations');
 
-        $this->assertMigrationFileExists('2014_10_12_100000_testbench_create_password_reset_tokens_table.php', 'migrations');
-        $this->assertMigrationFileDoesNotExists('2014_10_12_100000_create_password_resets_tokens_table.php', 'migrations');
+        $this->assertMigrationFileExists('0001_01_01_000000_testbench_create_users_table.php', 'migrations');
+        $this->assertMigrationFileDoesNotExists('0001_01_01_000000_create_users_table.php', 'migrations');
     }
 }
