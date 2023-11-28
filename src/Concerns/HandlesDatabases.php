@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
-use Orchestra\Testbench\Attributes\ForceRefreshDatabase;
+use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\WithMigration;
 
 trait HandlesDatabases
@@ -35,7 +35,7 @@ trait HandlesDatabases
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($this->app, ForceRefreshDatabase::class);
+            $this->parseTestMethodAttributes($this->app, ResetRefreshDatabaseState::class);
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {

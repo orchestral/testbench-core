@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-final class ResetRefreshDatabase
+final class ResetRefreshDatabaseState
 {
     /**
      * Handle the attribute.
