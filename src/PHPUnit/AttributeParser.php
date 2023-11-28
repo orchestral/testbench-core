@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\PHPUnit;
 
 use Error;
-use Orchestra\Testbench\Attributes\Define;
+use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
@@ -85,7 +85,7 @@ class AttributeParser
     protected static function resolveAttribute(ReflectionAttribute $attribute): array
     {
         try {
-            $instance = $attribute->getName() === Define::class
+            $instance = isset(class_implements($attribute->getName())[ResolvableContract::class])
                 ? transform($attribute->newInstance(), static function ($instance) {
                     /** @var \Orchestra\Testbench\Attributes\Define $instance */
                     return $instance->resolve();

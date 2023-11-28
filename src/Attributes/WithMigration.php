@@ -31,9 +31,8 @@ final class WithMigration
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Closure():void  $action
      */
-    public function handle($app, Closure $action): void
+    public function handle($app): void
     {
         $types = Collection::make($this->types)
             ->transform(static function ($type) {

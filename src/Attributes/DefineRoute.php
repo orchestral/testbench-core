@@ -4,9 +4,10 @@ namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
 use Closure;
+use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final class DefineRoute
+final class DefineRoute implements ActionableContract
 {
     /**
      * The target method.
