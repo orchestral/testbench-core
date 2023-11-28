@@ -4,6 +4,10 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## Unreleased
 
+### Added
+
+* Added `Orchestra\Testbench\Attributes\ResetRefreshDatabase` attribute to force refreshing database before executing the test.
+
 ### Changes
 
 * Refactor handling attributes: 
