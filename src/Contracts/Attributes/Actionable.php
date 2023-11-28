@@ -10,7 +10,7 @@ interface Actionable
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Closure():void  $action
+     * @param  \Closure(string, array<int, mixed>):void  $action
      * @return mixed
      */
     public function handle($app, Closure $action);

@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
-use Closure;
 use Illuminate\Support\Collection;
 
 use function Orchestra\Testbench\after_resolving;

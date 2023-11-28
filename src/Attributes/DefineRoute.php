@@ -30,7 +30,7 @@ final class DefineRoute implements ActionableContract
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Closure():void  $action
+     * @param  \Closure(string, array<int, mixed>):void  $action
      */
     public function handle($app, Closure $action): void
     {

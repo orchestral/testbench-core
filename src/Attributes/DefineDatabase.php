@@ -40,7 +40,7 @@ final class DefineDatabase implements ActionableContract
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @param  \Closure():void  $action
+     * @param  \Closure(string, array<int, mixed>):void  $action
      * @return \Closure|null
      */
     public function handle($app, Closure $action)
