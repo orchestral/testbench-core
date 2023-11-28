@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
 use PHPUnit\Framework\Attributes\Test;
 
+use function Orchestra\Testbench\laravel_version_compare;
 use function Orchestra\Testbench\remote;
 
 #[RequiresOperatingSystem('Linux|DAR')]
@@ -52,7 +53,7 @@ class CommanderTest extends TestCase
             $output = json_decode($process->getOutput(), true);
 
             $this->assertSame('Testbench', $output['environment']['application_name']);
-            $this->assertSame('ENABLED', $output['environment']['debug_mode']);
+            $this->assertSame(laravel_version_compare('10.32.0', '>=') ? true : 'ENABLED', $output['environment']['debug_mode']);
             $this->assertSame('testing', $output['drivers']['database']);
         });
     }
@@ -68,7 +69,7 @@ class CommanderTest extends TestCase
             $output = json_decode($process->getOutput(), true);
 
             $this->assertSame('Testbench', $output['environment']['application_name']);
-            $this->assertSame('ENABLED', $output['environment']['debug_mode']);
+            $this->assertSame(laravel_version_compare('10.32.0', '>=') ? true : 'ENABLED', $output['environment']['debug_mode']);
             $this->assertSame('sqlite', $output['drivers']['database']);
         });
     }
@@ -88,7 +89,7 @@ class CommanderTest extends TestCase
             $output = json_decode($process->getOutput(), true);
 
             $this->assertSame('Testbench Tests', $output['environment']['application_name']);
-            $this->assertSame('OFF', $output['environment']['debug_mode']);
+            $this->assertSame(laravel_version_compare('10.32.0', '>=') ? false : 'OFF', $output['environment']['debug_mode']);
             $this->assertSame('testing', $output['drivers']['database']);
         });
     }
