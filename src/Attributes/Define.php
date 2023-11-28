@@ -3,9 +3,10 @@
 namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
+use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final class Define
+final class Define implements ResolvableContract
 {
     /**
      * Construct a new attribute.
