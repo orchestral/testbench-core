@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Added `Orchestra\Testbench\Attributes\ResetRefreshDatabase` attribute to force refreshing database before executing the test.
+
+### Changes
+
+* Refactor handling attributes: 
+  - Add ability to handle actions directly from the attribute.
+  - Add ability to set `defer` when using `Orchestra\Testbench\Attributes\DefineDatabase`.
+* Allow database collation to be configurable via environment variables using `MYSQL_COLLATION`, `POSTGRES_COLLATION` and `MSSQL_COLLATION`.
+
 ## 7.35.2
 
 Released: 2023-11-21
