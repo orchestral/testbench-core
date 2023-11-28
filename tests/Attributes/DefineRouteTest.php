@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Tests\Attributes;
 
-use Closure;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
 use Mockery as m;

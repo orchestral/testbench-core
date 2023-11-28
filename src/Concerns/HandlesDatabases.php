@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
+use Orchestra\Testbench\Attributes\ForceRefreshDatabase;
 use Orchestra\Testbench\Attributes\WithMigration;
 
 trait HandlesDatabases
@@ -31,6 +32,10 @@ trait HandlesDatabases
         if (static::usesTestingConcern(WithLaravelMigrations::class)) {
             /** @phpstan-ignore-next-line */
             $this->setUpWithLaravelMigrations();
+        }
+
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            $this->parseTestMethodAttributes($this->app, ForceRefreshDatabase::class);
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
