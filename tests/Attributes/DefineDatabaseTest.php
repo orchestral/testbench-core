@@ -21,24 +21,24 @@ class DefineDatabaseTest extends TestCase
     /** @test */
     public function it_can_resolve_definition()
     {
-        $attribute = new DefineDatabase('setupDatabaseData', false);
+        $attribute = new DefineDatabase('defineCallback', false);
 
         $this->assertInstanceOf(DefineDatabase::class, $attribute);
-        $this->assertSame('setupDatabaseData', $attribute->method);
+        $this->assertSame('defineCallback', $attribute->method);
         $this->assertFalse($attribute->defer);
     }
 
     /** @test */
     public function it_can_handle_defer_definition()
     {
-        $attribute = new DefineDatabase('setupDatabaseData', true);
+        $attribute = new DefineDatabase('defineCallback', true);
 
         $this->assertInstanceOf(DefineDatabase::class, $attribute);
-        $this->assertSame('setupDatabaseData', $attribute->method);
+        $this->assertSame('defineCallback', $attribute->method);
         $this->assertTrue($attribute->defer);
 
         $callback = $attribute->handle($app = m::mock(Application::class), function ($method, $parameters) use ($app) {
-            $this->assertSame('setupDatabaseData', $method);
+            $this->assertSame('defineCallback', $method);
             $this->assertSame([$app], $parameters);
         });
 
@@ -50,14 +50,14 @@ class DefineDatabaseTest extends TestCase
     /** @test */
     public function it_can_handle_eager_definition()
     {
-        $attribute = new DefineDatabase('setupDatabaseData', false);
+        $attribute = new DefineDatabase('defineCallback', false);
 
         $this->assertInstanceOf(DefineDatabase::class, $attribute);
-        $this->assertSame('setupDatabaseData', $attribute->method);
+        $this->assertSame('defineCallback', $attribute->method);
         $this->assertFalse($attribute->defer);
 
         $callback = $attribute->handle($app = m::mock(Application::class), function ($method, $parameters) use ($app) {
-            $this->assertSame('setupDatabaseData', $method);
+            $this->assertSame('defineCallback', $method);
             $this->assertSame([$app], $parameters);
         });
 
