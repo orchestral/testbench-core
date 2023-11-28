@@ -28,6 +28,7 @@ final class DefineDatabase
      * Construct a new attribute.
      *
      * @param  string  $method
+     * @param  bool  $defer
      */
     public function __construct(string $method, bool $defer = true)
     {

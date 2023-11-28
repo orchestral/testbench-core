@@ -36,6 +36,11 @@ parameters:
 			path: src/TestCase.php
 
 		-
+			message: "#^Method Orchestra\\\\Testbench\\\\TestCase\\:\\:parseTestMethodAttributes\\(\\) should return Illuminate\\\\Support\\\\Collection&iterable\\<int, Closure\\(\\)\\: void\\> but returns Illuminate\\\\Support\\\\Collection&iterable\\<string, mixed\\>\\.$#"
+			count: 1
+			path: src/TestCase.php
+
+		-
 			message: "#^Property Orchestra\\\\Testbench\\\\TestCase\\:\\:\\$app \\(Illuminate\\\\Foundation\\\\Application\\) does not accept null\\.$#"
 			count: 1
 			path: src/TestCase.php

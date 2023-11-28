@@ -15,7 +15,7 @@ final class WithMigration
     /**
      * The target types.
      *
-     * @var array
+     * @var array<int, string>
      */
     public $types = [];
 
