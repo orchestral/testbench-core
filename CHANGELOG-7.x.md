@@ -6,6 +6,9 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ### Changes
 
+* Refactor handling attributes: 
+  - Add ability to handle actions directly from the attribute.
+  - Add ability to set `defer` when using `Orchestra\Testbench\Attributes\DefineDatabase`.
 * Allow database collation to be configurable via environment variables using `MYSQL_COLLATION`, `POSTGRES_COLLATION` and `MSSQL_COLLATION`.
 
 ## 7.35.2
