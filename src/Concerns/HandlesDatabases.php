@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
+use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
@@ -36,6 +37,10 @@ trait HandlesDatabases
         if (static::usesTestingConcern(WithLaravelMigrations::class)) {
             /** @phpstan-ignore-next-line */
             $this->setUpWithLaravelMigrations();
+        }
+
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            $this->parseTestMethodAttributes($app, ResetRefreshDatabaseState::class);
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
