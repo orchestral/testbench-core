@@ -1,15 +1,15 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Concerns\Database;
+namespace Orchestra\Testbench\Tests\Foundation\Concerns;
 
 use Illuminate\Contracts\Config\Repository;
 use Mockery as m;
-use Orchestra\Testbench\Concerns\Database\HandlesConnections;
+use Orchestra\Testbench\Foundation\Concerns\HandlesDatabaseConnections;
 use PHPUnit\Framework\TestCase;
 
-class HandlesConnectionsTest extends TestCase
+class HandlesDatabaseConnectionsTest extends TestCase
 {
-    use HandlesConnections;
+    use HandlesDatabaseConnections;
 
     /**
      * Teardown the test environment.
