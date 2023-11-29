@@ -11,6 +11,9 @@ use ReflectionMethod;
 
 /**
  * @internal
+ *
+ * @phpstan-type TTestingFeature \Orchestra\Testbench\Contracts\Attributes\TestingFeature
+ * @phpstan-type TAttributes TTestingFeature|\Orchestra\Testbench\Contracts\Attributes\Resolvable
  */
 class AttributeParser
 {
@@ -18,7 +21,9 @@ class AttributeParser
      * Parse attribute for class.
      *
      * @param  class-string  $className
-     * @return array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>
+     * @return array<int, array{key: class-string, instance: object}>
+     *
+     * @phpstan-return array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
      */
     public static function forClass(string $className): array
     {
@@ -44,7 +49,9 @@ class AttributeParser
      *
      * @param  class-string  $className
      * @param  string  $methodName
-     * @return array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>
+     * @return array<int, array{key: class-string, instance: object}>
+     *
+     * @phpstan-return array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
      */
     public static function forMethod(string $className, string $methodName): array
     {
@@ -83,12 +90,14 @@ class AttributeParser
      * Resolve given attribute.
      *
      * @param  \ReflectionAttribute  $attribute
-     * @return array{0: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>|null, 1: \Orchestra\Testbench\Contracts\Attributes\TestingFeature|null}
+     * @return array{0: class-string, 1: object|null}
+     *
+     * @phpstan-return array{0: class-string<TTestingFeature>|null, 1: TTestingFeature|null}
      */
     protected static function resolveAttribute(ReflectionAttribute $attribute): array
     {
         try {
-            /** @var \Orchestra\Testbench\Contracts\Attributes\TestingFeature|null $instance */
+            /** @var TTestingFeature|null $instance */
             $instance = isset(class_implements($attribute->getName())[ResolvableContract::class])
                 ? transform($attribute->newInstance(), static function ($instance) {
                     /** @var \Orchestra\Testbench\Contracts\Attributes\Resolvable $instance */
@@ -99,7 +108,7 @@ class AttributeParser
                 return [null, null];
             }
 
-            /** @var class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature> $name */
+            /** @var class-string<TTestingFeature> $name */
             $name = \get_class($instance);
 
             return [$name, $instance];
