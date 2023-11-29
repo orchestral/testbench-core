@@ -91,8 +91,11 @@ trait InteractsWithPHPUnit
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] = [];
         }
 
+        /** @var class-string<TTestingFeature> $name */
+        $name = \get_class($attribute);
+
         array_push(static::$testCaseMethodAttributes["{$className}:{$methodName}"], [
-            'key' => \get_class($attribute),
+            'key' => $name,
             'instance' => $attribute,
         ]);
     }
