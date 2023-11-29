@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
+use Orchestra\Testbench\Contracts\Attributes\TestingFeature;
 
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class Define implements ResolvableContract
@@ -39,7 +40,7 @@ final class Define implements ResolvableContract
      *
      * @return \Orchestra\Testbench\Contracts\Attributes\TestingFeature|null
      */
-    public function resolve(): ?object
+    public function resolve(): ?TestingFeature
     {
         switch (strtolower($this->group)) {
             case 'env':
