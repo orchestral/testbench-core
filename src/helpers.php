@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench;
 
 use Closure;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
@@ -32,14 +34,18 @@ function container(?string $basePath = null, ?callable $resolvingCallback = null
 /**
  * Run artisan command.
  *
- * @param  \Orchestra\Testbench\Contracts\TestCase  $testbench
+ * @param  \Orchestra\Testbench\Contracts\TestCase|\Illuminate\Contracts\Foundation\Application  $context
  * @param  string  $command
  * @param  array<string, mixed>  $parameters
  * @return int
  */
-function artisan(Contracts\TestCase $testbench, string $command, array $parameters = []): int
+function artisan(Contracts\TestCase|ApplicationContract $context, string $command, array $parameters = []): int
 {
-    $command = $testbench->artisan($command, $parameters);
+    if ($context instanceof ApplicationContract) {
+        return $context->make(ConsoleKernel::class)->call($command, $parameters);
+    }
+
+    $command = $context->artisan($command, $parameters);
 
     return $command instanceof PendingCommand ? $command->run() : $command;
 }
