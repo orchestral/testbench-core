@@ -10,7 +10,7 @@ use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
 
 /**
- * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\TestCase
+ * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\TestCase
  */
 trait InteractsWithPHPUnit
 {
@@ -24,27 +24,27 @@ trait InteractsWithPHPUnit
     /**
      * The cached class attributes for test case.
      *
-     * @var array<string, array<class-string, object>>
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
      *
-     * @phpstan-var array<string, array<class-string, TTestingFeature>>
+     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
     protected static $cachedTestCaseClassAttributes = [];
 
     /**
      * The cached method attributes for test case.
      *
-     * @var array<string, array<class-string, object>>
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
      *
-     * @phpstan-var array<string, array<class-string, TTestingFeature>>
+     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
     protected static $cachedTestCaseMethodAttributes = [];
 
     /**
      * The method attributes for test case.
      *
-     * @var array<string, array<class-string, object>>
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
      *
-     * @phpstan-var array<string, array<class-string, TTestingFeature>>
+     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
     protected static $testCaseMethodAttributes = [];
 
@@ -129,7 +129,7 @@ trait InteractsWithPHPUnit
      *
      * @return \Illuminate\Support\Collection<class-string, array<int, object>>
      *
-     * @phpstan-return \Illuminate\Support\Collection<class-string, array<int, TTestingFeature>>
+     * @phpstan-return \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>>
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
@@ -154,13 +154,14 @@ trait InteractsWithPHPUnit
             }, [], false);
         }
 
-        /** @var \Illuminate\Support\Collection<class-string, array<int, TTestingFeature>> $attributes */
+        /** @var \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>> $attributes */
         $attributes = Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
             static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"],
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] ?? [],
         ))->groupBy('key')
             ->transform(static function ($attributes) {
+                /** @var \Illuminate\Support\Collection<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}> $attributes */
                 return $attributes->transform(static function ($attribute) {
                     return $attribute['instance'];
                 });

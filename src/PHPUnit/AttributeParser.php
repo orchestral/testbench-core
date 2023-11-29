@@ -13,7 +13,7 @@ use ReflectionMethod;
 /**
  * @internal
  *
- * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\TestCase
+ * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\TestCase
  */
 class AttributeParser
 {
@@ -23,7 +23,7 @@ class AttributeParser
      * @param  class-string  $className
      * @return array<int, array{key: class-string, instance: object}>
      *
-     * @phpstan-return array<int, array{key: class-string, instance: TTestingFeature}>
+     * @phpstan-return array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
      */
     public static function forClass(string $className): array
     {
@@ -95,7 +95,7 @@ class AttributeParser
      * @param  \ReflectionAttribute  $attribute
      * @return array{0: class-string|null, 1: object|null}
      *
-     * @phpstan-return array{0: class-string|null, 1: TTestingFeature|null}
+     * @phpstan-return array{0: class-string<TTestingFeature>|null, 1: TTestingFeature|null}
      */
     protected static function resolveAttribute(ReflectionAttribute $attribute): array
     {
@@ -111,7 +111,7 @@ class AttributeParser
                 return [null, null];
             }
 
-            /** @var class-string $name */
+            /** @var class-string<TTestingFeature> $name */
             $name = \get_class($instance);
 
             return [$name, $instance];
