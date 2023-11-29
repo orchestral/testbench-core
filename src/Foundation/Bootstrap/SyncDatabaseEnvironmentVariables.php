@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Foundation\Concerns\HandlesDatabaseConnections;
 
@@ -17,7 +18,7 @@ class SyncDatabaseEnvironmentVariables
      */
     public function bootstrap(Application $app): void
     {
-        tap($app['config'], function ($config) {
+        tap($app->make('config'), function (Repository $config) {
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'mysql', 'MYSQL');
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'pgsql', 'POSTGRES');
             $this->usesDatabaseConnectionsEnvironmentVariables($config, 'sqlsrv', 'MSSQL');
