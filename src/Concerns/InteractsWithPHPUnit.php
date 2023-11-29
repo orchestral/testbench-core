@@ -12,6 +12,10 @@ use ReflectionClass;
 
 use function Orchestra\Testbench\phpunit_version_compare;
 
+/**
+ * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\AttributeParser
+ * @phpstan-import-type TAttributes from \Orchestra\Testbench\PHPUnit\AttributeParser
+ */
 trait InteractsWithPHPUnit
 {
     /**
@@ -24,21 +28,27 @@ trait InteractsWithPHPUnit
     /**
      * The cached class attributes for test case.
      *
-     * @var array<string, array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>>
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
+     *
+     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
     protected static $cachedTestCaseClassAttributes = [];
 
     /**
      * The cached method attributes for test case.
      *
-     * @var array<string, array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>>
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
+     *
+     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
     protected static $cachedTestCaseMethodAttributes = [];
 
     /**
      * The method attributes for test case.
      *
-     * @var array<string, array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>>
+     * @var array<string, array<int, array{key: class-string, instance: object}>>
+     *
+     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
     protected static $testCaseMethodAttributes = [];
 
@@ -55,8 +65,10 @@ trait InteractsWithPHPUnit
     /**
      * Uses testing feature (attribute) on the current test.
      *
-     * @param  \Orchestra\Testbench\Contracts\Attributes\TestingFeature|\Orchestra\Testbench\Contracts\Attributes\Resolvable  $attribute
+     * @param  object  $attribute
      * @return void
+     *
+     * @phpstan-param TAttributes $attribute
      */
     public function usesTestingFeature($attribute): void
     {
@@ -84,7 +96,7 @@ trait InteractsWithPHPUnit
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] = [];
         }
 
-        /** @var class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature> $name */
+        /** @var class-string<TTestingFeature> $name */
         $name = \get_class($attribute);
 
         array_push(static::$testCaseMethodAttributes["{$className}:{$methodName}"], [
@@ -127,7 +139,9 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, array<int, \Orchestra\Testbench\Contracts\Attributes\TestingFeature>>
+     * @return \Illuminate\Support\Collection<class-string, array<int, object>>
+     *
+     * @phpstan-return \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>>
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
@@ -153,14 +167,14 @@ trait InteractsWithPHPUnit
             }, [], false);
         }
 
-        /** @var \Illuminate\Support\Collection<class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, array<int, \Orchestra\Testbench\Contracts\Attributes\TestingFeature>> $attributes */
+        /** @var \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>> $attributes */
         $attributes = Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
             static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"],
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] ?? [],
         ))->groupBy('key')
             ->map(static function ($attributes) {
-                /** @var \Illuminate\Support\Collection<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}> $attributes */
+                /** @var \Illuminate\Support\Collection<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}> $attributes */
                 return $attributes->map(static function ($attribute) {
                     /** @var array{key: class-string: \Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature} $attribute */
                     return $attribute['instance'];
