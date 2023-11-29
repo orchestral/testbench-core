@@ -24,13 +24,3 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
-
-		-
-			message: "#^Static property Orchestra\\\\Testbench\\\\Foundation\\\\Application\\:\\:\\$cachedTestCaseMethodAttributes \\(array\\<string, array\\<int, array\\{key\\: class\\-string\\<Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Actionable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Invokable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Resolvable\\>, instance\\: Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Actionable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Invokable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Resolvable\\}\\>\\>\\) does not accept non\\-empty\\-array\\<string, array\\<int, array\\{key\\: class\\-string, instance\\: Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Actionable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Invokable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Resolvable\\}\\>\\>\\.$#"
-			count: 1
-			path: src/Foundation/Application.php
-
-		-
-			message: "#^Static property Orchestra\\\\Testbench\\\\TestCase\\:\\:\\$cachedTestCaseMethodAttributes \\(array\\<string, array\\<int, array\\{key\\: class\\-string\\<Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Actionable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Invokable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Resolvable\\>, instance\\: Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Actionable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Invokable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Resolvable\\}\\>\\>\\) does not accept non\\-empty\\-array\\<string, array\\<int, array\\{key\\: class\\-string, instance\\: Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Actionable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Invokable\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Resolvable\\}\\>\\>\\.$#"
-			count: 1
-			path: src/TestCase.php

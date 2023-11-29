@@ -51,7 +51,7 @@ class AttributeParser
      * @param  string  $methodName
      * @return array<int, array{key: class-string, instance: object}>
      *
-     * @phpstan-return array<int, array{key: class-string, instance: TTestingFeature}>
+     * @phpstan-return array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
      */
     public static function forMethod(string $className, string $methodName): array
     {
