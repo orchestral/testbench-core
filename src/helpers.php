@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench;
 
 use Closure;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
