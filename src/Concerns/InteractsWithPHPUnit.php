@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
+use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use ReflectionClass;
 
 trait InteractsWithPHPUnit
@@ -32,6 +33,13 @@ trait InteractsWithPHPUnit
     protected static $cachedTestCaseMethodAttributes = [];
 
     /**
+     * The method attributes for test case.
+     *
+     * @var array<string, array<class-string, object>>
+     */
+    protected static $testCaseMethodAttributes = [];
+
+    /**
      * Determine if the trait is used within testing.
      *
      * @return bool
@@ -39,6 +47,37 @@ trait InteractsWithPHPUnit
     public function isRunningTestCase(): bool
     {
         return $this instanceof PHPUnitTestCase || static::usesTestingConcern();
+    }
+
+    /**
+     * Uses attribute on the test.
+     *
+     * @param  \Orchestra\Testbench\Contracts\Attributes\Actionable|\Orchestra\Testbench\Contracts\Attributes\Invokable|\Orchestra\Testbench\Contracts\Attributes\Resolvable  $attribute
+     * @return void
+     */
+    public function usesTestingAttribute($attribute): void
+    {
+        if (
+            ! $this instanceof PHPUnitTestCase
+            || ! AttributeParser::validAttribute($attribute)
+        ) {
+            return;
+        }
+
+        $attribute = $attribute instanceof ResolvableContract ? $attribute->resolve() : $instance;
+
+        $instance = new ReflectionClass($this);
+        $className = $instance->getName();
+        $methodName = $this->getName(false);
+
+        if (! isset(static::$testCaseMethodAttributes["{$className}:{$methodName}"])) {
+            static::$testCaseMethodAttributes["{$className}:{$methodName}"] = [];
+        }
+
+        array_push(static::$testCaseMethodAttributes["{$className}:{$methodName}"], [
+            'key' => get_class($attribute),
+            'instance' => $attribute,
+        ]);
     }
 
     /**
@@ -50,9 +89,13 @@ trait InteractsWithPHPUnit
      */
     protected function resolvePhpUnitAnnotations(): Collection
     {
+        if (! $this instanceof PHPUnitTestCase) {
+            return new Collection();
+        }
+
         $instance = new ReflectionClass($this);
 
-        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+        if ($instance->isAnonymous()) {
             return new Collection();
         }
 
@@ -75,13 +118,13 @@ trait InteractsWithPHPUnit
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
+        if (version_compare(PHP_VERSION, '8.0.0', '<') || ! $this instanceof PHPUnitTestCase) {
+            return new Collection();
+        }
+
         $instance = new ReflectionClass($this);
 
-        if (
-            version_compare(PHP_VERSION, '8.0.0', '<')
-            || ! $this instanceof PHPUnitTestCase
-            || $instance->isAnonymous()
-        ) {
+        if ($instance->isAnonymous()) {
             return new Collection();
         }
 
@@ -102,7 +145,8 @@ trait InteractsWithPHPUnit
 
         return Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
-            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"]
+            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"],
+            static::$testCaseMethodAttributes["{$className}:{$methodName}"] ?? [],
         ))->groupBy('key')
             ->transform(static function ($attributes) {
                 return $attributes->transform(static function ($attribute) {
