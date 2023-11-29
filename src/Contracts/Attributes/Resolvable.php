@@ -7,7 +7,7 @@ interface Resolvable
     /**
      * Resolve the actual attribute class.
      *
-     * @return \Orchestra\Testbench\Contracts\Attributes\TestingFeature|null
+     * @return mixed
      */
-    public function resolve(): ?object;
+    public function resolve();
 }
