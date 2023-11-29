@@ -155,7 +155,7 @@ trait Testing
      *
      * @codeCoverageIgnore
      */
-    public static function teardownAfterClassUsingLaravel(): void
+    public static function tearDownAfterClassUsingLaravel(): void
     {
         static::$latestResponse = null;
 
