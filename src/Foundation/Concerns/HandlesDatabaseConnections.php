@@ -17,7 +17,6 @@ trait HandlesDatabaseConnections
     {
         $keyword = Str::upper($keyword);
 
-        $configurations = [];
         $options = [
             'url' => 'URL',
             'host' => 'HOST',
@@ -28,16 +27,26 @@ trait HandlesDatabaseConnections
             'collation' => 'COLLATION',
         ];
 
-        foreach ($options as $key => $value) {
-            $configurations["database.connections.{$driver}.{$key}"] = Collection::make(
-                Arr::wrap($value)
-            )->transform(static function ($value) use ($keyword) {
-                return Env::get("{$keyword}_{$value}");
-            })->first(static function ($value) {
-                return ! \is_null($value);
-            }) ?? $config->get("database.connections.{$driver}.{$key}");
-        }
+        $config->set(
+            Collection::make($options)
+                ->when($driver === 'pgsql', static function ($options) {
+                    return $options->put('schema', 'SCHEMA');
+                })
+                ->mapWithKeys(static function ($value, $key) use ($driver, $keyword, $config) {
+                    $name = "database.connections.{$driver}.{$key}";
 
-        $config->set($configurations);
+                    /** @var mixed $configuration */
+                    $configuration = Collection::make(Arr::wrap($value))
+                        ->transform(static function ($value) use ($keyword) {
+                            return Env::get("{$keyword}_{$value}");
+                        })->first(static function ($value) {
+                            return ! \is_null($value);
+                        }) ?? $config->get($name);
+
+                    return [
+                        "{$name}" => $configuration,
+                    ];
+                })->all()
+        );
     }
 }

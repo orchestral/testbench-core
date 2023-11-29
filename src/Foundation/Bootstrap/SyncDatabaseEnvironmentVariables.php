@@ -6,7 +6,10 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Foundation\Concerns\HandlesDatabaseConnections;
 
-class SyncDatabaseEnvironmentVariables
+/**
+ * @internal
+ */
+final class SyncDatabaseEnvironmentVariables
 {
     use HandlesDatabaseConnections;
 
