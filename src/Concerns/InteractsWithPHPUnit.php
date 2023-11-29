@@ -77,8 +77,9 @@ trait InteractsWithPHPUnit
         }
 
         $className = $instance->getName();
-        $methodName = $this->getName(false);
-
+        $methodName = phpunit_version_compare('10', '>=')
+            ? $this->name() /** @phpstan-ignore-line */
+            : $this->getName(false); /** @phpstan-ignore-line */
         if (! isset(static::$testCaseMethodAttributes["{$className}:{$methodName}"])) {
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] = [];
         }
