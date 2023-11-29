@@ -150,9 +150,9 @@ trait InteractsWithPHPUnit
             static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"],
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] ?? [],
         ))->groupBy('key')
-            ->transform(static function ($attributes) {
+            ->map(static function ($attributes) {
                 /** @var \Illuminate\Support\Collection<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}> $attributes */
-                return $attributes->transform(static function ($attribute) {
+                return $attributes->map(static function ($attribute) {
                     return $attribute['instance'];
                 });
             });

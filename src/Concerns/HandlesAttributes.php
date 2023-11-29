@@ -16,11 +16,12 @@ trait HandlesAttributes
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  class-string  $attribute
-     * @return \Illuminate\Support\Collection<int, (\Closure():void)>
+     * @return \Illuminate\Support\Collection<int, mixed>
      */
     protected function parseTestMethodAttributes($app, string $attribute): Collection
     {
-        return $this->resolvePhpUnitAttributes()
+        /** @var \Illuminate\Support\Collection<int, mixed> $attributes */
+        $attributes = $this->resolvePhpUnitAttributes()
             ->filter(static function ($attributes, string $key) use ($attribute) {
                 return $key === $attribute && ! empty($attributes);
             })->flatten()
@@ -32,6 +33,8 @@ trait HandlesAttributes
                 }
             })->filter()
             ->values();
+
+        return $attributes;
     }
 
     /**
@@ -39,7 +42,7 @@ trait HandlesAttributes
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<string, mixed>
+     * @return \Illuminate\Support\Collection<class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, array<int, \Orchestra\Testbench\Contracts\Attributes\TestingFeature>>
      */
     abstract protected function resolvePhpUnitAttributes(): Collection;
 }
