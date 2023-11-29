@@ -94,5 +94,6 @@
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "stable"
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }
