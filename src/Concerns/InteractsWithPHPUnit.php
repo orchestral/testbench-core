@@ -50,12 +50,12 @@ trait InteractsWithPHPUnit
     }
 
     /**
-     * Uses attribute on the test.
+     * Uses testing feature (attribute) on the current test.
      *
      * @param  \Orchestra\Testbench\Contracts\Attributes\Actionable|\Orchestra\Testbench\Contracts\Attributes\Invokable|\Orchestra\Testbench\Contracts\Attributes\Resolvable  $attribute
      * @return void
      */
-    public function usesTestingAttribute($attribute): void
+    public function usesTestingFeature($attribute): void
     {
         $instance = new ReflectionClass($this);
 
