@@ -20,7 +20,7 @@ trait HandlesAttributes
      */
     protected function parseTestMethodAttributes($app, string $attribute): Collection
     {
-        /** @var  \Illuminate\Support\Collection<int, mixed> $attributes */
+        /** @var \Illuminate\Support\Collection<int, mixed> $attributes */
         $attributes = $this->resolvePhpUnitAttributes()
             ->filter(static function ($attributes, string $key) use ($attribute) {
                 return $key === $attribute && ! empty($attributes);

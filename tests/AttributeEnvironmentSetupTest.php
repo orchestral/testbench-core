@@ -53,6 +53,16 @@ class AttributeEnvironmentSetupTest extends TestCase
         $this->assertSame('testbench', config('testbench.two'));
     }
 
+    /** @test */
+    #[Define('foo', 'firstConfig')]
+    public function it_doesnt_load_invalid_environment_config()
+    {
+        $this->assertSame('testbench', config('database.default'));
+        $this->assertSame('testbench', config('testbench.global'));
+        $this->assertNull(config('testbench.one'));
+        $this->assertNull(config('testbench.two'));
+    }
+
     /**
      * Define environment setup.
      *
