@@ -4,12 +4,13 @@ namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\laravel_migration_path;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final class WithMigration
+final class WithMigration implements InvokableContract
 {
     /**
      * The target types.
@@ -31,7 +32,7 @@ final class WithMigration
      *
      * @param  \Illuminate\Foundation\Application  $app
      */
-    public function handle($app): void
+    public function __invoke($app): void
     {
         $types = Collection::make($this->types)
             ->transform(static function ($type) {

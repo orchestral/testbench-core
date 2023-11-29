@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
+use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 
 /**
  * @internal
@@ -24,9 +25,11 @@ trait HandlesAttributes
                 return $key === $attribute && ! empty($attributes);
             })->flatten()
             ->map(function ($instance) use ($app) {
-                return ! $instance instanceof ActionableContract
-                    ? $instance->handle($app)
-                    : $instance->handle($app, fn ($method, $parameters) => $this->{$method}(...$parameters));
+                if ($instance instanceof InvokableContract) {
+                    return $instance($app);
+                } elseif ($instance instanceof ActionableContract) {
+                    return $instance->handle($app, fn ($method, $parameters) => $this->{$method}(...$parameters));
+                }
             })->filter()
             ->values();
     }

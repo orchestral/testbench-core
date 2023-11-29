@@ -9,11 +9,22 @@ use PHPUnit\Framework\Attributes\Test;
 
 class AttributeEnvironmentSetupTest extends TestCase
 {
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        $this->usesTestingAttribute(new Define('env', 'globalConfig'));
+
+        parent::setUp();
+    }
+
     /** @test */
     #[Define('env', 'firstConfig')]
     public function it_loads_first_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
+        $this->assertSame('testbench', config('testbench.global'));
         $this->assertSame('testbench', config('testbench.one'));
         $this->assertNull(config('testbench.two'));
     }
@@ -23,6 +34,7 @@ class AttributeEnvironmentSetupTest extends TestCase
     public function it_loads_second_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
+        $this->assertSame('testbench', config('testbench.global'));
         $this->assertNull(config('testbench.one'));
         $this->assertSame('testbench', config('testbench.two'));
     }
@@ -33,8 +45,20 @@ class AttributeEnvironmentSetupTest extends TestCase
     public function it_loads_both_config_helper()
     {
         $this->assertSame('testbench', config('database.default'));
+        $this->assertSame('testbench', config('testbench.global'));
         $this->assertSame('testbench', config('testbench.one'));
         $this->assertSame('testbench', config('testbench.two'));
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function globalConfig($app)
+    {
+        $app['config']->set('testbench.global', 'testbench');
     }
 
     /**
