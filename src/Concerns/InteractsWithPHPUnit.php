@@ -3,10 +3,10 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
-use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use ReflectionClass;
 
 trait InteractsWithPHPUnit
@@ -57,16 +57,22 @@ trait InteractsWithPHPUnit
      */
     public function usesTestingAttribute($attribute): void
     {
+        $instance = new ReflectionClass($this);
+
         if (
             ! $this instanceof PHPUnitTestCase
             || ! AttributeParser::validAttribute($attribute)
+            || $instance->isAnonymous()
         ) {
             return;
         }
 
-        $attribute = $attribute instanceof ResolvableContract ? $attribute->resolve() : $instance;
+        $attribute = $attribute instanceof ResolvableContract ? $attribute->resolve() : $attribute;
 
-        $instance = new ReflectionClass($this);
+        if (is_null($attribute)) {
+            return;
+        }
+
         $className = $instance->getName();
         $methodName = $this->getName(false);
 
@@ -75,7 +81,7 @@ trait InteractsWithPHPUnit
         }
 
         array_push(static::$testCaseMethodAttributes["{$className}:{$methodName}"], [
-            'key' => get_class($attribute),
+            'key' => \get_class($attribute),
             'instance' => $attribute,
         ]);
     }
@@ -89,13 +95,9 @@ trait InteractsWithPHPUnit
      */
     protected function resolvePhpUnitAnnotations(): Collection
     {
-        if (! $this instanceof PHPUnitTestCase) {
-            return new Collection();
-        }
-
         $instance = new ReflectionClass($this);
 
-        if ($instance->isAnonymous()) {
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
             return new Collection();
         }
 
@@ -118,13 +120,13 @@ trait InteractsWithPHPUnit
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
-        if (version_compare(PHP_VERSION, '8.0.0', '<') || ! $this instanceof PHPUnitTestCase) {
-            return new Collection();
-        }
-
         $instance = new ReflectionClass($this);
 
-        if ($instance->isAnonymous()) {
+        if (
+            version_compare(PHP_VERSION, '8.0.0', '<')
+            || ! $this instanceof PHPUnitTestCase
+            || $instance->isAnonymous()
+        ) {
             return new Collection();
         }
 
