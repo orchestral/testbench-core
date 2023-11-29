@@ -176,7 +176,7 @@ trait InteractsWithPHPUnit
             ->map(static function ($attributes) {
                 /** @var \Illuminate\Support\Collection<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}> $attributes */
                 return $attributes->map(static function ($attribute) {
-                    /** @var array{key: class-string: \Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature} $attribute */
+                    /** @var array{key: class-string<TTestingFeature>, instance: TTestingFeature} $attribute */
                     return $attribute['instance'];
                 });
             });

@@ -29,6 +29,9 @@ trait HandlesDatabaseConnections
 
         $config->set(
             Collection::make($options)
+                ->when($driver === 'pgsql', static function ($options) {
+                    return $options->put('schema', 'SCHEMA');
+                })
                 ->mapWithKeys(static function ($value, $key) use ($driver, $keyword, $config) {
                     $name = "database.connections.{$driver}.{$key}";
 
