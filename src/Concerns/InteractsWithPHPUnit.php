@@ -74,7 +74,7 @@ trait InteractsWithPHPUnit
         }
 
         $className = $instance->getName();
-        $methodName = $this->getName(false);
+        $methodName = $this->name();
 
         if (! isset(static::$testCaseMethodAttributes["{$className}:{$methodName}"])) {
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] = [];
@@ -103,7 +103,7 @@ trait InteractsWithPHPUnit
             return new Collection();
         }
 
-        [$registry, $methodName] = [PHPUnit10Registry::getInstance(), $this->name()]; /** @phpstan-ignore-line */
+        [$registry, $methodName] = [PHPUnit10Registry::getInstance(), $this->name()];
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
@@ -215,7 +215,7 @@ trait InteractsWithPHPUnit
         static::$cachedTestCaseClassAttributes = [];
         static::$cachedTestCaseMethodAttributes = [];
 
-        $registry = PHPUnit10Registry::getInstance(); /** @phpstan-ignore-line */
+        $registry = PHPUnit10Registry::getInstance();
         (function () {
             $this->classDocBlocks = [];
             $this->methodDocBlocks = [];
