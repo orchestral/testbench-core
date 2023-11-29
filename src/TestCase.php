@@ -97,7 +97,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
             Testing\Concerns\MakesHttpRequests::class,
             Concerns\ApplicationTestingHooks::class,
             Concerns\CreatesApplication::class,
-            Concerns\Database\HandlesConnections::class,
             Concerns\HandlesAnnotations::class,
             Concerns\HandlesDatabases::class,
             Concerns\HandlesRoutes::class,
