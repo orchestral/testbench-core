@@ -21,21 +21,21 @@ trait InteractsWithPHPUnit
     /**
      * The cached class attributes for test case.
      *
-     * @var array<string, array<class-string, object>>
+     * @var array<string, array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>>
      */
     protected static $cachedTestCaseClassAttributes = [];
 
     /**
      * The cached method attributes for test case.
      *
-     * @var array<string, array<class-string, object>>
+     * @var array<string, array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>>
      */
     protected static $cachedTestCaseMethodAttributes = [];
 
     /**
      * The method attributes for test case.
      *
-     * @var array<string, array<class-string, object>>
+     * @var array<string, array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>>
      */
     protected static $testCaseMethodAttributes = [];
 
@@ -52,7 +52,7 @@ trait InteractsWithPHPUnit
     /**
      * Uses testing feature (attribute) on the current test.
      *
-     * @param  \Orchestra\Testbench\Contracts\Attributes\Actionable|\Orchestra\Testbench\Contracts\Attributes\Invokable|\Orchestra\Testbench\Contracts\Attributes\Resolvable  $attribute
+     * @param  \Orchestra\Testbench\Contracts\Attributes\TestingFeature|\Orchestra\Testbench\Contracts\Attributes\Resolvable  $attribute
      * @return void
      */
     public function usesTestingFeature($attribute): void
@@ -80,8 +80,11 @@ trait InteractsWithPHPUnit
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] = [];
         }
 
+        /** @var class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature> $name */
+        $name = \get_class($attribute);
+
         array_push(static::$testCaseMethodAttributes["{$className}:{$methodName}"], [
-            'key' => \get_class($attribute),
+            'key' => $name,
             'instance' => $attribute,
         ]);
     }
@@ -116,7 +119,7 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<string, mixed>
+     * @return \Illuminate\Support\Collection<class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, array<int, \Orchestra\Testbench\Contracts\Attributes\TestingFeature>>
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
@@ -145,16 +148,20 @@ trait InteractsWithPHPUnit
             }, [], false);
         }
 
-        return Collection::make(array_merge(
+        /** @var \Illuminate\Support\Collection<class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, array<int, \Orchestra\Testbench\Contracts\Attributes\TestingFeature>> $attributes */
+        $attributes = Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
             static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"],
             static::$testCaseMethodAttributes["{$className}:{$methodName}"] ?? [],
         ))->groupBy('key')
-            ->transform(static function ($attributes) {
-                return $attributes->transform(static function ($attribute) {
+            ->map(static function ($attributes) {
+                /** @var \Illuminate\Support\Collection<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}> $attributes */
+                return $attributes->map(static function ($attribute) {
                     return $attribute['instance'];
                 });
             });
+
+        return $attributes;
     }
 
     /**

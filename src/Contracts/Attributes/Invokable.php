@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Contracts\Attributes;
 
-interface Invokable
+interface Invokable extends TestingFeature
 {
     /**
      * Handle the attribute.
