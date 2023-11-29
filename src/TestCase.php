@@ -3,10 +3,9 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
-use PHPUnit\Framework\TestCase as PHPUnit;
 use Throwable;
 
-abstract class TestCase extends PHPUnit implements Contracts\TestCase
+abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
     use Concerns\Testing;
     use Testing\Concerns\InteractsWithAuthentication;

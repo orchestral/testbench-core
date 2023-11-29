@@ -12,6 +12,8 @@ use ReflectionMethod;
 
 /**
  * @internal
+ *
+ * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\TestCase
  */
 class AttributeParser
 {
@@ -20,6 +22,8 @@ class AttributeParser
      *
      * @param  class-string  $className
      * @return array<int, array{key: class-string, instance: object}>
+     *
+     * @phpstan-return array<int, array{key: class-string, instance: TTestingFeature}>
      */
     public static function forClass(string $className): array
     {
@@ -46,6 +50,8 @@ class AttributeParser
      * @param  class-string  $className
      * @param  string  $methodName
      * @return array<int, array{key: class-string, instance: object}>
+     *
+     * @phpstan-return array<int, array{key: class-string, instance: TTestingFeature}>
      */
     public static function forMethod(string $className, string $methodName): array
     {
@@ -71,6 +77,8 @@ class AttributeParser
      *
      * @param  class-string|object  $class
      * @return bool
+     *
+     * @phpstan-param class-string|TTestingFeature  $class
      */
     public static function validAttribute($class): bool
     {
@@ -86,13 +94,16 @@ class AttributeParser
      *
      * @param  \ReflectionAttribute  $attribute
      * @return array{0: class-string|null, 1: object|null}
+     *
+     * @phpstan-return array{0: class-string|null, 1: TTestingFeature|null}
      */
     protected static function resolveAttribute(ReflectionAttribute $attribute): array
     {
         try {
+            /** @var TTestingFeature|null $instance */
             $instance = isset(class_implements($attribute->getName())[ResolvableContract::class])
                 ? transform($attribute->newInstance(), static function ($instance) {
-                    /** @var \Orchestra\Testbench\Attributes\Define $instance */
+                    /** @var \Orchestra\Testbench\Contracts\Attributes\Resolvable $instance */
                     return $instance->resolve();
                 }) : $attribute->newInstance();
 
