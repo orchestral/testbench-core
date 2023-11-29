@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench\PHPUnit;
 
 use Error;
+use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
+use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -24,7 +26,7 @@ class AttributeParser
         $attributes = [];
 
         foreach ((new ReflectionClass($className))->getAttributes() as $attribute) {
-            if (! static::validAttribute($attribute)) {
+            if (! static::validAttribute($attribute->getName())) {
                 continue;
             }
 
@@ -50,7 +52,7 @@ class AttributeParser
         $attributes = [];
 
         foreach ((new ReflectionMethod($className, $methodName))->getAttributes() as $attribute) {
-            if (! static::validAttribute($attribute)) {
+            if (! static::validAttribute($attribute->getName())) {
                 continue;
             }
 
@@ -67,13 +69,16 @@ class AttributeParser
     /**
      * Validate given attribute.
      *
-     * @param  \ReflectionAttribute  $attribute
+     * @param  class-string|object  $class
      * @return bool
      */
-    protected static function validAttribute(ReflectionAttribute $attribute): bool
+    public static function validAttribute($class): bool
     {
-        return str_starts_with($attribute->getName(), 'Orchestra\\Testbench\\Attributes\\')
-            || str_starts_with($attribute->getName(), 'Orchestra\\Testbench\\Dusk\\Attributes\\');
+        $implements = class_implements($class);
+
+        return isset($implements[ActionableContract::class])
+            || isset($implements[InvokableContract::class])
+            || isset($implements[ResolvableContract::class]);
     }
 
     /**
