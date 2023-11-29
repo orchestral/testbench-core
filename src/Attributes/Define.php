@@ -37,7 +37,7 @@ final class Define implements ResolvableContract
     /**
      * Resolve the actual attribute class.
      *
-     * @return \Orchestra\Testbench\Contracts\Attributes\Actionable|\Orchestra\Testbench\Contracts\Attributes\Invokable|null
+     * @return \Orchestra\Testbench\Contracts\Attributes\TestingFeature|null
      */
     public function resolve(): ?object
     {
