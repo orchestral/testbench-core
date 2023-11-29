@@ -4,9 +4,6 @@ namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
 
-/**
- * @phpstan-type TTestingFeature \Orchestra\Testbench\Contracts\Attributes\Actionable|\Orchestra\Testbench\Contracts\Attributes\Invokable|\Orchestra\Testbench\Contracts\Attributes\Resolvable
- */
 abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
 {
     use Concerns\Testing;
