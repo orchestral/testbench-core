@@ -24,8 +24,3 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
-
-		-
-			message: "#^Return type of call to method ReflectionClass\\<\\*NEVER\\*\\>\\:\\:getName\\(\\) contains unresolvable type\\.$#"
-			count: 3
-			path: src/Foundation/Application.php

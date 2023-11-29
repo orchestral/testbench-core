@@ -57,20 +57,22 @@ trait InteractsWithPHPUnit
      */
     public function usesTestingAttribute($attribute): void
     {
+        $instance = new ReflectionClass($this);
+
         if (
             ! $this instanceof PHPUnitTestCase
             || ! AttributeParser::validAttribute($attribute)
+            || $instance->isAnonymous()
         ) {
             return;
         }
 
         $attribute = $attribute instanceof ResolvableContract ? $attribute->resolve() : $attribute;
 
-        if (is_null($attribute)) {
+        if (\is_null($attribute)) {
             return;
         }
 
-        $instance = new ReflectionClass($this);
         $className = $instance->getName();
         $methodName = $this->getName(false);
 
@@ -93,13 +95,9 @@ trait InteractsWithPHPUnit
      */
     protected function resolvePhpUnitAnnotations(): Collection
     {
-        if (! $this instanceof PHPUnitTestCase) {
-            return new Collection();
-        }
-
         $instance = new ReflectionClass($this);
 
-        if ($instance->isAnonymous()) {
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
             return new Collection();
         }
 
@@ -122,13 +120,9 @@ trait InteractsWithPHPUnit
      */
     protected function resolvePhpUnitAttributes(): Collection
     {
-        if (! $this instanceof PHPUnitTestCase) {
-            return new Collection();
-        }
-
         $instance = new ReflectionClass($this);
 
-        if ($instance->isAnonymous()) {
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
             return new Collection();
         }
 
