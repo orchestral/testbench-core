@@ -135,7 +135,7 @@ trait InteractsWithWorkbench
      *
      * @codeCoverageIgnore
      */
-    public static function setupBeforeClassUsingWorkbench(): void
+    public static function setUpBeforeClassUsingWorkbench(): void
     {
         /** @var array{laravel: string|null} $config */
         $config = static::cachedConfigurationForWorkbench();
@@ -155,7 +155,7 @@ trait InteractsWithWorkbench
      *
      * @codeCoverageIgnore
      */
-    public static function teardownAfterClassUsingWorkbench(): void
+    public static function tearDownAfterClassUsingWorkbench(): void
     {
         unset($_ENV['TESTBENCH_APP_BASE_PATH']);
     }
