@@ -6,14 +6,13 @@ use Error;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
+use Orchestra\Testbench\Contracts\Attributes\TestingFeature;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 
 /**
  * @internal
- *
- * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\TestCase
  */
 class AttributeParser
 {
@@ -21,9 +20,7 @@ class AttributeParser
      * Parse attribute for class.
      *
      * @param  class-string  $className
-     * @return array<int, array{key: class-string, instance: object}>
-     *
-     * @phpstan-return array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
+     * @return array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>
      */
     public static function forClass(string $className): array
     {
@@ -49,9 +46,7 @@ class AttributeParser
      *
      * @param  class-string  $className
      * @param  string  $methodName
-     * @return array<int, array{key: class-string, instance: object}>
-     *
-     * @phpstan-return array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
+     * @return array<int, array{key: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, instance: \Orchestra\Testbench\Contracts\Attributes\TestingFeature}>
      */
     public static function forMethod(string $className, string $methodName): array
     {
@@ -77,15 +72,12 @@ class AttributeParser
      *
      * @param  class-string|object  $class
      * @return bool
-     *
-     * @phpstan-param class-string|TTestingFeature  $class
      */
     public static function validAttribute($class): bool
     {
         $implements = class_implements($class);
 
-        return isset($implements[ActionableContract::class])
-            || isset($implements[InvokableContract::class])
+        return isset($implements[TestingFeature::class])
             || isset($implements[ResolvableContract::class]);
     }
 
@@ -93,14 +85,12 @@ class AttributeParser
      * Resolve given attribute.
      *
      * @param  \ReflectionAttribute  $attribute
-     * @return array{0: class-string|null, 1: object|null}
-     *
-     * @phpstan-return array{0: class-string<TTestingFeature>|null, 1: TTestingFeature|null}
+     * @return array{0: class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>|null, 1: \Orchestra\Testbench\Contracts\Attributes\TestingFeature|null}
      */
     protected static function resolveAttribute(ReflectionAttribute $attribute): array
     {
         try {
-            /** @var TTestingFeature|null $instance */
+            /** @var \Orchestra\Testbench\Contracts\Attributes\TestingFeature|null $instance */
             $instance = isset(class_implements($attribute->getName())[ResolvableContract::class])
                 ? transform($attribute->newInstance(), static function ($instance) {
                     /** @var \Orchestra\Testbench\Contracts\Attributes\Resolvable $instance */
@@ -111,7 +101,7 @@ class AttributeParser
                 return [null, null];
             }
 
-            /** @var class-string<TTestingFeature> $name */
+            /** @var class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature> $name */
             $name = \get_class($instance);
 
             return [$name, $instance];

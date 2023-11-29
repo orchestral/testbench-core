@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Contracts\Attributes;
 
 use Closure;
 
-interface Actionable
+interface Actionable extends TestingFeature
 {
     /**
      * Handle the attribute.
