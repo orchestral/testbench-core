@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Workbench\Workbench;
 
+/**
+ * @internal
+ */
 trait InteractsWithWorkbench
 {
     use InteractsWithPHPUnit;

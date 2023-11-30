@@ -7,6 +7,9 @@ use Orchestra\Testbench\Database\MigrateProcessor;
 
 use function Orchestra\Testbench\laravel_migration_path;
 
+/**
+ * @internal
+ */
 trait InteractsWithMigrations
 {
     /**

@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Database\Eloquent\Factory as ModelFactory;
 
 /**
+ * @api
+ *
  * @deprecated
  */
 trait WithFactories

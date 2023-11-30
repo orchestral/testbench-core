@@ -19,6 +19,9 @@ use Mockery;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
+/**
+ * @api
+ */
 trait Testing
 {
     use CreatesApplication;

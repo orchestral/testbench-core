@@ -10,6 +10,8 @@ use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
 
 /**
+ * @internal
+ *
  * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\AttributeParser
  * @phpstan-import-type TAttributes from \Orchestra\Testbench\PHPUnit\AttributeParser
  */

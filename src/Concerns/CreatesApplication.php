@@ -10,6 +10,8 @@ use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
 
 /**
+ * @api
+ *
  * @property bool|null $enablesPackageDiscoveries
  * @property bool|null $loadEnvironmentVariables
  */

@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Support\Collection;
 
+/**
+ * @internal
+ */
 trait HandlesAnnotations
 {
     /**
