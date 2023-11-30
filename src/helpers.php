@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench;
 
 use Closure;
-use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
+use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
