@@ -218,8 +218,6 @@ function workbench(): array
 /**
  * Get the path to the workbench folder.
  *
- * @api
- *
  * @param  string  $path
  * @return string
  */
@@ -251,19 +249,6 @@ function laravel_migration_path(?string $type = null): string
     }
 
     return $path;
-}
-
-/**
- * Get the path to the workbench folder.
- *
- * @param  string  $path
- * @return string
- */
-function workbench_path(string $path = ''): string
-{
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
-
-    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
 }
 
 /**
