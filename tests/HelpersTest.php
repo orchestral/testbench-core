@@ -7,10 +7,7 @@ use Orchestra\Testbench\TestCase;
 use PHPUnit\Runner\Version;
 
 use function Orchestra\Testbench\laravel_version_compare;
-use function Orchestra\Testbench\package_path;
-use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\phpunit_version_compare;
-use function Orchestra\Testbench\transform_relative_path;
 
 class HelpersTest extends TestCase
 {
