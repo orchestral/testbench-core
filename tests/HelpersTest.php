@@ -3,13 +3,22 @@
 namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\TestCase;
+use Symfony\Component\Console\Command\Command;
 
+use function Orchestra\Testbench\artisan;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\transform_relative_path;
 
 class HelpersTest extends TestCase
 {
+    /** @test */
+    public function it_can_run_artisan_command()
+    {
+        $this->assertSame(Command::SUCCESS, artisan($this, 'env'));
+        $this->assertSame(Command::SUCCESS, artisan($this->app, 'env'));
+    }
+
     /** @test */
     public function it_can_parse_environment_variables()
     {
