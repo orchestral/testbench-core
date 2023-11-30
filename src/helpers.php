@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Closure;
+use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
@@ -19,6 +20,8 @@ use Symfony\Component\Process\Process;
 
 /**
  * Create Laravel application instance.
+ *
+ * @api
  *
  * @param  string|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
@@ -42,20 +45,28 @@ function container(
 /**
  * Run artisan command.
  *
- * @param  \Orchestra\Testbench\Contracts\TestCase  $testbench
+ * @api
+ *
+ * @param  \Orchestra\Testbench\Contracts\TestCase|\Illuminate\Contracts\Foundation\Application  $context
  * @param  string  $command
  * @param  array<string, mixed>  $parameters
  * @return int
  */
-function artisan(Contracts\TestCase $testbench, string $command, array $parameters = []): int
+function artisan(Contracts\TestCase|ApplicationContract $context, string $command, array $parameters = []): int
 {
-    $command = $testbench->artisan($command, $parameters);
+    if ($context instanceof ApplicationContract) {
+        return $context->make(ConsoleKernel::class)->call($command, $parameters);
+    }
+
+    $command = $context->artisan($command, $parameters);
 
     return $command instanceof PendingCommand ? $command->run() : $command;
 }
 
 /**
  * Run remote action using Testbench CLI.
+ *
+ * @api
  *
  * @param  string  $command
  * @param  array  $env
@@ -86,6 +97,8 @@ function remote(string $command, array $env = []): Process
 /**
  * Register after resolving callback.
  *
+ * @api
+ *
  * @param  \Illuminate\Contracts\Foundation\Application  $app
  * @param  string  $name
  * @param  (\Closure(object, \Illuminate\Contracts\Foundation\Application):(mixed))|null  $callback
@@ -103,6 +116,8 @@ function after_resolving(ApplicationContract $app, string $name, Closure $callba
 /**
  * Get defined environment variables.
  *
+ * @api
+ *
  * @return array<string, mixed>
  */
 function defined_environment_variables(): array
@@ -117,6 +132,8 @@ function defined_environment_variables(): array
 
 /**
  * Get default environment variables.
+ *
+ * @api
  *
  * @param  iterable<string, mixed>  $variables
  * @return array<int, string>
@@ -140,6 +157,8 @@ function parse_environment_variables($variables): array
 /**
  * Transform relative path.
  *
+ * @api
+ *
  * @param  string  $path
  * @param  string  $workingPath
  * @return string
@@ -153,6 +172,8 @@ function transform_relative_path(string $path, string $workingPath): string
 
 /**
  * Get the path to the package folder.
+ *
+ * @api
  *
  * @param  string  $path
  * @return string
@@ -175,6 +196,8 @@ function package_path(string $path = ''): string
 /**
  * Get the workbench configuration.
  *
+ * @api
+ *
  * @return array<string, mixed>
  */
 function workbench(): array
@@ -188,7 +211,22 @@ function workbench(): array
 }
 
 /**
+ * Get the path to the workbench folder.
+ *
+ * @param  string  $path
+ * @return string
+ */
+function workbench_path(string $path = ''): string
+{
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
+
+    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
+}
+
+/**
  * Get the migration path by type.
+ *
+ * @api
  *
  * @param  ?string  $type
  * @return string
@@ -206,19 +244,6 @@ function laravel_migration_path(string $type = null): string
     }
 
     return $path;
-}
-
-/**
- * Get the path to the workbench folder.
- *
- * @param  string  $path
- * @return string
- */
-function workbench_path(string $path = ''): string
-{
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
-
-    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
 }
 
 /**
