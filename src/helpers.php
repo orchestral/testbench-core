@@ -21,6 +21,8 @@ use Symfony\Component\Process\Process;
 /**
  * Create Laravel application instance.
  *
+ * @api
+ *
  * @param  string|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
  * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
@@ -33,6 +35,8 @@ function container(?string $basePath = null, ?callable $resolvingCallback = null
 
 /**
  * Run artisan command.
+ *
+ * @api
  *
  * @param  \Orchestra\Testbench\Contracts\TestCase|\Illuminate\Contracts\Foundation\Application  $context
  * @param  string  $command
@@ -52,6 +56,8 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
 
 /**
  * Run remote action using Testbench CLI.
+ *
+ * @api
  *
  * @param  string  $command
  * @param  array  $env
@@ -81,6 +87,8 @@ function remote(string $command, array $env = []): Process
 
 /**
  * Register after resolving callback.
+ *
+ * @api
  *
  * @param  \Illuminate\Contracts\Foundation\Application  $app
  * @param  string  $name
@@ -113,6 +121,8 @@ function default_environment_variables(): array
 /**
  * Get defined environment variables.
  *
+ * @api
+ *
  * @return array<string, mixed>
  */
 function defined_environment_variables(): array
@@ -127,6 +137,8 @@ function defined_environment_variables(): array
 
 /**
  * Get default environment variables.
+ *
+ * @api
  *
  * @param  iterable<string, mixed>  $variables
  * @return array<int, string>
@@ -150,6 +162,8 @@ function parse_environment_variables($variables): array
 /**
  * Transform relative path.
  *
+ * @api
+ *
  * @param  string  $path
  * @param  string  $workingPath
  * @return string
@@ -163,6 +177,8 @@ function transform_relative_path(string $path, string $workingPath): string
 
 /**
  * Get the path to the package folder.
+ *
+ * @api
  *
  * @param  string  $path
  * @return string
@@ -185,6 +201,8 @@ function package_path(string $path = ''): string
 /**
  * Get the workbench configuration.
  *
+ * @api
+ *
  * @return array<string, mixed>
  */
 function workbench(): array
@@ -198,7 +216,24 @@ function workbench(): array
 }
 
 /**
+ * Get the path to the workbench folder.
+ *
+ * @api
+ *
+ * @param  string  $path
+ * @return string
+ */
+function workbench_path(string $path = ''): string
+{
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
+
+    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
+}
+
+/**
  * Get the migration path by type.
+ *
+ * @api
  *
  * @param  ?string  $type
  * @return string
