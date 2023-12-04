@@ -13,6 +13,8 @@ use ReflectionClass;
 use function Orchestra\Testbench\phpunit_version_compare;
 
 /**
+ * @internal
+ *
  * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\AttributeParser
  * @phpstan-import-type TAttributes from \Orchestra\Testbench\PHPUnit\AttributeParser
  */
