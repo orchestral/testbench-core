@@ -56,7 +56,7 @@
         "laravel/framework": "<10.23.1 || >=11.0.0",
         "nunomaduro/collision": "<6.4.0 || >=7.0.0 <7.4.0 || >=8.0.0",
         "orchestra/workbench": "<1.0.0",
-        "phpunit/phpunit": "<9.6.0 || >=10.5.0"
+        "phpunit/phpunit": "<9.6.0 || >=10.6.0"
     },
     "suggest": {
         "brianium/paratest": "Allow using parallel testing (^6.4 || ^7.1.4).",
