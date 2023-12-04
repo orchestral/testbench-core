@@ -235,20 +235,28 @@ trait CreatesApplication
     }
 
     /**
+     * Create the default application implementation.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    final protected function resolveDefaultApplication()
+    {
+        return (new ApplicationBuilder(new Application($this->getBasePath())))
+            ->withMiddleware(function ($middleware) {
+                //
+            })
+            ->withCommands()
+            ->create();
+    }
+
+    /**
      * Resolve application implementation.
      *
      * @return \Illuminate\Foundation\Application
      */
     protected function resolveApplication()
     {
-        return tap(
-            (new ApplicationBuilder(new Application($this->getBasePath())))
-                ->withMiddleware(function ($middleware) {
-                    //
-                })
-                ->withCommands()
-                ->create(),
-            function ($app) {
+        return tap($this->resolveDefaultApplication(), function ($app) {
                 $app->bind(
                     'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                     static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
