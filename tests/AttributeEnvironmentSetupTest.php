@@ -50,7 +50,7 @@ class AttributeEnvironmentSetupTest extends TestCase
         $this->assertSame('testbench', config('testbench.two'));
     }
 
-    /** @test */
+    #[Test]
     #[Define('foo', 'firstConfig')]
     public function it_doesnt_load_invalid_environment_config()
     {
