@@ -257,15 +257,15 @@ trait CreatesApplication
     protected function resolveApplication()
     {
         return tap($this->resolveDefaultApplication(), function ($app) {
-                $app->bind(
-                    'Illuminate\Foundation\Bootstrap\LoadConfiguration',
-                    static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
-                        ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
-                        : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
-                );
+            $app->bind(
+                'Illuminate\Foundation\Bootstrap\LoadConfiguration',
+                static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
+                    ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
+                    : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
+            );
 
-                PackageManifest::swap($app, $this);
-            }
+            PackageManifest::swap($app, $this);
+        }
         );
     }
 
