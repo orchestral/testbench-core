@@ -10,6 +10,9 @@ use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Foundation\Bootstrap\SyncDatabaseEnvironmentVariables;
 
+/**
+ * @internal
+ */
 trait HandlesDatabases
 {
     /**

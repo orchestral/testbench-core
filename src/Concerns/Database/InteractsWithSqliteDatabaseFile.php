@@ -6,6 +6,9 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 
+/**
+ * @api
+ */
 trait InteractsWithSqliteDatabaseFile
 {
     use InteractsWithPublishedFiles;

@@ -8,6 +8,8 @@ use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 
 /**
  * @internal
+ *
+ * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\AttributeParser
  */
 trait HandlesAttributes
 {
@@ -42,7 +44,7 @@ trait HandlesAttributes
      *
      * @phpunit-overrides
      *
-     * @return \Illuminate\Support\Collection<class-string<\Orchestra\Testbench\Contracts\Attributes\TestingFeature>, array<int, \Orchestra\Testbench\Contracts\Attributes\TestingFeature>>
+     * @return \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>>
      */
     abstract protected function resolvePhpUnitAttributes(): Collection;
 }

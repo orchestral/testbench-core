@@ -7,6 +7,9 @@ use Orchestra\Testbench\Contracts\TestCase;
 
 use function Orchestra\Testbench\artisan;
 
+/**
+ * @internal
+ */
 class MigrateProcessor
 {
     /**

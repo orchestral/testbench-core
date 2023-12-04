@@ -2,7 +2,9 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## v6.43.0
+
+Released: 2023-12-04
 
 ### Added
 

@@ -11,6 +11,9 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\LazyCollection;
 
+/**
+ * @api
+ */
 trait Testing
 {
     use ApplicationTestingHooks;
