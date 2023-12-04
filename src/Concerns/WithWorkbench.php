@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Concerns;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Workbench\Workbench;
 
+/**
+ * @api
+ */
 trait WithWorkbench
 {
     use InteractsWithWorkbench;

@@ -12,6 +12,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\LazyCollection;
 
+/**
+ * @api
+ */
 trait Testing
 {
     use ApplicationTestingHooks;

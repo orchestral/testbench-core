@@ -4,6 +4,9 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 
+/**
+ * @internal
+ */
 trait InteractsWithPublishedFiles
 {
     /**

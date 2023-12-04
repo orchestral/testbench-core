@@ -213,6 +213,8 @@ function workbench(): array
 /**
  * Get the path to the workbench folder.
  *
+ * @api
+ *
  * @param  string  $path
  * @return string
  */
@@ -249,6 +251,8 @@ function laravel_migration_path(string $type = null): string
 /**
  * Laravel version compare.
  *
+ * @api
+ *
  * @param  string  $version
  * @param  string|null  $operator
  * @return int|bool
@@ -267,6 +271,8 @@ function laravel_version_compare(string $version, string $operator = null)
 
 /**
  * PHPUnit version compare.
+ *
+ * @api
  *
  * @param  string  $version
  * @param  string|null  $operator

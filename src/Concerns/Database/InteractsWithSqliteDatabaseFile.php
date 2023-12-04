@@ -7,6 +7,9 @@ use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use PHPUnit\Framework\Attributes\AfterClass;
 
+/**
+ * @api
+ */
 trait InteractsWithSqliteDatabaseFile
 {
     use InteractsWithPublishedFiles;
