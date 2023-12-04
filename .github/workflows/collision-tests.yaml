@@ -16,16 +16,12 @@ jobs:
         php:
           - 8.1
           - 8.2
-        phpunit:
-          - "~10.1.0"
-          - "~10.4.0"
-          - "~10.5.0"
         dependencies:
           - "highest"
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
@@ -38,9 +34,8 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install Collision
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
           composer require "nunomaduro/collision:^7.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
@@ -76,14 +71,12 @@ jobs:
         php:
           - 8.1
           - 8.2
-        phpunit:
-          - "^9.6.0"
         dependencies:
           - "highest"
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
+    name: PHP${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
 
     steps:
       - name: Checkout code
@@ -96,9 +89,8 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
           coverage: xdebug
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install Collision
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
           composer require "nunomaduro/collision:^6.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
