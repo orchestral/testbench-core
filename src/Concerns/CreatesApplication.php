@@ -243,7 +243,9 @@ trait CreatesApplication
     {
         return tap(
             (new ApplicationBuilder(new Application($this->getBasePath())))
-                ->withMiddleware(fn ($middleware) => $middleware)
+                ->withMiddleware(function ($middleware) {
+                    //
+                })
                 ->withCommands()
                 ->create(),
             function ($app) {

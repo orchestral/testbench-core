@@ -18,6 +18,9 @@ class RouteTest extends TestCase
      */
     protected function defineRoutes($router)
     {
+        $router->middleware('web')->get('web/test', fn () => 'Test using web');
+        $router->middleware('api')->get('api/test', fn () => 'Test using api');
+
         $router->domain('api.localhost')
             ->group(function (Router $router) {
                 $router->get('hello', fn () => 'hello from api');
@@ -34,6 +37,22 @@ class RouteTest extends TestCase
         });
 
         $router->resource('foo', ExampleController::class);
+    }
+
+    #[Test]
+    public function it_can_resolve_web_group_route()
+    {
+        $crawler = $this->call('GET', 'web/test');
+
+        $this->assertEquals('Test using web', $crawler->getContent());
+    }
+
+    #[Test]
+    public function it_can_resolve_api_group_route()
+    {
+        $crawler = $this->call('GET', 'api/test');
+
+        $this->assertEquals('Test using api', $crawler->getContent());
     }
 
     #[Test]
