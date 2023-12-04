@@ -33,7 +33,7 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install Collision
         run: |
           composer require "nunomaduro/collision:^8.0" --dev --no-interaction --no-update
 
@@ -87,7 +87,7 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
           coverage: xdebug
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install Collision
         run: |
           composer require "phpunit/phpunit" --no-interaction --no-update
           composer require "nunomaduro/collision:^8.0" --dev --no-interaction --no-update

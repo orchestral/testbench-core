@@ -15,8 +15,6 @@ jobs:
           - "ubuntu-latest"
         php:
           - 8.2
-        phpunit:
-          - "~10.4.1"
         collision:
           - "^8.0"
         paratest:
@@ -26,7 +24,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
@@ -39,9 +37,8 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install Paratest
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
           composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
 
       - name: Install dependencies
