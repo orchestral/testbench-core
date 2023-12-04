@@ -235,13 +235,23 @@ trait CreatesApplication
     }
 
     /**
+     * Create the default application implementation.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    final protected function resolveDefaultApplication()
+    {
+        return new Application($this->getBasePath());
+    }
+
+    /**
      * Resolve application implementation.
      *
      * @return \Illuminate\Foundation\Application
      */
     protected function resolveApplication()
     {
-        return tap(new Application($this->getBasePath()), function ($app) {
+        return tap($this->resolveDefaultApplication(), function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
