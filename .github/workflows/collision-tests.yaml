@@ -77,7 +77,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
+    name: PHP${{ matrix.php }} with Coverage on ${{ matrix.os }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
