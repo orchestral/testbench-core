@@ -36,6 +36,7 @@ jobs:
 
       - name: Install Collision
         run: |
+          composer require "phpunit/phpunit:^10.1" --dev --no-interaction --no-update
           composer require "nunomaduro/collision:^7.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
@@ -91,6 +92,7 @@ jobs:
 
       - name: Install Collision
         run: |
+          composer require "phpunit/phpunit:^9.6" --dev --no-interaction --no-update
           composer require "nunomaduro/collision:^6.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
