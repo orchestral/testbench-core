@@ -1,8 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-use Illuminate\Support\Str;
-
 $workingPath = getcwd();
 
 require __DIR__.'/../vendor/autoload.php';
@@ -70,7 +68,7 @@ Illuminate\Support\Collection::make([
     'queue/0001_01_01_000000_testbench_create_job_batches_table' => [$migration => 'job_batches'],
     // 'queue/0001_01_01_000000_testbench_create_failed_jobs_table' => [$migration => 'failed_jobs'],
 })->each(function ($table, $migration) use ($files, $workingPath) {
-    $files->replaceInFile(['{{tableClassName}}', '{{table}}'], [Str::studly($table), $table], "{$workingPath}/laravel/migrations/{$migration}.php");
+    $files->replaceInFile(['{{tableClassName}}', '{{table}}'], [Illuminate\Support\Str::studly($table), $table], "{$workingPath}/laravel/migrations/{$migration}.php");
 });
 
 transform([
