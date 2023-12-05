@@ -265,8 +265,7 @@ trait CreatesApplication
             );
 
             PackageManifest::swap($app, $this);
-        }
-        );
+        });
     }
 
     /**
