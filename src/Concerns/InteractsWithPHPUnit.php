@@ -187,7 +187,7 @@ trait InteractsWithPHPUnit
      * @param  class-string|null  $trait
      * @return bool
      */
-    public static function usesTestingConcern(string $trait = null): bool
+    public static function usesTestingConcern(?string $trait = null): bool
     {
         return isset(static::cachedUsesForTestCase()[$trait ?? Testing::class]);
     }

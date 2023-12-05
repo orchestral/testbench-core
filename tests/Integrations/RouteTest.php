@@ -11,6 +11,17 @@ use Workbench\App\Http\Controllers\ExampleController;
 class RouteTest extends TestCase
 {
     /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
+    }
+
+    /**
      * Define routes setup.
      *
      * @param  \Illuminate\Routing\Router  $router
@@ -40,6 +51,7 @@ class RouteTest extends TestCase
     }
 
     #[Test]
+    #[Group('phpunit-configuration')]
     public function it_can_resolve_web_group_route()
     {
         $crawler = $this->call('GET', 'web/test');
