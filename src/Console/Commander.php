@@ -23,6 +23,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
+
 use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
