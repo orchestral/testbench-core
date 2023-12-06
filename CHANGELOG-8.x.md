@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.17.0
+
+Released: 2023-12-06
+
+### Changes
+
+* Supports Workbench `discovers.components` configuration.
+* Sync `view.paths` configuration when Workbench discover views.
+
 ## 8.16.2
 
 Released: 2023-12-06

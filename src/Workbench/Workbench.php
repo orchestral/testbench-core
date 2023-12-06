@@ -113,7 +113,7 @@ class Workbench
             $translator->addNamespace('workbench', $path);
         });
 
-        after_resolving($app, 'view', static function ($view) use ($discoversConfig) {
+        after_resolving($app, 'view', static function ($view, $app) use ($discoversConfig) {
             /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
             if (! is_dir($path = workbench_path('/resources/views'))) {
                 return;
@@ -121,14 +121,22 @@ class Workbench
 
             if (($discoversConfig['views'] ?? false) === true && method_exists($view, 'addLocation')) {
                 $view->addLocation($path);
-            } else {
-                $view->addNamespace('workbench', $path);
+
+                tap($app->make('config'), function ($config) use ($path) {
+                    /** @var \Illuminate\Contracts\Config\Repository $config */
+                    $config->set('view.paths', array_merge(
+                        $config->get('view.paths', []),
+                        [$path]
+                    ));
+                });
             }
+
+            $view->addNamespace('workbench', $path);
         });
 
         after_resolving($app, 'blade.compiler', static function ($blade) use ($discoversConfig) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
-            if (($discoversConfig['views'] ?? false) === false) {
+            if (($discoversConfig['components'] ?? false) === false && is_dir(workbench_path('/app/View/Components'))) {
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
