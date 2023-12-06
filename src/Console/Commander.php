@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Console;
 
+use Illuminate\Console\Command;
 use Illuminate\Console\Concerns\InteractsWithSignals;
 use Illuminate\Console\Signals;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
@@ -88,6 +89,8 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
+
+            $this->untrap();
         }
 
         exit($status);
@@ -215,9 +218,22 @@ class Commander
         Signals::whenAvailable(function () {
             $this->signals ??= new Signals(new SignalRegistry());
 
-            Collection::make(Arr::wrap([SIGINT]))
+            Collection::make(Arr::wrap([SIGINT, SIGTERM, SIGQUIT]))
                 ->each(
-                    fn ($signal) => $this->signals->register($signal, fn () => $this->handleTerminatingConsole())
+                    fn ($signal) => $this->signals->register($signal, function () use ($signal) {
+                        $this->handleTerminatingConsole();
+                        Workbench::flush();
+
+                        $status = match ($signal) {
+                            SIGINT => 130,
+                            SIGTERM => 143,
+                            default => 128 + $signal,
+                        };
+
+                        $this->untrap();
+
+                        exit($status);
+                    })
                 );
         });
     }
