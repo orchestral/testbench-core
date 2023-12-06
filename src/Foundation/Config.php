@@ -53,6 +53,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   web: bool,
  *   api: bool,
  *   commands: bool,
+ *   components: bool,
  *   views: bool
  * }
  * @phpstan-type TWorkbenchOptionalDiscoversConfig array{
@@ -60,6 +61,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   web?: bool,
  *   api?: bool,
  *   commands?: bool,
+ *   components?: bool,
  *   views?: bool
  * }
  * @phpstan-type TConfig array{
@@ -124,6 +126,7 @@ class Config extends Fluent implements ConfigContract
             'web' => false,
             'api' => false,
             'commands' => false,
+            'components' => false,
             'views' => false,
         ],
     ];
@@ -140,6 +143,7 @@ class Config extends Fluent implements ConfigContract
         'web' => false,
         'api' => false,
         'commands' => false,
+        'components' => false,
         'views' => false,
     ];
 
