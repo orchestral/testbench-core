@@ -119,7 +119,7 @@ class Workbench
 
         after_resolving($app, 'blade.compiler', static function ($blade) use ($discoversConfig) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
-            if (($discoversConfig['views'] ?? false) === false) {
+            if (($discoversConfig['components'] ?? false) === false && is_dir(workbench_path('/app/View/Components'))) {
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
