@@ -6,9 +6,12 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 Released: 2023-12-06
 
-### Changes
+### Added
 
 * Supports Workbench `discovers.components` configuration.
+
+### Changes
+
 * Sync `view.paths` configuration when Workbench discover views.
 
 ## 7.36.0
