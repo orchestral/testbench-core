@@ -112,9 +112,9 @@ class Workbench
                         [$path]
                     ));
                 });
-            } else {
-                $view->addNamespace('workbench', $path);
             }
+
+            $view->addNamespace('workbench', $path);
         });
 
         after_resolving($app, 'blade.compiler', static function ($blade) use ($discoversConfig) {
