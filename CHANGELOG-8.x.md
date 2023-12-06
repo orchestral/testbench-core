@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.17.1
+
+Released: 2023-12-06
+
+### Fixes
+
+* Testbench CLI should handle `SIGTERM` and `SIGQUIT` signal.
+
 ## 8.17.0
 
 Released: 2023-12-06
