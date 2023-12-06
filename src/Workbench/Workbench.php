@@ -106,6 +106,7 @@ class Workbench
                 $view->addLocation($path);
 
                 tap($app->make('config'), function ($config) use ($path) {
+                    /** @var \Illuminate\Contracts\Config\Repository $config */
                     $config->set('view.paths', array_merge(
                         $config->get('view.paths', []),
                         [$path]
