@@ -96,7 +96,7 @@ class Workbench
             $translator->addNamespace('workbench', $path);
         });
 
-        after_resolving($app, 'view', static function ($view) use ($discoversConfig) {
+        after_resolving($app, 'view', static function ($view, $app) use ($discoversConfig) {
             /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
             if (! is_dir($path = workbench_path('/resources/views'))) {
                 return;
@@ -104,6 +104,13 @@ class Workbench
 
             if (($discoversConfig['views'] ?? false) === true && method_exists($view, 'addLocation')) {
                 $view->addLocation($path);
+
+                tap($app->make('config'), function ($config) use ($path) {
+                    $config->set('view.paths', array_merge(
+                        $config->get('view.paths', []),
+                        [$path]
+                    ));
+                });
             } else {
                 $view->addNamespace('workbench', $path);
             }
