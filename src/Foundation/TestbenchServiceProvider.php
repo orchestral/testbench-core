@@ -7,6 +7,8 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
 
+use function Orchestra\Testbench\laravel_version_compare;
+
 class TestbenchServiceProvider extends ServiceProvider
 {
     /**
@@ -21,7 +23,9 @@ class TestbenchServiceProvider extends ServiceProvider
         AboutCommand::add('Testbench', fn () => array_filter([
             'Core Version' => InstalledVersions::getPrettyVersion('orchestra/testbench-core'),
             'Dusk Version' => InstalledVersions::isInstalled('orchestra/testbench-dusk') ? InstalledVersions::getPrettyVersion('orchestra/testbench-dusk') : null,
-            'Skeleton Path' => str_replace($workingPath, '', $this->app->basePath()),
+            'Skeleton Path' => laravel_version_compare('10.33.0', '>=')
+                ? AboutCommand::format($this->app->basePath(), console: fn ($value) => str_replace($workingPath, '', $value)) /** @phpstan-ignore-line */
+                : str_replace($workingPath, '', $this->app->basePath()),
             'Version' => InstalledVersions::isInstalled('orchestra/testbench') ? InstalledVersions::getPrettyVersion('orchestra/testbench') : null,
         ]));
     }
