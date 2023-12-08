@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Support\Fluent;
+use Orchestra\Testbench\Pest\Hook;
 use Orchestra\Testbench\Pest\WithPest;
 use Pest\TestSuite;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
