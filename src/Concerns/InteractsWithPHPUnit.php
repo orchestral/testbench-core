@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Events\Dispatcher as EventDispatcher;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
@@ -9,7 +10,6 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
-
 use function Orchestra\Testbench\phpunit_version_compare;
 
 /**
@@ -20,6 +20,13 @@ use function Orchestra\Testbench\phpunit_version_compare;
  */
 trait InteractsWithPHPUnit
 {
+    /**
+     * The cached test case event dispatcher instance.
+     *
+     * @var \Illuminate\Events\Dispatcher
+     */
+    protected static EventDispatcher $cachedTestCaseEventDispatcher;
+
     /**
      * The cached uses for test case.
      *
@@ -223,6 +230,7 @@ trait InteractsWithPHPUnit
      */
     public static function setUpBeforeClassUsingPHPUnit(): void
     {
+        static::$cachedTestCaseEventDispatcher = new EventDispatcher();
         static::cachedUsesForTestCase();
     }
 
@@ -235,6 +243,7 @@ trait InteractsWithPHPUnit
      */
     public static function tearDownAfterClassUsingPHPUnit(): void
     {
+        static::$cachedTestCaseEventDispatcher = null;
         static::$cachedTestCaseUses = null;
         static::$cachedTestCaseClassAttributes = [];
         static::$cachedTestCaseMethodAttributes = [];
