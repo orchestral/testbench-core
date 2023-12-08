@@ -12,6 +12,7 @@ use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Pest\WithPest;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * @api
@@ -49,7 +50,7 @@ trait Testing
             $this->setUpTheEnvironmentUsingPest();
         }
 
-        static::$testCaseSetUpCallback instanceof Closure
+        static::$testCaseSetUpCallback instanceof Closure && $this instanceof PHPUnitTestCase
             ? \call_user_func(Closure::bind(static::$testCaseSetUpCallback, $this), $setUp)
             : \call_user_func($setUp);
     }
@@ -89,8 +90,8 @@ trait Testing
             $this->tearDownTheEnvironmentUsingPest();
         }
 
-        static::$testCaseTearDownCallback instanceof Closure
-            ? \call_user_func(Closure::bind(static::$testCaseTearDownCallback, $this), $tearDown)
+        $this->testCaseTearDownCallback instanceof Closure && $this instanceof PHPUnitTestCase
+            ? \call_user_func(Closure::bind($this->testCaseTearDownCallback, $this), $tearDown)
             : \call_user_func($tearDown);
     }
 
