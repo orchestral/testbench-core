@@ -94,8 +94,8 @@ trait Testing
             ? \call_user_func(Closure::bind($this->testCaseTearDownCallback, $this), $tearDown)
             : \call_user_func($tearDown);
 
-        unset($this->testCaseSetUpCallback);
-        unset($this->testCaseTearDownCallback);
+        $this->testCaseSetUpCallback = null;
+        $this->testCaseTearDownCallback = null;
     }
 
     /**
