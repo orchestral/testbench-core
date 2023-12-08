@@ -51,7 +51,7 @@ trait Testing
         }
 
         $this->testCaseSetUpCallback instanceof Closure
-            ? \call_user_func(Closure::bind($this->testCaseSetUpCallback, $this, $this::class), $setUp)
+            ? \call_user_func(Closure::bind($this->testCaseSetUpCallback, $this), $setUp)
             : \call_user_func($setUp);
     }
 
@@ -91,8 +91,11 @@ trait Testing
         }
 
         $this->testCaseTearDownCallback instanceof Closure
-            ? \call_user_func(Closure::bind($this->testCaseTearDownCallback, $this, $this::class), $tearDown)
+            ? \call_user_func(Closure::bind($this->testCaseTearDownCallback, $this), $tearDown)
             : \call_user_func($tearDown);
+
+        unset($this->testCaseSetUpCallback);
+        unset($this->testCaseTearDownCallback);
     }
 
     /**
