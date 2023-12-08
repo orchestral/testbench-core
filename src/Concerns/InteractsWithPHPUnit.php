@@ -26,14 +26,14 @@ trait InteractsWithPHPUnit
      *
      * @var (\Closure(\Closure):(void))|null
      */
-    protected static $testCaseSetUpResolver;
+    protected static $testCaseSetUpCallback;
 
     /**
      * The cached test case tearDown resolver.
      *
      * @var (\Closure(\Closure):(void))|null
      */
-    protected static $testCaseTearDownResolver;
+    protected static $testCaseTearDownCallback;
 
     /**
      * The cached uses for test case.
@@ -238,14 +238,6 @@ trait InteractsWithPHPUnit
      */
     public static function setUpBeforeClassUsingPHPUnit(): void
     {
-        static::$testCaseSetUpResolver = function (Closure $resolve): void {
-            $resolve();
-        };
-
-        static::$testCaseTearDownResolver = function (Closure $resolve): void {
-            $resolve();
-        };
-
         static::cachedUsesForTestCase();
     }
 
@@ -255,9 +247,9 @@ trait InteractsWithPHPUnit
      * @param  \Closure(\Closure):void  $setUp
      * @return void
      */
-    public static function setUpEnvironmentUsing(Closure $setUp): void
+    public static function setUpTheEnvironmentUsing(Closure $setUp): void
     {
-        static::$testCaseSetUpResolver = $setUp;
+        static::$testCaseSetUpCallback = $setUp;
     }
 
     /**
@@ -266,9 +258,9 @@ trait InteractsWithPHPUnit
      * @param  \Closure(\Closure):void  $tearDown
      * @return void
      */
-    public static function tearDownEnvironmentUsing(Closure $tearDown): void
+    public static function tearDownTheEnvironmentUsing(Closure $tearDown): void
     {
-        static::$testCaseTearDownResolver = $tearDown;
+        static::$testCaseTearDownCallback = $tearDown;
     }
 
     /**
@@ -280,8 +272,8 @@ trait InteractsWithPHPUnit
      */
     public static function tearDownAfterClassUsingPHPUnit(): void
     {
-        static::$testCaseSetUpResolver = null;
-        static::$testCaseTearDownResolver = null;
+        static::$testCaseSetUpCallback = null;
+        static::$testCaseTearDownCallback = null;
         static::$cachedTestCaseUses = null;
         static::$cachedTestCaseClassAttributes = [];
         static::$cachedTestCaseMethodAttributes = [];

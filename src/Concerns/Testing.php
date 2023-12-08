@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Pest\WithPest;
 
 /**
  * @api
@@ -42,9 +43,15 @@ trait Testing
             });
         };
 
-        static::$testCaseSetUpResolver instanceof Closure
-            ? call_user_func(static::$testCaseSetUpResolver, $setUp)
-            : call_user_func($setUp);
+        /** @phpstan-ignore-next-line */
+        if (static::usesTestingConcern(WithPest::class)) {
+            /** @phpstan-ignore-next-line */
+            $this->setUpTheEnvironmentUsingPest();
+        }
+
+        static::$testCaseSetUpCallback instanceof Closure
+            ? \call_user_func(Closure::bind(static::$testCaseSetUpCallback, $this), $setUp)
+            : \call_user_func($setUp);
     }
 
     /**
@@ -76,9 +83,15 @@ trait Testing
             });
         };
 
-        static::$testCaseTearDownResolver instanceof Closure
-            ? call_user_func(static::$testCaseTearDownResolver, $tearDown)
-            : call_user_func($tearDown);
+        /** @phpstan-ignore-next-line */
+        if (static::usesTestingConcern(WithPest::class)) {
+            /** @phpstan-ignore-next-line */
+            $this->tearDownTheEnvironmentUsingPest();
+        }
+
+        static::$testCaseTearDownCallback instanceof Closure
+            ? \call_user_func(Closure::bind(static::$testCaseTearDownCallback, $this), $tearDown)
+            : \call_user_func($tearDown);
     }
 
     /**
