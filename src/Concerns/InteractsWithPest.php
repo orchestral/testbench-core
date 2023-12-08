@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Orchestra\Testbench\Pest\Hook;
 use Pest\Contracts\HasPrintableTestCaseName;
 
 trait InteractsWithPest
@@ -41,8 +40,6 @@ trait InteractsWithPest
      */
     public static function tearDownAfterClassUsingPest(): void
     {
-        if (class_exists(Hook::class)) {
-            Hook::flush();
-        }
+        //
     }
 }
