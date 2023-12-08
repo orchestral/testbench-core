@@ -45,7 +45,7 @@ trait Testing
         };
 
         /** @phpstan-ignore-next-line */
-        if (static::usesTestingConcern(WithPest::class) && $this instanceof PHPUnitTestCase) {
+        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
             /** @phpstan-ignore-next-line */
             $this->setUpTheEnvironmentUsingPest();
         }
@@ -85,7 +85,7 @@ trait Testing
         };
 
         /** @phpstan-ignore-next-line */
-        if (static::usesTestingConcern(WithPest::class) && $this instanceof PHPUnitTestCase) {
+        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
             /** @phpstan-ignore-next-line */
             $this->tearDownTheEnvironmentUsingPest();
         }
