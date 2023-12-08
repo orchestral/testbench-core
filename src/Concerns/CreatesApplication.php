@@ -20,6 +20,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
  */
 trait CreatesApplication
 {
+    use HandlesTestingFeature;
     use InteractsWithWorkbench;
 
     /**
@@ -377,20 +378,26 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAnnotations($app, 'environment-setup');
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAnnotations($app, 'define-env');
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAttributes($app, DefineEnvironment::class);
-        }
-
-        $this->defineEnvironment($app);
-        $this->getEnvironmentSetUp($app);
+        $this->resolveTestbenchTestingFeature(
+            testCase: function () use ($app) {
+                $this->defineEnvironment($app);
+                $this->getEnvironmentSetUp($app);
+            },
+            annotation: function () use ($app) {
+                if (static::usesTestingConcern(HandlesAnnotations::class)) {
+                    /** @phpstan-ignore-next-line */
+                    $this->parseTestMethodAnnotations($app, 'environment-setup');
+                    /** @phpstan-ignore-next-line */
+                    $this->parseTestMethodAnnotations($app, 'define-env');
+                }
+            },
+            attribute: function () use ($app) {
+                if (static::usesTestingConcern(HandlesAttributes::class)) {
+                    /** @phpstan-ignore-next-line */
+                    $this->parseTestMethodAttributes($app, DefineEnvironment::class);
+                }
+            }
+        );
 
         $this->resolveApplicationRateLimiting($app);
 

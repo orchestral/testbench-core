@@ -45,15 +45,21 @@ trait HandlesDatabases
             $this->parseTestMethodAttributes($app, WithMigration::class);
         }
 
-        $this->defineDatabaseMigrations();
-
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($app, 'define-db');
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $attributeCallbacks = $this->parseTestMethodAttributes($app, DefineDatabase::class);
-        }
+        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+            testCase: function () {
+                $this->defineDatabaseMigrations();
+            },
+            annotation: function () use ($app) {
+                if (static::usesTestingConcern(HandlesAnnotations::class)) {
+                    $this->parseTestMethodAnnotations($app, 'define-db');
+                }
+            },
+            attribute: function () use ($app) {
+                if (static::usesTestingConcern(HandlesAttributes::class)) {
+                    return $this->parseTestMethodAttributes($app, DefineDatabase::class);
+                }
+            }
+        )->get('attribute');
 
         $callback();
 
