@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Illuminate\Events\Dispatcher as EventDispatcher;
+use Closure;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
@@ -22,11 +22,18 @@ use function Orchestra\Testbench\phpunit_version_compare;
 trait InteractsWithPHPUnit
 {
     /**
-     * The cached test case event dispatcher instance.
+     * The cached test case setUp resolver.
      *
-     * @var \Illuminate\Events\Dispatcher|null
+     * @var (\Closure(\Closure):(void))|null
      */
-    protected static $cachedTestCaseEventDispatcher;
+    protected static $testCaseSetUpResolver;
+
+    /**
+     * The cached test case tearDown resolver.
+     *
+     * @var (\Closure(\Closure):(void))|null
+     */
+    protected static $testCaseTearDownResolver;
 
     /**
      * The cached uses for test case.
@@ -231,8 +238,37 @@ trait InteractsWithPHPUnit
      */
     public static function setUpBeforeClassUsingPHPUnit(): void
     {
-        static::$cachedTestCaseEventDispatcher = new EventDispatcher();
+        static::$testCaseSetUpResolver = function (Closure $resolve): void {
+            $resolve();
+        };
+
+        static::$testCaseTearDownResolver = function (Closure $resolve): void {
+            $resolve();
+        };
+
         static::cachedUsesForTestCase();
+    }
+
+    /**
+     * Define the setUp environment using callback.
+     *
+     * @param  \Closure(\Closure):void  $setUp
+     * @return void
+     */
+    public static function setUpEnvironmentUsing(Closure $setUp): void
+    {
+        static::$testCaseSetUpResolver = $setUp;
+    }
+
+    /**
+     * Define the tearDown environment using callback.
+     *
+     * @param  \Closure(\Closure):void  $tearDown
+     * @return void
+     */
+    public static function tearDownEnvironmentUsing(Closure $tearDown): void
+    {
+        static::$testCaseTearDownResolver = $tearDown;
     }
 
     /**
@@ -244,7 +280,8 @@ trait InteractsWithPHPUnit
      */
     public static function tearDownAfterClassUsingPHPUnit(): void
     {
-        static::$cachedTestCaseEventDispatcher = null;
+        static::$testCaseSetUpResolver = null;
+        static::$testCaseTearDownResolver = null;
         static::$cachedTestCaseUses = null;
         static::$cachedTestCaseClassAttributes = [];
         static::$cachedTestCaseMethodAttributes = [];

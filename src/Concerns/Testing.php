@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
@@ -23,6 +24,7 @@ trait Testing
     use HandlesDatabases;
     use HandlesRoutes;
     use InteractsWithMigrations;
+    use InteractsWithPHPUnit;
     use WithFactories;
 
     /**
@@ -34,9 +36,15 @@ trait Testing
      */
     final protected function setUpTheTestEnvironment(): void
     {
-        $this->setUpTheApplicationTestingHooks(function () {
-            $this->setUpTraits();
-        });
+        $setUp = function () {
+            $this->setUpTheApplicationTestingHooks(function () {
+                $this->setUpTraits();
+            });
+        };
+
+        static::$testCaseSetUpResolver instanceof Closure
+            ? call_user_func(static::$testCaseSetUpResolver, $setUp)
+            : call_user_func($setUp);
     }
 
     /**
@@ -48,23 +56,29 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
-        $this->tearDownTheApplicationTestingHooks(function () {
-            if (property_exists($this, 'serverVariables')) {
-                $this->serverVariables = [];
-            }
+        $tearDown = function () {
+            $this->tearDownTheApplicationTestingHooks(function () {
+                if (property_exists($this, 'serverVariables')) {
+                    $this->serverVariables = [];
+                }
 
-            if (property_exists($this, 'defaultHeaders')) {
-                $this->defaultHeaders = [];
-            }
+                if (property_exists($this, 'defaultHeaders')) {
+                    $this->defaultHeaders = [];
+                }
 
-            if (property_exists($this, 'originalExceptionHandler')) {
-                $this->originalExceptionHandler = null;
-            }
+                if (property_exists($this, 'originalExceptionHandler')) {
+                    $this->originalExceptionHandler = null;
+                }
 
-            if (property_exists($this, 'originalDeprecationHandler')) {
-                $this->originalDeprecationHandler = null;
-            }
-        });
+                if (property_exists($this, 'originalDeprecationHandler')) {
+                    $this->originalDeprecationHandler = null;
+                }
+            });
+        };
+
+        static::$testCaseTearDownResolver instanceof Closure
+            ? call_user_func(static::$testCaseTearDownResolver, $tearDown)
+            : call_user_func($tearDown);
     }
 
     /**
