@@ -55,7 +55,6 @@ trait HandlesDatabases
             attribute: function () use ($app) {
                 return $this->parseTestMethodAttributes($app, DefineDatabase::class);
             },
-            pest: '@defineEnvironment',
         )->get('attribute');
 
         $callback();

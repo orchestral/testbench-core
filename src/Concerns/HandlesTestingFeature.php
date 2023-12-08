@@ -17,14 +17,14 @@ trait HandlesTestingFeature
      * @param  (\Closure():(void))|null  $testCase
      * @param  (\Closure():(void))|null  $annotation
      * @param  (\Closure():(mixed))|null  $attribute
-     * @param  string|null  $pest
+     * @param  (\Closure():(mixed))|null  $pest
      * @return \Illuminate\Support\Fluent<array-key, mixed>
      */
     protected function resolveTestbenchTestingFeature(
         ?Closure $testCase = null,
         ?Closure $annotation = null,
         ?Closure $attribute = null,
-        ?string $pest = null
+        ?Closure $pest = null
     ) {
         $result = new Fluent(['attribute' => null]);
 
@@ -36,8 +36,8 @@ trait HandlesTestingFeature
             $result->attribute = value($attribute);
         }
 
-        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class) && is_string($pest)) {
-            value(Hook::unpack($pest, TestSuite::getInstance()->getFilename()));
+        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
+            value($pest);
         }
 
         value($testCase);

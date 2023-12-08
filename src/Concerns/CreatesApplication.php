@@ -384,18 +384,18 @@ trait CreatesApplication
                 $this->getEnvironmentSetUp($app);
             },
             annotation: function () use ($app) {
-                if (static::usesTestingConcern(HandlesAnnotations::class)) {
-                    /** @phpstan-ignore-next-line */
-                    $this->parseTestMethodAnnotations($app, 'environment-setup');
-                    /** @phpstan-ignore-next-line */
-                    $this->parseTestMethodAnnotations($app, 'define-env');
-                }
+                /** @phpstan-ignore-next-line */
+                $this->parseTestMethodAnnotations($app, 'environment-setup');
+                /** @phpstan-ignore-next-line */
+                $this->parseTestMethodAnnotations($app, 'define-env');
             },
             attribute: function () use ($app) {
-                if (static::usesTestingConcern(HandlesAttributes::class)) {
-                    /** @phpstan-ignore-next-line */
-                    $this->parseTestMethodAttributes($app, DefineEnvironment::class);
-                }
+                /** @phpstan-ignore-next-line */
+                $this->parseTestMethodAttributes($app, DefineEnvironment::class);
+            },
+            pest: function () use ($app) {
+                /** @phpstan-ignore-next-line */
+                $this->defineEnvironmentUsingPest($app);
             }
         );
 
