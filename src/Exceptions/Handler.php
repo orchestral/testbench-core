@@ -26,6 +26,7 @@ class Handler extends ExceptionHandler
      * @param  \Throwable  $e
      * @return void
      */
+    #[\Override]
     public function report(Throwable $e)
     {
         parent::report($e);
@@ -38,6 +39,7 @@ class Handler extends ExceptionHandler
      * @param  \Throwable  $e
      * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Http\Response
      */
+    #[\Override]
     public function render($request, Throwable $e)
     {
         return parent::render($request, $e);
