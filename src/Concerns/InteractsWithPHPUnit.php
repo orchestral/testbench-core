@@ -26,14 +26,14 @@ trait InteractsWithPHPUnit
      *
      * @var (\Closure(\Closure):(void))|null
      */
-    protected static $testCaseSetUpCallback;
+    protected $testCaseSetUpCallback;
 
     /**
      * The cached test case tearDown resolver.
      *
      * @var (\Closure(\Closure):(void))|null
      */
-    protected static $testCaseTearDownCallback;
+    protected $testCaseTearDownCallback;
 
     /**
      * The cached uses for test case.
@@ -247,9 +247,9 @@ trait InteractsWithPHPUnit
      * @param  \Closure(\Closure):void  $setUp
      * @return void
      */
-    public static function setUpTheEnvironmentUsing(Closure $setUp): void
+    public function setUpTheEnvironmentUsing(Closure $setUp): void
     {
-        static::$testCaseSetUpCallback = $setUp;
+        $this->testCaseSetUpCallback = $setUp;
     }
 
     /**
@@ -258,9 +258,9 @@ trait InteractsWithPHPUnit
      * @param  \Closure(\Closure):void  $tearDown
      * @return void
      */
-    public static function tearDownTheEnvironmentUsing(Closure $tearDown): void
+    public function tearDownTheEnvironmentUsing(Closure $tearDown): void
     {
-        static::$testCaseTearDownCallback = $tearDown;
+        $this->testCaseTearDownCallback = $tearDown;
     }
 
     /**
@@ -273,8 +273,6 @@ trait InteractsWithPHPUnit
     public static function tearDownAfterClassUsingPHPUnit(): void
     {
         static::$cachedTestCaseUses = null;
-        static::$testCaseSetUpCallback = null;
-        static::$testCaseTearDownCallback = null;
         static::$cachedTestCaseClassAttributes = [];
         static::$cachedTestCaseMethodAttributes = [];
 

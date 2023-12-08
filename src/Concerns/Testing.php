@@ -45,13 +45,13 @@ trait Testing
         };
 
         /** @phpstan-ignore-next-line */
-        if (static::usesTestingConcern(WithPest::class)) {
+        if (static::usesTestingConcern(WithPest::class) && $this instanceof PHPUnitTestCase) {
             /** @phpstan-ignore-next-line */
             $this->setUpTheEnvironmentUsingPest();
         }
 
-        static::$testCaseSetUpCallback instanceof Closure && $this instanceof PHPUnitTestCase
-            ? \call_user_func(Closure::bind(static::$testCaseSetUpCallback, $this), $setUp)
+        $this->testCaseSetUpCallback instanceof Closure
+            ? \call_user_func(Closure::bind($this->testCaseSetUpCallback, $this, $this::class), $setUp)
             : \call_user_func($setUp);
     }
 
@@ -85,13 +85,13 @@ trait Testing
         };
 
         /** @phpstan-ignore-next-line */
-        if (static::usesTestingConcern(WithPest::class)) {
+        if (static::usesTestingConcern(WithPest::class) && $this instanceof PHPUnitTestCase) {
             /** @phpstan-ignore-next-line */
             $this->tearDownTheEnvironmentUsingPest();
         }
 
-        $this->testCaseTearDownCallback instanceof Closure && $this instanceof PHPUnitTestCase
-            ? \call_user_func(Closure::bind($this->testCaseTearDownCallback, $this), $tearDown)
+        $this->testCaseTearDownCallback instanceof Closure
+            ? \call_user_func(Closure::bind($this->testCaseTearDownCallback, $this, $this::class), $tearDown)
             : \call_user_func($tearDown);
     }
 
