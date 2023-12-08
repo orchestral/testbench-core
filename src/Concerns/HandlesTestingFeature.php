@@ -12,14 +12,14 @@ trait HandlesTestingFeature
     /**
      * Resolve available testing features for Testbench.
      *
-     * @param  (\Closure():(void))|null  $testCase
+     * @param  (\Closure():(void))|null  $default
      * @param  (\Closure():(void))|null  $annotation
      * @param  (\Closure():(mixed))|null  $attribute
      * @param  (\Closure():(mixed))|null  $pest
      * @return \Illuminate\Support\Fluent<array-key, mixed>
      */
     protected function resolveTestbenchTestingFeature(
-        ?Closure $testCase = null,
+        ?Closure $default = null,
         ?Closure $annotation = null,
         ?Closure $attribute = null,
         ?Closure $pest = null
@@ -40,7 +40,7 @@ trait HandlesTestingFeature
             value($pest);
         }
 
-        value($testCase);
+        value($default);
 
         return $result;
     }

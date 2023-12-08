@@ -46,7 +46,7 @@ trait HandlesDatabases
         }
 
         $attributeCallbacks = $this->resolveTestbenchTestingFeature(
-            testCase: function () {
+            default: function () {
                 $this->defineDatabaseMigrations();
             },
             annotation: function () use ($app) {
@@ -55,6 +55,10 @@ trait HandlesDatabases
             attribute: function () use ($app) {
                 return $this->parseTestMethodAttributes($app, DefineDatabase::class);
             },
+            pest: function () {
+                /** @phpstan-ignore-next-line */
+                $this->defineDatabaseMigrationsUsingPest();
+            }
         )->get('attribute');
 
         $callback();

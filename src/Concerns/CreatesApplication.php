@@ -379,7 +379,7 @@ trait CreatesApplication
         }
 
         $this->resolveTestbenchTestingFeature(
-            testCase: function () use ($app) {
+            default: function () use ($app) {
                 $this->defineEnvironment($app);
                 $this->getEnvironmentSetUp($app);
             },
