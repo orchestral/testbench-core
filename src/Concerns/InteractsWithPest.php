@@ -41,6 +41,8 @@ trait InteractsWithPest
      */
     public static function tearDownAfterClassUsingPest(): void
     {
-        Hook::flush();
+        if (class_exists(Hook::class)) {
+            Hook::flush();
+        }
     }
 }
