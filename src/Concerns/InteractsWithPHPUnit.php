@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
+
 use function Orchestra\Testbench\phpunit_version_compare;
 
 /**
@@ -23,9 +24,9 @@ trait InteractsWithPHPUnit
     /**
      * The cached test case event dispatcher instance.
      *
-     * @var \Illuminate\Events\Dispatcher
+     * @var \Illuminate\Events\Dispatcher|null
      */
-    protected static EventDispatcher $cachedTestCaseEventDispatcher;
+    protected static $cachedTestCaseEventDispatcher;
 
     /**
      * The cached uses for test case.
