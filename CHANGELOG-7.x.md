@@ -2,7 +2,27 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## v7.36.0
+## 7.37.1
+
+Released: 2023-12-06
+
+### Fixes
+
+* Testbench CLI should handle `SIGTERM` and `SIGQUIT` signal.
+
+## 7.37.0
+
+Released: 2023-12-06
+
+### Added
+
+* Supports Workbench `discovers.components` configuration.
+
+### Changes
+
+* Sync `view.paths` configuration when Workbench discover views.
+
+## 7.36.0
 
 Released: 2023-12-04
 
