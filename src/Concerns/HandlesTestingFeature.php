@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Support\Fluent;
+use Pest\TestSuite;
 
 trait HandlesTestingFeature
 {
@@ -13,20 +14,29 @@ trait HandlesTestingFeature
      * @param  (\Closure():(void))|null  $testCase
      * @param  (\Closure():(void))|null  $annotation
      * @param  (\Closure():(mixed))|null  $attribute
-     * @param  (\Closure():(void))|null  $pest
+     * @param  string|null  $pest
      * @return \Illuminate\Support\Fluent<array-key, mixed>
      */
     protected function resolveTestbenchTestingFeature(
         ?Closure $testCase = null,
         ?Closure $annotation = null,
         ?Closure $attribute = null,
-        ?Closure $pest = null
+        ?string $pest = null
     ) {
         $result = new Fluent();
 
-        value($annotation);
-        $result->attribute = value($attribute);
-        value($pest);
+        if (static::usesTestingConcern(HandlesAnnotations::class)) {
+            value($annotation);
+        }
+
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            $result->attribute = value($attribute);
+        }
+
+        if ($this->isRunningTestCaseUsingPest() && is_string($pest)) {
+            value(Hook::unpack($pest, TestSuite::getInstance()->getFilename());
+        }
+
         value($testCase);
 
         return $result;

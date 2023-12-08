@@ -50,15 +50,12 @@ trait HandlesDatabases
                 $this->defineDatabaseMigrations();
             },
             annotation: function () use ($app) {
-                if (static::usesTestingConcern(HandlesAnnotations::class)) {
-                    $this->parseTestMethodAnnotations($app, 'define-db');
-                }
+                $this->parseTestMethodAnnotations($app, 'define-db');
             },
             attribute: function () use ($app) {
-                if (static::usesTestingConcern(HandlesAttributes::class)) {
-                    return $this->parseTestMethodAttributes($app, DefineDatabase::class);
-                }
-            }
+                return $this->parseTestMethodAttributes($app, DefineDatabase::class);
+            },
+            pest: '@defineEnvironment',
         )->get('attribute');
 
         $callback();
