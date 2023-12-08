@@ -4,7 +4,9 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Support\Fluent;
+use Orchestra\Testbench\Pest\WithPest;
 use Pest\TestSuite;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 trait HandlesTestingFeature
 {
@@ -23,18 +25,18 @@ trait HandlesTestingFeature
         ?Closure $attribute = null,
         ?string $pest = null
     ) {
-        $result = new Fluent();
+        $result = new Fluent(['attribute' => null]);
 
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
+        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(HandlesAnnotations::class)) {
             value($annotation);
         }
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
+        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(HandlesAttributes::class)) {
             $result->attribute = value($attribute);
         }
 
-        if ($this->isRunningTestCaseUsingPest() && is_string($pest)) {
-            value(Hook::unpack($pest, TestSuite::getInstance()->getFilename());
+        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class) && is_string($pest)) {
+            value(Hook::unpack($pest, TestSuite::getInstance()->getFilename()));
         }
 
         value($testCase);
