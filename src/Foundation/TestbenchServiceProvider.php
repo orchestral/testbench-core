@@ -24,7 +24,7 @@ class TestbenchServiceProvider extends ServiceProvider
             'Core Version' => InstalledVersions::getPrettyVersion('orchestra/testbench-core'),
             'Dusk Version' => InstalledVersions::isInstalled('orchestra/testbench-dusk') ? InstalledVersions::getPrettyVersion('orchestra/testbench-dusk') : null,
             'Skeleton Path' => laravel_version_compare('10.33.0', '>=')
-                ? AboutCommand::format($this->app->basePath(), console: fn ($value) => str_replace($workingPath, '', $value)) /** @phpstan-ignore-line */
+                ? AboutCommand::format($this->app->basePath(), console: fn ($value) => str_replace($workingPath, '', $value)) // @phpstan-ignore-line
                 : str_replace($workingPath, '', $this->app->basePath()),
             'Version' => InstalledVersions::isInstalled('orchestra/testbench') ? InstalledVersions::getPrettyVersion('orchestra/testbench') : null,
         ]));

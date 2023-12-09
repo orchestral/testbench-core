@@ -33,7 +33,7 @@ trait HandlesDatabases
         });
 
         if (static::usesTestingConcern(WithLaravelMigrations::class)) {
-            $this->setUpWithLaravelMigrations(); /** @phpstan-ignore-line */
+            $this->setUpWithLaravelMigrations(); // @phpstan-ignore-line
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
@@ -55,9 +55,10 @@ trait HandlesDatabases
             annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
             pest: function ($parent) {
-                $this->defineDatabaseMigrationsUsingPest(); /** @phpstan-ignore-line */
+                $this->defineDatabaseMigrationsUsingPest(); // @phpstan-ignore-line
+
                 $this->beforeApplicationDestroyed(function () {
-                    $this->destroyDatabaseMigrationsUsingPest(); /** @phpstan-ignore-line */
+                    $this->destroyDatabaseMigrationsUsingPest(); // @phpstan-ignore-line
                 });
                 value($parent);
             },
@@ -73,7 +74,7 @@ trait HandlesDatabases
 
         $this->resolveTestbenchTestingFeature(
             default: fn () => $this->defineDatabaseSeeders(),
-            pest: fn () => $this->defineDatabaseSeedersUsingPest() /** @phpstan-ignore-line */
+            pest: fn () => $this->defineDatabaseSeedersUsingPest() // @phpstan-ignore-line
         );
     }
 
