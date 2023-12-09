@@ -45,15 +45,26 @@ trait HandlesDatabases
             $this->parseTestMethodAttributes($app, WithMigration::class);
         }
 
-        $this->defineDatabaseMigrations();
+        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+            default: function () {
+                $this->defineDatabaseMigrations();
 
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($app, 'define-db');
-        }
+                $this->beforeApplicationDestroyed(function () {
+                    $this->destroyDatabaseMigrations();
+                });
+            },
+            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
+            pest: function () {
+                /** @phpstan-ignore-next-line */
+                $this->defineDatabaseMigrationsUsingPest();
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $attributeCallbacks = $this->parseTestMethodAttributes($app, DefineDatabase::class);
-        }
+                $this->beforeApplicationDestroyed(function () {
+                    /** @phpstan-ignore-next-line */
+                    $this->destroyDatabaseMigrationsUsingPest();
+                });
+            }
+        )->get('attribute');
 
         $callback();
 
@@ -63,11 +74,10 @@ trait HandlesDatabases
             });
         }
 
-        $this->defineDatabaseSeeders();
-
-        $this->beforeApplicationDestroyed(function () {
-            $this->destroyDatabaseMigrations();
-        });
+        $this->resolveTestbenchTestingFeature(
+            default: fn () => $this->defineDatabaseSeeders(),
+            pest: fn () => $this->defineDatabaseSeedersUsingPest() /** @phpstan-ignore-line */
+        );
     }
 
     /**

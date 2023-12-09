@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
@@ -20,6 +21,20 @@ use function Orchestra\Testbench\phpunit_version_compare;
  */
 trait InteractsWithPHPUnit
 {
+    /**
+     * The cached test case setUp resolver.
+     *
+     * @var (\Closure(\Closure):(void))|null
+     */
+    protected $testCaseSetUpCallback;
+
+    /**
+     * The cached test case tearDown resolver.
+     *
+     * @var (\Closure(\Closure):(void))|null
+     */
+    protected $testCaseTearDownCallback;
+
     /**
      * The cached uses for test case.
      *
@@ -224,6 +239,28 @@ trait InteractsWithPHPUnit
     public static function setUpBeforeClassUsingPHPUnit(): void
     {
         static::cachedUsesForTestCase();
+    }
+
+    /**
+     * Define the setUp environment using callback.
+     *
+     * @param  \Closure(\Closure):void  $setUp
+     * @return void
+     */
+    public function setUpTheEnvironmentUsing(Closure $setUp): void
+    {
+        $this->testCaseSetUpCallback = $setUp;
+    }
+
+    /**
+     * Define the tearDown environment using callback.
+     *
+     * @param  \Closure(\Closure):void  $tearDown
+     * @return void
+     */
+    public function tearDownTheEnvironmentUsing(Closure $tearDown): void
+    {
+        $this->testCaseTearDownCallback = $tearDown;
     }
 
     /**

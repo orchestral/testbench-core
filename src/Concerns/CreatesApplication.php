@@ -20,6 +20,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
  */
 trait CreatesApplication
 {
+    use HandlesTestingFeature;
     use InteractsWithWorkbench;
 
     /**
@@ -377,20 +378,20 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAnnotations($app, 'environment-setup');
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAnnotations($app, 'define-env');
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAttributes($app, DefineEnvironment::class);
-        }
-
-        $this->defineEnvironment($app);
-        $this->getEnvironmentSetUp($app);
+        $this->resolveTestbenchTestingFeature(
+            default: function () use ($app) {
+                $this->defineEnvironment($app);
+                $this->getEnvironmentSetUp($app);
+            },
+            annotation: function () use ($app) {
+                /** @phpstan-ignore-next-line */
+                $this->parseTestMethodAnnotations($app, 'environment-setup');
+                /** @phpstan-ignore-next-line */
+                $this->parseTestMethodAnnotations($app, 'define-env');
+            },
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineEnvironment::class), /** @phpstan-ignore-line */
+            pest: fn () => $this->defineEnvironmentUsingPest($app), /** @phpstan-ignore-line */
+        );
 
         $this->resolveApplicationRateLimiting($app);
 

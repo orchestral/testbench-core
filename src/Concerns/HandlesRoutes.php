@@ -27,20 +27,25 @@ trait HandlesRoutes
         /** @var \Illuminate\Routing\Router $router */
         $router = $app['router'];
 
-        $this->defineRoutes($router);
+        $this->resolveTestbenchTestingFeature(
+            default: function () use ($router) {
+                $this->defineRoutes($router);
 
-        $router->middleware('web')
-            ->group(fn ($router) => $this->defineWebRoutes($router));
-
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
+                $router->middleware('web')
+                    ->group(fn ($router) => $this->defineWebRoutes($router));
+            },
+            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
                 $this->{$method}($router);
-            });
-        }
+            }),
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class),
+            pest: function () use ($router) {
+                /** @phpstan-ignore-next-line */
+                $this->defineRoutesUsingPest($router);
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, DefineRoute::class);
-        }
+                $router->middleware('web')
+                    ->group(fn ($router) => $this->defineWebRoutesUsingPest($router)); /** @phpstan-ignore-line */
+            }
+        );
 
         $router->getRoutes()->refreshNameLookups();
     }
