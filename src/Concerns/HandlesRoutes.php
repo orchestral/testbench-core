@@ -34,14 +34,10 @@ trait HandlesRoutes
                 $router->middleware('web')
                     ->group(fn ($router) => $this->defineWebRoutes($router));
             },
-            annotation: function () use ($app, $router) {
-                $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
-                    $this->{$method}($router);
-                });
-            },
-            attribute: function () use ($app) {
-                $this->parseTestMethodAttributes($app, DefineRoute::class);
-            },
+            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
+                $this->{$method}($router);
+            }),
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class),
             pest: function () use ($router) {
                 /** @phpstan-ignore-next-line */
                 $this->defineRoutesUsingPest($router);
