@@ -48,19 +48,16 @@ trait HandlesDatabases
             default: function () {
                 $this->defineDatabaseMigrations();
 
-                $this->beforeApplicationDestroyed(function () {
-                    $this->destroyDatabaseMigrations();
-                });
+                $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrations());
             },
             annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
-            pest: function ($parent) {
+            pest: function ($default) {
                 $this->defineDatabaseMigrationsUsingPest(); // @phpstan-ignore-line
 
-                $this->beforeApplicationDestroyed(function () {
-                    $this->destroyDatabaseMigrationsUsingPest(); // @phpstan-ignore-line
-                });
-                value($parent);
+                $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrationsUsingPest()); // @phpstan-ignore-line
+
+                value($default);
             },
         )->get('attribute');
 
@@ -74,7 +71,11 @@ trait HandlesDatabases
 
         $this->resolveTestbenchTestingFeature(
             default: fn () => $this->defineDatabaseSeeders(),
-            pest: fn () => $this->defineDatabaseSeedersUsingPest() // @phpstan-ignore-line
+            pest: function ($default) {
+                $this->defineDatabaseSeedersUsingPest(); // @phpstan-ignore-line
+
+                value($default);
+            }
         );
     }
 

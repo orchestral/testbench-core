@@ -388,10 +388,10 @@ trait CreatesApplication
                 $this->parseTestMethodAnnotations($app, 'define-env'); // @phpstan-ignore-line
             },
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineEnvironment::class), // @phpstan-ignore-line
-            pest: function ($parent) use ($app) {
+            pest: function ($default) use ($app) {
                 $this->defineEnvironmentUsingPest($app); // @phpstan-ignore-line
 
-                value($parent);
+                value($default);
             },
         );
 
