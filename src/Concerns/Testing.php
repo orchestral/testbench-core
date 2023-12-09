@@ -46,8 +46,7 @@ trait Testing
 
         /** @phpstan-ignore-next-line */
         if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpTheEnvironmentUsingPest();
+            $this->setUpTheEnvironmentUsingPest(); /** @phpstan-ignore-line */
         }
 
         $this->testCaseSetUpCallback instanceof Closure
@@ -86,8 +85,7 @@ trait Testing
 
         /** @phpstan-ignore-next-line */
         if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->tearDownTheEnvironmentUsingPest();
+            $this->tearDownTheEnvironmentUsingPest(); /** @phpstan-ignore-line */
         }
 
         $this->testCaseTearDownCallback instanceof Closure
