@@ -15,7 +15,7 @@ trait HandlesTestingFeature
      * @param  (\Closure():(void))|null  $default
      * @param  (\Closure():(void))|null  $annotation
      * @param  (\Closure():(mixed))|null  $attribute
-     * @param  (\Closure():(mixed))|null  $pest
+     * @param  (\Closure(\Closure|null):(mixed))|null  $pest
      * @return \Illuminate\Support\Fluent<array-key, mixed>
      */
     protected function resolveTestbenchTestingFeature(
@@ -37,10 +37,10 @@ trait HandlesTestingFeature
 
         /** @phpstan-ignore-next-line */
         if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
-            value($pest);
+            $pest instanceof Closure ? value($pest, $default) : value($default);
+        } else {
+            value($default);
         }
-
-        value($default);
 
         return $result;
     }

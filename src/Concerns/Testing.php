@@ -50,8 +50,8 @@ trait Testing
         }
 
         $this->testCaseSetUpCallback instanceof Closure
-            ? \call_user_func($this->testCaseSetUpCallback, $setUp)
-            : \call_user_func($setUp);
+            ? value($this->testCaseSetUpCallback, $setUp)
+            : value($setUp);
     }
 
     /**
@@ -89,8 +89,8 @@ trait Testing
         }
 
         $this->testCaseTearDownCallback instanceof Closure
-            ? \call_user_func($this->testCaseTearDownCallback, $tearDown)
-            : \call_user_func($tearDown);
+            ? value($this->testCaseTearDownCallback, $tearDown)
+            : value($tearDown);
 
         $this->testCaseSetUpCallback = null;
         $this->testCaseTearDownCallback = null;

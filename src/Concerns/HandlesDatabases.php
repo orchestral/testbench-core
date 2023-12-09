@@ -54,12 +54,13 @@ trait HandlesDatabases
             },
             annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
-            pest: function () {
+            pest: function ($parent) {
                 $this->defineDatabaseMigrationsUsingPest(); /** @phpstan-ignore-line */
                 $this->beforeApplicationDestroyed(function () {
                     $this->destroyDatabaseMigrationsUsingPest(); /** @phpstan-ignore-line */
                 });
-            }
+                value($parent);
+            },
         )->get('attribute');
 
         $callback();

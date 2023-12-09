@@ -388,7 +388,10 @@ trait CreatesApplication
                 $this->parseTestMethodAnnotations($app, 'define-env'); /** @phpstan-ignore-line */
             },
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineEnvironment::class), /** @phpstan-ignore-line */
-            pest: fn () => $this->defineEnvironmentUsingPest($app), /** @phpstan-ignore-line */
+            pest: function ($parent) {
+                $this->defineEnvironmentUsingPest($app); /** @phpstan-ignore-line */
+                value($parent);
+            },
         );
 
         $this->resolveApplicationRateLimiting($app);
