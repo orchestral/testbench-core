@@ -40,7 +40,6 @@ trait HandlesRoutes
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class),
             pest: function () use ($router) {
                 $this->defineRoutesUsingPest($router); /** @phpstan-ignore-line */
-
                 $router->middleware('web')
                     ->group(fn ($router) => $this->defineWebRoutesUsingPest($router)); /** @phpstan-ignore-line */
             }

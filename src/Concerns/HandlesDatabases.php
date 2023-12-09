@@ -56,7 +56,6 @@ trait HandlesDatabases
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
             pest: function () {
                 $this->defineDatabaseMigrationsUsingPest(); /** @phpstan-ignore-line */
-
                 $this->beforeApplicationDestroyed(function () {
                     $this->destroyDatabaseMigrationsUsingPest(); /** @phpstan-ignore-line */
                 });
