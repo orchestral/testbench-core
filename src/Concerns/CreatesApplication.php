@@ -384,10 +384,8 @@ trait CreatesApplication
                 $this->getEnvironmentSetUp($app);
             },
             annotation: function () use ($app) {
-                /** @phpstan-ignore-next-line */
-                $this->parseTestMethodAnnotations($app, 'environment-setup');
-                /** @phpstan-ignore-next-line */
-                $this->parseTestMethodAnnotations($app, 'define-env');
+                $this->parseTestMethodAnnotations($app, 'environment-setup'); /** @phpstan-ignore-line */
+                $this->parseTestMethodAnnotations($app, 'define-env'); /** @phpstan-ignore-line */
             },
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineEnvironment::class), /** @phpstan-ignore-line */
             pest: fn () => $this->defineEnvironmentUsingPest($app), /** @phpstan-ignore-line */
@@ -396,15 +394,13 @@ trait CreatesApplication
         $this->resolveApplicationRateLimiting($app);
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->bootDiscoverRoutesForWorkbench($app);
+            $this->bootDiscoverRoutesForWorkbench($app); /** @phpstan-ignore-line */
         }
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpApplicationRoutes($app);
+            $this->setUpApplicationRoutes($app); /** @phpstan-ignore-line */
         }
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {

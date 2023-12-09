@@ -246,6 +246,8 @@ trait InteractsWithPHPUnit
      *
      * @param  \Closure(\Closure):void  $setUp
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function setUpTheEnvironmentUsing(Closure $setUp): void
     {
@@ -257,6 +259,8 @@ trait InteractsWithPHPUnit
      *
      * @param  \Closure(\Closure):void  $tearDown
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function tearDownTheEnvironmentUsing(Closure $tearDown): void
     {

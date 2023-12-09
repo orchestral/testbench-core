@@ -109,45 +109,37 @@ trait Testing
     final protected function setUpTheTestEnvironmentTraits(array $uses): array
     {
         if (isset($uses[WithWorkbench::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpWithWorkbench();
+            $this->setUpWithWorkbench(); /** @phpstan-ignore-line */
         }
 
         $this->setUpDatabaseRequirements(function () use ($uses) {
             if (isset($uses[RefreshDatabase::class])) {
-                /** @phpstan-ignore-next-line */
-                $this->refreshDatabase();
+                $this->refreshDatabase(); /** @phpstan-ignore-line */
             }
 
             if (isset($uses[DatabaseMigrations::class])) {
-                /** @phpstan-ignore-next-line */
-                $this->runDatabaseMigrations();
+                $this->runDatabaseMigrations(); /** @phpstan-ignore-line */
             }
 
             if (isset($uses[DatabaseTruncation::class])) {
-                /** @phpstan-ignore-next-line */
-                $this->truncateDatabaseTables();
+                $this->truncateDatabaseTables(); /** @phpstan-ignore-line */
             }
         });
 
         if (isset($uses[DatabaseTransactions::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->beginDatabaseTransaction();
+            $this->beginDatabaseTransaction(); /** @phpstan-ignore-line */
         }
 
         if (isset($uses[WithoutMiddleware::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->disableMiddlewareForAllTests();
+            $this->disableMiddlewareForAllTests(); /** @phpstan-ignore-line */
         }
 
         if (isset($uses[WithoutEvents::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->disableEventsForAllTests();
+            $this->disableEventsForAllTests(); /** @phpstan-ignore-line */
         }
 
         if (isset($uses[WithFaker::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpFaker();
+            $this->setUpFaker(); /** @phpstan-ignore-line */
         }
 
         LazyCollection::make(static function () use ($uses) {

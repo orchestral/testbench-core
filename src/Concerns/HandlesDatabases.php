@@ -33,8 +33,7 @@ trait HandlesDatabases
         });
 
         if (static::usesTestingConcern(WithLaravelMigrations::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpWithLaravelMigrations();
+            $this->setUpWithLaravelMigrations(); /** @phpstan-ignore-line */
         }
 
         if (static::usesTestingConcern(HandlesAttributes::class)) {
@@ -56,12 +55,10 @@ trait HandlesDatabases
             annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
             pest: function () {
-                /** @phpstan-ignore-next-line */
-                $this->defineDatabaseMigrationsUsingPest();
+                $this->defineDatabaseMigrationsUsingPest(); /** @phpstan-ignore-line */
 
                 $this->beforeApplicationDestroyed(function () {
-                    /** @phpstan-ignore-next-line */
-                    $this->destroyDatabaseMigrationsUsingPest();
+                    $this->destroyDatabaseMigrationsUsingPest(); /** @phpstan-ignore-line */
                 });
             }
         )->get('attribute');
