@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
+use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
@@ -274,6 +275,10 @@ trait CreatesApplication
         if (property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
             $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
+
+        $this->resolveTestbenchTestingFeature(
+            attribute: fn () => $this->parseTestMethodAttributes($app, WithEnv::class) // @phpstan-ignore-line
+        );
     }
 
     /**
