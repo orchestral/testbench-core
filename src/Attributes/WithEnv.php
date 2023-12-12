@@ -9,7 +9,6 @@ use Orchestra\Testbench\Foundation\Env;
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class WithEnv implements InvokableContract
 {
-
     /**
      * Construct a new attribute.
      */
