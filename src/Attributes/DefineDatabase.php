@@ -43,7 +43,7 @@ final class DefineDatabase implements ActionableContract
      * @param  \Closure(string, array<int, mixed>):void  $action
      * @return \Closure|null
      */
-    public function handle($app, Closure $action): void
+    public function handle($app, Closure $action)
     {
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
