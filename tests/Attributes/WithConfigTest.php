@@ -5,9 +5,6 @@ namespace Orchestra\Testbench\Tests\Attributes;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 
-/**
- * @requires PHP >= 8.0
- */
 class WithConfigTest extends TestCase
 {
     /** @test */
