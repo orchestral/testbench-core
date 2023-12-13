@@ -257,13 +257,21 @@ trait CreatesApplication
             $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
 
-        $this->resolveTestbenchTestingFeature(
+        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
             null,
             null,
             function () use ($app) {
-                $this->parseTestMethodAttributes($app, WithEnv::class);
+                return $this->parseTestMethodAttributes($app, WithEnv::class);
             }
-        );
+        )->get('attribute');
+
+        $this->beforeApplicationDestroyed(function () use ($attributeCallbacks) {
+            if (isset($attributeCallbacks) && $attributeCallbacks->isNotEmpty()) {
+                $attributeCallbacks->each(function ($callback) {
+                    value($callback);
+                });
+            }
+        });
     }
 
     /**

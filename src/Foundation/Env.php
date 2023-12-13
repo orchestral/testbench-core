@@ -19,6 +19,21 @@ class Env extends \Illuminate\Support\Env
         static::getRepository()->set($key, $value);
     }
 
+
+    /**
+     * Forget an environment variable.
+     *
+     * @param string $key
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return bool
+     */
+    public static function forget(string $key)
+    {
+        return static::getRepository()->clear($key);
+    }
+
     /**
      * Forward environment value.
      *
