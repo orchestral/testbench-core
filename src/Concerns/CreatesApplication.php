@@ -280,16 +280,11 @@ trait CreatesApplication
         }
 
         $attributeCallbacks = $this->resolveTestbenchTestingFeature(
-            attribute: fn () => $this->parseTestMethodAttributes($app, WithEnv::class) // @phpstan-ignore-line
+            attribute: fn () => $this->parseTestMethodAttributes($app, WithEnv::class), // @phpstan-ignore-line
         )->get('attribute');
 
         $this->resolveTestbenchTestingFeature(
-            null,
-            null,
-            function () use ($app) {
-                /** @phpstan-ignore-next-line */
-                return $this->parseTestMethodAttributes($app, RequiresEnv::class);
-            }
+            attribute: fn () => $this->parseTestMethodAttributes($app, RequiresEnv::class), // @phpstan-ignore-line
         );
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {

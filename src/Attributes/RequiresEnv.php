@@ -11,20 +11,14 @@ use Orchestra\Testbench\Foundation\UndefinedValue;
 final class RequiresEnv implements TestInvokableContract
 {
     /**
-     * The target environment key.
-     *
-     * @var string
-     */
-    public $key;
-
-    /**
      * Construct a new attribute.
      *
      * @param  string  $key
      */
-    public function __construct(string $key)
-    {
-        $this->key = $key;
+    public function __construct(
+        public string $key
+    ) {
+        //
     }
 
     /**
