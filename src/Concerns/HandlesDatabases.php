@@ -37,13 +37,12 @@ trait HandlesDatabases
             $this->setUpWithLaravelMigrations();
         }
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, ResetRefreshDatabaseState::class);
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, WithMigration::class);
-        }
+        $this->resolveTestbenchTestingFeature(
+            attribute: function () use ($app) {
+                $this->parseTestMethodAttributes($app, ResetRefreshDatabaseState::class);
+                $this->parseTestMethodAttributes($app, WithMigration::class);
+            },
+        );
 
         $attributeCallbacks = $this->resolveTestbenchTestingFeature(
             default: function () {

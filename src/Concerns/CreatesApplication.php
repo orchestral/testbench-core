@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
@@ -277,9 +278,19 @@ trait CreatesApplication
             $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
 
-        $this->resolveTestbenchTestingFeature(
+        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
             attribute: fn () => $this->parseTestMethodAttributes($app, WithEnv::class) // @phpstan-ignore-line
-        );
+        )->get('attribute');
+
+        if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
+            $this->beforeApplicationDestroyed(function () use ($attributeCallbacks) {
+                if (isset($attributeCallbacks) && $attributeCallbacks->isNotEmpty()) {
+                    $attributeCallbacks->each(function ($callback) {
+                        value($callback);
+                    });
+                }
+            });
+        }
     }
 
     /**
@@ -308,6 +319,10 @@ trait CreatesApplication
                 'app.aliases' => $this->resolveApplicationAliases($app),
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
+
+            $this->resolveTestbenchTestingFeature(
+                attribute: fn () => $this->parseTestMethodAttributes($app, WithConfig::class), // @phpstan-ignore-line
+            );
         });
     }
 
