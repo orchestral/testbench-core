@@ -256,9 +256,10 @@ trait CreatesApplication
             $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
 
-        $this->resolveTestbenchTestingFeature(
-            attribute: fn () => $this->parseTestMethodAttributes($app, WithEnv::class) // @phpstan-ignore-line
-        );
+        if (static::usesTestingConcern(HandlesAttributes::class)) {
+            /** @phpstan-ignore-next-line */
+            $this->parseTestMethodAttributes($app, WithEnv::class);
+        }
     }
 
     /**
