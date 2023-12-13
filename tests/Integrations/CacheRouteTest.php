@@ -38,11 +38,8 @@ PHP);
             ->assertSee('ExampleController@index');
     }
 
-    /**
-     * @test
-     *
-     * @group without-parallel
-     */
+    #[Test]
+    #[Group('without-parallel')]
     public function it_can_cache_closure_route()
     {
         Log::spy()->shouldReceive('info')->with('hello');
