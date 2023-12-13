@@ -37,7 +37,7 @@ class CommanderTest extends TestCase
             $process = remote('env', ['APP_ENV' => 'workbench']);
             $process->mustRun();
 
-            $this->assertSame('INFO The application environment is [workbench].', trim($process->getOutput()));
+            $this->assertSame('INFO  The application environment is [workbench].', trim($process->getOutput()));
         });
     }
 
