@@ -36,18 +36,16 @@ trait HandlesDatabases
             $this->setUpWithLaravelMigrations(); // @phpstan-ignore-line
         }
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, ResetRefreshDatabaseState::class);
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, WithMigration::class);
-        }
+        $this->resolveTestbenchTestingFeature(
+            attribute: function () use ($app) {
+                $this->parseTestMethodAttributes($app, ResetRefreshDatabaseState::class);
+                $this->parseTestMethodAttributes($app, WithMigration::class);
+            },
+        );
 
         $attributeCallbacks = $this->resolveTestbenchTestingFeature(
             default: function () {
                 $this->defineDatabaseMigrations();
-
                 $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrations());
             },
             annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
