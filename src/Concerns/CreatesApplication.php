@@ -18,6 +18,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
  */
 trait CreatesApplication
 {
+    use HandlesTestingFeature;
     use InteractsWithWorkbench;
 
     /**
@@ -256,10 +257,13 @@ trait CreatesApplication
             $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAttributes($app, WithEnv::class);
-        }
+        $this->resolveTestbenchTestingFeature(
+            null,
+            null,
+            function () use ($app) {
+                $this->parseTestMethodAttributes($app, WithEnv::class);
+            }
+        );
     }
 
     /**
@@ -359,20 +363,21 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAnnotations($app, 'environment-setup');
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAnnotations($app, 'define-env');
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAttributes($app, DefineEnvironment::class);
-        }
-
-        $this->defineEnvironment($app);
-        $this->getEnvironmentSetUp($app);
+        $this->resolveTestbenchTestingFeature(
+            function () use ($app) {
+                $this->defineEnvironment($app);
+                $this->getEnvironmentSetUp($app);
+            },
+            function () use ($app) {
+                /** @phpstan-ignore-next-line */
+                $this->parseTestMethodAnnotations($app, 'environment-setup');
+                /** @phpstan-ignore-next-line */
+                $this->parseTestMethodAnnotations($app, 'define-env');
+            },
+            function () use ($app) {
+                $this->parseTestMethodAttributes($app, DefineEnvironment::class);
+            }
+        );
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
             /** @phpstan-ignore-next-line */

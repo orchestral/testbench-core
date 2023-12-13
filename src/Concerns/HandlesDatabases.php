@@ -32,23 +32,30 @@ trait HandlesDatabases
             $this->setUpWithLaravelMigrations();
         }
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($this->app, ResetRefreshDatabaseState::class);
-        }
+        $this->resolveTestbenchTestingFeature(
+            null,
+            null,
+            function () {
+                $this->parseTestMethodAttributes($this->app, ResetRefreshDatabaseState::class);
+                $this->parseTestMethodAttributes($this->app, WithMigration::class);
+            }
+        );
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($this->app, WithMigration::class);
-        }
+        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+            function () {
+                $this->defineDatabaseMigrations();
 
-        $this->defineDatabaseMigrations();
-
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($this->app, 'define-db');
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $attributeCallbacks = $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
-        }
+                $this->beforeApplicationDestroyed(function () {
+                    $this->destroyDatabaseMigrations();
+                });
+            },
+            function () {
+                $this->parseTestMethodAnnotations($this->app, 'define-db');
+            },
+            function () {
+                return $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
+            }
+        )->get('attribute');
 
         $callback();
 
@@ -59,10 +66,6 @@ trait HandlesDatabases
         }
 
         $this->defineDatabaseSeeders();
-
-        $this->beforeApplicationDestroyed(function () {
-            $this->destroyDatabaseMigrations();
-        });
     }
 
     /**

@@ -27,22 +27,24 @@ trait HandlesRoutes
         /** @var \Illuminate\Routing\Router $router */
         $router = $app['router'];
 
-        $this->defineRoutes($router);
+        $this->resolveTestbenchTestingFeature(
+            function () use ($router) {
+                $this->defineRoutes($router);
 
-        $router->middleware('web')
-            ->group(function ($router) {
-                $this->defineWebRoutes($router);
-            });
-
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
-                $this->{$method}($router);
-            });
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, DefineRoute::class);
-        }
+                $router->middleware('web')
+                    ->group(function ($router) {
+                        $this->defineWebRoutes($router);
+                    });
+            },
+            function () use ($app, $router) {
+                $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
+                    $this->{$method}($router);
+                });
+            },
+            function () use ($app) {
+                $this->parseTestMethodAttributes($app, DefineRoute::class);
+            }
+        );
 
         $router->getRoutes()->refreshNameLookups();
     }
