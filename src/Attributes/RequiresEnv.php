@@ -42,7 +42,7 @@ final class RequiresEnv implements ActionableContract
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  \Closure(string, array<int, mixed>):void  $action
-     * @return mixed
+     * @return void
      */
     public function handle($app, Closure $action)
     {
