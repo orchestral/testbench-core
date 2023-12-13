@@ -44,7 +44,7 @@ final class RequiresEnv implements ActionableContract
      * @param  \Closure(string, array<int, mixed>):void  $action
      * @return void
      */
-    public function handle($app, Closure $action)
+    public function handle($app, Closure $action): void
     {
         $value = Env::get($this->key, new UndefinedValue());
 
