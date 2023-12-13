@@ -83,7 +83,7 @@ trait HandlesDatabases
      * @param  string|null  $connection
      * @return bool
      */
-    protected function usesSqliteInMemoryDatabaseConnection(string $connection = null): bool
+    protected function usesSqliteInMemoryDatabaseConnection(?string $connection = null): bool
     {
         if (\is_null($app = $this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);

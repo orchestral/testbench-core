@@ -19,10 +19,10 @@ trait HandlesTestingFeature
      * @return \Illuminate\Support\Fluent<array-key, mixed>
      */
     protected function resolveTestbenchTestingFeature(
-        Closure $default = null,
-        Closure $annotation = null,
-        Closure $attribute = null,
-        Closure $pest = null
+        ?Closure $default = null,
+        ?Closure $annotation = null,
+        ?Closure $attribute = null,
+        ?Closure $pest = null
     ) {
         /** @var \Illuminate\Support\Fluent{?attribute: null} $result */
         $result = new Fluent();

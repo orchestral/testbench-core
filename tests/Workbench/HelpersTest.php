@@ -7,6 +7,7 @@ use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench;
 use function Orchestra\Testbench\workbench_path;

@@ -15,6 +15,7 @@ class WithEnvTest extends TestCase
     {
         $this->assertSame(true, Env::get('TESTING_USING_ATTRIBUTE'));
     }
+
     #[Test]
     public function it_does_not_persist_defined_env_variables_between_tests()
     {

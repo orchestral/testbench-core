@@ -65,7 +65,7 @@ trait ApplicationTestingHooks
      * @param  (\Closure():(void))|null  $callback
      * @return void
      */
-    final protected function setUpTheApplicationTestingHooks(Closure $callback = null): void
+    final protected function setUpTheApplicationTestingHooks(?Closure $callback = null): void
     {
         if (! $this->app) {
             $this->refreshApplication();
@@ -97,7 +97,7 @@ trait ApplicationTestingHooks
      *
      * @throws \Throwable
      */
-    final protected function tearDownTheApplicationTestingHooks(Closure $callback = null): void
+    final protected function tearDownTheApplicationTestingHooks(?Closure $callback = null): void
     {
         if ($this->app) {
             $this->callBeforeApplicationDestroyedCallbacks();
