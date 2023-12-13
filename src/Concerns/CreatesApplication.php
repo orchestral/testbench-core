@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
+use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
@@ -267,6 +268,15 @@ trait CreatesApplication
                 return $this->parseTestMethodAttributes($app, WithEnv::class);
             }
         )->get('attribute');
+
+        $this->resolveTestbenchTestingFeature(
+            null,
+            null,
+            function () use ($app) {
+                /** @phpstan-ignore-next-line */
+                return $this->parseTestMethodAttributes($app, RequiresEnv::class);
+            }
+        );
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
             $this->beforeApplicationDestroyed(function () use ($attributeCallbacks) {
