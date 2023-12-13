@@ -27,7 +27,7 @@ class Env extends \Illuminate\Support\Env
      *
      * @throws \InvalidArgumentException
      */
-    public static function forget(string $key)
+    public static function forget(string $key): bool
     {
         return static::getRepository()->clear($key);
     }
