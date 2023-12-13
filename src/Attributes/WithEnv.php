@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
+use Closure;
 use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\UndefinedValue;
@@ -29,7 +30,7 @@ final class WithEnv implements InvokableContract
      * @param  \Illuminate\Foundation\Application  $app
      * @return \Closure|null
      */
-    public function __invoke($app)
+    public function __invoke($app): ?Closure
     {
         $value = Env::get($this->key, new UndefinedValue());
 
