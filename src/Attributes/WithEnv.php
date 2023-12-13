@@ -11,6 +11,9 @@ final class WithEnv implements InvokableContract
 {
     /**
      * Construct a new attribute.
+     *
+     * @param  string  $key
+     * @param  string  $value
      */
     public function __construct(
         public string $key,
