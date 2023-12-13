@@ -8,6 +8,31 @@ namespace Orchestra\Testbench\Foundation;
 class Env extends \Illuminate\Support\Env
 {
     /**
+     * Set an environment value.
+     *
+     * @param  string  $key
+     * @param  string  $value
+     * @return void
+     */
+    public static function set(string $key, string $value): void
+    {
+        static::getRepository()->set($key, $value);
+    }
+
+    /**
+     * Forget an environment variable.
+     *
+     * @param  string  $key
+     * @return bool
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function forget(string $key)
+    {
+        return static::getRepository()->clear($key);
+    }
+
+    /**
      * Forward environment value.
      *
      * @param  string  $key

@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
@@ -17,6 +18,20 @@ use ReflectionClass;
  */
 trait InteractsWithPHPUnit
 {
+    /**
+     * The cached test case setUp resolver.
+     *
+     * @var (\Closure(\Closure):(void))|null
+     */
+    protected $testCaseSetUpCallback;
+
+    /**
+     * The cached test case tearDown resolver.
+     *
+     * @var (\Closure(\Closure):(void))|null
+     */
+    protected $testCaseTearDownCallback;
+
     /**
      * The cached uses for test case.
      *
@@ -222,6 +237,32 @@ trait InteractsWithPHPUnit
     }
 
     /**
+     * Define the setUp environment using callback.
+     *
+     * @param  \Closure(\Closure):void  $setUp
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    public function setUpTheEnvironmentUsing(Closure $setUp): void
+    {
+        $this->testCaseSetUpCallback = $setUp;
+    }
+
+    /**
+     * Define the tearDown environment using callback.
+     *
+     * @param  \Closure(\Closure):void  $tearDown
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    public function tearDownTheEnvironmentUsing(Closure $tearDown): void
+    {
+        $this->testCaseTearDownCallback = $tearDown;
+    }
+
+    /**
      * Clean up the testing environment before the next test case.
      *
      * @return void
@@ -235,6 +276,7 @@ trait InteractsWithPHPUnit
         static::$cachedTestCaseMethodAttributes = [];
 
         $registry = PHPUnit10Registry::getInstance();
+
         (function () {
             $this->classDocBlocks = [];
             $this->methodDocBlocks = [];

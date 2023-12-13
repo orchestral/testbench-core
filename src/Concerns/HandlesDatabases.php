@@ -33,27 +33,31 @@ trait HandlesDatabases
         });
 
         if (static::usesTestingConcern(WithLaravelMigrations::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpWithLaravelMigrations();
+            $this->setUpWithLaravelMigrations(); // @phpstan-ignore-line
         }
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, ResetRefreshDatabaseState::class);
-        }
+        $this->resolveTestbenchTestingFeature(
+            attribute: function () use ($app) {
+                $this->parseTestMethodAttributes($app, ResetRefreshDatabaseState::class);
+                $this->parseTestMethodAttributes($app, WithMigration::class);
+            },
+        );
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $this->parseTestMethodAttributes($app, WithMigration::class);
-        }
+        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+            default: function () {
+                $this->defineDatabaseMigrations();
+                $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrations());
+            },
+            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
+            pest: function ($default) {
+                $this->defineDatabaseMigrationsUsingPest(); // @phpstan-ignore-line
 
-        $this->defineDatabaseMigrations();
+                $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrationsUsingPest()); // @phpstan-ignore-line
 
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($app, 'define-db');
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $attributeCallbacks = $this->parseTestMethodAttributes($app, DefineDatabase::class);
-        }
+                value($default);
+            },
+        )->get('attribute');
 
         $callback();
 
@@ -63,11 +67,14 @@ trait HandlesDatabases
             });
         }
 
-        $this->defineDatabaseSeeders();
+        $this->resolveTestbenchTestingFeature(
+            default: fn () => $this->defineDatabaseSeeders(),
+            pest: function ($default) {
+                $this->defineDatabaseSeedersUsingPest(); // @phpstan-ignore-line
 
-        $this->beforeApplicationDestroyed(function () {
-            $this->destroyDatabaseMigrations();
-        });
+                value($default);
+            }
+        );
     }
 
     /**

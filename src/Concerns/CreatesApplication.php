@@ -10,8 +10,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
+use Orchestra\Testbench\Attributes\WithConfig;
+use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * @api
@@ -21,6 +24,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
  */
 trait CreatesApplication
 {
+    use HandlesTestingFeature;
     use InteractsWithWorkbench;
 
     /**
@@ -279,6 +283,20 @@ trait CreatesApplication
         if (property_exists($this, 'loadEnvironmentVariables') && $this->loadEnvironmentVariables === true) {
             $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
+
+        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+            attribute: fn () => $this->parseTestMethodAttributes($app, WithEnv::class), // @phpstan-ignore-line
+        )->get('attribute');
+
+        if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
+            $this->beforeApplicationDestroyed(function () use ($attributeCallbacks) {
+                if (isset($attributeCallbacks) && $attributeCallbacks->isNotEmpty()) {
+                    $attributeCallbacks->each(function ($callback) {
+                        value($callback);
+                    });
+                }
+            });
+        }
     }
 
     /**
@@ -307,6 +325,10 @@ trait CreatesApplication
                 'app.aliases' => $this->resolveApplicationAliases($app),
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
+
+            $this->resolveTestbenchTestingFeature(
+                attribute: fn () => $this->parseTestMethodAttributes($app, WithConfig::class), // @phpstan-ignore-line
+            );
         });
     }
 
@@ -383,33 +405,33 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAnnotations($app, 'environment-setup');
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAnnotations($app, 'define-env');
-        }
+        $this->resolveTestbenchTestingFeature(
+            default: function () use ($app) {
+                $this->defineEnvironment($app);
+                $this->getEnvironmentSetUp($app);
+            },
+            annotation: function () use ($app) {
+                $this->parseTestMethodAnnotations($app, 'environment-setup'); // @phpstan-ignore-line
+                $this->parseTestMethodAnnotations($app, 'define-env'); // @phpstan-ignore-line
+            },
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineEnvironment::class), // @phpstan-ignore-line
+            pest: function ($default) use ($app) {
+                $this->defineEnvironmentUsingPest($app); // @phpstan-ignore-line
 
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->parseTestMethodAttributes($app, DefineEnvironment::class);
-        }
-
-        $this->defineEnvironment($app);
-        $this->getEnvironmentSetUp($app);
+                value($default);
+            },
+        );
 
         $this->resolveApplicationRateLimiting($app);
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->bootDiscoverRoutesForWorkbench($app);
+            $this->bootDiscoverRoutesForWorkbench($app); // @phpstan-ignore-line
         }
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpApplicationRoutes($app);
+            $this->setUpApplicationRoutes($app); // @phpstan-ignore-line
         }
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {

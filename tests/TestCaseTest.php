@@ -36,6 +36,7 @@ class TestCaseTest extends TestCase
 
         $this->assertInstanceOf(TestCaseContract::class, $testbench);
         $this->assertTrue($testbench->isRunningTestCase());
+        $this->assertFalse($testbench->isRunningTestCaseUsingPest());
     }
 
     #[Test]

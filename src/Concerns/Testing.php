@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
@@ -11,6 +12,8 @@ use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Pest\WithPest;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * @api
@@ -24,6 +27,7 @@ trait Testing
     use HandlesDatabases;
     use HandlesRoutes;
     use InteractsWithMigrations;
+    use InteractsWithPHPUnit;
     use WithFactories;
 
     /**
@@ -35,9 +39,20 @@ trait Testing
      */
     final protected function setUpTheTestEnvironment(): void
     {
-        $this->setUpTheApplicationTestingHooks(function () {
-            $this->setUpTraits();
-        });
+        $setUp = function () {
+            $this->setUpTheApplicationTestingHooks(function () {
+                $this->setUpTraits();
+            });
+        };
+
+        /** @phpstan-ignore-next-line */
+        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
+            $this->setUpTheEnvironmentUsingPest(); // @phpstan-ignore-line
+        }
+
+        $this->testCaseSetUpCallback instanceof Closure
+            ? value($this->testCaseSetUpCallback, $setUp)
+            : value($setUp);
     }
 
     /**
@@ -49,23 +64,37 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
-        $this->tearDownTheApplicationTestingHooks(function () {
-            if (property_exists($this, 'serverVariables')) {
-                $this->serverVariables = [];
-            }
+        $tearDown = function () {
+            $this->tearDownTheApplicationTestingHooks(function () {
+                if (property_exists($this, 'serverVariables')) {
+                    $this->serverVariables = [];
+                }
 
-            if (property_exists($this, 'defaultHeaders')) {
-                $this->defaultHeaders = [];
-            }
+                if (property_exists($this, 'defaultHeaders')) {
+                    $this->defaultHeaders = [];
+                }
 
-            if (property_exists($this, 'originalExceptionHandler')) {
-                $this->originalExceptionHandler = null;
-            }
+                if (property_exists($this, 'originalExceptionHandler')) {
+                    $this->originalExceptionHandler = null;
+                }
 
-            if (property_exists($this, 'originalDeprecationHandler')) {
-                $this->originalDeprecationHandler = null;
-            }
-        });
+                if (property_exists($this, 'originalDeprecationHandler')) {
+                    $this->originalDeprecationHandler = null;
+                }
+            });
+        };
+
+        /** @phpstan-ignore-next-line */
+        if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
+            $this->tearDownTheEnvironmentUsingPest(); // @phpstan-ignore-line
+        }
+
+        $this->testCaseTearDownCallback instanceof Closure
+            ? value($this->testCaseTearDownCallback, $tearDown)
+            : value($tearDown);
+
+        $this->testCaseSetUpCallback = null;
+        $this->testCaseTearDownCallback = null;
     }
 
     /**
@@ -79,40 +108,33 @@ trait Testing
     final protected function setUpTheTestEnvironmentTraits(array $uses): array
     {
         if (isset($uses[WithWorkbench::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpWithWorkbench();
+            $this->setUpWithWorkbench(); // @phpstan-ignore-line
         }
 
         $this->setUpDatabaseRequirements(function () use ($uses) {
             if (isset($uses[RefreshDatabase::class])) {
-                /** @phpstan-ignore-next-line */
-                $this->refreshDatabase();
+                $this->refreshDatabase(); // @phpstan-ignore-line
             }
 
             if (isset($uses[DatabaseMigrations::class])) {
-                /** @phpstan-ignore-next-line */
-                $this->runDatabaseMigrations();
+                $this->runDatabaseMigrations(); // @phpstan-ignore-line
             }
 
             if (isset($uses[DatabaseTruncation::class])) {
-                /** @phpstan-ignore-next-line */
-                $this->truncateDatabaseTables();
+                $this->truncateDatabaseTables(); // @phpstan-ignore-line
             }
         });
 
         if (isset($uses[DatabaseTransactions::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->beginDatabaseTransaction();
+            $this->beginDatabaseTransaction(); // @phpstan-ignore-line
         }
 
         if (isset($uses[WithoutMiddleware::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->disableMiddlewareForAllTests();
+            $this->disableMiddlewareForAllTests(); // @phpstan-ignore-line
         }
 
         if (isset($uses[WithFaker::class])) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpFaker();
+            $this->setUpFaker(); // @phpstan-ignore-line
         }
 
         LazyCollection::make(static function () use ($uses) {
