@@ -14,7 +14,7 @@ trait HandlesTestingFeature
      * @param  (\Closure():(void))|null  $default
      * @param  (\Closure():(void))|null  $annotation
      * @param  (\Closure():(mixed))|null  $attribute
-     * @return \Illuminate\Support\Fluent<array-key, mixed>
+     * @return \Illuminate\Support\Fluent
      */
     protected function resolveTestbenchTestingFeature(
         ?Closure $default = null,

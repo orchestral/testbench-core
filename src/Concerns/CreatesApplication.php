@@ -262,6 +262,7 @@ trait CreatesApplication
             null,
             null,
             function () use ($app) {
+                /** @phpstan-ignore-next-line */
                 return $this->parseTestMethodAttributes($app, WithEnv::class);
             }
         )->get('attribute');
@@ -306,6 +307,7 @@ trait CreatesApplication
                 null,
                 null,
                 function () use ($app) {
+                    /** @phpstan-ignore-next-line */
                     $this->parseTestMethodAttributes($app, WithConfig::class);
                 }
             );
@@ -392,6 +394,7 @@ trait CreatesApplication
                 $this->parseTestMethodAnnotations($app, 'define-env');
             },
             function () use ($app) {
+                /** @phpstan-ignore-next-line */
                 $this->parseTestMethodAttributes($app, DefineEnvironment::class);
             }
         );

@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests\Attributes;
 
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 
 /**
