@@ -8,19 +8,19 @@ use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\UndefinedValue;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final class WithEnv implements InvokableContract
+final class WithConfig implements InvokableContract
 {
     /**
-     * The target environment key.
+     * The target configuration key.
      *
      * @var string
      */
     public $key;
 
     /**
-     * The target environment value.
+     * The target configuration value.
      *
-     * @var string|null
+     * @var mixed
      */
     public $value;
 
@@ -28,9 +28,9 @@ final class WithEnv implements InvokableContract
      * Construct a new attribute.
      *
      * @param  string  $key
-     * @param  string|null  $value
+     * @param  mixed  $value
      */
-    public function __construct(string $key, ?string $value)
+    public function __construct(string $key, $value)
     {
         $this->key = $key;
         $this->value = $value;
@@ -40,20 +40,13 @@ final class WithEnv implements InvokableContract
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return \Closure|null
+     * @return void
      */
-    public function __invoke($app)
+    public function __invoke($app): void
     {
-        $value = Env::get($this->key, new UndefinedValue());
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app->make('config');
 
-        Env::set($this->key, $this->value);
-
-        return function () use ($value) {
-            if ($value instanceof UndefinedValue) {
-                Env::forget($this->key);
-            } else {
-                Env::set($this->key, $value);
-            }
-        };
+        $config->set($this->key, $this->value);
     }
 }

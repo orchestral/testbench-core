@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Foundation\PackageManifest;
@@ -300,6 +301,14 @@ trait CreatesApplication
                 'app.aliases' => $this->resolveApplicationAliases($app),
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
+
+            $this->resolveTestbenchTestingFeature(
+                null,
+                null,
+                function () use ($app) {
+                    $this->parseTestMethodAttributes($app, WithConfig::class);
+                }
+            );
         });
     }
 
