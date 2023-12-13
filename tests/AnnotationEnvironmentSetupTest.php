@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpunit;
 use PHPUnit\Framework\Attributes\Test;
 
 #[RequiresPhpunit('>=10.1.0 <11.0.0')]

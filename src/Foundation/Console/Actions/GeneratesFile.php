@@ -19,7 +19,7 @@ class GeneratesFile extends Action
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
         public bool $force = false,
-        ?string $workingPath = null
+        string $workingPath = null
     ) {
         $this->workingPath = $workingPath;
     }

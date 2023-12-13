@@ -18,7 +18,7 @@ trait HandlesAnnotations
      * @param  \Illuminate\Foundation\Application  $app
      * @param  string  $name
      */
-    protected function parseTestMethodAnnotations($app, string $name, ?Closure $callback = null): void
+    protected function parseTestMethodAnnotations($app, string $name, Closure $callback = null): void
     {
         $this->resolvePhpUnitAnnotations()
             ->lazy()

@@ -30,10 +30,10 @@ use Symfony\Component\Process\Process;
  * @return \Orchestra\Testbench\Foundation\Application
  */
 function container(
-    ?string $basePath = null,
-    ?callable $resolvingCallback = null,
+    string $basePath = null,
+    callable $resolvingCallback = null,
     array $options = [],
-    ?Config $config = null
+    Config $config = null
 ): Foundation\Application {
     if ($config instanceof Config) {
         return Foundation\Application::makeFromConfig($config, $resolvingCallback, $options);
@@ -104,7 +104,7 @@ function remote(string $command, array $env = []): Process
  * @param  (\Closure(object, \Illuminate\Contracts\Foundation\Application):(mixed))|null  $callback
  * @return void
  */
-function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
+function after_resolving(ApplicationContract $app, string $name, Closure $callback = null): void
 {
     $app->afterResolving($name, $callback);
 
@@ -235,7 +235,7 @@ function workbench_path(string $path = ''): string
  *
  * @throws \InvalidArgumentException
  */
-function laravel_migration_path(?string $type = null): string
+function laravel_migration_path(string $type = null): string
 {
     $path = realpath(
         \is_null($type) ? base_path('migrations') : base_path("migrations/{$type}")
@@ -257,7 +257,7 @@ function laravel_migration_path(?string $type = null): string
  * @param  string|null  $operator
  * @return int|bool
  */
-function laravel_version_compare(string $version, ?string $operator = null)
+function laravel_version_compare(string $version, string $operator = null)
 {
     /** @phpstan-ignore-next-line */
     $laravel = Application::VERSION === '11.x-dev' ? '11.0.0' : Application::VERSION;
@@ -278,7 +278,7 @@ function laravel_version_compare(string $version, ?string $operator = null)
  * @param  string|null  $operator
  * @return int|bool
  */
-function phpunit_version_compare(string $version, ?string $operator = null)
+function phpunit_version_compare(string $version, string $operator = null)
 {
     if (! class_exists(Version::class)) {
         throw new RuntimeException('Unable to verify PHPUnit version');
