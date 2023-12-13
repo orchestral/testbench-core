@@ -45,15 +45,14 @@ trait HandlesDatabases
             $this->parseTestMethodAttributes($app, WithMigration::class);
         }
 
-        $this->defineDatabaseMigrations();
-
-        if (static::usesTestingConcern(HandlesAnnotations::class)) {
-            $this->parseTestMethodAnnotations($app, 'define-db');
-        }
-
-        if (static::usesTestingConcern(HandlesAttributes::class)) {
-            $attributeCallbacks = $this->parseTestMethodAttributes($app, DefineDatabase::class);
-        }
+        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+            default: function () {
+                $this->defineDatabaseMigrations();
+                $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrations());
+            },
+            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class)
+        )->get('attribute');
 
         $callback();
 
@@ -64,10 +63,6 @@ trait HandlesDatabases
         }
 
         $this->defineDatabaseSeeders();
-
-        $this->beforeApplicationDestroyed(function () {
-            $this->destroyDatabaseMigrations();
-        });
     }
 
     /**
