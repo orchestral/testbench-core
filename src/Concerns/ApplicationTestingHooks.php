@@ -8,8 +8,11 @@ use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
 use Mockery;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
@@ -136,8 +139,11 @@ trait ApplicationTestingHooks
         Component::flushCache();
         Component::forgetComponentsResolver();
         Component::forgetFactory();
-        Queue::createPayloadUsing(null);
+        ConvertEmptyStringsToNull::flushState();
         HandleExceptions::forgetApp();
+        Queue::createPayloadUsing(null);
+        Sleep::fake(false);
+        TrimStrings::flushState();
 
         if ($this->callbackException) {
             throw $this->callbackException;
