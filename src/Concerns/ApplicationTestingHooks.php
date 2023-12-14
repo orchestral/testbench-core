@@ -107,11 +107,16 @@ trait ApplicationTestingHooks
 
             $this->tearDownParallelTestingCallbacks();
 
-            if ($this->app->bound('db')) {
-                $this->app['db']->flushState();
+            if ($this->app?->bound('db')) {
+                tap($this->app->make('db'), function ($db) {
+                    foreach (array_keys($db->getConnections()) as $name) {
+                        /** @var string $name */
+                        $db->purge($name);
+                    }
+                });
             }
 
-            $this->app->flush();
+            $this->app?->flush();
 
             $this->app = null;
         }
