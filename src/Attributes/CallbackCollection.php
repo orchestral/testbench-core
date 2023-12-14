@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Attributes;
 use Closure;
 use Illuminate\Support\Collection;
 
+/**
+ * @internal
+ */
 final class CallbackCollection extends Collection
 {
     /**
