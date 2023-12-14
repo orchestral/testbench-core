@@ -22,7 +22,7 @@ final class CallbackCollection extends Collection
             return;
         }
 
-        $this->each($callback ?? function ($attribute) {
+        $this->each($callback ?? static function ($attribute) {
             value($attribute);
         });
     }
