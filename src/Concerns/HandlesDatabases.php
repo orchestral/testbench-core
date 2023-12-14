@@ -55,11 +55,7 @@ trait HandlesDatabases
 
         $callback();
 
-        if (isset($attributeCallbacks) && $attributeCallbacks->isNotEmpty()) {
-            $attributeCallbacks->each(function ($callback) {
-                value($callback);
-            });
-        }
+        $attributeCallbacks->handle();
 
         $this->defineDatabaseSeeders();
     }
