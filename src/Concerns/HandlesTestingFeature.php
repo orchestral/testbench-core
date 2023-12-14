@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Support\Fluent;
-use Orchestra\Testbench\Pest\WithPest;
 use Orchestra\Testbench\Attributes\CallbackCollection;
+use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 trait HandlesTestingFeature
