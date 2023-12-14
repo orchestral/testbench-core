@@ -9,29 +9,16 @@ use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 final class WithConfig implements InvokableContract
 {
     /**
-     * The target configuration key.
-     *
-     * @var string
-     */
-    public $key;
-
-    /**
-     * The target configuration value.
-     *
-     * @var mixed
-     */
-    public $value;
-
-    /**
      * Construct a new attribute.
      *
      * @param  string  $key
      * @param  mixed  $value
      */
-    public function __construct(string $key, $value)
-    {
-        $this->key = $key;
-        $this->value = $value;
+    public function __construct(
+        public string $key,
+        public mixed $value
+    ) {
+        //
     }
 
     /**
