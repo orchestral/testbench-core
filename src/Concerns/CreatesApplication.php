@@ -280,11 +280,7 @@ trait CreatesApplication
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
             $this->beforeApplicationDestroyed(function () use ($attributeCallbacks) {
-                if (isset($attributeCallbacks) && $attributeCallbacks->isNotEmpty()) {
-                    $attributeCallbacks->each(function ($callback) {
-                        value($callback);
-                    });
-                }
+                $attributeCallbacks->handle();
             });
         }
     }
