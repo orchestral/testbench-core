@@ -7,6 +7,7 @@ use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\unsetConnectionResolver;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -141,6 +142,7 @@ trait ApplicationTestingHooks
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
         HandleExceptions::forgetApp();
+        Model::unsetConnectionResolver();
         Queue::createPayloadUsing(null);
         Sleep::fake(false);
         TrimStrings::flushState();
