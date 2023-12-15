@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
+use Illuminate\Foundation\Testing\DatabaseConnectionFactory;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Sleep;

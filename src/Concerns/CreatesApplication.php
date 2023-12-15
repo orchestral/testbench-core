@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
-use Illuminate\Foundation\Testing\DatabaseConnectionFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
