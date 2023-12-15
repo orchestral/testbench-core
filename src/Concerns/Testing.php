@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Closure;
+use Illuminate\Foundation\Testing\DatabaseConnectionFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
@@ -183,6 +184,7 @@ trait Testing
     public static function tearDownAfterClassUsingLaravel(): void
     {
         static::$latestResponse = null;
+        DatabaseConnectionFactory::flushState();
 
         if (
             static::usesTestingConcern(RefreshDatabase::class)
