@@ -17,9 +17,6 @@ final class DisconnectDatabaseConnections implements ActionableContract
      */
     public function handle($app, Closure $action): void
     {
-        /** @var \Illuminate\Routing\Router $router */
-        $router = $app->make('router');
-
         \call_user_func($action, 'disconnectDatabaseConnectionsOnTearDown');
     }
 }

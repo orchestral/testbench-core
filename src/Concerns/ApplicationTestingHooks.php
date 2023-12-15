@@ -107,6 +107,13 @@ trait ApplicationTestingHooks
 
             $this->tearDownParallelTestingCallbacks();
 
+            if (
+                property_exists($this, 'disconnectDatabaseConnections')
+                && $this->disconnectDatabaseConnections === true
+            ) {
+                DatabaseConnectionFactory::flushState();
+            }
+
             $this->app?->flush();
 
             $this->app = null;
