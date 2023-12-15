@@ -405,7 +405,7 @@ trait CreatesApplication
 
         if ($this->isRunningTestCase() && $app->bound('db.factory')) {
             tap($app['db.factory'], static function ($factory) use ($app) {
-                $app->instance('db.factory', new DatabaseConnectionFactory($factory));
+                $app->instance('db.factory', new DatabaseConnectionFactory($app, $factory));
             });
         }
 
