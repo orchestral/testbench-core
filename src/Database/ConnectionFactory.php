@@ -2,10 +2,13 @@
 
 namespace Orchestra\Testbench\Database;
 
+use Illuminate\Container\Container;
+use Illuminate\Database\Connectors\ConnectionFactory as BaseFactory;
+
 /**
  * @internal
  */
-class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactory
+class ConnectionFactory extends BaseFactory
 {
     /**
      * List of cached database connections.
@@ -13,6 +16,13 @@ class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactor
      * @var array<string, \Illuminate\Database\Connection>
      */
     protected static array $cachedConnections = [];
+
+    public function __construct(
+        Container $container,
+        protected BaseFactory $baseFactory
+    ) {
+        parent::__construct($container);
+    }
 
     /**
      * Establish a PDO connection based on the configuration.
@@ -28,11 +38,11 @@ class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactor
         $key = $name ?? $config['name'];
 
         if ($config['driver'] === 'sqlite') {
-            return parent::make($config, $name); // @phpstan-ignore-line
+            return $baseFactory->make($config, $name); // @phpstan-ignore-line
         }
 
         if (! isset(static::$cachedConnections[$key]) || \is_null((static::$cachedConnections[$key]->getRawPdo() ?? null))) {
-            return static::$cachedConnections[$key] = parent::make($config, $name); // @phpstan-ignore-line
+            return static::$cachedConnections[$key] = $baseFactory->make($config, $name); // @phpstan-ignore-line
         }
 
         $config = $this->parseConfig($config, $name);

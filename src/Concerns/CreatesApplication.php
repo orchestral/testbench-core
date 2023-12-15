@@ -403,7 +403,11 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
-        $app->instance('db.factory', new ConnectionFactory($app));
+        if ($this->isRunningTestCase()) {
+            tap($app['db.factory'], static function ($factory) use ($app) {
+                $app->instance('db.factory', new ConnectionFactory($app, $factory));
+            });
+        }
 
         if (class_exists('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider')) {
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
