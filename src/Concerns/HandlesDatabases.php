@@ -98,6 +98,26 @@ trait HandlesDatabases
     }
 
     /**
+     * Set test to disconnect database connections on teardown.
+     *
+     * @return void
+     */
+    public function disconnectDatabaseConnectionsOnTearDown(): void
+    {
+        $this->disconnectDatabaseConnections = true;
+    }
+
+    /**
+     * Set test to persist database connections on teardown.
+     *
+     * @return void
+     */
+    public function persistDatabaseConnectionsOnTearDown(): void
+    {
+        $this->disconnectDatabaseConnections = false;
+    }
+
+    /**
      * Define database migrations.
      *
      * @return void
