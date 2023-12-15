@@ -21,7 +21,8 @@ class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactor
     #[\Override]
     public function make(array $config, $name = null)
     {
-        $connection = $name ?? $config['name'];
+        /** @var string $name */
+        $name = $name ?? $config['name'];
 
         if ($config['driver'] === 'sqlite') {
             return parent::make($config, $name);
