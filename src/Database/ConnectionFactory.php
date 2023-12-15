@@ -3,12 +3,13 @@
 namespace Orchestra\Testbench\Database;
 
 use Illuminate\Container\Container;
-use Illuminate\Database\Connectors\ConnectionFactory as BaseFactory;
+use Illuminate\Database\Connectors\ConnectionFactory as IlluminateFactory;
+use Illuminate\Support\Arr;
 
 /**
  * @internal
  */
-class ConnectionFactory extends BaseFactory
+class ConnectionFactory
 {
     /**
      * List of cached database connections.
@@ -18,8 +19,8 @@ class ConnectionFactory extends BaseFactory
     protected static array $cachedConnections = [];
 
     public function __construct(
-        Container $container,
-        protected BaseFactory $baseFactory
+        protected Container $container,
+        protected IlluminateFactory $baseFactory
     ) {
         parent::__construct($container);
     }
@@ -52,6 +53,18 @@ class ConnectionFactory extends BaseFactory
         )->setReadPdo(static::$cachedConnections[$key]->getRawReadPdo());
 
         return static::$cachedConnections[$key] = $connection;
+    }
+
+    /**
+     * Parse and prepare the database configuration.
+     *
+     * @param  array  $config
+     * @param  string  $name
+     * @return array
+     */
+    protected function parseConfig(array $config, $name)
+    {
+        return Arr::add(Arr::add($config, 'prefix', ''), 'name', $name);
     }
 
     /**
