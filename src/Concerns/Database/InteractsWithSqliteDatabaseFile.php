@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Concerns\Database;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
-use Orchestra\Testbench\Database\ConnectionFactory;
 use PHPUnit\Framework\Attributes\AfterClass;
 
 /**

@@ -28,7 +28,7 @@ class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactor
             return parent::make($config, $name);
         }
 
-        if (! isset(static::$cachedConnections[$name]) || is_null((static::$cachedConnections[$name]->getRawPdo() ?? null))) {
+        if (! isset(static::$cachedConnections[$name]) || \is_null((static::$cachedConnections[$name]->getRawPdo() ?? null))) {
             return static::$cachedConnections[$name] = parent::make($config, $name);
         }
 
