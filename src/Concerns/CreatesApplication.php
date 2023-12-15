@@ -403,10 +403,8 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
-        if ($this->isRunningTestCase() && $app->bound('db.factory')) {
-            tap($app['db.factory'], static function ($factory) use ($app) {
-                $app->instance('db.factory', new DatabaseConnectionFactory($app, $factory));
-            });
+        if ($this->isRunningTestCase()) {
+            $app->make('Illuminate\Foundation\Bootstrap\OverrideProvidersForTesting')->bootstrap($app);
         }
 
         if (class_exists('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider')) {
