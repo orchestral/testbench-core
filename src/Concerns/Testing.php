@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Attributes\DisconnectDatabaseConnections;
 use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
@@ -65,6 +66,10 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
+        $this->resolveTestbenchTestingFeature(
+            attribute: fn () => $this->parseTestMethodAttributes($app, DisconnectDatabaseConnections::class), // @phpstan-ignore-line
+        );
+
         $tearDown = function () {
             $this->tearDownTheApplicationTestingHooks(function () {
                 if (property_exists($this, 'serverVariables')) {
