@@ -6,7 +6,7 @@ use Attribute;
 use Closure;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 
-#[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_CLASS)]
 final class DisconnectDatabaseConnections implements ActionableContract
 {
     /**
