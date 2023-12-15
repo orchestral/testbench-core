@@ -23,6 +23,10 @@ class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactor
     {
         $connection = $name ?? $config['name'];
 
+        if ($config['driver'] === 'sqlite') {
+            return parent::make($config, $name);
+        }
+
         if (isset(static::$cachedConnections[$name]) && \is_null(static::$cachedConnections[$name]->getRawPdo())) {
             unset(static::$cachedConnections[$name]);
         }
