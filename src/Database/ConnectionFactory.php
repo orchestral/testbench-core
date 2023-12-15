@@ -23,6 +23,20 @@ class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactor
     {
         $connection = $name ?? $config['name'];
 
+        if (isset(static::$cachedConnections[$name]) && \is_null(static::$cachedConnections[$name]->getRawPdo())) {
+            unset(static::$cachedConnections[$name]);
+        }
+
         return static::$cachedConnections[$name] ??= parent::make($config, $name);
+    }
+
+    /**
+     * Flush the current state.
+     *
+     * @return void
+     */
+    public static function flushState(): void
+    {
+        static::$cachedConnections = [];
     }
 }

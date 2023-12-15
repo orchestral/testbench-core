@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns\Database;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
+use Orchestra\Testbench\Database\ConnectionFactory;
 use PHPUnit\Framework\Attributes\AfterClass;
 
 /**
@@ -42,6 +43,10 @@ trait InteractsWithSqliteDatabaseFile
         if (isset($temporary)) {
             $filesystem->move($temporary, $database);
         }
+
+        $this->beforeApplicationDestroyed(function () {
+            ConnectionFactory::flushState();
+        });
     }
 
     /**
@@ -76,6 +81,8 @@ trait InteractsWithSqliteDatabaseFile
     #[AfterClass]
     public static function cleanupBackupSqliteDatabaseFilesOnFailed()
     {
+        ConnectionFactory::flushState();
+
         $filesystem = new Filesystem();
 
         $filesystem->delete(
