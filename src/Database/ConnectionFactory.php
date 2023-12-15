@@ -2,6 +2,9 @@
 
 namespace Orchestra\Testbench\Database;
 
+/**
+ * @internal
+ */
 class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactory
 {
     /**
