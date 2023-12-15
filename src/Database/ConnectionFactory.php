@@ -28,23 +28,17 @@ class ConnectionFactory extends \Illuminate\Database\Connectors\ConnectionFactor
             return parent::make($config, $name);
         }
 
-        if (isset(static::$cachedConnections[$name])) {
-            if (\is_null(static::$cachedConnections[$name]->getRawPdo())) {
-                unset(static::$cachedConnections[$name]);
-
-                return static::$cachedConnections[$name] = parent::make($config, $name);
-            }
-
-            $config = $this->parseConfig($config, $name);
-
-            $connection = $this->createConnection(
-                $config['driver'], static::$cachedConnections[$name]->getRawPdo(), $config['database'], $config['prefix'], $config
-            )->setReadPdo(static::$cachedConnections[$name]->getRawReadPdo());
-
-            return static::$cachedConnections[$name] = $connection;
+        if (is_null((static::$cachedConnections[$name]?->getRawPdo() ?? null))) {
+            return static::$cachedConnections[$name] = parent::make($config, $name);
         }
 
-        return static::$cachedConnections[$name] = parent::make($config, $name);
+        $config = $this->parseConfig($config, $name);
+
+        $connection = $this->createConnection(
+            $config['driver'], static::$cachedConnections[$name]->getRawPdo(), $config['database'], $config['prefix'], $config
+        )->setReadPdo(static::$cachedConnections[$name]->getRawReadPdo());
+
+        return static::$cachedConnections[$name] = $connection;
     }
 
     /**

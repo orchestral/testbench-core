@@ -43,10 +43,6 @@ trait InteractsWithSqliteDatabaseFile
         if (isset($temporary)) {
             $filesystem->move($temporary, $database);
         }
-
-        $this->beforeApplicationDestroyed(function () {
-            ConnectionFactory::flushState();
-        });
     }
 
     /**
@@ -81,8 +77,6 @@ trait InteractsWithSqliteDatabaseFile
     #[AfterClass]
     public static function cleanupBackupSqliteDatabaseFilesOnFailed()
     {
-        ConnectionFactory::flushState();
-
         $filesystem = new Filesystem();
 
         $filesystem->delete(
