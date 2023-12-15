@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
+use Illuminate\Foundation\Testing\DatabaseConnectionFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
@@ -14,7 +15,6 @@ use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
-use Orchestra\Testbench\Database\ConnectionFactory;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
@@ -403,9 +403,9 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
 
-        if ($this->isRunningTestCase()) {
+        if ($this->isRunningTestCase() && $app->bound('db.factory')) {
             tap($app['db.factory'], static function ($factory) use ($app) {
-                $app->instance('db.factory', new ConnectionFactory($app, $factory));
+                $app->instance('db.factory', new DatabaseConnectionFactory($factory));
             });
         }
 
