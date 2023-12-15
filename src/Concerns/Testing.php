@@ -67,7 +67,7 @@ trait Testing
     final protected function tearDownTheTestEnvironment(): void
     {
         $this->resolveTestbenchTestingFeature(
-            attribute: fn () => $this->parseTestMethodAttributes($app, DisconnectDatabaseConnections::class), // @phpstan-ignore-line
+            attribute: fn () => $this->parseTestMethodAttributes($this->app, DisconnectDatabaseConnections::class), // @phpstan-ignore-line
         );
 
         $tearDown = function () {
