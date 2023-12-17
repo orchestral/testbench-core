@@ -23,10 +23,6 @@ trait InteractsWithPublishedFiles
     {
         $this->cleanUpPublishedFiles();
         $this->cleanUpPublishedMigrationFiles();
-
-        $this->beforeApplicationDestroyed(function () {
-            $this->tearDownInteractsWithPublishedFiles();
-        });
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns\Database;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Attributes\DisconnectDatabaseConnections;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 use PHPUnit\Framework\Attributes\AfterClass;
 
@@ -20,6 +21,14 @@ trait InteractsWithSqliteDatabaseFile
      * @var array<int, string>
      */
     protected $files = [];
+
+    /**
+     * Setup Interacts with SQLite Database File environment.
+     */
+    protected function setUpInteractsWithSqliteDatabaseFile(): void
+    {
+        $this->usesTestingFeature(new DisconnectDatabaseConnections());
+    }
 
     /**
      * Drop Sqlite Database.

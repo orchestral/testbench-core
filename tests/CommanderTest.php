@@ -14,7 +14,6 @@ use PHPUnit\Framework\Attributes\Test;
 use function Orchestra\Testbench\remote;
 
 #[RequiresOperatingSystem('Linux|DAR')]
-#[DisconnectDatabaseConnections]
 class CommanderTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
