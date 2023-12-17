@@ -21,8 +21,6 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        (new SyncDatabaseEnvironmentVariables())->bootstrap($this->app);
-
         $this->app['events']->listen(DatabaseRefreshed::class, function () {
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
         });
