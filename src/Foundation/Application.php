@@ -276,7 +276,6 @@ class Application
         $this->resolveApplicationConfigurationFromTrait($app);
 
         (new Bootstrap\EnsuresDefaultConfiguration())->bootstrap($app);
-        (new Bootstrap\SyncDatabaseEnvironmentVariables())->bootstrap($app);
     }
 
     /**

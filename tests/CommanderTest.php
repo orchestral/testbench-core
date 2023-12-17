@@ -34,7 +34,9 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_environment()
     {
         $this->withoutSqliteDatabase(function () {
-            $process = remote('env', ['APP_ENV' => 'workbench']);
+            $process = remote('env', [
+                'APP_ENV' => 'workbench',
+            ]);
             $process->mustRun();
 
             $this->assertSame('INFO  The application environment is [workbench].', trim($process->getOutput()));
@@ -98,12 +100,15 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_run_migration()
     {
         $this->withSqliteDatabase(function () {
-            $process = remote('migrate', ['DB_CONNECTION' => 'sqlite']);
+            $process = remote('migrate', [
+                'DB_CONNECTION' => 'sqlite',
+            ]);
             $process->mustRun();
 
             $this->assertSame([
                 '0001_01_01_000000_testbench_create_users_table',
-                '0001_01_01_000001_testbench_create_jobs_table',
+                '0001_01_01_000002_testbench_create_cache_table',
+                '0001_01_01_000003_testbench_create_jobs_table',
                 '2013_07_26_182750_create_testbench_users_table',
             ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });
@@ -117,6 +122,8 @@ class CommanderTest extends TestCase
             $process = remote('migrate', [
                 'DB_CONNECTION' => 'sqlite',
                 'TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS' => '(true)',
+                'APP_MAINTENANCE_STORE' => 'array',
+                'CACHE_STORE' => 'array',
             ]);
             $process->mustRun();
 

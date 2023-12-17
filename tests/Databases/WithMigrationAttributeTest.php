@@ -29,13 +29,13 @@ class WithMigrationAttributeTest extends TestCase
     {
         $this->assertTrue(Schema::hasTable('users'));
         $this->assertTrue(Schema::hasTable('password_reset_tokens'));
-        $this->assertFalse(Schema::hasTable('cache'));
-        $this->assertFalse(Schema::hasTable('cache_locks'));
+        $this->assertTrue(Schema::hasTable('cache'));
+        $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertFalse(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertFalse(Schema::hasTable('notifications'));
-        $this->assertFalse(Schema::hasTable('sessions'));
+        $this->assertTrue(Schema::hasTable('sessions'));
     }
 
     #[Test]
@@ -50,7 +50,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertFalse(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertFalse(Schema::hasTable('notifications'));
-        $this->assertFalse(Schema::hasTable('sessions'));
+        $this->assertTrue(Schema::hasTable('sessions'));
     }
 
     #[Test]
@@ -59,13 +59,13 @@ class WithMigrationAttributeTest extends TestCase
     {
         $this->assertTrue(Schema::hasTable('users'));
         $this->assertTrue(Schema::hasTable('password_reset_tokens'));
-        $this->assertFalse(Schema::hasTable('cache'));
-        $this->assertFalse(Schema::hasTable('cache_locks'));
+        $this->assertTrue(Schema::hasTable('cache'));
+        $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertFalse(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertTrue(Schema::hasTable('notifications'));
-        $this->assertFalse(Schema::hasTable('sessions'));
+        $this->assertTrue(Schema::hasTable('sessions'));
     }
 
     #[Test]
@@ -74,13 +74,13 @@ class WithMigrationAttributeTest extends TestCase
     {
         $this->assertTrue(Schema::hasTable('users'));
         $this->assertTrue(Schema::hasTable('password_reset_tokens'));
-        $this->assertFalse(Schema::hasTable('cache'));
-        $this->assertFalse(Schema::hasTable('cache_locks'));
+        $this->assertTrue(Schema::hasTable('cache'));
+        $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertTrue(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertFalse(Schema::hasTable('notifications'));
-        $this->assertFalse(Schema::hasTable('sessions'));
+        $this->assertTrue(Schema::hasTable('sessions'));
     }
 
     #[Test]
@@ -89,8 +89,8 @@ class WithMigrationAttributeTest extends TestCase
     {
         $this->assertTrue(Schema::hasTable('users'));
         $this->assertTrue(Schema::hasTable('password_reset_tokens'));
-        $this->assertFalse(Schema::hasTable('cache'));
-        $this->assertFalse(Schema::hasTable('cache_locks'));
+        $this->assertTrue(Schema::hasTable('cache'));
+        $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertFalse(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
