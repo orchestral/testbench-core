@@ -8,7 +8,6 @@ use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
-use Orchestra\Testbench\Foundation\Bootstrap\SyncDatabaseEnvironmentVariables;
 
 /**
  * @internal
@@ -25,8 +24,6 @@ trait HandlesDatabases
         if (\is_null($app = $this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
-
-        (new SyncDatabaseEnvironmentVariables())->bootstrap($app);
 
         $app['events']->listen(DatabaseRefreshed::class, function () {
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
