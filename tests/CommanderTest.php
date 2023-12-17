@@ -22,10 +22,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
-            $process = remote('--version --no-ansi', [
-                'APP_MAINTENANCE_STORE' => 'array',
-                'CACHE_STORE' => 'array',
-            ]);
+            $process = remote('--version --no-ansi');
             $process->mustRun();
 
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $process->getOutput());
@@ -39,8 +36,6 @@ class CommanderTest extends TestCase
         $this->withoutSqliteDatabase(function () {
             $process = remote('env', [
                 'APP_ENV' => 'workbench',
-                'APP_MAINTENANCE_STORE' => 'array',
-                'CACHE_STORE' => 'array',
             ]);
             $process->mustRun();
 
@@ -53,10 +48,7 @@ class CommanderTest extends TestCase
     public function it_output_correct_defaults()
     {
         $this->withoutSqliteDatabase(function () {
-            $process = remote('about --json', [
-                'APP_MAINTENANCE_STORE' => 'array',
-                'CACHE_STORE' => 'array',
-            ]);
+            $process = remote('about --json');
             $process->mustRun();
 
             $output = json_decode($process->getOutput(), true);
@@ -72,10 +64,7 @@ class CommanderTest extends TestCase
     public function it_output_correct_defaults_with_database_file()
     {
         $this->withSqliteDatabase(function () {
-            $process = remote('about --json', [
-                'APP_MAINTENANCE_STORE' => 'array',
-                'CACHE_STORE' => 'array',
-            ]);
+            $process = remote('about --json');
             $process->mustRun();
 
             $output = json_decode($process->getOutput(), true);
@@ -95,8 +84,6 @@ class CommanderTest extends TestCase
                 'APP_NAME' => 'Testbench Tests',
                 'APP_DEBUG' => '(false)',
                 'DB_CONNECTION' => 'testing',
-                'APP_MAINTENANCE_STORE' => 'array',
-                'CACHE_STORE' => 'array',
             ]);
             $process->mustRun();
 
@@ -115,8 +102,6 @@ class CommanderTest extends TestCase
         $this->withSqliteDatabase(function () {
             $process = remote('migrate', [
                 'DB_CONNECTION' => 'sqlite',
-                'APP_MAINTENANCE_STORE' => 'array',
-                'CACHE_STORE' => 'array',
             ]);
             $process->mustRun();
 
