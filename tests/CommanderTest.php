@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
-use Orchestra\Testbench\Attributes\DisconnectDatabaseConnections;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
