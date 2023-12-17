@@ -27,7 +27,7 @@ final class WithMigration implements InvokableContract
         $this->types = Collection::make(
             \func_num_args() > 0 ? \func_get_args() : ['laravel']
         )->transform(static function ($type) {
-            return \in_array($type, ['cache', 'sessions']) ? 'laravel' : $type;
+            return \in_array($type, ['cache', 'session']) ? 'laravel' : $type;
         })->all();
     }
 
