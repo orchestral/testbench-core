@@ -17,6 +17,6 @@ final class DisconnectDatabaseConnections implements ActionableContract
      */
     public function handle($app, Closure $action): void
     {
-        \call_user_func($action, 'disconnectDatabaseConnectionsOnTearDown');
+        \call_user_func($action, 'disconnectDatabaseConnectionsOnTearDown', []);
     }
 }
