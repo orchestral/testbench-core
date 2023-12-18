@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Attributes\CallbackCollection;
+use Orchestra\Testbench\Attributes\FeaturesCollection;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 
@@ -19,7 +19,7 @@ trait HandlesAttributes
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  class-string  $attribute
-     * @return \Orchestra\Testbench\Attributes\CallbackCollection<int, mixed>
+     * @return \Orchestra\Testbench\Attributes\FeaturesCollection<int, mixed>
      */
     protected function parseTestMethodAttributes($app, string $attribute): Collection
     {
@@ -39,7 +39,7 @@ trait HandlesAttributes
             })->filter()
             ->values();
 
-        return new CallbackCollection($attributes);
+        return new FeaturesCollection($attributes);
     }
 
     /**
