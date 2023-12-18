@@ -99,7 +99,7 @@ Illuminate\Support\Collection::make([
 
 transform([
     "env('APP_ENV', 'production')" => "env('APP_ENV', 'testing')",
-    "env('APP_MAINTENANCE_STORE', 'database')" => "env('APP_MAINTENANCE_STORE', 'array')",
+    "env('APP_MAINTENANCE_STORE', 'database')" => "env('APP_MAINTENANCE_STORE', 'file')",
     PHP_EOL.'        App\Providers' => PHP_EOL.'        // App\Providers',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/app.php"));
 
