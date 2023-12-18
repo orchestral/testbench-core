@@ -80,6 +80,7 @@ Illuminate\Support\Collection::make([
 
 transform([
     PHP_EOL.'APP_KEY=' => PHP_EOL.'APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
+    PHP_EOL.'APP_MAINTENANCE_STORE=database' => PHP_EOL.'APP_MAINTENANCE_STORE=file',
     PHP_EOL.'DB_CONNECTION=mysql' => PHP_EOL.'DB_CONNECTION=sqlite',
     PHP_EOL.'DB_HOST=' => PHP_EOL.'# DB_HOST=',
     PHP_EOL.'DB_PORT=' => PHP_EOL.'# DB_PORT=',
