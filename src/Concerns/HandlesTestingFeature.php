@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Support\Fluent;
-use Orchestra\Testbench\Attributes\CallbackCollection;
+use Orchestra\Testbench\Attributes\FeaturesCollection;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 trait HandlesTestingFeature
@@ -22,8 +22,8 @@ trait HandlesTestingFeature
         ?Closure $annotation = null,
         ?Closure $attribute = null
     ) {
-        /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Attributes\CallbackCollection} $result */
-        $result = new Fluent(['attribute' => new CallbackCollection()]);
+        /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Attributes\FeaturesCollection} $result */
+        $result = new Fluent(['attribute' => new FeaturesCollection()]);
 
         if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(HandlesAnnotations::class)) {
             value($annotation);
