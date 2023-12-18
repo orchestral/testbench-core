@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 /**
  * @internal
  */
-final class CallbackCollection extends Collection
+final class FeaturesCollection extends Collection
 {
     /**
      * Handle attribute callbacks.
