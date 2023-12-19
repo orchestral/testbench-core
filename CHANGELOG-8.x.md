@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.18.0
+
+Released: 2023-12-19
+
+### Added
+
+* Added `Orchestra\Testbench\Attributes\RequiresEnv` attribute to force an environment variables to be required for the test.
+* Added `Orchestra\Testbench\Attributes\WithConfig` attribute add a configuration value for the test.
+* Added `Orchestra\Testbench\Attributes\WithEnv` attribute add an environment variable value for the test.
+* Added `set()` and `forget()` methods to `Orchestra\Testbench\Foundation\Env`.
+* Improves support for testing with Pest using `orchestra/pest-plugin-testbench`.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `10.37.3`.
+
 ## 8.17.1
 
 Released: 2023-12-06
