@@ -12,7 +12,6 @@ use ReflectionClass;
  * @internal
  *
  * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\AttributeParser
- * @phpstan-import-type TAttributes from \Orchestra\Testbench\PHPUnit\AttributeParser
  */
 trait InteractsWithPHPUnit
 {
@@ -99,7 +98,7 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
-     * @param  string  $className
+     * @param  class-string  $className
      * @param  string|null  $methodName
      * @return \Illuminate\Support\Collection<class-string, array<int, object>>
      *
@@ -123,7 +122,7 @@ trait InteractsWithPHPUnit
         $attributes = Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
             ! \is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
-            static::$testCaseTestingFeatures ?? [],
+            static::$testCaseTestingFeatures,
         ))->groupBy('key')
             ->map(static function ($attributes) {
                 /** @var \Illuminate\Support\Collection<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}> $attributes */

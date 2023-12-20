@@ -10,6 +10,12 @@ use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 
+/**
+ * @internal
+ *
+ * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\AttributeParser
+ * @phpstan-import-type TAttributes from \Orchestra\Testbench\PHPUnit\AttributeParser
+ */
 trait InteractsWithTestCase
 {
     /**
@@ -92,7 +98,7 @@ trait InteractsWithTestCase
      */
     protected function setUpTheTestEnvironmentUsingTestCase(): void
     {
-        if (\is_null($app = $this->app)) {
+        if (\is_null($app = $this->app)) { // @phpstan-ignore-line
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 
@@ -112,7 +118,7 @@ trait InteractsWithTestCase
      */
     protected function tearDownTheTestEnvironmentUsingTestCase(): void
     {
-        if (\is_null($app = $this->app)) {
+        if (\is_null($app = $this->app)) { // @phpstan-ignore-line
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 
@@ -162,7 +168,7 @@ trait InteractsWithTestCase
                 $instance->afterAll();
             });
 
-        static::$latestResponse = null;
+        static::$latestResponse = null; // @phpstan-ignore-line
         static::$cachedTestCaseUses = null;
         static::$testCaseTestingFeatures = [];
     }
