@@ -11,6 +11,7 @@ use Orchestra\Testbench\Workbench\Workbench;
 trait InteractsWithWorkbench
 {
     use InteractsWithPHPUnit;
+    use InteractsWithTestCase;
 
     /**
      * Get Application's base path.
