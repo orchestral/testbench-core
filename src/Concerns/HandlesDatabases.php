@@ -36,7 +36,6 @@ trait HandlesDatabases
 
         $this->resolveTestbenchTestingFeature(
             attribute: function () use ($app) {
-                // $this->parseTestMethodAttributes($app, ResetRefreshDatabaseState::class);
                 $this->parseTestMethodAttributes($app, WithMigration::class);
             },
         );
