@@ -144,7 +144,7 @@ trait InteractsWithPHPUnit
      */
     public static function setUpBeforeClassUsingPHPUnit(): void
     {
-        //
+        static::cachedUsesForTestCase();
     }
 
     /**
@@ -156,6 +156,7 @@ trait InteractsWithPHPUnit
      */
     public static function tearDownAfterClassUsingPHPUnit(): void
     {
+        static::$cachedTestCaseUses = null;
         static::$cachedTestCaseClassAttributes = [];
         static::$cachedTestCaseMethodAttributes = [];
 
