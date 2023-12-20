@@ -140,8 +140,6 @@ trait InteractsWithTestCase
      */
     public static function setUpBeforeClassUsingTestCase(): void
     {
-        static::cachedUsesForTestCase();
-
         static::resolvePhpUnitAttributesForMethod(static::class)
             ->flatten()
             ->filter(static function ($instance) {
@@ -169,7 +167,6 @@ trait InteractsWithTestCase
             });
 
         static::$latestResponse = null; // @phpstan-ignore-line
-        static::$cachedTestCaseUses = null;
         static::$testCaseTestingFeatures = [];
     }
 }
