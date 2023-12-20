@@ -99,11 +99,13 @@ trait InteractsWithPHPUnit
      *
      * @phpunit-overrides
      *
+     * @param  string  $className
+     * @param  string|null  $methodName
      * @return \Illuminate\Support\Collection<class-string, array<int, object>>
      *
      * @phpstan-return \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>>
      */
-    protected static function resolvePhpUnitAttributesForMethod(string $className, string $methodName): Collection
+    protected static function resolvePhpUnitAttributesForMethod(string $className, ?string $methodName = null): Collection
     {
         if (! isset(static::$cachedTestCaseClassAttributes[$className])) {
             static::$cachedTestCaseClassAttributes[$className] = rescue(static function () use ($className) {
@@ -111,7 +113,7 @@ trait InteractsWithPHPUnit
             }, [], false);
         }
 
-        if (! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
+        if (! is_null($methodName) && ! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
             static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] = rescue(static function () use ($className, $methodName) {
                 return AttributeParser::forMethod($className, $methodName);
             }, [], false);
@@ -120,7 +122,7 @@ trait InteractsWithPHPUnit
         /** @var \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>> $attributes */
         $attributes = Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
-            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"],
+            ! is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
             static::$testCaseTestingFeatures ?? [],
         ))->groupBy('key')
             ->map(static function ($attributes) {

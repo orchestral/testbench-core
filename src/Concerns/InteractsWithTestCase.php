@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Orchestra\Testbench\Contracts\Attributes\AfterAll as AfterAllContract;
+use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 
@@ -90,6 +92,13 @@ trait InteractsWithTestCase
     public static function setUpBeforeClassUsingTestCase(): void
     {
         static::cachedUsesForTestCase();
+
+        static::resolvePhpUnitAttributesForMethod(static::class)
+            ->flatten()
+            ->filter(fn ($instance) => $instance instanceof BeforeAllContract)
+            ->map(function ($instance) {
+                $instance->beforeAll();
+            });
     }
 
     /**
@@ -101,6 +110,13 @@ trait InteractsWithTestCase
      */
     public static function tearDownAfterClassUsingTestCase(): void
     {
+        static::resolvePhpUnitAttributesForMethod(static::class)
+            ->flatten()
+            ->filter(fn ($instance) => $instance instanceof AfterAllContract)
+            ->map(function ($instance) {
+                $instance->afterAll();
+            });
+
         static::$latestResponse = null;
         static::$cachedTestCaseUses = null;
         static::$testCaseTestingFeatures = [];

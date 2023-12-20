@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
+use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Throwable;
 
 abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
@@ -143,8 +144,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
      */
     public static function tearDownAfterClass(): void
     {
-        static::$latestResponse = null;
-
         static::tearDownAfterClassUsingWorkbench();
         static::tearDownAfterClassUsingTestCase();
         static::tearDownAfterClassUsingPHPUnit();
