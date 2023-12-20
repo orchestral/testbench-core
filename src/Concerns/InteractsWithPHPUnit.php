@@ -160,18 +160,6 @@ trait InteractsWithPHPUnit
     }
 
     /**
-     * Prepare the testing environment before the running the test case.
-     *
-     * @return void
-     *
-     * @codeCoverageIgnore
-     */
-    public static function setUpBeforeClassUsingPHPUnit(): void
-    {
-        static::cachedUsesForTestCase();
-    }
-
-    /**
      * Define the setUp environment using callback.
      *
      * @param  \Closure(\Closure):void  $setUp
@@ -195,6 +183,18 @@ trait InteractsWithPHPUnit
     public function tearDownTheEnvironmentUsing(Closure $tearDown): void
     {
         $this->testCaseTearDownCallback = $tearDown;
+    }
+
+    /**
+     * Prepare the testing environment before the running the test case.
+     *
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    public static function setUpBeforeClassUsingPHPUnit(): void
+    {
+        static::cachedUsesForTestCase();
     }
 
     /**
