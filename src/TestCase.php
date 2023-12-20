@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench;
 
 use Illuminate\Foundation\Testing;
-use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Throwable;
 
 abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase

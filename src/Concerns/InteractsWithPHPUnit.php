@@ -113,7 +113,7 @@ trait InteractsWithPHPUnit
             }, [], false);
         }
 
-        if (! is_null($methodName) && ! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
+        if (! \is_null($methodName) && ! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
             static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] = rescue(static function () use ($className, $methodName) {
                 return AttributeParser::forMethod($className, $methodName);
             }, [], false);
@@ -122,7 +122,7 @@ trait InteractsWithPHPUnit
         /** @var \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>> $attributes */
         $attributes = Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
-            ! is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
+            ! \is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
             static::$testCaseTestingFeatures ?? [],
         ))->groupBy('key')
             ->map(static function ($attributes) {

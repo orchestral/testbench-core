@@ -3,8 +3,11 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Contracts\Attributes\AfterAll as AfterAllContract;
+use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
+use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
+use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 
 trait InteractsWithTestCase
@@ -86,6 +89,46 @@ trait InteractsWithTestCase
      * Prepare the testing environment before the running the test case.
      *
      * @return void
+     */
+    protected function setUpTheTestEnvironmentUsingTestCase(): void
+    {
+        if (\is_null($app = $this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
+        $this->resolvePhpUnitAttributes()
+            ->flatten()
+            ->filter(static function ($instance) {
+                return $instance instanceof BeforeEachContract;
+            })->map(function ($instance) use ($app) {
+                $instance->beforeEach($app);
+            });
+    }
+
+    /**
+     * Prepare the testing environment before the running the test case.
+     *
+     * @return void
+     */
+    protected function tearDownTheTestEnvironmentUsingTestCase(): void
+    {
+        if (\is_null($app = $this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
+        $this->resolvePhpUnitAttributes()
+            ->flatten()
+            ->filter(static function ($instance) {
+                return $instance instanceof AfterEachContract;
+            })->map(static function ($instance) use ($app) {
+                $instance->afterEach($app);
+            });
+    }
+
+    /**
+     * Prepare the testing environment before the running the test case.
+     *
+     * @return void
      *
      * @codeCoverageIgnore
      */
@@ -95,8 +138,9 @@ trait InteractsWithTestCase
 
         static::resolvePhpUnitAttributesForMethod(static::class)
             ->flatten()
-            ->filter(fn ($instance) => $instance instanceof BeforeAllContract)
-            ->map(function ($instance) {
+            ->filter(static function ($instance) {
+                return $instance instanceof BeforeAllContract;
+            })->map(static function ($instance) {
                 $instance->beforeAll();
             });
     }
@@ -112,8 +156,9 @@ trait InteractsWithTestCase
     {
         static::resolvePhpUnitAttributesForMethod(static::class)
             ->flatten()
-            ->filter(fn ($instance) => $instance instanceof AfterAllContract)
-            ->map(function ($instance) {
+            ->filter(static function ($instance) {
+                return $instance instanceof AfterAllContract;
+            })->map(static function ($instance) {
                 $instance->afterAll();
             });
 
