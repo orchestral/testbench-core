@@ -12,6 +12,7 @@ trait InteractsWithWorkbench
 {
     use InteractsWithPest;
     use InteractsWithPHPUnit;
+    use InteractsWithTestCase;
 
     /**
      * Get Application's base path.

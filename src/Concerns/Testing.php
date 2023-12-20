@@ -26,7 +26,7 @@ trait Testing
     use HandlesDatabases;
     use HandlesRoutes;
     use InteractsWithMigrations;
-    use InteractsWithPHPUnit;
+    use InteractsWithTestCase;
     use WithFactories;
 
     /**

@@ -14,7 +14,7 @@ class AttributeEnvironmentSetupTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->usesTestingFeature(new Define('env', 'globalConfig'));
+        static::usesTestingFeature(new Define('env', 'globalConfig'));
 
         parent::setUp();
     }

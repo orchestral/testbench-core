@@ -20,6 +20,8 @@ use Throwable;
 
 trait ApplicationTestingHooks
 {
+    use InteractsWithTestCase;
+
     /**
      * The Illuminate application instance.
      *
@@ -73,6 +75,8 @@ trait ApplicationTestingHooks
         if (! $this->app) {
             $this->refreshApplication();
 
+            $this->setUpTheTestEnvironmentUsingTestCase();
+
             $this->setUpParallelTestingCallbacks();
         }
 
@@ -104,6 +108,8 @@ trait ApplicationTestingHooks
     {
         if ($this->app) {
             $this->callBeforeApplicationDestroyedCallbacks();
+
+            $this->tearDownTheTestEnvironmentUsingTestCase();
 
             $this->tearDownParallelTestingCallbacks();
 
