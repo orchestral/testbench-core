@@ -23,7 +23,6 @@ trait Testing
     use HandlesDatabases;
     use HandlesRoutes;
     use InteractsWithMigrations;
-    use InteractsWithTestCase;
     use WithFactories;
 
     /**
