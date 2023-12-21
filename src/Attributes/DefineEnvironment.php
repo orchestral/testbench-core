@@ -34,9 +34,6 @@ final class DefineEnvironment implements ActionableContract
      */
     public function handle($app, Closure $action): void
     {
-        /** @var \Illuminate\Contracts\Config\Repository $config */
-        $config = $app->make('config');
-
-        \call_user_func($action, $this->method, [$app, $config]);
+        \call_user_func($action, $this->method, [$app]);
     }
 }
