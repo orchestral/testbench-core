@@ -392,9 +392,12 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app->make('config');
+
         $this->resolveTestbenchTestingFeature(
-            function () use ($app) {
-                $this->defineEnvironment($app);
+            function () use ($app, $config) {
+                $this->defineEnvironment($app, $config);
                 $this->getEnvironmentSetUp($app);
             },
             function () use ($app) {
