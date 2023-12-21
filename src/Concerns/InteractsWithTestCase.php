@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Attributes\AfterAll as AfterAllContract;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
@@ -90,6 +91,19 @@ trait InteractsWithTestCase
             'instance' => $attribute,
         ]);
     }
+
+    /**
+     * Resolve PHPUnit method attributes for specific method.
+     *
+     * @phpunit-overrides
+     *
+     * @param  class-string  $className
+     * @param  string|null  $methodName
+     * @return \Illuminate\Support\Collection<class-string, array<int, object>>
+     *
+     * @phpstan-return \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>>
+     */
+    abstract protected static function resolvePhpUnitAttributesForMethod(string $className, ?string $methodName = null): Collection;
 
     /**
      * Prepare the testing environment before the running the test case.
