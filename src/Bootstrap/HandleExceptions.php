@@ -99,6 +99,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     {
         return ! class_exists(LogManager::class)
             || ! self::$app->hasBeenBootstrapped()
-            || (Env::get('LOG_DEPRECATIONS_WHILE_TESTING', true) !== false);
+            || ! Env::get('LOG_DEPRECATIONS_WHILE_TESTING', true);
     }
 }
