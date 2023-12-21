@@ -21,6 +21,7 @@ use Throwable;
 
 trait ApplicationTestingHooks
 {
+    use InteractsWithPHPUnit;
     use InteractsWithTestCase;
 
     /**
