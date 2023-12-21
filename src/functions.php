@@ -18,6 +18,8 @@ use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
+use function Illuminate\Filesystem\join_paths;
+
 /**
  * Create Laravel application instance.
  *
@@ -188,9 +190,7 @@ function package_path(string $path = ''): string
         return transform_relative_path($path, $workingPath);
     }
 
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
-
-    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
+    return join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
@@ -220,9 +220,7 @@ function workbench(): array
  */
 function workbench_path(string $path = ''): string
 {
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
-
-    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
+    return package_path(join_paths('workbench', $path));
 }
 
 /**
