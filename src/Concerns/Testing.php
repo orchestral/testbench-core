@@ -3,13 +3,10 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Closure;
-use Illuminate\Foundation\Testing\DatabaseConnectionFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
-use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\LazyCollection;
@@ -29,7 +26,7 @@ trait Testing
     use HandlesDatabases;
     use HandlesRoutes;
     use InteractsWithMigrations;
-    use InteractsWithPHPUnit;
+    use InteractsWithTestCase;
     use WithFactories;
 
     /**
@@ -177,28 +174,6 @@ trait Testing
     {
         $this->tearDownTheTestEnvironment();
         $this->setUpTheTestEnvironment();
-    }
-
-    /**
-     * Clean up the testing environment before the next test case.
-     *
-     * @return void
-     *
-     * @codeCoverageIgnore
-     */
-    public static function tearDownAfterClassUsingLaravel(): void
-    {
-        static::$latestResponse = null;
-        DatabaseConnectionFactory::flushState();
-
-        // if (
-        //     static::usesTestingConcern(RefreshDatabase::class)
-        //     || static::usesTestingConcern(LazilyRefreshDatabase::class)
-        // ) {
-        //     RefreshDatabaseState::$inMemoryConnections = [];
-        //     RefreshDatabaseState::$migrated = false;
-        //     RefreshDatabaseState::$lazilyRefreshed = false;
-        // }
     }
 
     /**

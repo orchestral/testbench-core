@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
@@ -14,10 +13,11 @@ use ReflectionClass;
  * @internal
  *
  * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\AttributeParser
- * @phpstan-import-type TAttributes from \Orchestra\Testbench\PHPUnit\AttributeParser
  */
 trait InteractsWithPHPUnit
 {
+    use InteractsWithTestCase;
+
     /**
      * The cached test case setUp resolver.
      *
@@ -31,13 +31,6 @@ trait InteractsWithPHPUnit
      * @var (\Closure(\Closure):(void))|null
      */
     protected $testCaseTearDownCallback;
-
-    /**
-     * The cached uses for test case.
-     *
-     * @var array<class-string, class-string>|null
-     */
-    protected static $cachedTestCaseUses;
 
     /**
      * The cached class attributes for test case.
@@ -58,15 +51,6 @@ trait InteractsWithPHPUnit
     protected static $cachedTestCaseMethodAttributes = [];
 
     /**
-     * The method attributes for test case.
-     *
-     * @var array<string, array<int, array{key: class-string, instance: object}>>
-     *
-     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
-     */
-    protected static $testCaseMethodAttributes = [];
-
-    /**
      * Determine if the trait is used within testing.
      *
      * @return bool
@@ -74,48 +58,6 @@ trait InteractsWithPHPUnit
     public function isRunningTestCase(): bool
     {
         return $this instanceof PHPUnitTestCase || static::usesTestingConcern();
-    }
-
-    /**
-     * Uses testing feature (attribute) on the current test.
-     *
-     * @param  object  $attribute
-     * @return void
-     *
-     * @phpstan-param TAttributes $attribute
-     */
-    public function usesTestingFeature($attribute): void
-    {
-        $instance = new ReflectionClass($this);
-
-        if (
-            ! $this instanceof PHPUnitTestCase
-            || ! AttributeParser::validAttribute($attribute)
-            || $instance->isAnonymous()
-        ) {
-            return;
-        }
-
-        $attribute = $attribute instanceof ResolvableContract ? $attribute->resolve() : $attribute;
-
-        if (\is_null($attribute)) {
-            return;
-        }
-
-        $className = $instance->getName();
-        $methodName = $this->name();
-
-        if (! isset(static::$testCaseMethodAttributes["{$className}:{$methodName}"])) {
-            static::$testCaseMethodAttributes["{$className}:{$methodName}"] = [];
-        }
-
-        /** @var class-string<TTestingFeature> $name */
-        $name = \get_class($attribute);
-
-        array_push(static::$testCaseMethodAttributes["{$className}:{$methodName}"], [
-            'key' => $name,
-            'instance' => $attribute,
-        ]);
     }
 
     /**
@@ -167,13 +109,29 @@ trait InteractsWithPHPUnit
         $className = $instance->getName();
         $methodName = $this->name();
 
+        return static::resolvePhpUnitAttributesForMethod($className, $methodName);
+    }
+
+    /**
+     * Resolve PHPUnit method attributes for specific method.
+     *
+     * @phpunit-overrides
+     *
+     * @param  class-string  $className
+     * @param  string|null  $methodName
+     * @return \Illuminate\Support\Collection<class-string, array<int, object>>
+     *
+     * @phpstan-return \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>>
+     */
+    protected static function resolvePhpUnitAttributesForMethod(string $className, ?string $methodName = null): Collection
+    {
         if (! isset(static::$cachedTestCaseClassAttributes[$className])) {
             static::$cachedTestCaseClassAttributes[$className] = rescue(static function () use ($className) {
                 return AttributeParser::forClass($className);
             }, [], false);
         }
 
-        if (! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
+        if (! \is_null($methodName) && ! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
             static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] = rescue(static function () use ($className, $methodName) {
                 return AttributeParser::forMethod($className, $methodName);
             }, [], false);
@@ -182,8 +140,8 @@ trait InteractsWithPHPUnit
         /** @var \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>> $attributes */
         $attributes = Collection::make(array_merge(
             static::$cachedTestCaseClassAttributes[$className],
-            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"],
-            static::$testCaseMethodAttributes["{$className}:{$methodName}"] ?? [],
+            ! \is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
+            static::$testCaseTestingFeatures,
         ))->groupBy('key')
             ->map(static function ($attributes) {
                 /** @var \Illuminate\Support\Collection<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}> $attributes */
@@ -194,46 +152,6 @@ trait InteractsWithPHPUnit
             });
 
         return $attributes;
-    }
-
-    /**
-     * Determine if the trait is used Orchestra\Testbench\Concerns\Testing trait.
-     *
-     * @param  class-string|null  $trait
-     * @return bool
-     */
-    public static function usesTestingConcern(?string $trait = null): bool
-    {
-        return isset(static::cachedUsesForTestCase()[$trait ?? Testing::class]);
-    }
-
-    /**
-     * Define or get the cached uses for test case.
-     *
-     * @return array<class-string, class-string>
-     */
-    public static function cachedUsesForTestCase(): array
-    {
-        if (\is_null(static::$cachedTestCaseUses)) {
-            /** @var array<class-string, class-string> $uses */
-            $uses = array_flip(class_uses_recursive(static::class));
-
-            static::$cachedTestCaseUses = $uses;
-        }
-
-        return static::$cachedTestCaseUses;
-    }
-
-    /**
-     * Prepare the testing environment before the running the test case.
-     *
-     * @return void
-     *
-     * @codeCoverageIgnore
-     */
-    public static function setUpBeforeClassUsingPHPUnit(): void
-    {
-        static::cachedUsesForTestCase();
     }
 
     /**
@@ -260,6 +178,18 @@ trait InteractsWithPHPUnit
     public function tearDownTheEnvironmentUsing(Closure $tearDown): void
     {
         $this->testCaseTearDownCallback = $tearDown;
+    }
+
+    /**
+     * Prepare the testing environment before the running the test case.
+     *
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    public static function setUpBeforeClassUsingPHPUnit(): void
+    {
+        static::cachedUsesForTestCase();
     }
 
     /**

@@ -8,6 +8,7 @@ use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
+use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench;
 use function Orchestra\Testbench\workbench_path;
@@ -79,7 +80,7 @@ class HelpersTest extends TestCase
     {
         $this->assertSame(
             realpath(package_path('workbench/database/migrations/2013_07_26_182750_create_testbench_users_table.php')),
-            workbench_path('database'.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'2013_07_26_182750_create_testbench_users_table.php')
+            workbench_path(join_paths('database', 'migrations', '2013_07_26_182750_create_testbench_users_table.php'))
         );
     }
 }

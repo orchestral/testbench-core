@@ -130,7 +130,13 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     public static function setUpBeforeClass(): void
     {
         static::setUpBeforeClassUsingPHPUnit();
-        static::setUpBeforeClassUsingPest();
+
+        /** @phpstan-ignore-next-line */
+        if (static::usesTestingConcern(Pest\WithPest::class)) {
+            static::setUpBeforeClassUsingPest(); // @phpstan-ignore-line
+        }
+
+        static::setUpBeforeClassUsingTestCase();
         static::setUpBeforeClassUsingWorkbench();
     }
 
@@ -144,9 +150,14 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     #[\Override]
     public static function tearDownAfterClass(): void
     {
-        static::tearDownAfterClassUsingLaravel();
         static::tearDownAfterClassUsingWorkbench();
-        static::tearDownAfterClassUsingPest();
+        static::tearDownAfterClassUsingTestCase();
+
+        /** @phpstan-ignore-next-line */
+        if (static::usesTestingConcern(Pest\WithPest::class)) {
+            static::tearDownAfterClassUsingPest(); // @phpstan-ignore-line
+        }
+
         static::tearDownAfterClassUsingPHPUnit();
     }
 }
