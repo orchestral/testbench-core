@@ -107,8 +107,8 @@ class CommanderTest extends TestCase
 
             $this->assertSame([
                 '0001_01_01_000000_testbench_create_users_table',
-                '0001_01_01_000002_testbench_create_cache_table',
-                '0001_01_01_000003_testbench_create_jobs_table',
+                '0001_01_01_000001_testbench_create_cache_table',
+                '0001_01_01_000002_testbench_create_jobs_table',
                 '2013_07_26_182750_create_testbench_users_table',
             ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });

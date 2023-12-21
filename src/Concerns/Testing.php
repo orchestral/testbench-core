@@ -191,14 +191,14 @@ trait Testing
         static::$latestResponse = null;
         DatabaseConnectionFactory::flushState();
 
-        if (
-            static::usesTestingConcern(RefreshDatabase::class)
-            || static::usesTestingConcern(LazilyRefreshDatabase::class)
-        ) {
-            RefreshDatabaseState::$inMemoryConnections = [];
-            RefreshDatabaseState::$migrated = false;
-            RefreshDatabaseState::$lazilyRefreshed = false;
-        }
+        // if (
+        //     static::usesTestingConcern(RefreshDatabase::class)
+        //     || static::usesTestingConcern(LazilyRefreshDatabase::class)
+        // ) {
+        //     RefreshDatabaseState::$inMemoryConnections = [];
+        //     RefreshDatabaseState::$migrated = false;
+        //     RefreshDatabaseState::$lazilyRefreshed = false;
+        // }
     }
 
     /**
