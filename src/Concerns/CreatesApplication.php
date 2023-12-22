@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
+use Orchestra\Testbench\Attributes\TestingFeature;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
@@ -21,7 +22,6 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
  */
 trait CreatesApplication
 {
-    use HandlesTestingFeature;
     use InteractsWithWorkbench;
 
     /**
@@ -260,7 +260,8 @@ trait CreatesApplication
             $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
 
-        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+        $attributeCallbacks = TestingFeature::run(
+            $this,
             null,
             null,
             function () use ($app) {
@@ -269,7 +270,8 @@ trait CreatesApplication
             }
         )->get('attribute');
 
-        $this->resolveTestbenchTestingFeature(
+        TestingFeature::run(
+            $this,
             null,
             null,
             function () use ($app) {
@@ -313,7 +315,8 @@ trait CreatesApplication
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
 
-            $this->resolveTestbenchTestingFeature(
+            TestingFeature::run(
+                $this,
                 null,
                 null,
                 function () use ($app) {
@@ -392,7 +395,8 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        $this->resolveTestbenchTestingFeature(
+        TestingFeature::run(
+            $this,
             function () use ($app) {
                 $this->defineEnvironment($app);
                 $this->getEnvironmentSetUp($app);
