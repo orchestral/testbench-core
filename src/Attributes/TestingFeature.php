@@ -53,6 +53,8 @@ final class TestingFeature
             }
         }
 
+        value($default);
+
         return $result;
     }
 }
