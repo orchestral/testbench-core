@@ -26,8 +26,8 @@ trait HandlesTestingFeature
         return TestingFeature::run(
             $this,
             $default,
-            $annotations,
-            $attributes,
+            $annotation,
+            $attribute,
         );
     }
 }
