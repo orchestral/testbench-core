@@ -6,6 +6,7 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Orchestra\Testbench\Attributes\DefineRoute;
+use Orchestra\Testbench\Attributes\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
 /**
@@ -27,7 +28,8 @@ trait HandlesRoutes
         /** @var \Illuminate\Routing\Router $router */
         $router = $app['router'];
 
-        $this->resolveTestbenchTestingFeature(
+        TestingFeature::run(
+            testCase: $this,
             default: function () use ($router) {
                 $this->defineRoutes($router);
 

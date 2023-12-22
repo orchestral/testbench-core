@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
+use Orchestra\Testbench\Attributes\TestingFeature;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
@@ -33,13 +34,15 @@ trait HandlesDatabases
             $this->setUpWithLaravelMigrations();
         }
 
-        $this->resolveTestbenchTestingFeature(
+        TestingFeature::run(
+            testCase: $this,
             attribute: function () use ($app) {
                 $this->parseTestMethodAttributes($app, WithMigration::class);
             },
         );
 
-        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+        $attributeCallbacks = TestingFeature::run(
+            testCase: $this,
             default: function () {
                 $this->defineDatabaseMigrations();
                 $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrations());

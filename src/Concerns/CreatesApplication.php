@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
+use Orchestra\Testbench\Attributes\TestingFeature;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
@@ -24,7 +25,6 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
  */
 trait CreatesApplication
 {
-    use HandlesTestingFeature;
     use InteractsWithWorkbench;
 
     /**
@@ -279,11 +279,13 @@ trait CreatesApplication
             $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
         }
 
-        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+        $attributeCallbacks = TestingFeature::run(
+            testCase: $this,
             attribute: fn () => $this->parseTestMethodAttributes($app, WithEnv::class), // @phpstan-ignore-line
         )->get('attribute');
 
-        $this->resolveTestbenchTestingFeature(
+        TestingFeature::run(
+            testCase: $this,
             attribute: fn () => $this->parseTestMethodAttributes($app, RequiresEnv::class), // @phpstan-ignore-line
         );
 
@@ -322,7 +324,8 @@ trait CreatesApplication
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
 
-            $this->resolveTestbenchTestingFeature(
+            TestingFeature::run(
+                testCase: $this,
                 attribute: fn () => $this->parseTestMethodAttributes($app, WithConfig::class), // @phpstan-ignore-line
             );
         });
@@ -401,7 +404,8 @@ trait CreatesApplication
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
         }
 
-        $this->resolveTestbenchTestingFeature(
+        TestingFeature::run(
+            testCase: $this,
             default: function () use ($app) {
                 $this->defineEnvironment($app);
                 $this->getEnvironmentSetUp($app);
