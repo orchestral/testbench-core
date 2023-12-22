@@ -30,8 +30,7 @@ trait HandlesDatabases
         });
 
         if (static::usesTestingConcern(WithLaravelMigrations::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpWithLaravelMigrations();
+            $this->setUpWithLaravelMigrations(); // @phpstan-ignore-line
         }
 
         TestingFeature::run(
@@ -48,14 +47,29 @@ trait HandlesDatabases
                 $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrations());
             },
             annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
-            attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class)
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
+            pest: function ($default) {
+                $this->defineDatabaseMigrationsUsingPest(); // @phpstan-ignore-line
+
+                $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrationsUsingPest()); // @phpstan-ignore-line
+
+                value($default);
+            },
         )->get('attribute');
 
         $callback();
 
         $attributeCallbacks->handle();
 
-        $this->defineDatabaseSeeders();
+        TestingFeature::run(
+            testCase: $this,
+            default: fn () => $this->defineDatabaseSeeders(),
+            pest: function ($default) {
+                $this->defineDatabaseSeedersUsingPest(); // @phpstan-ignore-line
+
+                value($default);
+            }
+        );
     }
 
     /**

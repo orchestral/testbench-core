@@ -72,7 +72,7 @@ final class LoadMigrationsFromArray
     protected function bootstrapSeeders(Application $app): void
     {
         $app->make(EventDispatcher::class)
-            ->listen(DatabaseRefreshed::class, function () use ($app) {
+            ->listen(DatabaseRefreshed::class, function (DatabaseRefreshed $event) use ($app) {
                 if (\is_bool($this->seeders) && $this->seeders === false) {
                     return;
                 }

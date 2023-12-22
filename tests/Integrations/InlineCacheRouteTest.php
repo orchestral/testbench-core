@@ -6,9 +6,15 @@ use Orchestra\Testbench\TestCase;
 
 class InlineCacheRouteTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     *
+     * @group without-parallel
+     */
     public function it_can_cache_route()
     {
+        $this->assertFalse($this->app->routesAreCached());
+
         $this->defineCacheRoutes(<<<PHP
 <?php
 
@@ -18,5 +24,11 @@ PHP);
         $this->get('stubs-controller')
             ->assertOk()
             ->assertSee('ExampleController@index');
+
+        $this->assertTrue($this->app->routesAreCached());
+
+        $this->reloadApplication();
+
+        $this->assertFalse($this->app->routesAreCached());
     }
 }

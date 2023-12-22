@@ -186,7 +186,7 @@ class Application
     /**
      * Ignore package discovery from.
      *
-     * @return array
+     * @return array<int, string>
      */
     public function ignorePackageDiscoveriesFrom()
     {
@@ -197,7 +197,7 @@ class Application
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array
+     * @return array<int, class-string>
      */
     protected function getPackageProviders($app)
     {

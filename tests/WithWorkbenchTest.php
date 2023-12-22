@@ -13,8 +13,6 @@ class WithWorkbenchTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers Orchestra\Testbench\Concerns\InteractsWithWorkbench
      */
     public function it_can_be_resolved()
     {
@@ -34,8 +32,6 @@ class WithWorkbenchTest extends TestCase
 
     /**
      * @test
-     *
-     * @covers Orchestra\Testbench\Concerns\InteractsWithWorkbench
      */
     public function it_can_be_manually_resolved()
     {

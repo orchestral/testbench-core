@@ -11,11 +11,14 @@ use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
+use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
 use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+
+use function Illuminate\Filesystem\join_paths;
 
 /**
  * Create Laravel application instance.
@@ -25,10 +28,19 @@ use Symfony\Component\Process\Process;
  * @param  string|null  $basePath
  * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
  * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  \Orchestra\Testbench\Foundation\Config|null  $config
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
-{
+function container(
+    ?string $basePath = null,
+    ?callable $resolvingCallback = null,
+    array $options = [],
+    ?Config $config = null
+): Foundation\Application {
+    if ($config instanceof Config) {
+        return Foundation\Application::makeFromConfig($config, $resolvingCallback, $options);
+    }
+
     return Foundation\Application::make($basePath, $resolvingCallback, $options);
 }
 
@@ -192,9 +204,7 @@ function package_path(string $path = ''): string
         return transform_relative_path($path, $workingPath);
     }
 
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
-
-    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
+    return join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
@@ -224,9 +234,7 @@ function workbench(): array
  */
 function workbench_path(string $path = ''): string
 {
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
-
-    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
+    return package_path(join_paths('workbench', $path));
 }
 
 /**
@@ -263,11 +271,14 @@ function laravel_migration_path(?string $type = null): string
  */
 function laravel_version_compare(string $version, ?string $operator = null)
 {
+    /** @phpstan-ignore-next-line */
+    $laravel = Application::VERSION === '10.x-dev' ? '10.0.0' : Application::VERSION;
+
     if (\is_null($operator)) {
-        return version_compare(Application::VERSION, $version);
+        return version_compare($laravel, $version);
     }
 
-    return version_compare(Application::VERSION, $version, $operator);
+    return version_compare($laravel, $version, $operator);
 }
 
 /**

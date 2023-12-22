@@ -6,8 +6,6 @@ use Illuminate\Log\LogManager;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Orchestra\Testbench\Foundation\Env;
 
-use function Orchestra\Testbench\phpunit_version_compare;
-
 /**
  * @internal
  */
@@ -41,20 +39,15 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      *
      * @throws \Orchestra\Testbench\Exceptions\DeprecatedException
      */
+    #[\Override]
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
         parent::handleDeprecationError($message, $file, $line, $level);
 
-        $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS');
-
-        $error = new DeprecatedException($message, $level, $file, $line);
+        $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS', false);
 
         if ($testbenchConvertDeprecationsToExceptions === true) {
-            throw $error;
-        }
-
-        if ($testbenchConvertDeprecationsToExceptions !== false && $this->getPhpUnitConvertDeprecationsToExceptions() === true) {
-            throw $error;
+            throw new DeprecatedException($message, $level, $file, $line);
         }
     }
 
@@ -63,10 +56,10 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
      *
      * @return void
      */
+    #[\Override]
     protected function ensureDeprecationLoggerIsConfigured()
     {
-        /** @phpstan-ignore-next-line */
-        with(self::$app['config'], static function ($config) {
+        with(self::$app->make('config'), static function ($config) {
             /** @var \Illuminate\Contracts\Config\Repository $config */
             if ($config->get('logging.channels.deprecations')) {
                 return;
@@ -97,29 +90,11 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     }
 
     /**
-     * Get PHPUnit convert deprecations to exceptions from TestResult.
-     *
-     * @phpunit-overrides
-     *
-     * @return bool
-     */
-    protected function getPhpUnitConvertDeprecationsToExceptions(): bool
-    {
-        if (phpunit_version_compare('10', '>=')) {
-            return false;
-        }
-
-        /** @var \PHPUnit\Framework\TestResult|null $testResult */
-        $testResult = $this->testbench?->getTestResultObject();
-
-        return $testResult?->getConvertDeprecationsToExceptions() ?? false;
-    }
-
-    /**
      * Determine if deprecation error should be ignored.
      *
      * @return bool
      */
+    #[\Override]
     protected function shouldIgnoreDeprecationErrors()
     {
         return ! class_exists(LogManager::class)

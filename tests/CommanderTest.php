@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\TestCase;
 
+use function Orchestra\Testbench\laravel_version_compare;
 use function Orchestra\Testbench\remote;
 
 /**
@@ -60,7 +61,7 @@ class CommanderTest extends TestCase
             $output = json_decode($process->getOutput(), true);
 
             $this->assertSame('Testbench', $output['environment']['application_name']);
-            $this->assertSame('ENABLED', $output['environment']['debug_mode']);
+            $this->assertSame(laravel_version_compare('10.32.0', '>=') ? true : 'ENABLED', $output['environment']['debug_mode']);
             $this->assertSame('testing', $output['drivers']['database']);
         });
     }
@@ -79,7 +80,7 @@ class CommanderTest extends TestCase
             $output = json_decode($process->getOutput(), true);
 
             $this->assertSame('Testbench', $output['environment']['application_name']);
-            $this->assertSame('ENABLED', $output['environment']['debug_mode']);
+            $this->assertSame(laravel_version_compare('10.32.0', '>=') ? true : 'ENABLED', $output['environment']['debug_mode']);
             $this->assertSame('sqlite', $output['drivers']['database']);
         });
     }
@@ -102,7 +103,7 @@ class CommanderTest extends TestCase
             $output = json_decode($process->getOutput(), true);
 
             $this->assertSame('Testbench Tests', $output['environment']['application_name']);
-            $this->assertSame('OFF', $output['environment']['debug_mode']);
+            $this->assertSame(laravel_version_compare('10.32.0', '>=') ? false : 'OFF', $output['environment']['debug_mode']);
             $this->assertSame('testing', $output['drivers']['database']);
         });
     }
@@ -116,13 +117,12 @@ class CommanderTest extends TestCase
     {
         $this->withSqliteDatabase(function () {
             $process = remote('migrate', ['DB_CONNECTION' => 'sqlite']);
-
             $process->mustRun();
 
             $this->assertSame([
                 '2013_07_26_182750_create_testbench_users_table',
                 '2014_10_12_000000_testbench_create_users_table',
-                '2014_10_12_100000_testbench_create_password_resets_table',
+                '2014_10_12_100000_testbench_create_password_reset_tokens_table',
                 '2019_08_19_000000_testbench_create_failed_jobs_table',
             ], DB::connection('sqlite')->table('migrations')->pluck('migration')->all());
         });
@@ -140,7 +140,6 @@ class CommanderTest extends TestCase
                 'DB_CONNECTION' => 'sqlite',
                 'TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS' => '(true)',
             ]);
-
             $process->mustRun();
 
             $this->assertSame([

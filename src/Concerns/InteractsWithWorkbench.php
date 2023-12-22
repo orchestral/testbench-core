@@ -10,6 +10,7 @@ use Orchestra\Testbench\Workbench\Workbench;
  */
 trait InteractsWithWorkbench
 {
+    use InteractsWithPest;
     use InteractsWithPHPUnit;
     use InteractsWithTestCase;
 

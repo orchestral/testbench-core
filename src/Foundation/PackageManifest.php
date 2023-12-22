@@ -7,6 +7,9 @@ use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * @internal
+ */
 class PackageManifest extends IlluminatePackageManifest
 {
     /**
@@ -22,6 +25,7 @@ class PackageManifest extends IlluminatePackageManifest
      * @var array<int, string>
      */
     protected $requiredPackages = [
+        'laravel/dusk',
         'spatie/laravel-ray',
     ];
 
@@ -89,6 +93,7 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @return array
      */
+    #[\Override]
     protected function getManifest()
     {
         $ignore = ! \is_null($this->testbench) && method_exists($this->testbench, 'ignorePackageDiscoveriesFrom')
@@ -117,6 +122,7 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @return array
      */
+    #[\Override]
     protected function packagesToIgnore()
     {
         return [];
@@ -129,17 +135,28 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromRoot()
     {
-        if (! \defined('TESTBENCH_WORKING_PATH') || ! is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
-            return [];
+        $package = $this->providersFromTestbench();
+
+        return \is_array($package) ? [
+            $this->format($package['name']) => $package['extra']['laravel'] ?? [],
+        ] : [];
+    }
+
+    /**
+     * Get testbench root composer file.
+     *
+     * @return array{name: string, extra?: array{laravel?: array}}|null
+     */
+    protected function providersFromTestbench()
+    {
+        if (\defined('TESTBENCH_WORKING_PATH') && is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
+            /** @var array{name: string, extra?: array{laravel?: array}} $composer */
+            $composer = $this->files->json(TESTBENCH_WORKING_PATH.'/composer.json');
+
+            return $composer;
         }
 
-        $package = transform(file_get_contents(TESTBENCH_WORKING_PATH.'/composer.json'), static function ($json) {
-            return json_decode($json, true);
-        });
-
-        return [
-            $this->format($package['name']) => $package['extra']['laravel'] ?? [],
-        ];
+        return null;
     }
 
     /**
@@ -150,6 +167,7 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @throws \Exception
      */
+    #[\Override]
     protected function write(array $manifest)
     {
         parent::write(

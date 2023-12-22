@@ -8,8 +8,11 @@ use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
 use Mockery;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
@@ -17,6 +20,7 @@ use Throwable;
 
 trait ApplicationTestingHooks
 {
+    use InteractsWithPest;
     use InteractsWithPHPUnit;
     use InteractsWithTestCase;
 
@@ -123,7 +127,6 @@ trait ApplicationTestingHooks
         }
 
         if (class_exists(Mockery::class) && $this instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore-next-line */
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }
@@ -144,8 +147,11 @@ trait ApplicationTestingHooks
         Component::flushCache();
         Component::forgetComponentsResolver();
         Component::forgetFactory();
-        Queue::createPayloadUsing(null);
+        ConvertEmptyStringsToNull::flushState();
         HandleExceptions::forgetApp();
+        Queue::createPayloadUsing(null);
+        Sleep::fake(false);
+        TrimStrings::flushState();
 
         if ($this->callbackException) {
             throw $this->callbackException;
@@ -157,9 +163,8 @@ trait ApplicationTestingHooks
      */
     protected function setUpParallelTestingCallbacks(): void
     {
-        if (class_exists(ParallelTesting::class) && $this instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore-next-line */
-            ParallelTesting::callSetUpTestCaseCallbacks($this);
+        if ($this instanceof PHPUnitTestCase) {
+            ParallelTesting::callSetUpTestCaseCallbacks($this); // @phpstan-ignore-line
         }
     }
 
@@ -168,9 +173,8 @@ trait ApplicationTestingHooks
      */
     protected function tearDownParallelTestingCallbacks(): void
     {
-        if (class_exists(ParallelTesting::class) && $this instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore-next-line */
-            ParallelTesting::callTearDownTestCaseCallbacks($this);
+        if ($this instanceof PHPUnitTestCase) {
+            ParallelTesting::callTearDownTestCaseCallbacks($this); // @phpstan-ignore-line
         }
     }
 
@@ -180,7 +184,7 @@ trait ApplicationTestingHooks
      * @param  callable():void  $callback
      * @return void
      */
-    protected function afterApplicationRefreshed(callable $callback): void
+    public function afterApplicationRefreshed(callable $callback): void
     {
         $this->afterApplicationRefreshedCallbacks[] = $callback;
 
@@ -207,7 +211,7 @@ trait ApplicationTestingHooks
      * @param  callable():void  $callback
      * @return void
      */
-    protected function afterApplicationCreated(callable $callback): void
+    public function afterApplicationCreated(callable $callback): void
     {
         $this->afterApplicationCreatedCallbacks[] = $callback;
 
@@ -234,7 +238,7 @@ trait ApplicationTestingHooks
      * @param  callable():void  $callback
      * @return void
      */
-    protected function beforeApplicationDestroyed(callable $callback): void
+    public function beforeApplicationDestroyed(callable $callback): void
     {
         array_unshift($this->beforeApplicationDestroyedCallbacks, $callback);
     }

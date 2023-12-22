@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Bootstrap;
 use Dotenv\Dotenv;
 use Orchestra\Testbench\Foundation\Env;
 
+use function Illuminate\Filesystem\join_paths;
+
 /**
  * @internal
  */
@@ -16,9 +18,10 @@ final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\Lo
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return \Dotenv\Dotenv
      */
+    #[\Override]
     protected function createDotenv($app)
     {
-        if (! file_exists(implode(DIRECTORY_SEPARATOR, [$app->environmentPath(), $app->environmentFile()]))) {
+        if (! file_exists(join_paths($app->environmentPath(), $app->environmentFile()))) {
             return Dotenv::create(
                 Env::getRepository(), (string) realpath(__DIR__.'/stubs'), '.env.testbench'
             );

@@ -18,14 +18,16 @@ class TestCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
-        {--c|configuration= : Read configuration from XML file}
         {--compact : Indicates whether the compact printer should be used}
-        {--coverage : Indicates whether code coverage information should be collected}
-        {--min= : Indicates the minimum threshold enforcement for code coverage}
+        {--configuration= : Read configuration from XML file}
+        {--coverage : Indicates whether the coverage information should be collected}
+        {--min= : Indicates the minimum threshold enforcement for coverage}
         {--p|parallel : Indicates if the tests should run in parallel}
         {--profile : Lists top 10 slowest tests}
         {--recreate-databases : Indicates if the test databases should be re-created}
         {--drop-databases : Indicates if the test databases should be dropped}
+        {--without-databases : Indicates if database configuration should be performed}
+        {--c|--custom-argument : Add custom env variables}
     ';
 
     /**
@@ -54,6 +56,7 @@ class TestCommand extends Command
      *
      * @return mixed
      */
+    #[\Override]
     public function handle()
     {
         Env::enablePutenv();
@@ -71,8 +74,8 @@ class TestCommand extends Command
         $configurationFile = str_replace('./', '', $this->option('configuration') ?? 'phpunit.xml');
 
         return Collection::make([
-            package_path('/'.$configurationFile),
-            package_path('/'.$configurationFile.'.dist'),
+            package_path("/{$configurationFile}"),
+            package_path("/{$configurationFile}.dist"),
         ])->filter(static function ($path) {
             return file_exists($path);
         })->first() ?? './';
@@ -84,6 +87,7 @@ class TestCommand extends Command
      * @param  array  $options
      * @return array
      */
+    #[\Override]
     protected function phpunitArguments($options)
     {
         $file = $this->phpUnitConfigurationFile();
@@ -101,6 +105,7 @@ class TestCommand extends Command
      * @param  array  $options
      * @return array
      */
+    #[\Override]
     protected function paratestArguments($options)
     {
         $file = $this->phpUnitConfigurationFile();
@@ -120,6 +125,7 @@ class TestCommand extends Command
      *
      * @return array
      */
+    #[\Override]
     protected function phpunitEnvironmentVariables()
     {
         return Collection::make(defined_environment_variables())
@@ -137,6 +143,7 @@ class TestCommand extends Command
      *
      * @return array
      */
+    #[\Override]
     protected function paratestEnvironmentVariables()
     {
         return Collection::make(defined_environment_variables())
@@ -147,5 +154,16 @@ class TestCommand extends Command
                 'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
             ])->merge(parent::paratestEnvironmentVariables())
             ->all();
+    }
+
+    /**
+     * Get the configuration file.
+     *
+     * @return string
+     */
+    #[\Override]
+    protected function getConfigurationFile()
+    {
+        return $this->phpUnitConfigurationFile();
     }
 }

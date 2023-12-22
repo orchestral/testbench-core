@@ -3,7 +3,7 @@ Testing Helper for Laravel Development
 
 Testbench Component is a simple package that has been designed to help you write tests for your Laravel package.
 
-[![tests](https://github.com/orchestral/testbench-core/workflows/tests/badge.svg?branch=7.x)](https://github.com/orchestral/testbench-core/actions?query=workflow%3Atests+branch%3A7.x)
+[![tests](https://github.com/orchestral/testbench-core/workflows/tests/badge.svg?branch=8.x)](https://github.com/orchestral/testbench-core/actions?query=workflow%3Atests+branch%3A8.x)
 [![Latest Stable Version](https://poser.pugx.org/orchestra/testbench-core/v/stable)](https://packagist.org/packages/orchestra/testbench-core)
 [![Total Downloads](https://poser.pugx.org/orchestra/testbench-core/downloads)](https://packagist.org/packages/orchestra/testbench-core)
 [![Latest Unstable Version](https://poser.pugx.org/orchestra/testbench-core/v/unstable)](https://packagist.org/packages/orchestra/testbench-core)
@@ -13,15 +13,11 @@ Testbench Component is a simple package that has been designed to help you write
 
  Laravel  | Testbench Core
 :---------|:----------
- 5.4.x    | 3.4.x
- 5.5.x    | 3.5.x
- 5.6.x    | 3.6.x
- 5.7.x    | 3.7.x
- 5.8.x    | 3.8.x
  6.x      | 4.x
  7.x      | 5.x
  8.x      | 6.x
  9.x      | 7.x
+ 10.x     | 8.x
  
 ## Usage
 

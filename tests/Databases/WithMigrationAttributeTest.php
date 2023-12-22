@@ -27,7 +27,7 @@ class WithMigrationAttributeTest extends TestCase
     public function it_loads_default_migrations()
     {
         $this->assertTrue(Schema::hasTable('users'));
-        $this->assertTrue(Schema::hasTable('password_resets'));
+        $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertFalse(Schema::hasTable('cache'));
         $this->assertFalse(Schema::hasTable('cache_locks'));
         $this->assertFalse(Schema::hasTable('jobs'));
@@ -42,7 +42,7 @@ class WithMigrationAttributeTest extends TestCase
     public function it_loads_caches_migrations()
     {
         $this->assertTrue(Schema::hasTable('users'));
-        $this->assertTrue(Schema::hasTable('password_resets'));
+        $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertTrue(Schema::hasTable('cache'));
         $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertFalse(Schema::hasTable('jobs'));
@@ -57,7 +57,7 @@ class WithMigrationAttributeTest extends TestCase
     public function it_loads_notifications_migrations()
     {
         $this->assertTrue(Schema::hasTable('users'));
-        $this->assertTrue(Schema::hasTable('password_resets'));
+        $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertFalse(Schema::hasTable('cache'));
         $this->assertFalse(Schema::hasTable('cache_locks'));
         $this->assertFalse(Schema::hasTable('jobs'));
@@ -72,7 +72,7 @@ class WithMigrationAttributeTest extends TestCase
     public function it_loads_queue_migrations()
     {
         $this->assertTrue(Schema::hasTable('users'));
-        $this->assertTrue(Schema::hasTable('password_resets'));
+        $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertFalse(Schema::hasTable('cache'));
         $this->assertFalse(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
@@ -87,7 +87,7 @@ class WithMigrationAttributeTest extends TestCase
     public function it_loads_session_migrations()
     {
         $this->assertTrue(Schema::hasTable('users'));
-        $this->assertTrue(Schema::hasTable('password_resets'));
+        $this->assertTrue(Schema::hasTable('password_reset_tokens'));
         $this->assertFalse(Schema::hasTable('cache'));
         $this->assertFalse(Schema::hasTable('cache_locks'));
         $this->assertFalse(Schema::hasTable('jobs'));

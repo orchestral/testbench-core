@@ -39,7 +39,15 @@ trait HandlesRoutes
             annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
                 $this->{$method}($router);
             }),
-            attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class)
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class),
+            pest: function ($default) use ($router) {
+                $this->defineRoutesUsingPest($router); // @phpstan-ignore-line
+
+                $router->middleware('web')
+                    ->group(fn ($router) => $this->defineWebRoutesUsingPest($router)); // @phpstan-ignore-line
+
+                value($default);
+            }
         );
 
         $router->getRoutes()->refreshNameLookups();

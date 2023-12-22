@@ -14,14 +14,16 @@ class TestbenchServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $workingPath = \defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
 
-        AboutCommand::add('Testbench', fn () => [
-            'Core Version' => class_exists(InstalledVersions::class) ? InstalledVersions::getPrettyVersion('orchestra/testbench-core') : '<fg=yellow;options=bold>-</>',
-            'Skeleton Path' => str_replace($workingPath, '', $this->app->basePath()),
-        ]);
+        AboutCommand::add('Testbench', fn () => array_filter([
+            'Core Version' => InstalledVersions::getPrettyVersion('orchestra/testbench-core'),
+            'Dusk Version' => InstalledVersions::isInstalled('orchestra/testbench-dusk') ? InstalledVersions::getPrettyVersion('orchestra/testbench-dusk') : null,
+            'Skeleton Path' => AboutCommand::format($this->app->basePath(), console: fn ($value) => str_replace($workingPath, '', $value)),
+            'Version' => InstalledVersions::isInstalled('orchestra/testbench') ? InstalledVersions::getPrettyVersion('orchestra/testbench') : null,
+        ]));
     }
 
     /**
@@ -29,7 +31,7 @@ class TestbenchServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->commands([

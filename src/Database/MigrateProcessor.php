@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Database;
 
-use Illuminate\Database\Migrations\Migrator;
 use Orchestra\Testbench\Contracts\TestCase;
 
 use function Orchestra\Testbench\artisan;

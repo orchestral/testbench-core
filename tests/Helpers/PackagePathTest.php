@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Helpers;
 
 use Orchestra\Testbench\TestCase;
 
+use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\package_path;
 
 class PackagePathTest extends TestCase
@@ -16,18 +17,18 @@ class PackagePathTest extends TestCase
     public function it_can_use_package_path()
     {
         $this->assertSame(
-            realpath(__DIR__.DIRECTORY_SEPARATOR.'PackagePathTest.php'),
-            package_path('./tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')
+            realpath(join_paths(__DIR__, 'PackagePathTest.php')),
+            package_path(join_paths('./tests', 'Helpers', 'PackagePathTest.php'))
         );
 
         $this->assertSame(
-            realpath(__DIR__.DIRECTORY_SEPARATOR.'PackagePathTest.php'),
-            package_path('./tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')
+            realpath(join_paths(__DIR__, 'PackagePathTest.php')),
+            package_path(join_paths('tests', 'Helpers', 'PackagePathTest.php'))
         );
 
         $this->assertSame(
-            realpath(__DIR__.DIRECTORY_SEPARATOR.'PackagePathTest.php'),
-            package_path(DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')
+            realpath(join_paths(__DIR__, 'PackagePathTest.php')),
+            package_path(DIRECTORY_SEPARATOR.join_paths('tests', 'Helpers', 'PackagePathTest.php'))
         );
     }
 }

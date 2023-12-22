@@ -390,7 +390,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationBootstrappers($app)
     {
-        if ($this instanceof PHPUnitTestCase) {
+        if ($this->isRunningTestCase()) {
             $app->make('Orchestra\Testbench\Bootstrap\HandleExceptions', ['testbench' => $this])->bootstrap($app);
         } else {
             $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
@@ -415,20 +415,23 @@ trait CreatesApplication
                 $this->parseTestMethodAnnotations($app, 'define-env'); // @phpstan-ignore-line
             },
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineEnvironment::class), // @phpstan-ignore-line
+            pest: function ($default) use ($app) {
+                $this->defineEnvironmentUsingPest($app); // @phpstan-ignore-line
+
+                value($default);
+            },
         );
 
         $this->resolveApplicationRateLimiting($app);
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->bootDiscoverRoutesForWorkbench($app);
+            $this->bootDiscoverRoutesForWorkbench($app); // @phpstan-ignore-line
         }
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpApplicationRoutes($app);
+            $this->setUpApplicationRoutes($app); // @phpstan-ignore-line
         }
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {

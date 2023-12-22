@@ -3,6 +3,7 @@ name: analyse
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   analyse:
@@ -14,10 +15,12 @@ jobs:
           - "ubuntu-latest"
         php:
           - 8.2
+        dependencies:
+          - "highest"
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} on ${{ matrix.os }}
+    name: PHP${{ matrix.php }} PHPStan & Pint
 
     steps:
       - name: Checkout code
@@ -27,20 +30,50 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, sqlite3, pdo_sqlite, bcmath, fileinfo
           coverage: none
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
         with:
-          dependency-versions: "highest"
+          dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --no-cache"
-
-      - name: Installed dependencies
-        run: composer show -D
-
-      - name: Execute Code Style Analysis
-        run: vendor/bin/pint --test
 
       - name: Execute Static Code Analysis
         run: vendor/bin/phpstan analyse
+
+  lint:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        os:
+          - "ubuntu-latest"
+        php:
+          - 8.3
+        dependencies:
+          - "highest"
+        experimental:
+          - false
+
+    name: PHP${{ matrix.php }} Code Lint
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, sqlite3, pdo_sqlite, bcmath, fileinfo
+          coverage: none
+
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--prefer-dist --no-cache"
+
+      - name: PHP Lint
+        run: php -l ./src

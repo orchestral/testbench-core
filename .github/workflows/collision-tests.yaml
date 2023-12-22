@@ -3,8 +3,7 @@ name: collision-tests
 on:
   push:
   pull_request:
-  schedule:
-    - cron: '0 0 1 * *'
+  workflow_dispatch:
 
 jobs:
   tests:
@@ -15,18 +14,14 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - '8.0'
           - 8.1
           - 8.2
-        phpunit:
-          - "^9.5.10"
         dependencies:
           - "highest"
-          - "lowest"
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
@@ -39,28 +34,31 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install Collision
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
+          composer require "phpunit/phpunit:^10.1" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:^7.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations)
+      - name: Execute tests (with deprecations on PHPUnit 10)
         run: ./testbench package:test --exclude-group commander
+        env:
+          RAY_ENABLED: false
         if: matrix.dependencies == 'highest'
 
-      - name: Execute tests (without deprecations)
+      - name: Execute tests (without deprecations on PHPUnit 10)
         run: ./testbench package:test --exclude-group commander,deprecations
         env:
+          RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
         if: matrix.dependencies != 'highest'
 
@@ -72,17 +70,14 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
-          - '8.0'
           - 8.1
           - 8.2
-        phpunit:
-          - "^9.5.10"
         dependencies:
           - "highest"
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
+    name: PHP${{ matrix.php }} with Coverage on ${{ matrix.os }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
@@ -95,16 +90,16 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
           coverage: xdebug
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install Collision
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-          composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
+          composer require "phpunit/phpunit:^9.6" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:^6.4" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --no-cache"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
         run: |
@@ -113,4 +108,5 @@ jobs:
       - name: Execute tests
         run: ./testbench package:test --coverage --exclude-group commander,deprecations
         env:
+          RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
