@@ -2,11 +2,8 @@
 
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
-use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Workbench\Workbench;
-
-use function Orchestra\Testbench\default_environment_variables;
 
 /**
  * Create Laravel application.
@@ -19,21 +16,17 @@ $createApp = static function (string $workingPath) {
         defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
     );
 
-    $hasEnvironmentFile = file_exists("{$workingPath}/.env");
+    $hasEnvironmentFile = ! is_null($config['laravel'])
+        ? file_exists($config['laravel'].'/.env')
+        : file_exists("{$workingPath}/.env");
 
     return Application::create(
-        $config['laravel'],
-        static function ($app) use ($config, $hasEnvironmentFile) {
-            Workbench::start($app, $config);
+        basePath: $config['laravel'],
+        options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
+        resolvingCallback: static function ($app) use ($config) {
+            Workbench::startWithProviders($app, $config);
             Workbench::discoverRoutes($app, $config);
-
-            if ($hasEnvironmentFile === false) {
-                (new LoadEnvironmentVariablesFromArray(
-                    ! empty($config['env']) ? $config['env'] : default_environment_variables()
-                ))->bootstrap($app);
-            }
         },
-        ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
     );
 };
 

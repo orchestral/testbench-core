@@ -29,23 +29,17 @@ trait HandlesRoutes
         $router = $app['router'];
 
         TestingFeature::run(
-            $this,
-            function () use ($router) {
+            testCase: $this,
+            default: function () use ($router) {
                 $this->defineRoutes($router);
 
                 $router->middleware('web')
-                    ->group(function ($router) {
-                        $this->defineWebRoutes($router);
-                    });
+                    ->group(fn ($router) => $this->defineWebRoutes($router));
             },
-            function () use ($app, $router) {
-                $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
-                    $this->{$method}($router);
-                });
-            },
-            function () use ($app) {
-                $this->parseTestMethodAttributes($app, DefineRoute::class);
-            }
+            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
+                $this->{$method}($router);
+            }),
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class)
         );
 
         $router->getRoutes()->refreshNameLookups();
@@ -94,7 +88,7 @@ trait HandlesRoutes
         $laravel->make(Kernel::class)->call('route:cache');
 
         $this->assertTrue(
-            $files->exists(base_path('bootstrap/cache/routes-v7.php'))
+            $files->exists($laravel->bootstrapPath('cache/routes-v7.php'))
         );
 
         if ($this->app instanceof LaravelApplication) {
@@ -118,8 +112,8 @@ trait HandlesRoutes
         $this->beforeApplicationDestroyed(function () use ($files) {
             if ($this->app instanceof LaravelApplication) {
                 $files->delete(
-                    base_path('bootstrap/cache/routes-v7.php'),
-                    ...$files->glob(base_path('routes/testbench-*.php'))
+                    $this->app->bootstrapPath('cache/routes-v7.php'),
+                    ...$files->glob($this->app->basePath('routes/testbench-*.php'))
                 );
             }
 

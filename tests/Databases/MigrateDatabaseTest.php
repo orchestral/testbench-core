@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
+use function Orchestra\Testbench\artisan;
+
 class MigrateDatabaseTest extends TestCase
 {
     use WithWorkbench;
@@ -30,7 +32,7 @@ class MigrateDatabaseTest extends TestCase
      */
     protected function defineDatabaseMigrations()
     {
-        $this->artisan('migrate', ['--database' => 'testing']);
+        artisan($this, 'migrate', ['--database' => 'testing']);
     }
 
     /** @test */

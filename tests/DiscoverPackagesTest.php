@@ -6,15 +6,7 @@ use Orchestra\Testbench\TestCase;
 
 class DiscoverPackagesTest extends TestCase
 {
-    /**
-     * Ignore package discovery from.
-     *
-     * @return array
-     */
-    public function ignorePackageDiscoveriesFrom()
-    {
-        return [];
-    }
+    protected $enablesPackageDiscoveries = true;
 
     /** @test */
     public function it_can_auto_detect_packages()

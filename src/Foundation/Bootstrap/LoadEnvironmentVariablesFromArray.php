@@ -2,11 +2,10 @@
 
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
-use Dotenv\Dotenv;
-use Dotenv\Loader\Loader;
 use Dotenv\Parser\Parser;
 use Dotenv\Store\StringStore;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Env;
 
 /**
@@ -39,19 +38,16 @@ final class LoadEnvironmentVariablesFromArray
      */
     public function bootstrap(Application $app): void
     {
-        $this->createDotenvFromString()->load();
-    }
+        $store = new StringStore(implode(PHP_EOL, $this->environmentVariables));
+        $parser = new Parser();
 
-    /**
-     * Create a Dotenv instance.
-     */
-    protected function createDotenvFromString(): Dotenv
-    {
-        return new Dotenv(
-            new StringStore(implode(PHP_EOL, $this->environmentVariables)),
-            new Parser(),
-            new Loader(),
-            Env::getRepository()
-        );
+        Collection::make($parser->parse($store->read()))
+            ->filter(static function ($entry) {
+                /** @var \Dotenv\Parser\Entry $entry */
+                return $entry->getValue()->isDefined();
+            })->each(static function ($entry) {
+                /** @var \Dotenv\Parser\Entry $entry */
+                Env::getRepository()->set($entry->getName(), $entry->getValue()->get()->getChars());
+            });
     }
 }

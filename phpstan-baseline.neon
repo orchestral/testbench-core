@@ -24,28 +24,3 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
-
-		-
-			message: "#^Method Orchestra\\\\Testbench\\\\Foundation\\\\Application\\:\\:resolvePhpUnitAttributes\\(\\) should return Illuminate\\\\Support\\\\Collection&iterable\\<class\\-string\\<Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>, array\\<int, Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\> but returns Illuminate\\\\Support\\\\Collection\\.$#"
-			count: 1
-			path: src/Foundation/Application.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callSetUpTestCaseCallbacks\\(\\)\\.$#"
-			count: 1
-			path: src/TestCase.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\ParallelTesting\\:\\:callTearDownTestCaseCallbacks\\(\\)\\.$#"
-			count: 1
-			path: src/TestCase.php
-
-		-
-			message: "#^Method Orchestra\\\\Testbench\\\\TestCase\\:\\:resolvePhpUnitAttributes\\(\\) should return Illuminate\\\\Support\\\\Collection&iterable\\<class\\-string\\<Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>, array\\<int, Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\> but returns Illuminate\\\\Support\\\\Collection\\.$#"
-			count: 1
-			path: src/TestCase.php
-
-		-
-			message: "#^Property Orchestra\\\\Testbench\\\\TestCase\\:\\:\\$app \\(Illuminate\\\\Foundation\\\\Application\\) does not accept null\\.$#"
-			count: 1
-			path: src/TestCase.php

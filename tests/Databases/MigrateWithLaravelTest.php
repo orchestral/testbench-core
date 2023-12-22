@@ -47,11 +47,7 @@ class MigrateWithLaravelTest extends TestCase
         $this->assertTrue(Hash::check('456', $users->password));
     }
 
-    /**
-     * @test
-     *
-     * @requires  PHP >= 8.0
-     */
+    /** @test */
     #[DefineDatabase('runApplicationMigrations')]
     public function it_runs_the_migrations()
     {

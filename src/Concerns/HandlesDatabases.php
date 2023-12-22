@@ -5,9 +5,9 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
-use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\TestingFeature;
 use Orchestra\Testbench\Attributes\WithMigration;
+use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 /**
  * @internal
@@ -21,7 +21,11 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        $this->app['events']->listen(DatabaseRefreshed::class, function () {
+        if (\is_null($app = $this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
+        $app['events']->listen(DatabaseRefreshed::class, function () {
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
         });
 
@@ -31,30 +35,20 @@ trait HandlesDatabases
         }
 
         TestingFeature::run(
-            $this,
-            null,
-            null,
-            function () {
-                $this->parseTestMethodAttributes($this->app, ResetRefreshDatabaseState::class);
-                $this->parseTestMethodAttributes($this->app, WithMigration::class);
-            }
+            testCase: $this,
+            attribute: function () use ($app) {
+                $this->parseTestMethodAttributes($app, WithMigration::class);
+            },
         );
 
         $attributeCallbacks = TestingFeature::run(
-            $this,
-            function () {
+            testCase: $this,
+            default: function () {
                 $this->defineDatabaseMigrations();
-
-                $this->beforeApplicationDestroyed(function () {
-                    $this->destroyDatabaseMigrations();
-                });
+                $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrations());
             },
-            function () {
-                $this->parseTestMethodAnnotations($this->app, 'define-db');
-            },
-            function () {
-                return $this->parseTestMethodAttributes($this->app, DefineDatabase::class);
-            }
+            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class)
         )->get('attribute');
 
         $callback();
@@ -72,11 +66,18 @@ trait HandlesDatabases
      */
     protected function usesSqliteInMemoryDatabaseConnection(?string $connection = null): bool
     {
-        $app = $this->app;
+        if (\is_null($app = $this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
 
-        $connection = ! \is_null($connection) ? $connection : $app['config']->get('database.default');
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app->make('config');
 
-        $database = $app['config']->get("database.connections.{$connection}");
+        /** @var string $connection */
+        $connection = ! \is_null($connection) ? $connection : $config->get('database.default');
+
+        /** @var array{driver: string, database: string}|null $database */
+        $database = $config->get("database.connections.{$connection}");
 
         return ! \is_null($database) && $database['driver'] === 'sqlite' && $database['database'] == ':memory:';
     }

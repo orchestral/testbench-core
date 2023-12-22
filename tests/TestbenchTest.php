@@ -45,7 +45,7 @@ class TestbenchTest extends TestCase
         });
     }
 
-    public function customQueuePayloadDataProvider()
+    public static function customQueuePayloadDataProvider()
     {
         yield ['laravel.com'];
         yield ['blog.laravel.com'];

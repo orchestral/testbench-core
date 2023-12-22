@@ -26,6 +26,14 @@ use function Orchestra\Testbench\transform_relative_path;
  *   dont-discover?: array<int, string>,
  *   bootstrappers?: class-string|array<int, class-string>|null
  * }
+ * @phpstan-type TPurgeConfig array{
+ *   directories: array<int, string>,
+ *   files: array<int, string>
+ * }
+ * @phpstan-type TOptionalPurgeConfig array{
+ *   directories?: array<int, string>,
+ *   files?: array<int, string>
+ * }
  * @phpstan-type TWorkbenchConfig array{
  *   start: string,
  *   user: string|int|null,
@@ -69,9 +77,10 @@ use function Orchestra\Testbench\transform_relative_path;
  *   env: array,
  *   providers: array<int, class-string>,
  *   dont-discover: array<int, string>,
+ *   bootstrappers: class-string|array<int, class-string>|null,
  *   migrations: string|array<int, string>|bool,
  *   seeders: class-string|array<int, class-string>|bool,
- *   bootstrappers: class-string|array<int, class-string>|null,
+ *   purge: TOptionalPurgeConfig,
  *   workbench: TOptionalWorkbenchConfig
  * }
  * @phpstan-type TOptionalConfig array{
@@ -79,9 +88,10 @@ use function Orchestra\Testbench\transform_relative_path;
  *   env?: array,
  *   providers?: array<int, class-string>,
  *   dont-discover?: array<int, string>,
+ *   bootstrappers?: class-string|array<int, class-string>|null,
  *   migrations?: string|array<int, string>|bool,
  *   seeders?: class-string|array<int, class-string>|bool,
- *   bootstrappers?: class-string|array<int, class-string>|null,
+ *   purge?: TOptionalPurgeConfig|null,
  *   workbench?: TOptionalWorkbenchConfig|null
  * }
  */
@@ -102,7 +112,20 @@ class Config extends Fluent implements ConfigContract
         'migrations' => [],
         'seeders' => false,
         'bootstrappers' => [],
+        'purge' => [],
         'workbench' => [],
+    ];
+
+    /**
+     * The Workbench default configuration.
+     *
+     * @var array<string, array<int, string>>
+     *
+     * @phpstan-var TPurgeConfig
+     */
+    protected array $purgeConfig = [
+        'directories' => [],
+        'files' => [],
     ];
 
     /**
@@ -112,7 +135,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TWorkbenchConfig
      */
-    protected $workbenchConfig = [
+    protected array $workbenchConfig = [
         'start' => '/',
         'user' => null,
         'guard' => null,
@@ -138,7 +161,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TWorkbenchDiscoversConfig
      */
-    protected $workbenchDiscoversConfig = [
+    protected array $workbenchDiscoversConfig = [
         'config' => false,
         'web' => false,
         'api' => false,
@@ -207,11 +230,7 @@ class Config extends Fluent implements ConfigContract
      */
     public static function cacheFromYaml(string $workingPath, ?string $filename = 'testbench.yaml', array $defaults = [])
     {
-        if (\is_null(static::$cachedConfiguration)) {
-            static::$cachedConfiguration = static::loadFromYaml($workingPath, $filename, $defaults);
-        }
-
-        return static::$cachedConfiguration;
+        return static::$cachedConfiguration ??= static::loadFromYaml($workingPath, $filename, $defaults);
     }
 
     /**
@@ -242,6 +261,21 @@ class Config extends Fluent implements ConfigContract
             'providers' => Arr::get($this->attributes, 'providers', []),
             'dont-discover' => Arr::get($this->attributes, 'dont-discover', []),
         ];
+    }
+
+    /**
+     * Get purge attributes.
+     *
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TPurgeConfig
+     */
+    public function getPurgeAttributes(): array
+    {
+        return array_merge(
+            $this->purgeConfig,
+            $this->attributes['purge'],
+        );
     }
 
     /**

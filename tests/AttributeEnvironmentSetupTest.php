@@ -7,9 +7,6 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-/**
- * @requires PHP >= 8.0
- */
 class AttributeEnvironmentSetupTest extends TestCase
 {
     /**
@@ -17,7 +14,7 @@ class AttributeEnvironmentSetupTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->usesTestingFeature(new Define('env', 'globalConfig'));
+        static::usesTestingFeature(new Define('env', 'globalConfig'));
 
         parent::setUp();
     }

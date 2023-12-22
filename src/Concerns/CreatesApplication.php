@@ -2,9 +2,12 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\Attributes\TestingFeature;
@@ -69,6 +72,8 @@ trait CreatesApplication
     /**
      * Resolve application bindings.
      *
+     * @internal
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -103,6 +108,8 @@ trait CreatesApplication
 
     /**
      * Resolve application aliases.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<string, class-string>
@@ -158,7 +165,7 @@ trait CreatesApplication
      * Override application aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array<int, class-string>
+     * @return array<class-string, class-string>
      */
     protected function overrideApplicationProviders($app)
     {
@@ -167,6 +174,8 @@ trait CreatesApplication
 
     /**
      * Resolve application aliases.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
@@ -230,13 +239,23 @@ trait CreatesApplication
     }
 
     /**
+     * Create the default application implementation.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    final protected function resolveDefaultApplication()
+    {
+        return new Application($this->getBasePath());
+    }
+
+    /**
      * Resolve application implementation.
      *
      * @return \Illuminate\Foundation\Application
      */
     protected function resolveApplication()
     {
-        return tap(new Application($this->getBasePath()), function ($app) {
+        return tap($this->resolveDefaultApplication(), function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
@@ -261,23 +280,13 @@ trait CreatesApplication
         }
 
         $attributeCallbacks = TestingFeature::run(
-            $this,
-            null,
-            null,
-            function () use ($app) {
-                /** @phpstan-ignore-next-line */
-                return $this->parseTestMethodAttributes($app, WithEnv::class);
-            }
+            testCase: $this,
+            attribute: fn () => $this->parseTestMethodAttributes($app, WithEnv::class), // @phpstan-ignore-line
         )->get('attribute');
 
         TestingFeature::run(
-            $this,
-            null,
-            null,
-            function () use ($app) {
-                /** @phpstan-ignore-next-line */
-                return $this->parseTestMethodAttributes($app, RequiresEnv::class);
-            }
+            testCase: $this,
+            attribute: fn () => $this->parseTestMethodAttributes($app, RequiresEnv::class), // @phpstan-ignore-line
         );
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
@@ -316,13 +325,8 @@ trait CreatesApplication
             ]);
 
             TestingFeature::run(
-                $this,
-                null,
-                null,
-                function () use ($app) {
-                    /** @phpstan-ignore-next-line */
-                    $this->parseTestMethodAttributes($app, WithConfig::class);
-                }
+                testCase: $this,
+                attribute: fn () => $this->parseTestMethodAttributes($app, WithConfig::class), // @phpstan-ignore-line
             );
         });
     }
@@ -386,7 +390,12 @@ trait CreatesApplication
      */
     protected function resolveApplicationBootstrappers($app)
     {
-        $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
+        if ($this instanceof PHPUnitTestCase) {
+            $app->make('Orchestra\Testbench\Bootstrap\HandleExceptions', ['testbench' => $this])->bootstrap($app);
+        } else {
+            $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
+        }
+
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
@@ -396,22 +405,19 @@ trait CreatesApplication
         }
 
         TestingFeature::run(
-            $this,
-            function () use ($app) {
+            testCase: $this,
+            default: function () use ($app) {
                 $this->defineEnvironment($app);
                 $this->getEnvironmentSetUp($app);
             },
-            function () use ($app) {
-                /** @phpstan-ignore-next-line */
-                $this->parseTestMethodAnnotations($app, 'environment-setup');
-                /** @phpstan-ignore-next-line */
-                $this->parseTestMethodAnnotations($app, 'define-env');
+            annotation: function () use ($app) {
+                $this->parseTestMethodAnnotations($app, 'environment-setup'); // @phpstan-ignore-line
+                $this->parseTestMethodAnnotations($app, 'define-env'); // @phpstan-ignore-line
             },
-            function () use ($app) {
-                /** @phpstan-ignore-next-line */
-                $this->parseTestMethodAttributes($app, DefineEnvironment::class);
-            }
+            attribute: fn () => $this->parseTestMethodAttributes($app, DefineEnvironment::class), // @phpstan-ignore-line
         );
+
+        $this->resolveApplicationRateLimiting($app);
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
             /** @phpstan-ignore-next-line */
@@ -448,13 +454,26 @@ trait CreatesApplication
 
         $refreshNameLookups($app);
 
-        $app->resolving('url', static function () use ($app, $refreshNameLookups) {
-            $refreshNameLookups($app);
+        $app->resolving('url', fn () => $refreshNameLookups($app));
+    }
+
+    /**
+     * Resolve application rate limiting configuration.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationRateLimiting($app)
+    {
+        RateLimiter::for('api', static function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }
 
     /**
      * Reset artisan commands for the application.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void

@@ -44,11 +44,7 @@ class RefreshDatabaseTest extends TestCase
         ], Schema::getColumnListing('testbench_users'));
     }
 
-    /**
-     * @test
-     *
-     * @requires PHP >= 8.0
-     */
+    /** @test */
     #[DefineDatabase('addAdditionalTableAtRuntime')]
     public function it_can_modify_migrations_at_runtime()
     {

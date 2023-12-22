@@ -5,9 +5,6 @@ namespace Orchestra\Testbench\Tests\Attributes;
 use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\TestCase;
 
-/**
- * @requires PHP >= 8.0
- */
 class RequiresEnvTest extends TestCase
 {
     /** @test */

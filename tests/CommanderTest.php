@@ -24,7 +24,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
-            $process = remote('--version');
+            $process = remote('--version --no-ansi');
             $process->mustRun();
 
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $process->getOutput());
@@ -42,7 +42,68 @@ class CommanderTest extends TestCase
             $process = remote('env', ['APP_ENV' => 'workbench']);
             $process->mustRun();
 
-            $this->assertSame('Current application environment: workbench'.PHP_EOL, $process->getOutput());
+            $this->assertSame('INFO  The application environment is [workbench].', trim($process->getOutput()));
+        });
+    }
+
+    /**
+     * @test
+     *
+     * @group commander
+     */
+    public function it_output_correct_defaults()
+    {
+        $this->withoutSqliteDatabase(function () {
+            $process = remote('about --json');
+            $process->mustRun();
+
+            $output = json_decode($process->getOutput(), true);
+
+            $this->assertSame('Testbench', $output['environment']['application_name']);
+            $this->assertSame('ENABLED', $output['environment']['debug_mode']);
+            $this->assertSame('testing', $output['drivers']['database']);
+        });
+    }
+
+    /**
+     * @test
+     *
+     * @group commander
+     */
+    public function it_output_correct_defaults_with_database_file()
+    {
+        $this->withSqliteDatabase(function () {
+            $process = remote('about --json');
+            $process->mustRun();
+
+            $output = json_decode($process->getOutput(), true);
+
+            $this->assertSame('Testbench', $output['environment']['application_name']);
+            $this->assertSame('ENABLED', $output['environment']['debug_mode']);
+            $this->assertSame('sqlite', $output['drivers']['database']);
+        });
+    }
+
+    /**
+     * @test
+     *
+     * @group commander
+     */
+    public function it_output_correct_defaults_with_environment_overrides()
+    {
+        $this->withSqliteDatabase(function () {
+            $process = remote('about --json', [
+                'APP_NAME' => 'Testbench Tests',
+                'APP_DEBUG' => '(false)',
+                'DB_CONNECTION' => 'testing',
+            ]);
+            $process->mustRun();
+
+            $output = json_decode($process->getOutput(), true);
+
+            $this->assertSame('Testbench Tests', $output['environment']['application_name']);
+            $this->assertSame('OFF', $output['environment']['debug_mode']);
+            $this->assertSame('testing', $output['drivers']['database']);
         });
     }
 

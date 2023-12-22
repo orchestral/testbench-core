@@ -12,29 +12,16 @@ use Orchestra\Testbench\Foundation\UndefinedValue;
 final class RequiresEnv implements ActionableContract
 {
     /**
-     * The target environment key.
-     *
-     * @var string
-     */
-    public $key;
-
-    /**
-     * The target missing key message.
-     *
-     * @var string|null
-     */
-    public $message;
-
-    /**
      * Construct a new attribute.
      *
      * @param  string  $key
      * @param  string|null  $message
      */
-    public function __construct(string $key, ?string $message = null)
-    {
-        $this->key = $key;
-        $this->message = $message;
+    public function __construct(
+        public string $key,
+        public ?string $message = null
+    ) {
+        //
     }
 
     /**

@@ -17,7 +17,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Orchestra\\Testbench\\" : "src/"
+            "Orchestra\\Testbench\\": "src/"
         },
         "files": [
             "src/functions.php"
@@ -35,37 +35,43 @@
         "testbench"
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
-        "fakerphp/faker": "^1.9.1",
-        "symfony/yaml": "^5.0",
-        "vlucas/phpdotenv": "^5.1"
+        "php": "^8.0"
     },
     "require-dev": {
-        "laravel/framework": "^8.83.27",
-        "mockery/mockery": "^1.4.4",
+        "composer-runtime-api": "^2.2",
+        "fakerphp/faker": "^1.21",
+        "laravel/framework": "^9.52.9",
+        "laravel/pint": "^1.4",
+        "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^1.10.7",
-        "phpunit/phpunit": "^8.5.21 || ^9.5.10",
-        "spatie/laravel-ray": "^1.7.1",
-        "symfony/process": "^5.0"
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ray": "^1.32.4",
+        "symfony/process": "^6.0.9",
+        "symfony/yaml": "^6.0.9",
+        "vlucas/phpdotenv": "^5.4.1"
     },
     "conflict": {
         "brianium/paratest": "<6.4.0 || >=7.0.0",
-        "laravel/framework": "<8.83.27 || >=9.0.0",
-        "nunomaduro/collision": "<5.0.0 || >=6.0.0",
-        "phpunit/phpunit": "<8.5.21 || >=9.0.0 <9.5.10 || >=10.0.0"
+        "laravel/framework": "<9.52.9 || >=10.0.0",
+        "orchestra/workbench": "<1.0.0",
+        "nunomaduro/collision": "<6.2.0 || >=7.0.0",
+        "phpunit/phpunit": "<9.5.10 || >=10.0.0"
     },
     "suggest": {
         "brianium/paratest": "Allow using parallel testing (^6.4).",
-        "laravel/framework": "Required for testing (^8.83.27).",
-        "mockery/mockery": "Allow using Mockery for testing (^1.4.4).",
-        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^5.0).",
-        "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^6.0).",
-        "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^6.0).",
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^8.5.21|^9.5.10|^10.0)."
+        "fakerphp/faker": "Allow using Faker for testing (^1.21).",
+        "laravel/framework": "Required for testing (^9.52.9).",
+        "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
+        "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.2).",
+        "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
+        "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^7.0).",
+        "phpunit/phpunit": "Allow using PHPUnit for testing (^9.5.10).",
+        "symfony/yaml": "Required for CLI Commander (^6.0.9).",
+        "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "6.0-dev"
+            "dev-master": "7.0-dev"
         }
     },
     "scripts": {
@@ -73,20 +79,17 @@
             "@clear",
             "@prepare"
         ],
+        "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
-        "clear": [
-            "@php -r \"file_exists('laravel/.env') && unlink('laravel/.env');\"",
-            "@php -r \"file_exists('laravel/testbench.yaml') && unlink('laravel/testbench.yaml');\"",
-            "@php -r \"file_exists('laravel/database/database.sqlite') && unlink('laravel/database/database.sqlite');\"",
-            "@php testbench view:clear"
-        ],
         "lint": [
+            "@php vendor/bin/pint",
             "@php vendor/bin/phpstan analyse"
         ],
         "test": [
             "@php vendor/bin/phpunit -c ./ --color"
         ],
         "ci": [
+            "@composer audit",
             "@post-autoload-dump",
             "@lint",
             "@test"

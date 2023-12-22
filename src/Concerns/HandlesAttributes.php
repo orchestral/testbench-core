@@ -32,9 +32,7 @@ trait HandlesAttributes
                 if ($instance instanceof InvokableContract) {
                     return $instance($app);
                 } elseif ($instance instanceof ActionableContract) {
-                    return $instance->handle($app, function ($method, $parameters) {
-                        $this->{$method}(...$parameters);
-                    });
+                    return $instance->handle($app, fn ($method, $parameters) => $this->{$method}(...$parameters));
                 }
             })->filter()
             ->values();

@@ -7,6 +7,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 $files = new Illuminate\Filesystem\Filesystem();
 
+$files->delete("{$workingPath}/laravel/.env");
 $files->deleteDirectory("{$workingPath}/skeleton");
 if ($files->isDirectory("{$workingPath}/laravel/migrations")) {
     $files->deleteDirectory("{$workingPath}/laravel/migrations");
@@ -18,21 +19,26 @@ $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/notifications")
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/queue");
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/session");
 
+$files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php", "{$workingPath}/laravel/server.php");
+transform([
+    "getcwd()" => "__DIR__.'/public'",
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
+
 Symfony\Component\Process\Process::fromShellCommandline(
-    'composer create-project "laravel/laravel:8.x-dev" skeleton --no-scripts --no-plugins --quiet --no-install', $workingPath
+    'composer create-project "laravel/laravel:9.x-dev" skeleton --no-scripts --no-plugins --quiet --no-install', $workingPath
 )->mustRun();
 
 Illuminate\Support\Collection::make([
+    '.env.example',
     'config/*.php',
     'database/.gitignore',
     'database/migrations/2014_10_12_000000_create_users_table.php',
     'database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'database/migrations/2019_08_19_000000_create_failed_jobs_table.php',
-    'resources/lang/en/*.php',
-    'resources/lang/*.json',
+    'lang/en/*.php',
+    'lang/*.json',
     'resources/views/*',
     'public/index.php',
-    'server.php',
     'tests/CreatesApplication.php',
 ])->transform(fn ($file) => "{$workingPath}/skeleton/{$file}")
 ->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
@@ -72,8 +78,14 @@ Illuminate\Support\Collection::make([
 });
 
 transform([
-    "getcwd()" => "__DIR__.'/public'",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
+    PHP_EOL.'APP_KEY=' => PHP_EOL.'APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
+    PHP_EOL.'DB_CONNECTION=mysql' => PHP_EOL.'DB_CONNECTION=sqlite',
+    PHP_EOL.'DB_HOST=' => PHP_EOL.'# DB_HOST=',
+    PHP_EOL.'DB_PORT=' => PHP_EOL.'# DB_PORT=',
+    PHP_EOL.'DB_DATABASE=' => PHP_EOL.'# DB_DATABASE=',
+    PHP_EOL.'DB_USERNAME=' => PHP_EOL.'# DB_USERNAME=',
+    PHP_EOL.'DB_PASSWORD=' => PHP_EOL.'# DB_PASSWORD=',
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
 
 transform([
     "env('APP_ENV', 'production')" => "env('APP_ENV', 'testing')",
@@ -96,11 +108,12 @@ $files->copy("{$workingPath}/skeleton/database/factories/UserFactory.php", "{$wo
 transform([
     'namespace Database\Factories;' => 'namespace Orchestra\Testbench\Factories;',
     'use Illuminate\Database\Eloquent\Factories\Factory;' => 'use Illuminate\Database\Eloquent\Factories\Factory;'.PHP_EOL.'use Illuminate\Foundation\Auth\User;',
-    'class UserFactory extends Factory' => '/**
- * @phpstan-type TModel \Illuminate\Foundation\Auth\User
- */
-class UserFactory extends Factory',
-        '    }
+    ' * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>' => ' * @phpstan-type TModel \Illuminate\Foundation\Auth\User
+ *
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
+ *
+ * @property \Illuminate\Database\Eloquent\Model|TModel $model',
+    '    }
 }'.PHP_EOL => '    }
 
     /**

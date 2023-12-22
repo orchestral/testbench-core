@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Env;
 
+use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\laravel_migration_path;
 use function Orchestra\Testbench\transform_relative_path;
 use function Orchestra\Testbench\workbench;
@@ -76,12 +77,11 @@ final class LoadMigrationsFromArray
                     return;
                 }
 
-                collect(Arr::wrap($this->seeders))
+                Collection::make(Arr::wrap($this->seeders))
                     ->flatten()
                     ->filter(static function ($seederClass) {
                         return ! \is_null($seederClass) && class_exists($seederClass);
-                    })
-                    ->each(static function ($seederClass) use ($app) {
+                    })->each(static function ($seederClass) use ($app) {
                         $app->make(ConsoleKernel::class)->call('db:seed', [
                             '--class' => $seederClass,
                         ]);
@@ -107,28 +107,12 @@ final class LoadMigrationsFromArray
             return transform_relative_path($migration, $app->basePath());
         })->all();
 
-        $this->callAfterResolvingMigrator($app, static function ($migrator) use ($paths) {
+        after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {
+                /** @var \Illuminate\Database\Migrations\Migrator $migrator */
                 $migrator->path($path);
             }
         });
-    }
-
-    /**
-     * Setup an after resolving listener, or fire immediately if already resolved.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  callable  $callback
-     * @return void
-     */
-    protected function callAfterResolvingMigrator($app, $callback)
-    {
-        /** @phpstan-ignore-next-line */
-        $app->afterResolving('migrator', $callback);
-
-        if ($app->resolved('migrator')) {
-            $callback($app->make('migrator'), $app);
-        }
     }
 
     /**

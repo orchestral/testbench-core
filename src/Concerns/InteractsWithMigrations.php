@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
+use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 use function Orchestra\Testbench\laravel_migration_path;
 
@@ -35,6 +36,10 @@ trait InteractsWithMigrations
      */
     protected function loadMigrationsWithoutRollbackFrom($paths): void
     {
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
         $migrator->up();
 
@@ -87,6 +92,10 @@ trait InteractsWithMigrations
      */
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         $options = $this->resolveLaravelMigrationsOptions($database);
         $options['--path'] = laravel_migration_path();
         $options['--realpath'] = true;
@@ -119,6 +128,10 @@ trait InteractsWithMigrations
      */
     protected function runLaravelMigrationsWithoutRollback($database = []): void
     {
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         (new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database)))->up();
 
         $this->resetApplicationArtisanCommands($this->app);

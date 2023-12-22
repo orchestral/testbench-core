@@ -16,8 +16,14 @@ class TestFallbackCommand extends Command
      */
     protected $signature = 'package:test
         {--without-tty : Disable output to TTY}
-        {--parallel : Indicates if the tests should run in parallel}
+        {--c|configuration= : Read configuration from XML file}
+        {--compact : Indicates whether the compact printer should be used}
+        {--coverage : Indicates whether code coverage information should be collected}
+        {--min= : Indicates the minimum threshold enforcement for code coverage}
+        {--p|parallel : Indicates if the tests should run in parallel}
+        {--profile : Lists top 10 slowest tests}
         {--recreate-databases : Indicates if the test databases should be re-created}
+        {--drop-databases : Indicates if the test databases should be dropped}
     ';
 
     /**
@@ -64,7 +70,7 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $command = $this->findComposer().' require "nunomaduro/collision:^5.10" --dev';
+        $command = sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), '6.2');
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
 

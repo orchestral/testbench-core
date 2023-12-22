@@ -6,9 +6,6 @@ use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 
-/**
- * @requires PHP >= 8.0
- */
 class WithEnvTest extends TestCase
 {
     /** @test */

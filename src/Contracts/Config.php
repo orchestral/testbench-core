@@ -6,6 +6,7 @@ use ArrayAccess;
 
 /**
  * @phpstan-import-type TExtraConfig from \Orchestra\Testbench\Foundation\Config
+ * @phpstan-import-type TPurgeConfig from \Orchestra\Testbench\Foundation\Config
  * @phpstan-import-type TWorkbenchConfig from \Orchestra\Testbench\Foundation\Config
  * @phpstan-import-type TWorkbenchDiscoversConfig from \Orchestra\Testbench\Foundation\Config
  */
@@ -27,6 +28,15 @@ interface Config extends ArrayAccess
      * @phpstan-return TExtraConfig
      */
     public function getExtraAttributes(): array;
+
+    /**
+     * Get purge attributes.
+     *
+     * @return array<string, mixed>
+     *
+     * @phpstan-return TPurgeConfig
+     */
+    public function getPurgeAttributes(): array;
 
     /**
      * Get workbench attributes.

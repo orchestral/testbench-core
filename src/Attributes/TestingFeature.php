@@ -17,7 +17,7 @@ class TestingFeature
      * @param  (\Closure():(void))|null  $default
      * @param  (\Closure():(void))|null  $annotation
      * @param  (\Closure():(mixed))|null  $attribute
-     * @return \Illuminate\Support\Fluent
+     * @return \Illuminate\Support\Fluent<array-key, mixed>
      */
     public static function run(
         object $testCase,

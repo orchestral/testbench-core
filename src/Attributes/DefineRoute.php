@@ -10,20 +10,14 @@ use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 final class DefineRoute implements ActionableContract
 {
     /**
-     * The target method.
-     *
-     * @var string
-     */
-    public $method;
-
-    /**
      * Construct a new attribute.
      *
      * @param  string  $method
      */
-    public function __construct(string $method)
-    {
-        $this->method = $method;
+    public function __construct(
+        public string $method
+    ) {
+        //
     }
 
     /**

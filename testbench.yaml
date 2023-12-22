@@ -15,3 +15,5 @@ workbench:
     commands: true
     views: true
 
+purge:
+  directories: public/vendor/*

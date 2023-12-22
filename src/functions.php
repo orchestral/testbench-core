@@ -5,12 +5,15 @@ namespace Orchestra\Testbench;
 use Closure;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Testbench\Foundation\Env;
+use PHPUnit\Runner\Version;
+use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -20,13 +23,13 @@ use Symfony\Component\Process\Process;
  * @api
  *
  * @param  string|null  $basePath
- * @param  (callable(\Illuminate\Foundation\Application):void)|null  $resolvingCallback
- * @param  array{extra?: array{providers?: array, dont-discover?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
+ * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
+ * @param  array{extra?: array{providers?: array, dont-discover?: array, env?: array}, load_environment_variables?: bool, enabled_package_discoveries?: bool}  $options
  * @return \Orchestra\Testbench\Foundation\Application
  */
-function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
+function container(?string $basePath = null, ?callable $resolvingCallback = null, array $options = []): Foundation\Application
 {
-    return (new Foundation\Application($basePath, $resolvingCallback))->configure($options);
+    return Foundation\Application::make($basePath, $resolvingCallback, $options);
 }
 
 /**
@@ -37,9 +40,9 @@ function container(?string $basePath = null, ?callable $resolvingCallback = null
  * @param  \Orchestra\Testbench\Contracts\TestCase|\Illuminate\Contracts\Foundation\Application  $context
  * @param  string  $command
  * @param  array<string, mixed>  $parameters
- * @return \Illuminate\Testing\PendingCommand|int
+ * @return int
  */
-function artisan($context, string $command, array $parameters = [])
+function artisan(Contracts\TestCase|ApplicationContract $context, string $command, array $parameters = []): int
 {
     if ($context instanceof ApplicationContract) {
         return $context->make(ConsoleKernel::class)->call($command, $parameters);
@@ -75,9 +78,9 @@ function remote(string $command, array $env = []): Process
         : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$binary}"));
 
     return Process::fromShellCommandline(
-        implode(' ', [$phpBinary, $commander, $command]),
-        package_path(),
-        array_merge(defined_environment_variables(), $env)
+        command: implode(' ', [$phpBinary, $commander, $command]),
+        cwd: package_path(),
+        env: array_merge(defined_environment_variables(), $env)
     );
 }
 
@@ -91,7 +94,7 @@ function remote(string $command, array $env = []): Process
  * @param  (\Closure(object, \Illuminate\Contracts\Foundation\Application):(mixed))|null  $callback
  * @return void
  */
-function after_resolving($app, string $name, ?Closure $callback = null): void
+function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
 {
     $app->afterResolving($name, $callback);
 
@@ -111,18 +114,7 @@ function after_resolving($app, string $name, ?Closure $callback = null): void
  */
 function default_environment_variables(): array
 {
-    return parse_environment_variables(
-        Collection::make([
-            'APP_KEY' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
-            'APP_DEBUG' => true,
-        ])->when(! \defined('TESTBENCH_DUSK'), static function ($variables) {
-            return $variables->put('DB_CONNECTION', 'testing');
-        })->transform(static function ($value, $key) {
-            return $_SERVER[$key] ?? $_ENV[$key] ?? $value;
-        })->filter(static function ($value) {
-            return ! \is_null($value);
-        })
-    );
+    return [];
 }
 
 /**
@@ -138,8 +130,7 @@ function defined_environment_variables(): array
         ->keys()
         ->mapWithKeys(static function (string $key) {
             return [$key => Env::forward($key)];
-        })
-        ->put('TESTBENCH_WORKING_PATH', package_path())
+        })->put('TESTBENCH_WORKING_PATH', package_path())
         ->all();
 }
 
@@ -178,7 +169,7 @@ function parse_environment_variables($variables): array
  */
 function transform_relative_path(string $path, string $workingPath): string
 {
-    return Str::startsWith($path, './')
+    return str_starts_with($path, './')
         ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
         : $path;
 }
@@ -197,7 +188,7 @@ function package_path(string $path = ''): string
         ? TESTBENCH_WORKING_PATH
         : getcwd();
 
-    if (Str::startsWith($path, './')) {
+    if (str_starts_with($path, './')) {
         return transform_relative_path($path, $workingPath);
     }
 
@@ -259,4 +250,44 @@ function laravel_migration_path(?string $type = null): string
     }
 
     return $path;
+}
+
+/**
+ * Laravel version compare.
+ *
+ * @api
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ * @return int|bool
+ */
+function laravel_version_compare(string $version, ?string $operator = null)
+{
+    if (\is_null($operator)) {
+        return version_compare(Application::VERSION, $version);
+    }
+
+    return version_compare(Application::VERSION, $version, $operator);
+}
+
+/**
+ * PHPUnit version compare.
+ *
+ * @api
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ * @return int|bool
+ */
+function phpunit_version_compare(string $version, ?string $operator = null)
+{
+    if (! class_exists(Version::class)) {
+        throw new RuntimeException('Unable to verify PHPUnit version');
+    }
+
+    if (\is_null($operator)) {
+        return version_compare(Version::id(), $version);
+    }
+
+    return version_compare(Version::id(), $version, $operator);
 }

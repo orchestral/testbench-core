@@ -21,7 +21,7 @@ class DefineDatabaseTest extends TestCase
     /** @test */
     public function it_can_resolve_definition()
     {
-        $attribute = new DefineDatabase('defineCallback', false);
+        $attribute = new DefineDatabase('defineCallback', defer: false);
 
         $this->assertInstanceOf(DefineDatabase::class, $attribute);
         $this->assertSame('defineCallback', $attribute->method);
@@ -31,7 +31,7 @@ class DefineDatabaseTest extends TestCase
     /** @test */
     public function it_can_handle_defer_definition()
     {
-        $attribute = new DefineDatabase('defineCallback', true);
+        $attribute = new DefineDatabase('defineCallback', defer: true);
 
         $this->assertInstanceOf(DefineDatabase::class, $attribute);
         $this->assertSame('defineCallback', $attribute->method);
@@ -50,7 +50,7 @@ class DefineDatabaseTest extends TestCase
     /** @test */
     public function it_can_handle_eager_definition()
     {
-        $attribute = new DefineDatabase('defineCallback', false);
+        $attribute = new DefineDatabase('defineCallback', defer: false);
 
         $this->assertInstanceOf(DefineDatabase::class, $attribute);
         $this->assertSame('defineCallback', $attribute->method);
