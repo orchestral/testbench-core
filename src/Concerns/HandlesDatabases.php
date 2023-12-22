@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
+use Orchestra\Testbench\Attributes\TestingFeature;
 use Orchestra\Testbench\Attributes\WithMigration;
 
 /**
@@ -29,7 +30,8 @@ trait HandlesDatabases
             $this->setUpWithLaravelMigrations();
         }
 
-        $this->resolveTestbenchTestingFeature(
+        TestingFeature::run(
+            $this,
             null,
             null,
             function () {
@@ -38,7 +40,8 @@ trait HandlesDatabases
             }
         );
 
-        $attributeCallbacks = $this->resolveTestbenchTestingFeature(
+        $attributeCallbacks = TestingFeature::run(
+            $this,
             function () {
                 $this->defineDatabaseMigrations();
 
