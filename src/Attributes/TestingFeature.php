@@ -8,7 +8,10 @@ use Orchestra\Testbench\Concerns\HandlesAnnotations;
 use Orchestra\Testbench\Concerns\HandlesAttributes;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class TestingFeature
+/**
+ * @internal
+ */
+final class TestingFeature
 {
     /**
      * Resolve available testing features for Testbench.
