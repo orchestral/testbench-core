@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Attributes\DisconnectDatabaseConnections;
-use Orchestra\Testbench\Attributes\TestingFeature;
+use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
