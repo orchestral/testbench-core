@@ -15,14 +15,23 @@ final class ResetRefreshDatabaseState implements AfterAllContract, BeforeAllCont
      */
     public function beforeAll(): void
     {
-        RefreshDatabaseState::$migrated = false;
-        RefreshDatabaseState::$lazilyRefreshed = false;
+        self::run();
     }
 
     /**
      * Handle the attribute.
      */
     public function afterAll(): void
+    {
+        self::run();
+    }
+
+    /**
+     * Execute the action.
+     *
+     * @return void
+     */
+    public static function run(): void
     {
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
