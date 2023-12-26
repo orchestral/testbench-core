@@ -14,7 +14,7 @@ trait InteractsWithPublishedFiles
      *
      * @var bool
      */
-    protected $interactsWithPublishedFilesTeardownRegistered = false;
+    protected bool $interactsWithPublishedFilesTeardownRegistered = false;
 
     /**
      * Setup Interacts with Published Files environment.

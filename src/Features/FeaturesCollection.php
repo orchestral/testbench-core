@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Attributes;
+namespace Orchestra\Testbench\Features;
 
 use Closure;
 use Illuminate\Support\Collection;

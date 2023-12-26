@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
 use Closure;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
@@ -33,9 +32,7 @@ final class DefineDatabase implements ActionableContract, AfterEachContract, Bef
      */
     public function beforeEach($app)
     {
-        RefreshDatabaseState::$inMemoryConnections = [];
-        RefreshDatabaseState::$migrated = false;
-        RefreshDatabaseState::$lazilyRefreshed = false;
+        ResetRefreshDatabaseState::run();
     }
 
     /**
@@ -46,9 +43,7 @@ final class DefineDatabase implements ActionableContract, AfterEachContract, Bef
      */
     public function afterEach($app)
     {
-        RefreshDatabaseState::$inMemoryConnections = [];
-        RefreshDatabaseState::$migrated = false;
-        RefreshDatabaseState::$lazilyRefreshed = false;
+        ResetRefreshDatabaseState::run();
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Attributes;
+namespace Orchestra\Testbench\Features;
 
 use Closure;
 use Illuminate\Support\Fluent;
@@ -45,15 +45,14 @@ final class TestingFeature
                 $result['attribute'] = value($attribute);
             }
 
-            /** @phpstan-ignore-next-line */
-            if ($testCase::usesTestingConcern(WithPest::class)) {
-                $pest instanceof Closure ? value($pest, $default) : value($default);
-            } else {
-                value($default);
-            }
         }
 
-        value($default);
+        /** @phpstan-ignore-next-line */
+        if ($testCase instanceof PHPUnitTestCase && $testCase::usesTestingConcern(WithPest::class)) {
+            $pest instanceof Closure ? value($pest, $default) : value($default);
+        } else {
+            value($default);
+        }
 
         return $result;
     }
