@@ -46,7 +46,7 @@ final class TestingFeature
             }
 
         }
-        
+
         /** @phpstan-ignore-next-line */
         if ($testCase instanceof PHPUnitTestCase && $testCase::usesTestingConcern(WithPest::class)) {
             $pest instanceof Closure ? value($pest, $default) : value($default);
