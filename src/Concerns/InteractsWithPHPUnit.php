@@ -39,7 +39,7 @@ trait InteractsWithPHPUnit
      *
      * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
-    protected static $cachedTestCaseClassAttributes = [];
+    protected static array $cachedTestCaseClassAttributes = [];
 
     /**
      * The cached method attributes for test case.
@@ -48,7 +48,7 @@ trait InteractsWithPHPUnit
      *
      * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
-    protected static $cachedTestCaseMethodAttributes = [];
+    protected static array $cachedTestCaseMethodAttributes = [];
 
     /**
      * Determine if the trait is used within testing.
