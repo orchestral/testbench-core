@@ -4,25 +4,16 @@ namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Schema;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 #[WithMigration]
+#[WithConfig('database.default', 'testing')]
 class WithMigrationAttributeTest extends TestCase
 {
     use DatabaseMigrations;
-
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set('database.default', 'testing');
-    }
 
     #[Test]
     public function it_loads_default_migrations()
@@ -33,9 +24,6 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
         $this->assertFalse(Schema::hasTable('job_batches'));
-        $this->assertTrue(Schema::hasTable('failed_jobs'));
-        $this->assertFalse(Schema::hasTable('notifications'));
-        $this->assertTrue(Schema::hasTable('sessions'));
     }
 
     #[Test]

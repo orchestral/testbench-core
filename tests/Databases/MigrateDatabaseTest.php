@@ -5,26 +5,17 @@ namespace Orchestra\Testbench\Tests\Databases;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\artisan;
 
+#[WithConfig('database.default', 'testing')]
 class MigrateDatabaseTest extends TestCase
 {
     use WithWorkbench;
-
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set('database.default', 'testing');
-    }
 
     /**
      * Define database migrations.

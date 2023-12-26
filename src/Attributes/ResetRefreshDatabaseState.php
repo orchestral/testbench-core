@@ -15,6 +15,7 @@ final class ResetRefreshDatabaseState implements AfterAllContract, BeforeAllCont
      */
     public function beforeAll(): void
     {
+        RefreshDatabaseState::$inMemoryConnections = [];
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
     }
