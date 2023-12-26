@@ -3,15 +3,12 @@
 namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use function Orchestra\Testbench\artisan;
 
 #[ResetRefreshDatabaseState]
 #[WithConfig('database.default', 'testing')]
