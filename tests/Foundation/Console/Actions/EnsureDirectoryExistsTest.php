@@ -25,7 +25,7 @@ class EnsureDirectoryExistsTest extends TestCase
             ->shouldReceive('copy')->never()->with(M::type('String'), join_paths('b', '.gitkeep'))->andReturnSelf()
             ->shouldReceive('isDirectory')->once()->with(join_paths('c', 'd'))->andReturnFalse()
             ->shouldReceive('ensureDirectoryExists')->once()->with(join_paths('c', 'd'), 493, true)->andReturnSelf()
-            ->shouldReceive('copy')->once()->with(M::type('String'), join_paths('c', 'd', '.gitkeep')->andReturnSelf();
+            ->shouldReceive('copy')->once()->with(M::type('String'), join_paths('c', 'd', '.gitkeep'))->andReturnSelf();
 
         $components->shouldReceive('task')->once()->with('Prepare [a] directory')->andReturnNull()
             ->shouldReceive('twoColumnDetail')->once()->with('Directory [b] already exists', '<fg=yellow;options=bold>SKIPPED</>')->andReturnNull()
