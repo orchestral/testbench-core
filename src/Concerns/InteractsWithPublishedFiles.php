@@ -24,10 +24,6 @@ trait InteractsWithPublishedFiles
     {
         $this->cleanUpFiles();
         $this->cleanUpMigrationFiles();
-
-        $this->beforeApplicationDestroyed(function () {
-            $this->tearDownInteractsWithPublishedFiles();
-        });
     }
 
     /**
