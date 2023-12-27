@@ -28,7 +28,7 @@ final class TestingFeature
         ?Closure $annotation = null,
         ?Closure $attribute = null
     ): Fluent {
-        /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Attributes\FeaturesCollection} $result */
+        /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Features\FeaturesCollection} $result */
         $result = new Fluent(['attribute' => new FeaturesCollection()]);
 
         if ($testCase instanceof PHPUnitTestCase) {
