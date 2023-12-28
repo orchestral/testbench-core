@@ -18,7 +18,9 @@ Released: 2023-12-28
 
 ### Changes
 
+* Bump minimum `laravel/framework` to `10.39.0`.
 * Refactor `Orchestra\Testbench\Concerns\InteractsWithPHPUnit`.
+* Utilise `Illuminate\Filesystem\join_paths` function.
 
 ### Deprecated
 
