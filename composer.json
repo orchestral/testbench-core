@@ -58,6 +58,7 @@
         "phpunit/phpunit": "<9.5.10 || >=10.0.0"
     },
     "suggest": {
+        "ext-pcntl": "Required to use all features of the console signal trapping.",
         "brianium/paratest": "Allow using parallel testing (^6.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
         "laravel/framework": "Required for testing (^9.52.9).",
