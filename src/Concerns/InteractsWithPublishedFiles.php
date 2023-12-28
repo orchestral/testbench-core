@@ -4,6 +4,8 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 
+use function Illuminate\Filesystem\join_paths;
+
 /**
  * @internal
  */
@@ -23,10 +25,6 @@ trait InteractsWithPublishedFiles
     {
         $this->cleanUpPublishedFiles();
         $this->cleanUpPublishedMigrationFiles();
-
-        $this->beforeApplicationDestroyed(function () {
-            $this->tearDownInteractsWithPublishedFiles();
-        });
     }
 
     /**
@@ -216,7 +214,7 @@ trait InteractsWithPublishedFiles
             ? $this->app->basePath($directory)
             : $this->app->databasePath('migrations');
 
-        return $this->app['files']->glob("{$migrationPath}/*{$filename}")[0] ?? null;
+        return $this->app['files']->glob(join_paths($migrationPath, "*{$filename}"))[0] ?? null;
     }
 
     /**

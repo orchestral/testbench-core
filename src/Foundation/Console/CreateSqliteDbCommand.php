@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
 
+use function Illuminate\Filesystem\join_paths;
+
 #[AsCommand(name: 'package:create-sqlite-db', description: 'Create sqlite database file')]
 class CreateSqliteDbCommand extends Command
 {
@@ -30,11 +32,11 @@ class CreateSqliteDbCommand extends Command
         /** @var bool $force */
         $force = $this->option('force');
 
-        $from = $filesystem->exists("{$databasePath}/database.sqlite.example")
-            ? "{$databasePath}/database.sqlite.example"
-            : (string) realpath(__DIR__.'/stubs/database.sqlite.example');
+        $from = $filesystem->exists(join_paths($databasePath, 'database.sqlite.example'))
+            ? join_paths($databasePath, 'database.sqlite.example')
+            : (string) realpath(join_paths(__DIR__, 'stubs', 'database.sqlite.example'));
 
-        $to = "{$databasePath}/database.sqlite";
+        $to = join_paths($databasePath, 'database.sqlite');
 
         (new Actions\GeneratesFile(
             filesystem: $filesystem,

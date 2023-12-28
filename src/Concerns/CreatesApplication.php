@@ -18,6 +18,8 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
+use function Illuminate\Filesystem\join_paths;
+
 /**
  * @api
  *
@@ -35,7 +37,7 @@ trait CreatesApplication
      */
     public static function applicationBasePath()
     {
-        return static::applicationBasePathUsingWorkbench() ?? (string) realpath(__DIR__.'/../../laravel');
+        return static::applicationBasePathUsingWorkbench() ?? (string) realpath(join_paths(__DIR__, '..', '..', 'laravel'));
     }
 
     /**

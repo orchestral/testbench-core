@@ -85,9 +85,9 @@ function remote(string $command, array $env = []): Process
 
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
-    $commander = realpath(__DIR__.'/../vendor/autoload.php') !== false
+    $commander = realpath(join_paths(__DIR__, '..', 'vendor', 'autoload.php')) !== false
         ? $binary
-        : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$binary}"));
+        : ProcessUtils::escapeArgument((string) package_path(join_paths('vendor', 'bin', $binary)));
 
     return Process::fromShellCommandline(
         command: implode(' ', [$phpBinary, $commander, $command]),
@@ -236,7 +236,7 @@ function workbench_path(string $path = ''): string
 function laravel_migration_path(?string $type = null): string
 {
     $path = realpath(
-        \is_null($type) ? base_path('migrations') : base_path("migrations/{$type}")
+        \is_null($type) ? base_path('migrations') : base_path(join_paths('migrations', $type))
     );
 
     if ($path === false) {
