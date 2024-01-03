@@ -80,10 +80,6 @@
             "@php -r \"file_exists('laravel/database/database.sqlite') && unlink('laravel/database/database.sqlite');\"",
             "@php testbench view:clear"
         ],
-        "sync": [
-            "@prepare",
-            "@php bin/sync"
-        ],
         "lint": [
             "@php vendor/bin/phpstan analyse"
         ],
