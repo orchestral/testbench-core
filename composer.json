@@ -73,6 +73,11 @@
             "@clear",
             "@prepare"
         ],
+        "post-update-cmd": [
+            "@clear",
+            "@php bin/sync",
+            "@php vendor/bin/pint"
+        ],
         "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
         "lint": [
