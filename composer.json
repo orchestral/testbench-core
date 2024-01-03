@@ -80,12 +80,6 @@
             "@clear",
             "@prepare"
         ],
-        "post-update-cmd": [
-            "@php bin/sync",
-            "@php vendor/bin/pint",
-            "@prepare",
-            "@clear"
-        ],
         "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
         "lint": [
