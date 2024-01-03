@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Queue\Queue;
@@ -151,6 +152,7 @@ trait ApplicationTestingHooks
         HandleExceptions::forgetApp();
         Queue::createPayloadUsing(null);
         Sleep::fake(false);
+        AboutCommand::flushState();
         TrimStrings::flushState();
 
         if ($this->callbackException) {
