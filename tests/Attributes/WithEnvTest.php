@@ -40,7 +40,11 @@ class WithEnvTest extends TestCase
         $this->assertNull(Env::get('TESTING_USING_ATTRIBUTE'));
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @requires OS Linux|DAR
+     */
     public function it_cannot_change_defined_env_variables()
     {
         $attribute = new WithEnv('APP_KEY', 'laravel');
