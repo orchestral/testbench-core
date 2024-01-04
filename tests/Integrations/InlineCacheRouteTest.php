@@ -6,7 +6,11 @@ use Orchestra\Testbench\TestCase;
 
 class InlineCacheRouteTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     *
+     * @group without-parallel
+     */
     public function it_can_cache_route()
     {
         $this->defineCacheRoutes(<<<PHP
