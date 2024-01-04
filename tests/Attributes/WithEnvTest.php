@@ -49,6 +49,5 @@ class WithEnvTest extends TestCase
         value($callback);
 
         $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::get('APP_KEY'));
-
     }
 }
