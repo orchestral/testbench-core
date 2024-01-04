@@ -24,6 +24,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
+
 use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
@@ -166,7 +167,7 @@ class Commander
 
         if (! \is_null($path)) {
             return tap(transform_relative_path($path, $this->workingPath), static function ($path) {
-                Env::put('APP_BASE_PATH', $path);
+                Env::set('APP_BASE_PATH', $path);
             });
         }
 
