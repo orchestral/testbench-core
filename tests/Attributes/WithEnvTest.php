@@ -35,16 +35,20 @@ class WithEnvTest extends TestCase
     /** @test */
     public function it_cannot_change_defined_env_variables()
     {
-        $attribute = new WithEnv('APP_KEY', 'laravel');
+        $_ENV['LARAVEL_KEY'] = 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
 
-        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::get('APP_KEY'));
+        $attribute = new WithEnv('LARAVEL_KEY', 'laravel');
+
+        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::get('LARAVEL_KEY'));
 
         $callback = $attribute(m::mock(Application::class));
 
-        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::get('APP_KEY'));
+        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::get('LARAVEL_KEY'));
 
         value($callback);
 
-        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::get('APP_KEY'));
+        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::get('LARAVEL_KEY'));
+
+        unset($_ENV['LARAVEL_KEY']);
     }
 }
