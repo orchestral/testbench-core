@@ -68,8 +68,9 @@
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^8.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^8.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^9.6 || ^10.1).",
-        "symfony/yaml": "Required for CLI Commander (^6.2).",
-        "vlucas/phpdotenv": "Required for CLI Commander (^5.4.1)."
+        "symfony/process": "Required to use Orchestra\\Testbench\\remote function (^6.2).",
+        "symfony/yaml": "Required for Testbench CLI (^6.2).",
+        "vlucas/phpdotenv": "Required for Testbench CLI (^5.4.1)."
     },
     "scripts": {
         "post-autoload-dump": [
