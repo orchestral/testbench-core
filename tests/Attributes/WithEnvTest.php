@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use Mockery as m;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class WithEnvTest extends TestCase
