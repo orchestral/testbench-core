@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests\Attributes;
 use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 
 class RequiresEnvTest extends TestCase
 {
