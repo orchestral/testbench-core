@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Orchestra\Testbench\Attributes\DefineRoute;
@@ -10,6 +9,7 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\remote;
 
 /**
  * @internal
@@ -89,16 +89,16 @@ trait HandlesRoutes
 
         $time = time();
 
-        $laravel = Application::create(static::applicationBasePath());
-
         $files->put(
-            $laravel->basePath(join_paths('routes', "testbench-{$time}.php")), $route
+            join_paths(static::applicationBasePath(), 'routes', "testbench-{$time}.php"), $route
         );
 
-        $laravel->make(Kernel::class)->call('route:cache');
+        remote('route:cache', [
+            'APP_BASE_PATH' => static::applicationBasePath(),
+        ])->mustRun();
 
         $this->assertTrue(
-            $files->exists($laravel->bootstrapPath(join_paths('cache', 'routes-v7.php')))
+            $files->exists(join_paths(static::applicationBasePath(), 'bootstrap', 'cache', 'routes-v7.php'))
         );
 
         if ($this->app instanceof LaravelApplication) {

@@ -94,4 +94,17 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
             || ! self::$app->hasBeenBootstrapped()
             || ! Env::get('LOG_DEPRECATIONS_WHILE_TESTING', true);
     }
+
+    /**
+     * Flush the boostrap's global state.
+     *
+     * @return void
+     */
+    public static function flushState(): void
+    {
+        self::forgetApp();
+
+        restore_error_handler();
+        restore_exception_handler();
+    }
 }
