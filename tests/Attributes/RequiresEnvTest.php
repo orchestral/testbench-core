@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Tests\Attributes;
 
-use Closure;
 use Illuminate\Foundation\Application;
 use Mockery as m;
 use Orchestra\Testbench\Attributes\RequiresEnv;
@@ -23,9 +22,9 @@ class RequiresEnvTest extends TestCase
     {
         $attribute = new RequiresEnv('TESTBENCH_MISSING_ENV');
 
-        $callback = $attribute->handle($app = m::mock(Application::class), function ($method, $parameters) use ($app) {
+        $callback = $attribute->handle($app = m::mock(Application::class), function ($method, $parameters) {
             $this->assertSame('markTestSkipped', $method);
-            $this->assertSame(["Missing required environment variable `TESTBENCH_MISSING_ENV`"], $parameters);
+            $this->assertSame(['Missing required environment variable `TESTBENCH_MISSING_ENV`'], $parameters);
         });
 
         $this->assertNull($callback);
