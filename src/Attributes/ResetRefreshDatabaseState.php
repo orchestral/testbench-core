@@ -12,6 +12,8 @@ final class ResetRefreshDatabaseState implements AfterAllContract, BeforeAllCont
 {
     /**
      * Handle the attribute.
+     *
+     * @codeCoverageIgnore
      */
     public function beforeAll(): void
     {
@@ -20,6 +22,8 @@ final class ResetRefreshDatabaseState implements AfterAllContract, BeforeAllCont
 
     /**
      * Handle the attribute.
+     *
+     * @codeCoverageIgnore
      */
     public function afterAll(): void
     {
