@@ -6,6 +6,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
+use function Illuminate\Filesystem\join_paths;
+
 trait CopyTestbenchFiles
 {
     use HandleTerminatingConsole;
@@ -63,15 +65,15 @@ trait CopyTestbenchFiles
      */
     protected function copyTestbenchDotEnvFile(Application $app, Filesystem $filesystem, string $workingPath): void
     {
-        $workingPath = $filesystem->isDirectory("{$workingPath}/workbench")
-            ? "{$workingPath}/workbench"
+        $workingPath = $filesystem->isDirectory(join_paths($workingPath, 'workbench'))
+            ? join_paths($workingPath, 'workbench')
             : $workingPath;
 
         $configurationFile = LazyCollection::make(function () {
             yield $this->environmentFile;
             yield "{$this->environmentFile}.example";
             yield "{$this->environmentFile}.dist";
-        })->map(fn ($file) => "{$workingPath}/{$file}")
+        })->map(fn ($file) => join_paths($workingPath, $file))
             ->filter(fn ($file) => $filesystem->exists($file))
             ->first();
 

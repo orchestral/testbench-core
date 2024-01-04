@@ -26,7 +26,6 @@ class CreateSqliteDbCommand extends Command
      */
     public function handle(Filesystem $filesystem)
     {
-        $workingPath = $this->laravel->basePath();
         $databasePath = $this->laravel->databasePath();
 
         /** @var bool $force */
@@ -42,7 +41,7 @@ class CreateSqliteDbCommand extends Command
             filesystem: $filesystem,
             components: $this->components,
             force: $force,
-            workingPath: $workingPath,
+            workingPath: $this->laravel->basePath(),
         ))->handle($from, $to);
 
         return Command::SUCCESS;

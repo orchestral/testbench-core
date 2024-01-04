@@ -40,7 +40,7 @@ final class LoadEnvironmentVariablesFromArray
                 return $entry->getValue()->isDefined();
             })->each(static function ($entry) {
                 /** @var \Dotenv\Parser\Entry $entry */
-                Env::getRepository()->set($entry->getName(), $entry->getValue()->get()->getChars());
+                Env::set($entry->getName(), $entry->getValue()->get()->getChars());
             });
     }
 }

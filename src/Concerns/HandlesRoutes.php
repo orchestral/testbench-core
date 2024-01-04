@@ -89,16 +89,19 @@ trait HandlesRoutes
 
         $time = time();
 
+        $basePath = static::applicationBasePath();
+        $bootstrapPath = $files->isDirectory(join_paths($basePath, '.laravel'))
+            ? join_paths($basePath, '.laravel')
+            : join_paths($basePath, 'bootstrap');
+
         $files->put(
-            join_paths(static::applicationBasePath(), 'routes', "testbench-{$time}.php"), $route
+            join_paths($basePath, 'routes', "testbench-{$time}.php"), $route
         );
 
-        remote('route:cache', [
-            'APP_BASE_PATH' => static::applicationBasePath(),
-        ])->mustRun();
+        remote('route:cache')->mustRun();
 
         $this->assertTrue(
-            $files->exists(join_paths(static::applicationBasePath(), 'bootstrap', 'cache', 'routes-v7.php'))
+            $files->exists(join_paths($bootstrapPath, 'cache', 'routes-v7.php'))
         );
 
         if ($this->app instanceof LaravelApplication) {
