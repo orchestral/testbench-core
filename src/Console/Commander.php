@@ -15,6 +15,7 @@ use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -23,7 +24,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
-
 use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
@@ -166,7 +166,7 @@ class Commander
 
         if (! \is_null($path)) {
             return tap(transform_relative_path($path, $this->workingPath), static function ($path) {
-                $_ENV['APP_BASE_PATH'] = $path;
+                Env::put('APP_BASE_PATH', $path);
             });
         }
 
