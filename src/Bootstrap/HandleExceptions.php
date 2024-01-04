@@ -6,6 +6,8 @@ use Illuminate\Log\LogManager;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Orchestra\Testbench\Foundation\Env;
 
+use function Illuminate\Filesystem\join_paths;
+
 /**
  * @internal
  */
@@ -76,7 +78,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
             if ($driver === 'single') {
                 $config->set('logging.channels.deprecations', array_merge($config->get('logging.channels.single'), [
-                    'path' => self::$app->storagePath('logs/deprecations.log'),
+                    'path' => self::$app->storagePath(join_paths('logs', 'deprecations.log')),
                 ]));
             } else {
                 $config->set('logging.channels.deprecations', $config->get("logging.channels.{$driver}"));
