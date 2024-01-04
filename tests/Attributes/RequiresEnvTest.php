@@ -11,7 +11,6 @@ class RequiresEnvTest extends TestCase
 {
     #[Test]
     #[RequiresEnv('TESTBENCH_MISSING_ENV', '')]
-    #[WithoutErrorHandler]
     public function it_should_run_the_test_when_env_variable_is_missing()
     {
         $this->fail('Test shouldn\'t be executed');
