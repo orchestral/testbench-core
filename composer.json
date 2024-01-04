@@ -61,7 +61,8 @@
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^5.0).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^6.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^6.0).",
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^8.5.21|^9.5.10|^10.0)."
+        "phpunit/phpunit": "Allow using PHPUnit for testing (^8.5.21|^9.5.10|^10.0).",
+        "symfony/process": "Required to use Orchestra\\Testbench\\remote function (^5.0)."
     },
     "extra": {
         "branch-alias": {
