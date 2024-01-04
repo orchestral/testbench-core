@@ -24,7 +24,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
-            $process = remote('--version');
+            $process = remote('--version --no-ansi');
             $process->mustRun();
 
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $process->getOutput());
@@ -39,7 +39,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_environment()
     {
         $this->withoutSqliteDatabase(function () {
-            $process = remote('env', ['APP_ENV' => 'workbench']);
+            $process = remote('env --no-ansi', ['APP_ENV' => 'workbench']);
             $process->mustRun();
 
             $this->assertSame('Current application environment: workbench'.PHP_EOL, $process->getOutput());
