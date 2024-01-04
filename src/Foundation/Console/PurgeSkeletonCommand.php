@@ -9,6 +9,8 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 
+use function Illuminate\Filesystem\join_paths;
+
 #[AsCommand(name: 'package:purge-skeleton', description: 'Purge skeleton folder to original state')]
 class PurgeSkeletonCommand extends Command
 {
@@ -51,11 +53,11 @@ class PurgeSkeletonCommand extends Command
             workingPath: $workingPath,
         ))->handle(
             LazyCollection::make(function () use ($filesystem) {
-                yield $this->laravel->basePath('database/database.sqlite');
-                yield $filesystem->glob($this->laravel->basePath('routes/testbench-*.php'));
-                yield $filesystem->glob($this->laravel->basePath('storage/app/public/*'));
-                yield $filesystem->glob($this->laravel->basePath('storage/app/*'));
-                yield $filesystem->glob($this->laravel->basePath('storage/framework/sessions/*'));
+                yield $this->laravel->databasePath('database.sqlite');
+                yield $filesystem->glob($this->laravel->basePath(join_paths('routes', 'testbench-*.php')));
+                yield $filesystem->glob($this->laravel->storagePath(join_paths('app', 'public', '*')));
+                yield $filesystem->glob($this->laravel->storagePath(join_paths('app', '*')));
+                yield $filesystem->glob($this->laravel->storagePath(join_paths('framework', 'sessions', '*')));
             })->flatten()
         );
 

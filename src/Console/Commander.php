@@ -24,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
+use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
@@ -112,7 +113,7 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $laravelBasePath = $this->getBasePath();
 
-            tap(Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor'), function ($app) use ($laravelBasePath) {
+            tap(Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($laravelBasePath) {
                 $filesystem = new Filesystem();
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
