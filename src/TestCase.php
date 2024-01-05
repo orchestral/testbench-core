@@ -103,6 +103,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
             Concerns\HandlesRoutes::class,
             Concerns\InteractsWithMigrations::class,
             Concerns\InteractsWithPHPUnit::class,
+            Concerns\InteractsWithTestCase::class,
             Concerns\InteractsWithWorkbench::class,
             Concerns\Testing::class,
             Concerns\WithFactories::class,
