@@ -18,8 +18,8 @@ class EnsureDirectoryExists extends Action
      * @param  string|null  $workingPath
      */
     public function __construct(
-        public Filesystem $filesystem,
-        public ?ComponentsFactory $components = null,
+        public readonly Filesystem $filesystem,
+        public readonly ?ComponentsFactory $components = null,
         ?string $workingPath = null
     ) {
         $this->workingPath = $workingPath;

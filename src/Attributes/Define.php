@@ -16,8 +16,8 @@ final class Define implements ResolvableContract
      * @param  string  $method
      */
     public function __construct(
-        public string $group,
-        public string $method
+        public readonly string $group,
+        public readonly string $method
     ) {
         //
     }

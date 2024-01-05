@@ -62,7 +62,7 @@ class Commander
      */
     public function __construct(
         Config|array $config,
-        protected string $workingPath
+        protected readonly string $workingPath
     ) {
         $this->config = $config instanceof Config ? $config : new Config($config);
     }

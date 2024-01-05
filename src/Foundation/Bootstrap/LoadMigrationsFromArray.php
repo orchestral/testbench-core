@@ -27,8 +27,8 @@ final class LoadMigrationsFromArray
      * @param  class-string|array<int, class-string>|bool  $seeders
      */
     public function __construct(
-        public string|bool|array $migrations = [],
-        public string|bool|array $seeders = false
+        public readonly string|bool|array $migrations = [],
+        public readonly string|bool|array $seeders = false
     ) {
         //
     }

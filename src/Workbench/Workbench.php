@@ -26,14 +26,14 @@ class Workbench
      *
      * @var \Orchestra\Testbench\Contracts\Config|null
      */
-    protected static $cachedConfiguration;
+    protected static ?ConfigContract $cachedConfiguration = null;
 
     /**
      * The cached core workbench bindings.
      *
      * @var array{kernel: array{console?: string|null, http?: string|null}, handler: array{exception?: string|null}}
      */
-    public static $cachedCoreBindings = [
+    public static array $cachedCoreBindings = [
         'kernel' => [],
         'handler' => [],
     ];

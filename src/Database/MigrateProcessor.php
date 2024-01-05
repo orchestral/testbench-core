@@ -18,8 +18,8 @@ class MigrateProcessor
      * @param  array<string, mixed>  $options
      */
     public function __construct(
-        protected TestCase $testbench,
-        protected array $options = []
+        protected readonly TestCase $testbench,
+        protected readonly array $options = []
     ) {
     }
 

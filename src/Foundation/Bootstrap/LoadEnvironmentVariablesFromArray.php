@@ -19,7 +19,7 @@ final class LoadEnvironmentVariablesFromArray
      * @param  array<int, mixed>  $environmentVariables
      */
     public function __construct(
-        public array $environmentVariables
+        public readonly array $environmentVariables
     ) {
     }
 

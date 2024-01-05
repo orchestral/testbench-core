@@ -14,16 +14,6 @@ use function Illuminate\Filesystem\join_paths;
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
     /**
-     * Create a new exception handler instance.
-     *
-     * @param  \PHPUnit\Framework\TestCase|null  $testbench
-     */
-    public function __construct(
-        protected $testbench = null
-    ) {
-    }
-
-    /**
      * Reports a deprecation to the "deprecations" logger.
      *
      * @param  string  $message

@@ -24,7 +24,7 @@ trait InteractsWithTestCase
      *
      * @var array<class-string, class-string>|null
      */
-    protected static $cachedTestCaseUses;
+    protected static ?array $cachedTestCaseUses = null;
 
     /**
      * The method attributes for test case.
@@ -33,7 +33,7 @@ trait InteractsWithTestCase
      *
      * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
      */
-    protected static $testCaseTestingFeatures = [];
+    protected static array $testCaseTestingFeatures = [];
 
     /**
      * Determine if the trait is used Orchestra\Testbench\Concerns\Testing trait.
