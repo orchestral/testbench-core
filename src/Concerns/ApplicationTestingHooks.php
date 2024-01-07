@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Foundation\Testing\DatabaseConnectionFactory;
+use Illuminate\Foundation\Testing\DatabaseConnectionFactory;
 use Illuminate\Support\Facades\ParallelTesting;
 use Mockery;
 use Orchestra\Testbench\Foundation\Application as Testbench;
