@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Arr;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Workbench\Workbench;
 
 /**
@@ -149,7 +150,7 @@ trait InteractsWithWorkbench
             ! \is_null($config['laravel'])
             && isset(static::$cachedTestCaseUses[WithWorkbench::class])
         ) {
-            $_ENV['TESTBENCH_APP_BASE_PATH'] = $config['laravel'];
+            Env::set('TESTBENCH_APP_BASE_PATH', $config['laravel']);
         }
     }
 
@@ -162,6 +163,6 @@ trait InteractsWithWorkbench
      */
     public static function tearDownAfterClassUsingWorkbench(): void
     {
-        unset($_ENV['TESTBENCH_APP_BASE_PATH']);
+        Env::forget('TESTBENCH_APP_BASE_PATH');
     }
 }

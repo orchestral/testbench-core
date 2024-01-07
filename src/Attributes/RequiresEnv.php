@@ -18,8 +18,8 @@ final class RequiresEnv implements ActionableContract
      * @param  string|null  $message
      */
     public function __construct(
-        public string $key,
-        public ?string $message = null
+        public readonly string $key,
+        public readonly ?string $message = null
     ) {
         //
     }

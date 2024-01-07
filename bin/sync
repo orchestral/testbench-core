@@ -41,7 +41,7 @@ Illuminate\Support\Collection::make([
     'database/migrations/0001_01_01_000002_create_jobs_table.php',
     'resources/views/*',
     'public/index.php',
-    'tests/CreatesApplication.php',
+    // 'tests/CreatesApplication.php',
 ])->transform(fn ($file) => "{$workingPath}/skeleton/{$file}")
 ->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
 ->flatten()

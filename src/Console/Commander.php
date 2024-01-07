@@ -15,6 +15,7 @@ use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -24,6 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
+use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
@@ -60,7 +62,7 @@ class Commander
      */
     public function __construct(
         Config|array $config,
-        protected string $workingPath
+        protected readonly string $workingPath
     ) {
         $this->config = $config instanceof Config ? $config : new Config($config);
     }
@@ -89,6 +91,7 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
+            Application::flushState();
 
             $this->untrap();
         }
@@ -106,7 +109,7 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $laravelBasePath = $this->getBasePath();
 
-            tap(Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor'), function ($app) use ($laravelBasePath) {
+            tap(Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($laravelBasePath) {
                 $filesystem = new Filesystem();
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
@@ -166,7 +169,7 @@ class Commander
 
         if (! \is_null($path)) {
             return tap(transform_relative_path($path, $this->workingPath), static function ($path) {
-                $_ENV['APP_BASE_PATH'] = $path;
+                Env::set('APP_BASE_PATH', $path);
             });
         }
 

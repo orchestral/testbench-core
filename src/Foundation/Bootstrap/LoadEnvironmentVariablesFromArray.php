@@ -19,7 +19,7 @@ final class LoadEnvironmentVariablesFromArray
      * @param  array<int, mixed>  $environmentVariables
      */
     public function __construct(
-        public array $environmentVariables
+        public readonly array $environmentVariables
     ) {
     }
 
@@ -40,7 +40,7 @@ final class LoadEnvironmentVariablesFromArray
                 return $entry->getValue()->isDefined();
             })->each(static function ($entry) {
                 /** @var \Dotenv\Parser\Entry $entry */
-                Env::getRepository()->set($entry->getName(), $entry->getValue()->get()->getChars());
+                Env::set($entry->getName(), $entry->getValue()->get()->getChars());
             });
     }
 }

@@ -34,9 +34,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_environment()
     {
         $this->withoutSqliteDatabase(function () {
-            $process = remote('env', [
-                'APP_ENV' => 'workbench',
-            ]);
+            $process = remote('env --no-ansi', ['APP_ENV' => 'workbench']);
             $process->mustRun();
 
             $this->assertSame('INFO  The application environment is [workbench].', trim($process->getOutput()));

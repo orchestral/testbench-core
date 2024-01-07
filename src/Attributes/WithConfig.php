@@ -15,8 +15,8 @@ final class WithConfig implements InvokableContract
      * @param  mixed  $value
      */
     public function __construct(
-        public string $key,
-        public mixed $value
+        public readonly string $key,
+        public readonly mixed $value
     ) {
         //
     }

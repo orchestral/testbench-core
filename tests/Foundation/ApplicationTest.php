@@ -10,6 +10,14 @@ use PHPUnit\Framework\TestCase;
 
 class ApplicationTest extends TestCase
 {
+    /**
+     * Teardown the test environment.
+     */
+    protected function tearDown(): void
+    {
+        Application::flushState();
+    }
+
     #[Test]
     #[Group('core')]
     public function it_can_create_an_application()

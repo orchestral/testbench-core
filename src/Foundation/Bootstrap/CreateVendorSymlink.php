@@ -6,6 +6,8 @@ use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 
+use function Illuminate\Filesystem\join_paths;
+
 /**
  * @internal
  */
@@ -17,7 +19,7 @@ final class CreateVendorSymlink
      * @param  string  $workingPath
      */
     public function __construct(
-        protected string $workingPath
+        protected readonly string $workingPath
     ) {
     }
 
@@ -34,11 +36,11 @@ final class CreateVendorSymlink
         $appVendorPath = $app->basePath('vendor');
 
         if (
-            ! $filesystem->isFile("{$appVendorPath}/autoload.php") ||
-            $filesystem->hash("{$appVendorPath}/autoload.php") !== $filesystem->hash("{$this->workingPath}/autoload.php")
+            ! $filesystem->isFile(join_paths($appVendorPath, 'autoload.php')) ||
+            $filesystem->hash(join_paths($appVendorPath, 'autoload.php')) !== $filesystem->hash(join_paths($this->workingPath, 'autoload.php'))
         ) {
-            if ($filesystem->exists($app->bootstrapPath('cache/packages.php'))) {
-                $filesystem->delete($app->bootstrapPath('cache/packages.php'));
+            if ($filesystem->exists($app->bootstrapPath(join_paths('cache', 'packages.php')))) {
+                $filesystem->delete($app->bootstrapPath(join_paths('cache', 'packages.php')));
             }
 
             if (is_link($appVendorPath)) {

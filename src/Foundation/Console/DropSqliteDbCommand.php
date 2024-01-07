@@ -24,14 +24,11 @@ class DropSqliteDbCommand extends Command
      */
     public function handle(Filesystem $filesystem)
     {
-        $workingPath = $this->laravel->basePath();
-        $databasePath = $this->laravel->databasePath();
-
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             components: $this->components,
-            workingPath: $workingPath,
-        ))->handle(["{$databasePath}/database.sqlite"]);
+            workingPath: $this->laravel->basePath(),
+        ))->handle([$this->laravel->databasePath('database.sqlite')]);
 
         return Command::SUCCESS;
     }

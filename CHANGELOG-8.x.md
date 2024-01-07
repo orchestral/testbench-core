@@ -2,6 +2,30 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.19.0
+
+Released: 2023-12-28
+
+### Added
+
+* Added `Orchestra\Testbench\Features\TestingFeature` as replacement to `HandlesTestingFeature` trait.
+* Added support for `LOG_DEPRECATIONS_WHILE_TESTING` (default to `true`) environment variables.
+* Add following interfaces for Attribute handling:
+    - `Orchestra\Testbench\Contracts\Attributes\AfterAll`
+    - `Orchestra\Testbench\Contracts\Attributes\AfterEach`
+    - `Orchestra\Testbench\Contracts\Attributes\BeforeAll`
+    - `Orchestra\Testbench\Contracts\Attributes\BeforeEach`
+
+### Changes
+
+* Bump minimum `laravel/framework` to `10.39.0`.
+* Refactor `Orchestra\Testbench\Concerns\InteractsWithPHPUnit`.
+* Utilise `Illuminate\Filesystem\join_paths` function.
+
+### Deprecated
+
+* Deprecate `Orchestra\Testbench\Concerns\HandlesTestingFeature` trait.
+
 ## 8.18.0
 
 Released: 2023-12-19

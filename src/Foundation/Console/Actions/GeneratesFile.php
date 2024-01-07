@@ -16,9 +16,9 @@ class GeneratesFile extends Action
      * @param  string|null  $workingPath
      */
     public function __construct(
-        public Filesystem $filesystem,
-        public ?ComponentsFactory $components = null,
-        public bool $force = false,
+        public readonly Filesystem $filesystem,
+        public readonly ?ComponentsFactory $components = null,
+        public readonly bool $force = false,
         ?string $workingPath = null
     ) {
         $this->workingPath = $workingPath;

@@ -18,8 +18,8 @@ final class DefineDatabase implements ActionableContract, AfterEachContract, Bef
      * @param  bool  $defer
      */
     public function __construct(
-        public string $method,
-        public bool $defer = true
+        public readonly string $method,
+        public readonly bool $defer = true
     ) {
         //
     }

@@ -6,6 +6,8 @@ use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
+use function Illuminate\Filesystem\join_paths;
+
 class EnsureDirectoryExists extends Action
 {
     /**
@@ -16,8 +18,8 @@ class EnsureDirectoryExists extends Action
      * @param  string|null  $workingPath
      */
     public function __construct(
-        public Filesystem $filesystem,
-        public ?ComponentsFactory $components = null,
+        public readonly Filesystem $filesystem,
+        public readonly ?ComponentsFactory $components = null,
         ?string $workingPath = null
     ) {
         $this->workingPath = $workingPath;
@@ -43,7 +45,7 @@ class EnsureDirectoryExists extends Action
                 }
 
                 $this->filesystem->ensureDirectoryExists($directory, 0755, true);
-                $this->filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$directory}/.gitkeep");
+                $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
 
                 $this->components?->task(sprintf('Prepare [%s] directory', $this->pathLocation($directory)));
             });

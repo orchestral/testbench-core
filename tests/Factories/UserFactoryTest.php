@@ -14,6 +14,13 @@ class UserFactoryTest extends TestCase
     use WithWorkbench;
 
     #[Test]
+    public function it_has_the_default_configuration()
+    {
+        $this->assertSame(User::class, config('auth.providers.users.model'));
+        $this->assertNull(env('AUTH_MODEL'));
+    }
+
+    #[Test]
     public function it_can_generate_user()
     {
         $user = UserFactory::new()->make();

@@ -23,14 +23,14 @@ trait InteractsWithPHPUnit
      *
      * @var (\Closure(\Closure):(void))|null
      */
-    protected $testCaseSetUpCallback;
+    protected ?Closure $testCaseSetUpCallback = null;
 
     /**
      * The cached test case tearDown resolver.
      *
      * @var (\Closure(\Closure):(void))|null
      */
-    protected $testCaseTearDownCallback;
+    protected ?Closure $testCaseTearDownCallback = null;
 
     /**
      * The cached class attributes for test case.

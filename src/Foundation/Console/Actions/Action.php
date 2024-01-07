@@ -11,7 +11,7 @@ abstract class Action
      *
      * @var string|null
      */
-    public $workingPath;
+    public ?string $workingPath = null;
 
     /**
      * Normalise file location.
