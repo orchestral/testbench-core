@@ -59,12 +59,12 @@ class TestFallbackCommand extends Command
     public function handle()
     {
         if (! $this->confirm('Running tests requires "nunomaduro/collision". Do you wish to install it as a dev dependency?')) {
-            return 1;
+            return Command::FAILURE;
         }
 
         $this->installCollisionDependencies();
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
@@ -72,7 +72,7 @@ class TestFallbackCommand extends Command
      *
      * @return void
      */
-    protected function installCollisionDependencies()
+    protected function installCollisionDependencies(): void
     {
         $version = '8.0';
 
@@ -104,7 +104,7 @@ class TestFallbackCommand extends Command
      *
      * @return string
      */
-    protected function findComposer()
+    protected function findComposer(): string
     {
         $composerPath = join_paths(TESTBENCH_WORKING_PATH, 'composer.phar'); // @phpstan-ignore-line
 

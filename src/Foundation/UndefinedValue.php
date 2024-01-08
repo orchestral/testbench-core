@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 /**
  * @internal
  */
-class UndefinedValue
+readonly class UndefinedValue
 {
     //
 }

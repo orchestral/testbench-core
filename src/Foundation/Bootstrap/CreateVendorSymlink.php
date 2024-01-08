@@ -21,6 +21,7 @@ final class CreateVendorSymlink
     public function __construct(
         protected readonly string $workingPath
     ) {
+        //
     }
 
     /**
