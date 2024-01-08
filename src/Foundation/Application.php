@@ -72,7 +72,7 @@ class Application
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      */
     public function __construct(
-        protected ?string $basePath = null,
+        protected readonly ?string $basePath = null,
         ?callable $resolvingCallback = null
     ) {
         $this->resolvingCallback = $resolvingCallback;
