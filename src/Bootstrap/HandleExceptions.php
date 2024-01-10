@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Log\LogManager;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Orchestra\Testbench\Foundation\Env;
+use PHPUnit\Runner\ErrorHandler;
 
 use function Illuminate\Filesystem\join_paths;
 
@@ -85,5 +86,65 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         return ! class_exists(LogManager::class)
             || ! self::$app->hasBeenBootstrapped()
             || ! Env::get('LOG_DEPRECATIONS_WHILE_TESTING', true);
+    }
+
+    /**
+     * Clear the local application instance from memory.
+     *
+     * @return void
+     *
+     * @deprecated This method will be removed in a future Laravel version.
+     */
+    #[\Override]
+    public static function forgetApp()
+    {
+        if (\is_null(self::$app)) {
+            return;
+        }
+
+        self::flushHandlersState();
+
+        self::$app = null;
+
+        self::$reservedMemory = null;
+    }
+
+    /**
+     * Flush the bootstrapper's global handlers state.
+     *
+     * @return void
+     */
+    public static function flushHandlersState()
+    {
+        while (true) {
+            $previousHandler = set_exception_handler(static fn () => null);
+            restore_exception_handler();
+
+            if ($previousHandler === null) {
+                break;
+            }
+
+            restore_exception_handler();
+        }
+
+        while (true) {
+            $previousHandler = set_error_handler(static fn () => null);
+            restore_error_handler();
+
+            if ($previousHandler === null) {
+                break;
+            }
+
+            restore_error_handler();
+        }
+
+        if (class_exists(ErrorHandler::class)) {
+            $instance = ErrorHandler::instance();
+
+            if ((fn () => $this->enabled ?? false)->call($instance)) {
+                $instance->disable();
+                $instance->enable();
+            }
+        }
     }
 }

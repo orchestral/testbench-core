@@ -7,7 +7,6 @@ use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
 use Mockery;
+use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Throwable;
 
