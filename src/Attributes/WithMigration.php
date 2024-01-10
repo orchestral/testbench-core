@@ -35,9 +35,7 @@ final class WithMigration implements InvokableContract
     public function __invoke($app): void
     {
         $types = Collection::make($this->types)
-            ->transform(static function ($type) {
-                return laravel_migration_path($type !== 'laravel' ? $type : null);
-            });
+            ->transform(static fn ($type) => laravel_migration_path($type !== 'laravel' ? $type : null));
 
         after_resolving($app, 'migrator', static function ($migrator) use ($types) {
             /** @var \Illuminate\Database\Migrations\Migrator $migrator */

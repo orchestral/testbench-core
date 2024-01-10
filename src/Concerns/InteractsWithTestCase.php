@@ -118,9 +118,8 @@ trait InteractsWithTestCase
 
         $this->resolvePhpUnitAttributes()
             ->flatten()
-            ->filter(static function ($instance) {
-                return $instance instanceof BeforeEachContract;
-            })->map(function ($instance) use ($app) {
+            ->filter(static fn ($instance) => $instance instanceof BeforeEachContract)
+            ->map(static function ($instance) use ($app) {
                 $instance->beforeEach($app);
             });
     }
@@ -138,9 +137,8 @@ trait InteractsWithTestCase
 
         $this->resolvePhpUnitAttributes()
             ->flatten()
-            ->filter(static function ($instance) {
-                return $instance instanceof AfterEachContract;
-            })->map(static function ($instance) use ($app) {
+            ->filter(static fn ($instance) => $instance instanceof AfterEachContract)
+            ->map(static function ($instance) use ($app) {
                 $instance->afterEach($app);
             });
     }
@@ -156,9 +154,8 @@ trait InteractsWithTestCase
     {
         static::resolvePhpUnitAttributesForMethod(static::class)
             ->flatten()
-            ->filter(static function ($instance) {
-                return $instance instanceof BeforeAllContract;
-            })->map(static function ($instance) {
+            ->filter(static fn ($instance) => $instance instanceof BeforeAllContract)
+            ->map(static function ($instance) {
                 $instance->beforeAll();
             });
     }
@@ -174,9 +171,8 @@ trait InteractsWithTestCase
     {
         static::resolvePhpUnitAttributesForMethod(static::class)
             ->flatten()
-            ->filter(static function ($instance) {
-                return $instance instanceof AfterAllContract;
-            })->map(static function ($instance) {
+            ->filter(static fn ($instance) => $instance instanceof AfterAllContract)
+            ->map(static function ($instance) {
                 $instance->afterAll();
             });
 

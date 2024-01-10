@@ -47,9 +47,7 @@ class Workbench
      */
     public static function start(ApplicationContract $app, ConfigContract $config): void
     {
-        $app->singleton(ConfigContract::class, static function () use ($config) {
-            return $config;
-        });
+        $app->singleton(ConfigContract::class, static fn () => $config);
     }
 
     /**
@@ -80,7 +78,7 @@ class Workbench
         /** @var TWorkbenchDiscoversConfig $discoversConfig */
         $discoversConfig = $config->getWorkbenchDiscoversAttributes();
 
-        $app->booted(function ($app) use ($discoversConfig) {
+        $app->booted(static function ($app) use ($discoversConfig) {
             tap($app->make('router'), static function (Router $router) use ($discoversConfig) {
                 foreach (['web', 'api'] as $group) {
                     if (($discoversConfig[$group] ?? false) === true) {
@@ -103,9 +101,8 @@ class Workbench
             $path = Collection::make([
                 workbench_path('lang'),
                 workbench_path(join_paths('resources', 'lang')),
-            ])->filter(static function ($path) {
-                return is_dir($path);
-            })->first();
+            ])->filter(static fn ($path) => is_dir($path))
+            ->first();
 
             if (\is_null($path)) {
                 return;
@@ -123,13 +120,10 @@ class Workbench
             if (($discoversConfig['views'] ?? false) === true && method_exists($view, 'addLocation')) {
                 $view->addLocation($path);
 
-                tap($app->make('config'), function ($config) use ($path) {
-                    /** @var \Illuminate\Contracts\Config\Repository $config */
-                    $config->set('view.paths', array_merge(
-                        $config->get('view.paths', []),
-                        [$path]
-                    ));
-                });
+                tap($app->make('config'), static fn ($config) => $config->set('view.paths', array_merge(
+                    $config->get('view.paths', []),
+                    [$path]
+                )));
             }
 
             $view->addNamespace('workbench', $path);
