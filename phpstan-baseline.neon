@@ -31,16 +31,6 @@ parameters:
 			path: src/Bootstrap/HandleExceptions.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(\\)\\: null given\\.$#"
-			count: 1
-			path: src/Bootstrap/HandleExceptions.php
-
-		-
-			message: "#^Static property Illuminate\\\\Foundation\\\\Bootstrap\\\\HandleExceptions\\:\\:\\$app \\(Illuminate\\\\Contracts\\\\Foundation\\\\Application\\) does not accept null\\.$#"
-			count: 1
-			path: src/Bootstrap/HandleExceptions.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentFile\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
