@@ -86,13 +86,10 @@ final class LoadMigrationsFromArray
     {
         $paths = Collection::make(
             ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
-        )->when($this->includesDefaultMigrations($app), static function ($migrations) {
-            return $migrations->push(laravel_migration_path());
-        })->filter(static function ($migration) {
-            return \is_string($migration);
-        })->transform(static function ($migration) use ($app) {
-            return transform_relative_path($migration, $app->basePath());
-        })->all();
+        )->when($this->includesDefaultMigrations($app), static fn ($migrations) => $migrations->push(laravel_migration_path()))
+            ->filter(static fn ($migration) => \is_string($migration))
+            ->transform(static fn ($migration) => transform_relative_path($migration, $app->basePath()))
+            ->all();
 
         after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {

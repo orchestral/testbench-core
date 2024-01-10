@@ -195,9 +195,8 @@ class Config extends Fluent implements ConfigContract
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";
-        })->filter(static function ($file) use ($workingPath) {
-            return file_exists(join_paths($workingPath, $file));
-        })->first();
+        })->filter(static fn ($file) => file_exists(join_paths($workingPath, $file)))
+            ->first();
 
         if (! \is_null($filename)) {
             /**
@@ -207,9 +206,9 @@ class Config extends Fluent implements ConfigContract
              */
             $config = Yaml::parseFile(join_paths($workingPath, $filename));
 
-            $config['laravel'] = transform(Arr::get($config, 'laravel'), static function ($path) use ($workingPath) {
-                return transform_relative_path($path, $workingPath);
-            });
+            $config['laravel'] = transform(
+                Arr::get($config, 'laravel'), static fn ($path) => transform_relative_path($path, $workingPath)
+            );
 
             if (isset($config['env']) && \is_array($config['env']) && Arr::isAssoc($config['env'])) {
                 $config['env'] = parse_environment_variables($config['env']);

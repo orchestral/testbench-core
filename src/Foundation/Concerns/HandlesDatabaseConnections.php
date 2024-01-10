@@ -29,19 +29,14 @@ trait HandlesDatabaseConnections
 
         $config->set(
             Collection::make($options)
-                ->when($driver === 'pgsql', static function ($options) {
-                    return $options->put('schema', 'SCHEMA');
-                })
+                ->when($driver === 'pgsql', static fn ($options) => $options->put('schema', 'SCHEMA'))
                 ->mapWithKeys(static function ($value, $key) use ($driver, $keyword, $config) {
                     $name = "database.connections.{$driver}.{$key}";
 
                     /** @var mixed $configuration */
                     $configuration = Collection::make(Arr::wrap($value))
-                        ->transform(static function ($value) use ($keyword) {
-                            return Env::get("{$keyword}_{$value}");
-                        })->first(static function ($value) {
-                            return ! \is_null($value);
-                        }) ?? $config->get($name);
+                        ->transform(static fn ($value) => Env::get("{$keyword}_{$value}"))
+                        ->first(static fn ($value) => ! \is_null($value)) ?? $config->get($name);
 
                     return [
                         "{$name}" => $configuration,

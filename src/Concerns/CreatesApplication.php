@@ -123,9 +123,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationAliases($app);
 
         if (! empty($overrides)) {
-            $aliases->transform(static function ($alias, $name) use ($overrides) {
-                return $overrides[$name] ?? $alias;
-            });
+            $aliases->transform(static fn ($alias, $name) => $overrides[$name] ?? $alias);
         }
 
         return $aliases->merge($this->getPackageAliases($app))->all();
@@ -189,9 +187,7 @@ trait CreatesApplication
         $overrides = $this->overrideApplicationProviders($app);
 
         if (! empty($overrides)) {
-            $providers->transform(static function ($provider) use ($overrides) {
-                return $overrides[$provider] ?? $provider;
-            });
+            $providers->transform(static fn ($provider) => $overrides[$provider] ?? $provider);
         }
 
         return $providers->merge($this->getPackageProviders($app))->all();
@@ -322,9 +318,7 @@ trait CreatesApplication
 
         tap($app['config'], function ($config) use ($app) {
             if (! $app->bound('env')) {
-                $app->detectEnvironment(static function () use ($config) {
-                    return $config->get('app.env', 'workbench');
-                });
+                $app->detectEnvironment(static fn () => $config->get('app.env', 'workbench'));
             }
 
             $config->set([
@@ -351,9 +345,7 @@ trait CreatesApplication
         Facade::setFacadeApplication($app);
 
         if ($this->isRunningTestCase()) {
-            $app->detectEnvironment(static function () {
-                return 'testing';
-            });
+            $app->detectEnvironment(static fn () => 'testing');
         }
     }
 
@@ -465,7 +457,7 @@ trait CreatesApplication
 
         $refreshNameLookups($app);
 
-        $app->resolving('url', fn () => $refreshNameLookups($app));
+        $app->resolving('url', static fn () => $refreshNameLookups($app));
     }
 
     /**
@@ -476,9 +468,9 @@ trait CreatesApplication
      */
     protected function resolveApplicationRateLimiting($app)
     {
-        RateLimiter::for('api', static function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        RateLimiter::for(
+            'api', static fn (Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip())
+        );
     }
 
     /**
