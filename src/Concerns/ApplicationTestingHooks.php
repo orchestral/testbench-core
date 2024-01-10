@@ -5,17 +5,10 @@ namespace Orchestra\Testbench\Concerns;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Closure;
-use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bootstrap\HandleExceptions;
-use Illuminate\Foundation\Console\AboutCommand;
-use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
-use Illuminate\Foundation\Http\Middleware\TrimStrings;
-use Illuminate\Queue\Queue;
 use Illuminate\Support\Facades\ParallelTesting;
-use Illuminate\Support\Sleep;
-use Illuminate\View\Component;
 use Mockery;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Throwable;
 
@@ -144,16 +137,7 @@ trait ApplicationTestingHooks
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
 
-        Artisan::forgetBootstrappers();
-        Component::flushCache();
-        Component::forgetComponentsResolver();
-        Component::forgetFactory();
-        ConvertEmptyStringsToNull::flushState();
-        HandleExceptions::forgetApp();
-        Queue::createPayloadUsing(null);
-        Sleep::fake(false);
-        AboutCommand::flushState();
-        TrimStrings::flushState();
+        Testbench::flushState();
 
         if ($this->callbackException) {
             throw $this->callbackException;

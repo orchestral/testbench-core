@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use PHPUnit\Framework\TestCase;
 
 use function Orchestra\Testbench\container;
@@ -12,6 +13,14 @@ use function Orchestra\Testbench\phpunit_version_compare;
 
 class TestCaseTest extends TestCase
 {
+    /**
+     * Teardown the test environment.
+     */
+    protected function tearDown(): void
+    {
+        Testbench::flushState();
+    }
+
     /** @test */
     public function it_can_create_the_testcase()
     {
