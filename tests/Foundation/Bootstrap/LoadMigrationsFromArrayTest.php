@@ -17,7 +17,7 @@ class LoadMigrationsFromArrayTest extends TestCase
     {
         $this->instance('migrator', $migrator = m::mock(Migrator::class));
 
-        $paths = [join_paths((string) realpath(__DIR__.'/../../'), 'migrations')];
+        $paths = [(string) realpath(join_paths(__DIR__, '..', '..', 'migrations'))];
 
         $migrator->shouldReceive('path')->once()->with($paths[0])->andReturnNull()
             ->shouldReceive('path')->once()->with($this->app->basePath('migrations'))->andReturnNull();
