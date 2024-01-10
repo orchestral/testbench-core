@@ -80,9 +80,7 @@ trait HandlesRoutes
 
         $time = time();
 
-        $basePath = static::applicationBasePath();
-
-        $laravel = Application::create($basePath);
+        $laravel = Application::create(static::applicationBasePath());
 
         $files->put(
             $laravel->basePath("routes/testbench-{$time}.php"), $route
