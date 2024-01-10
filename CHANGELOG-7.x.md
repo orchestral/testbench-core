@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.39.1
+
+Released: 2024-01-10
+
+### Changes
+
+* Run `route:cache` using `Orchestra\Testbench\remote` function.
+* Add `Orchestra\Testbench\Concerns\InteractsWithTestCase` to `setUpTheTestEnvironmentTraitToBeIgnored` method.
+
 ## 7.39.0
 
 Released: 2023-12-28
