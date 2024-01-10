@@ -76,33 +76,22 @@ trait HandlesRoutes
      */
     protected function defineCacheRoutes(string $route)
     {
-        $join_paths = function ($basePath, ...$paths) {
-            foreach ($paths as $index => $path) {
-                if (empty($path)) {
-                    unset($paths[$index]);
-                } else {
-                    $paths[$index] = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
-                }
-            }
-
-            return $basePath.implode('', $paths);
-        };
-
         $files = new Filesystem();
 
         $time = time();
 
         $basePath = static::applicationBasePath();
-        $bootstrapPath = $join_paths($basePath, 'bootstrap');
+
+        $laravel = Application::create($basePath);
 
         $files->put(
-            $join_paths($basePath, 'routes', "testbench-{$time}.php"), $route
+            $laravel->basePath("routes/testbench-{$time}.php"), $route
         );
 
         remote('route:cache')->mustRun();
 
         $this->assertTrue(
-            $files->exists($join_paths($bootstrapPath, 'cache', 'routes-v7.php'))
+            $files->exists($laravel->bootstrapPath('cache/routes-v7.php'))
         );
 
         if ($this->app instanceof LaravelApplication) {
