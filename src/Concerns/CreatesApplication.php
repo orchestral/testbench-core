@@ -398,11 +398,11 @@ trait CreatesApplication
      */
     protected function resolveApplicationBootstrappers($app)
     {
-        if ($this->isRunningTestCase()) {
-            $app->make('Orchestra\Testbench\Bootstrap\HandleExceptions', ['testbench' => $this])->bootstrap($app);
-        } else {
-            $app->make('Illuminate\Foundation\Bootstrap\HandleExceptions')->bootstrap($app);
-        }
+        $app->make(
+            $this->isRunningTestCase()
+                ? 'Orchestra\Testbench\Bootstrap\HandleExceptions'
+                : 'Illuminate\Foundation\Bootstrap\HandleExceptions'
+        )->bootstrap($app);
 
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);

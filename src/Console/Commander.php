@@ -45,7 +45,7 @@ class Commander
      *
      * @var \Orchestra\Testbench\Foundation\Config
      */
-    protected Config $config;
+    protected readonly Config $config;
 
     /**
      * The environment file name.
@@ -72,7 +72,7 @@ class Commander
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $input = new ArgvInput();
         $output = new ConsoleOutput();
@@ -193,7 +193,7 @@ class Commander
      * @param  \Throwable  $error
      * @return int
      */
-    protected function handleException(OutputInterface $output, Throwable $error)
+    protected function handleException(OutputInterface $output, Throwable $error): int
     {
         if ($this->app instanceof LaravelApplication) {
             tap($this->app->make(ExceptionHandler::class), static function ($handler) use ($error, $output) {

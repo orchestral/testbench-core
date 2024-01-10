@@ -17,7 +17,7 @@ final class WithMigration implements InvokableContract
      *
      * @var array<int, string>
      */
-    public array $types = [];
+    public readonly array $types;
 
     /**
      * Construct a new attribute.

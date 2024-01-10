@@ -21,6 +21,7 @@ class MigrateProcessor
         protected readonly TestCase $testbench,
         protected readonly array $options = []
     ) {
+        //
     }
 
     /**

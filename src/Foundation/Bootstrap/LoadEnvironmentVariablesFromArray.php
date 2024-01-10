@@ -21,6 +21,7 @@ final class LoadEnvironmentVariablesFromArray
     public function __construct(
         public readonly array $environmentVariables
     ) {
+        //
     }
 
     /**
