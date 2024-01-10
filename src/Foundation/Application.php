@@ -6,6 +6,7 @@ use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Bootstrap\HandleExceptions as LaravelHandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Queue\Queue;
@@ -184,6 +185,7 @@ class Application
 
         Queue::createPayloadUsing(null);
         Sleep::fake(false);
+        AboutCommand::flushState();
         TrimStrings::flushState();
     }
 
