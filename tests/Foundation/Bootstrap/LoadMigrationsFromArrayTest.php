@@ -8,6 +8,8 @@ use Mockery as m;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\TestCase;
 
+use function Illuminate\Filesystem\join_paths;
+
 class LoadMigrationsFromArrayTest extends TestCase
 {
     /** @test */
@@ -15,7 +17,7 @@ class LoadMigrationsFromArrayTest extends TestCase
     {
         $this->instance('migrator', $migrator = m::mock(Migrator::class));
 
-        $paths = [__DIR__.'/../../migrations'];
+        $paths = [(string) realpath(join_paths(__DIR__, '..', '..', 'migrations'))];
 
         $migrator->shouldReceive('path')->once()->with($paths[0])->andReturnNull()
             ->shouldReceive('path')->once()->with($this->app->basePath('migrations'))->andReturnNull();

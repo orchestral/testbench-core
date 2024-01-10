@@ -63,11 +63,10 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
             foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
                 yield basename($file->getRealPath(), '.php') => $file->getRealPath();
             }
-        })->reject(static function ($path, $key) use ($configurations) {
-            return $configurations->has($key);
-        })->each(static function ($path, $key) use ($configurations) {
-            $configurations->put($key, $path);
-        });
+        })->reject(static fn ($path, $key) => $configurations->has($key))
+            ->each(static function ($path, $key) use ($configurations) {
+                $configurations->put($key, $path);
+            });
 
         return $configurations;
     }

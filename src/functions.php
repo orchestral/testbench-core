@@ -78,9 +78,7 @@ function remote(string $command, array $env = []): Process
 {
     $phpBinary = transform(
         \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
-        static function ($phpBinary) {
-            return ProcessUtils::escapeArgument((string) $phpBinary);
-        }
+        static fn ($phpBinary) => ProcessUtils::escapeArgument((string) $phpBinary)
     );
 
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
@@ -140,9 +138,8 @@ function defined_environment_variables(): array
 {
     return Collection::make(array_merge($_SERVER, $_ENV))
         ->keys()
-        ->mapWithKeys(static function (string $key) {
-            return [$key => Env::forward($key)];
-        })->put('TESTBENCH_WORKING_PATH', package_path())
+        ->mapWithKeys(static fn (string $key) => [$key => Env::forward($key)])
+        ->put('TESTBENCH_WORKING_PATH', package_path())
         ->all();
 }
 
