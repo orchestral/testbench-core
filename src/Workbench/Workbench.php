@@ -102,7 +102,7 @@ class Workbench
                 workbench_path('lang'),
                 workbench_path(join_paths('resources', 'lang')),
             ])->filter(static fn ($path) => is_dir($path))
-            ->first();
+                ->first();
 
             if (\is_null($path)) {
                 return;

@@ -77,7 +77,7 @@ class TestCommand extends Command
             package_path(DIRECTORY_SEPARATOR.$configurationFile),
             package_path(DIRECTORY_SEPARATOR.$configurationFile.'.dist'),
         ])->filter(static fn ($path) => file_exists($path))
-        ->first() ?? './';
+            ->first() ?? './';
     }
 
     /**

@@ -196,7 +196,7 @@ class Config extends Fluent implements ConfigContract
             yield "{$filename}.example";
             yield "{$filename}.dist";
         })->filter(static fn ($file) => file_exists(join_paths($workingPath, $file)))
-        ->first();
+            ->first();
 
         if (! \is_null($filename)) {
             /**
