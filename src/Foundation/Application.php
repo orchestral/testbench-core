@@ -2,8 +2,15 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\TrimStrings;
+use Illuminate\Queue\Queue;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Sleep;
+use Illuminate\View\Component;
+use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
@@ -157,6 +164,24 @@ class Application
     public static function createFromConfig(ConfigContract $config, ?callable $resolvingCallback = null, array $options = [])
     {
         return static::makeFromConfig($config, $resolvingCallback, $options)->createApplication();
+    }
+
+    /**
+     * Flush the application states.
+     *
+     * @return void
+     */
+    public static function flushState(): void
+    {
+        Artisan::forgetBootstrappers();
+        Component::flushCache();
+        Component::forgetComponentsResolver();
+        Component::forgetFactory();
+        ConvertEmptyStringsToNull::flushState();
+        HandleExceptions::forgetApp();
+        Queue::createPayloadUsing(null);
+        Sleep::fake(false);
+        TrimStrings::flushState();
     }
 
     /**

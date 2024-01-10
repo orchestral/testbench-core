@@ -12,6 +12,14 @@ use function Orchestra\Testbench\phpunit_version_compare;
 
 class TestCaseTest extends TestCase
 {
+    /**
+     * Teardown the test environment.
+     */
+    protected function tearDown(): void
+    {
+        Application::flushState();
+    }
+
     /** @test */
     public function it_can_create_the_testcase()
     {

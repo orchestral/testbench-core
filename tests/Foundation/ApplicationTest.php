@@ -9,6 +9,14 @@ use PHPUnit\Framework\TestCase;
 class ApplicationTest extends TestCase
 {
     /**
+     * Teardown the test environment.
+     */
+    protected function tearDown(): void
+    {
+        Application::flushState();
+    }
+
+    /**
      * @test
      *
      * @group core

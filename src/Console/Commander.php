@@ -96,6 +96,7 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
+            Application::flushState();
 
             $this->untrap();
         }
