@@ -18,7 +18,7 @@ class TestbenchServiceProvider extends ServiceProvider
     {
         $workingPath = \defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
 
-        AboutCommand::add('Testbench', fn () => array_filter([
+        AboutCommand::add('Testbench', static fn () => array_filter([
             'Core Version' => InstalledVersions::getPrettyVersion('orchestra/testbench-core'),
             'Dusk Version' => InstalledVersions::isInstalled('orchestra/testbench-dusk') ? InstalledVersions::getPrettyVersion('orchestra/testbench-dusk') : null,
             'Skeleton Path' => AboutCommand::format($this->app->basePath(), console: fn ($value) => str_replace($workingPath, '', $value)),
