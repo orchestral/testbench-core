@@ -19,6 +19,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\default_skeleton_path;
 
 /**
  * @api
@@ -244,7 +245,16 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        return (new ApplicationBuilder(new Application($this->getBasePath())))
+        $laravelBasePath = $this->getBasePath();
+
+        if (
+            is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) &&
+            $laravelBasePath !== default_skeleton_path()
+        ) {
+            return require join_paths($laravelBasePath, 'bootstrap', 'app.php');
+        }
+
+        return (new ApplicationBuilder(new Application($laravelBasePath)))
             ->withProviders()
             ->withMiddleware(static function ($middleware) {
                 //
