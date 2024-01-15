@@ -131,7 +131,7 @@ class Commander
             if (is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php'))) {
                 $this->app = require join_paths($laravelBasePath, 'bootstrap', 'app.php');
 
-                if (! is_null($TESTBENCH_RESOLVING_CALLBACK)) {
+                if (! \is_null($TESTBENCH_RESOLVING_CALLBACK)) {
                     value($TESTBENCH_RESOLVING_CALLBACK, $this->app);
                 }
 
