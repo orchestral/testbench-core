@@ -121,6 +121,9 @@ class Commander
             });
 
             $TESTBENCH_RESOLVING_CALLBACK = function ($app) {
+                Workbench::startWithProviders($app, $this->config);
+                Workbench::discoverRoutes($app, $this->config);
+
                 (new LoadMigrationsFromArray(
                     $this->config['migrations'] ?? [],
                     $this->config['seeders'] ?? false,
@@ -152,12 +155,7 @@ class Commander
 
             $this->app = Application::create(
                 basePath: $laravelBasePath,
-                resolvingCallback: function ($app) use ($TESTBENCH_RESOLVING_CALLBACK) {
-                    Workbench::startWithProviders($app, $this->config);
-                    Workbench::discoverRoutes($app, $this->config);
-
-                    value($TESTBENCH_RESOLVING_CALLBACK, $app);
-                },
+                resolvingCallback: $TESTBENCH_RESOLVING_CALLBACK,
                 options: $options,
             );
         }
