@@ -26,6 +26,7 @@ use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
@@ -128,9 +129,13 @@ class Commander
                 \call_user_func($this->resolveApplicationCallback(), $app);
             };
 
-            if (is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php'))) {
+            if (
+                is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) &&
+                join_paths($laravelBasePath, 'bootstrap', 'app.php') !== default_skeleton_path(join_paths('bootstrap', 'app.php'))
+            ) {
                 $this->app = require join_paths($laravelBasePath, 'bootstrap', 'app.php');
 
+                /** @phpstan-ignore-next-line */
                 if (! \is_null($TESTBENCH_RESOLVING_CALLBACK)) {
                     value($TESTBENCH_RESOLVING_CALLBACK, $this->app);
                 }

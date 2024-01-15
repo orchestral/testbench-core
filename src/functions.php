@@ -221,6 +221,14 @@ function workbench_path(string $path = ''): string
 }
 
 /**
+ * Get the default skeleton path
+ */
+function default_skeleton_path(string $path = ''): string
+{
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', $path));
+}
+
+/**
  * Get the migration path by type.
  *
  * @api
