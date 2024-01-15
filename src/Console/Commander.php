@@ -121,6 +121,15 @@ class Commander
 
             $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
 
+            $TESTBENCH_RESOLVING_CALLBACK = function ($app) {
+                (new LoadMigrationsFromArray(
+                    $this->config['migrations'] ?? [],
+                    $this->config['seeders'] ?? false,
+                ))->bootstrap($app);
+
+                \call_user_func($this->resolveApplicationCallback(), $app);
+            };
+
             if (is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php'))) {
                 return $this->app = require join_paths($laravelBasePath, 'bootstrap', 'app.php');
             }
@@ -132,16 +141,11 @@ class Commander
 
             $this->app = Application::create(
                 basePath: $laravelBasePath,
-                resolvingCallback: function ($app) {
+                resolvingCallback: function ($app) use ($TESTBENCH_RESOLVING_CALLBACK) {
                     Workbench::startWithProviders($app, $this->config);
                     Workbench::discoverRoutes($app, $this->config);
 
-                    (new LoadMigrationsFromArray(
-                        $this->config['migrations'] ?? [],
-                        $this->config['seeders'] ?? false,
-                    ))->bootstrap($app);
-
-                    \call_user_func($this->resolveApplicationCallback(), $app);
+                    value($TESTBENCH_RESOLVING_CALLBACK, $app);
                 },
                 options: $options,
             );

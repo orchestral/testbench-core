@@ -246,26 +246,8 @@ trait CreatesApplication
     {
         $laravelPath = $this->getBasePath();
 
-        $route = static function ($type) use ($laravelPath) {
-            $path = join_paths($laravelPath, 'routes', "{$type}.php");
-
-            return is_file($path) ? $path : null;
-        };
-
-        $web = $route('web');
-        $api = $route('api');
-
         return (new ApplicationBuilder(new Application($laravelPath)))
             ->withProviders()
-            ->withRouting(
-                web: $web,
-                api: $api,
-                commands: $route('console'),
-                channels: $route('channels'),
-                using: (\is_string($web) || \is_string($api)) ? null : static function () {
-                    //
-                },
-            )
             ->withMiddleware(static function ($middleware) {
                 //
             })
