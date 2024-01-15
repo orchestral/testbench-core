@@ -225,23 +225,6 @@ trait CreatesApplication
      */
     public function createApplication()
     {
-        $laravelBasePath = $this->getBasePath();
-
-        if (
-            is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) &&
-            $laravelBasePath !== default_skeleton_path()
-        ) {
-            $_ENV['APP_BASE_PATH'] = $laravelBasePath;
-
-            return tap(require join_paths($laravelBasePath, 'bootstrap', 'app.php'), function ($app) {
-                value($this->resolveApplicationCallback(), $app);
-
-                $this->resolveApplicationCore($app);
-                $this->resolveApplicationEnvironmentVariables($app);
-                $this->resolveApplicationConfiguration($app);
-            });
-        }
-
         $app = $this->resolveApplication();
 
         $this->resolveApplicationBindings($app);
@@ -263,7 +246,18 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        return (new ApplicationBuilder(new Application($this->getBasePath())))
+        $laravelBasePath = $this->getBasePath();
+
+        if (
+            is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) &&
+            $laravelBasePath !== default_skeleton_path()
+        ) {
+            $_ENV['APP_BASE_PATH'] = $laravelBasePath;
+
+            return require join_paths($laravelBasePath, 'bootstrap', 'app.php');
+        }
+
+        return (new ApplicationBuilder(new Application($laravelBasePath)))
             ->withProviders()
             ->withMiddleware(static function ($middleware) {
                 //
@@ -279,17 +273,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap($this->resolveDefaultApplication(), $this->resolveApplicationCallback());
-    }
-
-    /**
-     * Resolve application callback.
-     *
-     * @return \Closure(\Illuminate\Foundation\Application): void
-     */
-    protected function resolveApplicationCallback(): Closure
-    {
-        return function ($app) {
+        return tap($this->resolveDefaultApplication(), function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
@@ -298,7 +282,7 @@ trait CreatesApplication
             );
 
             PackageManifest::swap($app, $this);
-        };
+        });
     }
 
     /**
