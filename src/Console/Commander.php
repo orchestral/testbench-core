@@ -138,10 +138,7 @@ class Commander
             ) {
                 $this->app = require join_paths($laravelBasePath, 'bootstrap', 'app.php');
 
-                /** @phpstan-ignore-next-line */
-                if (! \is_null($TESTBENCH_RESOLVING_CALLBACK)) {
-                    value($TESTBENCH_RESOLVING_CALLBACK, $this->app);
-                }
+                value($TESTBENCH_RESOLVING_CALLBACK, $this->app);
 
                 return $this->app;
             }
