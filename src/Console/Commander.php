@@ -127,7 +127,7 @@ class Commander
             ]);
 
             $this->app = Application::create(
-                basePath: $this->getBasePath(),
+                basePath: $laravelBasePath,
                 resolvingCallback: function ($app) {
                     Workbench::startWithProviders($app, $this->config);
                     Workbench::discoverRoutes($app, $this->config);

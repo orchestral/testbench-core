@@ -245,6 +245,7 @@ trait CreatesApplication
     final protected function resolveDefaultApplication()
     {
         return (new ApplicationBuilder(new Application($this->getBasePath())))
+            ->withProviders()
             ->withMiddleware(function ($middleware) {
                 //
             })
