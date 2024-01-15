@@ -32,6 +32,8 @@ $createApp = static function (string $workingPath) use ($TESTBENCH_RESOLVING_CAL
             Workbench::discoverRoutes($app, $config);
 
             value($TESTBENCH_RESOLVING_CALLBACK, $app);
+
+            $TESTBENCH_RESOLVING_CALLBACK = null;
         },
     );
 };

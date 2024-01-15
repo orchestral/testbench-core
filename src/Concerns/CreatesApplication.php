@@ -244,9 +244,7 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        $laravelPath = $this->getBasePath();
-
-        return (new ApplicationBuilder(new Application($laravelPath)))
+        return (new ApplicationBuilder(new Application($this->getBasePath())))
             ->withProviders()
             ->withMiddleware(static function ($middleware) {
                 //
