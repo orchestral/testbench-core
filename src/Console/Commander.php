@@ -121,6 +121,10 @@ class Commander
 
             $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
 
+            if (is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php'))) {
+                return $this->app = require join_paths($laravelBasePath, 'bootstrap', 'app.php');
+            }
+
             $options = array_filter([
                 'load_environment_variables' => $hasEnvironmentFile,
                 'extra' => $this->config->getExtraAttributes(),
