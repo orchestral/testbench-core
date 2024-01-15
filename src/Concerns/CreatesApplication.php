@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Closure;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
@@ -248,12 +247,7 @@ trait CreatesApplication
     {
         $laravelBasePath = $this->getBasePath();
 
-        if (
-            is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) &&
-            $laravelBasePath !== default_skeleton_path()
-        ) {
-            $_ENV['APP_BASE_PATH'] = $laravelBasePath;
-
+        if (is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) && $laravelBasePath !== default_skeleton_path()) {
             return require join_paths($laravelBasePath, 'bootstrap', 'app.php');
         }
 

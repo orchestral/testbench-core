@@ -132,15 +132,12 @@ class Commander
                 \call_user_func($this->resolveApplicationCallback(), $app);
             };
 
-            if (
-                is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) &&
-                join_paths($laravelBasePath, 'bootstrap', 'app.php') !== default_skeleton_path(join_paths('bootstrap', 'app.php'))
-            ) {
-                $this->app = require join_paths($laravelBasePath, 'bootstrap', 'app.php');
+            if (is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) && $laravelBasePath !== default_skeleton_path()) {
+                $app = require join_paths($laravelBasePath, 'bootstrap', 'app.php');
 
-                value($TESTBENCH_RESOLVING_CALLBACK, $this->app);
+                value($TESTBENCH_RESOLVING_CALLBACK, $app);
 
-                return $this->app;
+                return $this->app = $app;
             }
 
             $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
