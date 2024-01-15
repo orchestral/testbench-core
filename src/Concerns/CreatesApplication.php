@@ -236,6 +236,8 @@ trait CreatesApplication
             return tap(require join_paths($laravelBasePath, 'bootstrap', 'app.php'), function ($app) {
                 value($this->resolveApplicationCallback(), $app);
 
+                $this->resolveApplicationCore($app);
+                $this->resolveApplicationEnvironmentVariables($app);
                 $this->resolveApplicationConfiguration($app);
             });
         }
