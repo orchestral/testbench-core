@@ -214,9 +214,7 @@ class Commander
      */
     protected function prepareCommandSignals(): void
     {
-        Signals::resolveAvailabilityUsing(static function () {
-            return \extension_loaded('pcntl');
-        });
+        Signals::resolveAvailabilityUsing(static fn () => \extension_loaded('pcntl'));
 
         Signals::whenAvailable(function () {
             $this->signals ??= new Signals(new SignalRegistry());

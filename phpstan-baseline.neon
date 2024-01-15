@@ -21,16 +21,6 @@ parameters:
 			path: src/Bootstrap/ConfigureRay.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(\\)\\: null given\\.$#"
-			count: 1
-			path: src/Bootstrap/HandleExceptions.php
-
-		-
-			message: "#^Static property Illuminate\\\\Foundation\\\\Bootstrap\\\\HandleExceptions\\:\\:\\$app \\(Illuminate\\\\Contracts\\\\Foundation\\\\Application\\) does not accept null\\.$#"
-			count: 1
-			path: src/Bootstrap/HandleExceptions.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentFile\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
@@ -39,3 +29,8 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:environmentPath\\(\\)\\.$#"
 			count: 1
 			path: src/Bootstrap/LoadEnvironmentVariables.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function transform expects callable\\(object\\)\\: mixed, Closure\\(Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\Resolvable\\)\\: mixed given\\.$#"
+			count: 1
+			path: src/PHPUnit/AttributeParser.php

@@ -3,16 +3,16 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Console\Application as Artisan;
-use Illuminate\Foundation\Bootstrap\HandleExceptions as LaravelHandleExceptions;
+use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
-use Orchestra\Testbench\Bootstrap\HandleExceptions as TestbenchHandleExceptions;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
@@ -174,16 +174,10 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
-
-        if (method_exists(LaravelHandleExceptions::class, 'flushState')) {
-            LaravelHandleExceptions::flushState();
-        } else {
-            // @TODO to be removed after https://github.com/laravel/framework/pull/49622
-            TestbenchHandleExceptions::forgetApp();
-        }
-
+        HandleExceptions::flushState();
         Queue::createPayloadUsing(null);
         Sleep::fake(false);
+        AboutCommand::flushState();
         TrimStrings::flushState();
     }
 

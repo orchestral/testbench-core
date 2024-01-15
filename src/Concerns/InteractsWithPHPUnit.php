@@ -126,15 +126,15 @@ trait InteractsWithPHPUnit
     protected static function resolvePhpUnitAttributesForMethod(string $className, ?string $methodName = null): Collection
     {
         if (! isset(static::$cachedTestCaseClassAttributes[$className])) {
-            static::$cachedTestCaseClassAttributes[$className] = rescue(static function () use ($className) {
-                return AttributeParser::forClass($className);
-            }, [], false);
+            static::$cachedTestCaseClassAttributes[$className] = rescue(
+                static fn () => AttributeParser::forClass($className), [], false
+            );
         }
 
         if (! \is_null($methodName) && ! isset(static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"])) {
-            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] = rescue(static function () use ($className, $methodName) {
-                return AttributeParser::forMethod($className, $methodName);
-            }, [], false);
+            static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] = rescue(
+                static fn () => AttributeParser::forMethod($className, $methodName), [], false
+            );
         }
 
         /** @var \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>> $attributes */

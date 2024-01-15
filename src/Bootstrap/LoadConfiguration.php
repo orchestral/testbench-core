@@ -59,7 +59,7 @@ class LoadConfiguration
             LazyCollection::make(static function () use ($app) {
                 $path = is_dir($app->basePath('config'))
                     ? $app->basePath('config')
-                    : realpath(join_paths(__DIR__, '..', '..', 'laravel', 'config'));
+                    : (string) realpath(join_paths(__DIR__, '..', '..', 'laravel', 'config'));
 
                 if (\is_string($path)) {
                     foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
