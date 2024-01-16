@@ -3,12 +3,11 @@
 use Illuminate\Support\Env;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Config;
+use Orchestra\Testbench\Workbench\Workbench;
 
 use function Illuminate\Filesystem\join_paths;
 
-$TESTBENCH_RESOLVING_CALLBACK ??= static function () {
-    //
-};
+$TESTBENCH_RESOLVING_CALLBACK ??= null;
 
 /**
  * Create Laravel application.
@@ -28,7 +27,10 @@ $createApp = static function (string $workingPath) use ($TESTBENCH_RESOLVING_CAL
     return Application::create(
         basePath: $config['laravel'],
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
-        resolvingCallback: $TESTBENCH_RESOLVING_CALLBACK,
+        resolvingCallback: $TESTBENCH_RESOLVING_CALLBACK ?? static function ($app) use ($config) {
+            Workbench::startWithProviders($app, $config);
+            Workbench::discoverRoutes($app, $config);
+        },
     );
 };
 
