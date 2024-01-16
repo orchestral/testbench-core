@@ -17,6 +17,10 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
+use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\default_skeleton_path;
+use function Orchestra\Testbench\refresh_router_lookups;
+
 /**
  * @api
  *
@@ -34,7 +38,7 @@ trait CreatesApplication
      */
     public static function applicationBasePath()
     {
-        return static::applicationBasePathUsingWorkbench() ?? (string) realpath(__DIR__.'/../../laravel');
+        return static::applicationBasePathUsingWorkbench() ?? default_skeleton_path();
     }
 
     /**
@@ -448,13 +452,14 @@ trait CreatesApplication
      */
     final protected function refreshApplicationRouteNameLookups($app)
     {
-        $refreshNameLookups = static function ($app) {
-            $app['router']->getRoutes()->refreshNameLookups();
-        };
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $app->make('router');
 
-        $refreshNameLookups($app);
+        refresh_router_lookups($router);
 
-        $app->resolving('url', fn () => $refreshNameLookups($app));
+        after_resolving($app, 'url', static function ($url, $app) use ($router) {
+            refresh_router_lookups($router);
+        });
     }
 
     /**
@@ -465,9 +470,9 @@ trait CreatesApplication
      */
     protected function resolveApplicationRateLimiting($app)
     {
-        RateLimiter::for('api', static function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
+        RateLimiter::for(
+            'api', static fn (Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip())
+        );
     }
 
     /**

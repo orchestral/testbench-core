@@ -9,6 +9,7 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
 use function Orchestra\Testbench\remote;
+use function Orchestra\Testbench\refresh_router_lookups;
 
 /**
  * @internal
@@ -43,7 +44,7 @@ trait HandlesRoutes
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class)
         );
 
-        $router->getRoutes()->refreshNameLookups();
+        refresh_router_lookups($router);
     }
 
     /**
