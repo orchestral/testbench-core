@@ -241,6 +241,7 @@ trait CreatesApplication
         $this->resolveApplicationHttpMiddlewares($app);
         $this->resolveApplicationConsoleKernel($app);
         $this->resolveApplicationBootstrappers($app);
+        $this->refreshApplicationRouteNameLookups($app);
 
         return $app;
     }
@@ -248,12 +249,11 @@ trait CreatesApplication
     /**
      * Create the default application implementation.
      *
+     * @param  string  $basePath
      * @return \Illuminate\Foundation\Application
      */
-    final protected function resolveDefaultApplication()
+    final protected function resolveDefaultApplication(string $basePath)
     {
-        $basePath = $this->getBasePath();
-
         if (is_file(join_paths($basePath, 'bootstrap', 'app.php')) && $basePath !== default_skeleton_path()) {
             return require join_paths($basePath, 'bootstrap', 'app.php');
         }
@@ -274,7 +274,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap($this->resolveDefaultApplication(), function ($app) {
+        return tap($this->resolveDefaultApplication($this->getBasePath()), function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
@@ -477,8 +477,6 @@ trait CreatesApplication
         }
 
         $app->make(ConsoleKernelContract::class)->bootstrap();
-
-        $this->refreshApplicationRouteNameLookups($app);
     }
 
     /**
