@@ -6,6 +6,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
@@ -339,6 +340,11 @@ trait CreatesApplication
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
 
+            if (is_file($bootstrapProviderPath = join_paths($this->getBasePath(), 'bootstrap', 'providers.php'))) {
+                RegisterProviders::merge([], $bootstrapProviderPath);
+                (new RegisterProviders())->bootstrap($app);
+            }
+
             TestingFeature::run(
                 testCase: $this,
                 attribute: fn () => $this->parseTestMethodAttributes($app, WithConfig::class), // @phpstan-ignore-line
@@ -393,6 +399,7 @@ trait CreatesApplication
     protected function resolveApplicationHttpMiddlewares($app)
     {
         after_resolving($app, HttpKernelContract::class, function ($kernel, $app) {
+            /** @var \Illuminate\Foundation\Http\Kernel $kernel */
             $middleware = new Middleware();
 
             $kernel->setGlobalMiddleware($middleware->getGlobalMiddleware());
@@ -468,7 +475,7 @@ trait CreatesApplication
             $app->make($bootstrap)->bootstrap($app);
         }
 
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+        $app->make(ConsoleKernelContract::class)->bootstrap();
 
         $this->refreshApplicationRouteNameLookups($app);
     }
@@ -513,7 +520,7 @@ trait CreatesApplication
      */
     final protected function resetApplicationArtisanCommands($app)
     {
-        $app['Illuminate\Contracts\Console\Kernel']->setArtisan(null);
+        $app[ConsoleKernelContract::class]->setArtisan(null);
     }
 
     /**
