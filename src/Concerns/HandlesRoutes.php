@@ -8,8 +8,8 @@ use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
-use function Orchestra\Testbench\remote;
 use function Orchestra\Testbench\refresh_router_lookups;
+use function Orchestra\Testbench\remote;
 
 /**
  * @internal
