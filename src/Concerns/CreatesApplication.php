@@ -17,8 +17,9 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
+use function Orchestra\Testbench\refresh_router_lookups;
 
 /**
  * @api
@@ -446,13 +447,14 @@ trait CreatesApplication
      */
     final protected function refreshApplicationRouteNameLookups($app)
     {
-        $refreshNameLookups = static function ($app) {
-            $app['router']->getRoutes()->refreshNameLookups();
-        };
+        /** @var \Illuminate\Routing\Router $router */
+        $router = $app->make('router');
 
-        $refreshNameLookups($app);
+        refresh_router_lookups($router);
 
-        $app->resolving('url', static fn () => $refreshNameLookups($app));
+        after_resolving($app, 'url', static function ($url, $app) use ($router) {
+            refresh_router_lookups($router);
+        });
     }
 
     /**
