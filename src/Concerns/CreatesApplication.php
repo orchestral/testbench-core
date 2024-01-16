@@ -3,8 +3,11 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
+use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
+use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
@@ -19,6 +22,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
 
 /**
@@ -232,6 +236,7 @@ trait CreatesApplication
         $this->resolveApplicationEnvironmentVariables($app);
         $this->resolveApplicationConfiguration($app);
         $this->resolveApplicationHttpKernel($app);
+        $this->resolveApplicationHttpMiddlewares($app);
         $this->resolveApplicationConsoleKernel($app);
         $this->resolveApplicationBootstrappers($app);
 
@@ -365,7 +370,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationConsoleKernel($app)
     {
-        $app->singleton('Illuminate\Contracts\Console\Kernel', $this->applicationConsoleKernelUsingWorkbench($app));
+        $app->singleton(ConsoleKernelContract::class, $this->applicationConsoleKernelUsingWorkbench($app));
     }
 
     /**
@@ -376,7 +381,25 @@ trait CreatesApplication
      */
     protected function resolveApplicationHttpKernel($app)
     {
-        $app->singleton('Illuminate\Contracts\Http\Kernel', $this->applicationHttpKernelUsingWorkbench($app));
+        $app->singleton(HttpKernelContract::class, $this->applicationHttpKernelUsingWorkbench($app));
+    }
+
+
+    /**
+     * Resolve application HTTP default middlewares.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationHttpMiddlewares($app)
+    {
+        after_resolving($app, HttpKernelContract::class, function (HttpKernelContract $kernel) {
+            $middleware = new Middleware();
+
+            $kernel->setGlobalMiddleware($middleware->getGlobalMiddleware());
+            $kernel->setMiddlewareGroups($middleware->getMiddlewareGroups());
+            $kernel->setMiddlewareAliases($middleware->getMiddlewareAliases());
+        });
     }
 
     /**
