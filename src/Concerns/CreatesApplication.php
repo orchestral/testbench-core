@@ -384,7 +384,6 @@ trait CreatesApplication
         $app->singleton(HttpKernelContract::class, $this->applicationHttpKernelUsingWorkbench($app));
     }
 
-
     /**
      * Resolve application HTTP default middlewares.
      *
