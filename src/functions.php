@@ -199,6 +199,16 @@ function transform_relative_path(string $path, string $workingPath): string
 }
 
 /**
+ * Get the default skeleton path
+ */
+function default_skeleton_path(string $path = ''): string
+{
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
+
+    return rtrim((string) realpath(__DIR__."/../laravel/{$path}"), DIRECTORY_SEPARATOR);
+}
+
+/**
  * Get the path to the package folder.
  *
  * @api

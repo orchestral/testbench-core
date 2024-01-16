@@ -15,6 +15,7 @@ use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
 
 /**
@@ -34,7 +35,7 @@ trait CreatesApplication
      */
     public static function applicationBasePath()
     {
-        return static::applicationBasePathUsingWorkbench() ?? (string) realpath(__DIR__.'/../../laravel');
+        return static::applicationBasePathUsingWorkbench() ?? default_skeleton_path();
     }
 
     /**
