@@ -3,6 +3,8 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
+use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -353,7 +355,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationConsoleKernel($app)
     {
-        $app->singleton('Illuminate\Contracts\Console\Kernel', $this->applicationConsoleKernelUsingWorkbench($app));
+        $app->singleton(ConsoleKernelContract::class, $this->applicationConsoleKernelUsingWorkbench($app));
     }
 
     /**
@@ -364,7 +366,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationHttpKernel($app)
     {
-        $app->singleton('Illuminate\Contracts\Http\Kernel', $this->applicationHttpKernelUsingWorkbench($app));
+        $app->singleton(HttpKernelContract::class, $this->applicationHttpKernelUsingWorkbench($app));
     }
 
     /**
@@ -434,7 +436,7 @@ trait CreatesApplication
             $app->make($bootstrap)->bootstrap($app);
         }
 
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+        $app->make(ConsoleKernelContract::class)->bootstrap();
 
         $this->refreshApplicationRouteNameLookups($app);
     }
@@ -480,7 +482,7 @@ trait CreatesApplication
      */
     final protected function resetApplicationArtisanCommands($app)
     {
-        $app['Illuminate\Contracts\Console\Kernel']->setArtisan(null);
+        $app[ConsoleKernelContract::class]->setArtisan(null);
     }
 
     /**
