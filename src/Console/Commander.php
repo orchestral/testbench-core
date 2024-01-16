@@ -15,7 +15,6 @@ use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -176,7 +175,7 @@ class Commander
 
         if (! \is_null($path)) {
             return tap(transform_relative_path($path, $this->workingPath), static function ($path) {
-                Env::set('APP_BASE_PATH', $path);
+                $_ENV['APP_BASE_PATH'] = $path;
             });
         }
 
