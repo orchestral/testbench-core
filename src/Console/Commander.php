@@ -108,19 +108,19 @@ class Commander
     public function laravel()
     {
         if (! $this->app instanceof LaravelApplication) {
-            $laravelBasePath = $this->getBasePath();
+            $APP_BASE_PATH = $this->getBasePath();
 
-            tap(Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($laravelBasePath) {
+            tap(Application::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($APP_BASE_PATH) {
                 $filesystem = new Filesystem();
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
 
-                if (! file_exists("{$laravelBasePath}/.env")) {
+                if (! file_exists("{$APP_BASE_PATH}/.env")) {
                     $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
                 }
             });
 
-            $TESTBENCH_RESOLVING_CALLBACK = function ($app) {
+            $resolvingCallback = function ($app) {
                 Workbench::startWithProviders($app, $this->config);
                 Workbench::discoverRoutes($app, $this->config);
 
@@ -132,25 +132,21 @@ class Commander
                 \call_user_func($this->resolveApplicationCallback(), $app);
             };
 
-            if (is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) && $laravelBasePath !== default_skeleton_path()) {
-                $app = require join_paths($laravelBasePath, 'bootstrap', 'app.php');
+            if (is_file(join_paths($APP_BASE_PATH, 'bootstrap', 'app.php')) && $APP_BASE_PATH !== default_skeleton_path()) {
+                $app = require join_paths($APP_BASE_PATH, 'bootstrap', 'app.php');
 
-                value($TESTBENCH_RESOLVING_CALLBACK, $app);
+                value($resolvingCallback, $app);
 
                 return $this->app = $app;
             }
 
-            $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
-
-            $options = array_filter([
-                'load_environment_variables' => $hasEnvironmentFile,
-                'extra' => $this->config->getExtraAttributes(),
-            ]);
-
             $this->app = Application::create(
-                basePath: $laravelBasePath,
-                resolvingCallback: $TESTBENCH_RESOLVING_CALLBACK,
-                options: $options,
+                basePath: $APP_BASE_PATH,
+                resolvingCallback: $resolvingCallback,
+                options: array_filter([
+                    'load_environment_variables' => file_exists("{$APP_BASE_PATH}/.env"),
+                    'extra' => $this->config->getExtraAttributes(),
+                ]),
             );
         }
 

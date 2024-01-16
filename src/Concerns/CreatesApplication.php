@@ -251,13 +251,13 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        $laravelBasePath = $this->getBasePath();
+        $basePath = $this->getBasePath();
 
-        if (is_file(join_paths($laravelBasePath, 'bootstrap', 'app.php')) && $laravelBasePath !== default_skeleton_path()) {
-            return require join_paths($laravelBasePath, 'bootstrap', 'app.php');
+        if (is_file(join_paths($basePath, 'bootstrap', 'app.php')) && $basePath !== default_skeleton_path()) {
+            return require join_paths($basePath, 'bootstrap', 'app.php');
         }
 
-        return (new ApplicationBuilder(new Application($laravelBasePath)))
+        return (new ApplicationBuilder(new Application($basePath)))
             ->withProviders()
             ->withMiddleware(static function ($middleware) {
                 //
