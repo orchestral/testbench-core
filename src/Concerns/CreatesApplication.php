@@ -253,7 +253,7 @@ trait CreatesApplication
      * @param  string  $basePath
      * @return \Illuminate\Foundation\Application
      */
-    final protected function resolveDefaultApplication($basePath)
+    final protected function resolveDefaultApplication(string $basePath)
     {
         return (new ApplicationBuilder(new Application($basePath)))
             ->withProviders()
