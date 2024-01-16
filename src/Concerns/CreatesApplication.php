@@ -250,16 +250,11 @@ trait CreatesApplication
     /**
      * Create the default application implementation.
      *
+     * @param  string  $basePath
      * @return \Illuminate\Foundation\Application
      */
-    final protected function resolveDefaultApplication()
+    final protected function resolveDefaultApplication($basePath)
     {
-        $basePath = $this->getBasePath();
-
-        if (is_file(join_paths($basePath, 'bootstrap', 'app.php')) && $basePath !== default_skeleton_path()) {
-            return require join_paths($basePath, 'bootstrap', 'app.php');
-        }
-
         return (new ApplicationBuilder(new Application($basePath)))
             ->withProviders()
             ->withMiddleware(static function ($middleware) {
@@ -276,7 +271,17 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap($this->resolveDefaultApplication(), $this->resolveApplicationResolvingCallback());
+        $basePath = $this->getBasePath();
+
+        if ($basePath !== default_skeleton_path() && is_file(join_paths($basePath, 'bootstrap', 'app.php'))) {
+            $app = require join_paths($basePath, 'bootstrap', 'app.php');
+        } else {
+            $app = $this->resolveDefaultApplication($basePath);
+        }
+
+        value($this->resolveApplicationResolvingCallback(), $app);
+
+        return $app;
     }
 
     /**
