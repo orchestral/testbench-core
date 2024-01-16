@@ -9,6 +9,7 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\refresh_router_lookups;
 use function Orchestra\Testbench\remote;
 
 /**
@@ -52,8 +53,7 @@ trait HandlesRoutes
             }
         );
 
-        $router->getRoutes()->refreshNameLookups();
-        $router->getRoutes()->refreshActionLookups();
+        refresh_router_lookups($router);
     }
 
     /**
