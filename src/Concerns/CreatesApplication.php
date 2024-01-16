@@ -490,6 +490,7 @@ trait CreatesApplication
     {
         $refreshNameLookups = static function ($app) {
             $app['router']->getRoutes()->refreshNameLookups();
+            $app['router']->getRoutes()->refreshActionLookups();
         };
 
         $refreshNameLookups($app);

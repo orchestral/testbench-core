@@ -53,6 +53,7 @@ trait HandlesRoutes
         );
 
         $router->getRoutes()->refreshNameLookups();
+        $router->getRoutes()->refreshActionLookups();
     }
 
     /**
