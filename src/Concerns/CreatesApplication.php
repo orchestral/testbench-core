@@ -392,7 +392,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationHttpMiddlewares($app)
     {
-        after_resolving($app, HttpKernelContract::class, function (HttpKernelContract $kernel) {
+        after_resolving($app, HttpKernelContract::class, function ($kernel, $app) {
             $middleware = new Middleware();
 
             $kernel->setGlobalMiddleware($middleware->getGlobalMiddleware());
