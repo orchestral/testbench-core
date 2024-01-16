@@ -185,6 +185,14 @@ function transform_relative_path(string $path, string $workingPath): string
 }
 
 /**
+ * Get the default skeleton path
+ */
+function default_skeleton_path(string $path = ''): string
+{
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', $path));
+}
+
+/**
  * Get the path to the package folder.
  *
  * @api
@@ -233,14 +241,6 @@ function workbench(): array
 function workbench_path(string $path = ''): string
 {
     return package_path(join_paths('workbench', $path));
-}
-
-/**
- * Get the default skeleton path
- */
-function default_skeleton_path(string $path = ''): string
-{
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', $path));
 }
 
 /**
