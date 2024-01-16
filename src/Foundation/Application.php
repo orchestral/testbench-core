@@ -2,10 +2,10 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
-use Illuminate\Foundation\Configuration\ApplicationBuilder;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -34,7 +34,7 @@ use function Illuminate\Filesystem\join_paths;
 class Application
 {
     use CreatesApplication {
-        resolveApplication as protected resolveApplicationFromTrait;
+        resolveApplicationResolvingCallback as protected resolveApplicationResolvingCallbackFromTrait;
         resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
     }
 
@@ -246,21 +246,17 @@ class Application
     /**
      * Resolve application implementation.
      *
-     * @return \Illuminate\Foundation\Application
+     * @return \Closure(\Illuminate\Foundation\Application): void
      */
-    protected function resolveApplication()
+    protected function resolveApplicationResolvingCallback(): Closure
     {
-        return tap(
-            (new ApplicationBuilder($this->resolveApplicationFromTrait()))
-                ->withMiddleware(fn ($middleware) => $middleware)
-                ->withCommands()
-                ->create(),
-            function ($app) {
-                if (\is_callable($this->resolvingCallback)) {
-                    \call_user_func($this->resolvingCallback, $app);
-                }
+        return function ($app) {
+            value($this->resolveApplicationResolvingCallbackFromTrait(), $app);
+
+            if (\is_callable($this->resolvingCallback)) {
+                \call_user_func($this->resolvingCallback, $app);
             }
-        );
+        };
     }
 
     /**

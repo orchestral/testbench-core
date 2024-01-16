@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
@@ -275,7 +276,17 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap($this->resolveDefaultApplication(), function ($app) {
+        return tap($this->resolveDefaultApplication(), $this->resolveApplicationResolvingCallback());
+    }
+
+    /**
+     * Resolve application implementation.
+     *
+     * @return \Closure(\Illuminate\Foundation\Application): void
+     */
+    protected function resolveApplicationResolvingCallback(): Closure
+    {
+        return function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
@@ -284,7 +295,7 @@ trait CreatesApplication
             );
 
             PackageManifest::swap($app, $this);
-        });
+        };
     }
 
     /**
