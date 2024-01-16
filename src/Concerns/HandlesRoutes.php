@@ -9,6 +9,8 @@ use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
+use function Orchestra\Testbench\refresh_router_lookups;
+
 /**
  * @internal
  */
@@ -48,7 +50,7 @@ trait HandlesRoutes
             }
         );
 
-        $router->getRoutes()->refreshNameLookups();
+        refresh_router_lookups($router);
     }
 
     /**

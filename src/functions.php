@@ -5,6 +5,7 @@ namespace Orchestra\Testbench;
 use Closure;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
@@ -165,6 +166,20 @@ function parse_environment_variables($variables): array
 
             return "{$key}={$value}";
         })->values()->all();
+}
+
+/**
+ * Refresh router lookups.
+ *
+ * @api
+ *
+ * @param  \Illuminate\Routing\Router  $router
+ * @return void
+ */
+function refresh_router_lookups(Router $router): void
+{
+    $router->getRoutes()->refreshNameLookups();
+    $router->getRoutes()->refreshActionLookups();
 }
 
 /**
