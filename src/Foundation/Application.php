@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -16,7 +17,6 @@ use Illuminate\View\Component;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
-
 use function Illuminate\Filesystem\join_paths;
 
 /**
@@ -176,6 +176,7 @@ class Application
         ConvertEmptyStringsToNull::flushState();
         HandleExceptions::flushState();
         Queue::createPayloadUsing(null);
+        RegisterProviders::flushState();
         Sleep::fake(false);
         AboutCommand::flushState();
         TrimStrings::flushState();
