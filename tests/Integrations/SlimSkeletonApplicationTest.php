@@ -15,13 +15,6 @@ class SlimSkeletonApplicationTest extends TestCase
 {
     /** {@inheritDoc} */
     #[\Override]
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
-    }
-
-    /** {@inheritDoc} */
-    #[\Override]
     protected function getApplicationBootstrapFile()
     {
         return workbench_path(join_paths('bootstrap', 'app.php'));
@@ -33,6 +26,7 @@ class SlimSkeletonApplicationTest extends TestCase
     {
         $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
     }
+
     #[Test]
     public function it_can_access_welcome_page_using_route_name()
     {
