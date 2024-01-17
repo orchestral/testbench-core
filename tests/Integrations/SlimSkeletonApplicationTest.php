@@ -11,19 +11,28 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\workbench_path;
 
-#[RequiresEnv('APP_KEY')]
 class SlimSkeletonApplicationTest extends TestCase
 {
-    /**
-     * Get application bootstrap file path.
-     *
-     * @return string
-     */
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
+    }
+
+    /** {@inheritDoc} */
+    #[\Override]
     protected function getApplicationBootstrapFile()
     {
         return workbench_path(join_paths('bootstrap', 'app.php'));
     }
 
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
+    }
     #[Test]
     public function it_can_access_welcome_page_using_route_name()
     {
