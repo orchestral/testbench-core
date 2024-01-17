@@ -421,7 +421,7 @@ trait CreatesApplication
                 $this->parseTestMethodAnnotations($app, 'environment-setup'); // @phpstan-ignore-line
                 $this->parseTestMethodAnnotations($app, 'define-env'); // @phpstan-ignore-line
             },
-            attribute: function () use ($app) { 
+            attribute: function () use ($app) {
                 $this->parseTestMethodAttributes($app, WithImmutableDates::class); // @phpstan-ignore-line
                 $this->parseTestMethodAttributes($app, DefineEnvironment::class); // @phpstan-ignore-line
             }
