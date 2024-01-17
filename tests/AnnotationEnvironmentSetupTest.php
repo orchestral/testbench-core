@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\Test;
 #[RequiresPhpunit('>=10.1.0 <11.0.0')]
 class AnnotationEnvironmentSetupTest extends TestCase
 {
-
     /** {@inheritDoc} */
     #[\Override]
     protected function defineEnvironment($app)

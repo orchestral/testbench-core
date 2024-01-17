@@ -66,6 +66,7 @@ trait InteractsWithPHPUnit
      * Resolve PHPUnit method annotations.
      *
      * @internal
+     *
      * @phpunit-overrides
      *
      * @return \Illuminate\Support\Collection<string, mixed>
@@ -96,6 +97,7 @@ trait InteractsWithPHPUnit
      * Resolve PHPUnit method attributes.
      *
      * @internal
+     *
      * @phpunit-overrides
      *
      * @return \Illuminate\Support\Collection<class-string, array<int, object>>
@@ -120,6 +122,7 @@ trait InteractsWithPHPUnit
      * Resolve PHPUnit method attributes for specific method.
      *
      * @internal
+     *
      * @phpunit-overrides
      *
      * @param  class-string  $className
