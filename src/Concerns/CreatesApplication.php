@@ -18,6 +18,7 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
+use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
@@ -539,12 +540,15 @@ trait CreatesApplication
                 $this->parseTestMethodAnnotations($app, 'environment-setup'); // @phpstan-ignore-line
                 $this->parseTestMethodAnnotations($app, 'define-env'); // @phpstan-ignore-line
             },
-            attribute: fn () => $this->parseTestMethodAttributes($app, DefineEnvironment::class), // @phpstan-ignore-line
+            attribute: function () use ($app) {
+                $this->parseTestMethodAttributes($app, WithImmutableDates::class); // @phpstan-ignore-line
+                $this->parseTestMethodAttributes($app, DefineEnvironment::class); // @phpstan-ignore-line
+            },
             pest: function ($default) use ($app) {
                 $this->defineEnvironmentUsingPest($app); // @phpstan-ignore-line
 
                 value($default);
-            },
+            }
         );
 
         $this->resolveApplicationRateLimiting($app);
