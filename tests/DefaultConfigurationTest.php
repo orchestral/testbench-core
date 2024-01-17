@@ -2,6 +2,10 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Carbon\CarbonInterface;
+use DateTimeImmutable;
+use DateTimeInterface;
+use Illuminate\Support\Facades\Date;
 use Orchestra\Testbench\TestCase;
 
 class DefaultConfigurationTest extends TestCase
@@ -42,5 +46,15 @@ class DefaultConfigurationTest extends TestCase
     public function it_populate_expected_session_defaults()
     {
         $this->assertEquals('array', $this->app['config']['session.driver']);
+    }
+
+    /** @test */
+    public function it_uses_mutable_dates_by_default()
+    {
+        $date = Date::parse('2023-01-01');
+
+        $this->assertInstanceOf(CarbonInterface::class, $date);
+        $this->assertInstanceOf(DateTimeInterface::class, $date);
+        $this->assertNotInstanceOf(DateTimeImmutable::class, $date);
     }
 }

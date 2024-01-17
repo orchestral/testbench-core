@@ -11,6 +11,7 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
+use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
@@ -408,14 +409,12 @@ trait CreatesApplication
                 $this->getEnvironmentSetUp($app);
             },
             function () use ($app) {
-                /** @phpstan-ignore-next-line */
-                $this->parseTestMethodAnnotations($app, 'environment-setup');
-                /** @phpstan-ignore-next-line */
-                $this->parseTestMethodAnnotations($app, 'define-env');
+                $this->parseTestMethodAnnotations($app, 'environment-setup'); // @phpstan-ignore-line
+                $this->parseTestMethodAnnotations($app, 'define-env'); // @phpstan-ignore-line
             },
             function () use ($app) {
-                /** @phpstan-ignore-next-line */
-                $this->parseTestMethodAttributes($app, DefineEnvironment::class);
+                $this->parseTestMethodAttributes($app, WithImmutableDates::class); // @phpstan-ignore-line
+                $this->parseTestMethodAttributes($app, DefineEnvironment::class); // @phpstan-ignore-line
             }
         );
 
