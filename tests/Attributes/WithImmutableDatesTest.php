@@ -8,10 +8,11 @@ use DateTimeInterface;
 use Illuminate\Support\Facades\Date;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class WithImmutableDatesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     #[WithImmutableDates]
     public function it_uses_immutable_dates()
     {

@@ -14,9 +14,9 @@ final class WithImmutableDates implements InvokableContract
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return \Closure|null
+     * @return void
      */
-    public function __invoke($app)
+    public function __invoke($app): void
     {
         DateFactory::use(CarbonImmutable::class);
     }

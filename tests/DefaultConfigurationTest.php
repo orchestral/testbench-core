@@ -54,7 +54,7 @@ class DefaultConfigurationTest extends TestCase
         $this->assertEquals('array', $this->app['config']['session.driver']);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_mutable_dates_by_default()
     {
         $date = Date::parse('2023-01-01');
