@@ -9,6 +9,18 @@ use PHPUnit\Framework\Attributes\Test;
 #[RequiresPhpunit('>=10.1.0 <11.0.0')]
 class AnnotationEnvironmentSetupTest extends TestCase
 {
+
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+        ]);
+    }
+
     /**
      * @environment-setup firstConfig
      */
@@ -63,20 +75,5 @@ class AnnotationEnvironmentSetupTest extends TestCase
     protected function secondConfig($app)
     {
         $app['config']->set('testbench.two', 'testbench');
-    }
-
-    /**
-     * Define environment setup.
-     *
-     * @param  Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-        ]);
     }
 }

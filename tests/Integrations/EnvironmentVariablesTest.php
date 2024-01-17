@@ -10,22 +10,15 @@ use PHPUnit\Framework\Attributes\Test;
 
 class EnvironmentVariablesTest extends TestCase
 {
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testing');
     }
 
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function defineDatabaseMigrations()
     {
         $this->loadLaravelMigrations(['--database' => 'testing']);

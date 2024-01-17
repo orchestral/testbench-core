@@ -8,12 +8,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class RequestTest extends TestCase
 {
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function defineEnvironment($app)
     {
         $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);

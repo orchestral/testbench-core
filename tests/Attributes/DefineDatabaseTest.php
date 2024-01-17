@@ -11,9 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 class DefineDatabaseTest extends TestCase
 {
-    /**
-     * Teardown the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function tearDown(): void
     {
         m::close();

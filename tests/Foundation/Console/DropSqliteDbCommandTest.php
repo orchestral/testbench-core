@@ -15,12 +15,8 @@ class DropSqliteDbCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
 
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array<int, class-string<\Illuminate\Support\ServiceProvider>>
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function getPackageProviders($app)
     {
         return [

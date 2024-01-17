@@ -14,12 +14,8 @@ use PHPUnit\Framework\Attributes\Test;
 #[CoversClass(TestbenchServiceProvider::class)]
 class TestbenchServiceProviderTest extends TestCase
 {
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array<int, class-string<\Illuminate\Support\ServiceProvider>>
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function getPackageProviders($app)
     {
         return [

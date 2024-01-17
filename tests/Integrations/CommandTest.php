@@ -9,6 +9,8 @@ use Workbench\App\Console\Commands\DummyCommand;
 
 class CommandTest extends TestCase
 {
+    /** {@inheritDoc} */
+    #[\Override]
     protected function setUp(): void
     {
         Artisan::starting(function ($artisan) {
