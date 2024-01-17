@@ -17,11 +17,8 @@ class MigrateDatabaseWithoutMockedConsoleTest extends TestCase
 {
     use WithWorkbench;
 
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function defineDatabaseMigrations()
     {
         artisan($this, 'migrate', ['--database' => 'testing']);

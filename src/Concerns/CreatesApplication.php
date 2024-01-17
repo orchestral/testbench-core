@@ -29,8 +29,6 @@ use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
 
 /**
- * @api
- *
  * @property bool|null $enablesPackageDiscoveries
  * @property bool|null $loadEnvironmentVariables
  */
@@ -40,6 +38,8 @@ trait CreatesApplication
 
     /**
      * Get Application's base path.
+     *
+     * @api
      *
      * @return string
      */
@@ -51,6 +51,8 @@ trait CreatesApplication
     /**
      * Ignore package discovery from.
      *
+     * @api
+     *
      * @return array<int, string>
      */
     public function ignorePackageDiscoveriesFrom()
@@ -60,6 +62,8 @@ trait CreatesApplication
 
     /**
      * Get application timezone.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return string|null
@@ -71,6 +75,8 @@ trait CreatesApplication
 
     /**
      * Override application bindings.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<string|class-string, string|class-string>
@@ -98,6 +104,8 @@ trait CreatesApplication
     /**
      * Get application aliases.
      *
+     * @api
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<string, class-string>
      */
@@ -108,6 +116,8 @@ trait CreatesApplication
 
     /**
      * Override application aliases.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<string, class-string>
@@ -140,6 +150,8 @@ trait CreatesApplication
     /**
      * Get package aliases.
      *
+     * @api
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<string, class-string>
      */
@@ -150,6 +162,8 @@ trait CreatesApplication
 
     /**
      * Get package bootstrapper.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
@@ -162,6 +176,8 @@ trait CreatesApplication
     /**
      * Get application providers.
      *
+     * @api
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
      */
@@ -172,6 +188,8 @@ trait CreatesApplication
 
     /**
      * Override application aliases.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<class-string, class-string>
@@ -204,6 +222,8 @@ trait CreatesApplication
     /**
      * Get package providers.
      *
+     * @api
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
      */
@@ -215,6 +235,8 @@ trait CreatesApplication
     /**
      * Get base path.
      *
+     * @api
+     *
      * @return string
      */
     protected function getBasePath()
@@ -223,9 +245,27 @@ trait CreatesApplication
     }
 
     /**
+     * Get application bootstrap file path (if exists).
+     *
+     * @api
+     *
+     * @return string|null
+     */
+    protected function getApplicationBootstrapFile()
+    {
+        $file = join_paths($this->getBasePath(), 'bootstrap', 'app.php');
+
+        if (default_skeleton_path(join_paths('bootstrap', 'app.php')) !== $file && is_file($file)) {
+            return $file;
+        }
+
+        return null;
+    }
+
+    /**
      * Creates the application.
      *
-     * Needs to be implemented by subclasses.
+     * @api
      *
      * @return \Illuminate\Foundation\Application
      */
@@ -250,17 +290,13 @@ trait CreatesApplication
     /**
      * Create the default application implementation.
      *
+     * @internal
+     *
      * @return \Illuminate\Foundation\Application
      */
     final protected function resolveDefaultApplication()
     {
-        $basePath = $this->getBasePath();
-
-        if (is_file(join_paths($basePath, 'bootstrap', 'app.php')) && $basePath !== default_skeleton_path()) {
-            return require join_paths($basePath, 'bootstrap', 'app.php');
-        }
-
-        return (new ApplicationBuilder(new Application($basePath)))
+        return (new ApplicationBuilder(new Application($this->getBasePath())))
             ->withProviders()
             ->withMiddleware(static function ($middleware) {
                 //
@@ -272,15 +308,27 @@ trait CreatesApplication
     /**
      * Resolve application implementation.
      *
+     * @api
+     *
      * @return \Illuminate\Foundation\Application
      */
     protected function resolveApplication()
     {
-        return tap($this->resolveDefaultApplication(), $this->resolveApplicationResolvingCallback());
+        $bootstrapFile = $this->getApplicationBootstrapFile();
+
+        $app = ! \is_null($bootstrapFile)
+            ? require $bootstrapFile
+            : $this->resolveDefaultApplication();
+
+        value($this->resolveApplicationResolvingCallback(), $app);
+
+        return $app;
     }
 
     /**
      * Resolve application implementation.
+     *
+     * @internal
      *
      * @return \Closure(\Illuminate\Foundation\Application): void
      */
@@ -300,6 +348,8 @@ trait CreatesApplication
 
     /**
      * Resolve application core environment variables implementation.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
@@ -329,6 +379,8 @@ trait CreatesApplication
 
     /**
      * Resolve application core configuration implementation.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
@@ -368,6 +420,8 @@ trait CreatesApplication
     /**
      * Resolve application core implementation.
      *
+     * @internal
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -384,6 +438,8 @@ trait CreatesApplication
     /**
      * Resolve application Console Kernel implementation.
      *
+     * @api
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -395,6 +451,8 @@ trait CreatesApplication
     /**
      * Resolve application HTTP Kernel implementation.
      *
+     * @api
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -405,6 +463,8 @@ trait CreatesApplication
 
     /**
      * Resolve application HTTP default middlewares.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
@@ -424,6 +484,8 @@ trait CreatesApplication
     /**
      * Resolve application HTTP exception handler.
      *
+     * @api
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -434,6 +496,8 @@ trait CreatesApplication
 
     /**
      * Resolve application bootstrapper.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
@@ -494,6 +558,8 @@ trait CreatesApplication
     /**
      * Refresh route name lookup for the application.
      *
+     * @internal
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -511,6 +577,8 @@ trait CreatesApplication
 
     /**
      * Resolve application rate limiting configuration.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
@@ -538,6 +606,8 @@ trait CreatesApplication
     /**
      * Define environment setup.
      *
+     * @api
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -548,6 +618,8 @@ trait CreatesApplication
 
     /**
      * Define environment setup.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void

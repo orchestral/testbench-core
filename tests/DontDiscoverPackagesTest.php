@@ -7,11 +7,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class DontDiscoverPackagesTest extends TestCase
 {
-    /**
-     * Ignore package discovery from.
-     *
-     * @return array
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     public function ignorePackageDiscoveriesFrom()
     {
         return ['spatie/laravel-ray', '*'];

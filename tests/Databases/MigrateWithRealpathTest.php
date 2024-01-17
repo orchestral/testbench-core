@@ -11,11 +11,8 @@ use PHPUnit\Framework\Attributes\Test;
 #[WithConfig('database.default', 'testing')]
 class MigrateWithRealpathTest extends TestCase
 {
-    /**
-     * Define database migrations.
-     *
-     * @return void
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function defineDatabaseMigrations()
     {
         // call migrations specific to our tests, e.g. to seed the db

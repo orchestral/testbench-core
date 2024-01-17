@@ -7,12 +7,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class AggregateServiceProviderTest extends TestCase
 {
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function getPackageProviders($app)
     {
         return [

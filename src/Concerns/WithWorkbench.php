@@ -5,15 +5,14 @@ namespace Orchestra\Testbench\Concerns;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Workbench\Workbench;
 
-/**
- * @api
- */
 trait WithWorkbench
 {
     use InteractsWithWorkbench;
 
     /**
      * Bootstrap with Workbench.
+     *
+     * @internal
      *
      * @return void
      */
@@ -34,6 +33,8 @@ trait WithWorkbench
 
     /**
      * Bootstrap discover routes.
+     *
+     * @internal
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void

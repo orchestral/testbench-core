@@ -8,12 +8,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class TimezoneTest extends TestCase
 {
-    /**
-     * Get application timezone.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return string|null
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function getApplicationTimezone($app)
     {
         return 'Asia/Kuala_Lumpur';

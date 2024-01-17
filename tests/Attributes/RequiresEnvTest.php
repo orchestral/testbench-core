@@ -10,9 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 class RequiresEnvTest extends TestCase
 {
-    /**
-     * Teardown the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function tearDown(): void
     {
         m::close();

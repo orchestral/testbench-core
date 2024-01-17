@@ -12,9 +12,8 @@ class CreatesApplicationTest extends TestCase
 {
     use CreatesApplication;
 
-    /**
-     * Teardown the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function tearDown(): void
     {
         Testbench::flushState();

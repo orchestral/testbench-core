@@ -12,6 +12,8 @@ trait InteractsWithPest
     /**
      * Determine if the trait is used within testing using Pest.
      *
+     * @api
+     *
      * @return bool
      */
     public function isRunningTestCaseUsingPest(): bool

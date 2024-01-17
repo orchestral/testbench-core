@@ -9,9 +9,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class CacheRouteTest extends TestCase
 {
-    /**
-     * Setup the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function setUp(): void
     {
         $this->defineCacheRoutes(<<<PHP
