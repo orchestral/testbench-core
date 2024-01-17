@@ -11,7 +11,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
@@ -55,6 +55,15 @@ class Commander
     protected string $environmentFile = '.env';
 
     /**
+     * List of providers.
+     *
+     * @var array<int, class-string<\Illuminate\Support\ServiceProvider>>
+     */
+    protected array $providers = [
+        TestbenchServiceProvider::class,
+    ];
+
+    /**
      * Construct a new Commander.
      *
      * @param  array|\Orchestra\Testbench\Foundation\Config  $config
@@ -91,7 +100,7 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
-            Application::flushState();
+            Testbench::flushState();
 
             $this->untrap();
         }
@@ -109,7 +118,7 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $APP_BASE_PATH = $this->getBasePath();
 
-            tap(Application::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($APP_BASE_PATH) {
+            tap(Testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($APP_BASE_PATH) {
                 $filesystem = new Filesystem();
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
@@ -119,29 +128,17 @@ class Commander
                 }
             });
 
-            $resolvingCallback = function ($app) {
-                Workbench::startWithProviders($app, $this->config);
-                Workbench::discoverRoutes($app, $this->config);
+            if (! \is_null($APP_BOOTSTRAP_FILE = $this->getApplicationBootstrapFile())) {
+                $app = require $APP_BOOTSTRAP_FILE;
 
-                (new LoadMigrationsFromArray(
-                    $this->config['migrations'] ?? [],
-                    $this->config['seeders'] ?? false,
-                ))->bootstrap($app);
-
-                \call_user_func($this->resolveApplicationCallback(), $app);
-            };
-
-            if (is_file(join_paths($APP_BASE_PATH, 'bootstrap', 'app.php')) && $APP_BASE_PATH !== default_skeleton_path()) {
-                $app = require join_paths($APP_BASE_PATH, 'bootstrap', 'app.php');
-
-                value($resolvingCallback, $app);
+                value($this->resolveApplicationCallback(), $app);
 
                 return $this->app = $app;
             }
 
-            $this->app = Application::create(
+            $this->app = Testbench::create(
                 basePath: $APP_BASE_PATH,
-                resolvingCallback: $resolvingCallback,
+                resolvingCallback: $this->resolveApplicationCallback(),
                 options: array_filter([
                     'load_environment_variables' => file_exists("{$APP_BASE_PATH}/.env"),
                     'extra' => $this->config->getExtraAttributes(),
@@ -159,8 +156,18 @@ class Commander
      */
     protected function resolveApplicationCallback()
     {
-        return static function ($app) {
-            $app->register(TestbenchServiceProvider::class);
+        return function ($app) {
+            Workbench::startWithProviders($app, $this->config);
+            Workbench::discoverRoutes($app, $this->config);
+
+            (new LoadMigrationsFromArray(
+                $this->config['migrations'] ?? [],
+                $this->config['seeders'] ?? false,
+            ))->bootstrap($app);
+
+            foreach ($this->providers as $provider) {
+                $app->register($provider);
+            }
         };
     }
 
@@ -179,17 +186,25 @@ class Commander
             });
         }
 
-        return static::applicationBasePath();
+        return Testbench::applicationBasePath();
     }
 
     /**
-     * Get Application base path.
+     * Get application bootstrap file path (if exists).
      *
-     * @return string
+     * @api
+     *
+     * @return string|null
      */
-    public static function applicationBasePath()
+    protected function getApplicationBootstrapFile()
     {
-        return Application::applicationBasePath();
+        $file = join_paths($this->getBasePath(), 'bootstrap', 'app.php');
+
+        if (default_skeleton_path(join_paths('bootstrap', 'app.php')) !== $file && is_file($file)) {
+            return $file;
+        }
+
+        return null;
     }
 
     /**

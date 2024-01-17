@@ -3,26 +3,25 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\Attributes\DefineRoute;
+use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+
 use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\workbench_path;
 
+#[RequiresEnv('APP_KEY')]
 class SlimSkeletonApplicationTest extends TestCase
 {
     /**
-     * Resolve application implementation.
+     * Get application bootstrap file path.
      *
-     * @return \Illuminate\Foundation\Application
+     * @return string
      */
-    protected function resolveApplication()
+    protected function getApplicationBootstrapFile()
     {
-        $app = require workbench_path(join_paths('bootstrap', 'app.php'));
-
-        value($this->resolveApplicationResolvingCallback(), $app);
-
-        return $app;
+        return workbench_path(join_paths('bootstrap', 'app.php'));
     }
 
     #[Test]

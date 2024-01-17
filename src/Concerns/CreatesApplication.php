@@ -257,7 +257,11 @@ trait CreatesApplication
     {
         $file = join_paths($this->getBasePath(), 'bootstrap', 'app.php');
 
-        return is_file($file) ? $file : null;
+        if (default_skeleton_path(join_paths('bootstrap', 'app.php')) !== $file && is_file($file)) {
+            return $file;
+        }
+
+        return null;
     }
 
     /**
@@ -314,7 +318,7 @@ trait CreatesApplication
     {
         $bootstrapFile = $this->getApplicationBootstrapFile();
 
-        $app = $bootstrapFile !== default_skeleton_path(join_paths('bootstrap', 'app.php'))
+        $app = ! \is_null($bootstrapFile)
             ? require $bootstrapFile
             : $this->resolveDefaultApplication();
 

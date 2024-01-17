@@ -9,6 +9,7 @@ use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[RequiresEnv('APP_KEY')]
 class DiscoversTest extends TestCase
 {
     use InteractsWithViews;
@@ -22,7 +23,6 @@ class DiscoversTest extends TestCase
     }
 
     #[Test]
-    #[RequiresEnv('APP_KEY')]
     public function it_can_resolve_views_from_discovers()
     {
         $this->get('/testbench')
