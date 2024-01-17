@@ -245,6 +245,18 @@ trait CreatesApplication
     }
 
     /**
+     * Get the default application bootstrap file path (if exists).
+     *
+     * @api
+     *
+     * @return string
+     */
+    protected function getDefaultApplicationBootstrapFile()
+    {
+        return default_skeleton_path(join_paths('bootstrap', 'app.php'));
+    }
+
+    /**
      * Get application bootstrap file path (if exists).
      *
      * @api
@@ -255,7 +267,7 @@ trait CreatesApplication
     {
         $file = join_paths($this->getBasePath(), 'bootstrap', 'app.php');
 
-        if (default_skeleton_path(join_paths('bootstrap', 'app.php')) !== $file && is_file($file)) {
+        if ($this->getDefaultApplicationBootstrapFile() !== $file && is_file($file)) {
             return $file;
         }
 
@@ -298,7 +310,7 @@ trait CreatesApplication
     {
         return (new ApplicationBuilder(new Application($this->getBasePath())))
             ->withProviders()
-            ->withMiddleware(static function ($middleware) {
+            ->withMiddleware(static function (Middleware $middleware) {
                 //
             })
             ->withCommands()
