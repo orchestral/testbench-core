@@ -17,6 +17,7 @@ use Illuminate\View\Component;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
+
 use function Illuminate\Filesystem\join_paths;
 
 /**
