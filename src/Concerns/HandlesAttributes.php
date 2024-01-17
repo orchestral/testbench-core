@@ -17,6 +17,8 @@ trait HandlesAttributes
     /**
      * Parse test method attributes.
      *
+     * @internal
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  class-string  $attribute
      * @return \Orchestra\Testbench\Features\FeaturesCollection<int, mixed>

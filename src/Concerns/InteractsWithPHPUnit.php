@@ -53,6 +53,8 @@ trait InteractsWithPHPUnit
     /**
      * Determine if the trait is used within testing.
      *
+     * @api
+     *
      * @return bool
      */
     public function isRunningTestCase(): bool
@@ -63,6 +65,7 @@ trait InteractsWithPHPUnit
     /**
      * Resolve PHPUnit method annotations.
      *
+     * @internal
      * @phpunit-overrides
      *
      * @return \Illuminate\Support\Collection<string, mixed>
@@ -92,6 +95,7 @@ trait InteractsWithPHPUnit
     /**
      * Resolve PHPUnit method attributes.
      *
+     * @internal
      * @phpunit-overrides
      *
      * @return \Illuminate\Support\Collection<class-string, array<int, object>>
@@ -115,6 +119,7 @@ trait InteractsWithPHPUnit
     /**
      * Resolve PHPUnit method attributes for specific method.
      *
+     * @internal
      * @phpunit-overrides
      *
      * @param  class-string  $className
@@ -157,6 +162,8 @@ trait InteractsWithPHPUnit
     /**
      * Define the setUp environment using callback.
      *
+     * @internal
+     *
      * @param  \Closure(\Closure):void  $setUp
      * @return void
      *
@@ -169,6 +176,8 @@ trait InteractsWithPHPUnit
 
     /**
      * Define the tearDown environment using callback.
+     *
+     * @internal
      *
      * @param  \Closure(\Closure):void  $tearDown
      * @return void
@@ -183,6 +192,8 @@ trait InteractsWithPHPUnit
     /**
      * Prepare the testing environment before the running the test case.
      *
+     * @internal
+     *
      * @return void
      *
      * @codeCoverageIgnore
@@ -194,6 +205,8 @@ trait InteractsWithPHPUnit
 
     /**
      * Clean up the testing environment before the next test case.
+     *
+     * @internal
      *
      * @return void
      *

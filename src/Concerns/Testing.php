@@ -163,6 +163,10 @@ trait Testing
 
     /**
      * Reload the application instance with cached routes.
+     *
+     * @api
+     *
+     * @return void
      */
     protected function reloadApplication(): void
     {

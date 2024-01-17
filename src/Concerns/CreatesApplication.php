@@ -29,8 +29,6 @@ use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
 
 /**
- * @api
- *
  * @property bool|null $enablesPackageDiscoveries
  * @property bool|null $loadEnvironmentVariables
  */
