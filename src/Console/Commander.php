@@ -172,6 +172,16 @@ class Commander
     }
 
     /**
+     * Get Application base path.
+     *
+     * @return string
+     */
+    public static function applicationBasePath()
+    {
+        return Testbench::applicationBasePath();
+    }
+
+    /**
      * Get base path.
      *
      * @return string
@@ -180,13 +190,13 @@ class Commander
     {
         $path = $this->config['laravel'] ?? null;
 
-        if (! \is_null($path)) {
+        if (! \is_null($path) && ! isset($_ENV['APP_BASE_PATH'])) {
             return tap(transform_relative_path($path, $this->workingPath), static function ($path) {
                 $_ENV['APP_BASE_PATH'] = $path;
             });
         }
 
-        return Testbench::applicationBasePath();
+        return static::applicationBasePath();
     }
 
     /**
