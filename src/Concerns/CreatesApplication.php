@@ -335,7 +335,7 @@ trait CreatesApplication
         if (! \is_null($bootstrapFile = $this->getApplicationBootstrapFile('app.php'))) {
             return require $bootstrapFile;
         }
-        
+
         return $this->resolveDefaultApplication();
     }
 
