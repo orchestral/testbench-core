@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Closure;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Application;

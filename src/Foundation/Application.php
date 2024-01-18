@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Foundation;
 
-use Closure;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
