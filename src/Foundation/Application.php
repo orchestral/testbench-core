@@ -170,19 +170,18 @@ class Application
     }
 
     /**
-     * Resolve application implementation.
+     * Resolve application resolving callback.
      *
-     * @return \Closure(\Illuminate\Foundation\Application): void
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
      */
-    protected function resolveApplicationResolvingCallback(): Closure
+    protected function resolveApplicationResolvingCallback($app): void
     {
-        return function ($app) {
-            value($this->resolveApplicationResolvingCallbackFromTrait(), $app);
+        $this->resolveApplicationResolvingCallbackFromTrait($app);
 
-            if (\is_callable($this->resolvingCallback)) {
-                \call_user_func($this->resolvingCallback, $app);
-            }
-        };
+        if (\is_callable($this->resolvingCallback)) {
+            \call_user_func($this->resolvingCallback, $app);
+        }
     }
 
     /**

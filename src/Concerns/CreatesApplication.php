@@ -225,6 +225,8 @@ trait CreatesApplication
     {
         $app = $this->resolveApplication();
 
+        $this->resolveApplicationResolvingCallback($app);
+
         $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
         $this->resolveApplicationCore($app);
@@ -244,26 +246,25 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap(new Application($this->getBasePath()), $this->resolveApplicationResolvingCallback());
+        return new Application($this->getBasePath());
     }
 
     /**
-     * Resolve application implementation.
+     * Resolve application resolving callback.
      *
-     * @return \Closure(\Illuminate\Foundation\Application): void
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
      */
-    protected function resolveApplicationResolvingCallback(): Closure
+    protected function resolveApplicationResolvingCallback($app): void
     {
-        return function ($app) {
-            $app->bind(
-                'Illuminate\Foundation\Bootstrap\LoadConfiguration',
-                static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
-                    ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
-                    : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
-            );
+        $app->bind(
+            'Illuminate\Foundation\Bootstrap\LoadConfiguration',
+            static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
+                ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
+                : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
+        );
 
-            PackageManifest::swap($app, $this);
-        };
+        PackageManifest::swap($app, $this);
     }
 
     /**
