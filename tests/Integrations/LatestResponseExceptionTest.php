@@ -9,12 +9,8 @@ use Orchestra\Testbench\TestCase;
 
 class LatestResponseExceptionTest extends TestCase
 {
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function defineEnvironment($app)
     {
         $app->make('config')->set(['app.debug' => false]);

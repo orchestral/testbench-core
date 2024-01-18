@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
@@ -154,6 +155,20 @@ function parse_environment_variables($variables): array
 }
 
 /**
+ * Refresh router lookups.
+ *
+ * @api
+ *
+ * @param  \Illuminate\Routing\Router  $router
+ * @return void
+ */
+function refresh_router_lookups(Router $router): void
+{
+    $router->getRoutes()->refreshNameLookups();
+    $router->getRoutes()->refreshActionLookups();
+}
+
+/**
  * Transform relative path.
  *
  * @api
@@ -167,6 +182,14 @@ function transform_relative_path(string $path, string $workingPath): string
     return str_starts_with($path, './')
         ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
         : $path;
+}
+
+/**
+ * Get the default skeleton path
+ */
+function default_skeleton_path(string $path = ''): string
+{
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', $path));
 }
 
 /**

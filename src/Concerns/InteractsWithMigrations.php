@@ -16,10 +16,12 @@ trait InteractsWithMigrations
     /**
      * Define hooks to migrate the database before and after each test.
      *
+     * @api
+     *
      * @param  string|array<string, mixed>  $paths
      * @return void
      */
-    protected function loadMigrationsFrom($paths): void
+    protected function loadMigrationsFrom(string|array $paths): void
     {
         $this->loadMigrationsWithoutRollbackFrom($paths);
 
@@ -31,10 +33,12 @@ trait InteractsWithMigrations
     /**
      * Define hooks to migrate the database before each test without rollback after.
      *
+     * @api
+     *
      * @param  string|array<string, mixed>  $paths
      * @return void
      */
-    protected function loadMigrationsWithoutRollbackFrom($paths): void
+    protected function loadMigrationsWithoutRollbackFrom(string|array $paths): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -49,10 +53,12 @@ trait InteractsWithMigrations
     /**
      * Resolve Package Migrations Artisan command options.
      *
+     * @internal
+     *
      * @param  string|array<string, mixed>  $paths
      * @return array
      */
-    protected function resolvePackageMigrationsOptions($paths = []): array
+    protected function resolvePackageMigrationsOptions(string|array $paths = []): array
     {
         $options = \is_array($paths) ? $paths : ['--path' => $paths];
 
@@ -68,10 +74,12 @@ trait InteractsWithMigrations
     /**
      * Migrate Laravel's default migrations.
      *
+     * @api
+     *
      * @param  string|array<string, mixed>  $database
      * @return void
      */
-    protected function loadLaravelMigrations($database = []): void
+    protected function loadLaravelMigrations(string|array $database = []): void
     {
         $this->loadLaravelMigrationsWithoutRollback($database);
 
@@ -87,10 +95,12 @@ trait InteractsWithMigrations
     /**
      * Migrate Laravel's default migrations without rollback.
      *
+     * @api
+     *
      * @param  string|array<string, mixed>  $database
      * @return void
      */
-    protected function loadLaravelMigrationsWithoutRollback($database = []): void
+    protected function loadLaravelMigrationsWithoutRollback(string|array $database = []): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -108,10 +118,12 @@ trait InteractsWithMigrations
     /**
      * Migrate all Laravel's migrations.
      *
+     * @api
+     *
      * @param  string|array<string, mixed>  $database
      * @return void
      */
-    protected function runLaravelMigrations($database = []): void
+    protected function runLaravelMigrations(string|array $database = []): void
     {
         $this->runLaravelMigrationsWithoutRollback($database);
 
@@ -123,10 +135,12 @@ trait InteractsWithMigrations
     /**
      * Migrate all Laravel's migrations without rollback.
      *
+     * @api
+     *
      * @param  string|array<string, mixed>  $database
      * @return void
      */
-    protected function runLaravelMigrationsWithoutRollback($database = []): void
+    protected function runLaravelMigrationsWithoutRollback(string|array $database = []): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -140,10 +154,12 @@ trait InteractsWithMigrations
     /**
      * Resolve Laravel Migrations Artisan command options.
      *
+     * @internal
+     *
      * @param  string|array<string, mixed>  $database
      * @return array
      */
-    protected function resolveLaravelMigrationsOptions($database = []): array
+    protected function resolveLaravelMigrationsOptions(string|array $database = []): array
     {
         $options = \is_array($database) ? $database : ['--database' => $database];
 

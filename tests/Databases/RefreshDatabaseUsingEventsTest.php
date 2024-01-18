@@ -14,13 +14,10 @@ use PHPUnit\Framework\Attributes\Test;
 #[WithConfig('database.default', 'testing')]
 class RefreshDatabaseUsingEventsTest extends TestCase
 {
-    use RefreshDatabase, WithWorkbench;
+    use RefreshDatabase;
+    use WithWorkbench;
 
-    /**
-     * Perform any work that should take place once the database has finished refreshing.
-     *
-     * @return void
-     */
+    /** {@inheritDoc} */
     protected function afterRefreshingDatabase()
     {
         Schema::create('testbench_staffs', function ($table) {
@@ -32,11 +29,8 @@ class RefreshDatabaseUsingEventsTest extends TestCase
         });
     }
 
-    /**
-     * Destroy database migrations.
-     *
-     * @return void
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function destroyDatabaseMigrations()
     {
         Schema::dropIfExists('testbench_staffs');

@@ -13,8 +13,6 @@ use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 
 /**
- * @internal
- *
  * @phpstan-import-type TTestingFeature from \Orchestra\Testbench\PHPUnit\AttributeParser
  * @phpstan-import-type TAttributes from \Orchestra\Testbench\PHPUnit\AttributeParser
  */
@@ -39,6 +37,8 @@ trait InteractsWithTestCase
     /**
      * Determine if the trait is used Orchestra\Testbench\Concerns\Testing trait.
      *
+     * @api
+     *
      * @param  class-string|null  $trait
      * @return bool
      */
@@ -49,6 +49,8 @@ trait InteractsWithTestCase
 
     /**
      * Define or get the cached uses for test case.
+     *
+     * @internal
      *
      * @return array<class-string, class-string>
      */
@@ -66,6 +68,8 @@ trait InteractsWithTestCase
 
     /**
      * Uses testing feature (attribute) on the current test.
+     *
+     * @api
      *
      * @param  object  $attribute
      * @return void
@@ -109,6 +113,8 @@ trait InteractsWithTestCase
     /**
      * Prepare the testing environment before the running the test case.
      *
+     * @internal
+     *
      * @return void
      */
     protected function setUpTheTestEnvironmentUsingTestCase(): void
@@ -127,6 +133,8 @@ trait InteractsWithTestCase
 
     /**
      * Prepare the testing environment before the running the test case.
+     *
+     * @internal
      *
      * @return void
      */
@@ -147,6 +155,8 @@ trait InteractsWithTestCase
     /**
      * Prepare the testing environment before the running the test case.
      *
+     * @internal
+     *
      * @return void
      *
      * @codeCoverageIgnore
@@ -163,6 +173,8 @@ trait InteractsWithTestCase
 
     /**
      * Clean up the testing environment before the next test case.
+     *
+     * @internal
      *
      * @return void
      *

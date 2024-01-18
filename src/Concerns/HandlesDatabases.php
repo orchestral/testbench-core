@@ -17,6 +17,8 @@ trait HandlesDatabases
     /**
      * Setup database requirements.
      *
+     * @internal
+     *
      * @param  \Closure():void  $callback
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
@@ -75,6 +77,8 @@ trait HandlesDatabases
     /**
      * Determine if using in-memory SQLite database connection
      *
+     * @api
+     *
      * @param  string|null  $connection
      * @return bool
      */
@@ -119,6 +123,8 @@ trait HandlesDatabases
     /**
      * Define database migrations.
      *
+     * @api
+     *
      * @return void
      */
     protected function defineDatabaseMigrations()
@@ -128,6 +134,8 @@ trait HandlesDatabases
 
     /**
      * Define database migrations after database refreshed.
+     *
+     * @api
      *
      * @return void
      */
@@ -139,6 +147,8 @@ trait HandlesDatabases
     /**
      * Destroy database migrations.
      *
+     * @api
+     *
      * @return void
      */
     protected function destroyDatabaseMigrations()
@@ -148,6 +158,8 @@ trait HandlesDatabases
 
     /**
      * Define database seeders.
+     *
+     * @api
      *
      * @return void
      */

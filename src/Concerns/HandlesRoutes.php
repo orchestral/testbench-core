@@ -9,15 +9,15 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\refresh_router_lookups;
 use function Orchestra\Testbench\remote;
 
-/**
- * @internal
- */
 trait HandlesRoutes
 {
     /**
      * Setup routes requirements.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      */
@@ -52,11 +52,13 @@ trait HandlesRoutes
             }
         );
 
-        $router->getRoutes()->refreshNameLookups();
+        refresh_router_lookups($router);
     }
 
     /**
      * Define routes setup.
+     *
+     * @api
      *
      * @param  \Illuminate\Routing\Router  $router
      * @return void
@@ -69,6 +71,8 @@ trait HandlesRoutes
     /**
      * Define web routes setup.
      *
+     * @api
+     *
      * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
@@ -79,6 +83,8 @@ trait HandlesRoutes
 
     /**
      * Define cache routes setup.
+     *
+     * @api
      *
      * @param  string  $route
      * @return void
@@ -113,6 +119,11 @@ trait HandlesRoutes
 
     /**
      * Require application cached routes.
+     *
+     * @internal
+     *
+     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @return void
      */
     protected function requireApplicationCachedRoutes(Filesystem $files): void
     {

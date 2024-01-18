@@ -110,6 +110,6 @@ final class LoadMigrationsFromArray
         return
             workbench()['install'] === true
             && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true
-            && is_dir(laravel_migration_path());
+            && rescue(fn () => is_dir(laravel_migration_path()), false, false);
     }
 }

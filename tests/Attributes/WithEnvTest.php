@@ -14,6 +14,7 @@ class WithEnvTest extends TestCase
     /**
      * Teardown the test environment.
      */
+    #[\Override]
     protected function tearDown(): void
     {
         m::close();

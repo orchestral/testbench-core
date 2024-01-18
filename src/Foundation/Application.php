@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
-use Illuminate\Foundation\Configuration\ApplicationBuilder;
+use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -34,7 +34,7 @@ use function Illuminate\Filesystem\join_paths;
 class Application
 {
     use CreatesApplication {
-        resolveApplication as protected resolveApplicationFromTrait;
+        resolveApplicationResolvingCallback as protected resolveApplicationResolvingCallbackFromTrait;
         resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
     }
 
@@ -176,6 +176,7 @@ class Application
         ConvertEmptyStringsToNull::flushState();
         HandleExceptions::flushState();
         Queue::createPayloadUsing(null);
+        RegisterProviders::flushState();
         Sleep::fake(false);
         AboutCommand::flushState();
         TrimStrings::flushState();
@@ -244,23 +245,18 @@ class Application
     }
 
     /**
-     * Resolve application implementation.
+     * Resolve application resolving callback.
      *
-     * @return \Illuminate\Foundation\Application
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
      */
-    protected function resolveApplication()
+    protected function resolveApplicationResolvingCallback($app): void
     {
-        return tap(
-            (new ApplicationBuilder($this->resolveApplicationFromTrait()))
-                ->withMiddleware(fn ($middleware) => $middleware)
-                ->withCommands()
-                ->create(),
-            function ($app) {
-                if (\is_callable($this->resolvingCallback)) {
-                    \call_user_func($this->resolvingCallback, $app);
-                }
-            }
-        );
+        $this->resolveApplicationResolvingCallbackFromTrait($app);
+
+        if (\is_callable($this->resolvingCallback)) {
+            \call_user_func($this->resolvingCallback, $app);
+        }
     }
 
     /**

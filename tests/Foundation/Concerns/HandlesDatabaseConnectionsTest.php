@@ -12,9 +12,8 @@ class HandlesDatabaseConnectionsTest extends TestCase
 {
     use HandlesDatabaseConnections;
 
-    /**
-     * Teardown the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function tearDown(): void
     {
         m::close();

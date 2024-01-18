@@ -13,6 +13,13 @@ class DiscoversTest extends TestCase
     use InteractsWithViews;
     use WithWorkbench;
 
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
+    }
+
     #[Test]
     public function it_can_resolve_web_routes_from_discovers()
     {

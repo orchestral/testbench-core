@@ -19,7 +19,9 @@ use PHPUnit\Framework\Attributes\Test;
 #[WithConfig('database.default', 'testing')]
 class RefreshDatabaseTest extends TestCase
 {
-    use RefreshDatabase, WithLaravelMigrations, WithWorkbench;
+    use RefreshDatabase;
+    use WithLaravelMigrations;
+    use WithWorkbench;
 
     #[Test]
     public function it_runs_the_migrations()

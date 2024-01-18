@@ -6,14 +6,14 @@ use Closure;
 use Illuminate\Support\Collection;
 
 /**
- * @internal
- *
  * @deprecated
  */
 trait HandlesAnnotations
 {
     /**
      * Parse test method annotations.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  string  $name

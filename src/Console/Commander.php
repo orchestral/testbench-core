@@ -11,11 +11,10 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -55,6 +54,15 @@ class Commander
     protected string $environmentFile = '.env';
 
     /**
+     * List of providers.
+     *
+     * @var array<int, class-string<\Illuminate\Support\ServiceProvider>>
+     */
+    protected array $providers = [
+        TestbenchServiceProvider::class,
+    ];
+
+    /**
      * Construct a new Commander.
      *
      * @param  array|\Orchestra\Testbench\Foundation\Config  $config
@@ -91,7 +99,7 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
-            Application::flushState();
+            Testbench::flushState();
 
             $this->untrap();
         }
@@ -107,39 +115,25 @@ class Commander
     public function laravel()
     {
         if (! $this->app instanceof LaravelApplication) {
-            $laravelBasePath = $this->getBasePath();
+            $APP_BASE_PATH = $this->getBasePath();
 
-            tap(Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($laravelBasePath) {
+            tap(Testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($APP_BASE_PATH) {
                 $filesystem = new Filesystem();
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
 
-                if (! file_exists("{$laravelBasePath}/.env")) {
+                if (! file_exists("{$APP_BASE_PATH}/.env")) {
                     $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
                 }
             });
 
-            $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
-
-            $options = array_filter([
-                'load_environment_variables' => $hasEnvironmentFile,
-                'extra' => $this->config->getExtraAttributes(),
-            ]);
-
-            $this->app = Application::create(
-                basePath: $this->getBasePath(),
-                resolvingCallback: function ($app) {
-                    Workbench::startWithProviders($app, $this->config);
-                    Workbench::discoverRoutes($app, $this->config);
-
-                    (new LoadMigrationsFromArray(
-                        $this->config['migrations'] ?? [],
-                        $this->config['seeders'] ?? false,
-                    ))->bootstrap($app);
-
-                    \call_user_func($this->resolveApplicationCallback(), $app);
-                },
-                options: $options,
+            $this->app = Testbench::create(
+                basePath: $APP_BASE_PATH,
+                resolvingCallback: $this->resolveApplicationCallback(),
+                options: array_filter([
+                    'load_environment_variables' => file_exists("{$APP_BASE_PATH}/.env"),
+                    'extra' => $this->config->getExtraAttributes(),
+                ]),
             );
         }
 
@@ -153,9 +147,29 @@ class Commander
      */
     protected function resolveApplicationCallback()
     {
-        return static function ($app) {
-            $app->register(TestbenchServiceProvider::class);
+        return function ($app) {
+            Workbench::startWithProviders($app, $this->config);
+            Workbench::discoverRoutes($app, $this->config);
+
+            (new LoadMigrationsFromArray(
+                $this->config['migrations'] ?? [],
+                $this->config['seeders'] ?? false,
+            ))->bootstrap($app);
+
+            foreach ($this->providers as $provider) {
+                $app->register($provider);
+            }
         };
+    }
+
+    /**
+     * Get Application base path.
+     *
+     * @return string
+     */
+    public static function applicationBasePath()
+    {
+        return Testbench::applicationBasePath();
     }
 
     /**
@@ -167,23 +181,13 @@ class Commander
     {
         $path = $this->config['laravel'] ?? null;
 
-        if (! \is_null($path)) {
+        if (! \is_null($path) && ! isset($_ENV['APP_BASE_PATH'])) {
             return tap(transform_relative_path($path, $this->workingPath), static function ($path) {
-                Env::set('APP_BASE_PATH', $path);
+                $_ENV['APP_BASE_PATH'] = $path;
             });
         }
 
         return static::applicationBasePath();
-    }
-
-    /**
-     * Get Application base path.
-     *
-     * @return string
-     */
-    public static function applicationBasePath()
-    {
-        return Application::applicationBasePath();
     }
 
     /**
