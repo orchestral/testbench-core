@@ -24,6 +24,7 @@ use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+
 use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
