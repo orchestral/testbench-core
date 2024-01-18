@@ -163,29 +163,6 @@ class Application
     }
 
     /**
-     * Resolve application core using environment variables.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @param  array  $env
-     * @param  bool  $loadEnvironmentVariables
-     * @return void
-     */
-    public static function withEnvironmentVariables($app, array $env, bool $loadEnvironmentVariables): void
-    {
-        Env::disablePutenv();
-
-        $app->terminating(static function () {
-            Env::enablePutenv();
-        });
-
-        if ($loadEnvironmentVariables === true) {
-            $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
-        }
-
-        (new Bootstrap\LoadEnvironmentVariablesFromArray($env))->bootstrap($app);
-    }
-
-    /**
      * Flush the application states.
      *
      * @return void
@@ -300,11 +277,17 @@ class Application
      */
     protected function resolveApplicationEnvironmentVariables($app)
     {
-        static::withEnvironmentVariables(
-            app: $app,
-            env: $this->config['env'] ?? [],
-            loadEnvironmentVariables: $this->loadEnvironmentVariables,
-        );
+        Env::disablePutenv();
+
+        $app->terminating(static function () {
+            Env::enablePutenv();
+        });
+
+        if ($this->loadEnvironmentVariables === true) {
+            $app->make(LoadEnvironmentVariables::class)->bootstrap($app);
+        }
+
+        (new Bootstrap\LoadEnvironmentVariablesFromArray($this->config['env'] ?? []))->bootstrap($app);
     }
 
     /**
