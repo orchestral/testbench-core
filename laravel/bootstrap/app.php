@@ -7,15 +7,13 @@ use Orchestra\Testbench\Workbench\Workbench;
 
 use function Illuminate\Filesystem\join_paths;
 
-$TESTBENCH_RESOLVING_CALLBACK ??= null;
-
 /**
  * Create Laravel application.
  *
  * @param  string  $workingPath
  * @return \Illuminate\Foundation\Application
  */
-$createApp = static function (string $workingPath) use ($TESTBENCH_RESOLVING_CALLBACK) {
+$createApp = static function (string $workingPath) {
     $config = Config::loadFromYaml(
         defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
     );
@@ -27,7 +25,7 @@ $createApp = static function (string $workingPath) use ($TESTBENCH_RESOLVING_CAL
     return Application::create(
         basePath: $config['laravel'],
         options: ['load_environment_variables' => $hasEnvironmentFile, 'extra' => $config->getExtraAttributes()],
-        resolvingCallback: $TESTBENCH_RESOLVING_CALLBACK ?? static function ($app) use ($config) {
+        resolvingCallback: static function ($app) use ($config) {
             Workbench::startWithProviders($app, $config);
             Workbench::discoverRoutes($app, $config);
         },

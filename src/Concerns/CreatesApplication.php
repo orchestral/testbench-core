@@ -250,11 +250,12 @@ trait CreatesApplication
      *
      * @api
      *
+     * @param  string  $filename
      * @return string
      */
-    protected function getDefaultApplicationBootstrapFile()
+    protected function getDefaultApplicationBootstrapFile(string $filename): string
     {
-        return default_skeleton_path(join_paths('bootstrap', 'app.php'));
+        return default_skeleton_path(join_paths('bootstrap', $filename));
     }
 
     /**
@@ -269,7 +270,7 @@ trait CreatesApplication
     {
         $file = join_paths($this->getBasePath(), 'bootstrap', $filename);
 
-        if ($this->getDefaultApplicationBootstrapFile() === $file) {
+        if ($this->getDefaultApplicationBootstrapFile($filename) === $file) {
             return static::usesTestingConcern(WithWorkbench::class) && is_file($workbenchFile = workbench_path(join_paths('bootstrap', $filename)))
                 ? $workbenchFile
                 : null;

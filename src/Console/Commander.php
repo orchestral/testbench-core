@@ -25,7 +25,6 @@ use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
 use function Illuminate\Filesystem\join_paths;
-use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\transform_relative_path;
 
 class Commander
@@ -128,14 +127,6 @@ class Commander
                 }
             });
 
-            if (! \is_null($APP_BOOTSTRAP_FILE = $this->getApplicationBootstrapFile())) {
-                $app = require $APP_BOOTSTRAP_FILE;
-
-                value($this->resolveApplicationCallback(), $app);
-
-                return $this->app = $app;
-            }
-
             $this->app = Testbench::create(
                 basePath: $APP_BASE_PATH,
                 resolvingCallback: $this->resolveApplicationCallback(),
@@ -197,24 +188,6 @@ class Commander
         }
 
         return static::applicationBasePath();
-    }
-
-    /**
-     * Get application bootstrap file path (if exists).
-     *
-     * @api
-     *
-     * @return string|null
-     */
-    protected function getApplicationBootstrapFile()
-    {
-        $file = join_paths($this->getBasePath(), 'bootstrap', 'app.php');
-
-        if (default_skeleton_path(join_paths('bootstrap', 'app.php')) !== $file && is_file($file)) {
-            return $file;
-        }
-
-        return null;
     }
 
     /**
