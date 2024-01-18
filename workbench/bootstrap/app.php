@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\default_skeleton_path;
 
 /**
  * The first thing we will do is create a new Laravel application instance
@@ -12,7 +13,7 @@ use function Illuminate\Filesystem\join_paths;
  * also use the application to configure core, foundational behavior.
  */
 
-return Application::configure((string) realpath(join_paths(__DIR__, '..', '..', 'laravel')))
+return Application::configure(default_skeleton_path())
     ->withProviders()
     ->withRouting(
         web: __DIR__.'/web.php',
