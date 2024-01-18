@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Closure;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
@@ -234,6 +233,8 @@ trait CreatesApplication
     {
         $app = $this->resolveApplication();
 
+        $this->resolveApplicationResolvingCallback($app);
+
         $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
         $this->resolveApplicationCore($app);
@@ -263,26 +264,25 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap($this->resolveDefaultApplication(), $this->resolveApplicationResolvingCallback());
+        return $this->resolveDefaultApplication();
     }
 
     /**
-     * Resolve application implementation.
+     * Resolve application resolving callback.
      *
-     * @return \Closure(\Illuminate\Foundation\Application): void
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
      */
-    protected function resolveApplicationResolvingCallback(): Closure
+    protected function resolveApplicationResolvingCallback($app): void
     {
-        return function ($app) {
-            $app->bind(
-                'Illuminate\Foundation\Bootstrap\LoadConfiguration',
-                static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
-                    ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
-                    : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
-            );
+        $app->bind(
+            'Illuminate\Foundation\Bootstrap\LoadConfiguration',
+            static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
+                ? 'Orchestra\Testbench\Bootstrap\LoadConfiguration'
+                : 'Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench'
+        );
 
-            PackageManifest::swap($app, $this);
-        };
+        PackageManifest::swap($app, $this);
     }
 
     /**
