@@ -243,7 +243,17 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        return tap(new Application($this->getBasePath()), function ($app) {
+        return tap(new Application($this->getBasePath()), $this->resolveApplicationResolvingCallback());
+    }
+
+    /**
+     * Resolve application implementation.
+     *
+     * @return \Closure(\Illuminate\Foundation\Application): void
+     */
+    protected function resolveApplicationResolvingCallback(): Closure
+    {
+        return function ($app) {
             $app->bind(
                 'Illuminate\Foundation\Bootstrap\LoadConfiguration',
                 static::usesTestingConcern() && ! static::usesTestingConcern(WithWorkbench::class)
@@ -252,7 +262,7 @@ trait CreatesApplication
             );
 
             PackageManifest::swap($app, $this);
-        });
+        };
     }
 
     /**
