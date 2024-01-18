@@ -15,7 +15,7 @@ use function Illuminate\Filesystem\join_paths;
 return Application::configure((string) realpath(join_paths(__DIR__, '..', '..', 'laravel')))
     ->withProviders()
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
+        web: __DIR__.'/web.php',
         // api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         // channels: __DIR__.'/../routes/channels.php',

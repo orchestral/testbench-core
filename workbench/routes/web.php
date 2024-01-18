@@ -17,8 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/dashboard', function () {
-    return 'workbench::dashboard';
-})->middleware(['auth'])->name('dashboard');
-
 Route::view('/testbench', 'workbench::testbench')->name('testbench');

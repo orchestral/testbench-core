@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
@@ -23,7 +24,6 @@ use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-
 use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
@@ -268,11 +268,11 @@ trait CreatesApplication
     {
         $file = join_paths($this->getBasePath(), 'bootstrap', 'app.php');
 
-        if ($this->getDefaultApplicationBootstrapFile() !== $file && is_file($file)) {
-            return $file;
+        if ($this->getDefaultApplicationBootstrapFile() === $file) {
+            return null;
         }
 
-        return null;
+        return is_file($file) ? $file : null;
     }
 
     /**
@@ -327,11 +327,17 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        $bootstrapFile = $this->getApplicationBootstrapFile();
+        $basePath = $this->getBasePath();
 
-        $app = ! \is_null($bootstrapFile)
-            ? require $bootstrapFile
-            : $this->resolveDefaultApplication();
+        if (! \is_null($bootstrapFile = $this->getApplicationBootstrapFile())) {
+            // tap(new Filesystem(), static function ($files) use ($basePath) {
+            //     $files->delete(join_paths($basePath, 'bootstrap', 'cache', 'services.php'));
+            // });
+
+            $app = require $bootstrapFile;
+        } else {
+            $app = $this->resolveDefaultApplication();
+        }
 
         value($this->resolveApplicationResolvingCallback(), $app);
 
@@ -557,11 +563,11 @@ trait CreatesApplication
             $this->bootDiscoverRoutesForWorkbench($app); // @phpstan-ignore-line
         }
 
-        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
-
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
             $this->setUpApplicationRoutes($app); // @phpstan-ignore-line
         }
+
+        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
             $app->make($bootstrap)->bootstrap($app);
