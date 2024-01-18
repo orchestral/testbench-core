@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
@@ -328,13 +327,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        $basePath = $this->getBasePath();
-
         if (! \is_null($bootstrapFile = $this->getApplicationBootstrapFile())) {
-            // tap(new Filesystem(), static function ($files) use ($basePath) {
-            //     $files->delete(join_paths($basePath, 'bootstrap', 'cache', 'services.php'));
-            // });
-
             $app = require $bootstrapFile;
         } else {
             $app = $this->resolveDefaultApplication();
