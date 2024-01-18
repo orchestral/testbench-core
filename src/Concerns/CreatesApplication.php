@@ -334,6 +334,8 @@ trait CreatesApplication
     protected function resolveApplication()
     {
         if (! \is_null($bootstrapFile = $this->getApplicationBootstrapFile('app.php'))) {
+            $APP_BASE_PATH = $this->getBasePath();
+
             return require $bootstrapFile;
         }
 

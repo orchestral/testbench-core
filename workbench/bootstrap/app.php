@@ -12,7 +12,7 @@ use function Orchestra\Testbench\default_skeleton_path;
  * also use the application to configure core, foundational behavior.
  */
 
-return Application::configure(default_skeleton_path())
+return Application::configure($APP_BASE_PATH ?? default_skeleton_path())
     ->withProviders()
     ->withRouting(
         web: __DIR__.'/web.php',
