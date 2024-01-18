@@ -4,7 +4,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
-use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\default_skeleton_path;
 
 /**

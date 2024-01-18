@@ -3,21 +3,14 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\Attributes\DefineRoute;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-use function Illuminate\Filesystem\join_paths;
-use function Orchestra\Testbench\workbench_path;
-
 class SlimSkeletonApplicationTest extends TestCase
 {
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function getApplicationBootstrapFile()
-    {
-        return workbench_path(join_paths('bootstrap', 'app.php'));
-    }
+    use WithWorkbench;
 
     /** {@inheritDoc} */
     #[\Override]

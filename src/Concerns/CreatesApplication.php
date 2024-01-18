@@ -28,6 +28,7 @@ use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
+use function Orchestra\Testbench\workbench_path;
 
 /**
  * @property bool|null $enablesPackageDiscoveries
@@ -262,14 +263,17 @@ trait CreatesApplication
      *
      * @api
      *
+     * @param  string  $filename
      * @return string|null
      */
-    protected function getApplicationBootstrapFile()
+    protected function getApplicationBootstrapFile(string $filename): ?string
     {
-        $file = join_paths($this->getBasePath(), 'bootstrap', 'app.php');
+        $file = join_paths($this->getBasePath(), 'bootstrap', $filename);
 
         if ($this->getDefaultApplicationBootstrapFile() === $file) {
-            return null;
+            return static::usesTestingConcern(WithWorkbench::class) && is_file($workbenchFile = workbench_path(join_paths('bootstrap', $filename)))
+                ? $workbenchFile
+                : null;
         }
 
         return is_file($file) ? $file : null;
@@ -327,7 +331,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        if (! \is_null($bootstrapFile = $this->getApplicationBootstrapFile())) {
+        if (! \is_null($bootstrapFile = $this->getApplicationBootstrapFile('app.php'))) {
             $app = require $bootstrapFile;
         } else {
             $app = $this->resolveDefaultApplication();
@@ -418,7 +422,7 @@ trait CreatesApplication
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
 
-            if (is_file($bootstrapProviderPath = join_paths($this->getBasePath(), 'bootstrap', 'providers.php'))) {
+            if (! \is_null($bootstrapProviderPath = $this->getApplicationBootstrapFile('providers.php'))) {
                 RegisterProviders::merge([], $bootstrapProviderPath);
             }
 
