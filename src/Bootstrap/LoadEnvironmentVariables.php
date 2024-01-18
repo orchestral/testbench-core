@@ -23,7 +23,7 @@ final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\Lo
     {
         if (! file_exists(join_paths($app->environmentPath(), $app->environmentFile()))) {
             return Dotenv::create(
-                Env::getRepository(), join_paths((string) realpath(__DIR__), 'stubs'), '.env.testbench'
+                Env::getRepository(), (string) realpath(join_paths(__DIR__, 'stubs'), '.env.testbench'
             );
         }
 
