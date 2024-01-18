@@ -236,7 +236,7 @@ trait CreatesApplication
     /**
      * Get base path.
      *
-     * @api
+     * @internal
      *
      * @return string
      */
@@ -248,7 +248,7 @@ trait CreatesApplication
     /**
      * Get the default application bootstrap file path (if exists).
      *
-     * @api
+     * @internal
      *
      * @param  string  $filename
      * @return string
@@ -261,7 +261,7 @@ trait CreatesApplication
     /**
      * Get application bootstrap file path (if exists).
      *
-     * @api
+     * @internal
      *
      * @param  string  $filename
      * @return string|null
@@ -282,7 +282,7 @@ trait CreatesApplication
     /**
      * Creates the application.
      *
-     * @api
+     * @internal
      *
      * @return \Illuminate\Foundation\Application
      */
