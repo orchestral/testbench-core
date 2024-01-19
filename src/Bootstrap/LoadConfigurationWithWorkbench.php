@@ -60,7 +60,9 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
         }
 
         LazyCollection::make(function () {
-            foreach (Finder::create()->files()->name('*.php')->in(workbench_path('config')) as $file) {
+            $path = workbench_path('config');
+
+            foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
                 $directory = $this->getNestedDirectory($file, $path);
 
                 yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
