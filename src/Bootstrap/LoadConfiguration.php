@@ -56,14 +56,14 @@ class LoadConfiguration
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
         $this->extendsLoadedConfiguration(
-            LazyCollection::make(static function () use ($app) {
+            LazyCollection::make(function () use ($app) {
                 $path = is_dir($app->basePath('config'))
                     ? $app->basePath('config')
                     : default_skeleton_path('config');
 
                 if (\is_string($path)) {
                     foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-                        $directory = $this->getNestedDirectory($file, $configPath);
+                        $directory = $this->getNestedDirectory($file, $path);
                         yield basename($directory.$file->getRealPath(), '.php') => $file->getRealPath();
                     }
                 }
