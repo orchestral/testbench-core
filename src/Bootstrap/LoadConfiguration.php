@@ -10,7 +10,7 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
 use Symfony\Component\Finder\Finder;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\default_skeleton_path;
 
 /**
  * @internal
@@ -59,7 +59,7 @@ class LoadConfiguration
             LazyCollection::make(static function () use ($app) {
                 $path = is_dir($app->basePath('config'))
                     ? $app->basePath('config')
-                    : (string) realpath(join_paths(__DIR__, '..', '..', 'laravel', 'config'));
+                    : default_skeleton_path('config');
 
                 if (\is_string($path)) {
                     foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
