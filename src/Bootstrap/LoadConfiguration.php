@@ -8,8 +8,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
-use Symfony\Component\Finder\Finder;
 use SplFileInfo;
+use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\default_skeleton_path;
 
@@ -90,7 +90,7 @@ class LoadConfiguration
 
         return $nested;
     }
-    
+
     /**
      * Resolve the configuration file.
      *
