@@ -268,15 +268,16 @@ trait CreatesApplication
      */
     protected function getApplicationBootstrapFile(string $filename): ?string
     {
-        $file = join_paths($this->getBasePath(), 'bootstrap', $filename);
+        $bootstrapFile = (string) realpath(join_paths($this->getBasePath(), 'bootstrap', $filename));
+        $defaultBootstrapFile = (string) realpath($this->getDefaultApplicationBootstrapFile($filename));
 
-        if ($this->getDefaultApplicationBootstrapFile($filename) === $file) {
+        if ($defaultBootstrapFile === $bootstrapFile) {
             return static::usesTestingConcern(WithWorkbench::class) && is_file($workbenchFile = workbench_path(join_paths('bootstrap', $filename)))
-                ? $workbenchFile
+                ? (string) realpath($workbenchFile)
                 : null;
         }
 
-        return is_file($file) ? $file : null;
+        return is_file($bootstrapFile) ? $bootstrapFile : null;
     }
 
     /**
