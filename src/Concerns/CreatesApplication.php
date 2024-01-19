@@ -333,10 +333,12 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        if (! \is_null($bootstrapFile = $this->getApplicationBootstrapFile('app.php'))) {
+        static::$cacheApplicationBootstrapFile ??= ($this->getApplicationBootstrapFile('app.php') ?? false);
+
+        if (static::$cacheApplicationBootstrapFile !== false) {
             $APP_BASE_PATH = $this->getBasePath();
 
-            return require $bootstrapFile;
+            return require static::$cacheApplicationBootstrapFile;
         }
 
         return $this->resolveDefaultApplication();

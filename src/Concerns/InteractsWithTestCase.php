@@ -18,6 +18,13 @@ use Orchestra\Testbench\PHPUnit\AttributeParser;
 trait InteractsWithTestCase
 {
     /**
+     * The cached application bootstrap file.
+     *
+     * @var string|null
+     */
+    protected static string|bool $cacheApplicationBootstrapFile;
+
+    /**
      * The cached uses for test case.
      *
      * @var array<class-string, class-string>|null
@@ -190,5 +197,6 @@ trait InteractsWithTestCase
 
         static::$latestResponse = null; // @phpstan-ignore-line
         static::$testCaseTestingFeatures = [];
+        static::$cacheApplicationBootstrapFile = null;
     }
 }
