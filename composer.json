@@ -55,6 +55,7 @@
         "brianium/paratest": "<6.4.0 || >=7.0.0 <7.1.4 || >=8.0.0",
         "laravel/framework": "<10.40 || >=11.0.0",
         "nunomaduro/collision": "<6.4.0 || >=7.0.0 <7.4.0 || >=8.0.0",
+        "orchestra/testbench-dusk": "<8.21.0 || >=9.0.0",
         "orchestra/workbench": "<1.0.0",
         "phpunit/phpunit": "<9.6.0 || >=10.6.0"
     },
