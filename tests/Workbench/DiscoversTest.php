@@ -55,6 +55,9 @@ class DiscoversTest extends TestCase
     public function it_can_discover_config_files()
     {
         $this->assertSame(InstalledVersions::isInstalled('orchestra/workbench'), config('workbench.installed'));
+
+        $this->assertSame(InstalledVersions::isInstalled('orchestra/workbench'), config('nested.workbench.installed'));
+
     }
 
     /** @test */
