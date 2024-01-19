@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
 use Symfony\Component\Finder\Finder;
+use SplFileInfo;
 
 use function Orchestra\Testbench\default_skeleton_path;
 
@@ -56,14 +57,16 @@ class LoadConfiguration
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
         $this->extendsLoadedConfiguration(
-            LazyCollection::make(static function () use ($app) {
+            LazyCollection::make(function () use ($app) {
                 $path = is_dir($app->basePath('config'))
                     ? $app->basePath('config')
                     : default_skeleton_path('config');
 
                 if (\is_string($path)) {
                     foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-                        yield basename($file->getRealPath(), '.php') => $file->getRealPath();
+                        $directory = $this->getNestedDirectory($file, $path);
+
+                        yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
                     }
                 }
             })
@@ -74,6 +77,24 @@ class LoadConfiguration
         });
     }
 
+    /**
+     * Get the configuration file nesting path.
+     *
+     * @param  \SplFileInfo  $file
+     * @param  string  $configPath
+     * @return string
+     */
+    protected function getNestedDirectory(SplFileInfo $file, string $configPath): string
+    {
+        $directory = $file->getPath();
+
+        if ($nested = trim(str_replace($configPath, '', $directory), DIRECTORY_SEPARATOR)) {
+            $nested = str_replace(DIRECTORY_SEPARATOR, '.', $nested).'.';
+        }
+
+        return $nested;
+    }
+    
     /**
      * Resolve the configuration file.
      *
