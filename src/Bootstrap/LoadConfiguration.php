@@ -65,7 +65,7 @@ class LoadConfiguration
                 if (\is_string($path)) {
                     foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
                         $directory = $this->getNestedDirectory($file, $path);
-                        yield basename($directory.$file->getRealPath(), '.php') => $file->getRealPath();
+                        yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
                     }
                 }
             })
