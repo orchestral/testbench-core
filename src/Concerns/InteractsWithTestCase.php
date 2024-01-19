@@ -22,7 +22,7 @@ trait InteractsWithTestCase
      *
      * @var string|null
      */
-    protected static string|bool $cacheApplicationBootstrapFile;
+    protected static string|bool|null $cacheApplicationBootstrapFile = null;
 
     /**
      * The cached uses for test case.

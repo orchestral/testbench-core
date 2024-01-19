@@ -335,7 +335,7 @@ trait CreatesApplication
     {
         static::$cacheApplicationBootstrapFile ??= ($this->getApplicationBootstrapFile('app.php') ?? false);
 
-        if (static::$cacheApplicationBootstrapFile !== false) {
+        if (\is_string(static::$cacheApplicationBootstrapFile)) {
             $APP_BASE_PATH = $this->getBasePath();
 
             return require static::$cacheApplicationBootstrapFile;
