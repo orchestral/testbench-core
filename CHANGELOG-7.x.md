@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.40.0
+
+### Added
+
+* Added `Orchestra\Testbench\Attributes\WithImmutableDates` attribute to force `Illuminate\Support\Date` to use `Carbon\CarbonImmutable`.
+* Added following helper functions:
+    - `Orchestra\Testbench\default_skeleton_path`
+    - `Orchestra\Testbench\refresh_router_lookups`
+
 ## 7.39.1
 
 Released: 2024-01-10

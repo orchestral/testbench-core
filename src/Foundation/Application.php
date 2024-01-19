@@ -254,7 +254,7 @@ class Application
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    protected function resolveApplicationResolvingCallback($app): void
+    private function resolveApplicationResolvingCallback($app): void
     {
         $this->resolveApplicationResolvingCallbackFromTrait($app);
 
