@@ -190,7 +190,10 @@ function transform_relative_path(string $path, string $workingPath): string
 }
 
 /**
- * Get the default skeleton path
+ * Get the default skeleton path.
+ *
+ * @param  string  $path
+ * @return string
  */
 function default_skeleton_path(string $path = ''): string
 {

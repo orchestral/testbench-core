@@ -273,7 +273,7 @@ trait CreatesApplication
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    protected function resolveApplicationResolvingCallback($app): void
+    private function resolveApplicationResolvingCallback($app): void
     {
         $app->bind(
             'Illuminate\Foundation\Bootstrap\LoadConfiguration',
@@ -467,7 +467,7 @@ trait CreatesApplication
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    final protected function refreshApplicationRouteNameLookups($app)
+    final protected function refreshApplicationRouteNameLookups($app): void
     {
         /** @var \Illuminate\Routing\Router $router */
         $router = $app->make('router');
@@ -500,7 +500,7 @@ trait CreatesApplication
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    final protected function resetApplicationArtisanCommands($app)
+    final protected function resetApplicationArtisanCommands($app): void
     {
         $app[ConsoleKernelContract::class]->setArtisan(null);
     }
