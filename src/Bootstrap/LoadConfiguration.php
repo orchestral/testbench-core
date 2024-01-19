@@ -57,7 +57,7 @@ class LoadConfiguration
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
         $this->extendsLoadedConfiguration(
-            LazyCollection::make(function () use ($app) {
+            LazyCollection::make(static function () use ($app) {
                 $path = is_dir($app->basePath('config'))
                     ? $app->basePath('config')
                     : default_skeleton_path('config');
@@ -65,6 +65,7 @@ class LoadConfiguration
                 if (\is_string($path)) {
                     foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
                         $directory = $this->getNestedDirectory($file, $path);
+
                         yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
                     }
                 }
@@ -83,7 +84,7 @@ class LoadConfiguration
      * @param  string  $configPath
      * @return string
      */
-    protected function getNestedDirectory(SplFileInfo $file, $configPath)
+    protected function getNestedDirectory(SplFileInfo $file, string $configPath): string
     {
         $directory = $file->getPath();
 
