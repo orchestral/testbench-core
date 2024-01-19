@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
 use Symfony\Component\Finder\Finder;
+use SplFileInfo;
 
 use function Orchestra\Testbench\default_skeleton_path;
 
