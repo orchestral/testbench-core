@@ -57,7 +57,6 @@ class DiscoversTest extends TestCase
         $this->assertSame(InstalledVersions::isInstalled('orchestra/workbench'), config('workbench.installed'));
 
         $this->assertSame(InstalledVersions::isInstalled('orchestra/workbench'), config('nested.workbench.installed'));
-
     }
 
     /** @test */
