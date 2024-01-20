@@ -179,7 +179,6 @@ function parse_environment_variables($variables): array
 function refresh_router_lookups(Router $router): void
 {
     $router->getRoutes()->refreshNameLookups();
-    $router->getRoutes()->refreshActionLookups();
 }
 
 /**
