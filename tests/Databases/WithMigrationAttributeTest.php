@@ -23,7 +23,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('cache'));
         $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
-        $this->assertFalse(Schema::hasTable('job_batches'));
+        $this->assertTrue(Schema::hasTable('job_batches'));
     }
 
     #[Test]
@@ -35,7 +35,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('cache'));
         $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
-        $this->assertFalse(Schema::hasTable('job_batches'));
+        $this->assertTrue(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertFalse(Schema::hasTable('notifications'));
         $this->assertTrue(Schema::hasTable('sessions'));
@@ -50,7 +50,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('cache'));
         $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
-        $this->assertFalse(Schema::hasTable('job_batches'));
+        $this->assertTrue(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertTrue(Schema::hasTable('notifications'));
         $this->assertTrue(Schema::hasTable('sessions'));
@@ -80,7 +80,7 @@ class WithMigrationAttributeTest extends TestCase
         $this->assertTrue(Schema::hasTable('cache'));
         $this->assertTrue(Schema::hasTable('cache_locks'));
         $this->assertTrue(Schema::hasTable('jobs'));
-        $this->assertFalse(Schema::hasTable('job_batches'));
+        $this->assertTrue(Schema::hasTable('job_batches'));
         $this->assertTrue(Schema::hasTable('failed_jobs'));
         $this->assertFalse(Schema::hasTable('notifications'));
         $this->assertTrue(Schema::hasTable('sessions'));
