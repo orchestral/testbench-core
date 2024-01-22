@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Console;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\Concerns\InteractsWithSignals;
 use Illuminate\Console\Signals;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
@@ -11,7 +10,6 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
@@ -52,6 +50,13 @@ class Commander
      * @var string
      */
     protected string $environmentFile = '.env';
+
+    /**
+     * The testbench implementation class.
+     *
+     * @var class-string<\Orchestra\Testbench\Foundation\Application>
+     */
+    protected static string $testbench = \Orchestra\Testbench\Foundation\Application::class;
 
     /**
      * List of providers.
@@ -99,7 +104,7 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
-            Testbench::flushState();
+            static::$testbench::flushState();
 
             $this->untrap();
         }
@@ -117,7 +122,7 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $APP_BASE_PATH = $this->getBasePath();
 
-            tap(Testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($APP_BASE_PATH) {
+            tap(static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($APP_BASE_PATH) {
                 $filesystem = new Filesystem();
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
@@ -127,7 +132,7 @@ class Commander
                 }
             });
 
-            $this->app = Testbench::create(
+            $this->app = static::$testbench::create(
                 basePath: $APP_BASE_PATH,
                 resolvingCallback: $this->resolveApplicationCallback(),
                 options: array_filter([
@@ -141,7 +146,7 @@ class Commander
     }
 
     /**
-     * Resolve application implementation.
+     * Resolve application implementation callback.
      *
      * @return \Closure(\Illuminate\Foundation\Application): void
      */
@@ -169,7 +174,7 @@ class Commander
      */
     public static function applicationBasePath()
     {
-        return Testbench::applicationBasePath();
+        return static::$testbench::applicationBasePath();
     }
 
     /**
