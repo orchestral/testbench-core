@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.40.1
+
+Released: 2024-01-22
+
+### Changes
+
+* Support nested configuration files.
+
+### Fixes
+
+* Fixes issue with Livewire testing where calling `$router->getRoutes()->refreshActionLookups()` caused tests to fail.
+
 ## 7.40.0
 
 Released: 2024-01-19
