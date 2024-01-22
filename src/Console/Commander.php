@@ -11,6 +11,7 @@ use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
@@ -56,7 +57,7 @@ class Commander
      *
      * @var class-string<\Orchestra\Testbench\Foundation\Application>
      */
-    protected static string $testbench = \Orchestra\Testbench\Foundation\Application::class;
+    protected static string $testbench = Testbench::class;
 
     /**
      * List of providers.
