@@ -78,6 +78,8 @@ Illuminate\Support\Collection::make([
     $files->replaceInFile(['{{tableClassName}}', '{{table}}'], [Illuminate\Support\Str::studly($table), $table], "{$workingPath}/laravel/migrations/{$migration}.php");
 });
 
+$files->put("{$workingPath}/laravel/migrations/queue/.gitkeep", '');
+
 transform([
     PHP_EOL.'APP_KEY=' => PHP_EOL.'APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
     PHP_EOL.'APP_MAINTENANCE_DRIVER=cache' => PHP_EOL.'APP_MAINTENANCE_DRIVER=file',
