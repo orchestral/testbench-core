@@ -11,8 +11,8 @@ use Orchestra\Testbench\TestCase;
 
 class MigrateWithLaravelMigrationsUsingRefreshDatabaseTest extends TestCase
 {
-    use WithLaravelMigrations;
     use RefreshDatabase;
+    use WithLaravelMigrations;
 
     /**
      * Define environment setup.
