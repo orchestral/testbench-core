@@ -18,7 +18,6 @@ use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
 
 use function Illuminate\Filesystem\join_paths;
-use function Orchestra\Testbench\workbench_path;
 
 /**
  * @api

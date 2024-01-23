@@ -27,7 +27,6 @@ use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
-use function Orchestra\Testbench\workbench_path;
 
 /**
  * @property bool|null $enablesPackageDiscoveries

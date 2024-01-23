@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Concerns;
 
-use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Foundation\Application as Testbench;
 
 use function Illuminate\Filesystem\join_paths;
@@ -25,7 +24,7 @@ trait WithLaravelBootstrapFile
         $bootstrapFile = realpath(join_paths($this->getBasePath(), 'bootstrap', $filename));
         $defaultBootstrapFile = $this->getDefaultApplicationBootstrapFile($filename);
 
-        if (is_string($defaultBootstrapFile) && $defaultBootstrapFile === $bootstrapFile) {
+        if (\is_string($defaultBootstrapFile) && $defaultBootstrapFile === $bootstrapFile) {
             if (static::usesTestingConcern(WithWorkbench::class) || $this instanceof Testbench) {
                 return is_file($workbenchFile = workbench_path(join_paths('bootstrap', $filename))) ? (string) realpath($workbenchFile) : false;
             }
