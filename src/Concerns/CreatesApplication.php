@@ -400,7 +400,7 @@ trait CreatesApplication
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
 
-            if (! \is_null($bootstrapProviderPath = $this->getApplicationBootstrapFile('providers.php'))) {
+            if (\is_string($bootstrapProviderPath = $this->getApplicationBootstrapFile('providers.php'))) {
                 RegisterProviders::merge([], $bootstrapProviderPath);
             }
 
