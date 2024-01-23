@@ -36,6 +36,7 @@ use function Orchestra\Testbench\workbench_path;
 trait CreatesApplication
 {
     use InteractsWithWorkbench;
+    use WithLaravelBootstrapFile;
 
     /**
      * Get Application's base path.
@@ -251,33 +252,11 @@ trait CreatesApplication
      * @internal
      *
      * @param  string  $filename
-     * @return string
+     * @return string|false
      */
-    protected function getDefaultApplicationBootstrapFile(string $filename): string
+    protected function getDefaultApplicationBootstrapFile(string $filename): string|false
     {
-        return default_skeleton_path(join_paths('bootstrap', $filename));
-    }
-
-    /**
-     * Get application bootstrap file path (if exists).
-     *
-     * @internal
-     *
-     * @param  string  $filename
-     * @return string|null
-     */
-    protected function getApplicationBootstrapFile(string $filename): ?string
-    {
-        $bootstrapFile = (string) realpath(join_paths($this->getBasePath(), 'bootstrap', $filename));
-        $defaultBootstrapFile = (string) realpath($this->getDefaultApplicationBootstrapFile($filename));
-
-        if ($defaultBootstrapFile === $bootstrapFile) {
-            return static::usesTestingConcern(WithWorkbench::class) && is_file($workbenchFile = workbench_path(join_paths('bootstrap', $filename)))
-                ? (string) realpath($workbenchFile)
-                : null;
-        }
-
-        return is_file($bootstrapFile) ? $bootstrapFile : null;
+        return realpath(default_skeleton_path(join_paths('bootstrap', $filename)));
     }
 
     /**
@@ -334,7 +313,7 @@ trait CreatesApplication
      */
     protected function resolveApplication()
     {
-        static::$cacheApplicationBootstrapFile ??= ($this->getApplicationBootstrapFile('app.php') ?? false);
+        static::$cacheApplicationBootstrapFile ??= $this->getApplicationBootstrapFile('app.php');
 
         if (\is_string(static::$cacheApplicationBootstrapFile)) {
             $APP_BASE_PATH = $this->getBasePath();
