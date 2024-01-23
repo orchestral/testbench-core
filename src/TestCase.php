@@ -90,7 +90,6 @@ abstract class TestCase extends PHPUnit implements Contracts\TestCase
             Concerns\InteractsWithWorkbench::class,
             Concerns\Testing::class,
             Concerns\WithFactories::class,
-            Concerns\WithLaravelMigrations::class,
             Concerns\WithWorkbench::class,
         ]);
     }
