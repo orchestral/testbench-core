@@ -212,6 +212,8 @@ class Application
     /**
      * Ignore package discovery from.
      *
+     * @api
+     *
      * @return array<int, string>
      */
     public function ignorePackageDiscoveriesFrom()
@@ -221,6 +223,8 @@ class Application
 
     /**
      * Get package providers.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
@@ -232,6 +236,8 @@ class Application
 
     /**
      * Get package bootstrapper.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
@@ -270,6 +276,8 @@ class Application
     /**
      * Resolve application resolving callback.
      *
+     * @internal
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -285,6 +293,8 @@ class Application
     /**
      * Get base path.
      *
+     * @internal
+     *
      * @return string
      */
     protected function getBasePath()
@@ -294,6 +304,8 @@ class Application
 
     /**
      * Resolve application core environment variables implementation.
+     *
+     * @internal
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
@@ -316,6 +328,8 @@ class Application
     /**
      * Resolve application core configuration implementation.
      *
+     * @internal
+     *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
@@ -328,6 +342,8 @@ class Application
 
     /**
      * Resolve application Console Kernel implementation.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
@@ -345,6 +361,8 @@ class Application
 
     /**
      * Resolve application HTTP Kernel implementation.
+     *
+     * @api
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
