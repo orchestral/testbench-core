@@ -18,6 +18,7 @@ use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\workbench_path;
 
 /**
  * @api
@@ -242,6 +243,28 @@ class Application
         }
 
         return Arr::wrap($bootstrappers);
+    }
+
+    /**
+     * Get application bootstrap file path (if exists).
+     *
+     * @internal
+     *
+     * @param  string  $filename
+     * @return string|null
+     */
+    protected function getApplicationBootstrapFile(string $filename): ?string
+    {
+        $bootstrapFile = (string) realpath(join_paths($this->getBasePath(), 'bootstrap', $filename));
+        $defaultBootstrapFile = (string) realpath($this->getDefaultApplicationBootstrapFile($filename));
+
+        if ($defaultBootstrapFile === $bootstrapFile) {
+            return is_file($workbenchFile = workbench_path(join_paths('bootstrap', $filename)))
+                ? (string) realpath($workbenchFile)
+                : null;
+        }
+
+        return is_file($bootstrapFile) ? $bootstrapFile : null;
     }
 
     /**
