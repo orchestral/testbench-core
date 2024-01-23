@@ -6,24 +6,15 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithLaravelMigrations;
 use Orchestra\Testbench\TestCase;
 
+#[WithConfig('database.default', 'testing')]
 class MigrateWithLaravelMigrationsUsingRefreshDatabaseTest extends TestCase
 {
     use RefreshDatabase;
     use WithLaravelMigrations;
-
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set('database.default', 'testing');
-    }
 
     /** @test */
     public function it_loads_the_migrations()
