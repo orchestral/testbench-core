@@ -2,6 +2,23 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Vite;
+use Illuminate\Http\Middleware\TrustProxies;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Mail\Mailable;
+use Illuminate\Pagination\AbstractCursorPaginator;
+use Illuminate\Pagination\AbstractPaginator;
+use Illuminate\Queue\Worker;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Routing\Middleware\ValidateSignature;
+
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
@@ -169,17 +186,42 @@ class Application
      */
     public static function flushState(): void
     {
+        AboutCommand::flushState();
+        AbstractCursorPaginator::currentCursorResolver(null);
+        AbstractPaginator::flushState();
         Artisan::forgetBootstrappers();
+        Authenticate::redirectUsing(null);
+        AuthenticationException::redirectUsing(null);
+        Builder::flushState();
         Component::flushCache();
         Component::forgetComponentsResolver();
         Component::forgetFactory();
+        Connection::flushState();
+        Container::setInstance(null);
         ConvertEmptyStringsToNull::flushState();
+        DatabaseServiceProvider::flushState();
+        EncryptCookies::flushState();
         HandleExceptions::flushState();
+        Json::flushState();
+        JsonResource::wrap('data');
+        Mailable::buildViewDataUsing(null);
+        Once::flush();
         Queue::createPayloadUsing(null);
+        RedirectIfAuthenticated::redirectUsing(null);
         RegisterProviders::flushState();
+        ResetPassword::flushState();
+        RouteServiceProvider::loadRoutesUsing(null);
+        ScheduleListCommand::resolveTerminalWidthUsing(null);
+        Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
-        AboutCommand::flushState();
+        ThrottleRequests::shouldHashKeys();
         TrimStrings::flushState();
+        TrustProxies::flushState();
+        ValidateSignature::flushState();
+        VerifyCsrfToken::flushState();
+        VerifyEmail::flushState();
+        Vite::flushState();
+        Worker::flushState();
     }
 
     /**
