@@ -36,6 +36,7 @@ use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Once;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
 use Orchestra\Testbench\Concerns\CreatesApplication;
