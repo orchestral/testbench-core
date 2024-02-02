@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Console\Application as Artisan;
-use Illuminate\Foundation\Bootstrap\HandleExceptions;
+use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Console\AboutCommand;
