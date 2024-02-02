@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Console\Application as Artisan;
-use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -14,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Once;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
+use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
