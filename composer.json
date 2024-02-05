@@ -41,7 +41,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "dev-app-builder-flush as 11.0.0",
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.6",
         "phpstan/phpstan": "^1.10.50",
