@@ -2,18 +2,9 @@
 
 namespace Orchestra\Testbench\Foundation;
 
-use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
-use Illuminate\Foundation\Bootstrap\RegisterProviders;
-use Illuminate\Foundation\Console\AboutCommand;
-use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
-use Illuminate\Foundation\Http\Middleware\TrimStrings;
-use Illuminate\Queue\Queue;
+use Illuminate\Foundation\Configuration\ApplicationBuilder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Once;
-use Illuminate\Support\Sleep;
-use Illuminate\View\Component;
-use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
@@ -170,18 +161,7 @@ class Application
      */
     public static function flushState(): void
     {
-        AboutCommand::flushState();
-        Artisan::forgetBootstrappers();
-        Component::flushCache();
-        Component::forgetComponentsResolver();
-        Component::forgetFactory();
-        ConvertEmptyStringsToNull::flushState();
-        HandleExceptions::flushState();
-        Once::flush();
-        Queue::createPayloadUsing(null);
-        RegisterProviders::flushState();
-        Sleep::fake(false);
-        TrimStrings::flushState();
+        ApplicationBuilder::flushState();
     }
 
     /**
