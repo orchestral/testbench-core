@@ -2,9 +2,12 @@
 
 namespace Orchestra\Testbench\Workbench;
 
+use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\View;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
@@ -12,6 +15,7 @@ use Orchestra\Workbench\WorkbenchServiceProvider;
 
 use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -78,14 +82,26 @@ class Workbench
         /** @var TWorkbenchDiscoversConfig $discoversConfig */
         $discoversConfig = $config->getWorkbenchDiscoversAttributes();
 
-        $app->booted(static function ($app) use ($discoversConfig) {
-            tap($app->make('router'), static function (Router $router) use ($discoversConfig) {
+        $healthCheckEnabled = $config->getWorkbenchAttributes()['health'] ?? false;
+
+        $app->booted(static function ($app) use ($discoversConfig, $healthCheckEnabled) {
+            tap($app->make('router'), static function (Router $router) use ($discoversConfig, $healthCheckEnabled) {
                 foreach (['web', 'api'] as $group) {
                     if (($discoversConfig[$group] ?? false) === true) {
                         if (file_exists($route = workbench_path(join_paths('routes', "{$group}.php")))) {
                             $router->middleware($group)->group($route);
                         }
                     }
+                }
+
+                if ($healthCheckEnabled === true) {
+                    $router->middleware('web')->get('/up', function () {
+                        Event::dispatch(new DiagnosingHealth);
+
+                        return View::file(
+                            package_path(join_paths('vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'))
+                        );
+                    });
                 }
             });
 
