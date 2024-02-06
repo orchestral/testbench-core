@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Workbench;
 
-use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
