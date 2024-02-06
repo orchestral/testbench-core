@@ -13,6 +13,17 @@ class DiscoversTest extends TestCase
     use InteractsWithViews;
     use WithWorkbench;
 
+    /** {@inheritdoc} */
+    #[\Override]
+    protected function setUp(): void
+    {
+        if (! \defined('LARAVEL_START')) {
+            \define('LARAVEL_START', microtime(true));
+        }
+
+        parent::setUp();
+    }
+
     /** {@inheritDoc} */
     #[\Override]
     protected function defineEnvironment($app)
@@ -25,6 +36,14 @@ class DiscoversTest extends TestCase
     {
         $this->get('/hello')
             ->assertOk();
+    }
+
+    #[Test]
+    public function it_can_resolve_health_check_from_discovers()
+    {
+        $this->get('/up')
+            ->assertOk()
+            ->assertSee('HTTP request received. Response successfully rendered in');
     }
 
     #[Test]
