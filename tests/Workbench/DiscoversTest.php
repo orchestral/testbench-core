@@ -43,7 +43,8 @@ class DiscoversTest extends TestCase
     {
         $this->get('/up')
             ->assertOk()
-            ->assertSee('HTTP request received. Response successfully rendered in');
+            ->assertSee('HTTP request received')
+            ->assertSee('Response successfully rendered in');
     }
 
     #[Test]
