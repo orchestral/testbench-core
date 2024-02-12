@@ -4,8 +4,10 @@ namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 
+#[WithConfig('database.default', 'testing')]
 class MigrateWithRealpathTest extends TestCase
 {
     /**
@@ -18,17 +20,6 @@ class MigrateWithRealpathTest extends TestCase
         // call migrations specific to our tests, e.g. to seed the db
         // the path option should be an absolute path.
         $this->loadMigrationsFrom(realpath(__DIR__.'/../../workbench/database/migrations'));
-    }
-
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set('database.default', 'testing');
     }
 
     /** @test */
