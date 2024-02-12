@@ -7,6 +7,7 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
@@ -59,11 +60,11 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  *
  * @api
  *
- * @param  string  $command
+ * @param  string|array  $command
  * @param  array  $env
  * @return \Symfony\Component\Process\Process
  */
-function remote(string $command, array $env = []): Process
+function remote($command, array $env = []): Process
 {
     $phpBinary = transform(
         \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
@@ -74,12 +75,12 @@ function remote(string $command, array $env = []): Process
 
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
-    $commander = realpath(__DIR__.'/../vendor/autoload.php') !== false
-        ? $binary
-        : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$binary}"));
+    $commander = is_file($vendorBin = package_path("vendor/bin/{$binary}"))
+        ? ProcessUtils::escapeArgument((string) $vendorBin)
+        : $binary;
 
     return Process::fromShellCommandline(
-        command: implode(' ', [$phpBinary, $commander, $command]),
+        command: Arr::join([$phpBinary, $commander, ...Arr::wrap($command)], ' '),
         cwd: package_path(),
         env: array_merge(defined_environment_variables(), $env)
     );
