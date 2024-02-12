@@ -4,21 +4,12 @@ namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 
+#[WithConfig('database.default', 'testing')]
 class MigrateWithRealpathAndLaravelTest extends TestCase
 {
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set('database.default', 'testing');
-    }
-
     /**
      * Define database migrations.
      *
