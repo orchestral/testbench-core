@@ -7,10 +7,32 @@ use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
+#[Group('phpunit-configuration')]
 class EnvTest extends TestCase
 {
     #[Test]
-    #[Group('phpunit-configuration')]
+    public function it_can_determined_has_env_values()
+    {
+        $_ENV['TESTING_TRUE_EXAMPLE'] = true;
+        $_ENV['TESTING_FALSE_EXAMPLE'] = false;
+        $_ENV['TESTING_EMPTY_EXAMPLE'] = '';
+
+        $this->assertTrue(Env::has('APP_KEY'));
+        $this->assertFalse(Env::has('ASSET_URL'));
+        $this->assertFalse(Env::has('LOG_DEPRECATIONS_CHANNEL'));
+        $this->assertTrue(Env::has('TESTING_TRUE_EXAMPLE'));
+        $this->assertTrue(Env::has('TESTING_FALSE_EXAMPLE'));
+        $this->assertTrue(Env::has('TESTING_EMPTY_EXAMPLE'));
+
+        unset(
+            $_ENV['TESTING_TRUE_EXAMPLE'],
+            $_ENV['TESTING_FALSE_EXAMPLE'],
+            $_ENV['TESTING_EMPTY_EXAMPLE']
+        );
+    }
+
+    #[Test]
+    #[WithEnv('TESTING_USING_ATTRIBUTE', '(true)')]
     public function it_can_correctly_forward_env_values()
     {
         $_ENV['TESTING_TRUE_EXAMPLE'] = true;
