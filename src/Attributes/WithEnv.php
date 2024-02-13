@@ -32,15 +32,16 @@ final class WithEnv implements InvokableContract
      */
     public function __invoke($app): ?Closure
     {
-        $value = Env::get($this->key, new UndefinedValue());
+        $key = $this->key;
+        $value = Env::get($key, new UndefinedValue());
 
-        Env::set($this->key, $this->value ?? '(null)');
+        Env::set($key, $this->value ?? '(null)');
 
-        return function () use ($value) {
+        return static function () use ($key, $value) {
             if ($value instanceof UndefinedValue) {
-                Env::forget($this->key);
+                Env::forget($key);
             } else {
-                Env::set($this->key, Env::encode($value));
+                Env::set($key, Env::encode($value));
             }
         };
     }

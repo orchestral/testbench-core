@@ -29,15 +29,11 @@ final class Define implements ResolvableContract
      */
     public function resolve(): ?TestingFeature
     {
-        switch (strtolower($this->group)) {
-            case 'env':
-                return new DefineEnvironment($this->method);
-            case 'db':
-                return new DefineDatabase($this->method);
-            case 'route':
-                return new DefineRoute($this->method);
-            default:
-                return null;
-        }
+        return match (strtolower($this->group)) {
+            'env' => new DefineEnvironment($this->method),
+            'db' => new DefineDatabase($this->method),
+            'route' => new DefineRoute($this->method),
+            default => null,
+        };
     }
 }
