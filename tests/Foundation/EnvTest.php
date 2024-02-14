@@ -20,7 +20,7 @@ class EnvTest extends TestCase
 
         $this->assertTrue(Env::has('APP_KEY'));
         $this->assertFalse(Env::has('ASSET_URL'));
-        $this->assertFalse(Env::has('LOG_DEPRECATIONS_CHANNEL'));
+        $this->assertSame(Env::has('TESTBENCH_PACKAGE_TESTER') ? true : false, Env::has('LOG_DEPRECATIONS_CHANNEL'));
         $this->assertTrue(Env::has('TESTING_TRUE_EXAMPLE'));
         $this->assertTrue(Env::has('TESTING_FALSE_EXAMPLE'));
         $this->assertTrue(Env::has('TESTING_EMPTY_EXAMPLE'));
@@ -43,7 +43,7 @@ class EnvTest extends TestCase
         $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::forward('APP_KEY'));
         $this->assertFalse(Env::forward('ASSET_URL'));
         $this->assertSame('(null)', Env::forward('ASSET_URL', null));
-        $this->assertSame(Env::get('TESTBENCH_PACKAGE_TESTER') ? '(null)' : false, Env::forward('LOG_DEPRECATIONS_CHANNEL'));
+        $this->assertSame(Env::has('TESTBENCH_PACKAGE_TESTER') ? '(null)' : false, Env::forward('LOG_DEPRECATIONS_CHANNEL'));
         $this->assertSame('(null)', Env::forward('LOG_DEPRECATIONS_CHANNEL', null));
         $this->assertSame('(true)', Env::forward('TESTING_TRUE_EXAMPLE'));
         $this->assertSame('(false)', Env::forward('TESTING_FALSE_EXAMPLE'));
