@@ -112,7 +112,7 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $laravelBasePath = $this->getBasePath();
 
-            $hasEnvironmentFile = static fn () => file_exists("{$laravelBasePath}/.env");
+            $hasEnvironmentFile = fn () => file_exists("{$laravelBasePath}/.env");
 
             tap(Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor'), function ($app) use ($hasEnvironmentFile) {
                 $filesystem = new Filesystem();
