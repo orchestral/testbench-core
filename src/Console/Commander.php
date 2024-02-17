@@ -114,7 +114,7 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $laravelBasePath = $this->getBasePath();
 
-            $hasEnvironmentFile = file_exists(join_paths($laravelBasePath, '.env'));
+            $hasEnvironmentFile = static fn () => file_exists(join_paths($laravelBasePath, '.env'));
 
             tap(
                 Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')),
@@ -123,14 +123,14 @@ class Commander
 
                     $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
 
-                    if (! $hasEnvironmentFile) {
+                    if (! $hasEnvironmentFile()) {
                         $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
                     }
                 }
             );
 
             $options = array_filter([
-                'load_environment_variables' => $hasEnvironmentFile,
+                'load_environment_variables' => $hasEnvironmentFile(),
                 'extra' => $this->config->getExtraAttributes(),
             ]);
 
