@@ -123,15 +123,18 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $APP_BASE_PATH = $this->getBasePath();
 
-            tap(static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($APP_BASE_PATH) {
-                $filesystem = new Filesystem();
+            $hasEnvironmentFile = static fn () => file_exists(join_paths($APP_BASE_PATH, '.env'));
 
-                $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
+            tap(
+                static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')),
+                function ($app) use ($hasEnvironmentFile) {
+                    $filesystem = new Filesystem();
 
-                if (! file_exists("{$APP_BASE_PATH}/.env")) {
-                    $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+                    if (! $hasEnvironmentFile()) {
+                        $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+                    }
                 }
-            });
+            );
 
             $this->app = static::$testbench::create(
                 basePath: $APP_BASE_PATH,
