@@ -19,7 +19,7 @@ class EnvTest extends TestCase
 
         $this->assertTrue(Env::has('APP_KEY'));
         $this->assertFalse(Env::has('ASSET_URL'));
-        $this->assertFalse(Env::has('LOG_DEPRECATIONS_CHANNEL'));
+        $this->assertSame(Env::has('TESTBENCH_PACKAGE_TESTER') ? true : false, Env::has('LOG_DEPRECATIONS_CHANNEL'));
         $this->assertTrue(Env::has('TESTING_TRUE_EXAMPLE'));
         $this->assertTrue(Env::has('TESTING_FALSE_EXAMPLE'));
         $this->assertTrue(Env::has('TESTING_EMPTY_EXAMPLE'));
