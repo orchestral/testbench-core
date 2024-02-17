@@ -30,6 +30,7 @@ class EnvTest extends TestCase
             $_ENV['TESTING_EMPTY_EXAMPLE']
         );
     }
+
     /** @test */
     public function it_can_correctly_forward_env_values()
     {

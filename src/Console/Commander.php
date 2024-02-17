@@ -114,7 +114,7 @@ class Commander
 
             $hasEnvironmentFile = static fn () => file_exists("{$laravelBasePath}/.env");
 
-            tap(Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor'), function ($app) use ($laravelBasePath, $hasEnvironmentFile) {
+            tap(Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor'), function ($app) use ($hasEnvironmentFile) {
                 $filesystem = new Filesystem();
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
