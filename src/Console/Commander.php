@@ -114,17 +114,20 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $laravelBasePath = $this->getBasePath();
 
-            tap(Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($laravelBasePath) {
-                $filesystem = new Filesystem();
+            $hasEnvironmentFile = file_exists(join_paths($laravelBasePath, '.env'));
 
-                $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
+            tap(
+                Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')),
+                function ($app) use ($laravelBasePath, $hasEnvironmentFile) {
+                    $filesystem = new Filesystem();
 
-                if (! file_exists("{$laravelBasePath}/.env")) {
-                    $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+                    $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
+
+                    if (! $hasEnvironmentFile) {
+                        $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+                    }
                 }
-            });
-
-            $hasEnvironmentFile = file_exists("{$laravelBasePath}/.env");
+            );
 
             $options = array_filter([
                 'load_environment_variables' => $hasEnvironmentFile,
