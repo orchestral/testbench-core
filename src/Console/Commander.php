@@ -112,13 +112,13 @@ class Commander
     public function laravel()
     {
         if (! $this->app instanceof LaravelApplication) {
-            $laravelBasePath = $this->getBasePath();
+            $APP_BASE_PATH = $this->getBasePath();
 
-            $hasEnvironmentFile = static fn () => file_exists(join_paths($laravelBasePath, '.env'));
+            $hasEnvironmentFile = fn () => file_exists(join_paths($APP_BASE_PATH, '.env'));
 
             tap(
-                Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')),
-                function ($app) use ($laravelBasePath, $hasEnvironmentFile) {
+                Application::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')),
+                function ($app) use ($hasEnvironmentFile) {
                     $filesystem = new Filesystem();
 
                     $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
@@ -135,7 +135,7 @@ class Commander
             ]);
 
             $this->app = Application::create(
-                basePath: $this->getBasePath(),
+                basePath: $APP_BASE_PATH,
                 resolvingCallback: function ($app) {
                     Workbench::startWithProviders($app, $this->config);
                     Workbench::discoverRoutes($app, $this->config);
