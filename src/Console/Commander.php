@@ -123,7 +123,7 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $APP_BASE_PATH = $this->getBasePath();
 
-            $hasEnvironmentFile = static fn () => file_exists(join_paths($APP_BASE_PATH, '.env'));
+            $hasEnvironmentFile = fn () => file_exists(join_paths($APP_BASE_PATH, '.env'));
 
             tap(
                 static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')),
