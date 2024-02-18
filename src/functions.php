@@ -187,12 +187,12 @@ function transform_relative_path(string $path, string $workingPath): string
 /**
  * Get the default skeleton path.
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function default_skeleton_path(string $path = ''): string
+function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', $path));
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap($path)));
 }
 
 /**
@@ -200,14 +200,16 @@ function default_skeleton_path(string $path = ''): string
  *
  * @api
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function package_path(string $path = ''): string
+function package_path(array|string $path = ''): string
 {
     $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
         : getcwd();
+
+    $path = join_paths(...Arr::wrap($path));
 
     if (str_starts_with($path, './')) {
         return transform_relative_path($path, $workingPath);
@@ -238,12 +240,12 @@ function workbench(): array
  *
  * @api
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function workbench_path(string $path = ''): string
+function workbench_path(array|string $path = ''): string
 {
-    return package_path(join_paths('workbench', $path));
+    return package_path(join_paths('workbench', ...Arr::wrap($path)));
 }
 
 /**
