@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Env::has()` method.
+
+### Changes
+
+* Allow passing `$command` to `Orchestra\Testbench\remote()` function using `array` instead of just `string`.
+
 ## 7.40.1
 
 Released: 2024-01-22
