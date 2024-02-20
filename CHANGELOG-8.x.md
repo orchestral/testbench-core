@@ -2,6 +2,20 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Env::has()` method.
+
+### Changes
+
+* Allow passing `$command` to `Orchestra\Testbench\remote()` function using `array` instead of just `string`.
+* Allow to following functions to accept array of paths:
+    - `Orchestra\Testbench\default_skeleton_path()`
+    - `Orchestra\Testbench\package_path()`
+    - `Orchestra\Testbench\workbench_path()`
+
 ## 8.21.1
 
 Released: 2024-01-22
