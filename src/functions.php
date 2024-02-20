@@ -64,7 +64,7 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  * @param  array  $env
  * @return \Symfony\Component\Process\Process
  */
-function remote($command, array $env = []): Process
+function remote(string|array $command, array $env = []): Process
 {
     $phpBinary = transform(
         \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
