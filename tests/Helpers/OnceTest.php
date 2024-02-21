@@ -16,7 +16,11 @@ class OnceTest extends TestCase
             $this->app->instance(__CLASS__.'.once', now());
         });
         $stub2 = once(function () {
-            $this->app->instance(__CLASS__.'.once2', now());
+            $this->app->instance(__CLASS__.'.once2', $response = now());
+
+            return tap(now(), function ($response) {
+                $this->app->instance(__CLASS__.'.once2', $response);
+            });
         });
 
         $this->assertFalse($this->app->bound(__CLASS__.'.once'));
@@ -32,9 +36,9 @@ class OnceTest extends TestCase
             $this->assertSame($time, $this->app[__CLASS__.'.once']);
         });
 
-        value($stub2);
+        $response = value($stub2);
 
-        $this->assertTrue($this->app->bound(__CLASS__.'.once'));
         $this->assertTrue($this->app->bound(__CLASS__.'.once2'));
+        $this->assertSame($response, $this->app[__CLASS__.'.once2']);
     }
 }
