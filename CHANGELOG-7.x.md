@@ -2,11 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 7.41.0
+
+Released: 2024-02-21
 
 ### Added
 
 * Added `Orchestra\Testbench\Foundation\Env::has()` method.
+* Added `Orchestra\Testbench\once()` function.
 
 ### Changes
 
