@@ -212,21 +212,8 @@ function refresh_router_lookups(Router $router): void
 function transform_relative_path(string $path, string $workingPath): string
 {
     return Str::startsWith($path, './')
-        ? rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.relative_path(mb_substr($path, 2))
-        : relative_path($path);
-}
-
-/**
- * Resolve relative path.
- *
- * @api
- *
- * @param  string  $path
- * @return string
- */
-function relative_path(string $path): string
-{
-    return str_replace('/', DIRECTORY_SEPARATOR, $path);
+        ? rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.mb_substr($path, 2)
+        : $path;
 }
 
 /**
@@ -237,7 +224,7 @@ function relative_path(string $path): string
  */
 function default_skeleton_path(string $path = ''): string
 {
-    $path = $path != '' ? ltrim(relative_path($path), DIRECTORY_SEPARATOR) : '';
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
     return rtrim((string) realpath(__DIR__."/../laravel/{$path}"), DIRECTORY_SEPARATOR);
 }
@@ -260,7 +247,7 @@ function package_path(string $path = ''): string
         return transform_relative_path($path, $workingPath);
     }
 
-    $path = $path != '' ? ltrim(relative_path($path), DIRECTORY_SEPARATOR) : '';
+    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
     return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
 }
