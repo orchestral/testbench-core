@@ -213,7 +213,7 @@ function refresh_router_lookups(Router $router): void
 function transform_relative_path(string $path, string $workingPath): string
 {
     return str_starts_with($path, './')
-        ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
+        ? rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.mb_substr($path, 2)
         : $path;
 }
 
