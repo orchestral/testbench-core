@@ -90,14 +90,14 @@ function remote(string $command, array $env = []): Process
  */
 function once($callback): Closure
 {
-    $executed = false;
+    $response = new Foundation\UndefinedValue();
 
-    return function () use ($callback, &$executed) {
-        if ($executed !== true) {
-            value($callback);
+    return function () use ($callback, &$response) {
+        if ($response instanceof Foundation\UndefinedValue) {
+            $response = value($callback) ?? null;
         }
 
-        $executed = true;
+        return $response;
     };
 }
 
