@@ -48,7 +48,6 @@ final class TestingFeature
             if ($testCase::usesTestingConcern(HandlesAttributes::class)) {
                 $result['attribute'] = value($attribute, $defaultResolver);
             }
-
         }
 
         if (
