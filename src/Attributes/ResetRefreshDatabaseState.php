@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Orchestra\Testbench\Contracts\Attributes\AfterAll as AfterAllContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
 
-#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
+#[Attribute(Attribute::TARGET_CLASS)]
 final class ResetRefreshDatabaseState implements AfterAllContract, BeforeAllContract
 {
     /**
