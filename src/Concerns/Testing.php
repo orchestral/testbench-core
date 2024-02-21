@@ -14,6 +14,8 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
+use function Orchestra\Testbench\once;
+
 /**
  * @api
  */
@@ -37,20 +39,22 @@ trait Testing
      */
     final protected function setUpTheTestEnvironment(): void
     {
-        $setUp = function () {
+        $setUp = once(function () {
             $this->setUpTheApplicationTestingHooks(function () {
                 $this->setUpTraits();
             });
-        };
+        });
 
         /** @phpstan-ignore-next-line */
         if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
             $this->setUpTheEnvironmentUsingPest(); // @phpstan-ignore-line
         }
 
-        $this->testCaseSetUpCallback instanceof Closure
-            ? value($this->testCaseSetUpCallback, $setUp)
-            : value($setUp);
+        if ($this->testCaseSetUpCallback instanceof Closure) {
+            value($this->testCaseSetUpCallback, $setUp);
+        }
+
+        value($setUp);
     }
 
     /**
@@ -62,7 +66,7 @@ trait Testing
      */
     final protected function tearDownTheTestEnvironment(): void
     {
-        $tearDown = function () {
+        $tearDown = once(function () {
             $this->tearDownTheApplicationTestingHooks(function () {
                 if (property_exists($this, 'serverVariables')) {
                     $this->serverVariables = [];
@@ -80,16 +84,18 @@ trait Testing
                     $this->originalDeprecationHandler = null;
                 }
             });
-        };
+        });
 
         /** @phpstan-ignore-next-line */
         if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
             $this->tearDownTheEnvironmentUsingPest(); // @phpstan-ignore-line
         }
 
-        $this->testCaseTearDownCallback instanceof Closure
-            ? value($this->testCaseTearDownCallback, $tearDown)
-            : value($tearDown);
+        if ($this->testCaseTearDownCallback instanceof Closure) {
+            value($this->testCaseTearDownCallback, $tearDown);
+        }
+
+        value($tearDown);
 
         $this->testCaseSetUpCallback = null;
         $this->testCaseTearDownCallback = null;
