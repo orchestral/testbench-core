@@ -47,7 +47,7 @@ final class TestingFeature
             }
         }
 
-        value($defaultResolver);
+        $defaultResolver();
 
         return $result;
     }
