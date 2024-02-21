@@ -31,19 +31,28 @@ final class TestingFeature
         /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Features\FeaturesCollection} $result */
         $result = new Fluent(['attribute' => new FeaturesCollection()]);
 
+        $executed = false;
+        $defaultResolver = function () use ($default, &$executed) {
+            if ($executed !== true) {
+                value($default);
+
+                $executed = true;
+            }
+        };
+
         if ($testCase instanceof PHPUnitTestCase) {
             /** @phpstan-ignore-next-line */
             if ($testCase::usesTestingConcern(HandlesAnnotations::class)) {
-                value($annotation);
+                value($annotation, $defaultResolver);
             }
 
             /** @phpstan-ignore-next-line */
             if ($testCase::usesTestingConcern(HandlesAttributes::class)) {
-                $result['attribute'] = value($attribute);
+                $result['attribute'] = value($attribute, $defaultResolver);
             }
         }
 
-        value($default);
+        value($defaultResolver);
 
         return $result;
     }

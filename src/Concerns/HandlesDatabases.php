@@ -36,9 +36,7 @@ trait HandlesDatabases
 
         TestingFeature::run(
             testCase: $this,
-            attribute: function () use ($app) {
-                $this->parseTestMethodAttributes($app, WithMigration::class);
-            },
+            attribute: fn () => $this->parseTestMethodAttributes($app, WithMigration::class),
         );
 
         $attributeCallbacks = TestingFeature::run(
