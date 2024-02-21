@@ -4,10 +4,12 @@ namespace Orchestra\Testbench\Tests\Workbench;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class DiscoversTest extends TestCase
 {
     use InteractsWithViews;
@@ -22,13 +24,6 @@ class DiscoversTest extends TestCase
         }
 
         parent::setUp();
-    }
-
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
     }
 
     #[Test]

@@ -3,21 +3,16 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\Attributes\DefineRoute;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
+#[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class SlimSkeletonApplicationTest extends TestCase
 {
     use WithWorkbench;
-
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
-    }
 
     #[Test]
     public function it_can_access_welcome_page_using_route_name()

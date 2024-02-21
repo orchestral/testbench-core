@@ -26,6 +26,6 @@ class RouteServiceProviderHealthTest extends TestCase
     #[Test]
     public function it_can_load_health_page()
     {
-        $this->get('/up')->dump()->assertOk();
+        $this->get('/up')->assertOk();
     }
 }
