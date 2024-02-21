@@ -85,14 +85,6 @@ class Workbench
 
         $app->booted(static function ($app) use ($discoversConfig, $healthCheckEnabled) {
             tap($app->make('router'), static function (Router $router) use ($discoversConfig, $healthCheckEnabled) {
-                foreach (['web', 'api'] as $group) {
-                    if (($discoversConfig[$group] ?? false) === true) {
-                        if (file_exists($route = workbench_path(['routes', "{$group}.php"]))) {
-                            $router->middleware($group)->group($route);
-                        }
-                    }
-                }
-
                 if ($healthCheckEnabled === true) {
                     $router->middleware('web')->get('/up', function () {
                         Event::dispatch(new DiagnosingHealth);
@@ -101,6 +93,14 @@ class Workbench
                             package_path(['vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'])
                         );
                     });
+                }
+
+                foreach (['web', 'api'] as $group) {
+                    if (($discoversConfig[$group] ?? false) === true) {
+                        if (file_exists($route = workbench_path(['routes', "{$group}.php"]))) {
+                            $router->middleware($group)->group($route);
+                        }
+                    }
                 }
             });
 
