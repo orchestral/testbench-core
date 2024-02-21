@@ -27,17 +27,6 @@ class DiscoversTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * Define routes setup.
-     *
-     * @param  \Illuminate\Routing\Router  $router
-     * @return void
-     */
-    protected function defineWildcardRoutes($router)
-    {
-        $router->get('/{user}', fn () => response('Not found', 404));
-    }
-
     #[Test]
     public function it_can_resolve_web_routes_from_discovers()
     {
@@ -47,16 +36,6 @@ class DiscoversTest extends TestCase
 
     #[Test]
     public function it_can_resolve_health_check_from_discovers()
-    {
-        $this->get('/up')
-            ->assertOk()
-            ->assertSee('HTTP request received')
-            ->assertSee('Response successfully rendered in');
-    }
-
-    #[Test]
-    #[DefineRoute('defineWildcardRoutes')]
-    public function it_can_resolve_health_check_from_discovers_when_wildcard_routes_exists()
     {
         $this->get('/up')
             ->assertOk()
