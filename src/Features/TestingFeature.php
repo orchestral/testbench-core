@@ -59,7 +59,7 @@ final class TestingFeature
             value($pest, $defaultResolver);
         }
 
-        value($defaultResolver);
+        $defaultResolver();
 
         return $result;
     }
