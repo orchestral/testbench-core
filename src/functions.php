@@ -85,7 +85,7 @@ function remote(array|string $command, array $env = []): Process
 
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
-    $commander = is_file($vendorBin = package_path(join_paths('vendor', 'bin', $binary)))
+    $commander = is_file($vendorBin = package_path(['vendor', 'bin', $binary]))
         ? ProcessUtils::escapeArgument((string) $vendorBin)
         : $binary;
 
@@ -94,6 +94,25 @@ function remote(array|string $command, array $env = []): Process
         cwd: package_path(),
         env: array_merge(defined_environment_variables(), $env)
     );
+}
+
+/**
+ * Run callback only once.
+ *
+ * @param  mixed  $callback
+ * @return \Closure
+ */
+function once($callback): Closure
+{
+    $executed = false;
+
+    return function () use ($callback, &$executed) {
+        if ($executed !== true) {
+            value($callback);
+        }
+
+        $executed = true;
+    };
 }
 
 /**
