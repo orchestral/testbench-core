@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests\Workbench;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
-use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
