@@ -3,12 +3,13 @@
 namespace Orchestra\Testbench\Tests\Helpers;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\once;
 
 class OnceTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_resolve_callback_only_once()
     {
         $stub = once(function () {
