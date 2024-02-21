@@ -244,11 +244,9 @@ function package_path(array|string $path = ''): string
 
     $path = join_paths(...Arr::wrap($path));
 
-    if (str_starts_with($path, './')) {
-        return transform_relative_path($path, $workingPath);
-    }
-
-    return join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
+    return str_starts_with($path, './') 
+        ? transform_relative_path($path, $workingPath)
+        : join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
