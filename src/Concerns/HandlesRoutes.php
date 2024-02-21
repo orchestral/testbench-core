@@ -43,13 +43,11 @@ trait HandlesRoutes
                 $this->{$method}($router);
             }),
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class),
-            pest: function ($default) use ($router) {
+            pest: function () use ($router) {
                 $this->defineRoutesUsingPest($router); // @phpstan-ignore-line
 
                 $router->middleware('web')
                     ->group(fn ($router) => $this->defineWebRoutesUsingPest($router)); // @phpstan-ignore-line
-
-                value($default);
             }
         );
 

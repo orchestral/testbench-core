@@ -428,11 +428,7 @@ trait CreatesApplication
                 $this->parseTestMethodAttributes($app, WithImmutableDates::class); // @phpstan-ignore-line
                 $this->parseTestMethodAttributes($app, DefineEnvironment::class); // @phpstan-ignore-line
             },
-            pest: function ($default) use ($app) {
-                $this->defineEnvironmentUsingPest($app); // @phpstan-ignore-line
-
-                value($default);
-            }
+            pest: fn () => $this->defineEnvironmentUsingPest($app), // @phpstan-ignore-line
         );
 
         $this->resolveApplicationRateLimiting($app);
