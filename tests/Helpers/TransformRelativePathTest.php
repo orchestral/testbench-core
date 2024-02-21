@@ -15,5 +15,10 @@ class TransformRelativePathTest extends TestCase
             realpath(__DIR__.DIRECTORY_SEPARATOR.'TransformRelativePathTest.php'),
             transform_relative_path('./TransformRelativePathTest.php', realpath(__DIR__))
         );
+
+        $this->assertSame(
+            realpath(dirname(__DIR__, 1).DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'TransformRelativePathTest.php'),
+            transform_relative_path('./Helpers/TransformRelativePathTest.php', realpath(dirname(__DIR__, 1)))
+        );
     }
 }
