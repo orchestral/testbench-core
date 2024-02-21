@@ -79,9 +79,8 @@ final class LoadMigrationsFromArray
 
                 Collection::make(Arr::wrap($this->seeders))
                     ->flatten()
-                    ->filter(static function ($seederClass) {
-                        return ! \is_null($seederClass) && class_exists($seederClass);
-                    })->each(static function ($seederClass) use ($app) {
+                    ->filter(static fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
+                    ->each(static function ($seederClass) use ($app) {
                         $app->make(ConsoleKernel::class)->call('db:seed', [
                             '--class' => $seederClass,
                         ]);
