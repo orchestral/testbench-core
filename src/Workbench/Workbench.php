@@ -91,7 +91,7 @@ class Workbench
                         Event::dispatch(new DiagnosingHealth);
 
                         return View::file(
-                            package_path(join_paths('vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'))
+                            package_path(['vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'])
                         );
                     });
                 }
@@ -106,7 +106,7 @@ class Workbench
             });
 
             if ($app->runningInConsole() && ($discoversConfig['commands'] ?? false) === true) {
-                if (file_exists($console = workbench_path(join_paths('routes', 'console.php')))) {
+                if (file_exists($console = workbench_path(['routes', 'console.php']))) {
                     require $console;
                 }
             }

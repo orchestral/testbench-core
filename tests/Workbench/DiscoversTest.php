@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Workbench;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
+use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
@@ -15,7 +16,7 @@ class DiscoversTest extends TestCase
     use InteractsWithViews;
     use WithWorkbench;
 
-    /** {@inheritdoc} */
+    /** {@inheritDoc} */
     #[\Override]
     protected function setUp(): void
     {
@@ -24,6 +25,17 @@ class DiscoversTest extends TestCase
         }
 
         parent::setUp();
+    }
+
+    /**
+     * Define routes setup.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    protected function defineWildcardRoutes($router)
+    {
+        $router->get('/{user}', fn () => response('Not found', 404));
     }
 
     #[Test]
@@ -35,6 +47,16 @@ class DiscoversTest extends TestCase
 
     #[Test]
     public function it_can_resolve_health_check_from_discovers()
+    {
+        $this->get('/up')
+            ->assertOk()
+            ->assertSee('HTTP request received')
+            ->assertSee('Response successfully rendered in');
+    }
+
+    #[Test]
+    #[DefineRoute('defineWildcardRoutes')]
+    public function it_can_resolve_health_check_from_discovers_when_wildcard_routes_exists()
     {
         $this->get('/up')
             ->assertOk()

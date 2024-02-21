@@ -34,25 +34,36 @@ final class TestingFeature
         /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Features\FeaturesCollection} $result */
         $result = new Fluent(['attribute' => new FeaturesCollection()]);
 
+        $calledDefault = false;
+        $defaultCaller = function () use ($default, &$calledDefault) {
+            if ($calledDefault === false) {
+                value($default);
+                $calledDefault = true;
+            }
+        };
+
         if ($testCase instanceof PHPUnitTestCase) {
             /** @phpstan-ignore-next-line */
             if ($testCase::usesTestingConcern(HandlesAnnotations::class)) {
-                value($annotation);
+                value($annotation, $defaultCaller);
             }
 
             /** @phpstan-ignore-next-line */
             if ($testCase::usesTestingConcern(HandlesAttributes::class)) {
-                $result['attribute'] = value($attribute);
+                $result['attribute'] = value($attribute, $defaultCaller);
             }
-
         }
 
         /** @phpstan-ignore-next-line */
-        if ($testCase instanceof PHPUnitTestCase && $testCase::usesTestingConcern(WithPest::class)) {
-            $pest instanceof Closure ? value($pest, $default) : value($default);
-        } else {
-            value($default);
+        if (
+            $testCase instanceof PHPUnitTestCase
+            && $pest instanceof Closure
+            && $testCase::usesTestingConcern(WithPest::class)
+        ) {
+            value($pest, $defaultCaller);
         }
+
+        value($defaultCaller);
 
         return $result;
     }
