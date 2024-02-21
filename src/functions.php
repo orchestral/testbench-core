@@ -199,7 +199,7 @@ function refresh_router_lookups(Router $router): void
 function transform_relative_path(string $path, string $workingPath): string
 {
     return str_starts_with($path, './')
-        ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
+        ? rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.mb_substr($path, 2)
         : $path;
 }
 
@@ -230,11 +230,9 @@ function package_path(array|string $path = ''): string
 
     $path = join_paths(...Arr::wrap($path));
 
-    if (str_starts_with($path, './')) {
-        return transform_relative_path($path, $workingPath);
-    }
-
-    return join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
+    return str_starts_with($path, './') 
+        ? transform_relative_path($path, $workingPath)
+        : join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**

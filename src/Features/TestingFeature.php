@@ -50,16 +50,15 @@ final class TestingFeature
             }
         }
 
-        /** @phpstan-ignore-next-line */
         if (
             $testCase instanceof PHPUnitTestCase
             && $pest instanceof Closure
-            && $testCase::usesTestingConcern(WithPest::class)
+            && $testCase::usesTestingConcern(WithPest::class) /** @phpstan-ignore-line */
         ) {
             value($pest, $defaultResolver);
         }
 
-        value($defaultResolver);
+        $defaultResolver();
 
         return $result;
     }
