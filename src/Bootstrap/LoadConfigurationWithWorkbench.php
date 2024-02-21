@@ -7,7 +7,6 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
 
-use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -41,9 +40,9 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
     #[\Override]
     protected function resolveConfigurationFile(string $path, string $key): string
     {
-        return $this->usesWorkbenchConfigFile === true && is_file(workbench_path(join_paths('config', "{$key}.php")))
-            ? workbench_path(join_paths('config', "{$key}.php"))
-            : $path;
+        $config = workbench_path(['config', "{$key}.php"]);
+
+        return $this->usesWorkbenchConfigFile === true && is_file($config) ? $config : $path;
     }
 
     /**

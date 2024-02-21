@@ -85,7 +85,7 @@ function remote(array|string $command, array $env = []): Process
 
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
-    $commander = is_file($vendorBin = package_path(join_paths('vendor', 'bin', $binary)))
+    $commander = is_file($vendorBin = package_path(['vendor', 'bin', $binary]))
         ? ProcessUtils::escapeArgument((string) $vendorBin)
         : $binary;
 
