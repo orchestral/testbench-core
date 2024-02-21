@@ -98,7 +98,7 @@ class Workbench
                         Event::dispatch(new DiagnosingHealth);
 
                         return View::file(
-                            package_path(join_paths('vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'))
+                            package_path(['vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'])
                         );
                     });
                 }
