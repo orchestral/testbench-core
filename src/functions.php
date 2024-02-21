@@ -97,6 +97,25 @@ function remote(array|string $command, array $env = []): Process
 }
 
 /**
+ * Run callback only once.
+ *
+ * @param  mixed  $callback
+ * @return \Closure
+ */
+function once($callback): Closure
+{
+    $executed = false;
+
+    return function () use ($callback, &$executed) {
+        if ($executed !== true) {
+            value($callback);
+        }
+
+        $executed = true;
+    };
+}
+
+/**
  * Register after resolving callback.
  *
  * @api
