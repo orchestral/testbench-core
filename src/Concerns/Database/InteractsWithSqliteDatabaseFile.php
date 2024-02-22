@@ -6,9 +6,6 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
 
-/**
- * @api
- */
 trait InteractsWithSqliteDatabaseFile
 {
     use InteractsWithPublishedFiles;
@@ -22,6 +19,11 @@ trait InteractsWithSqliteDatabaseFile
 
     /**
      * Drop Sqlite Database.
+     *
+     * @api
+     *
+     * @param  callable():void  $callback
+     * @return void
      */
     protected function withoutSqliteDatabase(callable $callback): void
     {
@@ -44,7 +46,12 @@ trait InteractsWithSqliteDatabaseFile
     }
 
     /**
-     * Drop Sqlite Database.
+     * Drop and create a new Sqlite Database.
+     *
+     * @api
+     *
+     * @param  callable():void  $callback
+     * @return void
      */
     protected function withSqliteDatabase(callable $callback): void
     {
