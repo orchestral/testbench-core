@@ -94,7 +94,7 @@ transform([
 
 Illuminate\Support\Collection::make([
     'config/*.php',
-])->transform(fn ($file) => "{$workingPath}/vendor/laravel/laravel/{$file}")
+])->transform(fn ($file) => "{$workingPath}/vendor/laravel/framework/{$file}")
 ->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
 ->flatten()
 ->each(function ($file) use ($files, $workingPath) {
