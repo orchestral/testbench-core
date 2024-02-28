@@ -133,7 +133,7 @@ function after_resolving(ApplicationContract $app, string $name, ?Closure $callb
  * @param  array|string  $paths
  * @return void
  */
-function load_migration_paths($app, $paths): void
+function load_migration_paths(ApplicationContract $app, array|string $paths): void
 {
     after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
         foreach (Arr::wrap($paths) as $path) {
