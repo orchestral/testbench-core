@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
@@ -24,6 +25,10 @@ trait InteractsWithMigrations
     protected function loadMigrationsFrom($paths): void
     {
         if (static::usesTestingConcern(LazilyRefreshDatabase::class) || static::usesTestingConcern(RefreshDatabase::class)) {
+            if (\is_null($this->app)) {
+                throw ApplicationNotAvailableException::make(__METHOD__);
+            }
+
             load_migration_paths($this->app, $paths);
 
             return;
