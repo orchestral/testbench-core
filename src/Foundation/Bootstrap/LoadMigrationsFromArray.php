@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\load_migration_paths;
 use function Orchestra\Testbench\transform_relative_path;
 use function Orchestra\Testbench\workbench;
 
@@ -107,28 +108,7 @@ final class LoadMigrationsFromArray
             return transform_relative_path($migration, $app->basePath());
         })->all();
 
-        $this->callAfterResolvingMigrator($app, static function ($migrator) use ($paths) {
-            foreach ((array) $paths as $path) {
-                $migrator->path($path);
-            }
-        });
-    }
-
-    /**
-     * Setup an after resolving listener, or fire immediately if already resolved.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  callable  $callback
-     * @return void
-     */
-    protected function callAfterResolvingMigrator($app, $callback)
-    {
-        /** @phpstan-ignore-next-line */
-        $app->afterResolving('migrator', $callback);
-
-        if ($app->resolved('migrator')) {
-            $callback($app->make('migrator'), $app);
-        }
+        load_migration_paths($app, $paths);
     }
 
     /**

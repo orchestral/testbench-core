@@ -2,10 +2,12 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
 
 use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\load_migration_paths;
 
 /**
  * @internal
@@ -20,6 +22,12 @@ trait InteractsWithMigrations
      */
     protected function loadMigrationsFrom($paths): void
     {
+        if (static::usesTestingConcern(RefreshDatabase::class)) {
+            load_migration_paths($this->app, $paths);
+
+            return;
+        }
+
         $this->loadMigrationsWithoutRollbackFrom($paths);
 
         $this->beforeApplicationDestroyed(function () use ($paths) {

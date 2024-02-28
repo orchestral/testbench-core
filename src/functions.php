@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
@@ -118,6 +119,23 @@ function after_resolving($app, string $name, ?Closure $callback = null): void
     if ($app->resolved($name)) {
         value($callback, $app->make($name), $app);
     }
+}
+
+/**
+ * Load migration paths.
+ *
+ * @param  \Illuminate\Contracts\Foundation\Application  $app
+ * @param  array|string  $paths
+ * @return void
+ */
+function load_migration_paths($app, $paths): void
+{
+    after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
+        foreach (Arr::wrap($paths) as $path) {
+            /** @var \Illuminate\Database\Migrations\Migrator $migrator */
+            $migrator->path($path);
+        }
+    });
 }
 
 /**
