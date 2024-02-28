@@ -125,6 +125,25 @@ function after_resolving(ApplicationContract $app, string $name, ?Closure $callb
 }
 
 /**
+ * Load migration paths.
+ *
+ * @api
+ *
+ * @param  \Illuminate\Contracts\Foundation\Application  $app
+ * @param  array|string  $paths
+ * @return void
+ */
+function load_migration_paths($app, $paths): void
+{
+    after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
+        foreach (Arr::wrap($paths) as $path) {
+            /** @var \Illuminate\Database\Migrations\Migrator $migrator */
+            $migrator->path($path);
+        }
+    });
+}
+
+/**
  * Get default environment variables.
  *
  * @return array<int, string>
