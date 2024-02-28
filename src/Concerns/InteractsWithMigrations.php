@@ -4,12 +4,10 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
-use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\laravel_migration_path;
 use function Orchestra\Testbench\load_migration_paths;
 
