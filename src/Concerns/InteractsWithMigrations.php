@@ -2,11 +2,14 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\load_migration_paths;
 
 /**
  * @internal
@@ -21,6 +24,16 @@ trait InteractsWithMigrations
      */
     protected function loadMigrationsFrom($paths): void
     {
+        if (static::usesTestingConcern(LazilyRefreshDatabase::class) || static::usesTestingConcern(RefreshDatabase::class)) {
+            if (\is_null($this->app)) {
+                throw ApplicationNotAvailableException::make(__METHOD__);
+            }
+
+            load_migration_paths($this->app, $paths);
+
+            return;
+        }
+
         $this->loadMigrationsWithoutRollbackFrom($paths);
 
         $this->beforeApplicationDestroyed(function () use ($paths) {
