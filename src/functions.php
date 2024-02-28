@@ -100,7 +100,7 @@ function remote(array|string $command, array $env = []): Process
  * Run callback only once.
  *
  * @param  mixed  $callback
- * @return \Closure
+ * @return \Closure():mixed
  */
 function once($callback): Closure
 {
@@ -143,7 +143,7 @@ function after_resolving(ApplicationContract $app, string $name, ?Closure $callb
  * @param  array|string  $paths
  * @return void
  */
-function load_migration_paths($app, $paths): void
+function load_migration_paths(ApplicationContract $app, array|string $paths): void
 {
     after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
         foreach (Arr::wrap($paths) as $path) {
