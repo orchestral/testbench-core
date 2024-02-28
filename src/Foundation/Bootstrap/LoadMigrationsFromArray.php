@@ -10,8 +10,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Env;
 
-use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\load_migration_paths;
 use function Orchestra\Testbench\transform_relative_path;
 use function Orchestra\Testbench\workbench;
 
@@ -90,12 +90,7 @@ final class LoadMigrationsFromArray
             ->transform(static fn ($migration) => transform_relative_path($migration, $app->basePath()))
             ->all();
 
-        after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
-            foreach ((array) $paths as $path) {
-                /** @var \Illuminate\Database\Migrations\Migrator $migrator */
-                $migrator->path($path);
-            }
-        });
+        load_migration_paths($app, $paths);
     }
 
     /**
@@ -109,6 +104,6 @@ final class LoadMigrationsFromArray
         return
             workbench()['install'] === true
             && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true
-            && rescue(fn () => is_dir(laravel_migration_path()), false, false);
+            && rescue(static fn () => is_dir(laravel_migration_path()), false, false);
     }
 }
