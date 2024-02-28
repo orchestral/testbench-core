@@ -87,7 +87,7 @@ function remote(string $command, array $env = []): Process
  * Run callback only once.
  *
  * @param  mixed  $callback
- * @return \Closure
+ * @return \Closure():mixed
  */
 function once($callback): Closure
 {
