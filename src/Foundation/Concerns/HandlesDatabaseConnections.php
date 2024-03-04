@@ -18,22 +18,14 @@ trait HandlesDatabaseConnections
         $keyword = Str::upper($keyword);
 
         $options = [
-            'url' => ['env' => 'URL', 'rules' => function ($value) {
-                return ! empty($value) && \is_string($value);
-            }],
-            'host' => ['env' => 'HOST', 'rules' => function ($value) {
-                return ! empty($value) && \is_string($value);
-            }],
-            'port' => ['env' => 'PORT', 'rules' => function ($value) {
+            'url' => ['env' => 'URL'],
+            'host' => ['env' => 'HOST'],
+            'port' => ['env' => 'PORT', 'rules' => static function ($value) {
                 return ! empty($value) && \is_int($value);
             }],
-            'database' => ['env' => ['DB', 'DATABASE'], 'rules' => function ($value) {
-                return ! empty($value) && \is_string($value);
-            }],
-            'username' => ['env' => ['USER', 'USERNAME'], 'rules' => function ($value) {
-                return ! empty($value) && \is_string($value);
-            }],
-            'password' => ['env' => 'PASSWORD', 'rules' => function ($value) {
+            'database' => ['env' => ['DB', 'DATABASE']],
+            'username' => ['env' => ['USER', 'USERNAME']],
+            'password' => ['env' => 'PASSWORD', 'rules' => static function ($value) {
                 return \is_null($value) || \is_string($value);
             }],
             'collation' => ['env' => 'COLLATION', 'rules' => function ($value) {
@@ -44,9 +36,7 @@ trait HandlesDatabaseConnections
         $config->set(
             Collection::make($options)
                 ->when($driver === 'pgsql', static function ($options) {
-                    return $options->put('schema', ['env' => 'SCHEMA', 'rules' => function ($value) {
-                        return ! empty($value) && \is_string($value);
-                    }]);
+                    return $options->put('schema', ['env' => 'SCHEMA']);
                 })
                 ->mapWithKeys(static function ($options, $key) use ($driver, $keyword, $config) {
                     $name = "database.connections.{$driver}.{$key}";
@@ -56,7 +46,7 @@ trait HandlesDatabaseConnections
                         ->transform(static function ($value) use ($keyword) {
                             return Env::get("{$keyword}_{$value}");
                         })->first($options['rules'] ?? static function ($value) {
-                            return ! \is_null($value);
+                            return ! empty($value) && \is_string($value);
                         }) ?? $config->get($name);
 
                     return [
