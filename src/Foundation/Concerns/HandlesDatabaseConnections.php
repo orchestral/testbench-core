@@ -46,7 +46,7 @@ trait HandlesDatabaseConnections
                         ->transform(static function ($value) use ($keyword) {
                             return Env::get("{$keyword}_{$value}");
                         })->first($options['rules'] ?? static function ($value) {
-                            return ! empty($value) && \is_string($value);
+                            return ! empty($value) && $value !== false && \is_string($value);
                         }) ?? $config->get($name);
 
                     return [
