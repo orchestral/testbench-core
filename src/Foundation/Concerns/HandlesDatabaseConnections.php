@@ -45,9 +45,11 @@ trait HandlesDatabaseConnections
                     $configuration = Collection::make(Arr::wrap($options['env']))
                         ->transform(static function ($value) use ($keyword) {
                             return Env::get("{$keyword}_{$value}");
-                        })->first($options['rules'] ?? static function ($value) {
-                            return ! empty($value) && $value !== false && \is_string($value);
-                        }) ?? $config->get($name);
+                        })->first(
+                            $options['rules'] ?? static function ($value) {
+                                return ! empty($value) && $value !== false && \is_string($value);
+                            }
+                        ) ?? $config->get($name);
 
                     return [
                         "{$name}" => $configuration,
