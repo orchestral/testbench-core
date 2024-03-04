@@ -18,29 +18,45 @@ trait HandlesDatabaseConnections
         $keyword = Str::upper($keyword);
 
         $options = [
-            'url' => 'URL',
-            'host' => 'HOST',
-            'port' => 'PORT',
-            'database' => ['DB', 'DATABASE'],
-            'username' => ['USER', 'USERNAME'],
-            'password' => 'PASSWORD',
-            'collation' => 'COLLATION',
+            'url' => ['env' => 'URL', 'rules' => function ($value) {
+                return ! empty($value) && \is_string($value);
+            }],
+            'host' => ['env' => 'HOST', 'rules' => function ($value) {
+                return ! empty($value) && \is_string($value);
+            }],
+            'port' => ['env' => 'PORT', 'rules' => function ($value) {
+                return ! empty($value) && \is_int($value);
+            }],
+            'database' => ['env' => ['DB', 'DATABASE'], 'rules' => function ($value) {
+                return ! empty($value) && \is_string($value);
+            }],
+            'username' => ['env' => ['USER', 'USERNAME'], 'rules' => function ($value) {
+                return ! empty($value) && \is_string($value);
+            }],
+            'password' => ['env' => 'PASSWORD', 'rules' => function ($value) {
+                return \is_null($value) || \is_string($value);
+            }],
+            'collation' => ['env' => 'COLLATION', 'rules' => function ($value) {
+                return \is_null($value) || \is_string($value);
+            }],
         ];
 
         $config->set(
             Collection::make($options)
                 ->when($driver === 'pgsql', static function ($options) {
-                    return $options->put('schema', 'SCHEMA');
+                    return $options->put('schema', ['env' => 'SCHEMA', 'rules' => function ($value) {
+                        return ! empty($value) && \is_string($value);
+                    }]);
                 })
-                ->mapWithKeys(static function ($value, $key) use ($driver, $keyword, $config) {
+                ->mapWithKeys(static function ($options, $key) use ($driver, $keyword, $config) {
                     $name = "database.connections.{$driver}.{$key}";
 
                     /** @var mixed $configuration */
-                    $configuration = Collection::make(Arr::wrap($value))
+                    $configuration = Collection::make(Arr::wrap($options['env']))
                         ->transform(static function ($value) use ($keyword) {
                             return Env::get("{$keyword}_{$value}");
-                        })->first(static function ($value) {
-                            return ! \is_null($value);
+                        })->first($options['rules'] ?? static function ($value) {
+                            return ! ($value);
                         }) ?? $config->get($name);
 
                     return [
