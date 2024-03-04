@@ -28,7 +28,7 @@ trait HandlesDatabaseConnections
             'password' => ['env' => 'PASSWORD', 'rules' => static function ($value) {
                 return \is_null($value) || \is_string($value);
             }],
-            'collation' => ['env' => 'COLLATION', 'rules' => function ($value) {
+            'collation' => ['env' => 'COLLATION', 'rules' => static function ($value) {
                 return \is_null($value) || \is_string($value);
             }],
         ];
