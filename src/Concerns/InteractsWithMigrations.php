@@ -44,7 +44,7 @@ trait InteractsWithMigrations
     /**
      * Define hooks to migrate the database before each test without rollback after.
      *
-     * @param  string|array<string, mixed>  $paths
+     * @param  array<string, mixed>|string  $paths
      * @return void
      */
     protected function loadMigrationsWithoutRollbackFrom($paths): void
@@ -58,7 +58,7 @@ trait InteractsWithMigrations
     /**
      * Resolve Package Migrations Artisan command options.
      *
-     * @param  string|array<string, mixed>  $paths
+     * @param  array<string, mixed>|string  $paths
      * @return array
      */
     protected function resolvePackageMigrationsOptions($paths = []): array
@@ -77,7 +77,7 @@ trait InteractsWithMigrations
     /**
      * Migrate Laravel's default migrations.
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return void
      */
     protected function loadLaravelMigrations($database = []): void
@@ -96,7 +96,7 @@ trait InteractsWithMigrations
     /**
      * Migrate Laravel's default migrations without rollback.
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return void
      */
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
@@ -113,7 +113,7 @@ trait InteractsWithMigrations
     /**
      * Migrate all Laravel's migrations.
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return void
      */
     protected function runLaravelMigrations($database = []): void
@@ -128,7 +128,7 @@ trait InteractsWithMigrations
     /**
      * Migrate all Laravel's migrations without rollback.
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return void
      */
     protected function runLaravelMigrationsWithoutRollback($database = []): void
@@ -141,7 +141,7 @@ trait InteractsWithMigrations
     /**
      * Resolve Laravel Migrations Artisan command options.
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return array
      */
     protected function resolveLaravelMigrationsOptions($database = []): array
