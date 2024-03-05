@@ -42,17 +42,19 @@ class GeneratesFile extends Action
             return;
         }
 
-        if ($this->force || ! $this->filesystem->exists($to)) {
-            $this->filesystem->copy($from, $to);
-
-            $this->components?->task(
-                sprintf('File [%s] generated', $this->pathLocation($to))
-            );
-        } else {
+        if (! $this->force && $this->filesystem->exists($to)) {
             $this->components?->twoColumnDetail(
                 sprintf('File [%s] already exists', $this->pathLocation($to)),
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
+
+            return;
         }
+
+        $this->filesystem->copy($from, $to);
+
+        $this->components?->task(
+            sprintf('File [%s] generated', $this->pathLocation($to))
+        );
     }
 }

@@ -35,18 +35,20 @@ class DeleteFiles extends Action
             ->reject(static function ($file) {
                 return str_ends_with($file, '.gitkeep') || str_ends_with($file, '.gitignore');
             })->each(function ($file) {
-                if ($this->filesystem->exists($file)) {
-                    $this->filesystem->delete($file);
-
-                    $this->components?->task(
-                        sprintf('File [%s] has been deleted', $this->pathLocation($file))
-                    );
-                } else {
+                if (! $this->filesystem->exists($file)) {
                     $this->components?->twoColumnDetail(
                         sprintf('File [%s] doesn\'t exists', $this->pathLocation($file)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
+
+                    return;
                 }
+
+                $this->filesystem->delete($file);
+
+                $this->components?->task(
+                    sprintf('File [%s] has been deleted', $this->pathLocation($file))
+                );
             });
     }
 }

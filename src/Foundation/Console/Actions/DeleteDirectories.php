@@ -33,18 +33,20 @@ class DeleteDirectories extends Action
     {
         LazyCollection::make($directories)
             ->each(function ($directory) {
-                if ($this->filesystem->isDirectory($directory)) {
-                    $this->filesystem->deleteDirectory($directory);
-
-                    $this->components?->task(
-                        sprintf('Directory [%s] has been deleted', $this->pathLocation($directory))
-                    );
-                } else {
+                if (! $this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
                         sprintf('Directory [%s] doesn\'t exists', $this->pathLocation($directory)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
+
+                    return;
                 }
+
+                $this->filesystem->deleteDirectory($directory);
+
+                $this->components?->task(
+                    sprintf('Directory [%s] has been deleted', $this->pathLocation($directory))
+                );
             });
     }
 }
