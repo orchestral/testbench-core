@@ -60,8 +60,8 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  *
  * @api
  *
- * @param  array|string  $command
- * @param  array  $env
+ * @param  array<int, string>|string  $command
+ * @param  array<string, mixed>  $env
  * @return \Symfony\Component\Process\Process
  */
 function remote(array|string $command, array $env = []): Process
@@ -130,7 +130,7 @@ function after_resolving(ApplicationContract $app, string $name, ?Closure $callb
  * @api
  *
  * @param  \Illuminate\Contracts\Foundation\Application  $app
- * @param  array|string  $paths
+ * @param  array<int, string>|string  $paths
  * @return void
  */
 function load_migration_paths(ApplicationContract $app, array|string $paths): void
@@ -300,7 +300,7 @@ function workbench_path(string $path = ''): string
  *
  * @api
  *
- * @param  ?string  $type
+ * @param  string|null  $type
  * @return string
  *
  * @throws \InvalidArgumentException
