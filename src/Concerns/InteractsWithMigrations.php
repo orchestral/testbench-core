@@ -18,7 +18,7 @@ trait InteractsWithMigrations
     /**
      * Define hooks to migrate the database before and after each test.
      *
-     * @param  string|array<string, mixed>  $paths
+     * @param  array<int|string, mixed>|string  $paths
      * @return void
      */
     protected function loadMigrationsFrom($paths): void
@@ -27,11 +27,13 @@ trait InteractsWithMigrations
             (\is_string($paths) || Arr::isList($paths))
             && static::usesTestingConcern(RefreshDatabase::class)
         ) {
+            /** @var array<int, string>|string $paths */
             load_migration_paths($this->app, $paths);
 
             return;
         }
 
+        /** @var array<string, mixed>|string $paths */
         $this->loadMigrationsWithoutRollbackFrom($paths);
 
         $this->beforeApplicationDestroyed(function () use ($paths) {
