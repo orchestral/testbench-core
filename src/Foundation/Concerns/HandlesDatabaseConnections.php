@@ -17,6 +17,7 @@ trait HandlesDatabaseConnections
     {
         $keyword = Str::upper($keyword);
 
+        /** @var array<string, array{env: array<int, string>|string, rules?: (\Closure(mixed):(bool))|null}> $options */
         $options = [
             'url' => ['env' => 'URL'],
             'host' => ['env' => 'HOST'],

@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
@@ -21,21 +22,26 @@ trait InteractsWithMigrations
      *
      * @api
      *
-     * @param  string|array<string, mixed>  $paths
+     * @param  array<int|string, mixed>|string  $paths
      * @return void
      */
-    protected function loadMigrationsFrom(string|array $paths): void
+    protected function loadMigrationsFrom(array|string $paths): void
     {
-        if (static::usesTestingConcern(LazilyRefreshDatabase::class) || static::usesTestingConcern(RefreshDatabase::class)) {
+        if (
+            (\is_string($paths) || Arr::isList($paths))
+            && (static::usesTestingConcern(LazilyRefreshDatabase::class) || static::usesTestingConcern(RefreshDatabase::class))
+        ) {
             if (\is_null($this->app)) {
                 throw ApplicationNotAvailableException::make(__METHOD__);
             }
 
+            /** @var array<int, string>|string $paths */
             load_migration_paths($this->app, $paths);
 
             return;
         }
 
+        /** @var array<string, mixed>|string $paths */
         $this->loadMigrationsWithoutRollbackFrom($paths);
 
         $this->beforeApplicationDestroyed(function () use ($paths) {
@@ -48,10 +54,10 @@ trait InteractsWithMigrations
      *
      * @api
      *
-     * @param  string|array<string, mixed>  $paths
+     * @param  array<string, mixed>|string  $paths
      * @return void
      */
-    protected function loadMigrationsWithoutRollbackFrom(string|array $paths): void
+    protected function loadMigrationsWithoutRollbackFrom(array|string $paths): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -68,10 +74,10 @@ trait InteractsWithMigrations
      *
      * @internal
      *
-     * @param  string|array<string, mixed>  $paths
+     * @param  array<string, mixed>|string  $paths
      * @return array
      */
-    protected function resolvePackageMigrationsOptions(string|array $paths = []): array
+    protected function resolvePackageMigrationsOptions(array|string $paths = []): array
     {
         $options = \is_array($paths) ? $paths : ['--path' => $paths];
 
@@ -89,10 +95,10 @@ trait InteractsWithMigrations
      *
      * @api
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return void
      */
-    protected function loadLaravelMigrations(string|array $database = []): void
+    protected function loadLaravelMigrations(array|string $database = []): void
     {
         $this->loadLaravelMigrationsWithoutRollback($database);
 
@@ -110,10 +116,10 @@ trait InteractsWithMigrations
      *
      * @api
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return void
      */
-    protected function loadLaravelMigrationsWithoutRollback(string|array $database = []): void
+    protected function loadLaravelMigrationsWithoutRollback(array|string $database = []): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -133,10 +139,10 @@ trait InteractsWithMigrations
      *
      * @api
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return void
      */
-    protected function runLaravelMigrations(string|array $database = []): void
+    protected function runLaravelMigrations(array|string $database = []): void
     {
         $this->runLaravelMigrationsWithoutRollback($database);
 
@@ -150,10 +156,10 @@ trait InteractsWithMigrations
      *
      * @api
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return void
      */
-    protected function runLaravelMigrationsWithoutRollback(string|array $database = []): void
+    protected function runLaravelMigrationsWithoutRollback(array|string $database = []): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
@@ -169,10 +175,10 @@ trait InteractsWithMigrations
      *
      * @internal
      *
-     * @param  string|array<string, mixed>  $database
+     * @param  array<string, mixed>|string  $database
      * @return array
      */
-    protected function resolveLaravelMigrationsOptions(string|array $database = []): array
+    protected function resolveLaravelMigrationsOptions(array|string $database = []): array
     {
         $options = \is_array($database) ? $database : ['--database' => $database];
 

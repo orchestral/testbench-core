@@ -23,12 +23,12 @@ final class LoadMigrationsFromArray
     /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
-     * @param  string|array<int, string>|bool  $migrations
-     * @param  class-string|array<int, class-string>|bool  $seeders
+     * @param  array<int, string>|bool|string  $migrations
+     * @param  array<int, class-string>|bool|class-string  $seeders
      */
     public function __construct(
-        public readonly string|bool|array $migrations = [],
-        public readonly string|bool|array $seeders = false
+        public readonly array|bool|string $migrations = [],
+        public readonly array|bool|string $seeders = false
     ) {
         //
     }
