@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 
+use function Laravel\Prompts\confirm;
+
 class GeneratesFile extends Action
 {
     /**
@@ -14,12 +16,14 @@ class GeneratesFile extends Action
      * @param  \Illuminate\Console\View\Components\Factory|null  $components
      * @param  bool  $force
      * @param  string|null  $workingPath
+     * @param  bool  $confirmation
      */
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
         public bool $force = false,
-        ?string $workingPath = null
+        ?string $workingPath = null,
+        public bool $confirmation = false
     ) {
         $this->workingPath = $workingPath;
     }
@@ -42,19 +46,25 @@ class GeneratesFile extends Action
             return;
         }
 
+        $location = $this->pathLocation($to);
+
         if (! $this->force && $this->filesystem->exists($to)) {
             $this->components?->twoColumnDetail(
-                sprintf('File [%s] already exists', $this->pathLocation($to)),
+                sprintf('File [%s] already exists', $location),
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
 
             return;
         }
 
+        if ($this->confirmation === true && confirm(sprintf('Generate [%s] file?', $location)) === false) {
+            return;
+        }
+
         $this->filesystem->copy($from, $to);
 
         $this->components?->task(
-            sprintf('File [%s] generated', $this->pathLocation($to))
+            sprintf('File [%s] generated', $location)
         );
     }
 }
