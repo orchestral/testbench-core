@@ -58,7 +58,7 @@ function artisan($context, string $command, array $parameters = [])
  * @api
  *
  * @param  string  $command
- * @param  array  $env
+ * @param  array<string, mixed>  $env
  * @return \Symfony\Component\Process\Process
  */
 function remote(string $command, array $env = []): Process
@@ -125,7 +125,7 @@ function after_resolving($app, string $name, ?Closure $callback = null): void
  * Load migration paths.
  *
  * @param  \Illuminate\Contracts\Foundation\Application  $app
- * @param  array|string  $paths
+ * @param  array<int, string>|string  $paths
  * @return void
  */
 function load_migration_paths($app, $paths): void
@@ -307,7 +307,7 @@ function workbench_path(string $path = ''): string
  *
  * @api
  *
- * @param  ?string  $type
+ * @param  string|null  $type
  * @return string
  *
  * @throws \InvalidArgumentException
