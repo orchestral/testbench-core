@@ -166,9 +166,9 @@ class Application
     /**
      * Flush the application states.
      *
-     * @return never
+     * @return void
      */
-    public static function flushState(): never
+    public static function flushState(): void
     {
         AboutCommand::flushState();
         Artisan::forgetBootstrappers();

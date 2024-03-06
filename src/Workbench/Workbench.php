@@ -231,11 +231,11 @@ class Workbench
     /**
      * Flush the cached configuration.
      *
-     * @return never
+     * @return void
      *
      * @codeCoverageIgnore
      */
-    public static function flush(): never
+    public static function flush(): void
     {
         static::$cachedConfiguration = null;
 
