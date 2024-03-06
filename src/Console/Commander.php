@@ -18,6 +18,9 @@ use Throwable;
 
 use function Orchestra\Testbench\transform_relative_path;
 
+/**
+ * @phpstan-import-type TConfig from \Orchestra\Testbench\Foundation\Config
+ */
 class Commander
 {
     /**
@@ -51,8 +54,10 @@ class Commander
     /**
      * Construct a new Commander.
      *
-     * @param  array|\Orchestra\Testbench\Foundation\Config  $config
+     * @param  \Orchestra\Testbench\Foundation\Config|array  $config
      * @param  string  $workingPath
+     *
+     * @phpstan-param \Orchestra\Testbench\Foundation\Config|TConfig  $config
      */
     public function __construct($config, string $workingPath)
     {
