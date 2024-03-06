@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Added `Orchestra\Testbench\load_migration_paths()` function.
+
+### Changes
+
+* Validate `MYSQL_*`, `MSSQL_*`, `SQLITE_*` and `POSTGRES_*` environment variables before trying to override the configuration values.
+
 ## 7.41.1
 
 Released: 2024-02-22
