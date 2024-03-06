@@ -38,7 +38,7 @@ jobs:
           composer require "nunomaduro/collision:^8.0" --dev --no-interaction --no-update
 
       - name: Install dependencies
-        uses: "ramsey/composer-install@v2"
+        uses: "ramsey/composer-install@v3"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
@@ -92,7 +92,7 @@ jobs:
           composer require "nunomaduro/collision:^8.0" --dev --no-interaction --no-update
 
       - name: Install dependencies
-        uses: "ramsey/composer-install@v2"
+        uses: "ramsey/composer-install@v3"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
