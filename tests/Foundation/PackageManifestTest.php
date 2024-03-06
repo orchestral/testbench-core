@@ -49,7 +49,7 @@ class PackageManifestTest extends TestCase
 
         $packageManifest = new class($this->app['files'], $this->app->basePath(), $manifestPath, $this) extends PackageManifest
         {
-            protected function providersFromTestbench()
+            protected function providersFromTestbench(): ?array
             {
                 return null;
             }
@@ -80,7 +80,7 @@ class PackageManifestTest extends TestCase
 
         $packageManifest = new class($this->app['files'], $this->app->basePath(), $manifestPath, $this) extends PackageManifest
         {
-            protected function providersFromTestbench()
+            protected function providersFromTestbench(): ?array
             {
                 return [
                     'name' => 'testbench/example',
