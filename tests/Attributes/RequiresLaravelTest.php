@@ -4,14 +4,13 @@ namespace Orchestra\Testbench\Tests\Attributes;
 
 use Orchestra\Testbench\Attributes\RequiresLaravel;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class RequiresLaravelTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider compatibleVersionDataProvider
-     */
+    #[Test]
+    #[DataProvider('compatibleVersionDataProvider')]
     public function it_can_validate_matching_laravel_versions($version)
     {
         $stub = new RequiresLaravel($version);
@@ -30,7 +29,7 @@ class RequiresLaravelTest extends TestCase
         yield ['>=6.0.0'];
     }
 
-    /** @test */
+    #[Test]
     public function it_can_invalidate_unmatched_laravel_versions()
     {
         $stub = new RequiresLaravel('<6.0.0');
