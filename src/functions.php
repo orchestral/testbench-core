@@ -5,6 +5,7 @@ namespace Orchestra\Testbench;
 use Closure;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -323,4 +324,23 @@ function laravel_migration_path(?string $type = null): string
     }
 
     return $path;
+}
+
+/**
+ * Laravel version compare.
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ * @return int|bool
+ */
+function laravel_version_compare(string $version, ?string $operator = null): int|bool
+{
+    /** @phpstan-ignore-next-line */
+    $laravel = Application::VERSION === '8.x-dev' ? '8.0.0' : Application::VERSION;
+
+    if (\is_null($operator)) {
+        return version_compare($laravel, $version);
+    }
+
+    return version_compare($laravel, $version, $operator);
 }
