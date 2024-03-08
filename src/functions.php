@@ -329,11 +329,14 @@ function laravel_migration_path(?string $type = null): string
  */
 function laravel_version_compare(string $version, ?string $operator = null)
 {
+    /** @phpstan-ignore-next-line */
+    $laravel = Application::VERSION === '9.x-dev' ? '9.0.0' : Application::VERSION;
+
     if (\is_null($operator)) {
-        return version_compare(Application::VERSION, $version);
+        return version_compare($laravel, $version);
     }
 
-    return version_compare(Application::VERSION, $version, $operator);
+    return version_compare($laravel, $version, $operator);
 }
 
 /**
