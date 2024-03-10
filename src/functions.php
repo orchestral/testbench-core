@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Testbench\Foundation\Env;
+use PHPUnit\Runner\Version;
+use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -329,6 +331,8 @@ function laravel_migration_path(?string $type = null): string
 /**
  * Laravel version compare.
  *
+ * @api
+ *
  * @param  string  $version
  * @param  string|null  $operator
  * @return int|bool
@@ -343,4 +347,26 @@ function laravel_version_compare(string $version, ?string $operator = null): int
     }
 
     return version_compare($laravel, $version, $operator);
+}
+
+/**
+ * PHPUnit version compare.
+ *
+ * @api
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ * @return int|bool
+ */
+function phpunit_version_compare(string $version, ?string $operator = null): int|bool
+{
+    if (! class_exists(Version::class)) {
+        throw new RuntimeException('Unable to verify PHPUnit version');
+    }
+
+    if (\is_null($operator)) {
+        return version_compare(Version::id(), $version);
+    }
+
+    return version_compare(Version::id(), $version, $operator);
 }
