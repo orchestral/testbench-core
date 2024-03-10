@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Tests\Attributes;
 
-use Mockery as m;
 use Orchestra\Testbench\Attributes\RequiresLaravel;
 use Orchestra\Testbench\TestCase;
 
@@ -10,6 +9,7 @@ class RequiresLaravelTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider compatibleVersionDataProvider
      */
     public function it_can_validate_matching_laravel_versions($version)
