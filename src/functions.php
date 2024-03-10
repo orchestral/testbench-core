@@ -337,7 +337,7 @@ function laravel_migration_path(?string $type = null): string
  * @param  string|null  $operator
  * @return int|bool
  */
-function laravel_version_compare(string $version, ?string $operator = null): int|bool
+function laravel_version_compare(string $version, ?string $operator = null)
 {
     /** @phpstan-ignore-next-line */
     $laravel = Application::VERSION === '8.x-dev' ? '8.0.0' : Application::VERSION;
@@ -358,7 +358,7 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  * @param  string|null  $operator
  * @return int|bool
  */
-function phpunit_version_compare(string $version, ?string $operator = null): int|bool
+function phpunit_version_compare(string $version, ?string $operator = null)
 {
     if (! class_exists(Version::class)) {
         throw new RuntimeException('Unable to verify PHPUnit version');
