@@ -41,7 +41,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/framework": "dev-master",
+        "laravel/framework": "^12.0",
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.6",
         "phpstan/phpstan": "^1.10.50",
@@ -52,7 +52,7 @@
     },
     "conflict": {
         "brianium/paratest": "<7.3.0 || >=8.0.0",
-        "laravel/framework": "<11.0.0 || >=13.0.0",
+        "laravel/framework": "<12.0.0 || >=13.0.0",
         "nunomaduro/collision": "<8.0.0 || >=9.0.0",
         "phpunit/phpunit": "<10.5.0 || 11.0.0 || >=11.1.0"
     },
