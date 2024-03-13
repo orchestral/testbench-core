@@ -44,7 +44,7 @@ trait WithLaravelBootstrapFile
     protected function hasCustomApplicationKernels(): bool
     {
         return realpath($this->getBasePath()) !== default_skeleton_path()
-            && (static::$cacheApplicationBootstrapFile ??= $this->getApplicationBootstrapFile('app.php'));
+            && ((static::$cacheApplicationBootstrapFile ??= $this->getApplicationBootstrapFile('app.php')) !== false);
     }
 
     /**

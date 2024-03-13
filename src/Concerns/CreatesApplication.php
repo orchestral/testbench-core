@@ -439,9 +439,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationConsoleKernel($app)
     {
-        if ($this->hasCustomApplicationKernels() === false) {
-            $app->singleton(ConsoleKernelContract::class, $this->applicationConsoleKernelUsingWorkbench($app));
-        }
+        $app->singleton(ConsoleKernelContract::class, $this->applicationConsoleKernelUsingWorkbench($app));
     }
 
     /**
@@ -454,9 +452,7 @@ trait CreatesApplication
      */
     protected function resolveApplicationHttpKernel($app)
     {
-        if ($this->hasCustomApplicationKernels() === false) {
-            $app->singleton(HttpKernelContract::class, $this->applicationHttpKernelUsingWorkbench($app));
-        }
+        $app->singleton(HttpKernelContract::class, $this->applicationHttpKernelUsingWorkbench($app));
     }
 
     /**
