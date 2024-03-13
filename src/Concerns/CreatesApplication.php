@@ -276,16 +276,16 @@ trait CreatesApplication
         $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
         $this->resolveApplicationCore($app);
-
-        if ($usesApplicationBuilder === false) {
-            $this->resolveApplicationEnvironmentVariables($app);
-            $this->resolveApplicationConfiguration($app);
-            $this->resolveApplicationHttpKernel($app);
-            $this->resolveApplicationHttpMiddlewares($app);
-            $this->resolveApplicationConsoleKernel($app);
-            $this->resolveApplicationBootstrappers($app);
-            $this->refreshApplicationRouteNameLookups($app);
-        }
+        $this->resolveApplicationBindings($app);
+        $this->resolveApplicationExceptionHandler($app);
+        $this->resolveApplicationCore($app);
+        $this->resolveApplicationEnvironmentVariables($app);
+        $this->resolveApplicationConfiguration($app);
+        $usesApplicationBuilder || $this->resolveApplicationHttpKernel($app);
+        $this->resolveApplicationHttpMiddlewares($app);
+        $usesApplicationBuilder || $this->resolveApplicationConsoleKernel($app);
+        $this->resolveApplicationBootstrappers($app);
+        $this->refreshApplicationRouteNameLookups($app);
 
         return $app;
     }
