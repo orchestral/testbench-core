@@ -269,8 +269,6 @@ trait CreatesApplication
     {
         $app = $this->resolveApplication();
 
-        $usesApplicationBuilder = $this->usesCustomApplicationSkeleton() && \is_string(static::$cacheApplicationBootstrapFile);
-
         $this->resolveApplicationResolvingCallback($app);
 
         $this->resolveApplicationBindings($app);
@@ -278,9 +276,9 @@ trait CreatesApplication
         $this->resolveApplicationCore($app);
         $this->resolveApplicationEnvironmentVariables($app);
         $this->resolveApplicationConfiguration($app);
-        $usesApplicationBuilder || $this->resolveApplicationHttpKernel($app);
+        $this->resolveApplicationHttpKernel($app);
         $this->resolveApplicationHttpMiddlewares($app);
-        $usesApplicationBuilder || $this->resolveApplicationConsoleKernel($app);
+        $this->resolveApplicationConsoleKernel($app);
         $this->resolveApplicationBootstrappers($app);
         $this->refreshApplicationRouteNameLookups($app);
 
@@ -441,7 +439,9 @@ trait CreatesApplication
      */
     protected function resolveApplicationConsoleKernel($app)
     {
-        $app->singleton(ConsoleKernelContract::class, $this->applicationConsoleKernelUsingWorkbench($app));
+        if ($this->hasCustomApplicationKernels() === false) {
+            $app->singleton(ConsoleKernelContract::class, $this->applicationConsoleKernelUsingWorkbench($app));
+        }
     }
 
     /**
@@ -454,7 +454,9 @@ trait CreatesApplication
      */
     protected function resolveApplicationHttpKernel($app)
     {
-        $app->singleton(HttpKernelContract::class, $this->applicationHttpKernelUsingWorkbench($app));
+        if ($this->hasCustomApplicationKernels() === false) {
+            $app->singleton(HttpKernelContract::class, $this->applicationHttpKernelUsingWorkbench($app));
+        }
     }
 
     /**

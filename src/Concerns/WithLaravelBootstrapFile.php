@@ -37,13 +37,14 @@ trait WithLaravelBootstrapFile
     }
 
     /**
-     * Determine if application is using a custom skeleton path.
+     * Determine if application is using a custom application kernels.
      *
      * @return bool
      */
-    protected function usesCustomApplicationSkeleton(): bool
+    protected function hasCustomApplicationKernels(): bool
     {
-        return realpath($this->getBasePath()) !== default_skeleton_path();
+        return realpath($this->getBasePath()) !== default_skeleton_path()
+            && (static::$cacheApplicationBootstrapFile ??= $this->getApplicationBootstrapFile('app.php'));
     }
 
     /**
