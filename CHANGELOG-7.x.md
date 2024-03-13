@@ -2,11 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 7.42.0
+
+Released: 2024-03-13
 
 ### Added
 
+* Added `Orchestra\Testbench\Attributes\RequiresLaravel` attribute.
 * Added `Orchestra\Testbench\load_migration_paths()` function.
+* Added `usesRefreshDatabaseTestingConcern()` helper method to `Orchestra\Testbench\Concerns\InteractsWithTestCase` trait.
 
 ### Changes
 
