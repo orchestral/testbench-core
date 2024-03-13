@@ -2,23 +2,38 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.1
+
+Released: 2024-03-13
+
+### Added
+
+* Added `usesRefreshDatabaseTestingConcern()` helper method to `Orchestra\Testbench\Concerns\InteractsWithTestCase` trait.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `11.0.3`.
+
 ## 9.0.0
 
-Released: 2023-02-14
+Released: 2024-03-12
 
 ### Added
 
 * Added support for PHPUnit 11.
 * Added new `Orchestra\Testbench\Concerns\WithLaravelBootstrapFile` trait.
+* Added `Orchestra\Testbench\Attributes\RequiresLaravel` attribute.
+* Added `Orchestra\Testbench\load_migration_paths()` function.
 
 ### Changes
 
 * Update support for Laravel Framework v11.
 * Increase minimum PHP version to 8.2 and above (tested with 8.2 and 8.3).
+* Validate `MYSQL_*`, `MSSQL_*`, `SQLITE_*` and `POSTGRES_*` environment variables before trying to override the configuration values.
 
 ### Deprecated
 
-* Deprecate `Orchestra\Testbench\Concerns\HandlesAnnotations` inline with PHPUnit removal support for meta-comment support using annotation.
+* Deprecate `Orchestra\Testbench\Concerns\HandlesAnnotations` in line with PHPUnit removal support for meta-comment support using annotation.
 
 ### Removed
 
