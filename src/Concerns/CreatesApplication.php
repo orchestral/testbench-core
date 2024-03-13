@@ -269,18 +269,23 @@ trait CreatesApplication
     {
         $app = $this->resolveApplication();
 
+        $usesApplicationBuilder = $this->usesCustomApplicationSkeleton() && \is_string(static::$cacheApplicationBootstrapFile);
+
         $this->resolveApplicationResolvingCallback($app);
 
         $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
         $this->resolveApplicationCore($app);
-        $this->resolveApplicationEnvironmentVariables($app);
-        $this->resolveApplicationConfiguration($app);
-        $this->resolveApplicationHttpKernel($app);
-        $this->resolveApplicationHttpMiddlewares($app);
-        $this->resolveApplicationConsoleKernel($app);
-        $this->resolveApplicationBootstrappers($app);
-        $this->refreshApplicationRouteNameLookups($app);
+
+        if ($usesApplicationBuilder === false) {
+            $this->resolveApplicationEnvironmentVariables($app);
+            $this->resolveApplicationConfiguration($app);
+            $this->resolveApplicationHttpKernel($app);
+            $this->resolveApplicationHttpMiddlewares($app);
+            $this->resolveApplicationConsoleKernel($app);
+            $this->resolveApplicationBootstrappers($app);
+            $this->refreshApplicationRouteNameLookups($app);
+        }
 
         return $app;
     }
