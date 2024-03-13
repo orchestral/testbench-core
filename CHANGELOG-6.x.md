@@ -2,11 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 6.49.0
+
+Released: 2024-03-13
 
 ### Added
 
+* Added `Orchestra\Testbench\Attributes\RequiresLaravel` attribute.
 * Added `Orchestra\Testbench\load_migration_paths()` function.
+* Added `Orchestra\Testbench\laravel_version_compare()` function.
+* Added `Orchestra\Testbench\phpunit_version_compare()` function.
 
 ### Changes
 
