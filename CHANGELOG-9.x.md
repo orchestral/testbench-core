@@ -2,9 +2,21 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.1
+
+Released: 2024-03-13
+
+### Added
+
+* Added `usesRefreshDatabaseTestingConcern()` helper method to `Orchestra\Testbench\Concerns\InteractsWithTestCase` trait.
+
+### Changes
+
+* Bump minimum `laravel/framework` to `11.0.3`.
+
 ## 9.0.0
 
-Released: 2023-02-14
+Released: 2024-03-12
 
 ### Added
 
@@ -12,7 +24,6 @@ Released: 2023-02-14
 * Added new `Orchestra\Testbench\Concerns\WithLaravelBootstrapFile` trait.
 * Added `Orchestra\Testbench\Attributes\RequiresLaravel` attribute.
 * Added `Orchestra\Testbench\load_migration_paths()` function.
-* Added `usesRefreshDatabaseTestingConcern()` helper method to `Orchestra\Testbench\Concerns\InteractsWithTestCase` trait.
 
 ### Changes
 
