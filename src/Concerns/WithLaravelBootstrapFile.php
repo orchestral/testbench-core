@@ -39,6 +39,8 @@ trait WithLaravelBootstrapFile
     /**
      * Determine if application is using a custom application kernels.
      *
+     * @internal
+     *
      * @return bool
      */
     protected function hasCustomApplicationKernels(): bool
