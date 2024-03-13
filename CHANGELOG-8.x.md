@@ -2,6 +2,20 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.23.0
+
+Released: 2024-03-12
+
+### Added
+
+* Added `Orchestra\Testbench\Attributes\RequiresLaravel` attribute.
+* Added `Orchestra\Testbench\load_migration_paths()` function.
+* Added `usesRefreshDatabaseTestingConcern()` helper method to `Orchestra\Testbench\Concerns\InteractsWithTestCase` trait.
+
+### Changes
+
+* Validate `MYSQL_*`, `MSSQL_*`, `SQLITE_*` and `POSTGRES_*` environment variables before trying to override the configuration values.
+
 ## 8.22.1
 
 Released: 2024-02-22
