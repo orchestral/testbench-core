@@ -276,9 +276,6 @@ trait CreatesApplication
         $this->resolveApplicationBindings($app);
         $this->resolveApplicationExceptionHandler($app);
         $this->resolveApplicationCore($app);
-        $this->resolveApplicationBindings($app);
-        $this->resolveApplicationExceptionHandler($app);
-        $this->resolveApplicationCore($app);
         $this->resolveApplicationEnvironmentVariables($app);
         $this->resolveApplicationConfiguration($app);
         $usesApplicationBuilder || $this->resolveApplicationHttpKernel($app);
