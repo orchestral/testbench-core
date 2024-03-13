@@ -329,6 +329,10 @@ class Application
      */
     protected function resolveApplicationConsoleKernel($app)
     {
+        if ($this->hasCustomApplicationKernels() === true) {
+            return;
+        }
+
         $kernel = Workbench::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
 
         if (file_exists($app->basePath(join_paths('app', 'Console', 'Kernel.php'))) && class_exists('App\Console\Kernel')) {
@@ -348,6 +352,10 @@ class Application
      */
     protected function resolveApplicationHttpKernel($app)
     {
+        if ($this->hasCustomApplicationKernels() === true) {
+            return;
+        }
+
         $kernel = Workbench::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
 
         if (file_exists($app->basePath(join_paths('app', 'Http', 'Kernel.php'))) && class_exists('App\Http\Kernel')) {
