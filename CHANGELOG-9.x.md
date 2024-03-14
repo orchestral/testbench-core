@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.3
+
+Released: 2024-03-14
+
+### Changes
+
+* Revert default skeleton database collations to `utf8mb4_unicode_ci`.
+
 ## 9.0.2
 
 Released: 2024-03-14
