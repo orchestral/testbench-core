@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.49.1
+
+Released: 2024-03-15
+
+### Fixes
+
+* Fixes `class_implements(): Class AllowDynamicProperties does not exist and could not be loaded` error on PHP 8.1 and lower.
+
 ## 6.49.0
 
 Released: 2024-03-13
