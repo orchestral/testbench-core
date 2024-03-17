@@ -28,6 +28,7 @@ trait InteractsWithMigrations
             (\is_string($paths) || Arr::isList($paths))
             && static::usesRefreshDatabaseTestingConcern()
             && RefreshDatabaseState::$migrated === false
+            && RefreshDatabaseState::$lazilyRefreshed === false
         ) {
             if (\is_null($this->app)) {
                 throw ApplicationNotAvailableException::make(__METHOD__);
