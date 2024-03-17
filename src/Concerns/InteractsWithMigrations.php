@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
@@ -26,6 +27,7 @@ trait InteractsWithMigrations
         if (
             (\is_string($paths) || Arr::isList($paths))
             && static::usesTestingConcern(RefreshDatabase::class)
+            && RefreshDatabaseState::$migrated === false
         ) {
             /** @var array<int, string>|string $paths */
             load_migration_paths($this->app, $paths);
