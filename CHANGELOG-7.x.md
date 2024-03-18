@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.42.2
+
+Released: 2024-03-18
+
+### Changes
+
+* Check against `RefreshDatabaseState::$migrated` and `RefreshDatabaseState::$lazilyRefreshed` before loading migration paths to the instance of `migrator`.
+    
 ## 7.42.1
 
 Released: 2024-03-15
