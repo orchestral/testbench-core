@@ -28,13 +28,16 @@ trait WithLaravelMigrations
             return;
         }
 
-        if (! static::usesTestingConcern(RefreshDatabase::class)) {
-            $this->loadLaravelMigrations();
-        } else {
+        if (
+            static::usesTestingConcern(RefreshDatabase::class)
+            && RefreshDatabaseState::$migrated === false
+        ) {
             after_resolving($this->app, 'migrator', static function ($migrator, $app) {
                 /** @var \Illuminate\Database\Migrations\Migrator $migrator */
                 $migrator->path(laravel_migration_path());
             });
+        } else {
+            $this->loadLaravelMigrations();
         }
     }
 }
