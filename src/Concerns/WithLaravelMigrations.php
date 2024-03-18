@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\laravel_migration_path;
