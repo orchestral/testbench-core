@@ -2,6 +2,9 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
+
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\laravel_migration_path;
 
@@ -26,13 +29,17 @@ trait WithLaravelMigrations
             return;
         }
 
-        if (! static::usesRefreshDatabaseTestingConcern()) {
-            $this->loadLaravelMigrations();
-        } else {
+        if (
+            static::usesRefreshDatabaseTestingConcern()
+            && RefreshDatabaseState::$migrated === false
+            && RefreshDatabaseState::$lazilyRefreshed === false
+        ) {
             after_resolving($this->app, 'migrator', static function ($migrator, $app) {
                 /** @var \Illuminate\Database\Migrations\Migrator $migrator */
                 $migrator->path(laravel_migration_path());
             });
+        } else {
+            $this->loadLaravelMigrations();
         }
     }
 }
