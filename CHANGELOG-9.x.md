@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.4
+
+Released: 2024-03-18
+
+### Changes
+
+* Check against `RefreshDatabaseState::$migrated` and `RefreshDatabaseState::$lazilyRefreshed` before loading migration paths to the instance of `migrator`.
+* Update skeleton to match v11.0.3.
+
+### Fixes
+
+* Fixes `class_implements()` should only be executed if the Attribute class exists.
+
 ## 9.0.3
 
 Released: 2024-03-14
