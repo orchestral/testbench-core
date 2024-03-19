@@ -95,11 +95,11 @@ trait InteractsWithMigrations
     {
         $this->loadLaravelMigrationsWithoutRollback($database);
 
-        $this->beforeApplicationDestroyed(function () use ($database) {
-            $options = $this->resolveLaravelMigrationsOptions($database);
-            $options['--path'] = laravel_migration_path();
-            $options['--realpath'] = true;
+        $options = $this->resolveLaravelMigrationsOptions($database);
+        $options['--path'] = laravel_migration_path();
+        $options['--realpath'] = true;
 
+        $this->beforeApplicationDestroyed(function () use ($options) {
             (new MigrateProcessor($this, $options))->rollback();
         });
     }
