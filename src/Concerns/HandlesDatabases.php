@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
@@ -54,6 +55,10 @@ trait HandlesDatabases
         $attributeCallbacks->handle();
 
         $this->defineDatabaseSeeders();
+
+        if (static::usesRefreshDatabaseTestingConcern()) {
+            $this->beforeApplicationDestroyed(static fn () => ResetRefreshDatabaseState::run());
+        }
     }
 
     /**
