@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
-use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Features\TestingFeature;
@@ -63,10 +62,6 @@ trait HandlesDatabases
             default: fn () => $this->defineDatabaseSeeders(),
             pest: fn () => $this->defineDatabaseSeedersUsingPest(), // @phpstan-ignore-line
         );
-
-        if (static::usesRefreshDatabaseTestingConcern()) {
-            $this->beforeApplicationDestroyed(static fn () => ResetRefreshDatabaseState::run());
-        }
     }
 
     /**
