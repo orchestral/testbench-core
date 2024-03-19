@@ -16,6 +16,16 @@ final class ResetRefreshDatabaseState implements InvokableContract
      */
     public function __invoke($app): void
     {
+        self::run();
+    }
+
+    /**
+     * Execute the action.
+     *
+     * @return void
+     */
+    public static function run(): void
+    {
         RefreshDatabaseState::$migrated = false;
         RefreshDatabaseState::$lazilyRefreshed = false;
     }

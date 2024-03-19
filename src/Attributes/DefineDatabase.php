@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
 use Closure;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
@@ -45,8 +44,7 @@ final class DefineDatabase implements ActionableContract
      */
     public function handle($app, Closure $action)
     {
-        RefreshDatabaseState::$migrated = false;
-        RefreshDatabaseState::$lazilyRefreshed = false;
+        ResetRefreshDatabaseState::run();
 
         $resolver = function () use ($app, $action) {
             \call_user_func($action, $this->method, [$app]);
