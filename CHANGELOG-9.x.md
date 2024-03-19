@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.5
+
+Released: 2024-03-19
+
+### Fixes
+
+* Fixes `RefreshDatabase` usage does not reset the database migrations between tests.
+
 ## 9.0.4
 
 Released: 2024-03-18
