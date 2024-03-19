@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.6
+
+Released: 2024-03-19
+
+### Changes
+
+* Run `ResetRefreshDatabaseState` via `tearDownTheTestEnvironmentUsingTestCase()` method.
+
+### Fixes
+
+* Fixes `beforeApplicationDestroyed()` usage on `loadLaravelMigrations()` method.
+
 ## 9.0.5
 
 Released: 2024-03-19
