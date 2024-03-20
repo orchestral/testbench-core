@@ -71,6 +71,8 @@ trait InteractsWithMigrations
      *
      * @param  array<string, mixed>|string  $paths
      * @return array
+     *
+     * @throws \InvalidArgumentException
      */
     protected function resolvePackageMigrationsOptions($paths = []): array
     {
