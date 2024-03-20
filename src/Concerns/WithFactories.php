@@ -29,6 +29,8 @@ trait WithFactories
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  string  $path
      * @return $this
+     *
+     * @throws \Exception
      */
     protected function loadFactoriesUsing($app, string $path)
     {
