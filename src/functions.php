@@ -347,6 +347,8 @@ function laravel_version_compare(string $version, ?string $operator = null)
  * @param  string  $version
  * @param  string|null  $operator
  * @return int|bool
+ *
+ * @throws \RuntimeException
  */
 function phpunit_version_compare(string $version, ?string $operator = null)
 {
