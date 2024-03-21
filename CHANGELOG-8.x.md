@@ -2,6 +2,42 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.23.4
+
+Released: 2024-03-19
+
+### Changes
+
+* Run `ResetRefreshDatabaseState` via `tearDownTheTestEnvironmentUsingTestCase()` method.
+
+### Fixes
+
+* Fixes `beforeApplicationDestroyed()` usage on `loadLaravelMigrations()` method.
+
+## 8.23.3
+
+Released: 2024-03-19
+
+### Fixes
+
+* Fixes `RefreshDatabase` usage does not reset the database migrations between tests.
+
+## 8.23.2
+
+Released: 2024-03-18
+
+### Changes
+
+* Check against `RefreshDatabaseState::$migrated` and `RefreshDatabaseState::$lazilyRefreshed` before loading migration paths to the instance of `migrator`.
+
+## 8.23.1
+
+Released: 2024-03-15
+
+### Fixes
+
+* Fixes `class_implements(): Class AllowDynamicProperties does not exist and could not be loaded` error on PHP 8.1 and lower.
+
 ## 8.23.0
 
 Released: 2024-03-12

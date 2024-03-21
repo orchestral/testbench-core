@@ -115,6 +115,11 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
 
 transform([
+    "'collation' => env('DB_COLLATION', 'utf8mb4_0900_ai_ci')," => "'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),",
+    "'collation' => env('DB_COLLATION', 'utf8mb4_uca1400_ai_ci')," => "'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),",
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/database.php"));
+
+transform([
     "env('BCRYPT_ROUNDS', 12)," => "env('BCRYPT_ROUNDS', 10),",
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/hashing.php"));
 

@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Contracts\Attributes\AfterAll as AfterAllContract;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
@@ -168,6 +169,10 @@ trait InteractsWithTestCase
             ->map(static function ($instance) use ($app) {
                 $instance->afterEach($app);
             });
+
+        if (static::usesRefreshDatabaseTestingConcern()) {
+            ResetRefreshDatabaseState::run();
+        }
     }
 
     /**

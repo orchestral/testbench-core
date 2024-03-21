@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Orchestra\Testbench\Database\MigrateProcessor;
@@ -25,7 +26,12 @@ trait InteractsWithMigrations
      */
     protected function loadMigrationsFrom(array|string $paths): void
     {
-        if ((\is_string($paths) || Arr::isList($paths)) && static::usesRefreshDatabaseTestingConcern()) {
+        if (
+            (\is_string($paths) || Arr::isList($paths))
+            && static::usesRefreshDatabaseTestingConcern()
+            && RefreshDatabaseState::$migrated === false
+            && RefreshDatabaseState::$lazilyRefreshed === false
+        ) {
             if (\is_null($this->app)) {
                 throw ApplicationNotAvailableException::make(__METHOD__);
             }
@@ -71,6 +77,8 @@ trait InteractsWithMigrations
      *
      * @param  array<string, mixed>|string  $paths
      * @return array
+     *
+     * @throws \InvalidArgumentException
      */
     protected function resolvePackageMigrationsOptions(array|string $paths = []): array
     {
@@ -97,11 +105,11 @@ trait InteractsWithMigrations
     {
         $this->loadLaravelMigrationsWithoutRollback($database);
 
-        $this->beforeApplicationDestroyed(function () use ($database) {
-            $options = $this->resolveLaravelMigrationsOptions($database);
-            $options['--path'] = laravel_migration_path();
-            $options['--realpath'] = true;
+        $options = $this->resolveLaravelMigrationsOptions($database);
+        $options['--path'] = laravel_migration_path();
+        $options['--realpath'] = true;
 
+        $this->beforeApplicationDestroyed(function () use ($options) {
             (new MigrateProcessor($this, $options))->rollback();
         });
     }

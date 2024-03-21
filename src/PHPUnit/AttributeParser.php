@@ -79,6 +79,10 @@ class AttributeParser
      */
     public static function validAttribute($class): bool
     {
+        if (\is_string($class) && ! class_exists($class)) {
+            return false;
+        }
+
         $implements = class_implements($class);
 
         return isset($implements[TestingFeature::class])
