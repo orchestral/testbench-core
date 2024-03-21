@@ -3,15 +3,19 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Console\Application as Artisan;
-use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
+use Illuminate\Support\Sleep;
+use Illuminate\Console\Scheduling\ScheduleListCommand;
+use Illuminate\Console\Signals;
+use Illuminate\Foundation\Bootstrap\HandleExceptions;
+use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Foundation\Console\RouteListCommand;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
-use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
@@ -174,15 +178,19 @@ class Application
      */
     public static function flushState(): void
     {
+        AboutCommand::flushState();
         Artisan::forgetBootstrappers();
         Component::flushCache();
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
         HandleExceptions::forgetApp();
+        JsonResource::wrap('data');
         Queue::createPayloadUsing(null);
+        RouteListCommand::resolveTerminalWidthUsing(null);
+        ScheduleListCommand::resolveTerminalWidthUsing(null);
+        Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
-        AboutCommand::flushState();
         TrimStrings::flushState();
     }
 
