@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Application as Artisan;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -146,9 +147,7 @@ trait Testing
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
 
-        Artisan::forgetBootstrappers();
-
-        Queue::createPayloadUsing(null);
+        Testbench::flushState();
 
         if ($this->callbackException) {
             throw $this->callbackException;

@@ -2,7 +2,10 @@
 
 namespace Orchestra\Testbench\Foundation;
 
+use Illuminate\Console\Application as Artisan;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Queue\Queue;
 use Illuminate\Support\Arr;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Workbench\Workbench;
@@ -104,6 +107,18 @@ class Application
     public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
     {
         return (new static($basePath, $resolvingCallback))->configure($options)->createApplication();
+    }
+
+    /**
+     * Flush the application states.
+     *
+     * @return void
+     */
+    public static function flushState(): void
+    {
+        Artisan::forgetBootstrappers();
+        JsonResource::wrap('data');
+        Queue::createPayloadUsing(null);
     }
 
     /**
