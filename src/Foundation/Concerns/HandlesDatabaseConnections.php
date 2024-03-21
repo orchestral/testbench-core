@@ -17,26 +17,29 @@ trait HandlesDatabaseConnections
     {
         $keyword = Str::upper($keyword);
 
+        /** @var array<string, array{env: array<int, string>|string, rules?: (\Closure(mixed):(bool))|null}> $options */
         $options = [
-            'url' => 'URL',
-            'host' => 'HOST',
-            'port' => 'PORT',
-            'database' => ['DB', 'DATABASE'],
-            'username' => ['USER', 'USERNAME'],
-            'password' => 'PASSWORD',
-            'collation' => 'COLLATION',
+            'url' => ['env' => 'URL'],
+            'host' => ['env' => 'HOST'],
+            'port' => ['env' => 'PORT', 'rules' => static fn ($value) => ! empty($value) && \is_int($value)],
+            'database' => ['env' => ['DB', 'DATABASE']],
+            'username' => ['env' => ['USER', 'USERNAME']],
+            'password' => ['env' => 'PASSWORD', 'rules' => static fn ($value) => \is_null($value) || \is_string($value)],
+            'collation' => ['env' => 'COLLATION', 'rules' => static fn ($value) => \is_null($value) || \is_string($value)],
         ];
 
         $config->set(
             Collection::make($options)
-                ->when($driver === 'pgsql', static fn ($options) => $options->put('schema', 'SCHEMA'))
-                ->mapWithKeys(static function ($value, $key) use ($driver, $keyword, $config) {
+                ->when($driver === 'pgsql', static fn ($options) => $options->put('schema', ['env' => 'SCHEMA']))
+                ->mapWithKeys(static function ($options, $key) use ($driver, $keyword, $config) {
                     $name = "database.connections.{$driver}.{$key}";
 
                     /** @var mixed $configuration */
-                    $configuration = Collection::make(Arr::wrap($value))
+                    $configuration = Collection::make(Arr::wrap($options['env']))
                         ->transform(static fn ($value) => Env::get("{$keyword}_{$value}"))
-                        ->first(static fn ($value) => ! \is_null($value)) ?? $config->get($name);
+                        ->first(
+                            $options['rules'] ?? static fn ($value) => ! empty($value) && $value !== false && \is_string($value)
+                        ) ?? $config->get($name);
 
                     return [
                         "{$name}" => $configuration,

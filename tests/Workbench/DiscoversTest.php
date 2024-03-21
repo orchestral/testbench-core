@@ -4,10 +4,12 @@ namespace Orchestra\Testbench\Tests\Workbench;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class DiscoversTest extends TestCase
 {
     use InteractsWithViews;
@@ -15,9 +17,13 @@ class DiscoversTest extends TestCase
 
     /** {@inheritDoc} */
     #[\Override]
-    protected function defineEnvironment($app)
+    protected function setUp(): void
     {
-        $app['config']->set(['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF']);
+        if (! \defined('LARAVEL_START')) {
+            \define('LARAVEL_START', microtime(true));
+        }
+
+        parent::setUp();
     }
 
     #[Test]
@@ -25,6 +31,15 @@ class DiscoversTest extends TestCase
     {
         $this->get('/hello')
             ->assertOk();
+    }
+
+    #[Test]
+    public function it_can_resolve_health_check_from_discovers()
+    {
+        $this->get('/up')
+            ->assertOk()
+            ->assertSee('HTTP request received')
+            ->assertSee('Response successfully rendered in');
     }
 
     #[Test]

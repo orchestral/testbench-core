@@ -19,13 +19,13 @@ use function Orchestra\Testbench\transform_relative_path;
  *   env: array,
  *   providers: array<int, class-string>,
  *   dont-discover: array<int, string>,
- *   bootstrappers: class-string|array<int, class-string>|null
+ *   bootstrappers: array<int, class-string>|class-string|null
  * }
  * @phpstan-type TOptionalExtraConfig array{
  *   env?: array,
  *   providers?: array<int, class-string>,
  *   dont-discover?: array<int, string>,
- *   bootstrappers?: class-string|array<int, class-string>|null
+ *   bootstrappers?: array<int, class-string>|class-string|null
  * }
  * @phpstan-type TPurgeConfig array{
  *   directories: array<int, string>,
@@ -41,8 +41,9 @@ use function Orchestra\Testbench\transform_relative_path;
  *   guard: string|null,
  *   install: bool,
  *   welcome: bool|null,
+ *   health: bool|null,
  *   sync: array<int, array{from: string, to: string}>,
- *   build: array<int, string>,
+ *   build: array<int|string, array<string, mixed>|string>,
  *   assets: array<int, string>,
  *   discovers: TWorkbenchDiscoversConfig
  * }
@@ -52,8 +53,9 @@ use function Orchestra\Testbench\transform_relative_path;
  *   guard?: string|null,
  *   install?: bool,
  *   welcome?: bool|null,
+ *   health?: bool|null,
  *   sync?: array<int, array{from: string, to: string}>,
- *   build?: array<int, string>,
+ *   build?: array<int|string, array<string, mixed>|string>,
  *   assets?: array<int, string>,
  *   discovers?: TWorkbenchOptionalDiscoversConfig
  * }
@@ -78,9 +80,9 @@ use function Orchestra\Testbench\transform_relative_path;
  *   env: array,
  *   providers: array<int, class-string>,
  *   dont-discover: array<int, string>,
- *   bootstrappers: class-string|array<int, class-string>|null,
- *   migrations: string|array<int, string>|bool,
- *   seeders: class-string|array<int, class-string>|bool,
+ *   bootstrappers: array<int, class-string>|class-string|null,
+ *   migrations: array<int, string>|bool|string,
+ *   seeders: array<int, class-string>|bool|class-string,
  *   purge: TOptionalPurgeConfig,
  *   workbench: TOptionalWorkbenchConfig
  * }
@@ -89,9 +91,9 @@ use function Orchestra\Testbench\transform_relative_path;
  *   env?: array,
  *   providers?: array<int, class-string>,
  *   dont-discover?: array<int, string>,
- *   bootstrappers?: class-string|array<int, class-string>|null,
- *   migrations?: string|array<int, string>|bool,
- *   seeders?: class-string|array<int, class-string>|bool,
+ *   bootstrappers?: array<int, class-string>|class-string|null,
+ *   migrations?: array<int, string>|bool|string,
+ *   seeders?: array<int, class-string>|bool|class-string,
  *   purge?: TOptionalPurgeConfig|null,
  *   workbench?: TOptionalWorkbenchConfig|null
  * }
@@ -142,6 +144,7 @@ class Config extends Fluent implements ConfigContract
         'guard' => null,
         'install' => true,
         'welcome' => null,
+        'health' => null,
         'sync' => [],
         'build' => [],
         'assets' => [],

@@ -2,6 +2,81 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.23.4
+
+Released: 2024-03-19
+
+### Changes
+
+* Run `ResetRefreshDatabaseState` via `tearDownTheTestEnvironmentUsingTestCase()` method.
+
+### Fixes
+
+* Fixes `beforeApplicationDestroyed()` usage on `loadLaravelMigrations()` method.
+
+## 8.23.3
+
+Released: 2024-03-19
+
+### Fixes
+
+* Fixes `RefreshDatabase` usage does not reset the database migrations between tests.
+
+## 8.23.2
+
+Released: 2024-03-18
+
+### Changes
+
+* Check against `RefreshDatabaseState::$migrated` and `RefreshDatabaseState::$lazilyRefreshed` before loading migration paths to the instance of `migrator`.
+
+## 8.23.1
+
+Released: 2024-03-15
+
+### Fixes
+
+* Fixes `class_implements(): Class AllowDynamicProperties does not exist and could not be loaded` error on PHP 8.1 and lower.
+
+## 8.23.0
+
+Released: 2024-03-12
+
+### Added
+
+* Added `Orchestra\Testbench\Attributes\RequiresLaravel` attribute.
+* Added `Orchestra\Testbench\load_migration_paths()` function.
+* Added `usesRefreshDatabaseTestingConcern()` helper method to `Orchestra\Testbench\Concerns\InteractsWithTestCase` trait.
+
+### Changes
+
+* Validate `MYSQL_*`, `MSSQL_*`, `SQLITE_*` and `POSTGRES_*` environment variables before trying to override the configuration values.
+
+## 8.22.1
+
+Released: 2024-02-22
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Attributes\ResetRefreshDatabaseState` attribute declaration to only `Attribute::TARGET_CLASS`.
+
+## 8.22.0
+
+Released: 2024-02-21
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Env::has()` method.
+* Added `Orchestra\Testbench\once()` function.
+
+### Changes
+
+* Allow passing `$command` to `Orchestra\Testbench\remote()` function using `array` instead of just `string`.
+* Allow to following functions to accept array of paths:
+    - `Orchestra\Testbench\default_skeleton_path()`
+    - `Orchestra\Testbench\package_path()`
+    - `Orchestra\Testbench\workbench_path()`
+
 ## 8.21.1
 
 Released: 2024-01-22

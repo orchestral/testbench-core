@@ -10,8 +10,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Env;
 
-use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\load_migration_paths;
 use function Orchestra\Testbench\transform_relative_path;
 use function Orchestra\Testbench\workbench;
 
@@ -23,12 +23,12 @@ final class LoadMigrationsFromArray
     /**
      * Construct a new Create Vendor Symlink bootstrapper.
      *
-     * @param  string|array<int, string>|bool  $migrations
-     * @param  class-string|array<int, class-string>|bool  $seeders
+     * @param  array<int, string>|bool|string  $migrations
+     * @param  array<int, class-string>|bool|class-string  $seeders
      */
     public function __construct(
-        public readonly string|bool|array $migrations = [],
-        public readonly string|bool|array $seeders = false
+        public readonly array|bool|string $migrations = [],
+        public readonly array|bool|string $seeders = false
     ) {
         //
     }
@@ -66,9 +66,8 @@ final class LoadMigrationsFromArray
 
                 Collection::make(Arr::wrap($this->seeders))
                     ->flatten()
-                    ->filter(static function ($seederClass) {
-                        return ! \is_null($seederClass) && class_exists($seederClass);
-                    })->each(static function ($seederClass) use ($app) {
+                    ->filter(static fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
+                    ->each(static function ($seederClass) use ($app) {
                         $app->make(ConsoleKernel::class)->call('db:seed', [
                             '--class' => $seederClass,
                         ]);
@@ -91,12 +90,7 @@ final class LoadMigrationsFromArray
             ->transform(static fn ($migration) => transform_relative_path($migration, $app->basePath()))
             ->all();
 
-        after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
-            foreach ((array) $paths as $path) {
-                /** @var \Illuminate\Database\Migrations\Migrator $migrator */
-                $migrator->path($path);
-            }
-        });
+        load_migration_paths($app, $paths);
     }
 
     /**
@@ -110,6 +104,6 @@ final class LoadMigrationsFromArray
         return
             workbench()['install'] === true
             && Env::get('TESTBENCH_WITHOUT_DEFAULT_MIGRATIONS') !== true
-            && rescue(fn () => is_dir(laravel_migration_path()), false, false);
+            && rescue(static fn () => is_dir(laravel_migration_path()), false, false);
     }
 }

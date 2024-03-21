@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
+use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnitRegistry;
 use ReflectionClass;
 
 /**
@@ -81,7 +81,7 @@ trait InteractsWithPHPUnit
             return new Collection();
         }
 
-        [$registry, $methodName] = [PHPUnit10Registry::getInstance(), $this->name()];
+        [$registry, $methodName] = [PHPUnitRegistry::getInstance(), $this->name()];
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
@@ -221,7 +221,7 @@ trait InteractsWithPHPUnit
         static::$cachedTestCaseClassAttributes = [];
         static::$cachedTestCaseMethodAttributes = [];
 
-        $registry = PHPUnit10Registry::getInstance();
+        $registry = PHPUnitRegistry::getInstance();
 
         (function () {
             $this->classDocBlocks = [];

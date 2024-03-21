@@ -25,6 +25,7 @@ class HelpersTest extends TestCase
                 'guard' => 'web',
                 'install' => false,
                 'welcome' => false,
+                'health' => false,
                 'discovers' => [
                     'web' => true,
                 ],
@@ -37,6 +38,7 @@ class HelpersTest extends TestCase
             'guard' => 'web',
             'install' => false,
             'welcome' => false,
+            'health' => false,
             'sync' => [],
             'build' => [],
             'assets' => [],
@@ -60,6 +62,7 @@ class HelpersTest extends TestCase
             'guard' => null,
             'install' => true,
             'welcome' => null,
+            'health' => null,
             'sync' => [],
             'build' => [],
             'assets' => [],

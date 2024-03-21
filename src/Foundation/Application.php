@@ -28,13 +28,21 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Routing\Middleware\ValidateSignature;
 
 use Illuminate\Console\Application as Artisan;
+use Illuminate\Console\Scheduling\ScheduleListCommand;
+use Illuminate\Console\Signals;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Foundation\Console\ChannelListCommand;
+use Illuminate\Foundation\Console\RouteListCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Http\Middleware\TrustProxies;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Queue\Queue;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Once;
 use Illuminate\Support\Sleep;
@@ -202,6 +210,7 @@ class Application
         Authenticate::redirectUsing(null);
         AuthenticationException::redirectUsing(null);
         Builder::flushState();
+        ChannelListCommand::resolveTerminalWidthUsing(null);
         Component::flushCache();
         Component::forgetComponentsResolver();
         Component::forgetFactory();
@@ -220,6 +229,7 @@ class Application
         RegisterProviders::flushState();
         ResetPassword::flushState();
         RouteServiceProvider::loadRoutesUsing(null);
+        RouteListCommand::resolveTerminalWidthUsing(null);
         ScheduleListCommand::resolveTerminalWidthUsing(null);
         Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
@@ -378,6 +388,10 @@ class Application
      */
     protected function resolveApplicationConsoleKernel($app)
     {
+        if ($this->hasCustomApplicationKernels() === true) {
+            return;
+        }
+
         $kernel = Workbench::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
 
         if (file_exists($app->basePath(join_paths('app', 'Console', 'Kernel.php'))) && class_exists('App\Console\Kernel')) {
@@ -397,6 +411,10 @@ class Application
      */
     protected function resolveApplicationHttpKernel($app)
     {
+        if ($this->hasCustomApplicationKernels() === true) {
+            return;
+        }
+
         $kernel = Workbench::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
 
         if (file_exists($app->basePath(join_paths('app', 'Http', 'Kernel.php'))) && class_exists('App\Http\Kernel')) {

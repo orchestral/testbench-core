@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
 use function Illuminate\Filesystem\join_paths;
+use function Laravel\Prompts\confirm;
 
 class EnsureDirectoryExists extends Action
 {
@@ -16,11 +17,13 @@ class EnsureDirectoryExists extends Action
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  \Illuminate\Console\View\Components\Factory|null  $components
      * @param  string|null  $workingPath
+     * @param  bool  $confirmation
      */
     public function __construct(
         public readonly Filesystem $filesystem,
         public readonly ?ComponentsFactory $components = null,
-        ?string $workingPath = null
+        ?string $workingPath = null,
+        public readonly bool $confirmation = false
     ) {
         $this->workingPath = $workingPath;
     }
@@ -35,19 +38,25 @@ class EnsureDirectoryExists extends Action
     {
         LazyCollection::make($directories)
             ->each(function ($directory) {
+                $location = $this->pathLocation($directory);
+
                 if ($this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
-                        sprintf('Directory [%s] already exists', $this->pathLocation($directory)),
+                        sprintf('Directory [%s] already exists', $location),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
                     return;
                 }
 
+                if ($this->confirmation === true && confirm(sprintf('Ensure [%s] directory exists?', $location)) === false) {
+                    return;
+                }
+
                 $this->filesystem->ensureDirectoryExists($directory, 0755, true);
                 $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
 
-                $this->components?->task(sprintf('Prepare [%s] directory', $this->pathLocation($directory)));
+                $this->components?->task(sprintf('Prepare [%s] directory', $location));
             });
     }
 }

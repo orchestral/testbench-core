@@ -44,7 +44,7 @@ class ServeCommand extends Command
      * Get the value of a command option.
      *
      * @param  string|null  $key
-     * @return string|array|bool|null
+     * @return array|bool|string|null
      */
     #[\Override]
     public function option($key = null)

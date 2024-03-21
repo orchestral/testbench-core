@@ -9,6 +9,8 @@ use Orchestra\Testbench\Concerns\HandlesAttributes;
 use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
+use function Orchestra\Testbench\once;
+
 /**
  * @internal
  */
@@ -34,25 +36,29 @@ final class TestingFeature
         /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Features\FeaturesCollection} $result */
         $result = new Fluent(['attribute' => new FeaturesCollection()]);
 
+        $defaultResolver = once($default);
+
         if ($testCase instanceof PHPUnitTestCase) {
             /** @phpstan-ignore-next-line */
             if ($testCase::usesTestingConcern(HandlesAnnotations::class)) {
-                value($annotation);
+                value($annotation, $defaultResolver);
             }
 
             /** @phpstan-ignore-next-line */
             if ($testCase::usesTestingConcern(HandlesAttributes::class)) {
-                $result['attribute'] = value($attribute);
+                $result['attribute'] = value($attribute, $defaultResolver);
             }
-
         }
 
-        /** @phpstan-ignore-next-line */
-        if ($testCase instanceof PHPUnitTestCase && $testCase::usesTestingConcern(WithPest::class)) {
-            $pest instanceof Closure ? value($pest, $default) : value($default);
-        } else {
-            value($default);
+        if (
+            $testCase instanceof PHPUnitTestCase
+            && $pest instanceof Closure
+            && $testCase::usesTestingConcern(WithPest::class) /** @phpstan-ignore-line */
+        ) {
+            value($pest, $defaultResolver);
         }
+
+        $defaultResolver();
 
         return $result;
     }

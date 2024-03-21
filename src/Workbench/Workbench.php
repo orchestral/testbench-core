@@ -3,15 +3,18 @@
 namespace Orchestra\Testbench\Workbench;
 
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\View;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 
-use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -78,19 +81,35 @@ class Workbench
         /** @var TWorkbenchDiscoversConfig $discoversConfig */
         $discoversConfig = $config->getWorkbenchDiscoversAttributes();
 
-        $app->booted(static function ($app) use ($discoversConfig) {
-            tap($app->make('router'), static function (Router $router) use ($discoversConfig) {
-                foreach (['web', 'api'] as $group) {
-                    if (($discoversConfig[$group] ?? false) === true) {
-                        if (file_exists($route = workbench_path(join_paths('routes', "{$group}.php")))) {
-                            $router->middleware($group)->group($route);
-                        }
+        $healthCheckEnabled = $config->getWorkbenchAttributes()['health'] ?? false;
+
+        $app->booted(static function ($app) use ($discoversConfig, $healthCheckEnabled) {
+            tap($app->make('router'), static function (Router $router) use ($discoversConfig, $healthCheckEnabled) {
+                if (($discoversConfig['api'] ?? false) === true) {
+                    if (file_exists($route = workbench_path(['routes', 'api.php']))) {
+                        $router->middleware('api')->group($route);
+                    }
+                }
+
+                if ($healthCheckEnabled === true) {
+                    $router->middleware('web')->get('/up', function () {
+                        Event::dispatch(new DiagnosingHealth);
+
+                        return View::file(
+                            package_path(['vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'])
+                        );
+                    });
+                }
+
+                if (($discoversConfig['web'] ?? false) === true) {
+                    if (file_exists($route = workbench_path(['routes', 'web.php']))) {
+                        $router->middleware('web')->group($route);
                     }
                 }
             });
 
             if ($app->runningInConsole() && ($discoversConfig['commands'] ?? false) === true) {
-                if (file_exists($console = workbench_path(join_paths('routes', 'console.php')))) {
+                if (file_exists($console = workbench_path(['routes', 'console.php']))) {
                     require $console;
                 }
             }
@@ -100,7 +119,7 @@ class Workbench
             /** @var \Illuminate\Contracts\Translation\Loader $translator */
             $path = Collection::make([
                 workbench_path('lang'),
-                workbench_path(join_paths('resources', 'lang')),
+                workbench_path(['resources', 'lang']),
             ])->filter(static fn ($path) => is_dir($path))
                 ->first();
 
@@ -113,7 +132,7 @@ class Workbench
 
         after_resolving($app, 'view', static function ($view, $app) use ($discoversConfig) {
             /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
-            if (! is_dir($path = workbench_path(join_paths('resources', 'views')))) {
+            if (! is_dir($path = workbench_path(['resources', 'views']))) {
                 return;
             }
 
@@ -131,7 +150,7 @@ class Workbench
 
         after_resolving($app, 'blade.compiler', static function ($blade) use ($discoversConfig) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
-            if (($discoversConfig['components'] ?? false) === false && is_dir(workbench_path(join_paths('app', 'View', 'Components')))) {
+            if (($discoversConfig['components'] ?? false) === false && is_dir(workbench_path(['app', 'View', 'Components']))) {
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
@@ -169,7 +188,7 @@ class Workbench
     public static function applicationConsoleKernel(): ?string
     {
         if (! isset(static::$cachedCoreBindings['kernel']['console'])) {
-            static::$cachedCoreBindings['kernel']['console'] = file_exists(workbench_path(join_paths('app', 'Console', 'Kernel.php')))
+            static::$cachedCoreBindings['kernel']['console'] = file_exists(workbench_path(['app', 'Console', 'Kernel.php']))
                 ? 'Workbench\App\Console\Kernel'
                 : null;
         }
@@ -185,7 +204,7 @@ class Workbench
     public static function applicationHttpKernel(): ?string
     {
         if (! isset(static::$cachedCoreBindings['kernel']['http'])) {
-            static::$cachedCoreBindings['kernel']['http'] = file_exists(workbench_path(join_paths('app', 'Http', 'Kernel.php')))
+            static::$cachedCoreBindings['kernel']['http'] = file_exists(workbench_path(['app', 'Http', 'Kernel.php']))
                 ? 'Workbench\App\Http\Kernel'
                 : null;
         }
@@ -201,7 +220,7 @@ class Workbench
     public static function applicationExceptionHandler(): ?string
     {
         if (! isset(static::$cachedCoreBindings['handler']['exception'])) {
-            static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path(join_paths('app', 'Exceptions', 'Exceptions.php')))
+            static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path(['app', 'Exceptions', 'Exceptions.php']))
                 ? 'Workbench\App\Exceptions\Handler'
                 : null;
         }

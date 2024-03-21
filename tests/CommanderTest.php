@@ -22,7 +22,7 @@ class CommanderTest extends TestCase
     public function it_can_call_commander_using_cli_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
-            $process = remote('--version --no-ansi');
+            $process = remote(['--version', '--no-ansi']);
             $process->mustRun();
 
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $process->getOutput());

@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Orchestra\Testbench\Foundation\Application as Testbench;
 
 use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\workbench_path;
 
 trait WithLaravelBootstrapFile
@@ -33,6 +34,19 @@ trait WithLaravelBootstrapFile
         }
 
         return $bootstrapFile;
+    }
+
+    /**
+     * Determine if application is using a custom application kernels.
+     *
+     * @internal
+     *
+     * @return bool
+     */
+    protected function hasCustomApplicationKernels(): bool
+    {
+        return realpath($this->getBasePath()) !== default_skeleton_path()
+            && ((static::$cacheApplicationBootstrapFile ??= $this->getApplicationBootstrapFile('app.php')) !== false);
     }
 
     /**

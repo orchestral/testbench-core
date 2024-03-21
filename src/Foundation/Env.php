@@ -8,6 +8,17 @@ namespace Orchestra\Testbench\Foundation;
 class Env extends \Illuminate\Support\Env
 {
     /**
+     * Determine if environmemt variable is available.
+     *
+     * @param  string  $key
+     * @return bool
+     */
+    public static function has(string $key): bool
+    {
+        return static::get($key, new UndefinedValue) instanceof UndefinedValue === false;
+    }
+
+    /**
      * Set an environment value.
      *
      * @param  string  $key

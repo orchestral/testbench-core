@@ -22,7 +22,7 @@ abstract class Action
     protected function pathLocation(string $path): string
     {
         if (! \is_null($this->workingPath)) {
-            $path = str_replace(rtrim($this->workingPath, '/').'/', '', $path);
+            $path = str_replace(rtrim($this->workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, '', $path);
         }
 
         $path = str_replace(package_path(), '', $path);

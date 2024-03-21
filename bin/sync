@@ -8,9 +8,7 @@ require __DIR__.'/../vendor/autoload.php';
 $input = new Symfony\Component\Console\Input\ArgvInput();
 $files = new Illuminate\Filesystem\Filesystem();
 
-# @TODO
-// $version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '11.x-dev' : '^11.0';
-$version = '11.x-dev';
+$version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '11.x-dev' : '^11.0';
 
 $files->delete("{$workingPath}/laravel/.env");
 $files->deleteDirectory("{$workingPath}/skeleton");
@@ -114,6 +112,11 @@ transform([
 transform([
     "env('CACHE_STORE', 'database')" => "env('CACHE_STORE', 'array')",
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
+
+transform([
+    "'collation' => env('DB_COLLATION', 'utf8mb4_0900_ai_ci')," => "'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),",
+    "'collation' => env('DB_COLLATION', 'utf8mb4_uca1400_ai_ci')," => "'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),",
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/database.php"));
 
 transform([
     "env('BCRYPT_ROUNDS', 12)," => "env('BCRYPT_ROUNDS', 10),",

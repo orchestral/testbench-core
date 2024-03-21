@@ -2,7 +2,10 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Contracts\Attributes\AfterAll as AfterAllContract;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
@@ -41,7 +44,7 @@ trait InteractsWithTestCase
     protected static array $testCaseTestingFeatures = [];
 
     /**
-     * Determine if the trait is used Orchestra\Testbench\Concerns\Testing trait.
+     * Determine if the trait is using given trait (or default to \Orchestra\Testbench\Concerns\Testing trait).
      *
      * @api
      *
@@ -51,6 +54,16 @@ trait InteractsWithTestCase
     public static function usesTestingConcern(?string $trait = null): bool
     {
         return isset(static::cachedUsesForTestCase()[$trait ?? Testing::class]);
+    }
+
+    /**
+     * Determine if the trait is using \Illuminate\Foundation\Testing\LazilyRefreshDatabase or \Illuminate\Foundation\Testing\RefreshDatabase trait.
+     *
+     * @return bool
+     */
+    public static function usesRefreshDatabaseTestingConcern(): bool
+    {
+        return static::usesTestingConcern(LazilyRefreshDatabase::class) || static::usesTestingConcern(RefreshDatabase::class);
     }
 
     /**
@@ -156,6 +169,10 @@ trait InteractsWithTestCase
             ->map(static function ($instance) use ($app) {
                 $instance->afterEach($app);
             });
+
+        if (static::usesRefreshDatabaseTestingConcern()) {
+            ResetRefreshDatabaseState::run();
+        }
     }
 
     /**

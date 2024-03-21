@@ -5,17 +5,12 @@ namespace Orchestra\Testbench\Tests\Integrations;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Route;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 
+#[WithConfig('app.debug', false)]
 class LatestResponseExceptionTest extends TestCase
 {
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function defineEnvironment($app)
-    {
-        $app->make('config')->set(['app.debug' => false]);
-    }
-
     public function testItRendersAuthorizationExceptions()
     {
         Route::get('test-route', fn () => Response::deny('expected message', 321)->authorize());

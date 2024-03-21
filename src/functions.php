@@ -7,6 +7,7 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
@@ -71,11 +72,11 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  *
  * @api
  *
- * @param  string  $command
- * @param  array  $env
+ * @param  array<int, string>|string  $command
+ * @param  array<string, mixed>  $env
  * @return \Symfony\Component\Process\Process
  */
-function remote(string $command, array $env = []): Process
+function remote(array|string $command, array $env = []): Process
 {
     $phpBinary = transform(
         \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
@@ -84,15 +85,34 @@ function remote(string $command, array $env = []): Process
 
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
-    $commander = realpath(join_paths(__DIR__, '..', 'vendor', 'autoload.php')) !== false
-        ? $binary
-        : ProcessUtils::escapeArgument((string) package_path(join_paths('vendor', 'bin', $binary)));
+    $commander = is_file($vendorBin = package_path(['vendor', 'bin', $binary]))
+        ? ProcessUtils::escapeArgument((string) $vendorBin)
+        : $binary;
 
     return Process::fromShellCommandline(
-        command: implode(' ', [$phpBinary, $commander, $command]),
+        command: Arr::join([$phpBinary, $commander, ...Arr::wrap($command)], ' '),
         cwd: package_path(),
         env: array_merge(defined_environment_variables(), $env)
     );
+}
+
+/**
+ * Run callback only once.
+ *
+ * @param  mixed  $callback
+ * @return \Closure():mixed
+ */
+function once($callback): Closure
+{
+    $response = new Foundation\UndefinedValue();
+
+    return function () use ($callback, &$response) {
+        if ($response instanceof Foundation\UndefinedValue) {
+            $response = value($callback) ?? null;
+        }
+
+        return $response;
+    };
 }
 
 /**
@@ -112,6 +132,25 @@ function after_resolving(ApplicationContract $app, string $name, ?Closure $callb
     if ($app->resolved($name)) {
         value($callback, $app->make($name), $app);
     }
+}
+
+/**
+ * Load migration paths.
+ *
+ * @api
+ *
+ * @param  \Illuminate\Contracts\Foundation\Application  $app
+ * @param  array<int, string>|string  $paths
+ * @return void
+ */
+function load_migration_paths(ApplicationContract $app, array|string $paths): void
+{
+    after_resolving($app, 'migrator', static function ($migrator) use ($paths) {
+        foreach (Arr::wrap($paths) as $path) {
+            /** @var \Illuminate\Database\Migrations\Migrator $migrator */
+            $migrator->path($path);
+        }
+    });
 }
 
 /**
@@ -179,19 +218,19 @@ function refresh_router_lookups(Router $router): void
 function transform_relative_path(string $path, string $workingPath): string
 {
     return str_starts_with($path, './')
-        ? str_replace('./', rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $path)
+        ? rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.mb_substr($path, 2)
         : $path;
 }
 
 /**
  * Get the default skeleton path.
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function default_skeleton_path(string $path = ''): string
+function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', $path));
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap($path)));
 }
 
 /**
@@ -199,20 +238,20 @@ function default_skeleton_path(string $path = ''): string
  *
  * @api
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function package_path(string $path = ''): string
+function package_path(array|string $path = ''): string
 {
     $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
         : getcwd();
 
-    if (str_starts_with($path, './')) {
-        return transform_relative_path($path, $workingPath);
-    }
+    $path = join_paths(...Arr::wrap($path));
 
-    return join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
+    return str_starts_with($path, './')
+        ? transform_relative_path($path, $workingPath)
+        : join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
@@ -237,12 +276,12 @@ function workbench(): array
  *
  * @api
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function workbench_path(string $path = ''): string
+function workbench_path(array|string $path = ''): string
 {
-    return package_path(join_paths('workbench', $path));
+    return package_path(join_paths('workbench', ...Arr::wrap($path)));
 }
 
 /**
@@ -250,7 +289,7 @@ function workbench_path(string $path = ''): string
  *
  * @api
  *
- * @param  ?string  $type
+ * @param  string|null  $type
  * @return string
  *
  * @throws \InvalidArgumentException
@@ -297,6 +336,8 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  * @param  string  $version
  * @param  string|null  $operator
  * @return int|bool
+ *
+ * @throws \RuntimeException
  */
 function phpunit_version_compare(string $version, ?string $operator = null): int|bool
 {
