@@ -8,6 +8,7 @@ use Illuminate\Console\Signals;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Foundation\Console\ChannelListCommand;
 use Illuminate\Foundation\Console\RouteListCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -180,6 +181,7 @@ class Application
     {
         AboutCommand::flushState();
         Artisan::forgetBootstrappers();
+        ChannelListCommand::resolveTerminalWidthUsing(null);
         Component::flushCache();
         Component::forgetComponentsResolver();
         Component::forgetFactory();
