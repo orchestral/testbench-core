@@ -86,6 +86,7 @@ class Commander
             $status = $this->handleException($output, $error);
         } finally {
             Workbench::flush();
+            Application::flushState();
         }
 
         exit($status);
