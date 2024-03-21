@@ -3,10 +3,15 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Console\Application as Artisan;
+use Illuminate\Console\Scheduling\ScheduleListCommand;
+use Illuminate\Console\Signals;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Foundation\Console\ChannelListCommand;
+use Illuminate\Foundation\Console\RouteListCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Sleep;
@@ -174,15 +179,20 @@ class Application
      */
     public static function flushState(): void
     {
+        AboutCommand::flushState();
         Artisan::forgetBootstrappers();
+        ChannelListCommand::resolveTerminalWidthUsing(null);
         Component::flushCache();
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
         HandleExceptions::forgetApp();
+        JsonResource::wrap('data');
         Queue::createPayloadUsing(null);
+        RouteListCommand::resolveTerminalWidthUsing(null);
+        ScheduleListCommand::resolveTerminalWidthUsing(null);
+        Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
-        AboutCommand::flushState();
         TrimStrings::flushState();
     }
 
