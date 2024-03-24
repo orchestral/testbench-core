@@ -63,12 +63,6 @@ trait HandlesDatabases
         $attributeCallbacks->handle();
 
         $this->defineDatabaseSeeders();
-
-        if (static::usesTestingConcern(RefreshDatabase::class)) {
-            $this->beforeApplicationDestroyed(static function () {
-                ResetRefreshDatabaseState::run();
-            });
-        }
     }
 
     /**
