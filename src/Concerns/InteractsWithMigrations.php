@@ -68,6 +68,8 @@ trait InteractsWithMigrations
      *
      * @param  array<string, mixed>|string  $paths
      * @return void
+     *
+     * @deprecated
      */
     protected function loadMigrationsWithoutRollbackFrom($paths): void
     {
@@ -107,14 +109,6 @@ trait InteractsWithMigrations
     protected function loadLaravelMigrations($database = []): void
     {
         $this->loadLaravelMigrationsWithoutRollback($database);
-
-        $options = $this->resolveLaravelMigrationsOptions($database);
-        $options['--path'] = laravel_migration_path();
-        $options['--realpath'] = true;
-
-        $this->beforeApplicationDestroyed(function () use ($options) {
-            (new MigrateProcessor($this, $options))->rollback();
-        });
     }
 
     /**
@@ -122,6 +116,8 @@ trait InteractsWithMigrations
      *
      * @param  array<string, mixed>|string  $database
      * @return void
+     *
+     * @deprecated
      */
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
@@ -129,7 +125,10 @@ trait InteractsWithMigrations
         $options['--path'] = laravel_migration_path();
         $options['--realpath'] = true;
 
-        (new MigrateProcessor($this, $options))->up();
+        $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($options));
+        $migrator->up();
+
+        array_unshift($this->cachedTestSchemaMigrators, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
@@ -150,6 +149,8 @@ trait InteractsWithMigrations
      *
      * @param  array<string, mixed>|string  $database
      * @return void
+     *
+     * @deprecated
      */
     protected function runLaravelMigrationsWithoutRollback($database = []): void
     {
