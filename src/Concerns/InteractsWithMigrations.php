@@ -6,8 +6,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Database\MigrateProcessor;
-
 use function Orchestra\Testbench\laravel_migration_path;
 use function Orchestra\Testbench\load_migration_paths;
 
@@ -16,6 +16,29 @@ use function Orchestra\Testbench\load_migration_paths;
  */
 trait InteractsWithMigrations
 {
+    /**
+     * List of cached migrators instances.
+     *
+     * @var array<int, \Orchestra\Testbench\Database\MigrateProcessor>
+     */
+    protected $cachedTestSchemaMigrators = [];
+
+    /**
+     * Teardown the test environment.
+     *
+     * @return void
+     */
+    protected function tearDownInteractsWithMigrations(): void
+    {
+        if (count($this->cachedTestSchemaMigrators) > 0 && static::usesTestingConcern(RefreshDatabase::class)) {
+            ResetRefreshDatabaseState::run();
+        }
+
+        foreach ($this->cachedTestSchemaMigrators as $migrator) {
+            $migrator->rollback();
+        }
+    }
+
     /**
      * Define hooks to migrate the database before and after each test.
      *
@@ -37,10 +60,6 @@ trait InteractsWithMigrations
 
         /** @var array<string, mixed>|string $paths */
         $this->loadMigrationsWithoutRollbackFrom($paths);
-
-        $this->beforeApplicationDestroyed(function () use ($paths) {
-            (new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths)))->rollback();
-        });
     }
 
     /**
@@ -53,6 +72,8 @@ trait InteractsWithMigrations
     {
         $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
         $migrator->up();
+
+        array_unshift($this->cachedTestSchemaMigrators, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
@@ -121,10 +142,6 @@ trait InteractsWithMigrations
     protected function runLaravelMigrations($database = []): void
     {
         $this->runLaravelMigrationsWithoutRollback($database);
-
-        $this->beforeApplicationDestroyed(function () use ($database) {
-            (new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database)))->rollback();
-        });
     }
 
     /**
@@ -135,7 +152,10 @@ trait InteractsWithMigrations
      */
     protected function runLaravelMigrationsWithoutRollback($database = []): void
     {
-        (new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database)))->up();
+        $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
+        $migrator->up();
+
+        array_unshift($this->cachedTestSchemaMigrators, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
