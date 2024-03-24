@@ -85,7 +85,7 @@ trait InteractsWithMigrations
      * Resolve Package Migrations Artisan command options.
      *
      * @param  array<string, mixed>|string  $paths
-     * @return array
+     * @return array<string, mixed>
      *
      * @throws \InvalidArgumentException
      */
@@ -168,7 +168,7 @@ trait InteractsWithMigrations
      * Resolve Laravel Migrations Artisan command options.
      *
      * @param  array<string, mixed>|string  $database
-     * @return array
+     * @return array<string, mixed>
      */
     protected function resolveLaravelMigrationsOptions($database = []): array
     {
