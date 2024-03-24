@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Database\MigrateProcessor;
+
 use function Orchestra\Testbench\laravel_migration_path;
 use function Orchestra\Testbench\load_migration_paths;
 
@@ -30,7 +31,7 @@ trait InteractsWithMigrations
      */
     protected function tearDownInteractsWithMigrations(): void
     {
-        if (count($this->cachedTestSchemaMigrators) > 0 && static::usesTestingConcern(RefreshDatabase::class)) {
+        if (\count($this->cachedTestSchemaMigrators) > 0 && static::usesTestingConcern(RefreshDatabase::class)) {
             ResetRefreshDatabaseState::run();
         }
 
