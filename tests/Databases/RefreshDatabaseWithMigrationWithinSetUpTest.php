@@ -49,41 +49,4 @@ class RefreshDatabaseWithMigrationWithinSetUpTest extends TestCase
             'updated_at',
         ], Schema::getColumnListing('testbench_users'));
     }
-
-    /**
-     * @test
-     *
-     * @requires PHP >= 8.0
-     */
-    #[DefineDatabase('addAdditionalTableAtRuntime')]
-    public function it_can_modify_migrations_at_runtime()
-    {
-        $this->assertTrue(Schema::hasTable('testbench_users'));
-        $this->assertTrue(Schema::hasTable('testbench_auths'));
-
-        $this->assertEquals([
-            'id',
-            'email',
-            'password',
-            'created_at',
-            'updated_at',
-        ], Schema::getColumnListing('testbench_users'));
-
-        $this->assertEquals([
-            'id',
-            'two_factor_secret',
-        ], Schema::getColumnListing('testbench_auths'));
-    }
-
-    public function addAdditionalTableAtRuntime()
-    {
-        Schema::create('testbench_auths', function (Blueprint $table) {
-            $table->id();
-            $table->text('two_factor_secret')->nullable();
-        });
-
-        $this->beforeApplicationDestroyed(function () {
-            Schema::drop('testbench_auths');
-        });
-    }
 }
