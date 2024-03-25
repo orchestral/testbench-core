@@ -18,7 +18,7 @@ Testbench Component is a simple package that has been designed to help you write
  8.x      | 6.x
  9.x      | 7.x
  10.x     | 8.x
- 11.x     | 9.x-dev
+ 11.x     | 9.x
  
 ## Usage
 
