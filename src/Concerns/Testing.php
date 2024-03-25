@@ -4,8 +4,6 @@ namespace Orchestra\Testbench\Concerns;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Illuminate\Console\Application as Artisan;
-use Orchestra\Testbench\Foundation\Application as Testbench;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -13,10 +11,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Queue\Queue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\ParallelTesting;
 use Mockery;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
