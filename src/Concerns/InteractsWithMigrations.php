@@ -22,7 +22,7 @@ trait InteractsWithMigrations
      *
      * @var array<int, \Orchestra\Testbench\Database\MigrateProcessor>
      */
-    protected $testCachedMigratorProcessors = [];
+    protected $cachedTestMigratorProcessors = [];
 
     /**
      * Teardown the test environment.
@@ -31,11 +31,11 @@ trait InteractsWithMigrations
      */
     protected function tearDownInteractsWithMigrations(): void
     {
-        if (\count($this->testCachedMigratorProcessors) > 0 && static::usesTestingConcern(RefreshDatabase::class)) {
+        if (\count($this->cachedTestMigratorProcessors) > 0 && static::usesTestingConcern(RefreshDatabase::class)) {
             ResetRefreshDatabaseState::run();
         }
 
-        foreach ($this->testCachedMigratorProcessors as $migrator) {
+        foreach ($this->cachedTestMigratorProcessors as $migrator) {
             $migrator->rollback();
         }
     }
@@ -76,7 +76,7 @@ trait InteractsWithMigrations
         $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
         $migrator->up();
 
-        array_unshift($this->testCachedMigratorProcessors, $migrator);
+        array_unshift($this->cachedTestMigratorProcessors, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
@@ -131,7 +131,7 @@ trait InteractsWithMigrations
         $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($options));
         $migrator->up();
 
-        array_unshift($this->testCachedMigratorProcessors, $migrator);
+        array_unshift($this->cachedTestMigratorProcessors, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
@@ -160,7 +160,7 @@ trait InteractsWithMigrations
         $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
         $migrator->up();
 
-        array_unshift($this->testCachedMigratorProcessors, $migrator);
+        array_unshift($this->cachedTestMigratorProcessors, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
