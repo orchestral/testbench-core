@@ -73,7 +73,7 @@ class RefreshDatabaseTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_can_reset_with_refresh_database_on_runtime()
     {
         $this->assertTrue(Schema::hasTable('testbench_users'));

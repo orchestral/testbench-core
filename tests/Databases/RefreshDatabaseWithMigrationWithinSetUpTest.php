@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 #[WithConfig('database.default', 'testing')]
 class RefreshDatabaseWithMigrationWithinSetUpTest extends TestCase
 {
     use RefreshDatabase, WithWorkbench;
 
-    /**
-     * Setup the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -25,7 +25,7 @@ class RefreshDatabaseWithMigrationWithinSetUpTest extends TestCase
         $this->loadLaravelMigrations();
     }
 
-    /** @test */
+    #[Test]
     public function it_runs_the_migrations()
     {
         $users = DB::table('testbench_users')->where('id', '=', 1)->first();
