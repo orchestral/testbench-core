@@ -67,4 +67,11 @@ class RefreshDatabaseTest extends TestCase
             Schema::drop('testbench_auths');
         });
     }
+
+    /** @test */
+    public function it_can_reset_with_refresh_database_on_runtime()
+    {
+        $this->assertTrue(Schema::hasTable('testbench_users'));
+        $this->assertFalse(Schema::hasTable('testbench_auths'));
+    }
 }
