@@ -9,26 +9,19 @@ use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
+#[WithConfig('database.default', 'testing')]
 class RefreshDatabaseWithMigrationWithinSetUpTest extends TestCase
 {
     use RefreshDatabase, WithWorkbench;
 
+    /**
+     * Setup the test environment.
+     */
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->loadLaravelMigrations();
-    }
-
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function defineEnvironment($app)
-    {
-        $app['config']->set('database.default', 'testing');
     }
 
     /** @test */
