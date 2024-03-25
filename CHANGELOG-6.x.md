@@ -8,7 +8,7 @@ Released: 2024-03-25
 
 ### Fixes
 
-* Fixes `RefreshDatabase` executed on `tearDown()` to only limited when ad-hoc migrations exists during test.
+* Fixes `RefreshDatabase` to be executed on `tearDown()` only limited when ad-hoc migrations was added during test.
 
 ## 6.49.4
 
