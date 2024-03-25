@@ -13,6 +13,9 @@ class RefreshDatabaseWithMigrationWithinSetUpTest extends TestCase
 {
     use RefreshDatabase, WithWorkbench;
 
+    /**
+     * Setup the test environment.
+     */
     protected function setUp(): void
     {
         parent::setUp();
