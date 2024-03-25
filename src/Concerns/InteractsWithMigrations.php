@@ -25,6 +25,20 @@ trait InteractsWithMigrations
     protected $cachedTestSchemaMigrators = [];
 
     /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    protected function setUpInteractsWithMigrations(): void
+    {
+        if ($this->usesSqliteInMemoryDatabaseConnection()) {
+            $this->afterApplicationCreated(static function () {
+                static::usesTestingFeature(new ResetRefreshDatabaseState());
+            });
+        }
+    }
+
+    /**
      * Teardown the test environment.
      *
      * @return void
