@@ -22,7 +22,7 @@ trait InteractsWithMigrations
      *
      * @var array<int, \Orchestra\Testbench\Database\MigrateProcessor>
      */
-    protected $cachedTestSchemaMigrators = [];
+    protected $cachedTestMigratorProcessors = [];
 
     /**
      * Setup the test environment.
@@ -45,11 +45,11 @@ trait InteractsWithMigrations
      */
     protected function tearDownInteractsWithMigrations(): void
     {
-        if (\count($this->cachedTestSchemaMigrators) > 0 && static::usesRefreshDatabaseTestingConcern()) {
+        if (\count($this->cachedTestMigratorProcessors) > 0 && static::usesRefreshDatabaseTestingConcern()) {
             ResetRefreshDatabaseState::run();
         }
 
-        foreach ($this->cachedTestSchemaMigrators as $migrator) {
+        foreach ($this->cachedTestMigratorProcessors as $migrator) {
             $migrator->rollback();
         }
     }
@@ -103,7 +103,7 @@ trait InteractsWithMigrations
         $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
         $migrator->up();
 
-        array_unshift($this->cachedTestSchemaMigrators, $migrator);
+        array_unshift($this->cachedTestMigratorProcessors, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
@@ -167,7 +167,7 @@ trait InteractsWithMigrations
         $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($options));
         $migrator->up();
 
-        array_unshift($this->cachedTestSchemaMigrators, $migrator);
+        array_unshift($this->cachedTestMigratorProcessors, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
@@ -204,7 +204,7 @@ trait InteractsWithMigrations
         $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
         $migrator->up();
 
-        array_unshift($this->cachedTestSchemaMigrators, $migrator);
+        array_unshift($this->cachedTestMigratorProcessors, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
     }
