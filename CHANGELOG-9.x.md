@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.7
+
+Released: 2024-03-25
+
+### Fixes
+
+* Fixes `RefreshDatabase` to be executed on `tearDown()` only limited when ad-hoc migrations was added during test.
+
 ## 9.0.6
 
 Released: 2024-03-19
