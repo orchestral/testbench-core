@@ -64,16 +64,16 @@ trait InteractsWithMigrations
      */
     protected function loadMigrationsFrom(array|string $paths): void
     {
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         if (
             (\is_string($paths) || Arr::isList($paths))
             && static::usesRefreshDatabaseTestingConcern()
             && RefreshDatabaseState::$migrated === false
             && RefreshDatabaseState::$lazilyRefreshed === false
         ) {
-            if (\is_null($this->app)) {
-                throw ApplicationNotAvailableException::make(__METHOD__);
-            }
-
             /** @var array<int, string>|string $paths */
             load_migration_paths($this->app, $paths);
 
@@ -81,25 +81,6 @@ trait InteractsWithMigrations
         }
 
         /** @var array<string, mixed>|string $paths */
-        $this->loadMigrationsWithoutRollbackFrom($paths);
-    }
-
-    /**
-     * Define hooks to migrate the database before each test without rollback after.
-     *
-     * @api
-     *
-     * @param  array<string, mixed>|string  $paths
-     * @return void
-     *
-     * @deprecated
-     */
-    protected function loadMigrationsWithoutRollbackFrom(array|string $paths): void
-    {
-        if (\is_null($this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
-
         $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
         $migrator->up();
 
@@ -141,21 +122,6 @@ trait InteractsWithMigrations
      */
     protected function loadLaravelMigrations(array|string $database = []): void
     {
-        $this->loadLaravelMigrationsWithoutRollback($database);
-    }
-
-    /**
-     * Migrate Laravel's default migrations without rollback.
-     *
-     * @api
-     *
-     * @param  array<string, mixed>|string  $database
-     * @return void
-     *
-     * @deprecated
-     */
-    protected function loadLaravelMigrationsWithoutRollback(array|string $database = []): void
-    {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
@@ -181,21 +147,6 @@ trait InteractsWithMigrations
      * @return void
      */
     protected function runLaravelMigrations(array|string $database = []): void
-    {
-        $this->runLaravelMigrationsWithoutRollback($database);
-    }
-
-    /**
-     * Migrate all Laravel's migrations without rollback.
-     *
-     * @api
-     *
-     * @param  array<string, mixed>|string  $database
-     * @return void
-     *
-     * @deprecated
-     */
-    protected function runLaravelMigrationsWithoutRollback(array|string $database = []): void
     {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
