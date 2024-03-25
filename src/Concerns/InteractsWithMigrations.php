@@ -25,16 +25,27 @@ trait InteractsWithMigrations
     protected $cachedTestSchemaMigrators = [];
 
     /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    protected function setUpInteractsWithMigrations(): void
+    {
+        $this->afterApplicationCreated(function () {
+            if (static::usesSqliteInMemoryDatabaseConnection()) {
+                static::usesTestingFeature(new ResetRefreshDatabaseState());
+            }
+        });
+    }
+
+    /**
      * Teardown the test environment.
      *
      * @return void
      */
     protected function tearDownInteractsWithMigrations(): void
     {
-        if (
-            \count($this->cachedTestSchemaMigrators) > 0
-            && (static::usesRefreshDatabaseTestingConcern() || static::usesSqliteInMemoryDatabaseConnection())
-        ) {
+        if (\count($this->cachedTestSchemaMigrators) > 0 && static::usesRefreshDatabaseTestingConcern()) {
             ResetRefreshDatabaseState::run();
         }
 
