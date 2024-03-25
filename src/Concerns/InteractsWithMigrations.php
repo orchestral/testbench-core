@@ -31,11 +31,11 @@ trait InteractsWithMigrations
      */
     protected function setUpInteractsWithMigrations(): void
     {
-        $this->afterApplicationCreated(function () {
-            if (static::usesSqliteInMemoryDatabaseConnection()) {
+        if ($this->usesSqliteInMemoryDatabaseConnection()) {
+            $this->afterApplicationCreated(static function () {
                 static::usesTestingFeature(new ResetRefreshDatabaseState());
-            }
-        });
+            });
+        }
     }
 
     /**
