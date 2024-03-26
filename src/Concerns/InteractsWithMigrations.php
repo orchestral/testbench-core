@@ -45,7 +45,10 @@ trait InteractsWithMigrations
      */
     protected function tearDownInteractsWithMigrations(): void
     {
-        if (\count($this->cachedTestMigratorProcessors) > 0 && static::usesRefreshDatabaseTestingConcern()) {
+        if (
+            (\count($this->cachedTestMigratorProcessors) > 0 && static::usesRefreshDatabaseTestingConcern())
+            || ($this->usesSqliteInMemoryDatabaseConnection() && ! empty(RefreshDatabaseState::$inMemoryConnections))
+        ) {
             ResetRefreshDatabaseState::run();
         }
 
