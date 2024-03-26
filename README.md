@@ -18,8 +18,8 @@ Testbench Component is a simple package that has been designed to help you write
  8.x      | 6.x
  9.x      | 7.x
  10.x     | 8.x
- 11.x     | 9.x-dev
- 
+ 11.x     | 9.x
+
 ## Usage
 
 **Testbench Core** is being built to enable [Laravel Framework](https://github.com/laravel/framework) to build and run integration tests for the framework itself. For package developers please use any of the following testbench projects:
