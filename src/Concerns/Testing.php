@@ -108,7 +108,7 @@ trait Testing
      * @param  array<class-string, class-string>  $uses
      * @return array<class-string, class-string>
      */
-    final protected function setUpTheTestEnvironmentTraits(array $uses): array
+    protected function setUpTheTestEnvironmentTraits(array $uses): array
     {
         if (isset($uses[WithWorkbench::class])) {
             $this->setUpWithWorkbench(); // @phpstan-ignore-line
