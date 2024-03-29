@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
@@ -20,7 +21,6 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\once;
@@ -260,6 +260,10 @@ trait CreatesApplication
             && method_exists($this, 'resolveDefaultApplicationUsingPest')
         ) {
 
+        }
+
+        if ($this->testCaseResolveApplicationCallback instanceof Closure) {
+            return value($this->testCaseResolveApplicationCallback, $app);
         }
 
         return value($app);

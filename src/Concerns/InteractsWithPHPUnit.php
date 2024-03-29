@@ -38,7 +38,7 @@ trait InteractsWithPHPUnit
     /**
      * The cached test resolve application resolver.
      *
-     * @var (\Closure(\Closure):(void))|null
+     * @var (\Closure(\Closure):(\Illuminate\Foundation\Application))|null
      */
     protected $testCaseResolveApplicationCallback;
 
