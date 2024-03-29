@@ -21,6 +21,7 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\once;
