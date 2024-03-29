@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.9
+
+Released: 2024-03-27
+
+### Fixes
+
+* Force reset `RefreshDatabaseState` when using `LazilyRefreshDatabase` with SQLite `:in-memory:` database connections.
+
+## 9.0.8
+
+Released: 2024-03-26
+
+### Changes
+
+* Add support for `HASH_VERIFY` environment variables.
+
 ## 9.0.7
 
 Released: 2024-03-25
