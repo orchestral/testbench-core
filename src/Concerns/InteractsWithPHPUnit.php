@@ -36,6 +36,13 @@ trait InteractsWithPHPUnit
     protected $testCaseTearDownCallback;
 
     /**
+     * The cached test resolve application resolver.
+     *
+     * @var (\Closure(\Closure):(void))|null
+     */
+    protected $testCaseResolveApplicationCallback;
+
+    /**
      * The cached class attributes for test case.
      *
      * @var array<string, array<int, array{key: class-string, instance: object}>>

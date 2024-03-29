@@ -18,10 +18,12 @@ use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
+use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
+use function Orchestra\Testbench\once;
 use function Orchestra\Testbench\refresh_router_lookups;
 
 /**
@@ -250,7 +252,17 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        return new Application($this->getBasePath());
+        $app = once(fn () => new Application($this->getBasePath()));
+
+        if (
+            static::usesTestingConcern()
+            && static::usesTestingConcern(WithPest::class) /** @phpstan-ignore-line */
+            && method_exists($this, 'resolveDefaultApplicationUsingPest')
+        ) {
+
+        }
+
+        return value($app);
     }
 
     /**

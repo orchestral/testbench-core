@@ -22,7 +22,6 @@ use function Orchestra\Testbench\once;
 trait Testing
 {
     use ApplicationTestingHooks;
-    use CreatesApplication;
     use HandlesAnnotations;
     use HandlesAttributes;
     use HandlesDatabases;
@@ -99,6 +98,7 @@ trait Testing
 
         $this->testCaseSetUpCallback = null;
         $this->testCaseTearDownCallback = null;
+        $this->testCaseResolveApplicationCallback = null;
     }
 
     /**
