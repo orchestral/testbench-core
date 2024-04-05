@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Scheduling\ScheduleListCommand;
-use Illuminate\Console\Signals;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Console\ChannelListCommand;
@@ -191,7 +190,6 @@ class Application
         Queue::createPayloadUsing(null);
         RouteListCommand::resolveTerminalWidthUsing(null);
         ScheduleListCommand::resolveTerminalWidthUsing(null);
-        Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
         TrimStrings::flushState();
     }
