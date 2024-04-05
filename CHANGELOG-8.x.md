@@ -8,7 +8,7 @@ Released: 2024-04-05
 
 ### Fixes
 
-* Fixes `runningInUnitTests()` returning `true` when not actually running tests via Testbench CLI.
+* Fixes `runningInUnitTests()` returning `true` when not running tests via Testbench CLI.
 
 ## 8.23.5
 
