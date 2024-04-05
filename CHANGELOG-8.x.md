@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.23.6
+
+Released: 2024-04-05
+
+### Fixes
+
+* Fixes `runningInUnitTests()` returning `true` when not actually running tests via Testbench CLI.
+
 ## 8.23.5
 
 Released: 2024-03-25
