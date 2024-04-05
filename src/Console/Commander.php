@@ -101,7 +101,7 @@ class Commander
             $laravel = $this->laravel();
             $kernel = $laravel->make(ConsoleKernel::class);
 
-            if (Env::has('TESTBENCH_PACKAGE_TESTER') === false && $laravel->runningUnitTests()) {
+            if (Env::has('TESTBENCH_PACKAGE_TESTER') === false && $laravel->runningUnitTests() === true) {
                 $laravel->instance('env', 'workbench');
             }
 
