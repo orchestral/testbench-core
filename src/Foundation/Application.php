@@ -192,7 +192,6 @@ class Application
         RegisterProviders::flushState();
         RouteListCommand::resolveTerminalWidthUsing(null);
         ScheduleListCommand::resolveTerminalWidthUsing(null);
-        Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
         ThrottleRequests::shouldHashKeys();
         TrimStrings::flushState();
