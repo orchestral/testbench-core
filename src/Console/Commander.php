@@ -94,8 +94,6 @@ class Commander
 
             if (Env::has('TESTBENCH_PACKAGE_TESTER') === false && $laravel->runningUnitTests() === true) {
                 $laravel->instance('env', 'workbench');
-            } else {
-                $laravel->instance('env', 'testing');
             }
 
             $this->prepareCommandSignals();
