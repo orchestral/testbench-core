@@ -14,7 +14,6 @@ use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -100,10 +99,6 @@ class Commander
         try {
             $laravel = $this->laravel();
             $kernel = $laravel->make(ConsoleKernel::class);
-
-            if (Env::has('TESTBENCH_PACKAGE_TESTER') === false && $laravel->runningUnitTests() === true) {
-                $laravel->instance('env', 'workbench');
-            }
 
             $this->prepareCommandSignals();
 
