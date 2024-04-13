@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.49.6
+
+Released: 2024-04-13
+
+### Changes
+
+* Flush Statics Improvements.
+* Allows `Orchestra\Testbench\remote` to accept `$env` with either `array` or `string`.
+
 ## 6.49.5
 
 Released: 2024-03-25
