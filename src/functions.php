@@ -61,10 +61,10 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  * @api
  *
  * @param  array<int, string>|string  $command
- * @param  array<string, mixed>  $env
+ * @param  array<string, mixed>|string  $env
  * @return \Symfony\Component\Process\Process
  */
-function remote(array|string $command, array $env = []): Process
+function remote(array|string $command, array|string $env = []): Process
 {
     $phpBinary = transform(
         \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
@@ -78,6 +78,10 @@ function remote(array|string $command, array $env = []): Process
     $commander = is_file($vendorBin = package_path("vendor/bin/{$binary}"))
         ? ProcessUtils::escapeArgument((string) $vendorBin)
         : $binary;
+
+    if (is_string($env)) {
+        $env = ['APP_ENV' => $env];
+    }
 
     return Process::fromShellCommandline(
         command: Arr::join([$phpBinary, $commander, ...Arr::wrap($command)], ' '),
