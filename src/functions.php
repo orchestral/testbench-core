@@ -79,9 +79,11 @@ function remote(array|string $command, array|string $env = []): Process
         ? ProcessUtils::escapeArgument((string) $vendorBin)
         : $binary;
 
-    if (is_string($env)) {
+    if (\is_string($env)) {
         $env = ['APP_ENV' => $env];
     }
+
+    Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
 
     return Process::fromShellCommandline(
         command: Arr::join([$phpBinary, $commander, ...Arr::wrap($command)], ' '),
