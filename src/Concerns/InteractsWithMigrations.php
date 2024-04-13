@@ -85,7 +85,6 @@ trait InteractsWithMigrations
      * Resolve Package Migrations Artisan command options.
      *
      * @param  array<string, mixed>|string  $paths
-     * @return array
      * @return array<string, mixed>
      *
      * @throws \InvalidArgumentException
