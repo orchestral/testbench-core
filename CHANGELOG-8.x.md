@@ -2,6 +2,30 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.23.8
+
+Released: 2024-04-13
+
+### Changes
+
+* Allows `Orchestra\Testbench\remote` to accept `$env` with either `array` or `string`.
+* Includes `TESTBENCH_PACKAGE_REMOTE=true` when running command using `Orchestra\Testbench\remote`.
+
+### Fixes
+
+* Fixes `runningInUnitTests()` returning `true` when not running tests via Testbench CLI.
+
+## 8.23.7
+
+Released: 2024-04-08
+
+### Changes
+
+* Flush Statics Improvements
+* Revert setting `workbench` environment variable when Testbench CLI is used outside of testing. 
+
+### Changes
+
 ## 8.23.6
 
 Released: 2024-04-05
