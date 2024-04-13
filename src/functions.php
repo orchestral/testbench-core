@@ -61,10 +61,10 @@ function artisan($context, string $command, array $parameters = [])
  * @api
  *
  * @param  string  $command
- * @param  array<string, mixed>  $env
+ * @param  array<string, mixed>|string  $env
  * @return \Symfony\Component\Process\Process
  */
-function remote(string $command, array $env = []): Process
+function remote(string $command, $env = []): Process
 {
     $phpBinary = transform(
         \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
@@ -78,6 +78,10 @@ function remote(string $command, array $env = []): Process
     $commander = realpath(__DIR__.'/../vendor/autoload.php') !== false
         ? $binary
         : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$binary}"));
+
+    if (is_string($env)) {
+        $env = ['APP_ENV' => $env];
+    }
 
     return Process::fromShellCommandline(
         implode(' ', [$phpBinary, $commander, $command]),
