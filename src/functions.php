@@ -79,7 +79,7 @@ function remote(string $command, $env = []): Process
         ? $binary
         : ProcessUtils::escapeArgument((string) package_path("vendor/bin/{$binary}"));
 
-    if (is_string($env)) {
+    if (\is_string($env)) {
         $env = ['APP_ENV' => $env];
     }
 
