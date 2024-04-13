@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Scheduling\ScheduleListCommand;
-use Illuminate\Console\Signals;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
@@ -192,7 +191,6 @@ class Application
         RegisterProviders::flushState();
         RouteListCommand::resolveTerminalWidthUsing(null);
         ScheduleListCommand::resolveTerminalWidthUsing(null);
-        Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
         ThrottleRequests::shouldHashKeys();
         TrimStrings::flushState();

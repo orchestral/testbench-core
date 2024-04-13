@@ -64,7 +64,7 @@
         "mockery/mockery": "Allow using Mockery for testing (^1.6).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^8.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^9.0).",
-        "phpunit/phpunit": "Allow using PHPUnit for testing (^10.5).",
+        "phpunit/phpunit": "Allow using PHPUnit for testing (^10.5 || ^11.0).",
         "symfony/process": "Required to use Orchestra\\Testbench\\remote function (^7.0).",
         "symfony/yaml": "Required for Testbench CLI (^7.0).",
         "vlucas/phpdotenv": "Required for Testbench CLI (^5.4.1)."

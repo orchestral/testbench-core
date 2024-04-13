@@ -2,6 +2,52 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.12
+
+Released: 2024-04-13
+
+### Changes
+
+* Allows `Orchestra\Testbench\remote` to accept `$env` with either `array` or `string`.
+* Includes `TESTBENCH_PACKAGE_REMOTE=true` when running command using `Orchestra\Testbench\remote`.
+
+### Fixes
+
+* Fixes `runningInUnitTests()` returning `true` when not running tests via Testbench CLI.
+
+## 9.0.11
+
+Released: 2024-04-08
+
+### Changes
+
+* Flush Statics Improvements
+* Revert setting `workbench` environment variable when Testbench CLI is used outside of testing. 
+
+## 9.0.10
+
+Released: 2024-04-05
+
+### Fixes
+
+* Fixes `runningInUnitTests()` returning `true` when not running tests via Testbench CLI.
+
+## 9.0.9
+
+Released: 2024-03-27
+
+### Fixes
+
+* Force reset `RefreshDatabaseState` when using `LazilyRefreshDatabase` with SQLite `:in-memory:` database connections.
+
+## 9.0.8
+
+Released: 2024-03-26
+
+### Changes
+
+* Add support for `HASH_VERIFY` environment variables.
+
 ## 9.0.7
 
 Released: 2024-03-25
