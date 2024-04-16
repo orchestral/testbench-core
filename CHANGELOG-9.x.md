@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.13
+
+Released: 2024-04-16
+
+### Fixes
+
+* Fixes `serve` command.
+
 ## 9.0.12
 
 Released: 2024-04-13
