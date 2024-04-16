@@ -29,7 +29,7 @@ Released: 2024-04-08
 
 ### Changes
 
-* Flush Statics Improvements
+* Flush Static Improvements.
 * Revert setting `workbench` environment variable when Testbench CLI is used outside of testing. 
 
 ## 9.0.10
