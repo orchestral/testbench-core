@@ -8,7 +8,7 @@ Released: 2024-04-13
 
 ### Changes
 
-* Flush Statics Improvements.
+* Flush Static Improvements.
 * Allows `Orchestra\Testbench\remote` to accept `$env` with either `array` or `string`.
 
 ## 6.49.5
