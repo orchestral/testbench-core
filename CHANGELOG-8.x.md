@@ -32,8 +32,6 @@ Released: 2024-04-08
 * Flush Statics Improvements
 * Revert setting `workbench` environment variable when Testbench CLI is used outside of testing. 
 
-### Changes
-
 ## 8.23.6
 
 Released: 2024-04-05
