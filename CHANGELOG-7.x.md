@@ -8,7 +8,7 @@ Released: 2024-04-13
 
 ### Changes
 
-* Flush Statics Improvements.
+* Flush Static Improvements.
 * Allows `Orchestra\Testbench\remote` to accept `$env` with either `array` or `string`.
 * Includes `TESTBENCH_PACKAGE_REMOTE=true` when running command using `Orchestra\Testbench\remote`.
 
