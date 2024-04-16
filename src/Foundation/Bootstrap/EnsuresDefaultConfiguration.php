@@ -33,7 +33,7 @@ final class EnsuresDefaultConfiguration
                 'DB_CONNECTION' => \defined('TESTBENCH_DUSK') ? ['database.default' => 'testing'] : null,
             ])->filter()
                 ->reject(static function ($config, $key) {
-                    return ! \is_null(Env::get($key));
+                    return Env::has($key);
                 })->values()
                 ->all(),
         ]);

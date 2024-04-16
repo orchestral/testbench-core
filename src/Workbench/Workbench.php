@@ -156,7 +156,7 @@ class Workbench
 
             if (\defined('TESTBENCH_WORKING_PATH')) {
                 $workingPath = TESTBENCH_WORKING_PATH;
-            } elseif (! \is_null(Env::get('TESTBENCH_WORKING_PATH'))) {
+            } elseif (Env::has('TESTBENCH_WORKING_PATH')) {
                 $workingPath = Env::get('TESTBENCH_WORKING_PATH');
             }
 
