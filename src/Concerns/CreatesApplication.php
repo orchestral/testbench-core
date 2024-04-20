@@ -430,16 +430,16 @@ trait CreatesApplication
         );
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->bootDiscoverRoutesForWorkbench($app);
+            $this->bootDiscoverRoutesForWorkbench($app); /** @phpstan-ignore-line */
+        }
+
+        if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
+            $app->booted(function () use ($app) {
+                $this->setUpApplicationRoutes($app); /** @phpstan-ignore-line */
+            });
         }
 
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
-
-        if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpApplicationRoutes($app);
-        }
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
             $app->make($bootstrap)->bootstrap($app);
