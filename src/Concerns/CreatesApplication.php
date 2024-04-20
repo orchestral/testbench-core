@@ -17,6 +17,7 @@ use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
@@ -441,12 +442,12 @@ trait CreatesApplication
         $this->resolveApplicationRateLimiting($app);
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            $this->bootDiscoverRoutesForWorkbench($app); /** @phpstan-ignore-line */
+            $this->bootDiscoverRoutesForWorkbench($app); // @phpstan-ignore-line
         }
 
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
             $app->booted(function () use ($app) {
-                $this->setUpApplicationRoutes($app); /** @phpstan-ignore-line */
+                $this->setUpApplicationRoutes($app); // @phpstan-ignore-line
             });
         }
 

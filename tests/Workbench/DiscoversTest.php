@@ -19,6 +19,16 @@ class DiscoversTest extends TestCase
             ->assertOk();
     }
 
+
+    /** @test */
+    public function it_can_resolve_web_routes_using_macro_from_discovers()
+    {
+        $this->get('/hello-world')
+            ->assertOk()
+            ->assertSee('Hello world')
+            ->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
+    }
+
     /** @test */
     public function it_can_resolve_views_from_discovers()
     {
