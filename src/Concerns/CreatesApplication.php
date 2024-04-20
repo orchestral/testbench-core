@@ -20,7 +20,6 @@ use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
-use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
