@@ -18,3 +18,4 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::view('/testbench', 'workbench::testbench')->name('testbench');
+Route::text('/hello-world', 'Hello world');
