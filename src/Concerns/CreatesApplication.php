@@ -437,11 +437,13 @@ trait CreatesApplication
             $this->bootDiscoverRoutesForWorkbench($app); // @phpstan-ignore-line
         }
 
-        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
-
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
-            $this->setUpApplicationRoutes($app); // @phpstan-ignore-line
+            $app->booted(function () use ($app) {
+                $this->setUpApplicationRoutes($app); // @phpstan-ignore-line
+            });
         }
+
+        $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
             $app->make($bootstrap)->bootstrap($app);
