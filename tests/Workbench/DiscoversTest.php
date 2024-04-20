@@ -19,7 +19,6 @@ class DiscoversTest extends TestCase
             ->assertOk();
     }
 
-
     /** @test */
     public function it_can_resolve_web_routes_using_macro_from_discovers()
     {
