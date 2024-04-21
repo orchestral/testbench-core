@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.14
+
+Released: 2024-04-21
+
+### Fixes
+
+* Fixes routing registration using macro with Workbench.
+
 ## 9.0.13
 
 Released: 2024-04-16
