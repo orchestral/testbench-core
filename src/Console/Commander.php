@@ -119,7 +119,10 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
-            static::$testbench::flushState(false);
+            static::$testbench::flushState(
+                Env::has('TESTBENCH_PACKAGE_REMOTE') === false
+                && (isset($laravel) && $laravel->runningUnitTests() === true)
+            );
 
             $this->untrap();
         }
