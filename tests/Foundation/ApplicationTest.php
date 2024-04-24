@@ -14,7 +14,7 @@ class ApplicationTest extends TestCase
     #[\Override]
     protected function tearDown(): void
     {
-        Application::flushState();
+        Application::flushState($this);
     }
 
     #[Test]

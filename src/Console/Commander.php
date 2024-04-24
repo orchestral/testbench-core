@@ -119,7 +119,7 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
-            static::$testbench::flushState();
+            static::$testbench::flushState($this);
 
             $this->untrap();
         }
