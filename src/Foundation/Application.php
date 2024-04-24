@@ -173,9 +173,10 @@ class Application
     /**
      * Flush the application states.
      *
+     * @param  bool  $testing
      * @return void
      */
-    public static function flushState(): void
+    public static function flushState(bool $testing = true): void
     {
         AboutCommand::flushState();
         Artisan::forgetBootstrappers();
@@ -184,7 +185,11 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
-        HandleExceptions::flushState();
+
+        if ($testing === true) {
+            HandleExceptions::flushState();
+        }
+
         JsonResource::wrap('data');
         Once::flush();
         Queue::createPayloadUsing(null);
