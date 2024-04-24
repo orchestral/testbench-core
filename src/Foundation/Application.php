@@ -174,7 +174,7 @@ class Application
     /**
      * Flush the application states.
      *
-     * @param  \Orchestra\Testbench\Console\Commander|\Orchestra\Testbench\PHPUnit\TestCase  $testing
+     * @param  \Orchestra\Testbench\Console\Commander|\Orchestra\Testbench\PHPUnit\TestCase  $instance
      * @return void
      */
     public static function flushState(object $instance): void

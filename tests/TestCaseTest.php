@@ -18,7 +18,7 @@ class TestCaseTest extends TestCase
     #[\Override]
     protected function tearDown(): void
     {
-        Testbench::flushState();
+        Testbench::flushState($this);
     }
 
     #[Test]

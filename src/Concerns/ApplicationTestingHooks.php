@@ -141,7 +141,7 @@ trait ApplicationTestingHooks
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
 
-        Testbench::flushState();
+        Testbench::flushState($this);
 
         if ($this->callbackException) {
             throw $this->callbackException;
