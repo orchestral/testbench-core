@@ -19,6 +19,8 @@ jobs:
           - "^8.0"
         paratest:
           - "^7.3"
+        phpunit:
+          - "^11.1"
         dependencies:
           - "highest"
         experimental:
@@ -39,7 +41,7 @@ jobs:
 
       - name: Install Paratest
         run: |
-          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" "phpunit/phpunit:${{ matrix.phpunit }}" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
