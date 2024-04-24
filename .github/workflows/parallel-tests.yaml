@@ -20,7 +20,8 @@ jobs:
         paratest:
           - "^7.3"
         phpunit:
-          - "^11.1"
+          - "~10.5.0"
+          - "~11.0.0"
         dependencies:
           - "highest"
         experimental:
@@ -53,14 +54,14 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations on PHPUnit 10)
-        run: ./testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
+      - name: Execute tests (with deprecations)
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
         env:
           RAY_ENABLED: false
         if: matrix.dependencies == 'highest'
 
-      - name: Execute tests (without deprecations on PHPUnit 10)
-        run: ./testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --exclude-group deprecations --no-coverage
+      - name: Execute tests (without deprecations)
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --exclude-group deprecations --no-coverage
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
