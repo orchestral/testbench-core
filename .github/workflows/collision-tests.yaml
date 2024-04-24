@@ -54,7 +54,7 @@ jobs:
         if: matrix.dependencies == 'highest'
 
       - name: Execute tests (without deprecations on PHPUnit 10)
-        run: ./testbench package:test --exclude-group commander --exclude-group deprecations
+        run: ./testbench package:test --exclude-group commander,deprecations
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
@@ -102,7 +102,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: ./testbench package:test --coverage --exclude-group commander --exclude-group deprecations
+        run: ./testbench package:test --coverage --exclude-group commander,deprecations
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
