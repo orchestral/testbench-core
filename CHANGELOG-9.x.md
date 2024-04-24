@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.0.15
+
+Released: 2024-04-24
+
+### Changes
+
+* Add support for PHPUnit 11.1.
+
 ## 9.0.14
 
 Released: 2024-04-21
