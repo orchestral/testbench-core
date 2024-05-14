@@ -124,7 +124,8 @@ trait InteractsWithTestCase
      */
     protected function setUpTheTestEnvironmentUsingTestCase(): void
     {
-        if (\is_null($app = $this->app)) { // @phpstan-ignore-line
+        /** @phpstan-ignore-next-line */
+        if (\is_null($app = $this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 
@@ -143,7 +144,8 @@ trait InteractsWithTestCase
      */
     protected function tearDownTheTestEnvironmentUsingTestCase(): void
     {
-        if (\is_null($app = $this->app)) { // @phpstan-ignore-line
+        /** @phpstan-ignore-next-line */
+        if (\is_null($app = $this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
 
@@ -188,7 +190,8 @@ trait InteractsWithTestCase
                 $instance->afterAll();
             });
 
-        static::$latestResponse = null; // @phpstan-ignore-line
+        /** @phpstan-ignore-next-line */
+        static::$latestResponse = null;
         static::$testCaseTestingFeatures = [];
     }
 }

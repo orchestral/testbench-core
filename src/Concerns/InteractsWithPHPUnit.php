@@ -79,8 +79,8 @@ trait InteractsWithPHPUnit
         }
 
         [$registry, $methodName] = phpunit_version_compare('10', '>=')
-            ? [PHPUnit10Registry::getInstance(), $this->name()] // @phpstan-ignore-line
-            : [PHPUnit9Registry::getInstance(), $this->getName(false)]; // @phpstan-ignore-line
+            ? [PHPUnit10Registry::getInstance(), $this->name()] /** @phpstan-ignore-line */
+            : [PHPUnit9Registry::getInstance(), $this->getName(false)]; /** @phpstan-ignore-line */
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
@@ -111,8 +111,8 @@ trait InteractsWithPHPUnit
 
         $className = $instance->getName();
         $methodName = phpunit_version_compare('10', '>=')
-            ? $this->name() // @phpstan-ignore-line
-            : $this->getName(false); // @phpstan-ignore-line
+            ? $this->name() /** @phpstan-ignore-line */
+            : $this->getName(false); /** @phpstan-ignore-line */
 
         return static::resolvePhpUnitAttributesForMethod($className, $methodName);
     }
@@ -211,8 +211,8 @@ trait InteractsWithPHPUnit
         static::$cachedTestCaseMethodAttributes = [];
 
         $registry = phpunit_version_compare('10', '>=')
-            ? PHPUnit10Registry::getInstance() // @phpstan-ignore-line
-            : PHPUnit9Registry::getInstance(); // @phpstan-ignore-line
+            ? PHPUnit10Registry::getInstance() /** @phpstan-ignore-line */
+            : PHPUnit9Registry::getInstance(); /** @phpstan-ignore-line */
 
         (function () {
             $this->classDocBlocks = [];

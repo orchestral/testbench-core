@@ -28,8 +28,7 @@ class ServeCommand extends Command
             ComposerConfig::disableProcessTimeout();
         }
 
-        /** @phpstan-ignore-next-line constant.notFound */
-        $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH;
+        $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH; // @phpstan-ignore constant.notFound
 
         static::$passthroughVariables[] = 'TESTBENCH_WORKING_PATH';
 

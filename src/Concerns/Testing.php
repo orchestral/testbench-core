@@ -45,9 +45,9 @@ trait Testing
             });
         });
 
-        /** @phpstan-ignore-next-line */
+        /** @phpstan-ignore class.notFound */
         if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
-            $this->setUpTheEnvironmentUsingPest(); // @phpstan-ignore-line
+            $this->setUpTheEnvironmentUsingPest(); /** @phpstan-ignore method.notFound */
         }
 
         if ($this->testCaseSetUpCallback instanceof Closure) {
@@ -86,9 +86,9 @@ trait Testing
             });
         });
 
-        /** @phpstan-ignore-next-line */
+        /** @phpstan-ignore class.notFound */
         if ($this instanceof PHPUnitTestCase && static::usesTestingConcern(WithPest::class)) {
-            $this->tearDownTheEnvironmentUsingPest(); // @phpstan-ignore-line
+            $this->tearDownTheEnvironmentUsingPest(); /** @phpstan-ignore method.notFound */
         }
 
         if ($this->testCaseTearDownCallback instanceof Closure) {
