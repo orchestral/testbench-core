@@ -102,7 +102,7 @@ class AttributeParser
         return rescue(function () use ($attribute) {
             /** @var TTestingFeature|null $instance */
             $instance = isset(class_implements($attribute->getName())[ResolvableContract::class])
-                ? transform($attribute->newInstance(), static fn (ResolvableContract $instance) => $instance->resolve())
+                ? transform($attribute->newInstance(), static fn (ResolvableContract $instance) => $instance->resolve()) /** @phpstan-ignore argument.type */
                 : $attribute->newInstance();
 
             if (\is_null($instance)) {

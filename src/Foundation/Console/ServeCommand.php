@@ -23,13 +23,12 @@ class ServeCommand extends Command
     {
         if (
             class_exists(ComposerConfig::class, false)
-            && method_exists(ComposerConfig::class, 'disableProcessTimeout') // @phpstan-ignore-line
+            && method_exists(ComposerConfig::class, 'disableProcessTimeout') // @phpstan-ignore function.impossibleType
         ) {
             ComposerConfig::disableProcessTimeout();
         }
 
-        /** @phpstan-ignore-next-line */
-        $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH;
+        $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH; // @phpstan-ignore constant.notFound
 
         static::$passthroughVariables[] = 'TESTBENCH_WORKING_PATH';
 

@@ -158,7 +158,7 @@ trait ApplicationTestingHooks
     protected function setUpParallelTestingCallbacks(): void
     {
         if ($this instanceof PHPUnitTestCase) {
-            ParallelTesting::callSetUpTestCaseCallbacks($this); // @phpstan-ignore-line
+            ParallelTesting::callSetUpTestCaseCallbacks($this); /** @phpstan-ignore staticMethod.notFound argument.type */
         }
     }
 
@@ -172,7 +172,7 @@ trait ApplicationTestingHooks
     protected function tearDownParallelTestingCallbacks(): void
     {
         if ($this instanceof PHPUnitTestCase) {
-            ParallelTesting::callTearDownTestCaseCallbacks($this); // @phpstan-ignore-line
+            ParallelTesting::callTearDownTestCaseCallbacks($this); /** @phpstan-ignore staticMethod.notFound argument.type */
         }
     }
 

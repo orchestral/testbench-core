@@ -109,7 +109,7 @@ trait InteractsWithPHPUnit
         $instance = new ReflectionClass($this);
 
         if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
-            return new Collection();
+            return new Collection(); /** @phpstan-ignore return.type */
         }
 
         $className = $instance->getName();
