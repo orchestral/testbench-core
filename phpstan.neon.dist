@@ -9,8 +9,8 @@ parameters:
   level: 8
 
   ignoreErrors:
-    - identifier: missingType.iterableValue
     - identifier: missingType.generics
+    - identifier: missingType.iterableValue
     - '#Unsafe usage of new static#'
 
   excludePaths:

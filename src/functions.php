@@ -343,9 +343,7 @@ function laravel_migration_path(?string $type = null): string
  */
 function laravel_version_compare(string $version, ?string $operator = null)
 {
-    /** @phpstan-ignore-next-line */
-    $laravel = Application::VERSION === '8.x-dev' ? '8.0.0' : Application::VERSION;
-
+    $laravel = Application::VERSION === '8.x-dev' ? '8.0.0' : Application::VERSION; /** @phpstan-ignore identical.alwaysFalse */
     if (\is_null($operator)) {
         return version_compare($laravel, $version);
     }

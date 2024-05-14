@@ -11,7 +11,6 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
-use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
@@ -283,7 +282,6 @@ trait CreatesApplication
             null,
             null,
             function () use ($app) {
-                /** @phpstan-ignore-next-line */
                 return $this->parseTestMethodAttributes($app, WithEnv::class);
             }
         )->get('attribute');
@@ -293,7 +291,6 @@ trait CreatesApplication
             null,
             null,
             function () use ($app) {
-                /** @phpstan-ignore-next-line */
                 return $this->parseTestMethodAttributes($app, RequiresEnv::class);
             }
         );
@@ -338,8 +335,7 @@ trait CreatesApplication
                 null,
                 null,
                 function () use ($app) {
-                    /** @phpstan-ignore-next-line */
-                    $this->parseTestMethodAttributes($app, WithConfig::class);
+                    $this->parseTestMethodAttributes($app, WithConfig::class);  /** @phpstan-ignore method.notFound */
                 }
             );
         });
@@ -420,22 +416,21 @@ trait CreatesApplication
                 $this->getEnvironmentSetUp($app);
             },
             function () use ($app) {
-                $this->parseTestMethodAnnotations($app, 'environment-setup'); // @phpstan-ignore-line
-                $this->parseTestMethodAnnotations($app, 'define-env'); // @phpstan-ignore-line
+                $this->parseTestMethodAnnotations($app, 'environment-setup');  /** @phpstan-ignore method.notFound */
+                $this->parseTestMethodAnnotations($app, 'define-env');  /** @phpstan-ignore method.notFound */
             },
             function () use ($app) {
-                $this->parseTestMethodAttributes($app, WithImmutableDates::class); // @phpstan-ignore-line
-                $this->parseTestMethodAttributes($app, DefineEnvironment::class); // @phpstan-ignore-line
+                $this->parseTestMethodAttributes($app, DefineEnvironment::class);  /** @phpstan-ignore method.notFound */
             }
         );
 
         if (static::usesTestingConcern(WithWorkbench::class)) {
-            $this->bootDiscoverRoutesForWorkbench($app); /** @phpstan-ignore-line */
+            $this->bootDiscoverRoutesForWorkbench($app); /** @phpstan-ignore method.notFound */
         }
 
         if ($this->isRunningTestCase() && static::usesTestingConcern(HandlesRoutes::class)) {
             $app->booted(function () use ($app) {
-                $this->setUpApplicationRoutes($app); /** @phpstan-ignore-line */
+                $this->setUpApplicationRoutes($app); /** @phpstan-ignore method.notFound */
             });
         }
 

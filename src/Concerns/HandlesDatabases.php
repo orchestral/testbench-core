@@ -26,8 +26,7 @@ trait HandlesDatabases
         });
 
         if (static::usesTestingConcern(WithLaravelMigrations::class)) {
-            /** @phpstan-ignore-next-line */
-            $this->setUpWithLaravelMigrations();
+            $this->setUpWithLaravelMigrations(); /** @phpstan-ignore method.notFound */
         }
 
         TestingFeature::run(
