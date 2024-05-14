@@ -9,6 +9,8 @@ parameters:
   level: 8
 
   ignoreErrors:
+    - identifier: missingType.generics
+    - identifier: missingType.iterableValue
     - '#Unsafe usage of new static#'
 
   excludePaths:
@@ -16,6 +18,4 @@ parameters:
     - src/Exceptions/PHPUnitErrorException.php
     - src/Foundation/Console/TestCommand.php
 
-  checkGenericClassInNonGenericObjectType: false
-  checkMissingIterableValueType: false
   treatPhpDocTypesAsCertain: false

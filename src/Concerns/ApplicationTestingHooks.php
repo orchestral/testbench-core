@@ -120,7 +120,6 @@ trait ApplicationTestingHooks
         }
 
         if (class_exists(Mockery::class) && $this instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore-next-line */
             if ($container = Mockery::getContainer()) {
                 $this->addToAssertionCount($container->mockery_getExpectationCount());
             }
@@ -150,8 +149,7 @@ trait ApplicationTestingHooks
     protected function setUpParallelTestingCallbacks(): void
     {
         if (class_exists(ParallelTesting::class) && $this instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore-next-line */
-            ParallelTesting::callSetUpTestCaseCallbacks($this);
+            ParallelTesting::callSetUpTestCaseCallbacks($this); /** @phpstan-ignore staticMethod.notFound argument.type */
         }
     }
 
@@ -161,8 +159,7 @@ trait ApplicationTestingHooks
     protected function tearDownParallelTestingCallbacks(): void
     {
         if (class_exists(ParallelTesting::class) && $this instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore-next-line */
-            ParallelTesting::callTearDownTestCaseCallbacks($this);
+            ParallelTesting::callTearDownTestCaseCallbacks($this); /** @phpstan-ignore staticMethod.notFound argument.type */
         }
     }
 
