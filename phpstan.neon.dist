@@ -9,6 +9,8 @@ parameters:
   level: 8
 
   ignoreErrors:
+    - identifier: missingType.iterableValue
+    - identifier: missingType.generics
     - '#Unsafe usage of new static#'
 
   excludePaths:
@@ -18,6 +20,4 @@ parameters:
     - src/Http/Middleware/TrustProxies.php
     - src/PHPUnit/TestCase.php
 
-  checkGenericClassInNonGenericObjectType: false
-  checkMissingIterableValueType: false
   treatPhpDocTypesAsCertain: false
