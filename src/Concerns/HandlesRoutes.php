@@ -44,7 +44,8 @@ trait HandlesRoutes
             }),
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class),
             pest: function () use ($router) {
-                $this->defineRoutesUsingPest($router); /** @phpstan-ignore method.notFound */
+                $this->defineRoutesUsingPest($router); // @phpstan-ignore method.notFound
+
                 $router->middleware('web')
                     ->group(fn ($router) => $this->defineWebRoutesUsingPest($router)); /** @phpstan-ignore method.notFound */
             }
