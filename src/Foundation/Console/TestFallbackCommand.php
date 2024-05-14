@@ -113,7 +113,7 @@ class TestFallbackCommand extends Command
      */
     protected function findComposer()
     {
-        $composerPath = join_paths(TESTBENCH_WORKING_PATH, 'composer.phar'); // @phpstan-ignore-line
+        $composerPath = join_paths(TESTBENCH_WORKING_PATH, 'composer.phar'); // @phpstan-ignore constant.notFound
 
         if (file_exists($composerPath)) {
             return '"'.PHP_BINARY.'" '.$composerPath;

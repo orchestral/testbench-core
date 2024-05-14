@@ -104,8 +104,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
         self::flushHandlersState();
 
-        self::$app = null;
-
+        self::$app = null; /** @phpstan-ignore assign.propertyType */
         self::$reservedMemory = null;
     }
 
@@ -128,7 +127,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         }
 
         while (true) {
-            $previousHandler = set_error_handler(static fn () => null);
+            $previousHandler = set_error_handler(static fn () => null); /** @phpstan-ignore argument.type */
             restore_error_handler();
 
             if ($previousHandler === null) {

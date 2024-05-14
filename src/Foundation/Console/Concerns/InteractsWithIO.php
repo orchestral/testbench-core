@@ -18,7 +18,8 @@ trait InteractsWithIO
      */
     protected function copyTaskCompleted(string $from, string $to, string $type, ?string $workingPath = null): void
     {
-        $workingPath = $workingPath ?? TESTBENCH_WORKING_PATH;  // @phpstan-ignore-line
+        $workingPath = $workingPath ?? TESTBENCH_WORKING_PATH; // @phpstan-ignore constant.notFound
+
         $from = str_replace($workingPath.'/', '', (string) realpath($from));
 
         $to = str_replace($workingPath.'/', '', (string) realpath($to));

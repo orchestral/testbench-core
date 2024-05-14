@@ -112,37 +112,37 @@ trait Testing
     final protected function setUpTheTestEnvironmentTraits(array $uses): array
     {
         if (isset($uses[WithWorkbench::class])) {
-            $this->setUpWithWorkbench(); // @phpstan-ignore-line
+            $this->setUpWithWorkbench(); /** @phpstan-ignore method.notFound */
         }
 
         $this->setUpDatabaseRequirements(function () use ($uses) {
             if (isset($uses[RefreshDatabase::class])) {
-                $this->refreshDatabase(); // @phpstan-ignore-line
+                $this->refreshDatabase(); /** @phpstan-ignore method.notFound */
             }
 
             if (isset($uses[DatabaseMigrations::class])) {
-                $this->runDatabaseMigrations(); // @phpstan-ignore-line
+                $this->runDatabaseMigrations(); /** @phpstan-ignore method.notFound */
             }
 
             if (isset($uses[DatabaseTruncation::class])) {
-                $this->truncateDatabaseTables(); // @phpstan-ignore-line
+                $this->truncateDatabaseTables(); /** @phpstan-ignore method.notFound */
             }
         });
 
         if (isset($uses[DatabaseTransactions::class])) {
-            $this->beginDatabaseTransaction(); // @phpstan-ignore-line
+            $this->beginDatabaseTransaction(); /** @phpstan-ignore method.notFound */
         }
 
         if (isset($uses[WithoutMiddleware::class])) {
-            $this->disableMiddlewareForAllTests(); // @phpstan-ignore-line
+            $this->disableMiddlewareForAllTests(); /** @phpstan-ignore method.notFound */
         }
 
         if (isset($uses[WithoutEvents::class])) {
-            $this->disableEventsForAllTests(); // @phpstan-ignore-line
+            $this->disableEventsForAllTests(); /** @phpstan-ignore method.notFound */
         }
 
         if (isset($uses[WithFaker::class])) {
-            $this->setUpFaker(); // @phpstan-ignore-line
+            $this->setUpFaker(); /** @phpstan-ignore method.notFound */
         }
 
         LazyCollection::make(static function () use ($uses) {
