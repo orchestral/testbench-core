@@ -36,12 +36,12 @@ final class TestingFeature
         $defaultResolver = once($default);
 
         if ($testCase instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore-next-line staticMethod.notFound */
+            /** @phpstan-ignore staticMethod.notFound */
             if ($testCase::usesTestingConcern(HandlesAnnotations::class)) {
                 value($annotation, $defaultResolver);
             }
 
-            /** @phpstan-ignore-next-line staticMethod.notFound */
+            /** @phpstan-ignore staticMethod.notFound */
             if ($testCase::usesTestingConcern(HandlesAttributes::class)) {
                 $result['attribute'] = value($attribute, $defaultResolver);
             }
