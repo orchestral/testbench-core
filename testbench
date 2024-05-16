@@ -9,7 +9,9 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
     require __DIR__.'/../../autoload.php';
 }
 
-$workingPath = Orchestra\Testbench\Foundation\Env::get('TESTBENCH_WORKING_PATH', getcwd());
+$workingPath = is_string(getenv('TESTBENCH_WORKING_PATH'))
+    ? getenv('TESTBENCH_WORKING_PATH')
+    : getcwd();
 
 define('TESTBENCH_CORE', true);
 define('TESTBENCH_WORKING_PATH', $workingPath);
