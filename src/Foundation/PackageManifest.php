@@ -6,6 +6,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Collection;
 
+use function Orchestra\Testbench\package_path;
+
 class PackageManifest extends IlluminatePackageManifest
 {
     /**
@@ -128,11 +130,11 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromRoot()
     {
-        if (! \defined('TESTBENCH_WORKING_PATH') || ! is_file(TESTBENCH_WORKING_PATH.'/composer.json')) {
+        if (! \defined('TESTBENCH_CORE') || ! is_file(package_path('composer.json'))) {
             return [];
         }
 
-        $package = transform(file_get_contents(TESTBENCH_WORKING_PATH.'/composer.json'), static function ($json) {
+        $package = transform(file_get_contents(package_path('composer.json')), static function ($json) {
             return json_decode($json, true);
         });
 

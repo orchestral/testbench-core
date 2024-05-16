@@ -30,6 +30,11 @@ class PackagePathTest extends TestCase
 
         $this->assertSame(
             realpath(__DIR__.DIRECTORY_SEPARATOR.'PackagePathTest.php'),
+            package_path('tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')
+        );
+
+        $this->assertSame(
+            realpath(__DIR__.DIRECTORY_SEPARATOR.'PackagePathTest.php'),
             package_path(DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')
         );
     }

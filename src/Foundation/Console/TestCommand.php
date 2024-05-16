@@ -35,7 +35,7 @@ class TestCommand extends Command
     {
         parent::__construct();
 
-        if (! \defined('TESTBENCH_WORKING_PATH')) {
+        if (! \defined('TESTBENCH_CORE')) {
             $this->setHidden(true);
         }
     }
