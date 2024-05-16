@@ -135,13 +135,9 @@ class Workbench
     public static function configuration(): ConfigContract
     {
         if (\is_null(static::$cachedConfiguration)) {
-            $workingPath = getcwd();
-
-            if (\defined('TESTBENCH_WORKING_PATH')) {
-                $workingPath = TESTBENCH_WORKING_PATH;
-            } elseif (Env::has('TESTBENCH_WORKING_PATH')) {
-                $workingPath = Env::get('TESTBENCH_WORKING_PATH');
-            }
+            $workingPath = \defined('TESTBENCH_WORKING_PATH')
+                ? TESTBENCH_WORKING_PATH
+                : Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
             static::$cachedConfiguration = Config::cacheFromYaml($workingPath);
         }
