@@ -171,8 +171,9 @@ function defined_environment_variables(): array
     return Collection::make(array_merge($_SERVER, $_ENV))
         ->keys()
         ->mapWithKeys(static fn (string $key) => [$key => Env::forward($key)])
-        ->put('TESTBENCH_WORKING_PATH', package_path())
-        ->all();
+        ->unless(
+            Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
+        )->all();
 }
 
 /**
@@ -249,9 +250,11 @@ function default_skeleton_path(array|string $path = ''): string
  */
 function package_path(array|string $path = ''): string
 {
-    $workingPath = \defined('TESTBENCH_WORKING_PATH')
-        ? TESTBENCH_WORKING_PATH
-        : getcwd();
+    $workingPath = match(true) {
+        \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
+        Env::has('TESTBENCH_WORKING_PATH') => Env::get('TESTBENCH_WORKING_PATH'),
+        default => getcwd(),
+    };
 
     $path = join_paths(...Arr::wrap($path));
 
@@ -324,7 +327,8 @@ function laravel_migration_path(?string $type = null): string
  */
 function laravel_version_compare(string $version, ?string $operator = null): int|bool
 {
-    $laravel = Application::VERSION === '11.x-dev' ? '11.0.0' : Application::VERSION; // @phpstan-ignore identical.alwaysFalse
+    /** @phpstan-ignore identical.alwaysFalse */
+    $laravel = Application::VERSION === '11.x-dev' ? '11.0.0' : Application::VERSION;
 
     if (\is_null($operator)) {
         return version_compare($laravel, $version);
