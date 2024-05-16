@@ -264,7 +264,7 @@ function default_skeleton_path(array|string $path = ''): string
  */
 function package_path(array|string $path = ''): string
 {
-    $workingPath = match(true) {
+    $workingPath = match (true) {
         \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
         Env::has('TESTBENCH_WORKING_PATH') => Env::get('TESTBENCH_WORKING_PATH'),
         default => getcwd(),

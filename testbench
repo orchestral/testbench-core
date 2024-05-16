@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
 
-define('TESTBENCH_CORE', true);
-define('TESTBENCH_WORKING_PATH', $workingPath = getcwd());
-
 require $_composer_autoload_path ?? __DIR__.'/vendor/autoload.php';
+
+define('TESTBENCH_CORE', true);
+define('TESTBENCH_WORKING_PATH', $workingPath = Orchestra\Testbench\Foundation\Env::get('TESTBENCH_WORKING_PATH') ?? getcwd());
 
 $config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
     workingPath: $workingPath,
