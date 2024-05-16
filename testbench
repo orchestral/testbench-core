@@ -9,8 +9,10 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
     require __DIR__.'/../../autoload.php';
 }
 
+$workingPath = Orchestra\Testbench\Foundation\Env::get('TESTBENCH_WORKING_PATH', getcwd());
+
 define('TESTBENCH_CORE', true);
-define('TESTBENCH_WORKING_PATH', $workingPath = Orchestra\Testbench\Foundation\Env::get('TESTBENCH_WORKING_PATH') ?? getcwd());
+define('TESTBENCH_WORKING_PATH', $workingPath);
 
 $config = Orchestra\Testbench\Foundation\Config::loadFromYaml(
     $workingPath, 'testbench.yaml', ['providers' => [], 'dont-discover' => []]
