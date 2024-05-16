@@ -183,9 +183,9 @@ function defined_environment_variables(): array
         ->keys()
         ->mapWithKeys(static function (string $key) {
             return [$key => Env::forward($key)];
-        })
-        ->put('TESTBENCH_WORKING_PATH', package_path())
-        ->all();
+        })->unless(Env::has('TESTBENCH_WORKING_PATH'), function ($env) {
+            return $env->put('TESTBENCH_WORKING_PATH', package_path());
+        })->all();
 }
 
 /**
