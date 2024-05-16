@@ -257,19 +257,19 @@ function default_skeleton_path(string $path = ''): string
  */
 function package_path(string $path = ''): string
 {
-    $workingPath = match (true) {
-        \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
-        Env::has('TESTBENCH_WORKING_PATH') => Env::get('TESTBENCH_WORKING_PATH'),
-        default => getcwd(),
-    };
+    $workingPath = \defined('TESTBENCH_WORKING_PATH')
+        ? TESTBENCH_WORKING_PATH
+        : Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
     if (str_starts_with($path, './')) {
         return transform_relative_path($path, $workingPath);
     }
 
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
+    if (empty($path)) {
+        return rtrim($workingPath, DIRECTORY_SEPARATOR);
+    }
 
-    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
+    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
 }
 
 /**
