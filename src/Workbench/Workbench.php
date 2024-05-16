@@ -7,7 +7,6 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 
 use function Orchestra\Testbench\after_resolving;
