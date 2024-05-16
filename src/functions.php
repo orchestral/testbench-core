@@ -176,8 +176,9 @@ function defined_environment_variables(): array
         ->keys()
         ->mapWithKeys(static function (string $key) {
             return [$key => Env::forward($key)];
-        })->put('TESTBENCH_WORKING_PATH', package_path())
-        ->all();
+        })->unless(
+            Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
+        )->all();
 }
 
 /**
@@ -256,9 +257,11 @@ function default_skeleton_path(string $path = ''): string
  */
 function package_path(string $path = ''): string
 {
-    $workingPath = \defined('TESTBENCH_WORKING_PATH')
-        ? TESTBENCH_WORKING_PATH
-        : getcwd();
+    $workingPath = match(true) {
+        \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
+        Env::has('TESTBENCH_WORKING_PATH') => Env::get('TESTBENCH_WORKING_PATH'),
+        default => getcwd(),
+    };
 
     if (str_starts_with($path, './')) {
         return transform_relative_path($path, $workingPath);
