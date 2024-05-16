@@ -83,7 +83,7 @@
             "@php testbench view:clear"
         ],
         "lint": [
-            "@php vendor/bin/phpstan analyse"
+            "@php vendor/bin/phpstan analyse --verbose"
         ],
         "test": [
             "@php vendor/bin/phpunit -c ./ --color"
