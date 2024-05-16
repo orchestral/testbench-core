@@ -82,7 +82,7 @@
         "prepare": "@php testbench package:discover --ansi",
         "lint": [
             "@php vendor/bin/pint",
-            "@php vendor/bin/phpstan analyse"
+            "@php vendor/bin/phpstan analyse --verbose"
         ],
         "test": [
             "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --exclude-group phpunit-configuration --color tests"

@@ -185,8 +185,9 @@ function defined_environment_variables(): array
     return Collection::make(array_merge($_SERVER, $_ENV))
         ->keys()
         ->mapWithKeys(static fn (string $key) => [$key => Env::forward($key)])
-        ->put('TESTBENCH_WORKING_PATH', package_path())
-        ->all();
+        ->unless(
+            Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
+        )->all();
 }
 
 /**
@@ -263,9 +264,11 @@ function default_skeleton_path(array|string $path = ''): string
  */
 function package_path(array|string $path = ''): string
 {
-    $workingPath = \defined('TESTBENCH_WORKING_PATH')
-        ? TESTBENCH_WORKING_PATH
-        : getcwd();
+    $workingPath = match(true) {
+        \defined('TESTBENCH_WORKING_PATH') => TESTBENCH_WORKING_PATH,
+        Env::has('TESTBENCH_WORKING_PATH') => Env::get('TESTBENCH_WORKING_PATH'),
+        default => getcwd(),
+    };
 
     $path = join_paths(...Arr::wrap($path));
 
