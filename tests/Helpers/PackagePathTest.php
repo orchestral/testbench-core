@@ -16,6 +16,11 @@ class PackagePathTest extends TestCase
     public function it_can_use_package_path()
     {
         $this->assertSame(
+            realpath(__DIR__.'/../../'),
+            package_path()
+        );
+
+        $this->assertSame(
             realpath(__DIR__.DIRECTORY_SEPARATOR.'PackagePathTest.php'),
             package_path('./tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')
         );

@@ -272,9 +272,11 @@ function package_path(string $path = ''): string
         return transform_relative_path($path, $workingPath);
     }
 
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
+    if (empty($path)) {
+        return rtrim($workingPath, DIRECTORY_SEPARATOR);
+    }
 
-    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
+    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
 }
 
 /**

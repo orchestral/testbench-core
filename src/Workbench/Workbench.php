@@ -7,9 +7,9 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -135,11 +135,7 @@ class Workbench
     public static function configuration(): ConfigContract
     {
         if (\is_null(static::$cachedConfiguration)) {
-            $workingPath = \defined('TESTBENCH_WORKING_PATH')
-                ? TESTBENCH_WORKING_PATH
-                : Env::get('TESTBENCH_WORKING_PATH', getcwd());
-
-            static::$cachedConfiguration = Config::cacheFromYaml($workingPath);
+            static::$cachedConfiguration = Config::cacheFromYaml(package_path());
         }
 
         return static::$cachedConfiguration;
