@@ -264,13 +264,9 @@ function default_skeleton_path(string $path = ''): string
  */
 function package_path(string $path = ''): string
 {
-    $workingPath = getcwd();
-
-    if (\defined('TESTBENCH_WORKING_PATH')) {
-        $workingPath = TESTBENCH_WORKING_PATH;
-    } elseif (Env::has('TESTBENCH_WORKING_PATH')) {
-        $workingPath = Env::get('TESTBENCH_WORKING_PATH');
-    }
+    $workingPath = \defined('TESTBENCH_WORKING_PATH')
+        ? TESTBENCH_WORKING_PATH
+        : Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
     if (Str::startsWith($path, './')) {
         return transform_relative_path($path, $workingPath);
