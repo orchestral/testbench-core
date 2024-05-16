@@ -16,7 +16,7 @@ class PackagePathTest extends TestCase
     public function it_can_use_package_path()
     {
         $this->assertSame(realpath(__DIR__.'/../../'), package_path());
-        $this->assertSame(sprintf('%s/', realpath(__DIR__.'/../../')), package_path('/'));
+        $this->assertSame(implode('', [realpath(__DIR__.'/../../'), DIRECTORY_SEPARATOR]), package_path(DIRECTORY_SEPARATOR));
 
         $this->assertSame(
             realpath(__DIR__.DIRECTORY_SEPARATOR.'PackagePathTest.php'),
