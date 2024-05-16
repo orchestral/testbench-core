@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 
 use function Orchestra\Testbench\after_resolving;
@@ -166,15 +165,7 @@ class Workbench
     public static function configuration(): ConfigContract
     {
         if (\is_null(static::$cachedConfiguration)) {
-            $workingPath = getcwd();
-
-            if (\defined('TESTBENCH_WORKING_PATH')) {
-                $workingPath = TESTBENCH_WORKING_PATH;
-            } elseif (Env::has('TESTBENCH_WORKING_PATH')) {
-                $workingPath = Env::get('TESTBENCH_WORKING_PATH');
-            }
-
-            static::$cachedConfiguration = Config::cacheFromYaml($workingPath);
+            static::$cachedConfiguration = Config::cacheFromYaml(package_path());
         }
 
         return static::$cachedConfiguration;
