@@ -96,7 +96,6 @@ class TestFallbackCommand extends Command
      */
     protected function findComposer()
     {
-        /** @phpstan-ignore constant.notFound */
         $composerPath = package_path('composer.phar');
 
         if (file_exists($composerPath)) {
