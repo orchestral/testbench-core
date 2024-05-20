@@ -157,7 +157,6 @@ class TestCommand extends Command
      *
      * @return string
      */
-    #[\Override]
     protected function getConfigurationFile()
     {
         return $this->phpUnitConfigurationFile();
