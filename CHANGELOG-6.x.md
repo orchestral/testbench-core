@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.50.0
+
+Released: 2024-05-21
+
+### Changes
+
+* Uses `TESTBENCH_WORKING_PATH` from environment variable before fallback to `getcwd()`.
+* PHPStan Improvements.
+
 ## 6.49.7
 
 Released: 2024-04-21
