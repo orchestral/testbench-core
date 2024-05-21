@@ -9,6 +9,8 @@ use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function Orchestra\Testbench\package_path;
+
 class ServeCommand extends Command
 {
     /**
@@ -27,8 +29,7 @@ class ServeCommand extends Command
             ComposerConfig::disableProcessTimeout();
         }
 
-        /** @phpstan-ignore-next-line constant.notFound */
-        $_ENV['TESTBENCH_WORKING_PATH'] = TESTBENCH_WORKING_PATH;
+        $_ENV['TESTBENCH_WORKING_PATH'] = package_path();
 
         static::$passthroughVariables[] = 'TESTBENCH_WORKING_PATH';
 

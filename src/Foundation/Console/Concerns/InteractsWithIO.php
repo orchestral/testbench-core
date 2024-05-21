@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Foundation\Console\Concerns;
 
+use function Orchestra\Testbench\package_path;
+
 /**
  * @deprecated
  */
@@ -19,7 +21,7 @@ trait InteractsWithIO
     protected function copyTaskCompleted(string $from, string $to, string $type, ?string $workingPath = null): void
     {
         /** @phpstan-ignore-next-line constant.notFound */
-        $workingPath = $workingPath ?? TESTBENCH_WORKING_PATH;
+        $workingPath = $workingPath ?? package_path();
 
         $from = str_replace($workingPath.'/', '', (string) realpath($from));
 
