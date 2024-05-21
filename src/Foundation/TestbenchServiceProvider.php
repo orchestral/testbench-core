@@ -7,6 +7,8 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestCommand;
 
+use function Orchestra\Testbench\package_path;
+
 class TestbenchServiceProvider extends ServiceProvider
 {
     /**
@@ -16,12 +18,10 @@ class TestbenchServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $workingPath = \defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : null;
-
         AboutCommand::add('Testbench', fn () => array_filter([
             'Core Version' => InstalledVersions::getPrettyVersion('orchestra/testbench-core'),
             'Dusk Version' => InstalledVersions::isInstalled('orchestra/testbench-dusk') ? InstalledVersions::getPrettyVersion('orchestra/testbench-dusk') : null,
-            'Skeleton Path' => AboutCommand::format($this->app->basePath(), console: fn ($value) => str_replace($workingPath, '', $value)),
+            'Skeleton Path' => AboutCommand::format($this->app->basePath(), console: fn ($value) => str_replace(package_path(), '', $value)),
             'Version' => InstalledVersions::isInstalled('orchestra/testbench') ? InstalledVersions::getPrettyVersion('orchestra/testbench') : null,
         ]));
     }
