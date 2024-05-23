@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.1.1
+
+Released: 2024-05-23
+
+### Changes
+
+* Utilise `Orchestra\Testbench\package_path()` function instead of `TESTBENCH_WORKING_PATH` constant.
+* Update configuration to match Laravel Framework v11.8.0,
+
 ## 9.1.0
 
 Released: 2024-05-21
