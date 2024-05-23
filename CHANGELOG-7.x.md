@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.43.1
+
+Released: 2024-05-23
+
+### Changes
+
+* Utilise `Orchestra\Testbench\package_path()` function instead of `TESTBENCH_WORKING_PATH` constant.
+
 ## 7.43.0
 
 Released: 2024-05-21
