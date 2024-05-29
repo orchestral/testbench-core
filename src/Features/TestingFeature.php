@@ -54,7 +54,7 @@ final class TestingFeature
         if (
             $testCase instanceof PHPUnitTestCase
             && $pest instanceof Closure
-            && $testCase::usesTestingConcern(WithPest::class) /** @phpstan-ignore staticMethod.notFound class.notFound */
+            && $testCase::usesTestingConcern(WithPest::class) /** @phpstan-ignore staticMethod.notFound, class.notFound */
         ) {
             value($pest, $defaultResolver);
         }

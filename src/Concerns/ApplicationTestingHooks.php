@@ -161,7 +161,7 @@ trait ApplicationTestingHooks
     protected function tearDownParallelTestingCallbacks(): void
     {
         if ($this instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore staticMethod.notFound argument.type */
+            /** @phpstan-ignore staticMethod.notFound, argument.type */
             ParallelTesting::callTearDownTestCaseCallbacks($this);
         }
     }
