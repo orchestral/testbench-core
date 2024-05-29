@@ -105,6 +105,8 @@ function remote(array|string $command, array|string $env = []): Process
 /**
  * Run callback only once.
  *
+ * @api
+ *
  * @param  mixed  $callback
  * @return \Closure():mixed
  */
@@ -231,6 +233,8 @@ function transform_relative_path(string $path, string $workingPath): string
 
 /**
  * Get the default skeleton path.
+ *
+ * @api
  *
  * @param  array|string  $path
  * @return string
