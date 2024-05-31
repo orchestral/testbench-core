@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Workbench;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
+use Orchestra\Testbench\Attributes\RequiresLaravel;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
@@ -64,6 +65,17 @@ class DiscoversTest extends TestCase
     public function it_can_resolve_route_name_from_discovers()
     {
         $this->assertSame(url('/testbench'), route('testbench'));
+    }
+
+    #[Test]
+    #[WithConfig('app.debug', true)]
+    #[RequiresLaravel('>=11.9.2')]
+    public function it_can_resolve_exception_page()
+    {
+        $this->get('/failed')
+            ->assertInternalServerError()
+            ->assertSee('RuntimeException')
+            ->assertSee('Bad route!');
     }
 
     #[Test]
