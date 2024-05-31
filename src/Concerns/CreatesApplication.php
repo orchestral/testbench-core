@@ -228,7 +228,7 @@ trait CreatesApplication
             null,
             null,
             function () use ($app) {
-                return $this->parseTestMethodAttributes($app, RequiresLaravel::class);
+                return $this->parseTestMethodAttributes($app, RequiresLaravel::class);  /** @phpstan-ignore method.notFound */
             }
         );
 
