@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
+use Orchestra\Testbench\Attributes\RequiresLaravel;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
@@ -19,7 +20,6 @@ use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
@@ -232,6 +232,15 @@ trait CreatesApplication
     public function createApplication()
     {
         $app = $this->resolveApplication();
+
+        TestingFeature::run(
+            $this,
+            null,
+            null,
+            function () use ($app) {
+                return $this->parseTestMethodAttributes($app, RequiresLaravel::class);  /** @phpstan-ignore method.notFound */
+            }
+        );
 
         $this->resolveApplicationResolvingCallback($app);
 
