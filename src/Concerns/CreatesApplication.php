@@ -362,7 +362,10 @@ trait CreatesApplication
 
         TestingFeature::run(
             testCase: $this,
-            attribute: fn () => $this->parseTestMethodAttributes($app, RequiresEnv::class),
+            attribute: function () use ($app) {
+                $this->parseTestMethodAttributes($app, RequiresEnv::class);
+                $this->parseTestMethodAttributes($app, RequiresLaravel::class);
+            },
         );
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
