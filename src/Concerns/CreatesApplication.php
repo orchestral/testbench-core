@@ -223,15 +223,6 @@ trait CreatesApplication
     {
         $app = $this->resolveApplication();
 
-        TestingFeature::run(
-            $this,
-            null,
-            null,
-            function () use ($app) {
-                return $this->parseTestMethodAttributes($app, RequiresLaravel::class);  /** @phpstan-ignore method.notFound */
-            }
-        );
-
         $this->resolveApplicationResolvingCallback($app);
 
         $this->resolveApplicationBindings($app);
@@ -300,7 +291,8 @@ trait CreatesApplication
             null,
             null,
             function () use ($app) {
-                return $this->parseTestMethodAttributes($app, RequiresEnv::class);
+                $this->parseTestMethodAttributes($app, RequiresEnv::class);
+                $this->parseTestMethodAttributes($app, RequiresLaravel::class);
             }
         );
 
