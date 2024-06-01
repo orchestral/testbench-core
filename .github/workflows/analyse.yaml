@@ -56,7 +56,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} Code Lint
+    name: PHP:${{ matrix.php }} Code Lint
 
     steps:
       - name: Checkout code
