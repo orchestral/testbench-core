@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.43.2
+
+Released: 2024-06-01
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Attributes\RequiresLaravel` attribute usage.
+
 ## 7.43.1
 
 Released: 2024-05-23
