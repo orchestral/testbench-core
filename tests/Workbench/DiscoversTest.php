@@ -30,7 +30,7 @@ class DiscoversTest extends TestCase
     #[Test]
     public function it_can_resolve_web_routes_from_discovers()
     {
-        $this->get('/hello')
+        $this->get('/api/hello')
             ->assertOk();
     }
 
@@ -76,6 +76,62 @@ class DiscoversTest extends TestCase
             ->assertInternalServerError()
             ->assertSee('RuntimeException')
             ->assertSee('Bad route!');
+    }
+
+    #[Test]
+    #[WithConfig('app.debug', true)]
+    #[RequiresLaravel('>=11.9.2')]
+    public function it_can_resolve_exception_without_exception_handling()
+    {
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage('Bad route!');
+
+        $this->withoutExceptionHandling()
+            ->get('/failed');
+    }
+
+    #[Test]
+    #[RequiresLaravel('>=11.9.2')]
+    public function it_can_resolve_exception_page_without_enabling_debug_mode()
+    {
+        $this->get('/failed')
+            ->assertInternalServerError()
+            ->assertSee('500')
+            ->assertSee('Server Error');
+    }
+
+    #[Test]
+    #[RequiresLaravel('>=11.9.2')]
+    public function it_can_resolve_exception_without_exception_handling_without_enabling_debug_mode()
+    {
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage('Bad route!');
+
+        $this->withoutExceptionHandling()
+            ->get('/failed');
+    }
+
+    #[Test]
+    #[WithConfig('app.debug', true)]
+    #[RequiresLaravel('>=11.9.2')]
+    public function it_can_resolve_exception_page_using_json_request()
+    {
+        $this->getJson('/api/failed')
+            ->assertInternalServerError()
+            ->assertSee('RuntimeException')
+            ->assertSee('Bad route!');
+    }
+
+    #[Test]
+    #[WithConfig('app.debug', true)]
+    #[RequiresLaravel('>=11.9.2')]
+    public function it_can_resolve_exception_using_json_request_without_exception_handling()
+    {
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage('Bad route!');
+
+        $this->withoutExceptionHandling()
+            ->get('/failed');
     }
 
     #[Test]
