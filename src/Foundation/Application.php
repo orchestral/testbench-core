@@ -22,6 +22,7 @@ use Illuminate\Support\Once;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
 use Orchestra\Testbench\Concerns\CreatesApplication;
+use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
 
@@ -173,9 +174,10 @@ class Application
     /**
      * Flush the application states.
      *
+     * @param  \Orchestra\Testbench\Console\Commander|\Orchestra\Testbench\PHPUnit\TestCase  $instance
      * @return void
      */
-    public static function flushState(): void
+    public static function flushState(object $instance): void
     {
         AboutCommand::flushState();
         Artisan::forgetBootstrappers();
@@ -184,7 +186,11 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
-        HandleExceptions::flushState();
+
+        if (! $instance instanceof Commander) {
+            HandleExceptions::flushState();
+        }
+
         JsonResource::wrap('data');
         Once::flush();
         Queue::createPayloadUsing(null);

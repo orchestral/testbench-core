@@ -44,7 +44,7 @@
         "laravel/framework": "^12.0",
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.6",
-        "phpstan/phpstan": "^1.10.50",
+        "phpstan/phpstan": "^1.11",
         "phpunit/phpunit": "^10.5 || ^11.0.1",
         "symfony/process": "^7.0",
         "symfony/yaml": "^7.0",
@@ -54,7 +54,7 @@
         "brianium/paratest": "<7.3.0 || >=8.0.0",
         "laravel/framework": "<12.0.0 || >=13.0.0",
         "nunomaduro/collision": "<8.0.0 || >=9.0.0",
-        "phpunit/phpunit": "<10.5.0 || 11.0.0 || >=11.1.0"
+        "phpunit/phpunit": "<10.5.0 || 11.0.0 || >=11.2.0"
     },
     "suggest": {
         "ext-pcntl": "Required to use all features of the console signal trapping.",
@@ -78,7 +78,7 @@
         "prepare": "@php testbench package:discover --ansi",
         "lint": [
             "@php vendor/bin/pint",
-            "@php vendor/bin/phpstan analyse"
+            "@php vendor/bin/phpstan analyse --verbose"
         ],
         "test": [
             "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --exclude-group phpunit-configuration --color tests"

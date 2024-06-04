@@ -2,6 +2,73 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.1.3
+
+Released: 2024-06-04
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Workench\Workbench::applicationExceptionHandler()` usage to detect `Workbench\App\Exceptions\Handler` class.
+* Fixes `Orchestra\Testbench\Console\Kernel` and `Orchestra\Testbench\Foundation\Console\Kernel` unable to discover commands.
+
+## 9.1.2
+
+Released: 2024-06-01
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Attributes\RequiresLaravel` attribute usage.
+
+## 9.1.1
+
+Released: 2024-05-23
+
+### Changes
+
+* Utilise `Orchestra\Testbench\package_path()` function instead of `TESTBENCH_WORKING_PATH` constant.
+* Update configuration to match Laravel Framework v11.8.0,
+
+## 9.1.0
+
+Released: 2024-05-21
+
+### Changes
+
+* Uses `TESTBENCH_WORKING_PATH` from environment variable before fallback to `getcwd()`.
+* PHPStan Improvements.
+
+## 9.0.16
+
+Released: 2024-05-09
+
+### Changes
+
+* Update skeleton to match v11.0.7.
+
+## 9.0.15
+
+Released: 2024-04-24
+
+### Changes
+
+* Add support for PHPUnit 11.1.
+
+## 9.0.14
+
+Released: 2024-04-21
+
+### Fixes
+
+* Fixes routing registration using macro with Workbench.
+
+## 9.0.13
+
+Released: 2024-04-16
+
+### Fixes
+
+* Fixes `serve` command.
+
 ## 9.0.12
 
 Released: 2024-04-13
@@ -21,7 +88,7 @@ Released: 2024-04-08
 
 ### Changes
 
-* Flush Statics Improvements
+* Flush Static Improvements.
 * Revert setting `workbench` environment variable when Testbench CLI is used outside of testing. 
 
 ## 9.0.10

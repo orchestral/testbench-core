@@ -7,7 +7,7 @@ use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\package_path;
 
 /**
  * @internal
@@ -149,9 +149,9 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromTestbench(): ?array
     {
-        if (\defined('TESTBENCH_WORKING_PATH') && is_file(join_paths(TESTBENCH_WORKING_PATH, 'composer.json'))) {
+        if (\defined('TESTBENCH_CORE') && is_file(package_path('composer.json'))) {
             /** @var array{name: string, extra?: array{laravel?: array}} $composer */
-            $composer = $this->files->json(join_paths(TESTBENCH_WORKING_PATH, 'composer.json'));
+            $composer = $this->files->json(package_path('composer.json'));
 
             return $composer;
         }

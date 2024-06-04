@@ -29,9 +29,9 @@ final class ConfigureRay
             $config = $app->make('config');
 
             if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
-                $settings->send_queries_to_ray = false;
-                $settings->send_duplicate_queries_to_ray = false;
-                $settings->send_slow_queries_to_ray = false;
+                $settings->send_queries_to_ray = false; /** @phpstan-ignore property.notFound */
+                $settings->send_duplicate_queries_to_ray = false; /** @phpstan-ignore property.notFound */
+                $settings->send_slow_queries_to_ray = false; /** @phpstan-ignore property.notFound */
             }
         });
     }

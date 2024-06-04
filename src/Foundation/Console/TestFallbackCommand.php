@@ -7,7 +7,7 @@ use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\package_path;
 
 class TestFallbackCommand extends Command
 {
@@ -46,7 +46,7 @@ class TestFallbackCommand extends Command
     {
         parent::__construct();
 
-        if (! \defined('TESTBENCH_WORKING_PATH')) {
+        if (! \defined('TESTBENCH_CORE')) {
             $this->setHidden(true);
         }
     }
@@ -106,7 +106,7 @@ class TestFallbackCommand extends Command
      */
     protected function findComposer(): string
     {
-        $composerPath = join_paths(TESTBENCH_WORKING_PATH, 'composer.phar'); // @phpstan-ignore-line
+        $composerPath = package_path('composer.phar');
 
         if (file_exists($composerPath)) {
             return '"'.PHP_BINARY.'" '.$composerPath;

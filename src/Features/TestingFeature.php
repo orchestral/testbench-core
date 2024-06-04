@@ -39,12 +39,12 @@ final class TestingFeature
         $defaultResolver = once($default);
 
         if ($testCase instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore-next-line */
+            /** @phpstan-ignore staticMethod.notFound */
             if ($testCase::usesTestingConcern(HandlesAnnotations::class)) {
                 value($annotation, $defaultResolver);
             }
 
-            /** @phpstan-ignore-next-line */
+            /** @phpstan-ignore staticMethod.notFound */
             if ($testCase::usesTestingConcern(HandlesAttributes::class)) {
                 $result['attribute'] = value($attribute, $defaultResolver);
             }
@@ -53,7 +53,7 @@ final class TestingFeature
         if (
             $testCase instanceof PHPUnitTestCase
             && $pest instanceof Closure
-            && $testCase::usesTestingConcern(WithPest::class) /** @phpstan-ignore-line */
+            && $testCase::usesTestingConcern(WithPest::class) /** @phpstan-ignore staticMethod.notFound, class.notFound */
         ) {
             value($pest, $defaultResolver);
         }

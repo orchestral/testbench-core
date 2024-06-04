@@ -2,6 +2,55 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.24.3
+
+Released: 2024-06-04
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Workench\Workbench::applicationExceptionHandler()` usage to detect `Workbench\App\Exceptions\Handler` class.
+
+## 8.24.2
+
+Released: 2024-06-01
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Attributes\RequiresLaravel` attribute usage.
+
+## 8.24.1
+
+Released: 2024-05-23
+
+### Changes
+
+* Utilise `Orchestra\Testbench\package_path()` function instead of `TESTBENCH_WORKING_PATH` constant.
+
+## 8.24.0
+
+Released: 2024-05-21
+
+### Changes
+
+* Uses `TESTBENCH_WORKING_PATH` from environment variable before fallback to `getcwd()`.
+* PHPStan Improvements.
+
+## 8.23.10
+
+Released: 2024-04-21
+
+### Fixes
+
+* Backport fixes to routing registration using macro with Workbench.
+
+## 8.23.9
+
+Released: 2024-04-16
+
+### Fixes
+
+* Fixes `serve` command.
+
 ## 8.23.8
 
 Released: 2024-04-13
@@ -21,10 +70,8 @@ Released: 2024-04-08
 
 ### Changes
 
-* Flush Statics Improvements
+* Flush Static Improvements.
 * Revert setting `workbench` environment variable when Testbench CLI is used outside of testing. 
-
-### Changes
 
 ## 8.23.6
 

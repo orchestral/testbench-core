@@ -46,7 +46,7 @@ class TestCommand extends Command
     {
         parent::__construct();
 
-        if (! \defined('TESTBENCH_WORKING_PATH')) {
+        if (! \defined('TESTBENCH_CORE')) {
             $this->setHidden(true);
         }
     }
@@ -128,7 +128,7 @@ class TestCommand extends Command
             ->merge([
                 'APP_ENV' => 'testing',
                 'TESTBENCH_PACKAGE_TESTER' => '(true)',
-                'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
+                'TESTBENCH_WORKING_PATH' => package_path(),
                 'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
             ])->merge(parent::phpunitEnvironmentVariables())
             ->all();
@@ -146,7 +146,7 @@ class TestCommand extends Command
             ->merge([
                 'APP_ENV' => 'testing',
                 'TESTBENCH_PACKAGE_TESTER' => '(true)',
-                'TESTBENCH_WORKING_PATH' => TESTBENCH_WORKING_PATH,
+                'TESTBENCH_WORKING_PATH' => package_path(),
                 'TESTBENCH_APP_BASE_PATH' => $this->laravel->basePath(),
             ])->merge(parent::paratestEnvironmentVariables())
             ->all();

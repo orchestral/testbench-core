@@ -141,7 +141,7 @@ trait ApplicationTestingHooks
         $this->afterApplicationCreatedCallbacks = [];
         $this->beforeApplicationDestroyedCallbacks = [];
 
-        Testbench::flushState();
+        Testbench::flushState($this);
 
         if ($this->callbackException) {
             throw $this->callbackException;
@@ -158,7 +158,8 @@ trait ApplicationTestingHooks
     protected function setUpParallelTestingCallbacks(): void
     {
         if ($this instanceof PHPUnitTestCase) {
-            ParallelTesting::callSetUpTestCaseCallbacks($this); // @phpstan-ignore-line
+            /** @phpstan-ignore staticMethod.notFound, argument.type */
+            ParallelTesting::callSetUpTestCaseCallbacks($this);
         }
     }
 
@@ -172,7 +173,8 @@ trait ApplicationTestingHooks
     protected function tearDownParallelTestingCallbacks(): void
     {
         if ($this instanceof PHPUnitTestCase) {
-            ParallelTesting::callTearDownTestCaseCallbacks($this); // @phpstan-ignore-line
+            /** @phpstan-ignore staticMethod.notFound, argument.type */
+            ParallelTesting::callTearDownTestCaseCallbacks($this);
         }
     }
 

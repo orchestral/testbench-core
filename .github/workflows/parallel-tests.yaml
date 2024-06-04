@@ -19,12 +19,15 @@ jobs:
           - "^8.0"
         paratest:
           - "^7.3"
+        phpunit:
+          - "~10.5.0"
+          - "~11.0.0"
         dependencies:
           - "highest"
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
@@ -39,7 +42,7 @@ jobs:
 
       - name: Install Paratest
         run: |
-          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" "phpunit/phpunit:${{ matrix.phpunit }}" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
@@ -51,13 +54,13 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations on PHPUnit 10)
+      - name: Execute tests (with deprecations)
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
         env:
           RAY_ENABLED: false
         if: matrix.dependencies == 'highest'
 
-      - name: Execute tests (without deprecations on PHPUnit 10)
+      - name: Execute tests (without deprecations)
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session,deprecations --no-coverage
         env:
           RAY_ENABLED: false

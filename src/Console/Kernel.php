@@ -27,4 +27,15 @@ final class Kernel extends ConsoleKernel
     {
         throw $e;
     }
+
+    /**
+     * Determine if the kernel should discover commands.
+     *
+     * @return bool
+     */
+    #[\Override]
+    protected function shouldDiscoverCommands()
+    {
+        return \get_class($this) === __CLASS__;
+    }
 }

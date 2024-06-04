@@ -23,13 +23,14 @@ jobs:
           - "~10.5.0"
           - "10.5.4"
           - "~11.0.0"
+          - "~11.1.0"
         dependencies:
           - "highest"
           - "lowest"
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
     steps:
       - name: Checkout code
