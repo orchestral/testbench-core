@@ -211,7 +211,7 @@ class Workbench
     public static function applicationExceptionHandler(): ?string
     {
         if (! isset(static::$cachedCoreBindings['handler']['exception'])) {
-            static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path(['app', 'Exceptions', 'Exceptions.php']))
+            static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path(['app', 'Exceptions', 'Handler.php']))
                 ? 'Workbench\App\Exceptions\Handler'
                 : null;
         }
