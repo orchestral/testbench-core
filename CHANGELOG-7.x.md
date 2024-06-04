@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.43.3
+
+Released: 2024-06-04
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Workench\Workbench::applicationExceptionHandler()` usage to detect `Workbench\App\Exceptions\Handler` class.
+
 ## 7.43.2
 
 Released: 2024-06-01
