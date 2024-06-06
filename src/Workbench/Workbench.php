@@ -2,12 +2,17 @@
 
 namespace Orchestra\Testbench\Workbench;
 
+use Illuminate\Console\Application as Artisan;
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Workbench\WorkbenchServiceProvider;
+use ReflectionClass;
+use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\package_path;
@@ -91,9 +96,7 @@ class Workbench
             });
 
             if ($app->runningInConsole() && ($discoversConfig['commands'] ?? false) === true) {
-                if (file_exists($console = workbench_path('routes/console.php'))) {
-                    require $console;
-                }
+                static::discoverCommandsRoutes($app);
             }
         });
 
@@ -140,6 +143,42 @@ class Workbench
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
+    }
+
+    /**
+     * Discover Workbench command routes.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    public static function discoverCommandsRoutes(ApplicationContract $app): void
+    {
+        if (file_exists($console = workbench_path('routes/console.php'))) {
+            require $console;
+        }
+
+        if (! is_dir(workbench_path('app/Console/Commands'))) {
+            return;
+        }
+
+        $namespace = 'Workbench\App';
+
+        foreach ((new Finder)->in([workbench_path('app/Console/Commands')])->files() as $command) {
+            $command = $namespace.str_replace(
+                ['/', '.php'],
+                ['\\', ''],
+                Str::after($command->getRealPath(), (string) realpath(workbench_path('app')))
+            );
+
+            if (
+                is_subclass_of($command, Command::class) &&
+                ! (new ReflectionClass($command))->isAbstract()
+            ) {
+                Artisan::starting(function ($artisan) use ($command) {
+                    $artisan->resolve($command);
+                });
+            }
+        }
     }
 
     /**
