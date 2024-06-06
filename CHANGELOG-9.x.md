@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.1.4
+
+Released: 2024-06-06
+
+### Changes
+
+* Allow `$latestResponse` static property to be optional.
+
 ## 9.1.3
 
 Released: 2024-06-04
