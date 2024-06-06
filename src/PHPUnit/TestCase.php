@@ -12,11 +12,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
     #[\Override]
     protected function transformException(Throwable $error): Throwable
     {
-        /** @var \Illuminate\Testing\TestResponse|null $response */
-        $response = static::$latestResponse ?? null;
-
-        if (! \is_null($response)) {
-            $response->transformNotSuccessfulException($error);
+        /** @phpstan-ignore-next-line */
+        if (isset(static::$latestResponse)) {
+            if (! \is_null(static::$latestResponse)) {
+                static::$latestResponse->transformNotSuccessfulException($error);
+            }
         }
 
         return $error;
