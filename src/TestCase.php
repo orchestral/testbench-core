@@ -46,7 +46,9 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     #[\Override]
     protected function setUp(): void
     {
-        static::$latestResponse = null;
+        if (isset(static::$latestResponse)) {
+            static::$latestResponse = null;
+        }
 
         $this->setUpTheTestEnvironment();
     }
