@@ -46,7 +46,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     #[\Override]
     protected function setUp(): void
     {
-        /** @phpstan-ignore-next-line */
         if (isset(static::$latestResponse)) {
             static::$latestResponse = null;
         }
