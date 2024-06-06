@@ -41,7 +41,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/framework": "^11.1",
+        "laravel/framework": "dev-fix-test-assertion-context as 11.x-dev",
         "laravel/pint": "^1.6",
         "mockery/mockery": "^1.6",
         "phpstan/phpstan": "^1.11",
