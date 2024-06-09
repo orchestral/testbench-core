@@ -5,11 +5,18 @@ namespace Orchestra\Testbench\Tests;
 use Carbon\CarbonInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Illuminate\Support\Facades\Date;
 use Orchestra\Testbench\TestCase;
 
 class DefaultConfigurationTest extends TestCase
 {
+    /** @test */
+    public function it_can_load_using_testbench_configurations()
+    {
+        $this->assertSame('Orchestra\Testbench\Bootstrap\LoadConfiguration', \get_class($this->app[LoadConfiguration::class]));
+    }
+
     /**
      * @test
      *
