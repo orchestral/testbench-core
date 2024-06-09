@@ -20,6 +20,7 @@ final class UsesFrameworkConfiguration implements InvokableContract
     public function __invoke($app): void
     {
         $app->bind(LoadConfiguration::class, LoadConfiguration::class);
+
         $app->useConfigPath(package_path(['vendor', 'laravel', 'framework', 'config']));
 
         $app->dontMergeFrameworkConfiguration();
