@@ -20,6 +20,9 @@ class UsesFrameworkConfigurationTest extends TestCase
     public function it_can_load_using_testbench_configurations()
     {
         $this->assertSame('Orchestra\Testbench\Bootstrap\LoadConfiguration', \get_class($this->app[LoadConfiguration::class]));
+
+        $this->assertSame('testing', config('app.env'));
+        $this->assertSame('Illuminate\Foundation\Auth\User', config('auth.providers.users.model'));
     }
 
     #[Test]
@@ -27,5 +30,8 @@ class UsesFrameworkConfigurationTest extends TestCase
     public function it_can_load_using_laravel_configurations()
     {
         $this->assertSame(LoadConfiguration::class, \get_class($this->app[LoadConfiguration::class]));
+
+        $this->assertSame('testing', config('app.env'));
+        $this->assertSame('App\Models\User', config('auth.providers.users.model'));
     }
 }
