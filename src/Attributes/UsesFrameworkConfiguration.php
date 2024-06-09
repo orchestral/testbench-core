@@ -6,8 +6,10 @@ use Attribute;
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 
+use function Orchestra\Testbench\package_path;
+
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
-final class WithLaravelConfigurationLoader implements InvokableContract
+final class UsesFrameworkConfiguration implements InvokableContract
 {
     /**
      * Handle the attribute.
@@ -17,6 +19,9 @@ final class WithLaravelConfigurationLoader implements InvokableContract
      */
     public function __invoke($app): void
     {
-        $app->instance(LoadConfiguration::class, new LoadConfiguration());
+        $app->bind(LoadConfiguration::class, LoadConfiguration::class);
+        $app->useConfigPath(package_path(['vendor', 'laravel', 'framework', 'config']));
+
+        $app->dontMergeFrameworkConfiguration();
     }
 }

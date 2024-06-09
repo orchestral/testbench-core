@@ -17,15 +17,15 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\Attributes\RequiresLaravel;
 use Orchestra\Testbench\Attributes\ResolvesLaravel;
+use Orchestra\Testbench\Attributes\UsesFrameworkConfiguration;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
-use Orchestra\Testbench\Attributes\WithLaravelConfigurationLoader;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
+use Orchestra\Testbench\after_resolving;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-
 use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
@@ -392,7 +392,7 @@ trait CreatesApplication
             testCase: $this,
             attribute: function () use ($app) {
                 $this->parseTestMethodAttributes($app, ResolvesLaravel::class);
-                $this->parseTestMethodAttributes($app, WithLaravelConfigurationLoader::class);
+                $this->parseTestMethodAttributes($app, UsesFrameworkConfiguration::class);
             }
         );
 
