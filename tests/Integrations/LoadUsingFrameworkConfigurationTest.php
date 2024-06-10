@@ -11,13 +11,6 @@ use function Orchestra\Testbench\package_path;
 
 class LoadUsingFrameworkConfigurationTest extends TestCase
 {
-    protected function overrideLaravelConfiguration($app)
-    {
-        $app->instance(LoadConfiguration::class, new LoadConfiguration());
-
-        $app->useConfigPath(package_path(['vendor', 'laravel', 'framework', 'config-stubs']));
-    }
-
     #[Test]
     #[ResolvesLaravel('overrideLaravelConfiguration')]
     public function it_can_load_using_laravel_configurations()
@@ -26,5 +19,12 @@ class LoadUsingFrameworkConfigurationTest extends TestCase
 
         $this->assertSame('testing', config('app.env'));
         $this->assertSame('App\Models\User', config('auth.providers.users.model'));
+    }
+
+    protected function overrideLaravelConfiguration($app)
+    {
+        $app->instance(LoadConfiguration::class, new LoadConfiguration());
+
+        $app->useConfigPath(package_path(['vendor', 'laravel', 'framework', 'config-stubs']));
     }
 }
