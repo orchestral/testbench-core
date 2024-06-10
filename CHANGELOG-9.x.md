@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.1.5
+
+Released: 2024-06-10
+
+### Changes
+
+* Fallback `app.providers` using `Illuminate\Support\DefaultProviders` when the configuration return `null`.
+
 ## 9.1.4
 
 Released: 2024-06-06
