@@ -150,7 +150,7 @@ class Workbench
             $command = $namespace.str_replace(
                 ['/', '.php'],
                 ['\\', ''],
-                Str::after($command->getRealPath(), (string) realpath(workbench_path('app')))
+                Str::after($command->getRealPath(), (string) realpath(workbench_path('app').DIRECTORY_SEPARATOR))
             );
 
             if (
