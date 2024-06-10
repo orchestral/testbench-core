@@ -23,7 +23,7 @@ trait HandlesRoutes
      */
     protected function setUpApplicationRoutes($app): void
     {
-        if ($app->bound('files') && $app->routesAreCached()) {
+        if ($app->routesAreCached()) {
             return;
         }
 
