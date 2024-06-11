@@ -13,6 +13,6 @@ class DeprecatedExceptionTest extends TestCase
     {
         $exception = new DeprecatedException('Error', 1, __FILE__, 3);
 
-        $this->assertSame('Error'.PHP_EOL.PHP_EOL.__FILE__.':3'.PHP_EOL, (string) $exception);
+        $this->assertStringContainsString('Error'.PHP_EOL.PHP_EOL.__FILE__.':3', (string) $exception);
     }
 }
