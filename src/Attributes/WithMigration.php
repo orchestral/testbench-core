@@ -36,9 +36,8 @@ final class WithMigration implements InvokableContract
     {
         /** @var array<int, string> $types */
         $types = Collection::make($this->types)
-            ->transform(static function ($type) {
-                return laravel_migration_path($type !== 'laravel' ? $type : null);
-            })->all();
+            ->transform(static fn ($type) => laravel_migration_path($type !== 'laravel' ? $type : null))
+            ->all();
 
         load_migration_paths($app, $types);
     }
