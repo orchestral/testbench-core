@@ -3,11 +3,12 @@
 namespace Orchestra\Testbench\Tests\Foundation;
 
 use Orchestra\Testbench\Foundation\UndefinedValue;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UndefinedValueTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_be_resolved()
     {
         $stub = new UndefinedValue();
@@ -19,7 +20,7 @@ class UndefinedValueTest extends TestCase
         $this->assertFalse(UndefinedValue::equalsTo(''));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_serialized()
     {
         $stub = new UndefinedValue();
