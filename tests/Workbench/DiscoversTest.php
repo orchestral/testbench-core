@@ -101,8 +101,8 @@ class DiscoversTest extends TestCase
     }
 
     #[Test]
-    #[TestWith(["Workbench\\Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory", "Illuminate\\Foundation\\Auh\\User"])]
-    #[TestWith(["Workbench\\Database\\Factories\\UserFactory", "Workbench\\App\\Models\\User"])]
+    #[TestWith(['Workbench\\Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory', 'Illuminate\\Foundation\\Auh\\User'])]
+    #[TestWith(['Workbench\\Database\\Factories\\UserFactory', 'Workbench\\App\\Models\\User'])]
     public function it_can_discover_database_factories_from_model(string $factory, string $model)
     {
         $this->assertSame($factory, Factory::resolveFactoryName($model));
