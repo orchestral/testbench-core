@@ -18,4 +18,13 @@ class UndefinedValueTest extends TestCase
         $this->assertFalse(UndefinedValue::equalsTo('Testbench'));
         $this->assertFalse(UndefinedValue::equalsTo(''));
     }
+
+    /** @test */
+    public function it_can_be_serialized()
+    {
+        $stub = new UndefinedValue();
+
+        $this->assertNull($stub->jsonSerialize());
+        $this->assertSame('{"content":null}', json_encode(['content' => $stub], true));
+    }
 }
