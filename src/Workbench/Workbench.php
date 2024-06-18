@@ -129,25 +129,32 @@ class Workbench
         });
 
         if (($discoversConfig['factories'] ?? false) === true) {
-            Factory::guessFactoryNamesUsing(static function ($modelName) use ($app) {
+            Factory::guessFactoryNamesUsing(static function ($modelName) {
                 /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
                 $workbenchNamespace = 'Workbench\\App\\';
-                $appNamespace = $app->getNamespace();
 
-                if (Str::startsWith($modelName, $workbenchNamespace)) {
-                    return 'Workbench\\Database\\Factories\\'.static::resolveBaseModelName($workbenchNamespace, $modelName).'Factory';
-                }
+                $modelBasename = Str::startsWith($modelName, $workbenchNamespace.'Models\\')
+                    ? Str::after($modelName, $workbenchNamespace.'Models\\')
+                    : Str::after($modelName, $workbenchNamespace);
 
-                return 'Database\\Factories\\'.static::resolveBaseModelName($appNamespace, $modelName).'Factory';
+                return 'Workbench\\Database\\Factories\\'.$modelBasename.'Factory';
+            });
+
+            Factory::guessModelNamesUsing(static function ($factory) {
+                /** @var \Illuminate\Database\Eloquent\Factories\Factory $factory */
+                $workbenchNamespace = 'Workbench\\App\\';
+
+                $namespacedFactoryBasename = Str::replaceLast(
+                    'Factory', '', Str::replaceFirst('Workbench\\Database\\Factories\\', '', \get_class($factory))
+                );
+
+                $factoryBasename = Str::replaceLast('Factory', '', class_basename($factory));
+
+                return class_exists($workbenchNamespace.'Models\\'.$namespacedFactoryBasename)
+                    ? $workbenchNamespace.'Models\\'.$namespacedFactoryBasename
+                    : $workbenchNamespace.$factoryBasename;
             });
         }
-    }
-
-    protected static function resolveBaseModelName(string $namespace, string $modelName): ?string
-    {
-        return Str::startsWith($modelName, $namespace.'Models\\')
-            ? Str::after($modelName, $namespace.'Models\\')
-            : Str::after($modelName, $namespace);
     }
 
     /**

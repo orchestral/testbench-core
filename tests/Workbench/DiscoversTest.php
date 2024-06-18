@@ -78,7 +78,8 @@ class DiscoversTest extends TestCase
 
     /**
      * @test
-     * @testWith ["Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory", "Illuminate\\Foundation\\Auh\\User"]
+     *
+     * @testWith ["Workbench\\Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory", "Illuminate\\Foundation\\Auh\\User"]
      *           ["Workbench\\Database\\Factories\\UserFactory", "Workbench\\App\\Models\\User"]
      */
     public function it_can_discover_database_factories_from_model(string $factory, string $model)
