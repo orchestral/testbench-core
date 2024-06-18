@@ -78,6 +78,7 @@ class DiscoversTest extends TestCase
 
     /**
      * @test
+     *
      * @testWith ["Workbench\\Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory", "Illuminate\\Foundation\\Auh\\User"]
      *           ["Workbench\\Database\\Factories\\UserFactory", "Workbench\\App\\Models\\User"]
      */
