@@ -76,15 +76,13 @@ class DiscoversTest extends TestCase
         $this->assertSame('Good Morning', __('workbench::welcome.morning'));
     }
 
-    /** @test */
-    public function it_can_discover_database_factories_from_model()
+    /**
+     * @test
+     * @testWith ["Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory", "Illuminate\\Foundation\\Auh\\User"]
+     *           ["Workbench\\Database\\Factories\\UserFactory", "Workbench\\App\\Models\\User"]
+     */
+    public function it_can_discover_database_factories_from_model(string $factory, string $model)
     {
-        $this->assertSame(
-            'Database\Factories\Illuminate\Foundation\Auh\UserFactory', Factory::resolveFactoryName('Illuminate\Foundation\Auh\User')
-        );
-
-        $this->assertSame(
-            'Workbench\Database\Factories\UserFactory', Factory::resolveFactoryName('Workbench\App\Models\User')
-        );
+        $this->assertSame($factory, Factory::resolveFactoryName($model));
     }
 }

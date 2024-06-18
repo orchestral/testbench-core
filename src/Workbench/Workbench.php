@@ -131,19 +131,23 @@ class Workbench
         if (($discoversConfig['factories'] ?? false) === true) {
             Factory::guessFactoryNamesUsing(static function ($modelName) use ($app) {
                 /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
+                $workbenchNamespace = 'Workbench\\App\\';
                 $appNamespace = $app->getNamespace();
 
-                if (Str::startsWith($modelName, 'Workbench\\App')) {
-                    return 'Workbench\\Database\\Factories\\'.class_basename($modelName).'Factory';
+                if (Str::startsWith($modelName, $workbenchNamespace)) {
+                    return 'Workbench\\Database\\Factories\\'.static::resolveBaseModelName($workbenchNamespace, $modelName).'Factory';
                 }
 
-                $baseModelName = Str::startsWith($modelName, $appNamespace.'Models\\')
-                    ? Str::after($modelName, $appNamespace.'Models\\')
-                    : Str::after($modelName, $appNamespace);
-
-                return 'Database\\Factories\\'.$baseModelName.'Factory';
+                return 'Database\\Factories\\'.static::resolveBaseModelName($appNamespace, $modelName).'Factory';
             });
         }
+    }
+
+    protected static function resolveBaseModelName(string $namespace, string $modelName): ?string
+    {
+        return Str::startsWith($modelName, $namespace.'Models\\')
+            ? Str::after($modelName, $namespace.'Models\\')
+            : Str::after($modelName, $namespace);
     }
 
     /**
