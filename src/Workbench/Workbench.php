@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Workbench;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -126,6 +127,34 @@ class Workbench
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
+
+        if (($discoversConfig['factories'] ?? false) === true) {
+            Factory::guessFactoryNamesUsing(static function ($modelName) {
+                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
+                $workbenchNamespace = 'Workbench\\App\\';
+
+                $modelBasename = Str::startsWith($modelName, $workbenchNamespace.'Models\\')
+                    ? Str::after($modelName, $workbenchNamespace.'Models\\')
+                    : Str::after($modelName, $workbenchNamespace);
+
+                return 'Workbench\\Database\\Factories\\'.$modelBasename.'Factory';
+            });
+
+            Factory::guessModelNamesUsing(static function ($factory) {
+                /** @var \Illuminate\Database\Eloquent\Factories\Factory $factory */
+                $workbenchNamespace = 'Workbench\\App\\';
+
+                $namespacedFactoryBasename = Str::replaceLast(
+                    'Factory', '', Str::replaceFirst('Workbench\\Database\\Factories\\', '', \get_class($factory))
+                );
+
+                $factoryBasename = Str::replaceLast('Factory', '', class_basename($factory));
+
+                return class_exists($workbenchNamespace.'Models\\'.$namespacedFactoryBasename)
+                    ? $workbenchNamespace.'Models\\'.$namespacedFactoryBasename
+                    : $workbenchNamespace.$factoryBasename;
+            });
+        }
     }
 
     /**
