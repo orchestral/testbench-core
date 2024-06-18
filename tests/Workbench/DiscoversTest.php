@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
-use Workbench\App\Models\User;
-use Workbench\Database\Factories\UserFactory;
 
 class DiscoversTest extends TestCase
 {
@@ -79,8 +77,14 @@ class DiscoversTest extends TestCase
     }
 
     /** @test */
-    public function it_can_discover_database_factories()
+    public function it_can_discover_database_factories_from_model()
     {
-        $this->assertSame(UserFactory::class, Factory::resolveFactoryName(User::class));
+        $this->assertSame(
+            'Database\Factories\Illuminate\Foundation\Auh\UserFactory', Factory::resolveFactoryName('Illuminate\Foundation\Auh\User')
+        );
+
+        $this->assertSame(
+            'Workbench\Database\Factories\UserFactory', Factory::resolveFactoryName('Workbench\App\Models\User')
+        );
     }
 }
