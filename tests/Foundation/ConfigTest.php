@@ -48,6 +48,7 @@ class ConfigTest extends TestCase
             'assets' => [],
             'discovers' => [
                 'config' => false,
+                'factories' => false,
                 'web' => false,
                 'api' => false,
                 'commands' => false,
@@ -58,6 +59,7 @@ class ConfigTest extends TestCase
 
         $this->assertSame([
             'config' => false,
+            'factories' => false,
             'web' => false,
             'api' => false,
             'commands' => false,
@@ -102,6 +104,7 @@ class ConfigTest extends TestCase
             'assets' => [],
             'discovers' => [
                 'config' => false,
+                'factories' => false,
                 'web' => false,
                 'api' => false,
                 'commands' => false,
@@ -112,6 +115,7 @@ class ConfigTest extends TestCase
 
         $this->assertSame([
             'config' => false,
+            'factories' => false,
             'web' => false,
             'api' => false,
             'commands' => false,
