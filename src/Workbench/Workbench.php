@@ -137,7 +137,10 @@ class Workbench
                     ? Str::after($modelName, $workbenchNamespace.'Models\\')
                     : Str::after($modelName, $workbenchNamespace);
 
-                return 'Workbench\\Database\\Factories\\'.$modelBasename.'Factory';
+                /** @var class-string<\Illuminate\Database\Eloquent\Factories\Factory> $factoryName */
+                $factoryName = 'Workbench\\Database\\Factories\\'.$modelBasename.'Factory';
+
+                return $factoryName;
             });
 
             Factory::guessModelNamesUsing(static function ($factory) {
@@ -150,9 +153,12 @@ class Workbench
 
                 $factoryBasename = Str::replaceLast('Factory', '', class_basename($factory));
 
-                return class_exists($workbenchNamespace.'Models\\'.$namespacedFactoryBasename)
+                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
+                $modelName = class_exists($workbenchNamespace.'Models\\'.$namespacedFactoryBasename)
                     ? $workbenchNamespace.'Models\\'.$namespacedFactoryBasename
                     : $workbenchNamespace.$factoryBasename;
+
+                return $modelName;
             });
         }
     }
