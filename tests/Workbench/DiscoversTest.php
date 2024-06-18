@@ -3,9 +3,12 @@
 namespace Orchestra\Testbench\Tests\Workbench;
 
 use Composer\InstalledVersions;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use Workbench\App\Models\User;
+use Workbench\Database\Factories\UserFactory;
 
 class DiscoversTest extends TestCase
 {
@@ -73,5 +76,11 @@ class DiscoversTest extends TestCase
     public function it_can_discover_translation_files()
     {
         $this->assertSame('Good Morning', __('workbench::welcome.morning'));
+    }
+
+    /** @test */
+    public function it_can_discover_database_factories()
+    {
+        $this->assertSame(UserFactory::class, Factory::resolveFactoryName(User::class));
     }
 }
