@@ -78,12 +78,17 @@ class DiscoversTest extends TestCase
 
     /**
      * @test
-     *
      * @testWith ["Workbench\\Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory", "Illuminate\\Foundation\\Auh\\User"]
      *           ["Workbench\\Database\\Factories\\UserFactory", "Workbench\\App\\Models\\User"]
      */
     public function it_can_discover_database_factories_from_model(string $factory, string $model)
     {
         $this->assertSame($factory, Factory::resolveFactoryName($model));
+    }
+
+    /** @test */
+    public function it_can_discover_model_from_factory()
+    {
+        $this->assertSame('Workbench\App\Models\User', \Workbench\Database\Factories\UserFactory::new()->modelName());
     }
 }
