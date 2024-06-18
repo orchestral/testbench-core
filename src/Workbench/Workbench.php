@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Workbench;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -126,6 +127,23 @@ class Workbench
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
+
+        if (($discoversConfig['factories'] ?? false) === true) {
+            Factory::guessFactoryNamesUsing(static function ($modelName) use ($app) {
+                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
+                $appNamespace = $app->getNamespace();
+
+                if (Str::startsWith($modelName, 'Workbench\\App')) {
+                    return 'Workbench\\Database\\Factories\\'.class_basename($modelName).'Factory';
+                }
+
+                $baseModelName = Str::startsWith($modelName, $appNamespace.'Models\\')
+                    ? Str::after($modelName, $appNamespace.'Models\\')
+                    : Str::after($modelName, $appNamespace);
+
+                return 'Database\\Factories\\'.$baseModelName.'Factory';
+            });
+        }
     }
 
     /**
