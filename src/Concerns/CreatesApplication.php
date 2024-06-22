@@ -118,16 +118,17 @@ trait CreatesApplication
      */
     final protected function resolveApplicationAliases($app): array
     {
-        $aliases = new Collection($this->getApplicationAliases($app));
-        $overrides = $this->overrideApplicationAliases($app);
+        $aliases = Collection::make(
+            $this->getApplicationAliases($app)
+        )->merge($this->getPackageAliases($app));
 
-        if (! empty($overrides)) {
+        if (! empty($overrides = $this->overrideApplicationAliases($app))) {
             $aliases->transform(static function ($alias, $name) use ($overrides) {
                 return $overrides[$name] ?? $alias;
             });
         }
 
-        return $aliases->merge($this->getPackageAliases($app))->all();
+        return $aliases->filter()->all();
     }
 
     /**
@@ -182,16 +183,17 @@ trait CreatesApplication
      */
     final protected function resolveApplicationProviders($app): array
     {
-        $providers = new Collection($this->getApplicationProviders($app));
-        $overrides = $this->overrideApplicationProviders($app);
+        $providers = Collection::make(
+            $this->getApplicationProviders($app)
+        )->merge($this->getPackageProviders($app));
 
-        if (! empty($overrides)) {
+        if (! empty($overrides = $this->overrideApplicationProviders($app))) {
             $providers->transform(static function ($provider) use ($overrides) {
                 return $overrides[$provider] ?? $provider;
             });
         }
 
-        return $providers->merge($this->getPackageProviders($app))->all();
+        return $providers->filter()->values()->all();
     }
 
     /**
