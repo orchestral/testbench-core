@@ -81,7 +81,7 @@ class HelpersTest extends TestCase
     public function it_can_resolve_workbench_path()
     {
         $this->assertSame(
-            package_path('workbench/database/migrations/2013_07_26_182750_create_testbench_users_table.php'),
+            realpath(package_path('workbench/database/migrations/2013_07_26_182750_create_testbench_users_table.php')),
             workbench_path('database'.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'2013_07_26_182750_create_testbench_users_table.php')
         );
     }
