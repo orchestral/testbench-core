@@ -122,9 +122,7 @@ trait CreatesApplication
             $this->getApplicationAliases($app)
         )->merge($this->getPackageAliases($app));
 
-        $overrides = $this->overrideApplicationAliases($app);
-
-        if (! empty($overrides)) {
+        if (! empty($overrides = $this->overrideApplicationAliases($app))) {
             $aliases->transform(static function ($alias, $name) use ($overrides) {
                 return $overrides[$name] ?? $alias;
             });
@@ -189,9 +187,7 @@ trait CreatesApplication
             $this->getApplicationProviders($app)
         )->merge($this->getPackageProviders($app));
 
-        $overrides = $this->overrideApplicationProviders($app);
-
-        if (! empty($overrides)) {
+        if (! empty($overrides = $this->overrideApplicationProviders($app))) {
             $providers->transform(static function ($provider) use ($overrides) {
                 return $overrides[$provider] ?? $provider;
             });
