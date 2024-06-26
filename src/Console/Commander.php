@@ -92,14 +92,6 @@ class Commander
             $laravel = $this->laravel();
             $kernel = $laravel->make(ConsoleKernel::class);
 
-            if (
-                Env::has('TESTBENCH_PACKAGE_TESTER') === false
-                && Env::has('TESTBENCH_PACKAGE_REMOTE') === false
-                && $laravel->runningUnitTests() === true
-            ) {
-                $laravel->instance('env', 'workbench');
-            }
-
             $this->prepareCommandSignals();
 
             $status = $kernel->handle($input, $output);
