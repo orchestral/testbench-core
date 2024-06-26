@@ -19,10 +19,10 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf('Illuminate\Foundation\Application', $app);
         $this->assertSame('App\\', $app->getNamespace());
-        $this->assertEquals('testing', $app['env']);
+        $this->assertEquals('workbench', $app['env']);
         $this->assertSame($app['env'], $app['config']['app.env']);
-        $this->assertSame('testing', $app->environment());
-        $this->assertTrue($app->runningUnitTests());
+        $this->assertSame('workbench', $app->environment());
+        $this->assertFalse($app->runningUnitTests());
 
         $this->assertFalse($testbench->isRunningTestCase());
     }
@@ -38,9 +38,9 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf('Illuminate\Foundation\Application', $app);
         $this->assertSame('App\\', $app->getNamespace());
-        $this->assertEquals('testing', $app['env']);
+        $this->assertEquals('workbench', $app['env']);
         $this->assertSame($app['env'], $app['config']['app.env']);
-        $this->assertSame('testing', $app->environment());
-        $this->assertTrue($app->runningUnitTests());
+        $this->assertSame('workbench', $app->environment());
+        $this->assertFalse($app->runningUnitTests());
     }
 }
