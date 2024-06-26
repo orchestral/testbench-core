@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.24.4
+
+Released: 2024-06-26
+
+### Fixes
+
+* Fixes `overrideApplicationAliases()` and `overrideApplicationProviders()` unable to override packages aliases or providers.
+
 ## 8.24.3
 
 Released: 2024-06-04
