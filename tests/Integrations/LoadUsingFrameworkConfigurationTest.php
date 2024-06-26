@@ -7,6 +7,7 @@ use Orchestra\Testbench\Attributes\ResolvesLaravel;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+
 use function Orchestra\Testbench\package_path;
 
 class LoadUsingFrameworkConfigurationTest extends TestCase
