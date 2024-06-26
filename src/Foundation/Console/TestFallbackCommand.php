@@ -7,6 +7,7 @@ use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
 
+use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\phpunit_version_compare;
 
@@ -59,7 +60,7 @@ class TestFallbackCommand extends Command
      */
     public function handle()
     {
-        if (! $this->confirm('Running tests requires "nunomaduro/collision". Do you wish to install it as a dev dependency?')) {
+        if (! confirm('Running tests requires "nunomaduro/collision". Do you wish to install it as a dev dependency?')) {
             return 1;
         }
 
