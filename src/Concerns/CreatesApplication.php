@@ -189,14 +189,15 @@ trait CreatesApplication
      */
     final protected function resolveApplicationProviders($app): array
     {
-        $providers = new Collection($this->getApplicationProviders($app));
-        $overrides = $this->overrideApplicationProviders($app);
+        $providers = Collection::make(
+            $this->getApplicationProviders($app)
+        )->merge($this->getPackageProviders($app));
 
-        if (! empty($overrides)) {
+        if (! empty($overrides = $this->overrideApplicationProviders($app))) {
             $providers->transform(static fn ($provider) => $overrides[$provider] ?? $provider);
         }
 
-        return $providers->merge($this->getPackageProviders($app))->all();
+        return $providers->filter()->values()->all();
     }
 
     /**
