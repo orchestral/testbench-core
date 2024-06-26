@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Auth\User;
 use Orchestra\Testbench\Factories\UserFactory;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 
 class EnvironmentVariablesTest extends TestCase
@@ -36,6 +37,10 @@ class EnvironmentVariablesTest extends TestCase
      */
     public function it_can_be_used_without_having_an_environment_variables_file()
     {
+        if (Env::has('TESTBENCH_PACKAGE_TESTER')) {
+            $this->markTestSkipped('Will always failed via `package:test` command');
+        }
+
         $user = UserFactory::new()->create();
 
         $this->assertFalse(file_exists(realpath(__DIR__.'/../../laravel/.env')));
