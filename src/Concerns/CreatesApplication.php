@@ -140,14 +140,15 @@ trait CreatesApplication
      */
     final protected function resolveApplicationAliases($app): array
     {
-        $aliases = new Collection($this->getApplicationAliases($app));
-        $overrides = $this->overrideApplicationAliases($app);
+        $aliases = Collection::make(
+            $this->getApplicationAliases($app)
+        )->merge($this->getPackageAliases($app));
 
-        if (! empty($overrides)) {
+        if (! empty($overrides = $this->overrideApplicationAliases($app))) {
             $aliases->transform(static fn ($alias, $name) => $overrides[$name] ?? $alias);
         }
 
-        return $aliases->merge($this->getPackageAliases($app))->all();
+        return $aliases->filter()->all();
     }
 
     /**
