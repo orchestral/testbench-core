@@ -212,7 +212,9 @@ trait CreatesApplication
      */
     final protected function resolveApplicationProviders($app): array
     {
-        $providers = RegisterProviders::mergeAdditionalProvidersForTestbench(new Collection($this->getApplicationProviders($app)));
+        $providers = new Collection(
+            RegisterProviders::mergeAdditionalProvidersForTestbench($this->getApplicationProviders($app))
+        );
         $overrides = $this->overrideApplicationProviders($app);
 
         if (! empty($overrides)) {

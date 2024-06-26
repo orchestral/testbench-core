@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
-use Illuminate\Support\Collection;
-
 class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProviders
 {
     /**
@@ -11,12 +9,12 @@ class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProvide
      *
      * @internal
      *
-     * @template TProvidersCollection of \Illuminate\Support\Collection
+     * @template TProviders of array<int, class-string>
      *
-     * @param  TProvidersCollection  $providers
-     * @return TProvidersCollection
+     * @param  TProviders  $providers
+     * @return TProviders
      */
-    public static function mergeAdditionalProvidersForTestbench(Collection $providers): Collection
+    public static function mergeAdditionalProvidersForTestbench(array $providers): array
     {
         if (static::$bootstrapProviderPath &&
             file_exists(static::$bootstrapProviderPath)) {
@@ -29,13 +27,12 @@ class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProvide
             }
         }
 
-        $providers
-            ->merge(static::$merge)
-            ->merge(array_values($packageProviders ?? []));
-
-        static::$merge = [];
-        static::$bootstrapProviderPath = null;
-
-        return $providers;
+        return tap(
+            array_merge($providers, static::$merge, array_values($packageProviders ?? [])),
+            function ($p) {
+                static::$merge = [];
+                static::$bootstrapProviderPath = null;
+            }
+        );
     }
 }
