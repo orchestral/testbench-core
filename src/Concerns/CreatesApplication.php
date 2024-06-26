@@ -6,7 +6,6 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Configuration\ApplicationBuilder;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
@@ -23,6 +22,7 @@ use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
+use Orchestra\Testbench\Bootstrap\RegisterProviders;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
@@ -216,7 +216,7 @@ trait CreatesApplication
     final protected function resolveApplicationProviders($app): array
     {
         $providers = Collection::make(
-            $this->getApplicationProviders($app)
+            RegisterProviders::mergeAdditionalProvidersForTestbench($this->getApplicationProviders($app))
         )->merge($this->getPackageProviders($app));
 
         if (! empty($overrides = $this->overrideApplicationProviders($app))) {
@@ -412,14 +412,14 @@ trait CreatesApplication
                 $app->detectEnvironment(static fn () => $config->get('app.env', 'workbench'));
             }
 
+            if (\is_string($bootstrapProviderPath = $this->getApplicationBootstrapFile('providers.php'))) {
+                RegisterProviders::merge([], $bootstrapProviderPath);
+            }
+
             $config->set([
                 'app.aliases' => $this->resolveApplicationAliases($app),
                 'app.providers' => $this->resolveApplicationProviders($app),
             ]);
-
-            if (\is_string($bootstrapProviderPath = $this->getApplicationBootstrapFile('providers.php'))) {
-                RegisterProviders::merge([], $bootstrapProviderPath);
-            }
 
             TestingFeature::run(
                 testCase: $this,
@@ -523,7 +523,7 @@ trait CreatesApplication
 
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
-        $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
+        $app->make(RegisterProviders::class)->bootstrap($app);
 
         if (class_exists('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider')) {
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
