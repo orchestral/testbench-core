@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
+use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Framework\TestCase;
 
 use function Orchestra\Testbench\container;
@@ -39,11 +40,13 @@ class TestCaseTest extends TestCase
 
         $app = $container->createApplication();
 
+        $environment = Env::has('TESTBENCH_PACKAGE_TESTER') ? 'testing' : 'workbench';
+
         $this->assertInstanceOf(Application::class, $app);
         $this->assertEquals('UTC', date_default_timezone_get());
-        $this->assertEquals('workbench', $app['env']);
-        $this->assertSame('workbench', $app->environment());
-        $this->assertFalse($app->runningUnitTests());
+        $this->assertEquals($environment, $app['env']);
+        $this->assertSame($environment, $app->environment());
+        $this->assertSame(Env::has('TESTBENCH_PACKAGE_TESTER'), $app->runningUnitTests());
         $this->assertInstanceOf(ConfigRepository::class, $app['config']);
 
         $this->assertFalse($container->isRunningTestCase());
