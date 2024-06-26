@@ -18,9 +18,23 @@ class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProvide
      */
     public static function mergeAdditionalProvidersForTestbench(Collection $providers): Collection
     {
-        $providers->merge(static::$merge);
+        if (static::$bootstrapProviderPath &&
+            file_exists(static::$bootstrapProviderPath)) {
+            $packageProviders = require static::$bootstrapProviderPath;
+
+            foreach ($packageProviders as $index => $provider) {
+                if (! class_exists($provider)) {
+                    unset($packageProviders[$index]);
+                }
+            }
+        }
+
+        $providers
+            ->merge(static::$merge)
+            ->merge(array_values($packageProviders ?? []));
 
         static::$merge = [];
+        static::$bootstrapProviderPath = null;
 
         return $providers;
     }
