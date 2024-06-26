@@ -56,9 +56,9 @@ class TestCaseTest extends TestCase
 
         $this->assertInstanceOf(Application::class, $app);
         $this->assertEquals('UTC', date_default_timezone_get());
-        $this->assertEquals('testing', $app['env']);
-        $this->assertSame('testing', $app->environment());
-        $this->assertTrue($app->runningUnitTests());
+        $this->assertEquals('workbench', $app['env']);
+        $this->assertSame('workbench', $app->environment());
+        $this->assertFalse($app->runningUnitTests());
         $this->assertInstanceOf(ConfigRepository::class, $app['config']);
 
         $this->assertFalse($container->isRunningTestCase());

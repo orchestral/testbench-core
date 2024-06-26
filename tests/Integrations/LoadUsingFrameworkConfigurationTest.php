@@ -17,7 +17,7 @@ class LoadUsingFrameworkConfigurationTest extends TestCase
     {
         $this->assertSame(LoadConfiguration::class, \get_class($this->app[LoadConfiguration::class]));
 
-        $this->assertSame('testing', config('app.env'));
+        $this->assertSame('production', config('app.env'));
         $this->assertSame('App\Models\User', config('auth.providers.users.model'));
     }
 

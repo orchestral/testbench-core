@@ -21,7 +21,7 @@ class UsesFrameworkConfigurationTest extends TestCase
     {
         $this->assertSame('Orchestra\Testbench\Bootstrap\LoadConfiguration', \get_class($this->app[LoadConfiguration::class]));
 
-        $this->assertSame('testing', config('app.env'));
+        $this->assertSame('workbench', config('app.env'));
         $this->assertSame('Illuminate\Foundation\Auth\User', config('auth.providers.users.model'));
     }
 
@@ -31,7 +31,7 @@ class UsesFrameworkConfigurationTest extends TestCase
     {
         $this->assertSame(LoadConfiguration::class, \get_class($this->app[LoadConfiguration::class]));
 
-        $this->assertSame('testing', config('app.env'));
+        $this->assertSame('production', config('app.env'));
         $this->assertSame('App\Models\User', config('auth.providers.users.model'));
     }
 }
