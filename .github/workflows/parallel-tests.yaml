@@ -20,8 +20,8 @@ jobs:
         paratest:
           - "^7.3"
         phpunit:
-          - "~10.5.0"
-          - "~11.0.0"
+          - "^10.5"
+          - "^11.0"
         dependencies:
           - "highest"
         experimental:
