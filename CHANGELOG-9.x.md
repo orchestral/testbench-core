@@ -8,7 +8,7 @@ Released: 2024-06-28
 
 ### Changes
 
-* Add support for PHPUnit 11.1.
+* Add support for PHPUnit 11.2.
 
 ## 9.1.7
 
