@@ -44,6 +44,7 @@ class HelpersTest extends TestCase
             'assets' => [],
             'discovers' => [
                 'config' => false,
+                'factories' => false,
                 'web' => true,
                 'api' => false,
                 'commands' => false,
@@ -68,6 +69,7 @@ class HelpersTest extends TestCase
             'assets' => [],
             'discovers' => [
                 'config' => false,
+                'factories' => false,
                 'web' => false,
                 'api' => false,
                 'commands' => false,

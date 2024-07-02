@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Attributes;
 
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Orchestra\Testbench\Attributes\UsesFrameworkConfiguration;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -21,7 +22,9 @@ class UsesFrameworkConfigurationTest extends TestCase
     {
         $this->assertSame('Orchestra\Testbench\Bootstrap\LoadConfiguration', \get_class($this->app[LoadConfiguration::class]));
 
-        $this->assertSame('testing', config('app.env'));
+        $environment = Env::has('TESTBENCH_PACKAGE_TESTER') ? 'testing' : 'workbench';
+
+        $this->assertSame($environment, config('app.env'));
         $this->assertSame('Illuminate\Foundation\Auth\User', config('auth.providers.users.model'));
     }
 
@@ -31,7 +34,9 @@ class UsesFrameworkConfigurationTest extends TestCase
     {
         $this->assertSame(LoadConfiguration::class, \get_class($this->app[LoadConfiguration::class]));
 
-        $this->assertSame('testing', config('app.env'));
+        $environment = Env::has('TESTBENCH_PACKAGE_TESTER') ? 'testing' : 'production';
+
+        $this->assertSame($environment, config('app.env'));
         $this->assertSame('App\Models\User', config('auth.providers.users.model'));
     }
 }

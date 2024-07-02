@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Workbench;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
@@ -156,6 +157,40 @@ class Workbench
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
+
+        if (($discoversConfig['factories'] ?? false) === true) {
+            Factory::guessFactoryNamesUsing(static function ($modelName) {
+                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
+                $workbenchNamespace = 'Workbench\\App\\';
+
+                $modelBasename = str_starts_with($modelName, $workbenchNamespace.'Models\\')
+                    ? Str::after($modelName, $workbenchNamespace.'Models\\')
+                    : Str::after($modelName, $workbenchNamespace);
+
+                /** @var class-string<\Illuminate\Database\Eloquent\Factories\Factory> $factoryName */
+                $factoryName = 'Workbench\\Database\\Factories\\'.$modelBasename.'Factory';
+
+                return $factoryName;
+            });
+
+            Factory::guessModelNamesUsing(static function ($factory) {
+                /** @var \Illuminate\Database\Eloquent\Factories\Factory $factory */
+                $workbenchNamespace = 'Workbench\\App\\';
+
+                $namespacedFactoryBasename = Str::replaceLast(
+                    'Factory', '', Str::replaceFirst('Workbench\\Database\\Factories\\', '', \get_class($factory))
+                );
+
+                $factoryBasename = Str::replaceLast('Factory', '', class_basename($factory));
+
+                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
+                $modelName = class_exists($workbenchNamespace.'Models\\'.$namespacedFactoryBasename)
+                    ? $workbenchNamespace.'Models\\'.$namespacedFactoryBasename
+                    : $workbenchNamespace.$factoryBasename;
+
+                return $modelName;
+            });
+        }
     }
 
     /**
@@ -180,7 +215,7 @@ class Workbench
             $command = $namespace.str_replace(
                 ['/', '.php'],
                 ['\\', ''],
-                Str::after($command->getRealPath(), (string) realpath(workbench_path('app')))
+                Str::after($command->getRealPath(), (string) realpath(workbench_path('app').DIRECTORY_SEPARATOR))
             );
 
             if (
