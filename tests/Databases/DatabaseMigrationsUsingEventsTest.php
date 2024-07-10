@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Databases;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Attributes\WithConfig;
@@ -12,9 +12,9 @@ use PHPUnit\Framework\Attributes\Test;
 
 #[ResetRefreshDatabaseState]
 #[WithConfig('database.default', 'testing')]
-class RefreshDatabaseUsingEventsTest extends TestCase
+class DatabaseMigrationsUsingEventsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
     use WithWorkbench;
 
     /** {@inheritDoc} */
@@ -27,8 +27,13 @@ class RefreshDatabaseUsingEventsTest extends TestCase
 
             $table->timestamps();
         });
+    }
 
-        $this->beforeApplicationDestroyed(fn () => Schema::dropIfExists('testbench_staffs'));
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function destroyDatabaseMigrations()
+    {
+        Schema::dropIfExists('testbench_staffs');
     }
 
     #[Test]
