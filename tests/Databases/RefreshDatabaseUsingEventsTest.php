@@ -33,7 +33,7 @@ class RefreshDatabaseUsingEventsTest extends TestCase
     #[\Override]
     protected function destroyDatabaseMigrations()
     {
-        Schema::dropIfExists('testbench_staffs');
+        rescue(fn () => Schema::dropIfExists('testbench_staffs'), report: false);
     }
 
     #[Test]
