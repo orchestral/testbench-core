@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.1.9
+
+Released: 2024-07-10
+
+### Changes
+
+* Update skeleton to match v11.1.3.
+* Includes `server.php` improvements from Laravel Framework 11.14.
+
 ## 9.1.8
 
 Released: 2024-06-28
