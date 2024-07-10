@@ -14,7 +14,8 @@ use PHPUnit\Framework\Attributes\Test;
 #[WithConfig('database.default', 'testing')]
 class RefreshDatabaseWithMigrationWithinSetUpTest extends TestCase
 {
-    use RefreshDatabase, WithWorkbench;
+    use RefreshDatabase;
+    use WithWorkbench;
 
     /** {@inheritDoc} */
     #[\Override]
