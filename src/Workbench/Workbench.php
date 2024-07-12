@@ -91,7 +91,7 @@ class Workbench
                 }
 
                 if ($healthCheckEnabled === true) {
-                    $router->middleware('web')->get('/up', function () {
+                    $router->get('/up', function () {
                         Event::dispatch(new DiagnosingHealth);
 
                         return View::file(
