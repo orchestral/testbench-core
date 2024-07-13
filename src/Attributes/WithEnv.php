@@ -28,7 +28,7 @@ final class WithEnv implements InvokableContract
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return \Closure|null
+     * @return (\Closure():(void))|null
      */
     public function __invoke($app): ?Closure
     {
