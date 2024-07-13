@@ -7,7 +7,7 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-#[Define('env', 'firstClassConfig')]
+#[Define('env', 'classConfig')]
 class AttributeEnvironmentSetupTest extends TestCase
 {
     /** {@inheritDoc} */
