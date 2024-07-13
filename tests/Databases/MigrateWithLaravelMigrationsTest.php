@@ -14,7 +14,8 @@ use PHPUnit\Framework\Attributes\Test;
 #[WithConfig('database.default', 'testing')]
 class MigrateWithLaravelMigrationsTest extends TestCase
 {
-    use LazilyRefreshDatabase, WithLaravelMigrations;
+    use LazilyRefreshDatabase;
+    use WithLaravelMigrations;
 
     #[Test]
     public function it_loads_the_migrations()
