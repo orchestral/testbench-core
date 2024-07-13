@@ -335,7 +335,7 @@ trait CreatesApplication
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    private function resolveApplicationResolvingCallback($app): void
+    protected function resolveApplicationResolvingCallback($app): void
     {
         $app->bind(
             'Illuminate\Foundation\Bootstrap\LoadConfiguration',
