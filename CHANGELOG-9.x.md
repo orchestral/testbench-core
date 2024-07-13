@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.2.1
+
+Released: 2024-07-13
+
+### Changes
+
+* Change `resolveApplicationResolvingCallback()` method visibility from `private` to `protected`.
+
 ## 9.2.0
 
 Released: 2024-07-13
