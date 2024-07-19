@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.44.1
+
+Released: 2024-07-19
+
+### Fixes
+
+* Fixes `InteractsWithPublishedFiles` should only flush published files within `database/migrations` directory.
+
 ## 7.44.0
 
 Released: 2024-07-13
