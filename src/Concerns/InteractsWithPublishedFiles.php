@@ -20,9 +20,9 @@ trait InteractsWithPublishedFiles
     /**
      * List of existing migration files.
      *
-     * @var array
+     * @var array<int, string>|null
      */
-    protected $cachedExistingMigrationsFiles = [];
+    protected $cachedExistingMigrationsFiles;
 
     /**
      * Setup Interacts with Published Files environment.
@@ -58,10 +58,12 @@ trait InteractsWithPublishedFiles
      */
     protected function cacheExistingMigrationsFiles()
     {
-        $this->cachedExistingMigrationsFiles = Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
-            ->filter(static function ($file) {
-                return Str::endsWith($file, '.php');
-            })->all();
+        if (\is_null($this->cachedExistingMigrationsFiles)) {
+            $this->cachedExistingMigrationsFiles = Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
+                ->filter(static function ($file) {
+                    return Str::endsWith($file, '.php');
+                })->all();
+        }
     }
 
     /**
