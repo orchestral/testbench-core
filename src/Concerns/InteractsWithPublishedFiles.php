@@ -18,10 +18,19 @@ trait InteractsWithPublishedFiles
     protected $interactsWithPublishedFilesTeardownRegistered = false;
 
     /**
+     * List of existing migration files.
+     *
+     * @var array
+     */
+    protected $cachedExistingMigrationsFiles = [];
+
+    /**
      * Setup Interacts with Published Files environment.
      */
     protected function setUpInteractsWithPublishedFiles(): void
     {
+        $this->cacheExistingMigrationsFiles();
+
         $this->cleanUpFiles();
         $this->cleanUpMigrationFiles();
     }
@@ -36,7 +45,23 @@ trait InteractsWithPublishedFiles
             $this->cleanUpMigrationFiles();
         }
 
+        $this->cachedExistingMigrationsFiles = [];
         $this->interactsWithPublishedFilesTeardownRegistered = true;
+    }
+
+    /**
+     * Cache existing migration files.
+     *
+     * @internal
+     *
+     * @return void
+     */
+    protected function cacheExistingMigrationsFiles()
+    {
+        $this->cachedExistingMigrationsFiles = Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
+            ->filter(static function ($file) {
+                return Str::endsWith($file, '.php');
+            })->all();
     }
 
     /**
@@ -184,7 +209,9 @@ trait InteractsWithPublishedFiles
     {
         $this->app['files']->delete(
             Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
-                ->filter(static function ($file) {
+                ->reject(function ($file) {
+                    return \in_array($file, $this->cachedExistingMigrationsFiles);
+                })->filter(static function ($file) {
                     return Str::endsWith($file, '.php');
                 })->all()
         );
