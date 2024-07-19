@@ -320,7 +320,7 @@ trait InteractsWithPublishedFiles
     {
         $this->app['files']->delete(
             Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
-                ->reject(static fn ($file) => \in_array($file, $this->cachedExistingMigrationsFiles))
+                ->reject(fn ($file) => \in_array($file, $this->cachedExistingMigrationsFiles))
                 ->filter(static fn ($file) => str_ends_with($file, '.php'))
                 ->all()
         );
