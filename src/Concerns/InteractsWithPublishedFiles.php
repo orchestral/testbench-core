@@ -26,6 +26,13 @@ trait InteractsWithPublishedFiles
     protected array $cachedExistingMigrationsFiles = [];
 
     /**
+     * List of existing migration files.
+     *
+     * @var array
+     */
+    protected $cachedExistingMigrationsFiles = [];
+
+    /**
      * Setup Interacts with Published Files environment.
      *
      * @internal
