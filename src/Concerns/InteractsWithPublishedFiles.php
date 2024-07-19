@@ -45,7 +45,6 @@ trait InteractsWithPublishedFiles
             $this->cleanUpMigrationFiles();
         }
 
-        $this->cachedExistingMigrationsFiles = [];
         $this->interactsWithPublishedFilesTeardownRegistered = true;
     }
 
