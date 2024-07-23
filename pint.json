@@ -6,10 +6,6 @@
             "scope": "namespaced",
             "strict": true
         },
-        "new_with_parentheses": {
-            "named_class": false,
-            "anonymous_class": false
-        },
         "no_superfluous_phpdoc_tags": false,
         "php_unit_method_casing": false,
         "nullable_type_declaration_for_default_null_value": {
