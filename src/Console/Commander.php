@@ -93,8 +93,8 @@ class Commander
      */
     public function handle(): void
     {
-        $input = new ArgvInput();
-        $output = new ConsoleOutput();
+        $input = new ArgvInput;
+        $output = new ConsoleOutput;
 
         try {
             $laravel = $this->laravel();
@@ -133,7 +133,7 @@ class Commander
             tap(
                 static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')),
                 function ($app) use ($hasEnvironmentFile) {
-                    $filesystem = new Filesystem();
+                    $filesystem = new Filesystem;
 
                     if (! $hasEnvironmentFile()) {
                         $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
@@ -219,7 +219,7 @@ class Commander
                 $handler->renderForConsole($output, $error);
             });
         } else {
-            (new ConsoleApplication())->renderThrowable($error, $output);
+            (new ConsoleApplication)->renderThrowable($error, $output);
         }
 
         return 1;
@@ -235,7 +235,7 @@ class Commander
         Signals::resolveAvailabilityUsing(static fn () => \extension_loaded('pcntl'));
 
         Signals::whenAvailable(function () {
-            $this->signals ??= new Signals(new SignalRegistry());
+            $this->signals ??= new Signals(new SignalRegistry);
 
             Collection::make(Arr::wrap([SIGINT, SIGTERM, SIGQUIT]))
                 ->each(

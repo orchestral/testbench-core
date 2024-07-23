@@ -11,7 +11,7 @@ class UndefinedValueTest extends TestCase
     #[Test]
     public function it_can_be_resolved()
     {
-        $stub = new UndefinedValue();
+        $stub = new UndefinedValue;
 
         $this->assertInstanceOf(UndefinedValue::class, $stub);
         $this->assertTrue(UndefinedValue::equalsTo($stub));
@@ -23,7 +23,7 @@ class UndefinedValueTest extends TestCase
     #[Test]
     public function it_can_be_serialized()
     {
-        $stub = new UndefinedValue();
+        $stub = new UndefinedValue;
 
         $this->assertNull($stub->jsonSerialize());
         $this->assertSame('{"content":null}', json_encode(['content' => $stub], true));

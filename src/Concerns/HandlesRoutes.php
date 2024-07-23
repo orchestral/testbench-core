@@ -89,7 +89,7 @@ trait HandlesRoutes
      */
     protected function defineCacheRoutes(string $route)
     {
-        $files = new Filesystem();
+        $files = new Filesystem;
 
         $time = time();
 

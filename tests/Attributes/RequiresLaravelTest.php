@@ -16,7 +16,7 @@ class RequiresLaravelTest extends TestCase
         $stub = new RequiresLaravel($version);
 
         $stub->handle($this->app, function () {
-            throw new \Exception();
+            throw new \Exception;
         });
 
         $this->addToAssertionCount(1);

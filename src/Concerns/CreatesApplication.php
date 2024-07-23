@@ -484,7 +484,7 @@ trait CreatesApplication
     {
         after_resolving($app, HttpKernelContract::class, function ($kernel, $app) {
             /** @var \Illuminate\Foundation\Http\Kernel $kernel */
-            $middleware = new Middleware();
+            $middleware = new Middleware;
 
             $kernel->setGlobalMiddleware($middleware->getGlobalMiddleware());
             $kernel->setMiddlewareGroups($middleware->getMiddlewareGroups());

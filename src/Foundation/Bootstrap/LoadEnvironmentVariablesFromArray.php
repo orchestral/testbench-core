@@ -34,7 +34,7 @@ final class LoadEnvironmentVariablesFromArray
     public function bootstrap(Application $app): void
     {
         $store = new StringStore(implode(PHP_EOL, $this->environmentVariables));
-        $parser = new Parser();
+        $parser = new Parser;
 
         Collection::make($parser->parse($store->read()))
             ->filter(static fn (Entry $entry) => $entry->getValue()->isDefined())

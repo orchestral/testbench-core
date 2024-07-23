@@ -32,7 +32,7 @@ final class CreateVendorSymlink
      */
     public function bootstrap(Application $app): void
     {
-        $filesystem = new Filesystem();
+        $filesystem = new Filesystem;
 
         $appVendorPath = $app->basePath('vendor');
 
