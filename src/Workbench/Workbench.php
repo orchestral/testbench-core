@@ -198,7 +198,7 @@ class Workbench
 
         $namespace = 'Workbench\App';
 
-        foreach ((new Finder)->in([workbench_path('app/Console/Commands')])->files() as $command) {
+        foreach ((new Finder())->in([workbench_path('app/Console/Commands')])->files() as $command) {
             $command = $namespace.str_replace(
                 ['/', '.php'],
                 ['\\', ''],
