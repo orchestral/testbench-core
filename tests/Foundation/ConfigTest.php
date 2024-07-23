@@ -50,6 +50,7 @@ class ConfigTest extends TestCase
             'assets' => [],
             'discovers' => [
                 'config' => false,
+                'factories' => false,
                 'web' => false,
                 'api' => false,
                 'commands' => false,
@@ -60,6 +61,7 @@ class ConfigTest extends TestCase
 
         $this->assertSame([
             'config' => false,
+            'factories' => false,
             'web' => false,
             'api' => false,
             'commands' => false,
@@ -71,7 +73,7 @@ class ConfigTest extends TestCase
     #[Test]
     public function it_can_load_default_configuration()
     {
-        $config = new Config();
+        $config = new Config;
 
         $this->assertNull($config['laravel']);
         $this->assertSame([], $config['env']);
@@ -105,6 +107,7 @@ class ConfigTest extends TestCase
             'assets' => [],
             'discovers' => [
                 'config' => false,
+                'factories' => false,
                 'web' => false,
                 'api' => false,
                 'commands' => false,
@@ -115,6 +118,7 @@ class ConfigTest extends TestCase
 
         $this->assertSame([
             'config' => false,
+            'factories' => false,
             'web' => false,
             'api' => false,
             'commands' => false,

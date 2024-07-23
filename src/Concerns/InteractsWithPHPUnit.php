@@ -78,7 +78,7 @@ trait InteractsWithPHPUnit
         $instance = new ReflectionClass($this);
 
         if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
-            return new Collection();
+            return new Collection;
         }
 
         [$registry, $methodName] = [PHPUnitRegistry::getInstance(), $this->name()];
@@ -109,7 +109,7 @@ trait InteractsWithPHPUnit
         $instance = new ReflectionClass($this);
 
         if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
-            return new Collection(); /** @phpstan-ignore return.type */
+            return new Collection; /** @phpstan-ignore return.type */
         }
 
         $className = $instance->getName();
@@ -147,9 +147,9 @@ trait InteractsWithPHPUnit
 
         /** @var \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>> $attributes */
         $attributes = Collection::make(array_merge(
+            static::$testCaseTestingFeatures,
             static::$cachedTestCaseClassAttributes[$className],
             ! \is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
-            static::$testCaseTestingFeatures,
         ))->groupBy('key')
             ->map(static function ($attributes) {
                 /** @var \Illuminate\Support\Collection<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}> $attributes */

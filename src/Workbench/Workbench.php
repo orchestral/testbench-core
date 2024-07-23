@@ -2,15 +2,21 @@
 
 namespace Orchestra\Testbench\Workbench;
 
+use Illuminate\Console\Application as Artisan;
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Workbench\WorkbenchServiceProvider;
+use ReflectionClass;
+use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\package_path;
@@ -91,7 +97,7 @@ class Workbench
                 }
 
                 if ($healthCheckEnabled === true) {
-                    $router->middleware('web')->get('/up', function () {
+                    $router->get('/up', function () {
                         Event::dispatch(new DiagnosingHealth);
 
                         return View::file(
@@ -108,9 +114,7 @@ class Workbench
             });
 
             if ($app->runningInConsole() && ($discoversConfig['commands'] ?? false) === true) {
-                if (file_exists($console = workbench_path(['routes', 'console.php']))) {
-                    require $console;
-                }
+                static::discoverCommandsRoutes($app);
             }
         });
 
@@ -153,6 +157,76 @@ class Workbench
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
+
+        if (($discoversConfig['factories'] ?? false) === true) {
+            Factory::guessFactoryNamesUsing(static function ($modelName) {
+                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
+                $workbenchNamespace = 'Workbench\\App\\';
+
+                $modelBasename = str_starts_with($modelName, $workbenchNamespace.'Models\\')
+                    ? Str::after($modelName, $workbenchNamespace.'Models\\')
+                    : Str::after($modelName, $workbenchNamespace);
+
+                /** @var class-string<\Illuminate\Database\Eloquent\Factories\Factory> $factoryName */
+                $factoryName = 'Workbench\\Database\\Factories\\'.$modelBasename.'Factory';
+
+                return $factoryName;
+            });
+
+            Factory::guessModelNamesUsing(static function ($factory) {
+                /** @var \Illuminate\Database\Eloquent\Factories\Factory $factory */
+                $workbenchNamespace = 'Workbench\\App\\';
+
+                $namespacedFactoryBasename = Str::replaceLast(
+                    'Factory', '', Str::replaceFirst('Workbench\\Database\\Factories\\', '', \get_class($factory))
+                );
+
+                $factoryBasename = Str::replaceLast('Factory', '', class_basename($factory));
+
+                /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
+                $modelName = class_exists($workbenchNamespace.'Models\\'.$namespacedFactoryBasename)
+                    ? $workbenchNamespace.'Models\\'.$namespacedFactoryBasename
+                    : $workbenchNamespace.$factoryBasename;
+
+                return $modelName;
+            });
+        }
+    }
+
+    /**
+     * Discover Workbench command routes.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    public static function discoverCommandsRoutes(ApplicationContract $app): void
+    {
+        if (file_exists($console = workbench_path(['routes', 'console.php']))) {
+            require $console;
+        }
+
+        if (! is_dir(workbench_path(['app', 'Console', 'Commands']))) {
+            return;
+        }
+
+        $namespace = 'Workbench\App';
+
+        foreach ((new Finder)->in([workbench_path(['app', 'Console', 'Commands'])])->files() as $command) {
+            $command = $namespace.str_replace(
+                ['/', '.php'],
+                ['\\', ''],
+                Str::after($command->getRealPath(), (string) realpath(workbench_path('app').DIRECTORY_SEPARATOR))
+            );
+
+            if (
+                is_subclass_of($command, Command::class) &&
+                ! (new ReflectionClass($command))->isAbstract()
+            ) {
+                Artisan::starting(function ($artisan) use ($command) {
+                    $artisan->resolve($command);
+                });
+            }
+        }
     }
 
     /**

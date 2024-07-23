@@ -20,9 +20,9 @@ jobs:
           - 8.3
         phpunit:
           - "~10.5.0"
-          - "10.5.4"
           - "~11.0.0"
           - "~11.1.0"
+          - "~11.2.0"
         dependencies:
           - "highest"
         experimental:
@@ -52,6 +52,6 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations)
-        run: vendor/bin/phpunit --fail-on-warning --fail-on-deprecation --fail-on-notice
+        run: vendor/bin/phpunit --fail-on-warning --fail-on-deprecation --fail-on-notice --display-deprecations
         env:
           RAY_ENABLED: false

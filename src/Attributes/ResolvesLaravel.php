@@ -5,21 +5,17 @@ namespace Orchestra\Testbench\Attributes;
 use Attribute;
 use Closure;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
-use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\Foundation\UndefinedValue;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final class RequiresEnv implements ActionableContract
+final class ResolvesLaravel implements ActionableContract
 {
     /**
      * Construct a new attribute.
      *
-     * @param  string  $key
-     * @param  string|null  $message
+     * @param  string  $method
      */
     public function __construct(
-        public readonly string $key,
-        public readonly ?string $message = null
+        public readonly string $method
     ) {
         //
     }
@@ -29,16 +25,9 @@ final class RequiresEnv implements ActionableContract
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @param  \Closure(string, array<int, mixed>):void  $action
-     * @return void
      */
     public function handle($app, Closure $action): void
     {
-        $value = Env::get($this->key, new UndefinedValue);
-
-        $message = $this->message ?? "Missing required environment variable `{$this->key}`";
-
-        if ($value instanceof UndefinedValue) {
-            \call_user_func($action, 'markTestSkipped', [$message]);
-        }
+        \call_user_func($action, $this->method, [$app]);
     }
 }

@@ -3,11 +3,13 @@
 namespace Orchestra\Testbench\Tests\Workbench;
 
 use Composer\InstalledVersions;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 
 #[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class DiscoversTest extends TestCase
@@ -96,5 +98,19 @@ class DiscoversTest extends TestCase
     public function it_can_discover_translation_files()
     {
         $this->assertSame('Good Morning', __('workbench::welcome.morning'));
+    }
+
+    #[Test]
+    #[TestWith(['Workbench\\Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory', 'Illuminate\\Foundation\\Auh\\User'])]
+    #[TestWith(['Workbench\\Database\\Factories\\UserFactory', 'Workbench\\App\\Models\\User'])]
+    public function it_can_discover_database_factories_from_model(string $factory, string $model)
+    {
+        $this->assertSame($factory, Factory::resolveFactoryName($model));
+    }
+
+    #[Test]
+    public function it_can_discover_model_from_factory()
+    {
+        $this->assertSame('Workbench\App\Models\User', \Workbench\Database\Factories\UserFactory::new()->modelName());
     }
 }

@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests;
 use Carbon\CarbonInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Illuminate\Support\Facades\Date;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
@@ -13,6 +14,12 @@ use PHPUnit\Framework\Attributes\Test;
 
 class DefaultConfigurationTest extends TestCase
 {
+    #[Test]
+    public function it_can_load_using_testbench_configurations()
+    {
+        $this->assertSame('Orchestra\Testbench\Bootstrap\LoadConfiguration', \get_class($this->app[LoadConfiguration::class]));
+    }
+
     #[Test]
     public function it_populate_expected_debug_config()
     {

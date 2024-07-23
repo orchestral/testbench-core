@@ -209,8 +209,6 @@ trait InteractsWithTestCase
                 $instance->afterAll();
             });
 
-        /** @phpstan-ignore-next-line */
-        static::$latestResponse = null;
         static::$testCaseTestingFeatures = [];
         static::$cacheApplicationBootstrapFile = null;
     }

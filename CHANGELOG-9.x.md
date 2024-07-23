@@ -2,6 +2,94 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.2.2
+
+Released: 2024-07-19
+
+### Fixes
+
+* Fixes `InteractsWithPublishedFiles` should only flush published files within `database/migrations` directory.
+
+## 9.2.1
+
+Released: 2024-07-13
+
+### Changes
+
+* Change `resolveApplicationResolvingCallback()` method visibility from `private` to `protected`.
+
+## 9.2.0
+
+Released: 2024-07-13
+
+### Added
+
+* Added new attributes:
+    - `Orchestra\Testbench\Attributes\ResolvesLaravel`
+    - `Orchestra\Testbench\Attributes\UsesFrameworkConfiguration`
+* Allows to discover `factories` using Workbench to map `Workbench\App\Models` to `Workbench\Database\Factories` classes.
+* Allows to auto discover console command classes from `workbench/app/Console/Commands`.
+
+### Changes
+
+* Bump minimum support to Laravel Framework v11.11.
+* Implements `JsonSerializable` to `Orchestra\Testbench\Foundation\UndefinedValue`.
+* Update skeleton to use `workbench` as default environment value.
+* Allow `Orchestra\Testbench\Attributes\Define` and `Orchestra\Testbench\Attributes\DefineEnvironment` to be used on the class level by [@danjohnson95](https://github.com/danjohnson95)
+
+### Fixes
+
+* Ensure `usesTestingFeature()` attribute registration is loaded before class attributes instead of method attributes.
+
+## 9.1.9
+
+Released: 2024-07-10
+
+### Changes
+
+* Update skeleton to match v11.1.3.
+* Includes `server.php` improvements from Laravel Framework 11.14.
+
+## 9.1.8
+
+Released: 2024-06-28
+
+### Changes
+
+* Add support for PHPUnit 11.2.
+
+## 9.1.7
+
+Released: 2024-06-26
+
+### Fixes
+
+* Fixes `overrideApplicationAliases()` and `overrideApplicationProviders()` unable to override packages aliases or providers.
+
+## 9.1.6
+
+Released: 2024-06-10
+
+### Changes
+
+* Defer setting default Rate Limiter until `cache.store` is resolved.
+
+## 9.1.5
+
+Released: 2024-06-10
+
+### Changes
+
+* Fallback `app.providers` using `Illuminate\Support\DefaultProviders` when the configuration return `null`.
+
+## 9.1.4
+
+Released: 2024-06-06
+
+### Changes
+
+* Allow `$latestResponse` static property to be optional.
+
 ## 9.1.3
 
 Released: 2024-06-04
@@ -26,7 +114,7 @@ Released: 2024-05-23
 ### Changes
 
 * Utilise `Orchestra\Testbench\package_path()` function instead of `TESTBENCH_WORKING_PATH` constant.
-* Update configuration to match Laravel Framework v11.8.0,
+* Update configuration to match Laravel Framework v11.8.0.
 
 ## 9.1.0
 

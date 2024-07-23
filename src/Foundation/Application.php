@@ -280,7 +280,7 @@ class Application
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
-    private function resolveApplicationResolvingCallback($app): void
+    protected function resolveApplicationResolvingCallback($app): void
     {
         $this->resolveApplicationResolvingCallbackFromTrait($app);
 
@@ -336,7 +336,7 @@ class Application
     {
         $this->resolveApplicationConfigurationFromTrait($app);
 
-        (new Bootstrap\EnsuresDefaultConfiguration())->bootstrap($app);
+        (new Bootstrap\EnsuresDefaultConfiguration)->bootstrap($app);
     }
 
     /**

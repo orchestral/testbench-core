@@ -15,7 +15,9 @@ use PHPUnit\Framework\Attributes\Test;
 #[WithConfig('database.default', 'testing')]
 class DatabaseMigrationsTest extends TestCase
 {
-    use DatabaseMigrations, WithLaravelMigrations, WithWorkbench;
+    use DatabaseMigrations;
+    use WithLaravelMigrations;
+    use WithWorkbench;
 
     #[Test]
     public function it_runs_the_migrations()

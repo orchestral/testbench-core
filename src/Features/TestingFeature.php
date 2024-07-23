@@ -34,7 +34,7 @@ final class TestingFeature
         ?Closure $pest = null
     ): Fluent {
         /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Features\FeaturesCollection} $result */
-        $result = new Fluent(['attribute' => new FeaturesCollection()]);
+        $result = new Fluent(['attribute' => new FeaturesCollection]);
 
         $defaultResolver = once($default);
 
