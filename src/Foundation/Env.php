@@ -15,7 +15,7 @@ class Env extends \Illuminate\Support\Env
      */
     public static function has(string $key): bool
     {
-        return static::get($key, new UndefinedValue()) instanceof UndefinedValue === false;
+        return static::get($key, new UndefinedValue) instanceof UndefinedValue === false;
     }
 
     /**
@@ -53,7 +53,7 @@ class Env extends \Illuminate\Support\Env
     public static function forward(string $key, $default = null)
     {
         if (\func_num_args() === 1) {
-            $default = new UndefinedValue();
+            $default = new UndefinedValue;
         }
 
         $value = static::get($key, $default);

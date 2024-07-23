@@ -57,7 +57,7 @@ trait InteractsWithPHPUnit
         $instance = new ReflectionClass($this);
 
         if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
-            return new Collection();
+            return new Collection;
         }
 
         /** @var array<string, mixed> $annotations */
@@ -84,7 +84,7 @@ trait InteractsWithPHPUnit
         $instance = new ReflectionClass($this);
 
         if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
-            return new Collection(); /** @phpstan-ignore return.type */
+            return new Collection; /** @phpstan-ignore return.type */
         }
 
         $className = $instance->getName();

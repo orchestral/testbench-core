@@ -71,7 +71,7 @@ class ConfigTest extends TestCase
     /** @test */
     public function it_can_load_default_configuration()
     {
-        $config = new Config();
+        $config = new Config;
 
         $this->assertNull($config['laravel']);
         $this->assertSame([], $config['env']);

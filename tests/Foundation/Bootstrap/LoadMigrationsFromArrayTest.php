@@ -46,7 +46,7 @@ class LoadMigrationsFromArrayTest extends TestCase
             ->shouldReceive('setCommand')->once()->andReturnSelf()
             ->shouldReceive('__invoke')->once()->andReturnNull();
 
-        app('events')->dispatch(new DatabaseRefreshed());
+        app('events')->dispatch(new DatabaseRefreshed);
     }
 
     /**  @test */
@@ -54,6 +54,6 @@ class LoadMigrationsFromArrayTest extends TestCase
     {
         (new LoadMigrationsFromArray(false, false))->bootstrap($this->app);
 
-        app('events')->dispatch(new DatabaseRefreshed());
+        app('events')->dispatch(new DatabaseRefreshed);
     }
 }

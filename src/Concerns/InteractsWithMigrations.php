@@ -33,7 +33,7 @@ trait InteractsWithMigrations
     {
         if ($this->usesSqliteInMemoryDatabaseConnection()) {
             $this->afterApplicationCreated(static function () {
-                static::usesTestingFeature(new ResetRefreshDatabaseState());
+                static::usesTestingFeature(new ResetRefreshDatabaseState);
             });
         }
     }
