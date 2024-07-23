@@ -49,8 +49,8 @@ final class LoadEnvironmentVariablesFromArray
     {
         return new Dotenv(
             new StringStore(implode(PHP_EOL, $this->environmentVariables)),
-            new Parser(),
-            new Loader(),
+            new Parser,
+            new Loader,
             Env::getRepository()
         );
     }

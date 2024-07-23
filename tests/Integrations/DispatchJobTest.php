@@ -12,6 +12,6 @@ class DispatchJobTest extends TestCase
     {
         $this->expectsJobs(RegisterUser::class);
 
-        dispatch(new RegisterUser());
+        dispatch(new RegisterUser);
     }
 }

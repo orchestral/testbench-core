@@ -67,7 +67,7 @@ function artisan($context, string $command, array $parameters = [])
 function remote(string $command, $env = []): Process
 {
     $phpBinary = transform(
-        \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder())->find(),
+        \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder)->find(),
         static function ($phpBinary) {
             return ProcessUtils::escapeArgument((string) $phpBinary);
         }
@@ -98,7 +98,7 @@ function remote(string $command, $env = []): Process
  */
 function once($callback): Closure
 {
-    $response = new Foundation\UndefinedValue();
+    $response = new Foundation\UndefinedValue;
 
     return function () use ($callback, &$response) {
         if ($response instanceof Foundation\UndefinedValue) {
@@ -291,7 +291,7 @@ function workbench(): array
     /** @var \Orchestra\Testbench\Contracts\Config $config */
     $config = app()->bound(Contracts\Config::class)
         ? app()->make(Contracts\Config::class)
-        : new Foundation\Config();
+        : new Foundation\Config;
 
     return $config->getWorkbenchAttributes();
 }

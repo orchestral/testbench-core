@@ -45,7 +45,7 @@ final class WithEnv implements InvokableContract
     public function __invoke($app)
     {
         $key = $this->key;
-        $value = Env::get($key, new UndefinedValue());
+        $value = Env::get($key, new UndefinedValue);
 
         Env::set($key, $this->value ?? '(null)');
 

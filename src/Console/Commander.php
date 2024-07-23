@@ -72,8 +72,8 @@ class Commander
      */
     public function handle()
     {
-        $input = new ArgvInput();
-        $output = new ConsoleOutput();
+        $input = new ArgvInput;
+        $output = new ConsoleOutput;
 
         try {
             $laravel = $this->laravel();
@@ -186,7 +186,7 @@ class Commander
                 $handler->renderForConsole($output, $error);
             });
         } else {
-            (new ConsoleApplication())->renderThrowable($error, $output);
+            (new ConsoleApplication)->renderThrowable($error, $output);
         }
 
         return 1;

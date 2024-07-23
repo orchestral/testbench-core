@@ -7,7 +7,7 @@
             "strict": true
         },
         "new_with_parentheses": {
-            "named_class": true,
+            "named_class": false,
             "anonymous_class": false
         },
         "no_superfluous_phpdoc_tags": false,

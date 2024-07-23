@@ -26,7 +26,7 @@ trait InteractsWithSqliteDatabaseFile
     protected function withoutSqliteDatabase(callable $callback): void
     {
         $time = time();
-        $filesystem = new Filesystem();
+        $filesystem = new Filesystem;
 
         $database = database_path('database.sqlite');
 
@@ -49,7 +49,7 @@ trait InteractsWithSqliteDatabaseFile
     protected function withSqliteDatabase(callable $callback): void
     {
         $this->withoutSqliteDatabase(static function () use ($callback) {
-            $filesystem = new Filesystem();
+            $filesystem = new Filesystem;
 
             $database = database_path('database.sqlite');
 
@@ -76,7 +76,7 @@ trait InteractsWithSqliteDatabaseFile
      */
     public static function cleanupBackupSqliteDatabaseFilesOnFailed()
     {
-        $filesystem = new Filesystem();
+        $filesystem = new Filesystem;
 
         $filesystem->delete(
             Collection::make($filesystem->glob(database_path('database.sqlite.backup-*')))

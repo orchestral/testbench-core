@@ -46,7 +46,7 @@ final class RequiresEnv implements ActionableContract
      */
     public function handle($app, Closure $action): void
     {
-        $value = Env::get($this->key, new UndefinedValue());
+        $value = Env::get($this->key, new UndefinedValue);
 
         $message = $this->message ?? "Missing required environment variable `{$this->key}`";
 
