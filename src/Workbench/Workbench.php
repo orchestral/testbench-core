@@ -98,7 +98,7 @@ class Workbench
 
                 if ($healthCheckEnabled === true) {
                     $router->get('/up', function () {
-                        Event::dispatch(new DiagnosingHealth);
+                        Event::dispatch(new DiagnosingHealth());
 
                         return View::file(
                             package_path(['vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'])
@@ -211,7 +211,7 @@ class Workbench
 
         $namespace = 'Workbench\App';
 
-        foreach ((new Finder)->in([workbench_path(['app', 'Console', 'Commands'])])->files() as $command) {
+        foreach ((new Finder())->in([workbench_path(['app', 'Console', 'Commands'])])->files() as $command) {
             $command = $namespace.str_replace(
                 ['/', '.php'],
                 ['\\', ''],

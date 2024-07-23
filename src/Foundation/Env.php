@@ -15,7 +15,7 @@ class Env extends \Illuminate\Support\Env
      */
     public static function has(string $key): bool
     {
-        return static::get($key, new UndefinedValue) instanceof UndefinedValue === false;
+        return static::get($key, new UndefinedValue()) instanceof UndefinedValue === false;
     }
 
     /**

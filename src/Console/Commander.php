@@ -219,7 +219,7 @@ class Commander
                 $handler->renderForConsole($output, $error);
             });
         } else {
-            (new ConsoleApplication)->renderThrowable($error, $output);
+            (new ConsoleApplication())->renderThrowable($error, $output);
         }
 
         return 1;
