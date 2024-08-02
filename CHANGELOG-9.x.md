@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.2.3
+
+Released: 2024-06-28
+
+### Changes
+
+* Add support for PHPUnit 11.3 by @kayw-geek in [#220](https://github.com/orchestral/testbench-core/pull/220).
+
+<!--
+#### New Contributors
+* @kayw-geek made their first contribution in https://github.com/orchestral/testbench-core/pull/220
+-->
+
 ## 9.2.2
 
 Released: 2024-07-19
