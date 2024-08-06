@@ -40,7 +40,7 @@
     "require-dev": {
         "composer-runtime-api": "^2.2",
         "fakerphp/faker": "^1.21",
-        "laravel/framework": "^9.52.9",
+        "laravel/framework": "^9.52.16",
         "laravel/pint": "^1.4",
         "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^1.11",
@@ -52,7 +52,7 @@
     },
     "conflict": {
         "brianium/paratest": "<6.4.0 || >=7.0.0",
-        "laravel/framework": "<9.52.9 || >=10.0.0",
+        "laravel/framework": "<9.52.16 || >=10.0.0",
         "orchestra/testbench-dusk": "<7.39.0 || >=8.0.0",
         "orchestra/workbench": "<1.0.0",
         "nunomaduro/collision": "<6.2.0 || >=7.0.0",
@@ -62,7 +62,7 @@
         "ext-pcntl": "Required to use all features of the console signal trapping.",
         "brianium/paratest": "Allow using parallel testing (^6.4).",
         "fakerphp/faker": "Allow using Faker for testing (^1.21).",
-        "laravel/framework": "Required for testing (^9.52.9).",
+        "laravel/framework": "Required for testing (^9.52.16).",
         "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.2).",
         "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^7.0).",
