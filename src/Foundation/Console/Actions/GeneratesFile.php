@@ -53,6 +53,12 @@ class GeneratesFile extends Action
 
         $this->filesystem->copy($from, $to);
 
+        $gitKeepFile = sprintf('%s/.gitkeep', dirname($to));
+
+        if ($this->filesystem->exists($gitKeepFile)) {
+            $this->filesystem->delete($gitKeepFile);
+        }
+
         $this->components?->task(
             sprintf('File [%s] generated', $this->pathLocation($to))
         );
