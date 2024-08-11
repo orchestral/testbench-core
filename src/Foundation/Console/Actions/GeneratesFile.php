@@ -40,7 +40,7 @@ class GeneratesFile extends Action
     {
         if (! $this->filesystem->exists($from)) {
             $this->components?->twoColumnDetail(
-                sprintf('Source file [%s] doesn\'t exists', $this->pathLocation($from)),
+                \sprintf('Source file [%s] doesn\'t exists', $this->pathLocation($from)),
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
 
@@ -51,27 +51,27 @@ class GeneratesFile extends Action
 
         if (! $this->force && $this->filesystem->exists($to)) {
             $this->components?->twoColumnDetail(
-                sprintf('File [%s] already exists', $location),
+                \sprintf('File [%s] already exists', $location),
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
 
             return;
         }
 
-        if ($this->confirmation === true && confirm(sprintf('Generate [%s] file?', $location)) === false) {
+        if ($this->confirmation === true && confirm(\sprintf('Generate [%s] file?', $location)) === false) {
             return;
         }
 
         $this->filesystem->copy($from, $to);
 
-        $gitKeepFile = join_paths(dirname($to), '.gitkeep');
+        $gitKeepFile = join_paths(\dirname($to), '.gitkeep');
 
         if ($this->filesystem->exists($gitKeepFile)) {
             $this->filesystem->delete($gitKeepFile);
         }
 
         $this->components?->task(
-            sprintf('File [%s] generated', $location)
+            \sprintf('File [%s] generated', $location)
         );
     }
 }

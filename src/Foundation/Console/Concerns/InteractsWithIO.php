@@ -26,7 +26,7 @@ trait InteractsWithIO
 
         $to = str_replace($workingPath.'/', '', (string) realpath($to));
 
-        $this->components->task(sprintf(
+        $this->components->task(\sprintf(
             'Copying %s [%s] to [%s]',
             $type,
             $from,
