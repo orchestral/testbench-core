@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 
+use function Illuminate\Filesystem\join_paths;
 use function Laravel\Prompts\confirm;
 
 class GeneratesFile extends Action
@@ -63,7 +64,7 @@ class GeneratesFile extends Action
 
         $this->filesystem->copy($from, $to);
 
-        $gitKeepFile = sprintf('%s/.gitkeep', dirname($to));
+        $gitKeepFile = join_paths(dirname($to), '.gitkeep');
 
         if ($this->filesystem->exists($gitKeepFile)) {
             $this->filesystem->delete($gitKeepFile);
