@@ -77,7 +77,7 @@ class TestFallbackCommand extends Command
     {
         $version = '8.0';
 
-        $command = sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
+        $command = \sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
 

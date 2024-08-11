@@ -30,7 +30,7 @@ class EnsureDirectoryExistsTest extends TestCase
 
         $components->shouldReceive('task')->once()->with('Prepare [a] directory')->andReturnNull()
             ->shouldReceive('twoColumnDetail')->once()->with('Directory [b] already exists', '<fg=yellow;options=bold>SKIPPED</>')->andReturnNull()
-            ->shouldReceive('task')->once()->with(sprintf('Prepare [%s] directory', join_paths('c', 'd')))->andReturnNull();
+            ->shouldReceive('task')->once()->with(\sprintf('Prepare [%s] directory', join_paths('c', 'd')))->andReturnNull();
 
         (new EnsureDirectoryExists(
             filesystem: $filesystem,

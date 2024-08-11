@@ -42,21 +42,21 @@ class EnsureDirectoryExists extends Action
 
                 if ($this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
-                        sprintf('Directory [%s] already exists', $location),
+                        \sprintf('Directory [%s] already exists', $location),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
                     return;
                 }
 
-                if ($this->confirmation === true && confirm(sprintf('Ensure [%s] directory exists?', $location)) === false) {
+                if ($this->confirmation === true && confirm(\sprintf('Ensure [%s] directory exists?', $location)) === false) {
                     return;
                 }
 
                 $this->filesystem->ensureDirectoryExists($directory, 0755, true);
                 $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
 
-                $this->components?->task(sprintf('Prepare [%s] directory', $location));
+                $this->components?->task(\sprintf('Prepare [%s] directory', $location));
             });
     }
 }

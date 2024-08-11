@@ -41,21 +41,21 @@ class DeleteDirectories extends Action
 
                 if (! $this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
-                        sprintf('Directory [%s] doesn\'t exists', $location),
+                        \sprintf('Directory [%s] doesn\'t exists', $location),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
                     return;
                 }
 
-                if ($this->confirmation === true && confirm(sprintf('Delete [%s] directory?', $location)) === false) {
+                if ($this->confirmation === true && confirm(\sprintf('Delete [%s] directory?', $location)) === false) {
                     return;
                 }
 
                 $this->filesystem->deleteDirectory($directory);
 
                 $this->components?->task(
-                    sprintf('Directory [%s] has been deleted', $this->pathLocation($directory))
+                    \sprintf('Directory [%s] has been deleted', $this->pathLocation($directory))
                 );
             });
     }

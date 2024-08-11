@@ -42,21 +42,21 @@ class DeleteFiles extends Action
 
                 if (! $this->filesystem->exists($file)) {
                     $this->components?->twoColumnDetail(
-                        sprintf('File [%s] doesn\'t exists', $location),
+                        \sprintf('File [%s] doesn\'t exists', $location),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
                     return;
                 }
 
-                if ($this->confirmation === true && confirm(sprintf('Delete [%s] file?', $location)) === false) {
+                if ($this->confirmation === true && confirm(\sprintf('Delete [%s] file?', $location)) === false) {
                     return;
                 }
 
                 $this->filesystem->delete($file);
 
                 $this->components?->task(
-                    sprintf('File [%s] has been deleted', $location)
+                    \sprintf('File [%s] has been deleted', $location)
                 );
             });
     }
