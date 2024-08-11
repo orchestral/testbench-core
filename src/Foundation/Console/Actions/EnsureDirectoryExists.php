@@ -35,7 +35,7 @@ class EnsureDirectoryExists extends Action
             ->each(function ($directory) {
                 if ($this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
-                        sprintf('Directory [%s] already exists', $this->pathLocation($directory)),
+                        \sprintf('Directory [%s] already exists', $this->pathLocation($directory)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
@@ -45,7 +45,7 @@ class EnsureDirectoryExists extends Action
                 $this->filesystem->ensureDirectoryExists($directory, 0755, true);
                 $this->filesystem->copy((string) realpath(__DIR__.'/stubs/.gitkeep'), "{$directory}/.gitkeep");
 
-                $this->components?->task(sprintf('Prepare [%s] directory', $this->pathLocation($directory)));
+                $this->components?->task(\sprintf('Prepare [%s] directory', $this->pathLocation($directory)));
             });
     }
 }
