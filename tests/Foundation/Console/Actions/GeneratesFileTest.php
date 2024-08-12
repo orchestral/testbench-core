@@ -8,6 +8,8 @@ use Mockery as m;
 use Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile;
 use Orchestra\Testbench\TestCase;
 
+use function Illuminate\Filesystem\join_paths;
+
 class GeneratesFileTest extends TestCase
 {
     /** @test */
@@ -19,8 +21,8 @@ class GeneratesFileTest extends TestCase
         $filesystem->shouldReceive('exists')->once()->with('a')->andReturnTrue()
             ->shouldReceive('exists')->once()->with('b')->andReturnFalse()
             ->shouldReceive('copy')->once()->with('a', 'b')
-            ->shouldReceive('exists')->once()->with('./.gitkeep')->andReturnTrue()
-            ->shouldReceive('delete')->once()->with('./.gitkeep');
+            ->shouldReceive('exists')->once()->with(join_paths('.', '.gitkeep'))->andReturnTrue()
+            ->shouldReceive('delete')->once()->with(join_paths('.', '.gitkeep'));
 
         $components->shouldReceive('task')->once()->with('File [b] generated');
 
@@ -58,8 +60,8 @@ class GeneratesFileTest extends TestCase
         $filesystem->shouldReceive('exists')->once()->with('a')->andReturnTrue()
             ->shouldReceive('exists')->never()->with('b')
             ->shouldReceive('copy')->once()->with('a', 'b')
-            ->shouldReceive('exists')->once()->with('./.gitkeep')->andReturnTrue()
-            ->shouldReceive('delete')->once()->with('./.gitkeep');
+            ->shouldReceive('exists')->once()->with(join_paths('.', '.gitkeep'))->andReturnTrue()
+            ->shouldReceive('delete')->once()->with(join_paths('.', '.gitkeep'));
 
         $components->shouldReceive('task')->once()->with('File [b] generated');
 
