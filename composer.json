@@ -66,6 +66,12 @@
         "phpunit/phpunit": "Allow using PHPUnit for testing (^8.5.21|^9.5.10|^10.0).",
         "symfony/process": "Required to use Orchestra\\Testbench\\remote function (^5.0)."
     },
+    "config": {
+        "preferred-install": {
+            "*": "auto"
+        },
+        "sort-packages": true
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "6.0-dev"
@@ -94,9 +100,6 @@
             "@lint",
             "@test"
         ]
-    },
-    "config": {
-        "sort-packages": true
     },
     "minimum-stability": "stable"
 }
