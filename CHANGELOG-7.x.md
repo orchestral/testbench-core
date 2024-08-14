@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.45.0
+
+Released: 2024-08-14
+
+### Changes
+
+* Update `Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile` to remove `.gitkeep` file when directory contain one or more files.
+* Code Improvements.
+
 ## 7.44.1
 
 Released: 2024-07-19

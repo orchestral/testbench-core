@@ -76,13 +76,11 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $version = '6.4';
-
-        if (phpunit_version_compare('10.3', '>=')) {
-            $version = '7.8';
-        } elseif (phpunit_version_compare('10', '>=')) {
-            $version = '7.4';
-        }
+        $version = match (true) {
+            phpunit_version_compare('10.3', '>=') => '7.8',
+            phpunit_version_compare('10', '>=') => '7.4',
+            default => '6.4',
+        };
 
         $command = \sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 
