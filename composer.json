@@ -70,6 +70,12 @@
         "symfony/yaml": "Required for Testbench CLI (^7.0).",
         "vlucas/phpdotenv": "Required for Testbench CLI (^5.4.1)."
     },
+    "config": {
+        "preferred-install": {
+            "*": "auto"
+        },
+        "sort-packages": true
+    },
     "scripts": {
         "post-autoload-dump": [
             "@clear",
@@ -90,9 +96,6 @@
             "@lint",
             "@test"
         ]
-    },
-    "config": {
-        "sort-packages": true
     },
     "prefer-stable": true,
     "minimum-stability": "dev"
