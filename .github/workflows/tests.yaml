@@ -23,8 +23,8 @@ jobs:
         phpunit:
           - "~10.5.0"
           - "~11.0.0"
-          - "~11.1.0"
           - "~11.2.0"
+          - "~11.3.0"
         dependencies:
           - "highest"
           - "lowest"

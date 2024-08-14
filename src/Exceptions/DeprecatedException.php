@@ -13,6 +13,6 @@ class DeprecatedException extends PHPUnitErrorException
      */
     public function __toString(): string
     {
-        return sprintf('%s'.PHP_EOL.PHP_EOL.'%s', $this->getMessage(), Filter::getFilteredStacktrace($this));
+        return \sprintf('%s'.PHP_EOL.PHP_EOL.'%s', $this->getMessage(), Filter::getFilteredStacktrace($this));
     }
 }
