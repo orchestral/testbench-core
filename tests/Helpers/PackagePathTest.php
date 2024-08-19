@@ -20,6 +20,7 @@ class PackagePathTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider pathDataProvider
      */
     public function it_can_resolve_correct_package_path(string $path)
