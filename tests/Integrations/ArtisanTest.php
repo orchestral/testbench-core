@@ -2,12 +2,10 @@
 
 namespace Orchestra\Testbench\Tests\Integrations;
 
-use Illuminate\Support\ProcessUtils;
 use Orchestra\Testbench\TestCase;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\remote;
 
