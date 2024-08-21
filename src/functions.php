@@ -239,7 +239,7 @@ function transform_relative_path(string $path, string $workingPath): string
  */
 function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap($path)));
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
 /**
@@ -296,7 +296,7 @@ function workbench(): array
  */
 function workbench_path(array|string $path = ''): string
 {
-    return package_path(join_paths('workbench', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
+    return package_path('workbench', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path));
 }
 
 /**
