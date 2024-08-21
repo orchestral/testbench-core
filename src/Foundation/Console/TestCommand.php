@@ -71,11 +71,11 @@ class TestCommand extends Command
         $configurationFile = str_replace('./', '', $this->option('configuration') ?? 'phpunit.xml');
 
         return Collection::make([
-            package_path('/'.$configurationFile),
-            package_path("/{$configurationFile}.dist"),
-        ])->filter(static function ($path) {
-            return file_exists($path);
-        })->first() ?? './';
+            package_path($configurationFile),
+            package_path("{$configurationFile}.dist"),
+        ])->transform(static fn ($path) => DIRECTORY_SEPARATOR.$path)
+            ->filter(static fn ($path) => file_exists($path))
+            ->first() ?? './';
     }
 
     /**
