@@ -89,7 +89,7 @@ class Workbench
             tap($app->make('router'), static function (Router $router) use ($discoversConfig) {
                 foreach (['web', 'api'] as $group) {
                     if (($discoversConfig[$group] ?? false) === true) {
-                        if (file_exists($route = workbench_path("routes/{$group}.php"))) {
+                        if (file_exists($route = workbench_path('routes', "{$group}.php"))) {
                             $router->middleware($group)->group($route);
                         }
                     }
@@ -104,8 +104,8 @@ class Workbench
         after_resolving($app, 'translator', static function ($translator) {
             /** @var \Illuminate\Contracts\Translation\Loader $translator */
             $path = Collection::make([
-                workbench_path('/lang'),
-                workbench_path('/resources/lang'),
+                workbench_path('lang'),
+                workbench_path('resources', 'lang'),
             ])->filter(static function ($path) {
                 return is_dir($path);
             })->first();
@@ -119,7 +119,7 @@ class Workbench
 
         after_resolving($app, 'view', static function ($view, $app) use ($discoversConfig) {
             /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
-            if (! is_dir($path = workbench_path('/resources/views'))) {
+            if (! is_dir($path = workbench_path('resources', 'views'))) {
                 return;
             }
 
@@ -140,7 +140,7 @@ class Workbench
 
         after_resolving($app, 'blade.compiler', static function ($blade) use ($discoversConfig) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
-            if (($discoversConfig['components'] ?? false) === false && is_dir(workbench_path('/app/View/Components'))) {
+            if (($discoversConfig['components'] ?? false) === false && is_dir(workbench_path('app', 'View', 'Components'))) {
                 $blade->componentNamespace('Workbench\\App\\View\\Components', 'workbench');
             }
         });
@@ -188,17 +188,17 @@ class Workbench
      */
     public static function discoverCommandsRoutes(ApplicationContract $app): void
     {
-        if (file_exists($console = workbench_path('routes/console.php'))) {
+        if (file_exists($console = workbench_path('routes', 'console.php'))) {
             require $console;
         }
 
-        if (! is_dir(workbench_path('app/Console/Commands'))) {
+        if (! is_dir(workbench_path('app', 'Console', 'Commands'))) {
             return;
         }
 
         $namespace = 'Workbench\App';
 
-        foreach ((new Finder)->in([workbench_path('app/Console/Commands')])->files() as $command) {
+        foreach ((new Finder)->in([workbench_path('app', 'Console', 'Commands')])->files() as $command) {
             $command = $namespace.str_replace(
                 ['/', '.php'],
                 ['\\', ''],
@@ -240,7 +240,7 @@ class Workbench
     public static function applicationConsoleKernel(): ?string
     {
         if (! isset(static::$cachedCoreBindings['kernel']['console'])) {
-            static::$cachedCoreBindings['kernel']['console'] = file_exists(workbench_path('/app/Console/Kernel.php'))
+            static::$cachedCoreBindings['kernel']['console'] = file_exists(workbench_path('app', 'Console', 'Kernel.php'))
                 ? 'Workbench\App\Console\Kernel'
                 : null;
         }
@@ -256,7 +256,7 @@ class Workbench
     public static function applicationHttpKernel(): ?string
     {
         if (! isset(static::$cachedCoreBindings['kernel']['http'])) {
-            static::$cachedCoreBindings['kernel']['http'] = file_exists(workbench_path('/app/Http/Kernel.php'))
+            static::$cachedCoreBindings['kernel']['http'] = file_exists(workbench_path('app', 'Http', 'Kernel.php'))
                 ? 'Workbench\App\Http\Kernel'
                 : null;
         }
@@ -272,7 +272,7 @@ class Workbench
     public static function applicationExceptionHandler(): ?string
     {
         if (! isset(static::$cachedCoreBindings['handler']['exception'])) {
-            static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path('/app/Exceptions/Handler.php'))
+            static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path('app', 'Exceptions', 'Handler.php'))
                 ? 'Workbench\App\Exceptions\Handler'
                 : null;
         }

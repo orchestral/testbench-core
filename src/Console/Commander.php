@@ -24,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\transform_relative_path;
 
 /**
@@ -118,9 +119,9 @@ class Commander
         if (! $this->app instanceof LaravelApplication) {
             $laravelBasePath = $this->getBasePath();
 
-            $hasEnvironmentFile = fn () => file_exists("{$laravelBasePath}/.env");
+            $hasEnvironmentFile = fn () => file_exists(join_paths($laravelBasePath, '.env'));
 
-            tap(Application::createVendorSymlink($laravelBasePath, $this->workingPath.'/vendor'), function ($app) use ($hasEnvironmentFile) {
+            tap(Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($hasEnvironmentFile) {
                 $filesystem = new Filesystem;
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);

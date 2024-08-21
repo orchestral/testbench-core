@@ -8,6 +8,7 @@ use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\refresh_router_lookups;
 use function Orchestra\Testbench\remote;
 
@@ -84,13 +85,13 @@ trait HandlesRoutes
         $laravel = Application::create(static::applicationBasePath());
 
         $files->put(
-            $laravel->basePath("routes/testbench-{$time}.php"), $route
+            $laravel->basePath(join_paths('routes', "testbench-{$time}.php")), $route
         );
 
         remote('route:cache')->mustRun();
 
         $this->assertTrue(
-            $files->exists($laravel->bootstrapPath('cache/routes-v7.php'))
+            $files->exists($laravel->bootstrapPath(join_paths('cache', 'routes-v7.php')))
         );
 
         if ($this->app instanceof LaravelApplication) {
@@ -114,8 +115,8 @@ trait HandlesRoutes
         $this->beforeApplicationDestroyed(function () use ($files) {
             if ($this->app instanceof LaravelApplication) {
                 $files->delete(
-                    $this->app->bootstrapPath('cache/routes-v7.php'),
-                    ...$files->glob($this->app->basePath('routes/testbench-*.php'))
+                    $this->app->bootstrapPath(join_paths('cache', 'routes-v7.php')),
+                    ...$files->glob($this->app->basePath(join_paths('routes', 'testbench-*.php')))
                 );
             }
 
