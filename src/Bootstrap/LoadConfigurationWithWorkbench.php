@@ -39,8 +39,8 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
      */
     protected function resolveConfigurationFile(string $path, string $key): string
     {
-        return $this->usesWorkbenchConfigFile === true && is_file(workbench_path("config/{$key}.php"))
-            ? workbench_path("config/{$key}.php")
+        return $this->usesWorkbenchConfigFile === true && is_file(workbench_path('config', "{$key}.php"))
+            ? workbench_path('config', "{$key}.php")
             : $path;
     }
 
