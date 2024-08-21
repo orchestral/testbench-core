@@ -6,6 +6,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
+use function Orchestra\Testbench\join_paths;
+
 trait CopyTestbenchFiles
 {
     use HandleTerminatingConsole;
@@ -24,11 +26,9 @@ trait CopyTestbenchFiles
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
             yield 'testbench.yaml.dist';
-        })->map(static function ($file) use ($workingPath) {
-            return "{$workingPath}/{$file}";
-        })->filter(static function ($file) use ($filesystem) {
-            return $filesystem->exists($file);
-        })->first();
+        })->map(static fn ($file) => join_paths($workingPath, $file))
+            ->filter(static fn ($file) => $filesystem->exists($file))
+            ->first();
 
         $testbenchFile = $app->basePath('testbench.yaml');
 
@@ -63,16 +63,15 @@ trait CopyTestbenchFiles
      */
     protected function copyTestbenchDotEnvFile(Application $app, Filesystem $filesystem, string $workingPath): void
     {
-        $workingPath = $filesystem->isDirectory("{$workingPath}/workbench")
-            ? "{$workingPath}/workbench"
+        $workingPath = $filesystem->isDirectory(join_paths($workingPath, 'workbench'))
+            ? join_paths($workingPath, 'workbench')
             : $workingPath;
-
         $configurationFile = LazyCollection::make(function () {
             yield $this->environmentFile;
             yield "{$this->environmentFile}.example";
             yield "{$this->environmentFile}.dist";
-        })->map(fn ($file) => "{$workingPath}/{$file}")
-            ->filter(fn ($file) => $filesystem->exists($file))
+        })->map(static fn ($file) => join_paths($workingPath, $file))
+            ->filter(static fn ($file) => $filesystem->exists($file))
             ->first();
 
         if (\is_null($configurationFile) && $filesystem->exists($app->basePath('.env.example'))) {

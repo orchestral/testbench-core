@@ -27,14 +27,14 @@ class SyncTestbenchConfigurationFiles
      */
     public function bootstrap(Application $app): void
     {
-        $files = new Filesystem;
+        $filesystem = new Filesystem;
 
-        if (! $files->exists($app->basePath('testbench.yaml'))) {
-            $this->copyTestbenchConfigurationFile($app, $files, package_path());
+        if (! $filesystem->exists($app->basePath('testbench.yaml'))) {
+            $this->copyTestbenchConfigurationFile($app, $filesystem, package_path());
         }
 
-        if (! $files->exists($app->basePath('.env'))) {
-            $this->copyTestbenchDotEnvFile($app, $files, package_path());
+        if (! $filesystem->exists($app->basePath('.env'))) {
+            $this->copyTestbenchDotEnvFile($app, $filesystem, package_path());
         }
 
         $app->terminating(function () {
