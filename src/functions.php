@@ -251,7 +251,7 @@ function default_skeleton_path(string $path = ''): string
 {
     $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
 
-    return rtrim((string) realpath(__DIR__."/../laravel/{$path}"), DIRECTORY_SEPARATOR);
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap($path)));
 }
 
 /**
@@ -259,24 +259,26 @@ function default_skeleton_path(string $path = ''): string
  *
  * @api
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function package_path(string $path = ''): string
+function package_path($path = ''): string
 {
+    $argumentCount = \func_num_args();
+
     $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
         : Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
-    if (Str::startsWith($path, './')) {
+    if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
         return transform_relative_path($path, $workingPath);
     }
 
-    if (empty($path)) {
-        return rtrim($workingPath, DIRECTORY_SEPARATOR);
-    }
+    $path = join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
-    return rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+    return Str::startsWith($path, './')
+        ? transform_relative_path($path, $workingPath)
+        : join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
@@ -301,14 +303,12 @@ function workbench(): array
  *
  * @api
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function workbench_path(string $path = ''): string
+function workbench_path($path = ''): string
 {
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
-
-    return package_path('workbench'.DIRECTORY_SEPARATOR.$path);
+    return package_path(join_paths('workbench', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
 /**
@@ -324,7 +324,7 @@ function workbench_path(string $path = ''): string
 function laravel_migration_path(?string $type = null): string
 {
     $path = realpath(
-        \is_null($type) ? base_path('migrations') : base_path("migrations/{$type}")
+        \is_null($type) ? base_path('migrations') : base_path(join_paths('migrations', $type))
     );
 
     if ($path === false) {
@@ -377,4 +377,24 @@ function phpunit_version_compare(string $version, ?string $operator = null)
     }
 
     return version_compare(Version::id(), $version, $operator);
+}
+
+/**
+ * Join the given paths together.
+ *
+ * @param  string|null  $basePath
+ * @param  string  ...$paths
+ * @return string
+ */
+function join_paths(?string $basePath, string ...$paths): string
+{
+    foreach ($paths as $index => $path) {
+        if (empty($path) && $path !== '0') {
+            unset($paths[$index]);
+        } else {
+            $paths[$index] = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+        }
+    }
+
+    return $basePath.implode('', $paths);
 }
