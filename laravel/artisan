@@ -19,8 +19,6 @@ require __DIR__.'/vendor/autoload.php';
 
 $app = require_once __DIR__.'/bootstrap/app.php';
 
-(new Orchestra\Testbench\Foundation\Console\Bootstrap\SyncTestbenchConfigurationFiles)->bootstrap($app);
-
 /*
 |--------------------------------------------------------------------------
 | Run The Artisan Application
