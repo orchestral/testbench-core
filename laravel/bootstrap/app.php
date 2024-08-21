@@ -38,6 +38,6 @@ $app = $createApp(realpath(__DIR__.'/../'));
 
 unset($createApp);
 
-(new SyncTestbenchCachedRoutes())->bootstrap($app);
+(new SyncTestbenchCachedRoutes)->bootstrap($app);
 
 return $app;
