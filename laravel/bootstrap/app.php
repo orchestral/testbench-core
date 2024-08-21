@@ -5,6 +5,8 @@ use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Bootstrap\SyncTestbenchCachedRoutes;
 use Orchestra\Testbench\Workbench\Workbench;
 
+use function Orchestra\Testbench\join_paths;
+
 /**
  * Create Laravel application.
  *
@@ -17,8 +19,8 @@ $createApp = static function (string $workingPath) {
     );
 
     $hasEnvironmentFile = ! is_null($config['laravel'])
-        ? file_exists($config['laravel'].'/.env')
-        : file_exists("{$workingPath}/.env");
+        ? file_exists(join_paths($config['laravel'], '.env'))
+        : file_exists(join_paths($workingPath, '.env'));
 
     return Application::create(
         basePath: $config['laravel'],
@@ -34,7 +36,7 @@ if (! defined('TESTBENCH_WORKING_PATH') && is_string(getenv('TESTBENCH_WORKING_P
     define('TESTBENCH_WORKING_PATH', getenv('TESTBENCH_WORKING_PATH'));
 }
 
-$app = $createApp(realpath(__DIR__.'/../'));
+$app = $createApp(realpath(join_paths(__DIR__, '..')));
 
 unset($createApp);
 
