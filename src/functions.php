@@ -303,7 +303,7 @@ function workbench(): array
  */
 function workbench_path(array|string $path = ''): string
 {
-    return package_path(join_paths('workbench', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
+    return package_path('workbench', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path));
 }
 
 /**

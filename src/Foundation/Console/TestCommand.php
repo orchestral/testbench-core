@@ -72,7 +72,7 @@ class TestCommand extends Command
 
         return Collection::make([
             package_path('/'.$configurationFile),
-            package_path('/'.$configurationFile.'.dist'),
+            package_path("/{$configurationFile}.dist"),
         ])->filter(static function ($path) {
             return file_exists($path);
         })->first() ?? './';
