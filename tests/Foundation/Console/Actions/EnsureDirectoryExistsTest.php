@@ -34,6 +34,6 @@ class EnsureDirectoryExistsTest extends TestCase
         (new EnsureDirectoryExists(
             filesystem: $filesystem,
             components: $components,
-        ))->handle(['a', 'b', 'c/d']);
+        ))->handle(['a', 'b', join_paths('c', 'd')]);
     }
 }
