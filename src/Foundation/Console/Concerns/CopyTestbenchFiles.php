@@ -26,11 +26,9 @@ trait CopyTestbenchFiles
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
             yield 'testbench.yaml.dist';
-        })->map(static function ($file) use ($workingPath) {
-            return join_paths($workingPath, $file);
-        })->filter(static function ($file) use ($filesystem) {
-            return $filesystem->exists($file);
-        })->first();
+        })->map(static fn ($file) => join_paths($workingPath, $file))
+            ->filter(static fn ($file) => $filesystem->exists($file))
+            ->first();
 
         $testbenchFile = $app->basePath('testbench.yaml');
 
@@ -68,13 +66,12 @@ trait CopyTestbenchFiles
         $workingPath = $filesystem->isDirectory(join_paths($workingPath, 'workbench'))
             ? join_paths($workingPath, 'workbench')
             : $workingPath;
-
         $configurationFile = LazyCollection::make(function () {
             yield $this->environmentFile;
             yield "{$this->environmentFile}.example";
             yield "{$this->environmentFile}.dist";
-        })->map(fn ($file) => join_paths($workingPath, $file))
-            ->filter(fn ($file) => $filesystem->exists($file))
+        })->map(static fn ($file) => join_paths($workingPath, $file))
+            ->filter(static fn ($file) => $filesystem->exists($file))
             ->first();
 
         if (\is_null($configurationFile) && $filesystem->exists($app->basePath('.env.example'))) {
