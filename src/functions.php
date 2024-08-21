@@ -241,12 +241,12 @@ function transform_relative_path(string $path, string $workingPath): string
  *
  * @api
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function default_skeleton_path(string $path = ''): string
+function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap($path)));
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
 /**
