@@ -244,14 +244,12 @@ function transform_relative_path(string $path, string $workingPath): string
 /**
  * Get the default skeleton path.
  *
- * @param  string  $path
+ * @param  array|string  $path
  * @return string
  */
-function default_skeleton_path(string $path = ''): string
+function default_skeleton_path($path = ''): string
 {
-    $path = $path != '' ? ltrim($path, DIRECTORY_SEPARATOR) : '';
-
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap($path)));
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
 /**
@@ -308,7 +306,7 @@ function workbench(): array
  */
 function workbench_path($path = ''): string
 {
-    return package_path(join_paths('workbench', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
+    return package_path('workbench', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path));
 }
 
 /**
