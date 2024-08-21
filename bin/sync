@@ -79,10 +79,6 @@ Illuminate\Support\Collection::make([
 });
 
 transform([
-    '$app = require_once __DIR__.\'/bootstrap/app.php\';' => '$app = require_once __DIR__.\'/bootstrap/app.php\';'.PHP_EOL.PHP_EOL.'(new Orchestra\Testbench\Foundation\Console\Bootstrap\SyncTestbenchConfigurationFiles)->bootstrap($app);',
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/artisan"));
-
-transform([
     PHP_EOL.'APP_KEY=' => PHP_EOL.'APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
     PHP_EOL.'DB_CONNECTION=mysql' => PHP_EOL.'DB_CONNECTION=sqlite',
     PHP_EOL.'DB_HOST=' => PHP_EOL.'# DB_HOST=',
