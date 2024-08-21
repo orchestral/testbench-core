@@ -83,9 +83,21 @@ class HelpersTest extends TestCase
     #[Group('workbench')]
     public function it_can_resolve_workbench_path()
     {
+        $expected = realpath(package_path('workbench/database/migrations/2013_07_26_182750_create_testbench_users_table.php'));
+
         $this->assertSame(
             realpath(package_path('workbench/database/migrations/2013_07_26_182750_create_testbench_users_table.php')),
-            workbench_path(join_paths('database', 'migrations', '2013_07_26_182750_create_testbench_users_table.php'))
+            workbench_path(join_paths('database'.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'2013_07_26_182750_create_testbench_users_table.php'))
+        );
+
+        $this->assertSame(
+            $expected,
+            workbench_path('database', 'migrations', '2013_07_26_182750_create_testbench_users_table.php')
+        );
+
+        $this->assertSame(
+            $expected,
+            workbench_path(['database', 'migrations', '2013_07_26_182750_create_testbench_users_table.php'])
         );
     }
 }

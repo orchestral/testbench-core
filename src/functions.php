@@ -20,8 +20,6 @@ use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-use function Illuminate\Filesystem\join_paths;
-
 /**
  * Create Laravel application instance.
  *
@@ -85,7 +83,7 @@ function remote(array|string $command, array|string $env = []): Process
 
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
-    $commander = is_file($vendorBin = package_path(['vendor', 'bin', $binary]))
+    $commander = is_file($vendorBin = package_path('vendor', 'bin', $binary))
         ? ProcessUtils::escapeArgument((string) $vendorBin)
         : $binary;
 
@@ -254,11 +252,17 @@ function default_skeleton_path(array|string $path = ''): string
  */
 function package_path(array|string $path = ''): string
 {
+    $argumentCount = \func_num_args();
+
     $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
         : Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
-    $path = join_paths(...Arr::wrap($path));
+    if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
+        return transform_relative_path($path, $workingPath);
+    }
+
+    $path = join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
         ? transform_relative_path($path, $workingPath)
@@ -292,7 +296,7 @@ function workbench(): array
  */
 function workbench_path(array|string $path = ''): string
 {
-    return package_path(join_paths('workbench', ...Arr::wrap($path)));
+    return package_path(join_paths('workbench', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
 /**
@@ -361,4 +365,24 @@ function phpunit_version_compare(string $version, ?string $operator = null): int
     }
 
     return version_compare(Version::id(), $version, $operator);
+}
+
+/**
+ * Join the given paths together.
+ *
+ * @param  string|null  $basePath
+ * @param  string  ...$paths
+ * @return string
+ */
+function join_paths(?string $basePath, string ...$paths): string
+{
+    foreach ($paths as $index => $path) {
+        if (empty($path) && $path !== '0') {
+            unset($paths[$index]);
+        } else {
+            $paths[$index] = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+        }
+    }
+
+    return $basePath.implode('', $paths);
 }

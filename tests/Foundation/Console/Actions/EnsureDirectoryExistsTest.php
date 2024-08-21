@@ -8,7 +8,7 @@ use Mockery as m;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 class EnsureDirectoryExistsTest extends TestCase
 {
