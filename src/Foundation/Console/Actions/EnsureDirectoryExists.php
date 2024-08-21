@@ -6,8 +6,8 @@ use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
-use function Illuminate\Filesystem\join_paths;
 use function Laravel\Prompts\confirm;
+use function Orchestra\Testbench\join_paths;
 
 class EnsureDirectoryExists extends Action
 {

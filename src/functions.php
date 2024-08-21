@@ -390,5 +390,13 @@ function phpunit_version_compare(string $version, ?string $operator = null)
  */
 function join_paths(?string $basePath, string ...$paths): string
 {
-    return \Illuminate\Filesystem\join_paths($basePath, ...$paths);
+    foreach ($paths as $index => $path) {
+        if (empty($path) && $path !== '0') {
+            unset($paths[$index]);
+        } else {
+            $paths[$index] = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+        }
+    }
+
+    return $basePath.implode('', $paths);
 }

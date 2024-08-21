@@ -32,6 +32,7 @@ Symfony\Component\Process\Process::fromShellCommandline(
 )->mustRun();
 
 Illuminate\Support\Collection::make([
+    'artisan',
     '.env.example',
     'config/*.php',
     'database/.gitignore',

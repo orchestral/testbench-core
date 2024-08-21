@@ -9,7 +9,7 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 #[AsCommand(name: 'package:purge-skeleton', description: 'Purge skeleton folder to original state')]
 class PurgeSkeletonCommand extends Command

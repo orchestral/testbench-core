@@ -8,7 +8,7 @@ use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\refresh_router_lookups;
 use function Orchestra\Testbench\remote;
 

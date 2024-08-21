@@ -7,7 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Mockery as m;
 use Orchestra\Testbench\TestCase;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 class EnsureDirectoryExistsTest extends TestCase
 {
