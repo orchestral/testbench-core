@@ -61,6 +61,8 @@ final class CreateVendorSymlink
             }
         }
 
+        clearstatcache(true, $app->basePath());
+
         $app->flush();
     }
 }
