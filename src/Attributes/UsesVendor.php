@@ -15,7 +15,7 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
     /**
      * Determine if vendor symlink was created via this attribute.
      */
-    public ?bool $vendorSymlinkCreated = null;
+    public readonly bool $vendorSymlinkCreated;
 
     /**
      * Handle the attribute.
@@ -27,14 +27,9 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
     {
         $vendorPath = $app->basePath('vendor');
 
-        if (is_link($vendorPath)) {
-            $this->vendorSymlinkCreated = false;
+        $laravel = Application::createVendorSymlink(base_path(), package_path('vendor'));
 
-            return;
-        }
-
-        Application::createVendorSymlink(base_path(), package_path('vendor'));
-        $this->vendorSymlinkCreated = true;
+        $this->vendorSymlinkCreated = $laravel['TESTBENCH_VENDOR_SYMLINK'] ?? false;
     }
 
     /**

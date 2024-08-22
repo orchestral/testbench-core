@@ -56,12 +56,12 @@ final class CreateVendorSymlink
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
+
+                $app->instance('TESTBENCH_VENDOR_SYMLINK', true);
             } catch (ErrorException $e) {
-                //
+                $app->instance('TESTBENCH_VENDOR_SYMLINK', false);
             }
         }
-
-        clearstatcache(true, $app->basePath());
 
         $app->flush();
     }
