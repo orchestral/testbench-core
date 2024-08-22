@@ -2,6 +2,7 @@
 
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadEnvironmentVariablesFromArray;
+use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Workbench\Workbench;
 
@@ -44,12 +45,6 @@ $app = $createApp(realpath(__DIR__.'/../'));
 
 unset($createApp);
 
-/** @var \Illuminate\Routing\Router $router */
-$router = $app->make('router');
-
-collect(glob(__DIR__.'/../routes/testbench-*.php'))
-    ->each(static function ($routeFile) use ($app, $router) {
-        require $routeFile;
-    });
+(new SyncTestbenchCachedRoutes)->bootstrap($app);
 
 return $app;

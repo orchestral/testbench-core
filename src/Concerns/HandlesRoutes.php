@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializableClosureFactory;
 use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
-
+use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\refresh_router_lookups;
 
@@ -95,11 +95,8 @@ trait HandlesRoutes
         if ($route instanceof Closure) {
             $cached = false;
             $serializeRoute = json_encode(serialize(SerializableClosureFactory::make($route)));
-            $route = '<?php
-
-use Illuminate\Support\Facades\Route;
-
-value(unserialize('.$serializeRoute.')->getClosure(), $router);';
+            $stub = $files->get(join_paths(__DIR__, 'stubs', 'routes.stub'));
+            $route = str_replace('{{routes}}',$serializeRoute, $stub);
         }
 
         $files->put(
@@ -133,13 +130,7 @@ value(unserialize('.$serializeRoute.')->getClosure(), $router);';
                 if ($cached === true) {
                     require $app->getCachedRoutesPath();
                 } else {
-                    /** @var \Illuminate\Routing\Router $router */
-                    $router = $app->make('router');
-
-                    collect(glob($app->basePath(join_paths('routes', 'testbench-*.php'))))
-                        ->each(static function ($routeFile) use ($app, $router) {
-                            require $routeFile;
-                        });
+                    (new SyncTestbenchCachedRoutes)->bootstrap($app);
                 }
             }
         });
