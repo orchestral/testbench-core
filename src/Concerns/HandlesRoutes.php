@@ -93,11 +93,11 @@ trait HandlesRoutes
 
         if ($route instanceof Closure) {
             $serializeRoute = json_encode(serialize(SerializableClosureFactory::make($route)));
-            $route = sprintf('<?php
+            $route = '<?php
 
 use Illuminate\Support\Facades\Route;
 
-value(unserialize(%s)->getClosure(), $router);', $serializeRoute);
+value(unserialize('.$serializeRoute.')->getClosure(), $router);';
         }
 
         $files->put(
