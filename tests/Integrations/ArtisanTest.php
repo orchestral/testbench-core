@@ -11,7 +11,10 @@ use function Orchestra\Testbench\remote;
 
 class ArtisanTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @group core
+     */
     public function it_can_generate_the_same_output()
     {
         $phpBinary = \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder)->find();
