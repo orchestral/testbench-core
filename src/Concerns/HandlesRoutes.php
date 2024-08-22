@@ -83,6 +83,20 @@ trait HandlesRoutes
     }
 
     /**
+     * Define stash routes setup.
+     *
+     * @api
+     *
+     * @param  \Closure|string  $route
+     * @param  bool  $cached
+     * @return void
+     */
+    protected function defineStashRoutes(Closure|string $route): void
+    {
+        $this->defineCacheRoutes($route, false);
+    }
+
+    /**
      * Define cache routes setup.
      *
      * @api

@@ -6,14 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-class ClosureCacheRouteTest extends TestCase
+class StashRouteTest extends TestCase
 {
-    /**
-     * Setup the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function setUp(): void
     {
-        $this->defineCacheRoutes(function () {
+        $this->defineStashRoutes(function () {
             Route::get('stubs-controller', 'Workbench\App\Http\Controllers\ExampleController@index');
         });
 
