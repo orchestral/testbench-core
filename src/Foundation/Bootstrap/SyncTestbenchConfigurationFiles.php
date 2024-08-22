@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation\Console\Bootstrap;
+namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
