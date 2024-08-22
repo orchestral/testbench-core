@@ -26,10 +26,12 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
 
         if (is_link($vendorPath)) {
             $this->vendorSymlinkCreated = false;
-        } else {
-            Application::createVendorSymlink(base_path(), package_path('vendor'));
-            $this->vendorSymlinkCreated = true;
+
+            return;
         }
+
+        Application::createVendorSymlink(base_path(), package_path('vendor'));
+        $this->vendorSymlinkCreated = true;
     }
 
     /**
