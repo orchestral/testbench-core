@@ -2,9 +2,11 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Illuminate\Queue\SerializableClosureFactory;
 use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
@@ -78,16 +80,25 @@ trait HandlesRoutes
     /**
      * Define cache routes setup.
      *
-     * @param  string  $route
+     * @param  \Closure|string  $route
      * @return void
      */
-    protected function defineCacheRoutes(string $route)
+    protected function defineCacheRoutes($route)
     {
         $files = new Filesystem;
 
         $time = time();
 
         $laravel = Application::create(static::applicationBasePath());
+
+        if ($route instanceof Closure) {
+            $serializeRoute = json_encode(serialize(SerializableClosureFactory::make($route)));
+            $route = sprintf('<?php
+
+use Illuminate\Support\Facades\Route;
+
+value(unserialize(%s)->getClosure(), $router);', $serializeRoute);
+        }
 
         $files->put(
             $laravel->basePath("routes/testbench-{$time}.php"), $route
