@@ -1,8 +1,8 @@
 <?php
 
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Console\Bootstrap\SyncTestbenchCachedRoutes;
 use Orchestra\Testbench\Workbench\Workbench;
 
 use function Orchestra\Testbench\join_paths;
