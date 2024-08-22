@@ -8,7 +8,6 @@ use Illuminate\Foundation\Application as LaravelApplication;
 use Laravel\SerializableClosure\SerializableClosure;
 use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
-use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 
 use function Orchestra\Testbench\join_paths;
@@ -88,7 +87,6 @@ trait HandlesRoutes
      * @api
      *
      * @param  \Closure|string  $route
-     * @param  bool  $cached
      * @return void
      */
     protected function defineStashRoutes(Closure|string $route): void
@@ -131,7 +129,7 @@ trait HandlesRoutes
         if ($cached === true) {
             remote('route:cache')->mustRun();
 
-            assert($files->exists(join_paths($bootstrapPath, 'cache', 'routes-v7.php')) === true);
+            \assert($files->exists(join_paths($bootstrapPath, 'cache', 'routes-v7.php')) === true);
         }
 
         if ($this->app instanceof LaravelApplication) {
