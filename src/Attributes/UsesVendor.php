@@ -12,6 +12,9 @@ use function Orchestra\Testbench\package_path;
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 final class UsesVendor implements AfterEachContract, BeforeEachContract
 {
+    /**
+     * Determine if vendor symlink was created via this attribute.
+     */
     public ?bool $vendorSymlinkCreated = null;
 
     /**
