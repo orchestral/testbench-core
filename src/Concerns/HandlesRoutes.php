@@ -98,7 +98,7 @@ trait HandlesRoutes
             /** @var string $serializeRoute */
             $serializeRoute = serialize(SerializableClosureFactory::make($route));
             $stub = $files->get(join_paths(__DIR__, 'stubs', 'routes.stub'));
-            $route = str_replace('{{routes}}', $serializeRoute, $stub);
+            $route = str_replace('{{routes}}', e($serializeRoute), $stub);
         }
 
         $files->put(
