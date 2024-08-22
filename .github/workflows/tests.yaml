@@ -21,9 +21,8 @@ jobs:
         phpunit:
           - "^8.5.21"
         dependencies:
-          - "locked"
-          - "lowest"
           - "highest"
+          - "lowest"
         experimental:
           - false
 
