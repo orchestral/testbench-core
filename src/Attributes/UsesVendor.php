@@ -12,6 +12,8 @@ use function Orchestra\Testbench\package_path;
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 final class UsesVendor implements AfterEachContract, BeforeEachContract
 {
+    public ?bool $vendorSymlinkCreated = null;
+
     /**
      * Handle the attribute.
      *
@@ -20,7 +22,14 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
      */
     public function beforeEach($app): void
     {
-        Application::createVendorSymlink(base_path(), package_path('vendor'));
+        $vendorPath = $app->basePath('vendor');
+
+        if (is_link($vendorPath)) {
+            $this->vendorSymlinkCreated = false;
+        } else {
+            Application::createVendorSymlink(base_path(), package_path('vendor'));
+            $this->vendorSymlinkCreated = true;
+        }
     }
 
     /**
@@ -33,7 +42,7 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
     {
         $vendorPath = $app->basePath('vendor');
 
-        if (is_link($vendorPath)) {
+        if (is_link($vendorPath) && $this->vendorSymlinkCreated === true) {
             $app['files']->delete($vendorPath);
         }
     }
