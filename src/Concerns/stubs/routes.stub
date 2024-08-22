@@ -2,4 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-value(unserialize({{routes}})->getClosure(), $router);
+transform(unserialize({{routes}})->getClosure(), function ($serializedClosure) use ($router) {
+    if ($serializedClosure instanceof Closure) {
+        value($serializedClosure, $router);
+    }
+});
