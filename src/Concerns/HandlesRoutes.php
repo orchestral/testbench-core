@@ -117,9 +117,7 @@ trait HandlesRoutes
         if ($cached === true) {
             remote('route:cache')->mustRun();
 
-            $this->assertTrue(
-                $files->exists(join_paths($bootstrapPath, 'cache', 'routes-v7.php'))
-            );
+            assert($files->exists(join_paths($bootstrapPath, 'cache', 'routes-v7.php')) === true);
         }
 
         if ($this->app instanceof LaravelApplication) {
