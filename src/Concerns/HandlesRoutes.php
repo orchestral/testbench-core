@@ -11,6 +11,7 @@ use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
+
 use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\refresh_router_lookups;
 
@@ -94,9 +95,10 @@ trait HandlesRoutes
 
         if ($route instanceof Closure) {
             $cached = false;
+            /** @var string $serializeRoute */
             $serializeRoute = json_encode(serialize(SerializableClosureFactory::make($route)));
             $stub = $files->get(join_paths(__DIR__, 'stubs', 'routes.stub'));
-            $route = str_replace('{{routes}}',$serializeRoute, $stub);
+            $route = str_replace('{{routes}}', $serializeRoute, $stub);
         }
 
         $files->put(
