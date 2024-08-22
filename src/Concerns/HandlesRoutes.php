@@ -96,7 +96,7 @@ trait HandlesRoutes
         if ($route instanceof Closure) {
             $cached = false;
             /** @var string $serializeRoute */
-            $serializeRoute = json_encode(serialize(SerializableClosureFactory::make($route)));
+            $serializeRoute = serialize(SerializableClosureFactory::make($route));
             $stub = $files->get(join_paths(__DIR__, 'stubs', 'routes.stub'));
             $route = str_replace('{{routes}}', $serializeRoute, $stub);
         }
