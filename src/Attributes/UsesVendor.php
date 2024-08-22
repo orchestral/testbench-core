@@ -15,7 +15,7 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
     /**
      * Determine if vendor symlink was created via this attribute.
      */
-    public readonly bool $vendorSymlinkCreated;
+    public bool $vendorSymlinkCreated = false;
 
     /**
      * Handle the attribute.
