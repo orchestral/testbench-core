@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 /**
  * @internal
