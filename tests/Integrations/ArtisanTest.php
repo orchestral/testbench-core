@@ -13,6 +13,7 @@ class ArtisanTest extends TestCase
 {
     /**
      * @test
+     *
      * @group core
      */
     public function it_can_generate_the_same_output()
