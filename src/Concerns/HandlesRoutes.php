@@ -17,6 +17,13 @@ use function Orchestra\Testbench\remote;
 trait HandlesRoutes
 {
     /**
+     * Indicates if we have made it through the requireApplicationCachedRoutes function.
+     *
+     * @var bool
+     */
+    protected $requireApplicationCachedRoutesHasRun = false;
+
+    /**
      * Setup routes requirements.
      *
      * @internal
@@ -149,6 +156,10 @@ trait HandlesRoutes
      */
     protected function requireApplicationCachedRoutes(Filesystem $files, bool $cached): void
     {
+        if ($this->requireApplicationCachedRoutesHasRun === true) {
+            return;
+        }
+
         $this->afterApplicationCreated(function () use ($cached) {
             $app = $this->app;
 
@@ -171,5 +182,7 @@ trait HandlesRoutes
 
             sleep(1);
         });
+
+        $this->requireApplicationCachedRoutesHasRun = true;
     }
 }
