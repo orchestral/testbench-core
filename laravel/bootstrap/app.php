@@ -1,10 +1,11 @@
 <?php
 
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Workbench\Workbench;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 /**
  * Create Laravel application.
@@ -39,12 +40,6 @@ $app = $createApp(realpath(join_paths(__DIR__, '..')));
 
 unset($createApp);
 
-/** @var \Illuminate\Routing\Router $router */
-$router = $app->make('router');
-
-collect(glob(join_paths(__DIR__, '..', 'routes', 'testbench-*.php')))
-    ->each(static function ($routeFile) use ($app, $router) {
-        require $routeFile;
-    });
+(new SyncTestbenchCachedRoutes)->bootstrap($app);
 
 return $app;

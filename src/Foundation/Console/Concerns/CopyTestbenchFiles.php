@@ -6,7 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 trait CopyTestbenchFiles
 {
@@ -26,11 +26,9 @@ trait CopyTestbenchFiles
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
             yield 'testbench.yaml.dist';
-        })->map(static function ($file) use ($workingPath) {
-            return "{$workingPath}/{$file}";
-        })->filter(static function ($file) use ($filesystem) {
-            return $filesystem->exists($file);
-        })->first();
+        })->map(static fn ($file) => join_paths($workingPath, $file))
+            ->filter(static fn ($file) => $filesystem->exists($file))
+            ->first();
 
         $testbenchFile = $app->basePath('testbench.yaml');
 
@@ -73,8 +71,8 @@ trait CopyTestbenchFiles
             yield $this->environmentFile;
             yield "{$this->environmentFile}.example";
             yield "{$this->environmentFile}.dist";
-        })->map(fn ($file) => join_paths($workingPath, $file))
-            ->filter(fn ($file) => $filesystem->exists($file))
+        })->map(static fn ($file) => join_paths($workingPath, $file))
+            ->filter(static fn ($file) => $filesystem->exists($file))
             ->first();
 
         if (\is_null($configurationFile) && $filesystem->exists($app->basePath('.env.example'))) {

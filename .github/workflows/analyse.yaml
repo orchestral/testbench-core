@@ -20,7 +20,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP${{ matrix.php }} PHPStan & Pint
+    name: PHP:${{ matrix.php }} PHPStan & Pint
 
     steps:
       - name: Checkout code
@@ -50,6 +50,7 @@ jobs:
         os:
           - "ubuntu-latest"
         php:
+          - 8.2
           - 8.3
         dependencies:
           - "highest"

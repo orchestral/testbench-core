@@ -5,8 +5,8 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 
-use function Illuminate\Filesystem\join_paths;
 use function Laravel\Prompts\confirm;
+use function Orchestra\Testbench\join_paths;
 
 class GeneratesFile extends Action
 {

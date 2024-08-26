@@ -6,7 +6,7 @@ use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 /**
  * @internal
@@ -50,8 +50,10 @@ final class CreateVendorSymlink
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
+
+                $app->instance('TESTBENCH_VENDOR_SYMLINK', true);
             } catch (ErrorException) {
-                //
+                $app->instance('TESTBENCH_VENDOR_SYMLINK', false);
             }
         }
 

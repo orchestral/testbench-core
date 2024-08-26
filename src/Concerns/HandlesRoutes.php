@@ -2,18 +2,27 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Closure;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Laravel\SerializableClosure\SerializableClosure;
 use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
-use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\refresh_router_lookups;
 use function Orchestra\Testbench\remote;
 
 trait HandlesRoutes
 {
+    /**
+     * Indicates if we have made it through the requireApplicationCachedRoutes function.
+     *
+     * @var bool
+     */
+    protected $requireApplicationCachedRoutesHasRun = false;
+
     /**
      * Setup routes requirements.
      *
@@ -80,14 +89,28 @@ trait HandlesRoutes
     }
 
     /**
+     * Define stash routes setup.
+     *
+     * @api
+     *
+     * @param  \Closure|string  $route
+     * @return void
+     */
+    protected function defineStashRoutes(Closure|string $route): void
+    {
+        $this->defineCacheRoutes($route, false);
+    }
+
+    /**
      * Define cache routes setup.
      *
      * @api
      *
-     * @param  string  $route
+     * @param  \Closure|string  $route
+     * @param  bool  $cached
      * @return void
      */
-    protected function defineCacheRoutes(string $route)
+    protected function defineCacheRoutes(Closure|string $route, bool $cached = true): void
     {
         $files = new Filesystem;
 
@@ -98,21 +121,29 @@ trait HandlesRoutes
             ? join_paths($basePath, '.laravel')
             : join_paths($basePath, 'bootstrap');
 
+        if ($route instanceof Closure) {
+            $cached = false;
+            /** @var string $serializeRoute */
+            $serializeRoute = serialize(SerializableClosure::unsigned($route));
+            $stub = $files->get(join_paths(__DIR__, 'stubs', 'routes.stub'));
+            $route = str_replace('{{routes}}', var_export($serializeRoute, true), $stub);
+        }
+
         $files->put(
             join_paths($basePath, 'routes', "testbench-{$time}.php"), $route
         );
 
-        remote('route:cache')->mustRun();
+        if ($cached === true) {
+            remote('route:cache')->mustRun();
 
-        $this->assertTrue(
-            $files->exists(join_paths($bootstrapPath, 'cache', 'routes-v7.php'))
-        );
+            \assert($files->exists(join_paths($bootstrapPath, 'cache', 'routes-v7.php')) === true);
+        }
 
         if ($this->app instanceof LaravelApplication) {
             $this->reloadApplication();
         }
 
-        $this->requireApplicationCachedRoutes($files);
+        $this->requireApplicationCachedRoutes($files, $cached);
     }
 
     /**
@@ -123,11 +154,21 @@ trait HandlesRoutes
      * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return void
      */
-    protected function requireApplicationCachedRoutes(Filesystem $files): void
+    protected function requireApplicationCachedRoutes(Filesystem $files, bool $cached): void
     {
-        $this->afterApplicationCreated(function () {
-            if ($this->app instanceof LaravelApplication) {
-                require $this->app->getCachedRoutesPath();
+        if ($this->requireApplicationCachedRoutesHasRun === true) {
+            return;
+        }
+
+        $this->afterApplicationCreated(function () use ($cached) {
+            $app = $this->app;
+
+            if ($app instanceof LaravelApplication) {
+                if ($cached === true) {
+                    require $app->getCachedRoutesPath();
+                } else {
+                    (new SyncTestbenchCachedRoutes)->bootstrap($app);
+                }
             }
         });
 
@@ -141,5 +182,7 @@ trait HandlesRoutes
 
             sleep(1);
         });
+
+        $this->requireApplicationCachedRoutesHasRun = true;
     }
 }
