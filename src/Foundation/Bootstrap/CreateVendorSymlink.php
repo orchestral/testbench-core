@@ -69,9 +69,13 @@ final class CreateVendorSymlink
     public function deleteVendorSymlink(Application $app): void
     {
         tap($app->basePath('vendor'), static function ($appVendorPath) {
+            if (! is_link($appVendorPath)) {
+                return;
+            }
+
             if (windows_os()) {
                 @rmdir($appVendorPath);
-            } elseif (is_link($appVendorPath)) {
+            } else {
                 @unlink($appVendorPath);
             }
 
