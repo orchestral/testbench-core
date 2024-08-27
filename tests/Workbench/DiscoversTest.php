@@ -50,6 +50,15 @@ class DiscoversTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_errors_views_from_discovers()
+    {
+        $this->get('/root')
+            ->assertStatus(418)
+            ->assertSeeText('I\'m a teapot')
+            ->assertDontSeeText('412');
+    }
+
+    /** @test */
     public function it_can_resolve_route_name_from_discovers()
     {
         $this->assertSame(url('/testbench'), route('testbench'));
