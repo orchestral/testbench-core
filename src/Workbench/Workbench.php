@@ -117,26 +117,28 @@ class Workbench
             $translator->addNamespace('workbench', $path);
         });
 
-        after_resolving($app, 'view', static function ($view, $app) use ($discoversConfig) {
-            /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
-            if (! is_dir($path = workbench_path('resources', 'views'))) {
-                return;
-            }
-
-            if (($discoversConfig['views'] ?? false) === true && method_exists($view, 'addLocation')) {
-                $view->addLocation($path);
-
-                tap($app->make('config'), function ($config) use ($path) {
-                    /** @var \Illuminate\Contracts\Config\Repository $config */
-                    $config->set('view.paths', array_merge(
-                        $config->get('view.paths', []),
-                        [$path]
-                    ));
+        if (is_dir($workbenchViewPath = workbench_path('resources', 'views'))) {
+            if (($discoversConfig['views'] ?? false) === true) {
+                $app->booted(static function () use ($app, $workbenchViewPath) {
+                    tap($app->make('config'), function ($config) use ($workbenchViewPath) {
+                        /** @var \Illuminate\Contracts\Config\Repository $config */
+                        $config->set('view.paths', array_merge(
+                            $config->get('view.paths', []),
+                            [$workbenchViewPath]
+                        ));
+                    });
                 });
             }
 
-            $view->addNamespace('workbench', $path);
-        });
+            after_resolving($app, 'view', static function ($view, $app) use ($discoversConfig, $workbenchViewPath) {
+                /** @var \Illuminate\Contracts\View\Factory|\Illuminate\View\Factory $view */
+                if (($discoversConfig['views'] ?? false) === true && method_exists($view, 'addLocation')) {
+                    $view->addLocation($workbenchViewPath);
+                }
+
+                $view->addNamespace('workbench', $workbenchViewPath);
+            });
+        }
 
         after_resolving($app, 'blade.compiler', static function ($blade) use ($discoversConfig) {
             /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
