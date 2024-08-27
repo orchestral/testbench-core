@@ -6,6 +6,7 @@ use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\laravel_vendor_exists;
 
 /**
@@ -45,8 +46,8 @@ final class CreateVendorSymlink
         $vendorLinkCreated = false;
 
         if (! laravel_vendor_exists($app, $this->workingPath)) {
-            if ($filesystem->exists($app->basePath('bootstrap/cache/packages.php'))) {
-                $filesystem->delete($app->basePath('bootstrap/cache/packages.php'));
+            if ($filesystem->exists($app->basePath(join_paths('bootstrap', 'cache', 'packages.php')))) {
+                $filesystem->delete($app->basePath(join_paths('bootstrap', 'cache', 'packages.php')));
             }
 
             if (is_link($appVendorPath)) {
