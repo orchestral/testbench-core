@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation\Bootstrap;
 use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
-use Orchestra\Testbench\Foundation\Env;
+
 use function Orchestra\Testbench\join_paths;
 
 /**

@@ -6,7 +6,7 @@ use Attribute;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 use Orchestra\Testbench\Foundation\Application;
-use Orchestra\Testbench\Foundation\Env;
+
 use function Orchestra\Testbench\package_path;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
@@ -29,7 +29,7 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
 
         $laravel = Application::createVendorSymlink(base_path(), package_path('vendor'));
 
-        $this->vendorSymlinkCreated = Env::get('TESTBENCH_VENDOR_SYMLINK', false);
+        $this->vendorSymlinkCreated = $laravel['TESTBENCH_VENDOR_SYMLINK'] ?? false;
     }
 
     /**

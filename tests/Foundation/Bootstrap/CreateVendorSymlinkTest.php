@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests\Foundation\Bootstrap;
 use Illuminate\Filesystem\Filesystem;
 use Orchestra\Testbench\Attributes\UsesVendor;
 use Orchestra\Testbench\Foundation\Bootstrap\CreateVendorSymlink;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 
 use function Orchestra\Testbench\container;
