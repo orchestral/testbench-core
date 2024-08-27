@@ -6,6 +6,8 @@ use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 
+use function Orchestra\Testbench\laravel_vendor_exists;
+
 /**
  * @internal
  */
@@ -40,10 +42,9 @@ final class CreateVendorSymlink
 
         $appVendorPath = $app->basePath('vendor');
 
-        if (
-            ! $filesystem->isFile("{$appVendorPath}/autoload.php") ||
-            $filesystem->hash("{$appVendorPath}/autoload.php") !== $filesystem->hash("{$this->workingPath}/autoload.php")
-        ) {
+        $vendorLinkCreated = false;
+
+        if (! laravel_vendor_exists($app, $this->workingPath)) {
             if ($filesystem->exists($app->basePath('bootstrap/cache/packages.php'))) {
                 $filesystem->delete($app->basePath('bootstrap/cache/packages.php'));
             }
@@ -54,11 +55,15 @@ final class CreateVendorSymlink
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
+
+                $vendorLinkCreated = true;
             } catch (ErrorException $e) {
                 //
             }
         }
 
         $app->flush();
+
+        $app->instance('TESTBENCH_VENDOR_SYMLINK', $vendorLinkCreated);
     }
 }
