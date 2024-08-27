@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation\Bootstrap;
 use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
-
+use Orchestra\Testbench\Foundation\Env;
 use function Orchestra\Testbench\join_paths;
 
 /**
@@ -42,10 +42,9 @@ final class CreateVendorSymlink
 
         $appVendorPath = $app->basePath('vendor');
 
-        if (
-            ! $filesystem->isFile(join_paths($appVendorPath, 'autoload.php')) ||
-            $filesystem->hash(join_paths($appVendorPath, 'autoload.php')) !== $filesystem->hash(join_paths($this->workingPath, 'autoload.php'))
-        ) {
+        $vendorLinkCreated = false;
+
+        if (! $this->vendorSymlinkExists($app)) {
             if ($filesystem->exists($app->bootstrapPath(join_paths('cache', 'packages.php')))) {
                 $filesystem->delete($app->bootstrapPath(join_paths('cache', 'packages.php')));
             }
@@ -57,12 +56,30 @@ final class CreateVendorSymlink
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
 
-                $app->instance('TESTBENCH_VENDOR_SYMLINK', true);
+                $vendorLinkCreated = true;
             } catch (ErrorException $e) {
-                $app->instance('TESTBENCH_VENDOR_SYMLINK', false);
+                //
             }
         }
 
         $app->flush();
+
+        $app->instance('TESTBENCH_VENDOR_SYMLINK', $vendorLinkCreated);
+    }
+
+    /**
+     * Determine if vendor symlink exists on the skeleton.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return bool
+     */
+    public function vendorSymlinkExists(Application $app): bool
+    {
+        $filesystem = new Filesystem;
+
+        $appVendorPath = $app->basePath('vendor');
+
+        return $filesystem->isFile(join_paths($appVendorPath, 'autoload.php')) &&
+            $filesystem->hash(join_paths($appVendorPath, 'autoload.php')) === $filesystem->hash(join_paths($this->workingPath, 'autoload.php'));
     }
 }
