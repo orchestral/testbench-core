@@ -102,12 +102,14 @@ class Workbench
 
         if (is_dir($workbenchViewPath = workbench_path('resources', 'views'))) {
             if (($discoversConfig['views'] ?? false) === true && is_dir($workbenchViewPath)) {
-                tap($app->make('config'), function ($config) use ($workbenchViewPath) {
-                    /** @var \Illuminate\Contracts\Config\Repository $config */
-                    $config->set('view.paths', array_merge(
-                        $config->get('view.paths', []),
-                        [$workbenchViewPath]
-                    ));
+                $app->booted(static function () use ($app, $workbenchViewPath) {
+                    tap($app->make('config'), function ($config) use ($workbenchViewPath) {
+                        /** @var \Illuminate\Contracts\Config\Repository $config */
+                        $config->set('view.paths', array_merge(
+                            $config->get('view.paths', []),
+                            [$workbenchViewPath]
+                        ));
+                    });
                 });
             }
 
