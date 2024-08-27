@@ -51,7 +51,11 @@ final class CreateVendorSymlink
             }
 
             if (is_link($appVendorPath)) {
-                $filesystem->delete($appVendorPath);
+                if (windows_os()) {
+                    rmdir($appVendorPath);
+                } else {
+                    unlink($appVendorPath);
+                }
             }
 
             try {

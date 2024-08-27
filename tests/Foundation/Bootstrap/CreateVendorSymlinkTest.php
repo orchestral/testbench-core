@@ -21,7 +21,11 @@ class CreateVendorSymlinkTest extends TestCase
         $laravel = container()->createApplication();
 
         if (laravel_vendor_exists($laravel, $workingPath)) {
-            (new Filesystem)->delete($laravel->basePath('vendor'));
+            if (windows_os()) {
+                rmdir($laravel->basePath('vendor'));
+            } else {
+                unlink($laravel->basePath('vendor'));
+            }
         }
 
         (new CreateVendorSymlink($workingPath))->bootstrap($laravel);
