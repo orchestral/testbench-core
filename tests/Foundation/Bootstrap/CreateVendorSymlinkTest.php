@@ -27,7 +27,7 @@ class CreateVendorSymlinkTest extends TestCase
             (new Filesystem)->delete($laravel->basePath('vendor'));
         }
 
-       (new CreateVendorSymlink($workingPath))->bootstrap($laravel);
+        (new CreateVendorSymlink($workingPath))->bootstrap($laravel);
 
         $this->assertTrue($laravel['TESTBENCH_VENDOR_SYMLINK']);
     }
