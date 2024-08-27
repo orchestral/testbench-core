@@ -11,9 +11,6 @@ use function Orchestra\Testbench\container;
 use function Orchestra\Testbench\laravel_vendor_exists;
 use function Orchestra\Testbench\package_path;
 
-/**
- * @requires OS Linux|DAR
- */
 class CreateVendorSymlinkTest extends TestCase
 {
     /** @test */
