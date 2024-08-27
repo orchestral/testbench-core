@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 
 use function Orchestra\Testbench\join_paths;
+use function Orchestra\Testbench\laravel_vendor_exists;
 
 /**
  * @internal
@@ -44,7 +45,7 @@ final class CreateVendorSymlink
 
         $vendorLinkCreated = false;
 
-        if (! $this->vendorSymlinkExists($app)) {
+        if (! laravel_vendor_exists($app, $this->workingPath)) {
             if ($filesystem->exists($app->bootstrapPath(join_paths('cache', 'packages.php')))) {
                 $filesystem->delete($app->bootstrapPath(join_paths('cache', 'packages.php')));
             }
@@ -65,21 +66,5 @@ final class CreateVendorSymlink
         $app->flush();
 
         $app->instance('TESTBENCH_VENDOR_SYMLINK', $vendorLinkCreated);
-    }
-
-    /**
-     * Determine if vendor symlink exists on the skeleton.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return bool
-     */
-    public function vendorSymlinkExists(Application $app): bool
-    {
-        $filesystem = new Filesystem;
-
-        $appVendorPath = $app->basePath('vendor');
-
-        return $filesystem->isFile(join_paths($appVendorPath, 'autoload.php')) &&
-            $filesystem->hash(join_paths($appVendorPath, 'autoload.php')) === $filesystem->hash(join_paths($this->workingPath, 'autoload.php'));
     }
 }

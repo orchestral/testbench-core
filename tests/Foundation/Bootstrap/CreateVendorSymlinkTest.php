@@ -8,6 +8,7 @@ use Orchestra\Testbench\Foundation\Bootstrap\CreateVendorSymlink;
 use Orchestra\Testbench\TestCase;
 
 use function Orchestra\Testbench\container;
+use function Orchestra\Testbench\laravel_vendor_exists;
 use function Orchestra\Testbench\package_path;
 
 /**
@@ -18,17 +19,15 @@ class CreateVendorSymlinkTest extends TestCase
     /** @test */
     public function it_can_create_vendor_symlink()
     {
-        $filesystem = new Filesystem;
-
-        $stub = (new CreateVendorSymlink(package_path('vendor')));
+        $workingPath = package_path('vendor');
 
         $laravel = container()->createApplication();
 
-        if ($stub->vendorSymlinkExists($laravel)) {
-            $filesystem->delete($laravel->basePath('vendor'));
+        if (laravel_vendor_exists($laravel, $workingPath)) {
+            (new Filesystem)->delete($laravel->basePath('vendor'));
         }
 
-        $stub->bootstrap($laravel);
+       (new CreateVendorSymlink($workingPath))->bootstrap($laravel);
 
         $this->assertTrue($laravel['TESTBENCH_VENDOR_SYMLINK']);
     }
