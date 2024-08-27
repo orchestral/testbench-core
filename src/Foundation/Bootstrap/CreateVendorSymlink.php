@@ -50,13 +50,7 @@ final class CreateVendorSymlink
                 $filesystem->delete($app->basePath(join_paths('bootstrap', 'cache', 'packages.php')));
             }
 
-            if (is_link($appVendorPath)) {
-                if (windows_os()) {
-                    rmdir($appVendorPath);
-                } else {
-                    unlink($appVendorPath);
-                }
-            }
+            $this->deleteVendorSymlink($app);
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
@@ -70,5 +64,20 @@ final class CreateVendorSymlink
         $app->flush();
 
         $app->instance('TESTBENCH_VENDOR_SYMLINK', $vendorLinkCreated);
+    }
+
+    public function deleteVendorSymlink(Application $app): void
+    {
+        tap($app->basePath('vendor'), static function ($appVendorPath) use ($app) {
+            if (is_link($appVendorPath)) {
+                if (windows_os()) {
+                    @rmdir($appVendorPath);
+                } else {
+                    @unlink($appVendorPath);
+                }
+
+                clearstatcache(false, $app->basePath());
+            }
+        });
     }
 }
