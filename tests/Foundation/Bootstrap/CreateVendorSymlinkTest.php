@@ -20,22 +20,29 @@ class CreateVendorSymlinkTest extends TestCase
 
         $laravel = container()->createApplication();
 
+        $stub = (new CreateVendorSymlink($workingPath));
+
         if (laravel_vendor_exists($laravel, $workingPath)) {
-            (new Filesystem)->delete($laravel->basePath('vendor'));
+            $stub->deleteVendorSymlink($laravel);
         }
 
-        (new CreateVendorSymlink($workingPath))->bootstrap($laravel);
+        $stub->bootstrap($laravel);
 
         $this->assertTrue($laravel['TESTBENCH_VENDOR_SYMLINK']);
     }
 
     /** @test */
-    #[UsesVendor]
     public function it_can_skip_existing_vendor_symlink()
     {
+        $workingPath = package_path('vendor');
+
         $laravel = container()->createApplication();
 
-        (new CreateVendorSymlink(package_path('vendor')))->bootstrap($laravel);
+        if (! laravel_vendor_exists($laravel, $workingPath)) {
+            (new Filesystem)->link($workingPath, $laravel->basePath('vendor'));
+        }
+
+        (new CreateVendorSymlink($workingPath))->bootstrap($laravel);
 
         $this->assertFalse($laravel['TESTBENCH_VENDOR_SYMLINK']);
     }

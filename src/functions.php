@@ -333,6 +333,8 @@ function laravel_migration_path(?string $type = null): string
 /**
  * Determine if vendor symlink exists on the laravel application.
  *
+ * @api
+ *
  * @param  \Illuminate\Contracts\Foundation\Application  $app
  * @param  string|null  $workingPath
  * @return bool
