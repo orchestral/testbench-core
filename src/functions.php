@@ -5,6 +5,7 @@ namespace Orchestra\Testbench;
 use Closure;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
@@ -334,6 +335,26 @@ function laravel_migration_path(?string $type = null): string
     }
 
     return $path;
+}
+
+/**
+ * Determine if vendor symlink exists on the laravel application.
+ *
+ * @api
+ *
+ * @param  \Illuminate\Contracts\Foundation\Application  $app
+ * @param  string|null  $workingPath
+ * @return bool
+ */
+function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = null): bool
+{
+    $filesystem = new Filesystem;
+
+    $appVendorPath = $app->basePath('vendor');
+    $workingPath ??= package_path('vendor');
+
+    return $filesystem->isFile(join_paths($appVendorPath, 'autoload.php')) &&
+        $filesystem->hash(join_paths($appVendorPath, 'autoload.php')) === $filesystem->hash(join_paths($workingPath, 'autoload.php'));
 }
 
 /**
