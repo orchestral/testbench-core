@@ -9,7 +9,7 @@ use InvalidArgumentException;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Database\MigrateProcessor;
 
-use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\default_migration_path;
 use function Orchestra\Testbench\load_migration_paths;
 
 /**
@@ -124,7 +124,7 @@ trait InteractsWithMigrations
     protected function loadLaravelMigrationsWithoutRollback($database = []): void
     {
         $options = $this->resolveLaravelMigrationsOptions($database);
-        $options['--path'] = laravel_migration_path();
+        $options['--path'] = default_migration_path();
         $options['--realpath'] = true;
 
         $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($options));

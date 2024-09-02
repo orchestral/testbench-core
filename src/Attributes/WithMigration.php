@@ -6,7 +6,7 @@ use Attribute;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
 
-use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\default_migration_path;
 use function Orchestra\Testbench\load_migration_paths;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
@@ -37,7 +37,7 @@ final class WithMigration implements InvokableContract
         /** @var array<int, string> $types */
         $types = Collection::make($this->types)
             ->transform(static function ($type) {
-                return laravel_migration_path($type !== 'laravel' ? $type : null);
+                return default_migration_path($type !== 'laravel' ? $type : null);
             })->all();
 
         load_migration_paths($app, $types);
