@@ -339,13 +339,16 @@ function workbench_path($path = ''): string
  *
  * @api
  *
+ * @param  string|null  $type
  * @return string
  *
  * @throws \InvalidArgumentException
+ * 
+ * @deprecated
  */
-function laravel_migration_path(): string
+function laravel_migration_path(?string $type = null): string
 {
-    return realpath(base_path(join_paths('database', 'migrations')));
+    return default_migration_path($type);
 }
 
 /**
