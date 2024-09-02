@@ -251,6 +251,29 @@ function default_skeleton_path(array|string $path = ''): string
 }
 
 /**
+ * Get the migration path by type.
+ *
+ * @api
+ *
+ * @param  string|null  $type
+ * @return string
+ *
+ * @throws \InvalidArgumentException
+ */
+function default_migration_path(?string $type = null): string
+{
+    $path = realpath(
+        \is_null($type) ? base_path('migrations') : base_path(join_paths('migrations', $type))
+    );
+
+    if ($path === false) {
+        throw new InvalidArgumentException(\sprintf('Unable to resolve migration path for type [%s]', $type ?? 'laravel'));
+    }
+
+    return $path;
+}
+
+/**
  * Get the path to the package folder.
  *
  * @api
@@ -316,18 +339,12 @@ function workbench_path(array|string $path = ''): string
  * @return string
  *
  * @throws \InvalidArgumentException
+ *
+ * @deprecated
  */
 function laravel_migration_path(?string $type = null): string
 {
-    $path = realpath(
-        \is_null($type) ? base_path('migrations') : base_path(join_paths('migrations', $type))
-    );
-
-    if ($path === false) {
-        throw new InvalidArgumentException(\sprintf('Unable to resolve migration path for type [%s]', $type ?? 'laravel'));
-    }
-
-    return $path;
+    return default_migration_path($type);
 }
 
 /**
