@@ -253,7 +253,6 @@ function default_skeleton_path($path = ''): string
     return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
-
 /**
  * Get the migration path by type.
  *
@@ -343,7 +342,7 @@ function workbench_path($path = ''): string
  * @return string
  *
  * @throws \InvalidArgumentException
- * 
+ *
  * @deprecated
  */
 function laravel_migration_path(?string $type = null): string
