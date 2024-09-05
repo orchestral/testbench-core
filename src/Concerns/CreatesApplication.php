@@ -65,6 +65,16 @@ trait CreatesApplication
     }
 
     /**
+     * Get default faker locale.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return string|null
+     */
+    protected function getFakerLocale($app) {
+        return $app['config']['app.faker_locale'];
+    }
+
+    /**
      * Override application bindings.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -344,6 +354,7 @@ trait CreatesApplication
             $config->set([
                 'app.aliases' => $this->resolveApplicationAliases($app),
                 'app.providers' => $this->resolveApplicationProviders($app),
+                'app.faker_locale' => $this->getFakerLocale($app),
             ]);
 
             TestingFeature::run(
