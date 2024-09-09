@@ -19,13 +19,14 @@ class WithFakerTest extends TestCase
 
     /**
      * @requires PHP >= 8.0
+     *
      * @test
      */
     #[WithConfig('app.faker_locale', 'it_IT')]
-     public function it_can_override_faker_locale()
+    public function it_can_override_faker_locale()
     {
         $providerNames = array_map(function ($p) {
-            return get_class($p);
+            return \get_class($p);
         }, $this->faker()->getProviders());
 
         $this->assertContains('Faker\Provider\it_IT\Person', $providerNames);
