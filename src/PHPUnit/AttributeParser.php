@@ -27,17 +27,24 @@ class AttributeParser
     public static function forClass(string $className): array
     {
         $attributes = [];
+        $reflection = new ReflectionClass($className);
 
-        foreach ((new ReflectionClass($className))->getAttributes() as $attribute) {
-            if (! static::validAttribute($attribute->getName())) {
+        foreach ($reflection->getAttributes() as $attribute) {
+            if (!static::validAttribute($attribute->getName())) {
                 continue;
             }
 
             [$name, $instance] = static::resolveAttribute($attribute);
 
-            if (! \is_null($name) && ! \is_null($instance)) {
+            if (!\is_null($name) && !\is_null($instance)) {
                 array_push($attributes, ['key' => $name, 'instance' => $instance]);
             }
+        }
+
+        $parent = $reflection->getParentClass();
+
+        if ($parent && $parent->isSubclassOf(TestCase::class)) {
+            $attributes = [...static::forClass($parent->getName()), ...$attributes];
         }
 
         return $attributes;
