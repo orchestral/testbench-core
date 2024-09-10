@@ -8,7 +8,7 @@ use Orchestra\Testbench\TestCase;
 
 #[WithConfig('fake.parent_attribute', true)]
 #[WithConfig('fake.override_attribute', 'parent')]
-class ParentTest extends TestCase {}
+abstract class ParentTest extends TestCase {}
 
 #[WithConfig('fake.override_attribute', 'child')]
 class InheritanceTest extends ParentTest
