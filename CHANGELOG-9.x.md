@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.4.1
+
+Released: 2024-09-12
+
+### Changes
+
+* Add `concurrency.php` configuration based on Laravel Framework 11.23.
+
 ## 9.4.0
 
 Released: 2024-08-26
