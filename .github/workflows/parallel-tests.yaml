@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Paratest
         run: |
-          composer require "phpunit/phpunit:^10.5" --dev --no-interaction --no-update
+          composer require "phpunit/phpunit:>=10.1.0 <10.5.32" --dev --no-interaction --no-update
           composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
 
       - name: Install dependencies
