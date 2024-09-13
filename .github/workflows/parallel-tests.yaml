@@ -19,7 +19,7 @@ jobs:
         collision:
           - "^7.4"
         paratest:
-          - "^7.1.4"
+          - "^7.4.6"
         dependencies:
           - "highest"
         experimental:
