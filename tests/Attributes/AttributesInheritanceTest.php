@@ -5,13 +5,21 @@ namespace Orchestra\Testbench\Tests\Attributes;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 
-
 #[WithConfig('fake.parent_attribute', true)]
 #[WithConfig('fake.override_attribute', 'parent')]
-abstract class ParentTest extends TestCase {}
+abstract class AttributesInheritanceTestBaseTestCase extends TestCase
+{
+    /**
+     * @beforeClass
+     */
+    public static function defineTestingFeatures()
+    {
+        static::usesTestingFeature(new WithConfig('fake.override_attribute_2', 'parent'));
+    }
+}
 
 #[WithConfig('fake.override_attribute', 'child')]
-class InheritanceTest extends ParentTest
+class AttributesInheritanceTest extends AttributesInheritanceTestBaseTestCase
 {
     /** @test */
     public function it_can_see_parent_attributes() {
@@ -21,5 +29,6 @@ class InheritanceTest extends ParentTest
     /** @test */
     public function it_can_override_parent_attributes() {
         $this->assertSame('child', config('fake.override_attribute'));
+        $this->assertSame('child', config('fake.override_attribute_2'));
     }
 }
