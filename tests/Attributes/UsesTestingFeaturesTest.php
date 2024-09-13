@@ -18,9 +18,6 @@ abstract class BaseTestCase extends TestCase
     }
 }
 
-/**
- * @requires PHP >= 8.0
- */
 #[WithConfig('fake.override_attribute', 'child')]
 class UsesTestingFeaturesTest extends BaseTestCase
 {
@@ -33,12 +30,14 @@ class UsesTestingFeaturesTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_see_parent_attributes() {
+    public function it_can_see_parent_attributes()
+    {
         $this->assertSame(true, config('fake.parent_attribute'));
     }
 
     /** @test */
-    public function it_can_override_parent_attributes() {
+    public function it_can_override_parent_attributes()
+    {
         $this->assertSame('child', config('fake.override_attribute'));
         $this->assertSame('child', config('fake.override_attribute_2'));
     }

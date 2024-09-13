@@ -34,10 +34,10 @@ class DeprecatedException extends PHPUnitErrorException
                     return null;
                 }
 
-                return \sprintf('%s:%d', $trace['file'], $trace['line']);
+                return sprintf('%s:%d', $trace['file'], $trace['line']);
             })->filter()
             ->values();
 
-        return \sprintf('%s'.PHP_EOL.PHP_EOL.'%s', $this->getMessage(), $traces->join(PHP_EOL));
+        return sprintf('%s'.PHP_EOL.PHP_EOL.'%s', $this->getMessage(), $traces->join(PHP_EOL));
     }
 }
