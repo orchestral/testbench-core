@@ -201,7 +201,7 @@ function parse_environment_variables($variables): array
             } elseif (\is_null($value) || \in_array($value, ['null'])) {
                 $value = '(null)';
             } else {
-                $value = $key === 'APP_DEBUG' ? sprintf('(%s)', Str::of($value)->ltrim('(')->rtrim(')')) : "'{$value}'";
+                $value = $key === 'APP_DEBUG' ? \sprintf('(%s)', Str::of($value)->ltrim('(')->rtrim(')')) : "'{$value}'";
             }
 
             return "{$key}={$value}";
@@ -267,7 +267,7 @@ function default_migration_path(?string $type = null): string
     );
 
     if ($path === false) {
-        throw new InvalidArgumentException(sprintf('Unable to resolve migration path for type [%s]', $type ?? 'laravel'));
+        throw new InvalidArgumentException(\sprintf('Unable to resolve migration path for type [%s]', $type ?? 'laravel'));
     }
 
     return $path;

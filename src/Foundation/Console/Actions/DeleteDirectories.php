@@ -35,7 +35,7 @@ class DeleteDirectories extends Action
             ->each(function ($directory) {
                 if (! $this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
-                        sprintf('Directory [%s] doesn\'t exists', $this->pathLocation($directory)),
+                        \sprintf('Directory [%s] doesn\'t exists', $this->pathLocation($directory)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
@@ -45,7 +45,7 @@ class DeleteDirectories extends Action
                 $this->filesystem->deleteDirectory($directory);
 
                 $this->components?->task(
-                    sprintf('Directory [%s] has been deleted', $this->pathLocation($directory))
+                    \sprintf('Directory [%s] has been deleted', $this->pathLocation($directory))
                 );
             });
     }

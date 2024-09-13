@@ -36,7 +36,7 @@ class DeleteFiles extends Action
             ->each(function ($file) {
                 if (! $this->filesystem->exists($file)) {
                     $this->components?->twoColumnDetail(
-                        sprintf('File [%s] doesn\'t exists', $this->pathLocation($file)),
+                        \sprintf('File [%s] doesn\'t exists', $this->pathLocation($file)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
@@ -46,7 +46,7 @@ class DeleteFiles extends Action
                 $this->filesystem->delete($file);
 
                 $this->components?->task(
-                    sprintf('File [%s] has been deleted', $this->pathLocation($file))
+                    \sprintf('File [%s] has been deleted', $this->pathLocation($file))
                 );
             });
     }
