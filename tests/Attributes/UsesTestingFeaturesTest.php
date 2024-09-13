@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Attributes;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 
-abstract class BaseTestCase extends TestCase
+abstract class UsesTestingFeaturesTestBaseTestCase extends TestCase
 {
     /**
      * @beforeClass
@@ -19,7 +19,7 @@ abstract class BaseTestCase extends TestCase
 }
 
 #[WithConfig('fake.override_attribute', 'child')]
-class UsesTestingFeaturesTest extends BaseTestCase
+class UsesTestingFeaturesTest extends UsesTestingFeaturesTestBaseTestCase
 {
     /**
      * @beforeClass

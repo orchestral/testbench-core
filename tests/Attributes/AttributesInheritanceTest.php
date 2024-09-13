@@ -21,6 +21,14 @@ abstract class AttributesInheritanceTestBaseTestCase extends TestCase
 #[WithConfig('fake.override_attribute', 'child')]
 class AttributesInheritanceTest extends AttributesInheritanceTestBaseTestCase
 {
+    /**
+     * @beforeClass
+     */
+    public static function defineChildTestingFeatures()
+    {
+        static::usesTestingFeature(new WithConfig('fake.override_attribute_2', 'child'));
+    }
+
     /** @test */
     public function it_can_see_parent_attributes() {
         $this->assertSame(true, config('fake.parent_attribute'));
