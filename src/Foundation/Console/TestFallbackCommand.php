@@ -7,6 +7,7 @@ use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
 
+use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\phpunit_version_compare;
 
@@ -59,7 +60,7 @@ class TestFallbackCommand extends Command
      */
     public function handle()
     {
-        if (! $this->confirm('Running tests requires "nunomaduro/collision". Do you wish to install it as a dev dependency?')) {
+        if (! confirm('Running tests requires "nunomaduro/collision". Do you wish to install it as a dev dependency?')) {
             return 1;
         }
 
@@ -75,15 +76,13 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies()
     {
-        $version = '6.4';
+        $version = match (true) {
+            phpunit_version_compare('10.3', '>=') => '7.8',
+            phpunit_version_compare('10', '>=') => '7.4',
+            default => '6.4',
+        };
 
-        if (phpunit_version_compare('10.3', '>=')) {
-            $version = '7.8';
-        } elseif (phpunit_version_compare('10', '>=')) {
-            $version = '7.4';
-        }
-
-        $command = sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
+        $command = \sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 
         $process = Process::fromShellCommandline($command, null, null, null, null);
 

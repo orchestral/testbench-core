@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Console;
 use Orchestra\Testbench\Foundation\Console\Kernel as ConsoleKernel;
 use Throwable;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 final class Kernel extends ConsoleKernel
 {

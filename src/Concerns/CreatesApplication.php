@@ -10,8 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\ServiceProvider;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
+use Orchestra\Testbench\Attributes\RequiresLaravel;
+use Orchestra\Testbench\Attributes\ResolvesLaravel;
+use Orchestra\Testbench\Attributes\UsesFrameworkConfiguration;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
@@ -123,14 +127,15 @@ trait CreatesApplication
      */
     final protected function resolveApplicationAliases($app): array
     {
-        $aliases = new Collection($this->getApplicationAliases($app));
-        $overrides = $this->overrideApplicationAliases($app);
+        $aliases = Collection::make(
+            $this->getApplicationAliases($app)
+        )->merge($this->getPackageAliases($app));
 
-        if (! empty($overrides)) {
+        if (! empty($overrides = $this->overrideApplicationAliases($app))) {
             $aliases->transform(static fn ($alias, $name) => $overrides[$name] ?? $alias);
         }
 
-        return $aliases->merge($this->getPackageAliases($app))->all();
+        return $aliases->filter()->all();
     }
 
     /**
@@ -163,7 +168,7 @@ trait CreatesApplication
      */
     protected function getApplicationProviders($app)
     {
-        return $app['config']['app.providers'];
+        return $app['config']['app.providers'] ?? ServiceProvider::defaultProviders()->toArray();
     }
 
     /**
@@ -187,14 +192,15 @@ trait CreatesApplication
      */
     final protected function resolveApplicationProviders($app): array
     {
-        $providers = new Collection($this->getApplicationProviders($app));
-        $overrides = $this->overrideApplicationProviders($app);
+        $providers = Collection::make(
+            $this->getApplicationProviders($app)
+        )->merge($this->getPackageProviders($app));
 
-        if (! empty($overrides)) {
+        if (! empty($overrides = $this->overrideApplicationProviders($app))) {
             $providers->transform(static fn ($provider) => $overrides[$provider] ?? $provider);
         }
 
-        return $providers->merge($this->getPackageProviders($app))->all();
+        return $providers->filter()->values()->all();
     }
 
     /**
@@ -300,7 +306,10 @@ trait CreatesApplication
 
         TestingFeature::run(
             testCase: $this,
-            attribute: fn () => $this->parseTestMethodAttributes($app, RequiresEnv::class),
+            attribute: function () use ($app) {
+                $this->parseTestMethodAttributes($app, RequiresEnv::class);
+                $this->parseTestMethodAttributes($app, RequiresLaravel::class);
+            },
         );
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
@@ -318,6 +327,14 @@ trait CreatesApplication
      */
     protected function resolveApplicationConfiguration($app)
     {
+        TestingFeature::run(
+            testCase: $this,
+            attribute: function () use ($app) {
+                $this->parseTestMethodAttributes($app, ResolvesLaravel::class); /** @phpstan-ignore method.notFound */
+                $this->parseTestMethodAttributes($app, UsesFrameworkConfiguration::class); /** @phpstan-ignore method.notFound */
+            }
+        );
+
         $app->make('Illuminate\Foundation\Bootstrap\LoadConfiguration')->bootstrap($app);
         $app->make('Orchestra\Testbench\Bootstrap\ConfigureRay')->bootstrap($app);
         $app->make('Orchestra\Testbench\Foundation\Bootstrap\SyncDatabaseEnvironmentVariables')->bootstrap($app);

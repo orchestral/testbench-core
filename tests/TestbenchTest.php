@@ -27,7 +27,7 @@ class TestbenchTest extends TestCase
     {
         $dispatcher = $this->app->make(QueueingDispatcher::class);
 
-        $dispatcher->dispatchToQueue(new CustomPayloadJob());
+        $dispatcher->dispatchToQueue(new CustomPayloadJob);
     }
 
     protected function registerCustomQueuePayload($app)

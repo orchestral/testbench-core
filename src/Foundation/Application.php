@@ -20,7 +20,7 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 /**
  * @api
@@ -312,7 +312,7 @@ class Application
     {
         $this->resolveApplicationConfigurationFromTrait($app);
 
-        (new Bootstrap\EnsuresDefaultConfiguration())->bootstrap($app);
+        (new Bootstrap\EnsuresDefaultConfiguration)->bootstrap($app);
     }
 
     /**

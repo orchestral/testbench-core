@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Workbench;
 
 use Composer\InstalledVersions;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
@@ -49,6 +50,15 @@ class DiscoversTest extends TestCase
     }
 
     /** @test */
+    public function it_can_resolve_errors_views_from_discovers()
+    {
+        $this->get('/root')
+            ->assertStatus(418)
+            ->assertSeeText('I\'m a teapot')
+            ->assertDontSeeText('412');
+    }
+
+    /** @test */
     public function it_can_resolve_route_name_from_discovers()
     {
         $this->assertSame(url('/testbench'), route('testbench'));
@@ -84,5 +94,22 @@ class DiscoversTest extends TestCase
     public function it_can_discover_translation_files()
     {
         $this->assertSame('Good Morning', __('workbench::welcome.morning'));
+    }
+
+    /**
+     * @test
+     *
+     * @testWith ["Workbench\\Database\\Factories\\Illuminate\\Foundation\\Auh\\UserFactory", "Illuminate\\Foundation\\Auh\\User"]
+     *           ["Workbench\\Database\\Factories\\UserFactory", "Workbench\\App\\Models\\User"]
+     */
+    public function it_can_discover_database_factories_from_model(string $factory, string $model)
+    {
+        $this->assertSame($factory, Factory::resolveFactoryName($model));
+    }
+
+    /** @test */
+    public function it_can_discover_model_from_factory()
+    {
+        $this->assertSame('Workbench\App\Models\User', \Workbench\Database\Factories\UserFactory::new()->modelName());
     }
 }

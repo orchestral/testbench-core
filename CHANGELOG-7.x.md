@@ -2,6 +2,77 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.46.0
+
+Released: 2024-08-26
+
+### Added
+
+* Added `artisan` binary to Laravel skeleton.
+* Added `Orchestra\Testbench\join_paths()` function.
+* Added `Orchestra\Testbench\Attributes\UsesVendor` attribute class.
+* Added `defineStashRoutes()` method to register adhoc route for test.
+
+### Changes
+
+* Change `afterApplicationCreated()`, `afterApplicationRefreshed()`, and `beforeApplicationDestroyed()` methods visibility from `protected` to `public`.
+* Improvements to `Orchestra\Testbench\default_skeleton_path()`, `Orchestra\Testbench\package_path()`, and `Orchestra\Testbench\workbench_path()` usage based on new `Orchestra\Testbench\join_paths()` function.
+
+## 7.45.0
+
+Released: 2024-08-14
+
+### Changes
+
+* Update `Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile` to remove `.gitkeep` file when directory contain one or more files.
+* Code Improvements.
+
+## 7.44.1
+
+Released: 2024-07-19
+
+### Fixes
+
+* Fixes `InteractsWithPublishedFiles` should only flush published files within `database/migrations` directory.
+
+## 7.44.0
+
+Released: 2024-07-13
+
+### Added
+
+* Added new attributes:
+    - `Orchestra\Testbench\Attributes\ResolvesLaravel`
+    - `Orchestra\Testbench\Attributes\UsesFrameworkConfiguration`
+* Allows to discover `factories` using Workbench to map `Workbench\App\Models` to `Workbench\Database\Factories` classes.
+* Allows to auto discover console command classes from `workbench/app/Console/Commands`.
+
+### Changes
+
+* Implements `JsonSerializable` to `Orchestra\Testbench\Foundation\UndefinedValue`.
+* Update skeleton to use `workbench` as default environment value.
+* Allow `Orchestra\Testbench\Attributes\Define` and `Orchestra\Testbench\Attributes\DefineEnvironment` to be used on the class level by [@danjohnson95](https://github.com/danjohnson95)
+
+### Fixes
+
+* Ensure `usesTestingFeature()` attribute registration is loaded before class attributes instead of method attributes.
+
+## 7.43.3
+
+Released: 2024-06-04
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Workench\Workbench::applicationExceptionHandler()` usage to detect `Workbench\App\Exceptions\Handler` class.
+
+## 7.43.2
+
+Released: 2024-06-01
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\Attributes\RequiresLaravel` attribute usage.
+
 ## 7.43.1
 
 Released: 2024-05-23

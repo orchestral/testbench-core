@@ -38,7 +38,7 @@ trait WithSqlite
                             {
                                 public function dropForeign($index)
                                 {
-                                    return new Fluent();
+                                    return new Fluent;
                                 }
                             };
                         }

@@ -20,7 +20,7 @@ jobs:
         experimental:
           - true
 
-    name: PHP${{ matrix.php }} on ${{ matrix.os }}
+    name: PHP:${{ matrix.php }} on ${{ matrix.os }}
 
     steps:
       - name: Checkout code

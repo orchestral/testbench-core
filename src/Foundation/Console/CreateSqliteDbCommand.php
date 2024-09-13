@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 #[AsCommand(name: 'package:create-sqlite-db', description: 'Create sqlite database file')]
 class CreateSqliteDbCommand extends Command

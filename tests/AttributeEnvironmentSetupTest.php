@@ -7,6 +7,7 @@ use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[Define('env', 'classConfig')]
 class AttributeEnvironmentSetupTest extends TestCase
 {
     /**
@@ -17,6 +18,12 @@ class AttributeEnvironmentSetupTest extends TestCase
         static::usesTestingFeature(new Define('env', 'globalConfig'));
 
         parent::setUp();
+    }
+
+    /** @test */
+    public function it_loads_class_config_helper()
+    {
+        $this->assertSame('testbench', config('testbench.class'));
     }
 
     /** @test */
@@ -58,6 +65,17 @@ class AttributeEnvironmentSetupTest extends TestCase
         $this->assertSame('testbench', config('testbench.global'));
         $this->assertNull(config('testbench.one'));
         $this->assertNull(config('testbench.two'));
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function classConfig($app)
+    {
+        $app['config']->set('testbench.class', 'testbench');
     }
 
     /**

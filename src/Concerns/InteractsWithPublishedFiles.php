@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Testbench\join_paths;
 
 /**
  * @internal
@@ -19,10 +19,19 @@ trait InteractsWithPublishedFiles
     protected $interactsWithPublishedFilesTeardownRegistered = false;
 
     /**
+     * List of existing migration files.
+     *
+     * @var array<int, string>|null
+     */
+    protected $cachedExistingMigrationsFiles;
+
+    /**
      * Setup Interacts with Published Files environment.
      */
     protected function setUpInteractsWithPublishedFiles(): void
     {
+        $this->cacheExistingMigrationsFiles();
+
         $this->cleanUpPublishedFiles();
         $this->cleanUpPublishedMigrationFiles();
     }
@@ -38,6 +47,21 @@ trait InteractsWithPublishedFiles
         }
 
         $this->interactsWithPublishedFilesTeardownRegistered = true;
+    }
+
+    /**
+     * Cache existing migration files.
+     *
+     * @internal
+     *
+     * @return void
+     */
+    protected function cacheExistingMigrationsFiles()
+    {
+        $this->cachedExistingMigrationsFiles ??= Collection::make(
+            $this->app['files']->files($this->app->databasePath('migrations'))
+        )->filter(static fn ($file) => str_ends_with($file, '.php'))
+            ->all();
     }
 
     /**
@@ -223,6 +247,7 @@ trait InteractsWithPublishedFiles
     {
         $this->app['files']->delete(
             Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
+                ->reject(fn ($file) => \in_array($file, $this->cachedExistingMigrationsFiles))
                 ->filter(static fn ($file) => str_ends_with($file, '.php'))
                 ->all()
         );

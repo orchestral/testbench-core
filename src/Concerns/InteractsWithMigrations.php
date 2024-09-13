@@ -9,7 +9,7 @@ use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Database\MigrateProcessor;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
-use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\default_migration_path;
 use function Orchestra\Testbench\load_migration_paths;
 
 /**
@@ -33,7 +33,7 @@ trait InteractsWithMigrations
     {
         if ($this->usesSqliteInMemoryDatabaseConnection()) {
             $this->afterApplicationCreated(static function () {
-                static::usesTestingFeature(new ResetRefreshDatabaseState());
+                static::usesTestingFeature(new ResetRefreshDatabaseState);
             });
         }
     }
@@ -151,7 +151,7 @@ trait InteractsWithMigrations
         }
 
         $options = $this->resolveLaravelMigrationsOptions($database);
-        $options['--path'] = laravel_migration_path();
+        $options['--path'] = default_migration_path();
         $options['--realpath'] = true;
 
         $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($options));
