@@ -5,21 +5,21 @@ namespace Orchestra\Testbench\Tests\Attributes;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 
-abstract class UsesTestingFeaturesTestBaseTestCase extends TestCase
+#[WithConfig('fake.parent_attribute', true)]
+#[WithConfig('fake.override_attribute', 'parent')]
+abstract class AttributesInheritanceTestBaseTestCase extends TestCase
 {
     /**
      * @beforeClass
      */
     public static function defineTestingFeatures()
     {
-        static::usesTestingFeature(new WithConfig('fake.parent_attribute', true));
-        static::usesTestingFeature(new WithConfig('fake.override_attribute', 'parent'));
         static::usesTestingFeature(new WithConfig('fake.override_attribute_2', 'parent'));
     }
 }
 
 #[WithConfig('fake.override_attribute', 'child')]
-class UsesTestingFeaturesTest extends UsesTestingFeaturesTestBaseTestCase
+class AttributesInheritanceTest extends AttributesInheritanceTestBaseTestCase
 {
     /**
      * @beforeClass
