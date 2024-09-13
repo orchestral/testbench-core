@@ -17,11 +17,7 @@ class WithFakerTest extends TestCase
         $this->assertInstanceOf(Generator::class, $this->faker);
     }
 
-    /**
-     * @requires PHP >= 8.0
-     *
-     * @test
-     */
+    /** @test */
     #[WithConfig('app.faker_locale', 'it_IT')]
     public function it_can_override_faker_locale()
     {
