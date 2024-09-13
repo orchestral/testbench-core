@@ -30,13 +30,13 @@ class AttributeParser
         $reflection = new ReflectionClass($className);
 
         foreach ($reflection->getAttributes() as $attribute) {
-            if (!static::validAttribute($attribute->getName())) {
+            if (! static::validAttribute($attribute->getName())) {
                 continue;
             }
 
             [$name, $instance] = static::resolveAttribute($attribute);
 
-            if (!\is_null($name) && !\is_null($instance)) {
+            if (! \is_null($name) && ! \is_null($instance)) {
                 array_push($attributes, ['key' => $name, 'instance' => $instance]);
             }
         }

@@ -30,12 +30,14 @@ class AttributesInheritanceTest extends AttributesInheritanceTestBaseTestCase
     }
 
     /** @test */
-    public function it_can_see_parent_attributes() {
+    public function it_can_see_parent_attributes()
+    {
         $this->assertSame(true, config('fake.parent_attribute'));
     }
 
     /** @test */
-    public function it_can_override_parent_attributes() {
+    public function it_can_override_parent_attributes()
+    {
         $this->assertSame('child', config('fake.override_attribute'));
         $this->assertSame('child', config('fake.override_attribute_2'));
     }
