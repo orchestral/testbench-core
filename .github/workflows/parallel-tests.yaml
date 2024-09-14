@@ -58,11 +58,3 @@ jobs:
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
         env:
           RAY_ENABLED: false
-        if: matrix.dependencies == 'highest'
-
-      - name: Execute tests (without deprecations)
-        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session,deprecations --no-coverage
-        env:
-          RAY_ENABLED: false
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
