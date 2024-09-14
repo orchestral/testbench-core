@@ -4,12 +4,12 @@ namespace Orchestra\Testbench\Tests\Attributes;
 
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\BeforeClass;
+use PHPUnit\Framework\Attributes\Test;
 
 abstract class UsesTestingFeaturesTestBaseTestCase extends TestCase
 {
-    /**
-     * @beforeClass
-     */
+    #[BeforeClass]
     public static function defineTestingFeatures()
     {
         static::usesTestingFeature(new WithConfig('fake.parent_attribute', true));
@@ -21,21 +21,19 @@ abstract class UsesTestingFeaturesTestBaseTestCase extends TestCase
 #[WithConfig('fake.override_attribute', 'child')]
 class UsesTestingFeaturesTest extends UsesTestingFeaturesTestBaseTestCase
 {
-    /**
-     * @beforeClass
-     */
+    #[BeforeClass]
     public static function defineChildTestingFeatures()
     {
         static::usesTestingFeature(new WithConfig('fake.override_attribute_2', 'child'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_see_parent_attributes()
     {
         $this->assertSame(true, config('fake.parent_attribute'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_override_parent_attributes()
     {
         $this->assertSame('child', config('fake.override_attribute'));
