@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Concerns;
 
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
-use Illuminate\Tests\Testbench\Attributes\RequiresDatabase;
 use Orchestra\Testbench\Attributes\DefineDatabase;
+use Orchestra\Testbench\Attributes\RequiresDatabase;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Features\TestingFeature;

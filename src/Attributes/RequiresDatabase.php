@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Tests\Testbench\Attributes;
+namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
 use Closure;
