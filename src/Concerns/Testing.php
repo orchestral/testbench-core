@@ -23,6 +23,7 @@ trait Testing
     use ApplicationTestingHooks;
     use CreatesApplication;
     use HandlesAnnotations;
+    use HandlesAssertions;
     use HandlesAttributes;
     use HandlesDatabases;
     use HandlesRoutes;
