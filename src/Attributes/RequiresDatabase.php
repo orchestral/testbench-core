@@ -37,7 +37,7 @@ final class RequiresDatabase implements ActionableContract
         $connection = DB::connection($this->driver);
 
         if ($this->default === true && (DB::connection() !== $connection)) {
-            call_user_func($action, 'markTestSkipped', [sprintf("Requires %s as the default database connection", $connection->getName())]);
+            \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s as the default database connection', $connection->getName())]);
         }
 
         if (
@@ -48,7 +48,7 @@ final class RequiresDatabase implements ActionableContract
             }
 
             if (! version_compare($connection->getServerVersion(), $matches['version'], $matches['operator'])) {
-                call_user_func($action, 'markTestSkipped', [sprintf("Requires %s:%s", $connection->getName(), $this->versionRequirement)]);
+                \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s:%s', $connection->getName(), $this->versionRequirement)]);
             }
         }
     }
