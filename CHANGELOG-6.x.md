@@ -2,7 +2,9 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 6.53.0
+
+Released: 2024-09-23
 
 ### Added
 
@@ -13,6 +15,10 @@ This changelog references the relevant changes (bug and security fixes) done to 
 ### Changes
 
 * Allow Testbench to delete `vendor` symlink directory if it was created while running tests.
+
+### Fixes
+
+* Fixes `view.paths` configuration not being updated to include `workbench/resources/views` due to IoC booting sequence.
 
 ### Deprecated
 
