@@ -6,7 +6,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ### Added
 
-* Added `markTestSkippedWhen()` assertion helper to conditionally handle `markTestSkipped()`.
+* Added `markTestSkippedWhen()` and `markTestSkippedUnless()` assertion helper to conditionally handle `markTestSkipped()`.
 * Added `Orchestra\Testbench\default_migration_path()` helper function.
 * Added `Orchestra\Testbench\laravel_vendor_exists()` helper function.
 
