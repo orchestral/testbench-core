@@ -13,7 +13,7 @@ trait HandlesAssertions
      */
     protected function markTestSkippedUnless($condition, string $message): void
     {
-        if (!value($condition)) {
+        if (! value($condition)) {
             $this->markTestSkipped($message);
         }
     }

@@ -17,14 +17,19 @@ final class RequiresDatabase implements ActionableContract
      *
      * @param  string  $driver
      * @param  string|null  $versionRequirement
-     * @param  bool  $default
+     * @param  string|null  $connection
+     * @param  bool|null  $default
      */
     public function __construct(
         public array|string $driver,
         public ?string $versionRequirement = null,
         public ?string $connection = null,
-        public bool $default = true
+        public ?bool $default = null
     ) {
+        if (\is_null($connection) && \is_string($driver)) {
+            $this->default = true;
+        }
+
         if (\is_array($driver) && $default === true) {
             throw new InvalidArgumentException('Unable to validate default connection when given an array of database drivers');
         }
@@ -42,7 +47,7 @@ final class RequiresDatabase implements ActionableContract
         $connection = DB::connection($this->connection);
 
         if (
-            $this->default === true
+            ($this->default ?? false) === true
             && \is_string($this->driver)
             && $connection->getDriverName() !== $this->driver
         ) {
