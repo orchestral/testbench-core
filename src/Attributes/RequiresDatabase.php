@@ -25,7 +25,7 @@ final class RequiresDatabase implements ActionableContract
         public ?string $connection = null,
         public bool $default = true
     ) {
-        if (is_array($driver) && $default === true) {
+        if (\is_array($driver) && $default === true) {
             throw new InvalidArgumentException('Unable to validate default connection when given an array of database drivers');
         }
     }
@@ -43,31 +43,31 @@ final class RequiresDatabase implements ActionableContract
 
         if (
             $this->default === true
-            && is_string($this->driver)
+            && \is_string($this->driver)
             && $connection->getDriverName() !== $this->driver
         ) {
             \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s as the default database connection', $connection->getName())]);
         }
 
+        $drivers = Arr::wrap($this->driver);
         $usingCorrectConnection = false;
 
-        foreach (Arr::wrap($this->driver) as $driver) {
+        foreach ($drivers as $driver) {
             if ($connection->getDriverName() === $driver) {
                 $usingCorrectConnection = true;
             }
         }
 
-
         if ($usingCorrectConnection === false) {
             \call_user_func(
                 $action,
                 'markTestSkipped',
-                [\sprintf('Requires %s to use [%s] database connection', $connection->getName(), Arr::join($driver, ','))]
+                [\sprintf('Requires %s to use [%s] database connection', $connection->getName(), Arr::join($drivers, ','))]
             );
         }
 
         if (
-            ! is_null($this->versionRequirement)
+            ! \is_null($this->versionRequirement)
             && preg_match('/(?P<operator>[<>=!]{0,2})\s*(?P<version>[\d\.-]+(dev|(RC|alpha|beta)[\d\.])?)[ \t]*\r?$/m', $this->versionRequirement, $matches)
         ) {
             if (empty($matches['operator'])) {
