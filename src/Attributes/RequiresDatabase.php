@@ -84,7 +84,8 @@ final class RequiresDatabase implements ActionableContract
                 \call_user_func(
                     $action,
                     'markTestSkipped',
-                    [\sprintf('Requires %s:%s to be configured for "%s" database connection', $this->driver, $this->versionRequirement, $connection->getName())]);
+                    [\sprintf('Requires %s:%s to be configured for "%s" database connection', $this->driver, $this->versionRequirement, $connection->getName())]
+                );
             }
         }
     }
