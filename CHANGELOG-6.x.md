@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Added `markTestSkippedWhen()` assertion helper to conditionally handle `markTestSkipped()`.
+* Added `Orchestra\Testbench\default_migration_path()` helper function.
+* Added `Orchestra\Testbench\laravel_vendor_exists()` helper function.
+
+### Changes
+
+* Allow Testbench to delete `vendor` symlink directory if it was created while running tests.
+
+### Deprecated
+
+* Deprecated `Orchestra\Testbench\laravel_migration_path()`, use `default_migration_path()` instead.
+
 ## 6.52.0
 
 Released: 2024-08-26
