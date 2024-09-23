@@ -53,6 +53,8 @@ final class RequiresDatabase implements ActionableContract
             && $connection->getDriverName() !== $this->driver
         ) {
             \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s as the default database connection', $connection->getName())]);
+
+            return;
         }
 
         $drivers = Collection::make(
@@ -63,8 +65,10 @@ final class RequiresDatabase implements ActionableContract
             \call_user_func(
                 $action,
                 'markTestSkipped',
-                [\sprintf('Requires %s to use [%s] database connection', $connection->getName(), Arr::join(Arr::wrap($this->driver), ','))]
+                [\sprintf('Requires %s to use [%s] database connection', $connection->getName(), Arr::join(Arr::wrap($this->driver), '/'))]
             );
+
+            return;
         }
 
         if (
