@@ -2,6 +2,35 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.47.0
+
+Released: 2024-09-23
+
+### Added
+
+* Added `markTestSkippedWhen()` and `markTestSkippedUnless()` assertion helper to conditionally handle `markTestSkipped()`.
+* Added `Orchestra\Testbench\default_migration_path()` helper function.
+* Added `Orchestra\Testbench\laravel_vendor_exists()` helper function.
+* Allows TestCase to inherit Attributes defined on parent TestCase by @BlackLanzer in #221.
+
+### Changes
+
+* Allow Testbench to delete `vendor` symlink directory if it was created while running tests.
+
+### Fixes
+
+* Fixes `view.paths` configuration not being updated to include `workbench/resources/views` due to IoC booting sequence.
+
+### Deprecated
+
+* Deprecated `Orchestra\Testbench\laravel_migration_path()`, use `default_migration_path()` instead.
+
+<!--
+
+#### New Contributors
+* @BlackLanzer made their first contribution in https://github.com/orchestral/testbench-core/pull/233
+-->
+
 ## 7.46.0
 
 Released: 2024-08-26
