@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Attributes;
 use Attribute;
 use Closure;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
@@ -54,20 +55,15 @@ final class RequiresDatabase implements ActionableContract
             \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s as the default database connection', $connection->getName())]);
         }
 
-        $drivers = Arr::wrap($this->driver);
-        $usingCorrectConnection = false;
+        $drivers = Collection::make(
+            Arr::wrap($this->driver)
+        )->filter(fn ($driver) => $driver === $connection->getDriverName());
 
-        foreach ($drivers as $driver) {
-            if ($connection->getDriverName() === $driver) {
-                $usingCorrectConnection = true;
-            }
-        }
-
-        if ($usingCorrectConnection === false) {
+        if ($drivers->isEmpty()) {
             \call_user_func(
                 $action,
                 'markTestSkipped',
-                [\sprintf('Requires %s to use [%s] database connection', $connection->getName(), Arr::join($drivers, ','))]
+                [\sprintf('Requires %s to use [%s] database connection', $connection->getName(), Arr::join(Arr::wrap($this->driver), ','))]
             );
         }
 
