@@ -19,7 +19,6 @@ class RequiresDatabaseTest extends TestCase
 
         $this->addToAssertionCount(1);
 
-
         $stub = new RequiresDatabase(['pgsql', 'sqlite']);
 
         $stub->handle($this->app, function () {
@@ -46,7 +45,6 @@ class RequiresDatabaseTest extends TestCase
             $this->assertSame(['Requires sqlite to use [mysql/mariadb] database connection'], $parameters);
         });
     }
-
 
     #[Test]
     public function it_can_invalidate_unmatched_database_version()
