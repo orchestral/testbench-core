@@ -20,6 +20,7 @@ final class RequiresDatabase implements ActionableContract
     public function __construct(
         public string $driver,
         public ?string $versionRequirement = null,
+        public ?string $connection = null,
         public bool $default = true
     ) {
         //
@@ -34,10 +35,14 @@ final class RequiresDatabase implements ActionableContract
      */
     public function handle($app, Closure $action): void
     {
-        $connection = DB::connection($this->driver);
+        $connection = DB::connection($this->connection);
 
-        if ($this->default === true && (DB::connection() !== $connection)) {
-            \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s as the default database connection', $connection->getName())]);
+        if ($connection->getDriverName() !== $this->driver) {
+            if ($this->default === true) {
+                \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s as the default database connection', $connection->getName())]);
+            } else {
+                \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s to use %s database connection', $connection->getName(), $this->driver)]);
+            }
         }
 
         if (
