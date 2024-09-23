@@ -37,14 +37,14 @@ class RequiresDatabaseTest extends TestCase
 
         $stub->handle($this->app, function ($method, $parameters) {
             $this->assertSame('markTestSkipped', $method);
-            $this->assertSame(['Requires sqlite as the default database connection'], $parameters);
+            $this->assertSame(['Requires mysql to configured for "testing" database connection'], $parameters);
         });
 
         $stub = new RequiresDatabase(['mysql', 'mariadb']);
 
         $stub->handle($this->app, function ($method, $parameters) {
             $this->assertSame('markTestSkipped', $method);
-            $this->assertSame(['Requires sqlite to use [mysql/mariadb] database connection'], $parameters);
+            $this->assertSame(['Requires [mysql/mariadb] to be configured for "testing" database connection'], $parameters);
         });
     }
 
@@ -55,7 +55,7 @@ class RequiresDatabaseTest extends TestCase
 
         $stub->handle($this->app, function ($method, $parameters) {
             $this->assertSame('markTestSkipped', $method);
-            $this->assertSame(['Requires sqlite:<2.0.0'], $parameters);
+            $this->assertSame(['Requires sqlite:<2.0.0 to be configured for "testing" database connection'], $parameters);
         });
     }
 }

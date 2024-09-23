@@ -52,7 +52,7 @@ final class RequiresDatabase implements ActionableContract
             && \is_string($this->driver)
             && $connection->getDriverName() !== $this->driver
         ) {
-            \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s as the default database connection', $connection->getName())]);
+            \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s to configured for "%s" database connection', $this->driver, $connection->getName())]);
 
             return;
         }
@@ -65,14 +65,15 @@ final class RequiresDatabase implements ActionableContract
             \call_user_func(
                 $action,
                 'markTestSkipped',
-                [\sprintf('Requires %s to use [%s] database connection', $connection->getName(), Arr::join(Arr::wrap($this->driver), '/'))]
+                [\sprintf('Requires [%s] to be configured for "%s" database connection', Arr::join(Arr::wrap($this->driver), '/'), $connection->getName())]
             );
 
             return;
         }
 
         if (
-            ! \is_null($this->versionRequirement)
+            is_string($this->driver)
+            && ! \is_null($this->versionRequirement)
             && preg_match('/(?P<operator>[<>=!]{0,2})\s*(?P<version>[\d\.-]+(dev|(RC|alpha|beta)[\d\.])?)[ \t]*\r?$/m', $this->versionRequirement, $matches)
         ) {
             if (empty($matches['operator'])) {
@@ -80,7 +81,10 @@ final class RequiresDatabase implements ActionableContract
             }
 
             if (! version_compare($connection->getServerVersion(), $matches['version'], $matches['operator'])) {
-                \call_user_func($action, 'markTestSkipped', [\sprintf('Requires %s:%s', $connection->getName(), $this->versionRequirement)]);
+                \call_user_func(
+                    $action,
+                    'markTestSkipped',
+                    [\sprintf('Requires %s:%s to be configured for "%s" database connection', $this->driver, $this->versionRequirement, $connection->getName())]);
             }
         }
     }
