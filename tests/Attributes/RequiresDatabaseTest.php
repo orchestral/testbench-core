@@ -3,9 +3,11 @@
 namespace Orchestra\Testbench\Tests\Attributes;
 
 use Orchestra\Testbench\Attributes\RequiresDatabase;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
+#[WithConfig('database.default', 'testing')]
 class RequiresDatabaseTest extends TestCase
 {
     #[Test]
