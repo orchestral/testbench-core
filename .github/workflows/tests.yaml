@@ -22,19 +22,11 @@ jobs:
           - 8.3
         phpunit:
           - "~10.1.0"
-          - "~10.2.0"
-          - "~10.3.0"
-          - "~10.4.0"
           - "~10.5.0"
           - "10.5.4"
         dependencies:
           - "highest"
           - "lowest"
-        exclude:
-          - os: "windows-latest"
-            phpunit: "~10.2.0"
-          - os: "windows-latest"
-            phpunit: "~10.3.0"
         experimental:
           - false
 
