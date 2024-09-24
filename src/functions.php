@@ -5,6 +5,7 @@ namespace Orchestra\Testbench;
 use Closure;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
@@ -243,6 +244,29 @@ function default_skeleton_path(array|string $path = ''): string
 }
 
 /**
+ * Get the migration path by type.
+ *
+ * @api
+ *
+ * @param  string|null  $type
+ * @return string
+ *
+ * @throws \InvalidArgumentException
+ */
+function default_migration_path(?string $type = null): string
+{
+    $path = realpath(
+        \is_null($type) ? base_path('migrations') : base_path(join_paths('migrations', $type))
+    );
+
+    if ($path === false) {
+        throw new InvalidArgumentException(\sprintf('Unable to resolve migration path for type [%s]', $type ?? 'laravel'));
+    }
+
+    return $path;
+}
+
+/**
  * Get the path to the package folder.
  *
  * @api
@@ -308,18 +332,32 @@ function workbench_path(array|string $path = ''): string
  * @return string
  *
  * @throws \InvalidArgumentException
+ *
+ * @deprecated
  */
 function laravel_migration_path(?string $type = null): string
 {
-    $path = realpath(
-        \is_null($type) ? base_path('migrations') : base_path(join_paths('migrations', $type))
-    );
+    return default_migration_path($type);
+}
 
-    if ($path === false) {
-        throw new InvalidArgumentException(\sprintf('Unable to resolve migration path for type [%s]', $type ?? 'laravel'));
-    }
+/**
+ * Determine if vendor symlink exists on the laravel application.
+ *
+ * @api
+ *
+ * @param  \Illuminate\Contracts\Foundation\Application  $app
+ * @param  string|null  $workingPath
+ * @return bool
+ */
+function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = null): bool
+{
+    $filesystem = new Filesystem;
 
-    return $path;
+    $appVendorPath = $app->basePath('vendor');
+    $workingPath ??= package_path('vendor');
+
+    return $filesystem->isFile(join_paths($appVendorPath, 'autoload.php')) &&
+        $filesystem->hash(join_paths($appVendorPath, 'autoload.php')) === $filesystem->hash(join_paths($workingPath, 'autoload.php'));
 }
 
 /**
