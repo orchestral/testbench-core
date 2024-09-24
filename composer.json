@@ -58,7 +58,7 @@
         "nunomaduro/collision": "<6.4.0 || >=7.0.0 <7.4.0 || >=8.0.0",
         "orchestra/testbench-dusk": "<8.21.0 || >=9.0.0",
         "orchestra/workbench": "<1.0.0",
-        "phpunit/phpunit": "<9.6.0 || >=10.6.0"
+        "phpunit/phpunit": "<9.6.0 || >=10.3.0 <10.3.3 || >=10.6.0"
     },
     "suggest": {
         "ext-pcntl": "Required to use all features of the console signal trapping.",
