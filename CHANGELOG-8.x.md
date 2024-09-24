@@ -4,6 +4,14 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 8.28.0
 
+Released: 2024-09-24
+
+### Fixes
+
+* Fixes compatibility with PHPUnit 10.3.
+
+## 8.28.0
+
 Released: 2024-09-23
 
 ### Added
