@@ -2,7 +2,7 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## 8.28.0
+## 8.28.1
 
 Released: 2024-09-24
 
