@@ -24,6 +24,7 @@ jobs:
           - "~11.1.0"
           - "~11.2.0"
           - "~11.3.0"
+          - "~11.4.0"
         dependencies:
           - "highest"
         experimental:
