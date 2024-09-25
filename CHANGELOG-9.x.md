@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.5.1
+
+Released: 2025-09-25
+
+### Changes
+
+* Update `config/concurrency.php` configuration file.
+
 ## 9.5.0
 
 Released: 2024-09-23
