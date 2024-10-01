@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
+use Orchestra\Testbench\Attributes\RequiresDatabase;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Features\TestingFeature;
@@ -26,6 +27,11 @@ trait HandlesDatabases
         if (\is_null($app = $this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
+
+        TestingFeature::run(
+            testCase: $this,
+            attribute: fn () => $this->parseTestMethodAttributes($app, RequiresDatabase::class),
+        );
 
         $app['events']->listen(DatabaseRefreshed::class, function () {
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();

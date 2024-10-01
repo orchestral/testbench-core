@@ -21,7 +21,7 @@ jobs:
           - "^7.3"
         phpunit:
           - "^10.5"
-          - "~11.0.0"
+          - "^11.0"
         dependencies:
           - "highest"
         experimental:
@@ -42,13 +42,13 @@ jobs:
 
       - name: Install Paratest
         run: |
-          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" "phpunit/phpunit:${{ matrix.phpunit }}" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
 
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --prefer-stable --no-cache"
+          composer-options: "--prefer-dist --prefer-stable --no-cache --with=phpunit/phpunit:${{ matrix.phpunit }}"
 
       - name: Installed dependencies
         run: |
@@ -58,11 +58,10 @@ jobs:
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
         env:
           RAY_ENABLED: false
-        if: matrix.dependencies == 'highest'
+        if: matrix.phpunit == '^10.5'
 
-      - name: Execute tests (without deprecations)
-        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session,deprecations --no-coverage
+      - name: Execute tests (with deprecations)
+        run: ./testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
         env:
           RAY_ENABLED: false
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
+        if: matrix.phpunit != '^10.5'
