@@ -37,7 +37,8 @@
     "require": {
         "php": "^8.2",
         "composer-runtime-api": "^2.2",
-        "symfony/polyfill-php83": "^1.28"
+        "symfony/polyfill-php83": "^1.31",
+        "symfony/polyfill-php84": "^1.31"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
