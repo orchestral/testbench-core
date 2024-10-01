@@ -36,11 +36,9 @@
     ],
     "require": {
         "php": "^8.0",
-        "symfony/polyfill-php83": "^1.31",
-        "symfony/polyfill-php84": "^1.31"
+        "composer-runtime-api": "^2.2"
     },
     "require-dev": {
-        "composer-runtime-api": "^2.2",
         "fakerphp/faker": "^1.21",
         "laravel/framework": "^9.52.16",
         "laravel/pint": "^1.4",
