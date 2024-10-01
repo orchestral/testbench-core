@@ -73,6 +73,7 @@ trait InteractsWithPHPUnit
      *
      * @deprecated
      */
+    #[\Deprecated(since: '9.0.0')]
     protected function resolvePhpUnitAnnotations(): Collection
     {
         $instance = new ReflectionClass($this);

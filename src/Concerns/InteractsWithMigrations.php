@@ -94,8 +94,6 @@ trait InteractsWithMigrations
      *
      * @param  array<string, mixed>|string  $paths
      * @return void
-     *
-     * @deprecated
      */
     protected function loadMigrationsWithoutRollbackFrom(array|string $paths): void
     {
@@ -144,21 +142,6 @@ trait InteractsWithMigrations
      */
     protected function loadLaravelMigrations(array|string $database = []): void
     {
-        $this->loadLaravelMigrationsWithoutRollback($database);
-    }
-
-    /**
-     * Migrate Laravel's default migrations without rollback.
-     *
-     * @api
-     *
-     * @param  array<string, mixed>|string  $database
-     * @return void
-     *
-     * @deprecated
-     */
-    protected function loadLaravelMigrationsWithoutRollback(array|string $database = []): void
-    {
         if (\is_null($this->app)) {
             throw ApplicationNotAvailableException::make(__METHOD__);
         }
@@ -176,6 +159,22 @@ trait InteractsWithMigrations
     }
 
     /**
+     * Migrate Laravel's default migrations without rollback.
+     *
+     * @api
+     *
+     * @param  array<string, mixed>|string  $database
+     * @return void
+     *
+     * @deprecated
+     */
+    #[\Deprecated(message: 'Use `loadLaravelMigrations()` instead', since: '9.0.7')]
+    protected function loadLaravelMigrationsWithoutRollback(array|string $database = []): void
+    {
+        $this->loadLaravelMigrations($database);
+    }
+
+    /**
      * Migrate all Laravel's migrations.
      *
      * @api
@@ -185,7 +184,16 @@ trait InteractsWithMigrations
      */
     protected function runLaravelMigrations(array|string $database = []): void
     {
-        $this->runLaravelMigrationsWithoutRollback($database);
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
+        $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
+        $migrator->up();
+
+        array_unshift($this->cachedTestMigratorProcessors, $migrator);
+
+        $this->resetApplicationArtisanCommands($this->app);
     }
 
     /**
@@ -198,18 +206,10 @@ trait InteractsWithMigrations
      *
      * @deprecated
      */
+    #[\Deprecated(message: 'Use `runLaravelMigrations()` method instead', since: '9.0.7')]
     protected function runLaravelMigrationsWithoutRollback(array|string $database = []): void
     {
-        if (\is_null($this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
-
-        $migrator = new MigrateProcessor($this, $this->resolveLaravelMigrationsOptions($database));
-        $migrator->up();
-
-        array_unshift($this->cachedTestMigratorProcessors, $migrator);
-
-        $this->resetApplicationArtisanCommands($this->app);
+        $this->runLaravelMigrations($database);
     }
 
     /**

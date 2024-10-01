@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 /**
  * @deprecated
  */
+#[\Deprecated(since: '9.0.0')]
 trait HandlesAnnotations
 {
     /**
