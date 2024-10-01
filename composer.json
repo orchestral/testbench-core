@@ -35,7 +35,9 @@
         "testbench"
     ],
     "require": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "symfony/polyfill-php83": "^1.31",
+        "symfony/polyfill-php84": "^1.31"
     },
     "require-dev": {
         "composer-runtime-api": "^2.2",
