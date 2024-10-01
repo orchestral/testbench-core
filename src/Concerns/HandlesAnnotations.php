@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 /**
  * @deprecated
  */
-#[\Deprecated(since: '9.0.0')]
 trait HandlesAnnotations
 {
     /**
@@ -19,6 +18,7 @@ trait HandlesAnnotations
      * @param  \Illuminate\Foundation\Application  $app
      * @param  string  $name
      */
+    #[\Deprecated(since: '9.0.0')]
     protected function parseTestMethodAnnotations($app, string $name, ?Closure $callback = null): void
     {
         $this->resolvePhpUnitAnnotations()
@@ -38,5 +38,6 @@ trait HandlesAnnotations
      *
      * @return \Illuminate\Support\Collection<string, mixed>
      */
+    #[\Deprecated(since: '9.0.0')]
     abstract protected function resolvePhpUnitAnnotations(): Collection;
 }

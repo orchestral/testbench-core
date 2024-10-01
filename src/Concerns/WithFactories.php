@@ -9,7 +9,6 @@ use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 /**
  * @deprecated
  */
-#[\Deprecated(since: '9.0.0')]
 trait WithFactories
 {
     /**
