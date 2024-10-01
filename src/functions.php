@@ -78,7 +78,7 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
 function remote(array|string $command, array|string $env = []): Process
 {
     $phpBinary = transform(
-        \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder)->find(),
+        \defined('PHP_BINARY') ? PHP_BINARY : \Illuminate\Support\php_binary(),
         static fn ($phpBinary) => ProcessUtils::escapeArgument((string) $phpBinary)
     );
 
