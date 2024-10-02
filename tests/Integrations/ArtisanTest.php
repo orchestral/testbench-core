@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
+use function Illuminate\Support\php_binary;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\remote;
 
@@ -17,7 +18,7 @@ class ArtisanTest extends TestCase
     #[Group('core')]
     public function it_can_generate_the_same_output()
     {
-        $phpBinary = \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder)->find();
+        $phpBinary = \defined('PHP_BINARY') ? PHP_BINARY : php_binary();
 
         $remote = remote('--version --no-ansi')->mustRun();
 
