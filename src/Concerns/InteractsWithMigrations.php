@@ -83,8 +83,17 @@ trait InteractsWithMigrations
             return;
         }
 
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         /** @var array<string, mixed>|string $paths */
-        $this->loadMigrationsWithoutRollbackFrom($paths);
+        $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
+        $migrator->up();
+
+        array_unshift($this->cachedTestMigratorProcessors, $migrator);
+
+        $this->resetApplicationArtisanCommands($this->app);
     }
 
     /**
@@ -95,6 +104,7 @@ trait InteractsWithMigrations
      * @param  array<string, mixed>|string  $paths
      * @return void
      */
+    #[\Deprecated(message: 'Use `loadMigrationsFrom()` instead', since: '9.0.7')]
     protected function loadMigrationsWithoutRollbackFrom(array|string $paths): void
     {
         if (\is_null($this->app)) {
