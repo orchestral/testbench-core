@@ -12,6 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           - "ubuntu-latest"
@@ -25,8 +26,8 @@ jobs:
           - "~11.4.0"
         dependencies:
           - "highest"
-        experimental: false
-        fast-finish: false
+        experimental:
+          - false
 
     name: PHP:${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }}
 
