@@ -27,8 +27,8 @@ jobs:
         dependencies:
           - "highest"
           - "lowest"
-        experimental:
-          - false
+        experimental: false
+        fast-finish: false
 
     name: PHP:${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
