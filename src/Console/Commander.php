@@ -237,7 +237,7 @@ class Commander
         Signals::whenAvailable(function () {
             $this->signals ??= new Signals(new SignalRegistry);
 
-            Collection::make(Arr::wrap([SIGINT, SIGTERM, SIGQUIT]))
+            Collection::make(Arr::wrap([SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT]))
                 ->each(
                     fn ($signal) => $this->signals->register($signal, function () use ($signal) {
                         $this->handleTerminatingConsole();
@@ -250,6 +250,10 @@ class Commander
                         };
 
                         $this->untrap();
+
+                        if (in_array($status, [130])) {
+                            exit;
+                        }
 
                         exit($status);
                     })
