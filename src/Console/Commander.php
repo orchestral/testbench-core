@@ -251,7 +251,7 @@ class Commander
 
                         $this->untrap();
 
-                        if (in_array($status, [130])) {
+                        if (\in_array($status, [130])) {
                             exit;
                         }
 
