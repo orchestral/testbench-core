@@ -3,11 +3,13 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Composer\Config as ComposerConfig;
+use Illuminate\Console\Signals;
 use Illuminate\Foundation\Console\ServeCommand as Command;
 use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
 use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\package_path;
 
@@ -37,6 +39,27 @@ class ServeCommand extends Command
 
         return tap(parent::execute($input, $output), function ($exitCode) use ($input, $output) {
             event(new ServeCommandEnded($input, $output, $this->components, $exitCode));
+        });
+    }
+
+    /**
+     * Start a new server process.
+     *
+     * @param  bool  $hasEnvironment
+     * @return \Symfony\Component\Process\Process
+     */
+    protected function startProcess($hasEnvironment)
+    {
+        return tap(parent::startProcess($hasEnvironment), function (Process $process) {
+            $this->untrap();
+
+            Signals::whenAvailable(function () use ($process) {
+                $this->trap([SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT], function ($signal) use ($process) {
+                    if ($process->isRunning()) {
+                        $process->stop(10, $signal);
+                    }
+                });
+            });
         });
     }
 
