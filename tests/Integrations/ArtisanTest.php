@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests\Integrations;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 use function Illuminate\Support\php_binary;
