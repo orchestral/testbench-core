@@ -1,11 +1,2 @@
 parameters:
-	ignoreErrors:
-		-
-			message: "#^Unable to resolve the template type TGroupKey in call to method Illuminate\\\\Support\\\\Collection\\<int\\|string,array\\<int\\|string, array\\<string, class\\-string\\<Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\|class\\-string\\<Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\>\\:\\:groupBy\\(\\)$#"
-			count: 2
-			path: src/Foundation/Application.php
-
-		-
-			message: "#^Unable to resolve the template type TGroupKey in call to method Illuminate\\\\Support\\\\Collection\\<int\\|string,array\\<int\\|string, array\\<string, class\\-string\\<Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\|class\\-string\\<Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\|Orchestra\\\\Testbench\\\\Contracts\\\\Attributes\\\\TestingFeature\\>\\>\\:\\:groupBy\\(\\)$#"
-			count: 4
-			path: src/TestCase.php
+	ignoreErrors: []
