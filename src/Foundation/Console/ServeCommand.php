@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Composer\Config as ComposerConfig;
-use Illuminate\Console\Signals;
 use Illuminate\Foundation\Console\ServeCommand as Command;
 use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
 use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
