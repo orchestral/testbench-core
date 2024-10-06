@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.47.2
+
+Released: 2024-10-06
+
+### Fixes
+
+*  Prevent seeder from being executed when `shouldSeed()` exists and return `false`.
+
 ## 7.47.1
 
 Released: 2024-10-05
