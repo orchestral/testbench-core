@@ -83,6 +83,10 @@ trait InteractsWithMigrations
             return;
         }
 
+        if (\is_null($this->app)) {
+            throw ApplicationNotAvailableException::make(__METHOD__);
+        }
+
         /** @var array<string, mixed>|string $paths */
         $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
         $migrator->up();
@@ -139,6 +143,21 @@ trait InteractsWithMigrations
         array_unshift($this->cachedTestMigratorProcessors, $migrator);
 
         $this->resetApplicationArtisanCommands($this->app);
+    }
+
+    /**
+     * Migrate Laravel's default migrations without rollback.
+     *
+     * @api
+     *
+     * @param  array<string, mixed>|string  $database
+     * @return void
+     *
+     * @deprecated
+     */
+    protected function loadLaravelMigrationsWithoutRollback(array|string $database = []): void
+    {
+        $this->loadLaravelMigrations($database);
     }
 
     /**

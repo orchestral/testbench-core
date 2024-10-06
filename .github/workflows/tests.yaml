@@ -25,9 +25,17 @@ jobs:
           - "~11.0.0"
           - "~11.2.0"
           - "~11.3.0"
+          - "~11.4.0"
         dependencies:
           - "highest"
           - "lowest"
+        exclude:
+          - phpunit: "~11.1.0"
+            dependencies: "lowest"
+          - phpunit: "~11.2.0"
+            dependencies: "lowest"
+          - phpunit: "~11.3.0"
+            dependencies: "lowest"
         experimental:
           - false
 

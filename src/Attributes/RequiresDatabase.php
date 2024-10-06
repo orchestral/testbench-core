@@ -72,7 +72,7 @@ final class RequiresDatabase implements ActionableContract
         }
 
         if (
-            is_string($this->driver)
+            \is_string($this->driver)
             && ! \is_null($this->versionRequirement)
             && preg_match('/(?P<operator>[<>=!]{0,2})\s*(?P<version>[\d\.-]+(dev|(RC|alpha|beta)[\d\.])?)[ \t]*\r?$/m', $this->versionRequirement, $matches)
         ) {
