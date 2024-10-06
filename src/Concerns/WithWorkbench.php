@@ -2,11 +2,13 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Illuminate\Foundation\Testing\Traits\CanConfigureMigrationCommands;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Workbench\Workbench;
 
 trait WithWorkbench
 {
+    use InteractsWithPHPUnit;
     use InteractsWithWorkbench;
 
     /**
@@ -26,8 +28,14 @@ trait WithWorkbench
 
         Workbench::start($app, $config);
 
+        $seeders = $config['seeders'] ?? false;
+
+        if (static::usesTestingConcern(CanConfigureMigrationCommands::class) && $this->shouldSeed() === false) {
+            $seeders = false;
+        }
+
         (new LoadMigrationsFromArray(
-            $config['migrations'] ?? [], $config['seeders'] ?? false,
+            $config['migrations'] ?? [], $seeders,
         ))->bootstrap($app);
     }
 
