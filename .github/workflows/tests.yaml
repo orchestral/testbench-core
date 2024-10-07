@@ -28,6 +28,13 @@ jobs:
         dependencies:
           - "highest"
           - "lowest"
+        exclude:
+          - phpunit: "~11.1.0"
+            dependencies: "lowest"
+          - phpunit: "~11.2.0"
+            dependencies: "lowest"
+          - phpunit: "~11.3.0"
+            dependencies: "lowest"
         experimental:
           - false
 

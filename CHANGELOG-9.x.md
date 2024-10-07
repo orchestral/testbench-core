@@ -2,6 +2,26 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.5.3
+
+Released: 2024-10-06
+
+### Fixes
+
+*  Prevent seeder from being executed when `shouldSeed()` exists and return `false`.
+
+## 9.5.2
+
+Released: 2024-10-05
+
+### Changes
+
+* Listen to `SIGHUP`, `SIGUSR1`, and `SIGUSR2` signals via Testbench CLI.
+
+### Fixes
+
+* Fixes Testbench CLI signals via `serve` command to reset published `.env` and `testbench.yaml`.
+
 ## 9.5.1
 
 Released: 2025-09-25
