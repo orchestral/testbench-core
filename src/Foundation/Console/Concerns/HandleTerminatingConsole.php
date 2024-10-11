@@ -35,5 +35,7 @@ trait HandleTerminatingConsole
             ->each(static function ($callback) {
                 \call_user_func($callback);
             });
+
+        $this->beforeTerminatingCallbacks = [];
     }
 }
