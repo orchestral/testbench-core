@@ -103,6 +103,8 @@ trait InteractsWithMigrations
      *
      * @param  array<string, mixed>|string  $paths
      * @return void
+     *
+     * @deprecated
      */
     #[\Deprecated(message: 'Use `loadMigrationsFrom()` instead', since: '9.0.7')]
     protected function loadMigrationsWithoutRollbackFrom(array|string $paths): void
