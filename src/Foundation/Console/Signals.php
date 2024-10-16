@@ -14,7 +14,9 @@ class Signals extends \Illuminate\Console\Signals
     #[\Override]
     public static function whenAvailable($callback, $default = null)
     {
-        $resolver = static::$availabilityResolver ?? fn () => false;
+        if (\is_null($resolver = static::$availabilityResolver)) {
+            return;
+        }
 
         if ($resolver()) {
             $callback();

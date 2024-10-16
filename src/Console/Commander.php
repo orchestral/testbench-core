@@ -258,13 +258,17 @@ class Commander
                     $this->handleTerminatingConsole();
                     Workbench::flush();
 
-                    $exitCode = match ($event) {
+                    $status = match ($event) {
                         PHP_WINDOWS_EVENT_CTRL_C => 572,
                         PHP_WINDOWS_EVENT_CTRL_BREAK => 572,
                         default => 0,
                     };
 
-                    exit($exitCode);
+                    if (\in_array($status, [0])) {
+                        exit;
+                    }
+
+                    exit($status);
                 });
             }
         });
