@@ -224,9 +224,11 @@ class Commander
      */
     protected function prepareCommandSignals(): void
     {
-        Signals::resolveAvailabilityUsing(static function () {
+        $shouldUsePcntl = static function () {
             return \extension_loaded('pcntl');
-        });
+        };
+
+        Signals::resolveAvailabilityUsing($shouldUsePcntl);
 
         Signals::whenAvailable(function () {
             $this->signals ??= new Signals(new SignalRegistry);
@@ -253,5 +255,24 @@ class Commander
                     })
                 );
         });
+
+        if (
+            value($shouldUsePcntl) === false
+            && PHP_SAPI === 'cli'
+            && function_exists('sapi_windows_set_ctrl_handler')
+        ) {
+            sapi_windows_set_ctrl_handler(function ($event) {
+                $this->handleTerminatingConsole();
+                Workbench::flush();
+
+                $exitCode = match ($event) {
+                    PHP_WINDOWS_EVENT_CTRL_C => 572,
+                    PHP_WINDOWS_EVENT_CTRL_BREAK => 572,
+                    default => 0,
+                }
+
+                exit($exitCode);
+            });
+        }
     }
 }
