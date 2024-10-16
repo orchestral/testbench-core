@@ -260,7 +260,7 @@ class Commander
             value($shouldUsePcntl) === false
             && windows_os()
             && PHP_SAPI === 'cli'
-            && function_exists('sapi_windows_set_ctrl_handler')
+            && \function_exists('sapi_windows_set_ctrl_handler')
         ) {
             sapi_windows_set_ctrl_handler(function ($event) {
                 $this->handleTerminatingConsole();
