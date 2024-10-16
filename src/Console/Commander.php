@@ -258,6 +258,7 @@ class Commander
 
         if (
             value($shouldUsePcntl) === false
+            && windows_os()
             && PHP_SAPI === 'cli'
             && function_exists('sapi_windows_set_ctrl_handler')
         ) {
@@ -269,7 +270,7 @@ class Commander
                     PHP_WINDOWS_EVENT_CTRL_C => 572,
                     PHP_WINDOWS_EVENT_CTRL_BREAK => 572,
                     default => 0,
-                }
+                };
 
                 exit($exitCode);
             });
