@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\Concerns\InteractsWithSignals;
-use Illuminate\Console\Signals;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Filesystem\Filesystem;
@@ -15,6 +14,7 @@ use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
+use Orchestra\Testbench\Foundation\Console\Signals;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -254,26 +254,21 @@ class Commander
                         exit($status);
                     })
                 );
+        }, function () {
+            if (windows_os() && PHP_SAPI === 'cli' && \function_exists('sapi_windows_set_ctrl_handler')) {
+                sapi_windows_set_ctrl_handler(function ($event) {
+                    $this->handleTerminatingConsole();
+                    Workbench::flush();
+
+                    $exitCode = match ($event) {
+                        PHP_WINDOWS_EVENT_CTRL_C => 572,
+                        PHP_WINDOWS_EVENT_CTRL_BREAK => 572,
+                        default => 0,
+                    };
+
+                    exit($exitCode);
+                });
+            }
         });
-
-        if (
-            value($shouldUsePcntl) === false
-            && windows_os()
-            && PHP_SAPI === 'cli'
-            && \function_exists('sapi_windows_set_ctrl_handler')
-        ) {
-            sapi_windows_set_ctrl_handler(function ($event) {
-                $this->handleTerminatingConsole();
-                Workbench::flush();
-
-                $exitCode = match ($event) {
-                    PHP_WINDOWS_EVENT_CTRL_C => 572,
-                    PHP_WINDOWS_EVENT_CTRL_BREAK => 572,
-                    default => 0,
-                };
-
-                exit($exitCode);
-            });
-        }
     }
 }
