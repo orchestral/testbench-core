@@ -89,6 +89,7 @@ transform([
     PHP_EOL.'DB_USERNAME=' => PHP_EOL.'# DB_USERNAME=',
     PHP_EOL.'DB_PASSWORD=' => PHP_EOL.'# DB_PASSWORD=',
     PHP_EOL.'SESSION_DRIVER=database' => PHP_EOL.'SESSION_DRIVER=cookie',
+    PHP_EOL.'PHP_CLI_SERVER_WORKERS=' => PHP_EOL.'# PHP_CLI_SERVER_WORKERS=',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
 
 Illuminate\Support\Collection::make([
