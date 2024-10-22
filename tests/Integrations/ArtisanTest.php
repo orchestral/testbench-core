@@ -24,6 +24,7 @@ class ArtisanTest extends TestCase
         $artisan = (new Process(
             command: [$phpBinary, 'artisan', '--version', '--no-ansi'],
             cwd: package_path('laravel'),
+            env: ['TESTBENCH_WORKING_PATH' => package_path()],
         ))->mustRun();
 
         $this->assertSame(json_decode($artisan->getOutput(), true), json_decode($remote->getOutput(), true));

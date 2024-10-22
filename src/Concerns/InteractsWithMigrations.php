@@ -146,21 +146,6 @@ trait InteractsWithMigrations
     }
 
     /**
-     * Migrate Laravel's default migrations without rollback.
-     *
-     * @api
-     *
-     * @param  array<string, mixed>|string  $database
-     * @return void
-     *
-     * @deprecated
-     */
-    protected function loadLaravelMigrationsWithoutRollback(array|string $database = []): void
-    {
-        $this->loadLaravelMigrations($database);
-    }
-
-    /**
      * Migrate all Laravel's migrations.
      *
      * @api
