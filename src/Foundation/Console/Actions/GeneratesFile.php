@@ -36,7 +36,7 @@ class GeneratesFile extends Action
      * @param  string|false|null  $to
      * @return void
      */
-    public function handle($from, $to): void
+    public function handle(string|false|null $from, string|false|null $to): void
     {
         if (! \is_string($from) || ! \is_string($to)) {
             return;
