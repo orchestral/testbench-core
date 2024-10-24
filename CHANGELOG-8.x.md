@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.28.4
+
+Released: 2024-10-24
+
+### Changes
+
+* Improves `CTRL+C` and `CTRL+BREAK` supports on Windows without `pcntl` extension.
+* `Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile` should be able to handle `$from` and `$to` when given as `false` or `null`.
+
 ## 8.28.3
 
 Released: 2024-10-06
