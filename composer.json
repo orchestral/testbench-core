@@ -84,6 +84,12 @@
         ],
         "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@clear",
+            "@putenv PHP_CLI_SERVER_WORKERS=5",
+            "@php testbench serve --ansi"
+        ],
         "lint": [
             "@php vendor/bin/pint",
             "@php vendor/bin/phpstan analyse --verbose"
