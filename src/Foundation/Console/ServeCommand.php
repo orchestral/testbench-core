@@ -26,7 +26,7 @@ class ServeCommand extends Command
 
         $workers = getenv('PHP_CLI_SERVER_WORKERS');
 
-        if (! empty($workers) && \is_int($workers) && ! isset($_ENV['PHP_CLI_SERVER_WORKERS'])) {
+        if (\is_string($workers) && filter_var($workers, FILTER_VALIDATE_INT) && ! isset($_ENV['PHP_CLI_SERVER_WORKERS'])) {
             $_ENV['PHP_CLI_SERVER_WORKERS'] = (int) $workers;
         }
 
