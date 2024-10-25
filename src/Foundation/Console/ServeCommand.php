@@ -7,7 +7,6 @@ use Illuminate\Foundation\Console\ServeCommand as Command;
 use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
 use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
@@ -27,7 +26,7 @@ class ServeCommand extends Command
 
         $workers = getenv('PHP_CLI_SERVER_WORKERS');
 
-        if (! empty($workers) && is_int($workers) && ! isset($_ENV['PHP_CLI_SERVER_WORKERS'])) {
+        if (! empty($workers) && \is_int($workers) && ! isset($_ENV['PHP_CLI_SERVER_WORKERS'])) {
             $_ENV['PHP_CLI_SERVER_WORKERS'] = (int) $workers;
         }
 
