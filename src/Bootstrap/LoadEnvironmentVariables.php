@@ -12,12 +12,7 @@ use function Orchestra\Testbench\join_paths;
  */
 final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables
 {
-    /**
-     * Create a Dotenv instance.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return \Dotenv\Dotenv
-     */
+    /** {@inheritDoc} */
     protected function createDotenv($app)
     {
         /** @phpstan-ignore method.notFound, method.notFound */

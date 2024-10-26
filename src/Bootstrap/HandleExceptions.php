@@ -31,17 +31,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         $this->testbench = $testbench;
     }
 
-    /**
-     * Reports a deprecation to the "deprecations" logger.
-     *
-     * @param  string  $message
-     * @param  string  $file
-     * @param  int  $line
-     * @param  int  $level
-     * @return void
-     *
-     * @throws \Orchestra\Testbench\Exceptions\DeprecatedException
-     */
+    /** {@inheritDoc} */
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
         parent::handleDeprecationError($message, $file, $line, $level);

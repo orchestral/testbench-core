@@ -35,11 +35,7 @@ class TestCommand extends Command
      */
     protected $description = 'Run the package tests';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
+    /** {@inheritDoc} */
     public function __construct()
     {
         parent::__construct();
@@ -49,11 +45,7 @@ class TestCommand extends Command
         }
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
+    /** {@inheritDoc} */
     public function handle()
     {
         Env::enablePutenv();
@@ -78,12 +70,7 @@ class TestCommand extends Command
             ->first() ?? './';
     }
 
-    /**
-     * Get the array of arguments for running PHPUnit.
-     *
-     * @param  array  $options
-     * @return array
-     */
+    /** {@inheritDoc} */
     protected function phpunitArguments($options)
     {
         $file = $this->phpUnitConfigurationFile();
@@ -95,12 +82,7 @@ class TestCommand extends Command
             ->all();
     }
 
-    /**
-     * Get the array of arguments for running Paratest.
-     *
-     * @param  array  $options
-     * @return array
-     */
+    /** {@inheritDoc} */
     protected function paratestArguments($options)
     {
         $file = $this->phpUnitConfigurationFile();
@@ -115,11 +97,7 @@ class TestCommand extends Command
             ])->all();
     }
 
-    /**
-     * Get the array of environment variables for running PHPUnit.
-     *
-     * @return array
-     */
+    /** {@inheritDoc} */
     protected function phpunitEnvironmentVariables()
     {
         return Collection::make(defined_environment_variables())
@@ -132,11 +110,7 @@ class TestCommand extends Command
             ->all();
     }
 
-    /**
-     * Get the array of environment variables for running Paratest.
-     *
-     * @return array
-     */
+    /** {@inheritDoc} */
     protected function paratestEnvironmentVariables()
     {
         return Collection::make(defined_environment_variables())

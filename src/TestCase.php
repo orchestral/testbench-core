@@ -148,12 +148,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
         static::tearDownAfterClassUsingPHPUnit();
     }
 
-    /**
-     * This method is called when a test method did not execute successfully.
-     *
-     * @param  \Throwable  $exception
-     * @return void
-     */
+    /** {@inheritDoc} */
     protected function onNotSuccessfulTest(Throwable $exception): void
     {
         parent::onNotSuccessfulTest(
