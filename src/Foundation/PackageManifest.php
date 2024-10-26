@@ -32,11 +32,8 @@ class PackageManifest extends IlluminatePackageManifest
     ];
 
     /**
-     * Create a new package manifest instance.
+     * {@inheritDoc}
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  string  $basePath
-     * @param  string  $manifestPath
      * @param  \Orchestra\Testbench\Contracts\TestCase|object|null  $testbench
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
@@ -90,11 +87,7 @@ class PackageManifest extends IlluminatePackageManifest
         return $this;
     }
 
-    /**
-     * Get the current package manifest.
-     *
-     * @return array
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function getManifest()
     {
@@ -117,11 +110,7 @@ class PackageManifest extends IlluminatePackageManifest
             })->filter()->all();
     }
 
-    /**
-     * Get all of the package names that should be ignored.
-     *
-     * @return array
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function packagesToIgnore()
     {
@@ -159,14 +148,7 @@ class PackageManifest extends IlluminatePackageManifest
         return null;
     }
 
-    /**
-     * Write the given manifest array to disk.
-     *
-     * @param  array  $manifest
-     * @return void
-     *
-     * @throws \Exception
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function write(array $manifest)
     {
