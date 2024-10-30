@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.5.6
+
+Released: 2024-10-31
+
+### Fixed
+
+* Fixed `#[WithMigration('queue')]` should load the default migrations.
+
 ## 9.5.5
 
 Released: 2024-10-25
