@@ -102,7 +102,7 @@
             "@php vendor/bin/phpstan analyse --verbose"
         ],
         "test": [
-            "@php vendor/bin/phpunit -c ./ --color"
+            "@php vendor/bin/phpunit --no-coverage --color -c ./"
         ],
         "ci": [
             "@composer audit",

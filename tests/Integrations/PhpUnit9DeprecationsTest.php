@@ -3,17 +3,25 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use ErrorException;
-use Illuminate\Support\Facades\Log;
-use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Orchestra\Testbench\TestCase;
+use Illuminate\Support\Facades\Log;
+use Orchestra\Testbench\Attributes\WithConfig;
+use Orchestra\Testbench\Exceptions\DeprecatedException;
 
 /**
  * @group deprecations
  *
  * @requires PHPUnit < 10
  */
+#[WithConfig('ray.send_deprecated_notices_to_ray', false)]
 class PhpUnit9DeprecationsTest extends TestCase
 {
+    /** {@inheritDoc} */
+    public function ignorePackageDiscoveriesFrom()
+    {
+        return ['*', 'spatie/laravel-ray'];
+    }
+
     /** @test */
     public function handle_php81_deprecations_using_logs()
     {
