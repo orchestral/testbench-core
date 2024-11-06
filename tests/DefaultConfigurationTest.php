@@ -60,7 +60,7 @@ class DefaultConfigurationTest extends TestCase
     #[Test]
     public function it_populate_expected_session_defaults()
     {
-        $this->assertEquals(Env::has('TESTBENCH_PACKAGE_TESTER') ? 'database' : 'array', $this->app['config']['session.driver']);
+        $this->assertEquals(Env::has('TESTBENCH_PACKAGE_TESTER') ? 'cookie' : 'array', $this->app['config']['session.driver']);
     }
 
     #[Test]
