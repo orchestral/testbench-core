@@ -4,7 +4,10 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
+
+use function Orchestra\Testbench\join_paths;
 
 #[AsCommand(name: 'package:drop-sqlite-db', description: 'Drop sqlite database file')]
 class DropSqliteDbCommand extends Command
@@ -14,7 +17,9 @@ class DropSqliteDbCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'package:drop-sqlite-db';
+    protected $signature = 'package:drop-sqlite-db
+                                {--database=database.sqlite : Set the database name}
+                                {--all : Delete all SQLite databases}';
 
     /**
      * Execute the console command.
@@ -24,12 +29,34 @@ class DropSqliteDbCommand extends Command
      */
     public function handle(Filesystem $filesystem)
     {
+        $databasePath = $this->laravel->databasePath();
+
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             components: $this->components,
             workingPath: $this->laravel->basePath(),
-        ))->handle([$this->laravel->databasePath('database.sqlite')]);
+        ))->handle(
+            match ($this->option('all')) {
+                true => [...$filesystem->glob(join_paths($databasePath, '*.sqlite'))],
+                default => [join_paths($databasePath, $this->databaseName())],
+            }
+        );
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Resolve the database name.
+     *
+     * @return string
+     */
+    protected function databaseName(): string
+    {
+        if (empty($database = $this->option('database'))) {
+            $database = 'database';
+        }
+
+        /** @var string $database */
+        return \sprintf('%s.sqlite', Str::before((string) $database, '.sqlite'));
     }
 }
