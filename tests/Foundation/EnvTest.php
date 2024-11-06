@@ -11,24 +11,6 @@ use PHPUnit\Framework\Attributes\Test;
 #[Group('phpunit-configuration')]
 class EnvTest extends TestCase
 {
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function setUp(): void
-    {
-        $_ENV['APP_KEY'] = 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
-
-        parent::setUp();
-    }
-
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function tearDown(): void
-    {
-        unset($_ENV['APP_KEY']);
-
-        parent::tearDown();
-    }
-
     #[Test]
     public function it_can_determined_has_env_values()
     {
@@ -36,7 +18,7 @@ class EnvTest extends TestCase
         $_ENV['TESTING_FALSE_EXAMPLE'] = false;
         $_ENV['TESTING_EMPTY_EXAMPLE'] = '';
 
-        $this->assertTrue(Env::has('APP_KEY'));
+        $this->assertSame(Env::has('TESTBENCH_PACKAGE_TESTER'), Env::has('APP_KEY'));
         $this->assertFalse(Env::has('ASSET_URL'));
         $this->assertSame(Env::has('TESTBENCH_PACKAGE_TESTER') ? true : false, Env::has('LOG_DEPRECATIONS_CHANNEL'));
         $this->assertTrue(Env::has('TESTING_TRUE_EXAMPLE'));
@@ -58,7 +40,7 @@ class EnvTest extends TestCase
         $_ENV['TESTING_FALSE_EXAMPLE'] = false;
         $_ENV['TESTING_EMPTY_EXAMPLE'] = '';
 
-        $this->assertSame('AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', Env::forward('APP_KEY'));
+        $this->assertSame(Env::has('TESTBENCH_PACKAGE_TESTER') ? 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF': false, Env::forward('APP_KEY'));
         $this->assertFalse(Env::forward('ASSET_URL'));
         $this->assertSame('(null)', Env::forward('ASSET_URL', null));
         $this->assertSame(Env::has('TESTBENCH_PACKAGE_TESTER') ? '(null)' : false, Env::forward('LOG_DEPRECATIONS_CHANNEL'));
