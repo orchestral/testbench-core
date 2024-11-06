@@ -11,6 +11,22 @@ use Orchestra\Testbench\TestCase;
  */
 class EnvTest extends TestCase
 {
+    /** {@inheritDoc} */
+    protected function setUp(): void
+    {
+        $_ENV['APP_KEY'] = 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
+
+        parent::setUp();
+    }
+
+    /** {@inheritDoc} */
+    protected function tearDown(): void
+    {
+        unset($_ENV['APP_KEY']);
+
+        parent::tearDown();
+    }
+
     /** @test */
     public function it_can_determined_has_env_values()
     {
