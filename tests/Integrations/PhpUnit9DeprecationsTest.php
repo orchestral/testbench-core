@@ -3,10 +3,10 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use ErrorException;
-use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\Log;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
+use Orchestra\Testbench\TestCase;
 
 /**
  * @group deprecations

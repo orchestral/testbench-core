@@ -25,6 +25,7 @@ class EnvTest extends TestCase
 
         parent::tearDown();
     }
+
     /** @test */
     public function it_can_determined_has_env_values()
     {
