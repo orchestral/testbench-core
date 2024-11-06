@@ -11,6 +11,24 @@ use PHPUnit\Framework\Attributes\Test;
 #[Group('phpunit-configuration')]
 class EnvTest extends TestCase
 {
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function setUp(): void
+    {
+        $_ENV['APP_KEY'] = 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF';
+
+        parent::setUp();
+    }
+
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function tearDown(): void
+    {
+        unset($_ENV['APP_KEY']);
+
+        parent::tearDown();
+    }
+
     #[Test]
     public function it_can_determined_has_env_values()
     {

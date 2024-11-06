@@ -4,11 +4,13 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Exception;
 use Illuminate\Routing\Router;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Http\Controllers\ExampleController;
 
+#[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class RouteTest extends TestCase
 {
     /** {@inheritDoc} */
