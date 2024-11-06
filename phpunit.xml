@@ -30,6 +30,7 @@
             <file>src/Exceptions/PHPUnitErrorException.php</file>
             <file>src/Foundation/Console/Concerns/InteractsWithIO.php</file>
             <file>src/Foundation/Console/Kernel.php</file>
+            <file>src/Foundation/Console/DevToolCommand.php</file>
             <file>src/Foundation/Console/PurgeSkeletonCommand.php</file>
             <file>src/Foundation/Console/ServeCommand.php</file>
             <file>src/Foundation/Console/TestFallbackCommand.php</file>
