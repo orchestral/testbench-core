@@ -19,9 +19,7 @@ final class RequiresEnv implements ActionableContract
     public function __construct(
         public string $key,
         public ?string $message = null
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Handle the attribute.

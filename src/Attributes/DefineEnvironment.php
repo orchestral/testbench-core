@@ -16,9 +16,7 @@ final class DefineEnvironment implements ActionableContract
      */
     public function __construct(
         public string $method
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Handle the attribute.

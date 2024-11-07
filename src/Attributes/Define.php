@@ -18,9 +18,7 @@ final class Define implements ResolvableContract
     public function __construct(
         public string $group,
         public string $method
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Resolve the actual attribute class.
