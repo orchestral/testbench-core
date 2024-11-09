@@ -76,9 +76,8 @@ class TestCommand extends Command
         $file = $this->phpUnitConfigurationFile();
 
         return Collection::make(parent::phpunitArguments($options))
-            ->reject(static function ($option) {
-                return str_starts_with($option, '--configuration=');
-            })->merge(["--configuration={$file}"])
+            ->reject(static fn ($option) => str_starts_with($option, '--configuration='))
+            ->merge(["--configuration={$file}"])
             ->all();
     }
 
