@@ -405,15 +405,15 @@ function phpunit_version_compare(string $version, ?string $operator = null)
 
 /**
  * Determine the PHP Binary.
- * 
+ *
  * @api
- * 
- * @param  bool  $escape 
+ *
+ * @param  bool  $escape
  * @return string
  */
-function php_binary(bool $escape = false): string 
+function php_binary(bool $escape = false): string
 {
-    $phpBinary = (new Support\PhpExecutableFinder)->find(false) ?: PHP_BINARY;
+    $phpBinary = (new Support\PhpExecutableFinder)->find(false) ?: 'php';
 
     return $escape === true ? ProcessUtils::escapeArgument((string) $phpBinary) : $phpBinary;
 }

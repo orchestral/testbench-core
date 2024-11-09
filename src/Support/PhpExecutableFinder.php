@@ -15,7 +15,7 @@ class PhpExecutableFinder extends SymfonyPhpExecutableFinder
     public function find(bool $includeArgs = true): string|false
     {
         if ($herdPath = getenv('HERD_HOME')) {
-            return (new ExecutableFinder)->find('php', false, [join_paths($herdPath, 'bin')]);
+            return (new ExecutableFinder)->find(name: 'php', extraDirs: [join_paths($herdPath, 'bin')]) ?? false;
         }
 
         return parent::find($includeArgs);
