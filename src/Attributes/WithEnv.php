@@ -20,9 +20,7 @@ final class WithEnv implements InvokableContract
     public function __construct(
         public string $key,
         public ?string $value
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Handle the attribute.

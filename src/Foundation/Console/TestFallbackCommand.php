@@ -10,6 +10,7 @@ use Symfony\Component\Process\Process;
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\phpunit_version_compare;
+use function Orchestra\Testbench\php_binary;
 
 class TestFallbackCommand extends Command
 {
@@ -111,7 +112,7 @@ class TestFallbackCommand extends Command
         $composerPath = package_path('composer.phar');
 
         if (file_exists($composerPath)) {
-            return '"'.PHP_BINARY.'" '.$composerPath;
+            return implode(' ', [php_binary(true), $composerPath]);
         }
 
         return 'composer';

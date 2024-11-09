@@ -25,8 +25,6 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
      */
     public function beforeEach($app): void
     {
-        $vendorPath = $app->basePath('vendor');
-
         $laravel = Application::createVendorSymlink(base_path(), package_path('vendor'));
 
         $this->vendorSymlinkCreated = $laravel['TESTBENCH_VENDOR_SYMLINK'] ?? false;

@@ -20,9 +20,7 @@ final class DefineDatabase implements ActionableContract, AfterEachContract, Bef
     public function __construct(
         public string $method,
         public bool $defer = true
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Handle the attribute.
