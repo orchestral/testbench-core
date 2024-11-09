@@ -17,7 +17,6 @@ use InvalidArgumentException;
 use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
 use RuntimeException;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -67,11 +66,6 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  */
 function remote(array|string $command, array|string $env = []): Process
 {
-    $phpBinary = transform(
-        \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder)->find(),
-        static fn ($phpBinary) => ProcessUtils::escapeArgument((string) $phpBinary)
-    );
-
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
     $commander = is_file($vendorBin = package_path('vendor', 'bin', $binary))
@@ -85,7 +79,7 @@ function remote(array|string $command, array|string $env = []): Process
     Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
 
     return Process::fromShellCommandline(
-        command: Arr::join([$phpBinary, $commander, ...Arr::wrap($command)], ' '),
+        command: Arr::join([php_binary(true), $commander, ...Arr::wrap($command)], ' '),
         cwd: package_path(),
         env: array_merge(defined_environment_variables(), $env)
     );
@@ -407,6 +401,21 @@ function phpunit_version_compare(string $version, ?string $operator = null)
     }
 
     return version_compare(Version::id(), $version, $operator);
+}
+
+/**
+ * Determine the PHP Binary.
+ * 
+ * @api
+ * 
+ * @param  bool  $escape 
+ * @return string
+ */
+function php_binary(bool $escape = false): string 
+{
+    $phpBinary = (new Support\PhpExecutableFinder)->find(false) ?: PHP_BINARY;
+
+    return $escape === true ? ProcessUtils::escapeArgument((string) $phpBinary) : $phpBinary;
 }
 
 /**
