@@ -50,7 +50,7 @@ final class CreateVendorSymlink
                 $filesystem->delete($app->bootstrapPath(join_paths('cache', 'packages.php')));
             }
 
-            $this->deleteVendorSymlink($app);
+            (new DeleteVendorSymlink())->bootstrap($app);
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);

@@ -38,10 +38,8 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
      */
     public function afterEach($app): void
     {
-        $vendorPath = $app->basePath('vendor');
-
-        if (is_link($vendorPath) && $this->vendorSymlinkCreated === true) {
-            $app['files']->delete($vendorPath);
+        if ($this->vendorSymlinkCreated === true) {
+            (new DeleteVendorSymlink())->bootstrap($app);
         }
     }
 }
