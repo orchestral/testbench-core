@@ -10,6 +10,8 @@ trait HandlesAssertions
      * @param  (\Closure($this): bool)|bool|null  $condition
      * @param  string  $message
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     protected function markTestSkippedUnless($condition, string $message): void
     {
@@ -24,6 +26,8 @@ trait HandlesAssertions
      * @param  (\Closure($this): bool)|bool|null  $condition
      * @param  string  $message
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     protected function markTestSkippedWhen($condition, string $message): void
     {
