@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use RuntimeException;
 
 use function Orchestra\Testbench\package_path;
 
@@ -125,11 +126,17 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromRoot()
     {
-        if (! \defined('TESTBENCH_CORE') || ! is_file(package_path('composer.json'))) {
+        $composerFile = package_path('composer.json');
+
+        if (! \defined('TESTBENCH_CORE') || ! is_file($composerFile)) {
             return [];
         }
 
-        $package = transform(file_get_contents(package_path('composer.json')), static function ($json) {
+        if (! json_validate($composerFile)) {
+            throw new RuntimeException("Unable to parse [{$composerFile}] file");
+        }
+
+        $package = transform(file_get_contents($composerFile), static function ($json) {
             return json_decode($json, true);
         });
 
