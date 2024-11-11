@@ -6,6 +6,8 @@ use function Orchestra\Testbench\package_path;
 
 /**
  * @deprecated
+ *
+ * @codeCoverageIgnore
  */
 trait InteractsWithIO
 {
