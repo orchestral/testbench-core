@@ -9,9 +9,12 @@ use Symfony\Component\Process\Process;
 
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\package_path;
-use function Orchestra\Testbench\phpunit_version_compare;
 use function Orchestra\Testbench\php_binary;
+use function Orchestra\Testbench\phpunit_version_compare;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TestFallbackCommand extends Command
 {
     /**

@@ -15,6 +15,7 @@ jobs:
           - "ubuntu-latest"
         php:
           - 8.2
+          - 8.3
         collision:
           - "^7.4"
         paratest:

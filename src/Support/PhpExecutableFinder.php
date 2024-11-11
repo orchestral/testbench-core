@@ -10,7 +10,9 @@ use function Orchestra\Testbench\join_paths;
 class PhpExecutableFinder extends SymfonyPhpExecutableFinder
 {
     /**
-     * Finds The PHP executable.
+     * {@inheritDoc}
+     *
+     * @codeCoverageIgnore
      */
     #[\Override]
     public function find(bool $includeArgs = true): string|false

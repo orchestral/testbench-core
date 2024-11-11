@@ -6,6 +6,7 @@ use Attribute;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Bootstrap\DeleteVendorSymlink;
 
 use function Orchestra\Testbench\package_path;
 
@@ -38,10 +39,8 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
      */
     public function afterEach($app): void
     {
-        $vendorPath = $app->basePath('vendor');
-
-        if (is_link($vendorPath) && $this->vendorSymlinkCreated === true) {
-            $app['files']->delete($vendorPath);
+        if ($this->vendorSymlinkCreated === true) {
+            (new DeleteVendorSymlink)->bootstrap($app);
         }
     }
 }

@@ -16,10 +16,14 @@ jobs:
         php:
           - 8.1
           - 8.2
+          - 8.3
         dependencies:
           - "highest"
         experimental:
           - false
+        exclude:
+          - php: 8.3
+            dependencies: "lowest"
 
     name: PHP:${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
 
@@ -72,6 +76,7 @@ jobs:
         php:
           - 8.1
           - 8.2
+          - 8.3
         dependencies:
           - "highest"
         experimental:

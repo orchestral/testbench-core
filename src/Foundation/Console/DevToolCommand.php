@@ -7,6 +7,8 @@ use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @deprecated
+ *
+ * @codeCoverageIgnore
  */
 #[AsCommand(name: 'package:devtool', description: 'Setup Workbench for package development (deprecated)')]
 class DevToolCommand extends Command
