@@ -18,6 +18,7 @@ use function Orchestra\Testbench\package_path;
 class ServeCommand extends Command
 {
     /** {@inheritDoc} */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (
@@ -45,6 +46,7 @@ class ServeCommand extends Command
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function startProcess($hasEnvironment)
     {
         return tap(parent::startProcess($hasEnvironment), function (Process $process) {
@@ -61,6 +63,7 @@ class ServeCommand extends Command
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public function option($key = null)
     {
         $value = parent::option($key);

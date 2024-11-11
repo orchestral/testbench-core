@@ -32,6 +32,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
         parent::handleDeprecationError($message, $file, $line, $level);

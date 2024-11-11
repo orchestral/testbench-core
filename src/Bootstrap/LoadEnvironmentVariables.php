@@ -13,6 +13,7 @@ use function Orchestra\Testbench\join_paths;
 final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables
 {
     /** {@inheritDoc} */
+    #[\Override]
     protected function createDotenv($app)
     {
         /** @phpstan-ignore method.notFound, method.notFound */
