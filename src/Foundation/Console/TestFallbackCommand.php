@@ -10,6 +10,9 @@ use Symfony\Component\Process\Process;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\php_binary;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TestFallbackCommand extends Command
 {
     /**
