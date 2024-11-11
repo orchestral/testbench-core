@@ -11,6 +11,9 @@ use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Orchestra\Testbench\join_paths;
 
+/**
+ * @codeCoverageIgnore
+ */
 #[AsCommand(name: 'package:purge-skeleton', description: 'Purge skeleton folder to original state')]
 class PurgeSkeletonCommand extends Command
 {

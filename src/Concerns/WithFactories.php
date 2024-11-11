@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Factory as ModelFactory;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 /**
+ * @api
+ *
  * @deprecated
+ *
+ * @codeCoverageIgnore
  */
 trait WithFactories
 {

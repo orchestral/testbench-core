@@ -12,6 +12,9 @@ use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\package_path;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ServeCommand extends Command
 {
     /** {@inheritDoc} */
