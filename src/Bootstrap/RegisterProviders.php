@@ -29,9 +29,10 @@ class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProvide
             }
         }
 
+        /** @phpstan-ignore return.type */
         return tap(
             array_merge($providers, static::$merge, array_values($packageProviders ?? [])),
-            function ($p) {
+            static function ($providers) {
                 static::$merge = [];
                 static::$bootstrapProviderPath = null;
             }

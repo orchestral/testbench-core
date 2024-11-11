@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 /**
  * @internal
- * 
+ *
  * @deprecated
  *
  * @codeCoverageIgnore

@@ -3,17 +3,13 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
-use Illuminate\Support\ProcessUtils;
 use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
 
-use function Illuminate\Support\php_binary;
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\php_binary;
-use function Orchestra\Testbench\phpunit_version_compare;
 
 /**
  * @codeCoverageIgnore
