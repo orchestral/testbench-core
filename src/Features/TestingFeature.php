@@ -30,7 +30,7 @@ final class TestingFeature
         ?Closure $annotation = null,
         ?Closure $attribute = null
     ): Fluent {
-        /** @var \Illuminate\Support\Fluent{attribute: \Orchestra\Testbench\Features\FeaturesCollection} $result */
+        /** @var \Illuminate\Support\Fluent<string, \Orchestra\Testbench\Features\FeaturesCollection> $result */
         $result = new Fluent(['attribute' => new FeaturesCollection]);
 
         $defaultResolver = once($default);

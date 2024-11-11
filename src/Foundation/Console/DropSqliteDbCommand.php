@@ -53,11 +53,13 @@ class DropSqliteDbCommand extends Command
      */
     protected function databaseName(): string
     {
-        if (empty($database = $this->option('database'))) {
+        /** @var string|null $database */
+        $database = $this->option('database');
+
+        if (empty($database)) {
             $database = 'database';
         }
 
-        /** @var string $database */
         return \sprintf('%s.sqlite', Str::before((string) $database, '.sqlite'));
     }
 }
