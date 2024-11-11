@@ -2,6 +2,9 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
+/**
+ * @codeCoverageIgnore
+ */
 class PHPUnitErrorException extends \PHPUnit\Framework\Error\Error
 {
     /**
