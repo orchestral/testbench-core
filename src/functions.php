@@ -76,10 +76,6 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  */
 function remote(array|string $command, array|string $env = []): Process
 {
-    $phpBinary = ProcessUtils::escapeArgument(
-        \Illuminate\Support\php_binary()
-    );
-
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
     $commander = is_file($vendorBin = package_path('vendor', 'bin', $binary))
@@ -93,7 +89,7 @@ function remote(array|string $command, array|string $env = []): Process
     Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
 
     return Process::fromShellCommandline(
-        command: Arr::join([$phpBinary, $commander, ...Arr::wrap($command)], ' '),
+        command: Arr::join([php_binary(true), $commander, ...Arr::wrap($command)], ' '),
         cwd: package_path(),
         env: array_merge(defined_environment_variables(), $env)
     );
@@ -402,6 +398,21 @@ function phpunit_version_compare(string $version, ?string $operator = null): int
     }
 
     return version_compare(Version::id(), $version, $operator);
+}
+
+/**
+ * Determine the PHP Binary.
+ *
+ * @api
+ *
+ * @param  bool  $escape
+ * @return string
+ */
+function php_binary(bool $escape = false): string
+{
+    $phpBinary = (new Support\PhpExecutableFinder)->find(false) ?: 'php';
+
+    return $escape === true ? ProcessUtils::escapeArgument((string) $phpBinary) : $phpBinary;
 }
 
 /**

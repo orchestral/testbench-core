@@ -28,6 +28,8 @@ use function Orchestra\Testbench\transform_relative_path;
 
 /**
  * @phpstan-import-type TConfig from \Orchestra\Testbench\Foundation\Config
+ *
+ * @codeCoverageIgnore
  */
 class Commander
 {

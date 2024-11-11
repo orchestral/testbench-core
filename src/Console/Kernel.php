@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Console;
 use Orchestra\Testbench\Foundation\Console\Kernel as ConsoleKernel;
 use Throwable;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class Kernel extends ConsoleKernel
 {
     /**

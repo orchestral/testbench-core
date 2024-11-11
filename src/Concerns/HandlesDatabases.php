@@ -89,7 +89,7 @@ trait HandlesDatabases
         $config = $app->make('config');
 
         /** @var string $connection */
-        $connection = ! \is_null($connection) ? $connection : $config->get('database.default');
+        $connection ??= $config->get('database.default');
 
         /** @var array{driver: string, database: string}|null $database */
         $database = $config->get("database.connections.{$connection}");

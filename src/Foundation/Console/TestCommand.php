@@ -9,6 +9,9 @@ use Orchestra\Testbench\Foundation\Env;
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\package_path;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TestCommand extends Command
 {
     /**

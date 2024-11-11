@@ -12,7 +12,12 @@ use Symfony\Component\Process\Process;
 use function Illuminate\Support\php_binary;
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\package_path;
+use function Orchestra\Testbench\php_binary;
+use function Orchestra\Testbench\phpunit_version_compare;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TestFallbackCommand extends Command
 {
     /**
@@ -109,9 +114,7 @@ class TestFallbackCommand extends Command
         $composerPath = package_path('composer.phar');
 
         if (file_exists($composerPath)) {
-            return Collection::make([php_binary(), $composerPath])
-                ->transform(fn ($path) => ProcessUtils::escapeArgument($path))
-                ->join(' ');
+            return implode(' ', [php_binary(true), $composerPath]);
         }
 
         return 'composer';
