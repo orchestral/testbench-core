@@ -7,6 +7,9 @@ use Throwable;
 
 use function Orchestra\Testbench\join_paths;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class Kernel extends ConsoleKernel
 {
     /**

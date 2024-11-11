@@ -9,6 +9,8 @@ use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 /**
  * @api
  *
+ * @codeCoverageIgnore
+ *
  * @deprecated
  */
 trait WithFactories
