@@ -84,6 +84,7 @@ class PackageManifest extends IlluminatePackageManifest
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function getManifest()
     {
         $ignore = ! \is_null($this->testbench) && method_exists($this->testbench, 'ignorePackageDiscoveriesFrom')
@@ -138,6 +139,7 @@ class PackageManifest extends IlluminatePackageManifest
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function write(array $manifest)
     {
         parent::write(

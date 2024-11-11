@@ -14,6 +14,7 @@ class PhpExecutableFinder extends SymfonyPhpExecutableFinder
      *
      * @codeCoverageIgnore
      */
+    #[\Override]
     public function find(bool $includeArgs = true): string|false
     {
         if ($herdPath = getenv('HERD_HOME')) {

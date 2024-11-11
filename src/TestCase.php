@@ -149,6 +149,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     }
 
     /** {@inheritDoc} */
+    #[\Override]
     protected function onNotSuccessfulTest(Throwable $exception): void
     {
         parent::onNotSuccessfulTest(
