@@ -4,6 +4,9 @@ namespace Orchestra\Testbench\Exceptions;
 
 use Illuminate\Support\Collection;
 
+/**
+ * @codeCoverageIgnore
+ */
 class DeprecatedException extends PHPUnitErrorException
 {
     /**
