@@ -132,11 +132,11 @@ class PackageManifest extends IlluminatePackageManifest
             return [];
         }
 
-        if (! json_validate($composerFile)) {
-            throw new RuntimeException("Unable to parse [{$composerFile}] file");
-        }
+        $package = transform(file_get_contents($composerFile), static function ($json) use ($composerFile) {
+            if (json_validate($json) === false) {
+                throw new RuntimeException("Unable to parse [{$composerFile}] file");
+            }
 
-        $package = transform(file_get_contents($composerFile), static function ($json) {
             return json_decode($json, true);
         });
 
