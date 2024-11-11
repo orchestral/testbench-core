@@ -50,7 +50,7 @@ final class CreateVendorSymlink
                 $filesystem->delete($app->bootstrapPath(join_paths('cache', 'packages.php')));
             }
 
-            $this->deleteVendorSymlink($app);
+            (new DeleteVendorSymlink)->bootstrap($app);
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
@@ -64,24 +64,5 @@ final class CreateVendorSymlink
         $app->flush();
 
         $app->instance('TESTBENCH_VENDOR_SYMLINK', $vendorLinkCreated);
-    }
-
-    /**
-     * Safely remove symlink for Unix & Windows environment.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return void
-     */
-    public function deleteVendorSymlink(Application $app): void
-    {
-        tap($app->basePath('vendor'), static function ($appVendorPath) {
-            if (windows_os() && is_dir($appVendorPath) && readlink($appVendorPath) !== $appVendorPath) {
-                @rmdir($appVendorPath);
-            } elseif (is_link($appVendorPath)) {
-                @unlink($appVendorPath);
-            }
-
-            clearstatcache(false, \dirname($appVendorPath));
-        });
     }
 }
