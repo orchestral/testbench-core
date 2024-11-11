@@ -26,9 +26,9 @@ final class WithEnv implements InvokableContract
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return (\Closure():(void))|null
+     * @return \Closure():void
      */
-    public function __invoke($app): ?Closure
+    public function __invoke($app): Closure
     {
         $key = $this->key;
         $value = Env::get($key, new UndefinedValue);
