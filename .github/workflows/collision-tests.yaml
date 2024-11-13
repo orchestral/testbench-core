@@ -23,7 +23,7 @@ jobs:
           - php: 8.3
             dependencies: "lowest"
 
-    name: PHP:${{ matrix.php }} ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }}/Collision:^7.4 ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
@@ -78,7 +78,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} Code Coverage ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }}/Collision:^6.4 Code Coverage ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
