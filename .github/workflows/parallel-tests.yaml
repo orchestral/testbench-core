@@ -23,7 +23,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }}/Paratest:${{ matrix.paratest }} ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
@@ -68,7 +68,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP:8.1 ⬆️
+    name: PHP:8.1/Paratest:${{ matrix.paratest }} ⬆️
 
     steps:
       - name: Checkout code
