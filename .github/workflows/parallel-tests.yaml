@@ -14,16 +14,12 @@ jobs:
         php:
           - 8.2
           - 8.3
-        collision:
-          - "^7.4"
-        paratest:
-          - "^7.4.0"
-        dependencies:
-          - "highest"
+        collision: ["^7.4"]
+        paratest: ["^7.4.0"]
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }}/Paratest:${{ matrix.paratest }} ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} ⬆️
 
     steps:
       - name: Checkout code
@@ -44,7 +40,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
+          dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
@@ -61,14 +57,12 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        collision:
-          - "^7.4"
-        paratest:
-          - ">=7.1.0 <7.4.0"
+        collision: ["^7.4"]
+        paratest: [">=7.1.0 <7.4.0"]
         experimental:
           - false
 
-    name: PHP:8.1/Paratest:${{ matrix.paratest }} ⬆️
+    name: PHP:8.1 / Paratest:${{ matrix.paratest }} ⬆️
 
     steps:
       - name: Checkout code

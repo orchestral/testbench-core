@@ -15,15 +15,10 @@ jobs:
           - 8.1
           - 8.2
           - 8.3
-        dependencies:
-          - "highest"
         experimental:
           - false
-        exclude:
-          - php: 8.3
-            dependencies: "lowest"
 
-    name: PHP:${{ matrix.php }}/Collision:^7.4 ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }} / Collision:^7.4 ⬆️
 
     steps:
       - name: Checkout code
@@ -44,7 +39,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
+          dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
@@ -55,14 +50,6 @@ jobs:
         run: ./testbench package:test --exclude-group commander
         env:
           RAY_ENABLED: false
-        if: matrix.dependencies == 'highest'
-
-      - name: Execute tests (without deprecations on PHPUnit 10)
-        run: ./testbench package:test --exclude-group commander,deprecations
-        env:
-          RAY_ENABLED: false
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
 
   tests-with-coverage:
     runs-on: "ubuntu-latest"
@@ -73,12 +60,10 @@ jobs:
           - 8.1
           - 8.2
           - 8.3
-        dependencies:
-          - "highest"
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }}/Collision:^6.4 Code Coverage ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }} / Collision:^6.4 Code Coverage ⬆️
 
     steps:
       - name: Checkout code
@@ -99,7 +84,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
+          dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
