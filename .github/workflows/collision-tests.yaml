@@ -16,8 +16,6 @@ jobs:
           - 8.1
           - 8.2
           - 8.3
-        phpunit:
-          - "^9.5.10"
         dependencies:
           - "highest"
           - "lowest"
@@ -27,7 +25,7 @@ jobs:
           - php: 8.3
             dependencies: "lowest"
 
-    name: PHP:${{ matrix.php }} / PHPUnit:${{ matrix.phpunit }} ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }} / Collision:^6.2 ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
@@ -40,9 +38,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install PHPUnit ^9.5.10
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+          composer require "phpunit/phpunit:^9.5.10" --no-interaction --no-update
           composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
 
       - name: Install dependencies
@@ -75,14 +73,12 @@ jobs:
           - 8.1
           - 8.2
           - 8.3
-        phpunit:
-          - "^9.5.10"
         dependencies:
           - "highest"
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} / PHPUnit:${{ matrix.phpunit }} Code Coverage ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }} / Collision:^6.2 Code Coverage ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
@@ -95,9 +91,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
           coverage: xdebug
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install PHPUnit ^9.5.10
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+          composer require "phpunit/phpunit:^9.5.10" --no-interaction --no-update
           composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
 
       - name: Install dependencies
