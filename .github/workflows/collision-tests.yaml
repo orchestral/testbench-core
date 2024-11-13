@@ -7,12 +7,10 @@ on:
 
 jobs:
   tests:
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
         php:
           - 8.2
           - 8.3
@@ -21,7 +19,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }}/Collision:^8.0 ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
@@ -62,12 +60,10 @@ jobs:
         if: matrix.dependencies != 'highest'
 
   tests-with-coverage:
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
         php:
           - 8.2
           - 8.3
@@ -76,7 +72,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} with Coverage on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }}/Collision:^8.0 Code Coverage ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
