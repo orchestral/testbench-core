@@ -7,7 +7,6 @@ use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\ParallelTesting;
-use Mockery;
 use Orchestra\Testbench\Foundation\Application as Testbench;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Throwable;
