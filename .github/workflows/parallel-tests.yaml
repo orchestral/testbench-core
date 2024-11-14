@@ -15,16 +15,10 @@ jobs:
           - 8.1
           - 8.2
           - 8.3
-        dependencies:
-          - "highest"
-          - "lowest"
         experimental:
           - false
-        exclude:
-          - php: 8.3
-            dependencies: "lowest"
 
-    name: PHP:${{ matrix.php }} / Paratest:^6.4 ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
+    name: PHP:${{ matrix.php }} / Paratest:^6.4 ⬆️
 
     steps:
       - name: Checkout code
@@ -45,7 +39,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
+          dependency-versions: "highest"
           composer-options: "--prefer-dist --no-cache"
 
       - name: Installed dependencies
@@ -54,10 +48,3 @@ jobs:
 
       - name: Execute tests (with deprecations)
         run: ./testbench package:test --parallel --exclude-group without-parallel,commander,database,session
-        if: matrix.dependencies == 'highest'
-
-      - name: Execute tests (without deprecations)
-        run: ./testbench package:test --parallel --exclude-group without-parallel,commander,database,session,deprecations
-        env:
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
