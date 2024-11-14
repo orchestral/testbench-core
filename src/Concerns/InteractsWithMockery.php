@@ -5,9 +5,6 @@ namespace Orchestra\Testbench\Concerns;
 use Mockery;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-/**
- * @api
- */
 trait InteractsWithMockery
 {
     /**
