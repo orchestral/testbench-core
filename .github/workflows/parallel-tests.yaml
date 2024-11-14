@@ -41,7 +41,7 @@ jobs:
         uses: "ramsey/composer-install@v3"
         with:
           dependency-versions: "highest"
-          composer-options: "--prefer-dist --prefer-stable --no-cache"
+          composer-options: "--prefer-dist --no-cache"
 
       - name: Installed dependencies
         run: |
