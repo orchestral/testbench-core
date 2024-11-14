@@ -7,7 +7,6 @@ use Carbon\CarbonImmutable;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\ParallelTesting;
-use Mockery;
 use Orchestra\Testbench\Foundation\Application as Testbench;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Throwable;
@@ -15,6 +14,7 @@ use Throwable;
 trait ApplicationTestingHooks
 {
     use InteractsWithPest;
+    use InteractsWithMockery;
     use InteractsWithPHPUnit;
     use InteractsWithTestCase;
 
@@ -124,13 +124,7 @@ trait ApplicationTestingHooks
             \call_user_func($callback);
         }
 
-        if (class_exists(Mockery::class) && $this instanceof PHPUnitTestCase) {
-            if ($container = Mockery::getContainer()) {
-                $this->addToAssertionCount($container->mockery_getExpectationCount());
-            }
-
-            Mockery::close();
-        }
+        $this->tearDownTheTestEnvironmentUsingMockery();
 
         Carbon::setTestNow();
 

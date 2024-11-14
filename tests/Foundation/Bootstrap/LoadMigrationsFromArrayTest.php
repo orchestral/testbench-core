@@ -57,6 +57,12 @@ class LoadMigrationsFromArrayTest extends TestCase
     {
         (new LoadMigrationsFromArray(false, false))->bootstrap($this->app);
 
+        $this->instance('\TestbenchDatabaseSeeder', $seeder = m::mock('TestbenchDatabaseSeeder'));
+
+        $seeder->shouldNotReceive('setContainer')->with($this->app)
+            ->shouldNotReceive('setCommand')
+            ->shouldNotReceive('__invoke');
+
         app('events')->dispatch(new DatabaseRefreshed);
     }
 }

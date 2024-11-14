@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests\Foundation\Concerns;
 
 use Illuminate\Contracts\Config\Repository;
 use Mockery as m;
+use Orchestra\Testbench\Concerns\InteractsWithMockery;
 use Orchestra\Testbench\Foundation\Concerns\HandlesDatabaseConnections;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -11,12 +12,13 @@ use PHPUnit\Framework\TestCase;
 class HandlesDatabaseConnectionsTest extends TestCase
 {
     use HandlesDatabaseConnections;
+    use InteractsWithMockery;
 
     /** {@inheritDoc} */
     #[\Override]
     protected function tearDown(): void
     {
-        m::close();
+        $this->tearDownTheTestEnvironmentUsingMockery();
     }
 
     #[Test]
@@ -26,7 +28,7 @@ class HandlesDatabaseConnectionsTest extends TestCase
 
         $_ENV['MYSQL_URL'] = 'mysql://127.0.0.1:3306';
 
-        $config->shouldReceive('get')->never()->with('database.connections.mysql.url')->andReturnNull()
+        $config->shouldNotReceive('get')->with('database.connections.mysql.url')
             ->shouldReceive('get')->once()->with('database.connections.mysql.host')->andReturn('127.0.0.1')
             ->shouldReceive('get')->once()->with('database.connections.mysql.port')->andReturn('3306')
             ->shouldReceive('get')->once()->with('database.connections.mysql.database')->andReturn('laravel')
