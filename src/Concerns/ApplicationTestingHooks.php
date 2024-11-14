@@ -14,6 +14,7 @@ use Throwable;
 
 trait ApplicationTestingHooks
 {
+    use InteractsWithMockery;
     use InteractsWithPHPUnit;
     use InteractsWithTestCase;
 
@@ -119,13 +120,7 @@ trait ApplicationTestingHooks
             \call_user_func($callback);
         }
 
-        if (class_exists(Mockery::class) && $this instanceof PHPUnitTestCase) {
-            if ($container = Mockery::getContainer()) {
-                $this->addToAssertionCount($container->mockery_getExpectationCount());
-            }
-
-            Mockery::close();
-        }
+        $this->tearDownTheTestEnvironmentUsingMockery();
 
         Carbon::setTestNow();
 

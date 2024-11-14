@@ -3,7 +3,7 @@
          xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
          backupGlobals="false"
          backupStaticAttributes="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
          bootstrap="vendor/autoload.php"
          colors="true"
          convertDeprecationsToExceptions="true"
