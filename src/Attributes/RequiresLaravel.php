@@ -17,7 +17,7 @@ final class RequiresLaravel implements ActionableContract
      * @param  string  $versionRequirement
      */
     public function __construct(
-        public string $versionRequirement
+        public readonly string $versionRequirement
     ) {}
 
     /**
