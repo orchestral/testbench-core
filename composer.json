@@ -43,6 +43,7 @@
         "fakerphp/faker": "^1.21",
         "laravel/framework": "^10.48.23",
         "laravel/pint": "^1.17",
+        "laravel/serializable-closure": "dev-develop as 1.999.999",
         "mockery/mockery": "^1.5.1",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^10.1",
