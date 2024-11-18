@@ -13,7 +13,6 @@ Released: 2024-11-18
 * Added `--database` option to `package:create-sqlite-db` command.
 * Added `--database` and `--all` options to `package:drop-sqlite-db` command.
 * Added `Orchestra\Testbench\php_binary()` function.
-* Added support for PHP 8.3.
 * Allows `laravel/serializable-closure` 2.
 
 ### Changes
