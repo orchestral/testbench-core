@@ -2,6 +2,20 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.6.0
+
+Released: 2024-11-18
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Bootstrap\DeleteVendorSymlink` class.
+* Added `Orchestra\Testbench\Concerns\InteractsWithMockery` trait.
+* Added `--database` option to `package:create-sqlite-db` command.
+* Added `--database` and `--all` options to `package:drop-sqlite-db` command.
+* Added `Orchestra\Testbench\php_binary()` function.
+* Allows `laravel/serializable-closure` 2.
+* Added draft support for PHP 8.4.
+
 ## 9.5.6
 
 Released: 2024-10-31
