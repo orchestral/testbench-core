@@ -7,11 +7,13 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Illuminate\Support\Facades\Date;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
+#[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class DefaultConfigurationTest extends TestCase
 {
     #[Test]
@@ -23,7 +25,7 @@ class DefaultConfigurationTest extends TestCase
     #[Test]
     public function it_populate_expected_debug_config()
     {
-        $this->assertSame((Env::get('TESTBENCH_PACKAGE_TESTER') === true ? true : false), $this->app['config']['app.debug']);
+        $this->assertSame((Env::has('TESTBENCH_PACKAGE_TESTER') ? true : false), $this->app['config']['app.debug']);
     }
 
     #[Test]
@@ -52,13 +54,13 @@ class DefaultConfigurationTest extends TestCase
     #[Test]
     public function it_populate_expected_cache_defaults()
     {
-        $this->assertEquals('array', $this->app['config']['cache.default']);
+        $this->assertEquals(Env::has('TESTBENCH_PACKAGE_TESTER') ? 'database' : 'array', $this->app['config']['cache.default']);
     }
 
     #[Test]
     public function it_populate_expected_session_defaults()
     {
-        $this->assertEquals('array', $this->app['config']['session.driver']);
+        $this->assertEquals(Env::has('TESTBENCH_PACKAGE_TESTER') ? 'cookie' : 'array', $this->app['config']['session.driver']);
     }
 
     #[Test]

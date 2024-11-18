@@ -12,21 +12,13 @@ use function Orchestra\Testbench\laravel_version_compare;
 final class RequiresLaravel implements ActionableContract
 {
     /**
-     * The given version requirement.
-     *
-     * @var string
-     */
-    public $versionRequirement;
-
-    /**
      * Construct a new attribute.
      *
      * @param  string  $versionRequirement
      */
-    public function __construct(string $versionRequirement)
-    {
-        $this->versionRequirement = $versionRequirement;
-    }
+    public function __construct(
+        public readonly string $versionRequirement
+    ) {}
 
     /**
      * Handle the attribute.

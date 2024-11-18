@@ -7,13 +7,12 @@ on:
 
 jobs:
   tests:
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
         php:
+          - 8.2
           - 8.3
         collision:
           - "^8.0"
@@ -22,12 +21,10 @@ jobs:
         phpunit:
           - "^10.5"
           - "^11.0"
-        dependencies:
-          - "highest"
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
     steps:
       - name: Checkout code
@@ -47,8 +44,8 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --prefer-stable --no-cache --with=phpunit/phpunit:${{ matrix.phpunit }}"
+          dependency-versions: "highest"
+          composer-options: "--prefer-dist --no-cache --with=phpunit/phpunit:${{ matrix.phpunit }}"
 
       - name: Installed dependencies
         run: |

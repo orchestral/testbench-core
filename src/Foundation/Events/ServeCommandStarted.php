@@ -19,7 +19,5 @@ readonly class ServeCommandStarted
         public InputInterface $input,
         public OutputInterface $output,
         public Factory $components
-    ) {
-        //
-    }
+    ) {}
 }

@@ -7,20 +7,17 @@ on:
 
 jobs:
   tests:
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
         php:
+          - 8.2
           - 8.3
-        dependencies:
-          - "highest"
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }} / Collision:^8.0 ⬆️
 
     steps:
       - name: Checkout code
@@ -40,7 +37,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
+          dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies
@@ -51,30 +48,19 @@ jobs:
         run: ./testbench package:test --exclude-group commander
         env:
           RAY_ENABLED: false
-        if: matrix.dependencies == 'highest'
-
-      - name: Execute tests (without deprecations on PHPUnit 10)
-        run: ./testbench package:test --exclude-group commander --exclude-group deprecations
-        env:
-          RAY_ENABLED: false
-          TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.dependencies != 'highest'
 
   tests-with-coverage:
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
         php:
+          - 8.2
           - 8.3
-        dependencies:
-          - "highest"
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} with Coverage on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }} / Collision:^8.0 Code Coverage ⬆️
 
     steps:
       - name: Checkout code
@@ -94,7 +80,7 @@ jobs:
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
+          dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
 
       - name: Installed dependencies

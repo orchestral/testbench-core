@@ -9,6 +9,9 @@ use Orchestra\Testbench\Foundation\Env;
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\package_path;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TestCommand extends Command
 {
     /**
@@ -37,11 +40,7 @@ class TestCommand extends Command
      */
     protected $description = 'Run the package tests';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
+    /** {@inheritDoc} */
     public function __construct()
     {
         parent::__construct();
@@ -51,11 +50,7 @@ class TestCommand extends Command
         }
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
+    /** {@inheritDoc} */
     #[\Override]
     public function handle()
     {
@@ -81,12 +76,7 @@ class TestCommand extends Command
             ->first() ?? './';
     }
 
-    /**
-     * Get the array of arguments for running PHPUnit.
-     *
-     * @param  array  $options
-     * @return array
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function phpunitArguments($options)
     {
@@ -98,12 +88,7 @@ class TestCommand extends Command
             ->all();
     }
 
-    /**
-     * Get the array of arguments for running Paratest.
-     *
-     * @param  array  $options
-     * @return array
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function paratestArguments($options)
     {
@@ -117,11 +102,7 @@ class TestCommand extends Command
             ])->all();
     }
 
-    /**
-     * Get the array of environment variables for running PHPUnit.
-     *
-     * @return array
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function phpunitEnvironmentVariables()
     {
@@ -135,11 +116,7 @@ class TestCommand extends Command
             ->all();
     }
 
-    /**
-     * Get the array of environment variables for running Paratest.
-     *
-     * @return array
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function paratestEnvironmentVariables()
     {

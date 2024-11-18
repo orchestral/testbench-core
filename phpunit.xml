@@ -2,7 +2,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd"
          backupGlobals="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
          bootstrap="vendor/autoload.php"
          colors="true"
          processIsolation="false"
@@ -15,34 +15,12 @@
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <server name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
-        <server name="CACHE_STORE" value="array"/>
-        <server name="SESSION_DRIVER" value="array"/>
-        <server name="SEND_DEPRECATED_NOTICES_TO_RAY" value="(true)"/>
-    </php>
     <source>
         <include>
             <directory suffix=".php">src/</directory>
         </include>
         <exclude>
             <directory suffix=".php">src/Http/Middleware</directory>
-            <file>src/Concerns/HandlesAnnotations.php</file>
-            <file>src/Concerns/HandlesTestFailures.php</file>
-            <file>src/Concerns/WithFactories.php</file>
-            <file>src/Console/Commander.php</file>
-            <file>src/Console/Kernel.php</file>
-            <file>src/Exceptions/DeprecatedException.php</file>
-            <file>src/Exceptions/Handler.php</file>
-            <file>src/Exceptions/PHPUnitErrorException.php</file>
-            <file>src/Foundation/Console/Concerns/InteractsWithIO.php</file>
-            <file>src/Foundation/Console/Kernel.php</file>
-            <file>src/Foundation/Console/PurgeSkeletonCommand.php</file>
-            <file>src/Foundation/Console/ServeCommand.php</file>
-            <file>src/Foundation/Console/TestFallbackCommand.php</file>
-            <file>src/Foundation/Http/Kernel.php</file>
-            <file>src/PHPUnit/AttributeParser.php</file>
-            <file>src/PHPUnit/TestCase.php</file>
         </exclude>
     </source>
 </phpunit>

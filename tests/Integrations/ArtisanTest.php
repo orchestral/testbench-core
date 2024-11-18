@@ -17,12 +17,10 @@ class ArtisanTest extends TestCase
     #[Group('core')]
     public function it_can_generate_the_same_output()
     {
-        $phpBinary = \defined('PHP_BINARY') ? PHP_BINARY : php_binary();
-
         $remote = remote('--version --no-ansi')->mustRun();
 
         $artisan = (new Process(
-            command: [$phpBinary, 'artisan', '--version', '--no-ansi'],
+            command: [php_binary(), 'artisan', '--version', '--no-ansi'],
             cwd: package_path('laravel'),
             env: ['TESTBENCH_WORKING_PATH' => package_path()],
         ))->mustRun();

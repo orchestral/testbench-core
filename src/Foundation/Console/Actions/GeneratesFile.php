@@ -32,12 +32,16 @@ class GeneratesFile extends Action
     /**
      * Handle the action.
      *
-     * @param  string  $from
-     * @param  string  $to
+     * @param  string|false|null  $from
+     * @param  string|false|null  $to
      * @return void
      */
-    public function handle(string $from, string $to): void
+    public function handle(string|false|null $from, string|false|null $to): void
     {
+        if (! \is_string($from) || ! \is_string($to)) {
+            return;
+        }
+
         if (! $this->filesystem->exists($from)) {
             $this->components?->twoColumnDetail(
                 \sprintf('Source file [%s] doesn\'t exists', $this->pathLocation($from)),

@@ -6,22 +6,14 @@ on:
 
 jobs:
   tests:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
+    runs-on: "ubuntu-latest"
+    continue-on-error: false
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
-        php:
-          - 8.3
-        phpunit:
-          - "^11.0"
-        dependencies:
-          - "highest"
-        experimental:
-          - false
+        php: [8.3]
+        phpunit: ["^11.0"]
 
-    name: PHP:${{ matrix.php }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }}/PHPUnit:${{ matrix.phpunit }} Code Coverage
 
     steps:
       - name: Checkout code
@@ -34,15 +26,11 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, sqlite3, pdo_sqlite, bcmath, fileinfo, :php-psr
           coverage: xdebug
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
-        run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
-
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--prefer-dist --prefer-stable"
+          dependency-versions: "highest"
+          composer-options: "--prefer-dist"
 
       - name: Installed dependencies
         run: |

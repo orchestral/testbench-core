@@ -14,6 +14,13 @@ use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 final class RequiresDatabase implements ActionableContract
 {
     /**
+     * Determine if currently the default connection.
+     *
+     * @var bool|null
+     */
+    public readonly ?bool $default;
+
+    /**
      * Construct a new attribute.
      *
      * @param  string  $driver
@@ -22,14 +29,16 @@ final class RequiresDatabase implements ActionableContract
      * @param  bool|null  $default
      */
     public function __construct(
-        public array|string $driver,
-        public ?string $versionRequirement = null,
-        public ?string $connection = null,
-        public ?bool $default = null
+        public readonly array|string $driver,
+        public readonly ?string $versionRequirement = null,
+        public readonly ?string $connection = null,
+        ?bool $default = null
     ) {
         if (\is_null($connection) && \is_string($driver)) {
-            $this->default = true;
+            $default = true;
         }
+
+        $this->default = $default;
 
         if (\is_array($driver) && $default === true) {
             throw new InvalidArgumentException('Unable to validate default connection when given an array of database drivers');

@@ -6,7 +6,11 @@ use Closure;
 use Illuminate\Support\Collection;
 
 /**
+ * @internal
+ *
  * @deprecated
+ *
+ * @codeCoverageIgnore
  */
 trait HandlesAnnotations
 {

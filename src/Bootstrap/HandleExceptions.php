@@ -14,13 +14,7 @@ use function Orchestra\Testbench\join_paths;
 final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExceptions
 {
     /**
-     * Reports a deprecation to the "deprecations" logger.
-     *
-     * @param  string  $message
-     * @param  string  $file
-     * @param  int  $line
-     * @param  int  $level
-     * @return void
+     * {@inheritDoc}
      *
      * @throws \Orchestra\Testbench\Exceptions\DeprecatedException
      */
@@ -36,11 +30,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         }
     }
 
-    /**
-     * Ensure the "deprecations" logger is configured.
-     *
-     * @return void
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function ensureDeprecationLoggerIsConfigured()
     {
@@ -74,11 +64,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         });
     }
 
-    /**
-     * Determine if deprecation error should be ignored.
-     *
-     * @return bool
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function shouldIgnoreDeprecationErrors()
     {
