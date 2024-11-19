@@ -90,7 +90,7 @@ class Workbench
         $healthCheckEnabled = $config->getWorkbenchAttributes()['health'] ?? false;
 
         $app->booted(static function ($app) use ($discoversConfig, $healthCheckEnabled) {
-            tap($app->make('router'), static function (Router $router) use ($discoversConfig, $healthCheckEnabled) {
+            tap($app->make('router'), static function (Router $router) use ($app, $discoversConfig, $healthCheckEnabled) {
                 if (($discoversConfig['api'] ?? false) === true) {
                     if (file_exists($route = workbench_path('routes', 'api.php'))) {
                         $router->middleware('api')->group($route);
@@ -98,7 +98,7 @@ class Workbench
                 }
 
                 if ($healthCheckEnabled === true) {
-                    $router->get('/up', function () {
+                    $router->get('/up', static function () use ($app) {
                         $exception = null;
 
                         try {
