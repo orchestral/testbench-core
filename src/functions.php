@@ -366,10 +366,10 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  */
 function laravel_version_compare(string $version, ?string $operator = null): int|bool
 {
-    /** @phpstan-ignore identical.alwaysFalse */
+    /** @var string $laravel */
     $laravel = transform(
         Application::VERSION,
-        fn ($version) => $version === '11.x-dev' ? '11.0.0' : $version,
+        fn (string $version) => $version === '11.x-dev' ? '11.0.0' : $version, // @phpstan-ignore identical.alwaysFalse
     );
 
     if (\is_null($operator)) {
@@ -396,10 +396,10 @@ function phpunit_version_compare(string $version, ?string $operator = null): int
         throw new RuntimeException('Unable to verify PHPUnit version');
     }
 
-    /** @phpstan-ignore identical.alwaysFalse */
+    /** @var string $phpunit */
     $phpunit = transform(
         Version::id(),
-        fn ($version) => $version === '11.5-dev' ? '11.5.0' : $version,
+        fn (string $version) => $version === '11.5-dev' ? '11.5.0' : $version,
     );
 
     if (\is_null($operator)) {
