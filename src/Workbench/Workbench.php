@@ -17,6 +17,7 @@ use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
+use Throwable;
 
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\package_path;
@@ -97,11 +98,27 @@ class Workbench
                 }
 
                 if ($healthCheckEnabled === true) {
-                    $router->get('/up', function () {
-                        Event::dispatch(new DiagnosingHealth);
+                    $router->get('/up', static function () {
+                        $exception = null;
 
-                        return View::file(
-                            package_path('vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php')
+                        try {
+                            Event::dispatch(new DiagnosingHealth);
+                        } catch (Throwable $error) {
+                            if (app()->hasDebugModeEnabled()) {
+                                throw $error;
+                            }
+
+                            report($error);
+
+                            $exception = $error->getMessage();
+                        }
+
+                        return response(
+                            View::file(
+                                package_path('vendor', 'laravel', 'framework', 'src', 'Illuminate', 'Foundation', 'resources', 'health-up.blade.php'),
+                                ['exception' => $exception],
+                            ),
+                            status: $exception ? 500 : 200,
                         );
                     });
                 }
