@@ -57,10 +57,10 @@ jobs:
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
         env:
           RAY_ENABLED: false
-        if: matrix.phpunit == '^10.5'
+        if: matrix.phpunit == '~10.5.35'
 
       - name: Execute tests (with deprecations)
         run: ./testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
         env:
           RAY_ENABLED: false
-        if: matrix.phpunit != '^10.5'
+        if: matrix.phpunit != '~10.5.35'
