@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.6.2
+
+Released: 2024-11-21
+
+### Fixes
+
+* Fixes `route:cache` when `health: true` configured using `testbench.yaml`.
+
+## 9.6.1
+
+Released: 2024-11-20
+
+### Fixes
+
+* Fixes compatibility with Laravel Framework v11.33.0.
+
 ## 9.6.0
 
 Released: 2024-11-18
