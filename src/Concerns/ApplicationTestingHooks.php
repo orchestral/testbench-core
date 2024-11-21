@@ -13,8 +13,8 @@ use Throwable;
 
 trait ApplicationTestingHooks
 {
-    use InteractsWithPest;
     use InteractsWithMockery;
+    use InteractsWithPest;
     use InteractsWithPHPUnit;
     use InteractsWithTestCase;
 
