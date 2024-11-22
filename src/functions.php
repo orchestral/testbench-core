@@ -85,7 +85,7 @@ function remote(array|string $command, array|string $env = [], ?bool $tty = null
         env: array_merge(defined_environment_variables(), $env)
     );
 
-    if (is_bool($tty)) {
+    if (\is_bool($tty)) {
         $process->setTty($tty);
     }
 
