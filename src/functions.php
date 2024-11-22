@@ -62,9 +62,10 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  *
  * @param  array<int, string>|string  $command
  * @param  array<string, mixed>|string  $env
+ * @param  bool|null  $tty
  * @return \Symfony\Component\Process\Process
  */
-function remote(array|string $command, array|string $env = []): Process
+function remote(array|string $command, array|string $env = [], ?bool $tty = null): Process
 {
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
@@ -78,11 +79,17 @@ function remote(array|string $command, array|string $env = []): Process
 
     Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
 
-    return Process::fromShellCommandline(
+    $process = Process::fromShellCommandline(
         command: Arr::join([php_binary(true), $commander, ...Arr::wrap($command)], ' '),
         cwd: package_path(),
         env: array_merge(defined_environment_variables(), $env)
     );
+
+    if (is_bool($tty)) {
+        $process->setTty($tty);
+    }
+
+    return $process;
 }
 
 /**
