@@ -61,7 +61,7 @@
     },
     "suggest": {
         "ext-pcntl": "Required to use all features of the console signal trapping.",
-        "brianium/paratest": "Allow using parallel tresting (^7.3).",
+        "brianium/paratest": "Allow using parallel testing (^7.3).",
         "fakerphp/faker": "Allow using Faker for testing (^1.23).",
         "laravel/framework": "Required for testing (^11.33.2).",
         "mockery/mockery": "Allow using Mockery for testing (^1.6).",
