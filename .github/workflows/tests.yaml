@@ -54,7 +54,7 @@ jobs:
           composer show -D
 
       - name: Execute tests (with deprecations)
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --display-deprecations --fail-on-deprecation
         env:
           RAY_ENABLED: false
         if: matrix.os != 'windows-latest'
