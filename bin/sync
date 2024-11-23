@@ -96,13 +96,18 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
 
 transform([
-    "env('APP_ENV', 'production')" => "env('APP_ENV', 'workbench')",
-    "'timezone' => 'UTC'," => "'timezone' => env('APP_TIMEZONE', 'UTC'),",
+    "    'env' => env('APP_ENV', 'production')" => "    'env' => env('APP_ENV', 'workbench')",
+    "    'timezone' => 'UTC'," => "    'timezone' => env('APP_TIMEZONE', 'UTC'),",
+    "    'locale' => 'en'," => "    'locale' => env('APP_LOCALE', 'en'),",
+    "    'fallback_locale' => 'en'," => "    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),",
     PHP_EOL.'        App\Providers' => PHP_EOL.'        // App\Providers',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/app.php"));
 
 transform([
-    "'model' => App\Models\User::class," => "'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class),",
+    "        'guard' => 'web'," => "        'guard' => env('AUTH_GUARD', 'web'),",
+    "        'passwords' => 'users'," => "        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),",
+    "            'model' => App\Models\User::class," => "            'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class),",
+    "            'table' => 'password_reset_tokens'," => "            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),",
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
