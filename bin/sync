@@ -7,8 +7,15 @@ require __DIR__.'/../vendor/autoload.php';
 
 $files = new Illuminate\Filesystem\Filesystem();
 
+$purgeSkeletonDirectories = static function () use ($files, $workingPath) {
+    $files->deleteDirectory("{$workingPath}/skeleton");
+    $files->deleteDirectory("{$workingPath}/breeze-skeleton");
+};
+
 $files->delete("{$workingPath}/laravel/.env");
-$files->deleteDirectory("{$workingPath}/skeleton");
+
+$purgeSkeletonDirectories();
+
 if ($files->isDirectory("{$workingPath}/laravel/migrations")) {
     $files->deleteDirectory("{$workingPath}/laravel/migrations");
 }
@@ -130,4 +137,4 @@ transform([
 ',
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Factories/UserFactory.php"));
 
-$files->deleteDirectory("{$workingPath}/skeleton");
+$purgeSkeletonDirectories();
