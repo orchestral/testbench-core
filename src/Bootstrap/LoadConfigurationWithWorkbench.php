@@ -4,8 +4,10 @@ namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
+use Workbench\App\Models\User;
 
 use function Orchestra\Testbench\workbench_path;
 
@@ -69,6 +71,17 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
         })->each(static function ($path, $key) use ($configurations) {
             $configurations->put($key, $path);
         });
+
+        /** @var class-string<\Illuminate\Foundation\Auth\User>|false $userModel */
+        $userModel = match (true) {
+            Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
+            class_exists(User::class) => User::class,
+            default => false,
+        };
+
+        if ($userModel !== false && is_a($userModel, 'Illuminate\Foundation\Auth\User')) {
+            $configurations->put('auth.providers.users.model', $userModel);
+        }
 
         return $configurations;
     }
