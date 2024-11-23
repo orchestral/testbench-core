@@ -9,6 +9,7 @@ parameters:
   level: 8
 
   ignoreErrors:
+    - identifier: function.alreadyNarrowedType
     - identifier: missingType.generics
     - identifier: missingType.iterableValue
     - identifier: trait.unused
