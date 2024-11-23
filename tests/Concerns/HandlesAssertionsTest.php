@@ -12,6 +12,8 @@ class HandlesAssertionsTest extends TestCase
     /** @test */
     public function it_should_mark_the_tests_as_skipped_when_condition_is_true()
     {
+        $this->expectOutputString('Successfully skipped current test');
+
         $this->markTestSkippedWhen(true, 'Successfully skipped current test');
 
         $this->assertTrue(false, 'Test incorrectly executed.');
@@ -30,6 +32,8 @@ class HandlesAssertionsTest extends TestCase
     /** @test */
     public function it_should_mark_the_tests_as_skipped_unless_condition_is_false()
     {
+        $this->expectOutputString('Successfully skipped current test');
+
         $this->markTestSkippedUnless(false, 'Successfully skipped current test');
 
         $this->assertTrue(false, 'Test incorrectly executed.');

@@ -12,16 +12,12 @@ use function Orchestra\Testbench\join_paths;
  */
 final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables
 {
-    /**
-     * Create a Dotenv instance.
-     *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return \Dotenv\Dotenv
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function createDotenv($app)
     {
         /** @phpstan-ignore method.notFound, method.notFound */
-        if (! file_exists(implode(DIRECTORY_SEPARATOR, [$app->environmentPath(), $app->environmentFile()]))) {
+        if (! file_exists(join_paths($app->environmentPath(), $app->environmentFile()))) {
             return Dotenv::create(
                 Env::getRepository(), (string) realpath(join_paths(__DIR__, 'stubs')), '.env.testbench'
             );

@@ -17,7 +17,6 @@ use InvalidArgumentException;
 use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
 use RuntimeException;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -63,17 +62,11 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  *
  * @param  array<int, string>|string  $command
  * @param  array<string, mixed>|string  $env
+ * @param  bool|null  $tty
  * @return \Symfony\Component\Process\Process
  */
-function remote(array|string $command, array|string $env = []): Process
+function remote(array|string $command, array|string $env = [], ?bool $tty = null): Process
 {
-    $phpBinary = transform(
-        \defined('PHP_BINARY') ? PHP_BINARY : (new PhpExecutableFinder)->find(),
-        static function ($phpBinary) {
-            return ProcessUtils::escapeArgument((string) $phpBinary);
-        }
-    );
-
     $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
     $commander = is_file($vendorBin = package_path('vendor', 'bin', $binary))
@@ -86,11 +79,17 @@ function remote(array|string $command, array|string $env = []): Process
 
     Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
 
-    return Process::fromShellCommandline(
-        command: Arr::join([$phpBinary, $commander, ...Arr::wrap($command)], ' '),
+    $process = Process::fromShellCommandline(
+        command: Arr::join([php_binary(true), $commander, ...Arr::wrap($command)], ' '),
         cwd: package_path(),
         env: array_merge(defined_environment_variables(), $env)
     );
+
+    if (\is_bool($tty)) {
+        $process->setTty($tty);
+    }
+
+    return $process;
 }
 
 /**
@@ -177,9 +176,8 @@ function defined_environment_variables(): array
 {
     return Collection::make(array_merge($_SERVER, $_ENV))
         ->keys()
-        ->mapWithKeys(static function (string $key) {
-            return [$key => Env::forward($key)];
-        })->unless(
+        ->mapWithKeys(static fn (string $key) => [$key => Env::forward($key)])
+        ->unless(
             Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
         )->all();
 }
@@ -410,6 +408,21 @@ function phpunit_version_compare(string $version, ?string $operator = null)
     }
 
     return version_compare(Version::id(), $version, $operator);
+}
+
+/**
+ * Determine the PHP Binary.
+ *
+ * @api
+ *
+ * @param  bool  $escape
+ * @return string
+ */
+function php_binary(bool $escape = false): string
+{
+    $phpBinary = (new Support\PhpExecutableFinder)->find(false) ?: 'php';
+
+    return $escape === true ? ProcessUtils::escapeArgument((string) $phpBinary) : $phpBinary;
 }
 
 /**

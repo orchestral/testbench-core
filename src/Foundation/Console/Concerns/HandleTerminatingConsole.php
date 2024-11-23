@@ -9,14 +9,14 @@ trait HandleTerminatingConsole
     /**
      * The terminating callbacks.
      *
-     * @var array<int, (callable(\Illuminate\Filesystem\Filesystem):void)>
+     * @var array<int, (callable():void)>
      */
     protected $beforeTerminatingCallbacks = [];
 
     /**
      * Register a callback to be run before terminating the command.
      *
-     * @param  callable(\Illuminate\Filesystem\Filesystem):void  $callback
+     * @param  callable():void  $callback
      * @return void
      */
     protected function beforeTerminating(callable $callback): void
@@ -35,5 +35,7 @@ trait HandleTerminatingConsole
             ->each(static function ($callback) {
                 \call_user_func($callback);
             });
+
+        $this->beforeTerminatingCallbacks = [];
     }
 }

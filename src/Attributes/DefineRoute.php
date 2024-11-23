@@ -16,9 +16,7 @@ final class DefineRoute implements ActionableContract
      */
     public function __construct(
         public string $method
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Handle the attribute.

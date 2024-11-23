@@ -2,6 +2,41 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.48.0
+
+Released: 2024-11-18
+
+### Added
+
+* Added `Orchestra\Testbench\Foundation\Bootstrap\DeleteVendorSymlink` class.
+* Added `Orchestra\Testbench\Concerns\InteractsWithMockery` trait.
+* Added `--database` option to `package:create-sqlite-db` command.
+* Added `--database` and `--all` options to `package:drop-sqlite-db` command.
+* Added `Orchestra\Testbench\php_binary()` function.
+* Added support for PHP 8.3.
+
+### Changes
+
+* Change `resolveApplicationResolvingCallback()` method visibility from `private` to `protected`.
+
+## 7.47.4
+
+Released: 2024-10-25
+
+### Changes
+
+* Ensure database directory exists when running `package:create-sqlite-db`.
+* Allow configuring `PHP_CLI_SERVER_WORKERS` via Composer Script.
+
+## 7.47.3
+
+Released: 2024-10-24
+
+### Changes
+
+* Improves `CTRL+C` and `CTRL+BREAK` supports on Windows without `pcntl` extension.
+* `Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile` should be able to handle `$from` and `$to` when given as `false` or `null`.
+
 ## 7.47.2
 
 Released: 2024-10-06

@@ -52,9 +52,7 @@ class Workbench
      */
     public static function start(ApplicationContract $app, ConfigContract $config): void
     {
-        $app->singleton(ConfigContract::class, static function () use ($config) {
-            return $config;
-        });
+        $app->singleton(ConfigContract::class, static fn () => $config);
     }
 
     /**
@@ -106,9 +104,8 @@ class Workbench
             $path = Collection::make([
                 workbench_path('lang'),
                 workbench_path('resources', 'lang'),
-            ])->filter(static function ($path) {
-                return is_dir($path);
-            })->first();
+            ])->filter(static fn ($path) => is_dir($path))
+                ->first();
 
             if (\is_null($path)) {
                 return;

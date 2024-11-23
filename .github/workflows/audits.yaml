@@ -7,20 +7,19 @@ on:
 
 jobs:
   audit-dependencies:
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
         php:
           - '8.0'
           - 8.1
           - 8.2
+          - 8.3
         experimental:
           - true
 
-    name: PHP:${{ matrix.php }} on ${{ matrix.os }}
+    name: PHP:${{ matrix.php }} Code Audit
 
     steps:
       - name: Checkout code

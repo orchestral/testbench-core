@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Composer\Config as ComposerConfig;
-use Illuminate\Console\Signals;
 use Illuminate\Foundation\Console\ServeCommand as Command;
 use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
 use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
@@ -13,15 +12,13 @@ use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\package_path;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ServeCommand extends Command
 {
-    /**
-     * Execute the console command.
-     *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @return int
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (
@@ -29,6 +26,12 @@ class ServeCommand extends Command
             && method_exists(ComposerConfig::class, 'disableProcessTimeout') // @phpstan-ignore function.impossibleType
         ) {
             ComposerConfig::disableProcessTimeout();
+        }
+
+        $workers = getenv('PHP_CLI_SERVER_WORKERS');
+
+        if (\is_string($workers) && filter_var($workers, FILTER_VALIDATE_INT) && ! isset($_ENV['PHP_CLI_SERVER_WORKERS'])) {
+            $_ENV['PHP_CLI_SERVER_WORKERS'] = (int) $workers;
         }
 
         $_ENV['TESTBENCH_WORKING_PATH'] = package_path();
@@ -42,12 +45,8 @@ class ServeCommand extends Command
         });
     }
 
-    /**
-     * Start a new server process.
-     *
-     * @param  bool  $hasEnvironment
-     * @return \Symfony\Component\Process\Process
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function startProcess($hasEnvironment)
     {
         return tap(parent::startProcess($hasEnvironment), function (Process $process) {
@@ -63,12 +62,8 @@ class ServeCommand extends Command
         });
     }
 
-    /**
-     * Get the value of a command option.
-     *
-     * @param  string|null  $key
-     * @return string|array|bool|null
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     public function option($key = null)
     {
         $value = parent::option($key);

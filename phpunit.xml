@@ -3,7 +3,7 @@
          xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
          backupGlobals="false"
          backupStaticAttributes="false"
-         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
          bootstrap="vendor/autoload.php"
          colors="true"
          convertDeprecationsToExceptions="true"
@@ -20,21 +20,6 @@
         <exclude>
             <directory suffix=".php">src/Http/Middleware</directory>
             <directory suffix=".php">src/Workbench</directory>
-            <file>src/Concerns/HandlesAnnotations.php</file>
-            <file>src/Concerns/HandlesTestFailures.php</file>
-            <file>src/Concerns/WithFactories.php</file>
-            <file>src/Console/Commander.php</file>
-            <file>src/Console/Kernel.php</file>
-            <file>src/Exceptions/DeprecatedException.php</file>
-            <file>src/Exceptions/Handler.php</file>
-            <file>src/Exceptions/PHPUnitErrorException.php</file>
-            <file>src/Foundation/Console/Concerns/InteractsWithIO.php</file>
-            <file>src/Foundation/Console/Kernel.php</file>
-            <file>src/Foundation/Console/PurgeSkeletonCommand.php</file>
-            <file>src/Foundation/Console/ServeCommand.php</file>
-            <file>src/Foundation/Console/TestFallbackCommand.php</file>
-            <file>src/Foundation/Http/Kernel.php</file>
-            <file>src/PHPUnit/AttributeParser.php</file>
         </exclude>
     </coverage>
     <testsuites>
@@ -42,8 +27,4 @@
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <server name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
-        <server name="SEND_DEPRECATED_NOTICES_TO_RAY" value="(true)"/>
-    </php>
 </phpunit>

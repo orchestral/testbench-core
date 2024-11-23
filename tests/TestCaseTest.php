@@ -31,6 +31,8 @@ class TestCaseTest extends TestCase
 
         $this->assertInstanceOf(TestCaseContract::class, $testbench);
         $this->assertTrue($testbench->isRunningTestCase());
+
+        $app->terminate();
     }
 
     /** @test */
@@ -50,5 +52,7 @@ class TestCaseTest extends TestCase
         $this->assertInstanceOf(ConfigRepository::class, $app['config']);
 
         $this->assertFalse($container->isRunningTestCase());
+
+        $app->terminate();
     }
 }

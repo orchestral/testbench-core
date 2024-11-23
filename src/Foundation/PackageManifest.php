@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use RuntimeException;
 
 use function Orchestra\Testbench\package_path;
 
@@ -28,11 +29,8 @@ class PackageManifest extends IlluminatePackageManifest
     ];
 
     /**
-     * Create a new package manifest instance.
+     * {@inheritDoc}
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  string  $basePath
-     * @param  string  $manifestPath
      * @param  \Orchestra\Testbench\Contracts\TestCase|object|null  $testbench
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
@@ -86,11 +84,8 @@ class PackageManifest extends IlluminatePackageManifest
         return $this;
     }
 
-    /**
-     * Get the current package manifest.
-     *
-     * @return array
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function getManifest()
     {
         $ignore = ! \is_null($this->testbench) && method_exists($this->testbench, 'ignorePackageDiscoveriesFrom')
@@ -131,11 +126,17 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromRoot()
     {
-        if (! \defined('TESTBENCH_CORE') || ! is_file(package_path('composer.json'))) {
+        $composerFile = package_path('composer.json');
+
+        if (! \defined('TESTBENCH_CORE') || ! is_file($composerFile)) {
             return [];
         }
 
-        $package = transform(file_get_contents(package_path('composer.json')), static function ($json) {
+        $package = transform(file_get_contents($composerFile), static function ($json) use ($composerFile) {
+            if (json_validate($json) === false) {
+                throw new RuntimeException("Unable to parse [{$composerFile}] file");
+            }
+
             return json_decode($json, true);
         });
 
@@ -144,14 +145,8 @@ class PackageManifest extends IlluminatePackageManifest
         ];
     }
 
-    /**
-     * Write the given manifest array to disk.
-     *
-     * @param  array  $manifest
-     * @return void
-     *
-     * @throws \Exception
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function write(array $manifest)
     {
         parent::write(

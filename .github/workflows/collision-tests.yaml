@@ -7,25 +7,25 @@ on:
 
 jobs:
   tests:
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
         php:
           - '8.0'
           - 8.1
           - 8.2
-        phpunit:
-          - "^9.5.10"
+          - 8.3
         dependencies:
           - "highest"
           - "lowest"
         experimental:
           - false
+        exclude:
+          - php: 8.3
+            dependencies: "lowest"
 
-    name: PHP:${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }} / Collision:^6.2 ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
@@ -38,9 +38,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
           coverage: none
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install PHPUnit ^9.5.10
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+          composer require "phpunit/phpunit:^9.5.10" --no-interaction --no-update
           composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
 
       - name: Install dependencies
@@ -64,24 +64,21 @@ jobs:
         if: matrix.dependencies != 'highest'
 
   tests-with-coverage:
-    runs-on: ${{ matrix.os }}
+    runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        os:
-          - "ubuntu-latest"
         php:
           - '8.0'
           - 8.1
           - 8.2
-        phpunit:
-          - "^9.5.10"
+          - 8.3
         dependencies:
           - "highest"
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }}) with Coverage
+    name: PHP:${{ matrix.php }} / Collision:^6.2 Code Coverage ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
@@ -94,9 +91,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
           coverage: xdebug
 
-      - name: Install PHPUnit ${{ matrix.phpunit }}
+      - name: Install PHPUnit ^9.5.10
         run: |
-          composer require "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+          composer require "phpunit/phpunit:^9.5.10" --no-interaction --no-update
           composer require "nunomaduro/collision:^6.2" --dev --no-interaction --no-update
 
       - name: Install dependencies

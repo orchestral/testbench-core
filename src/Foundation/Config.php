@@ -8,6 +8,7 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Yaml\Yaml;
 
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\parse_environment_variables;
 use function Orchestra\Testbench\transform_relative_path;
 
@@ -199,7 +200,7 @@ class Config extends Fluent implements ConfigContract
             yield "{$filename}.example";
             yield "{$filename}.dist";
         })->filter(static function ($file) use ($workingPath) {
-            return file_exists($workingPath.DIRECTORY_SEPARATOR.$file);
+            return file_exists(join_paths($workingPath, $file));
         })->first();
 
         if (! \is_null($filename)) {
@@ -208,11 +209,11 @@ class Config extends Fluent implements ConfigContract
              *
              * @phpstan-var TOptionalConfig $config
              */
-            $config = Yaml::parseFile($workingPath.DIRECTORY_SEPARATOR.$filename);
+            $config = Yaml::parseFile(join_paths($workingPath, $filename));
 
-            $config['laravel'] = transform(Arr::get($config, 'laravel'), static function ($path) use ($workingPath) {
-                return transform_relative_path($path, $workingPath);
-            });
+            $config['laravel'] = transform(
+                Arr::get($config, 'laravel'), static fn ($path) => transform_relative_path($path, $workingPath)
+            );
 
             if (isset($config['env']) && \is_array($config['env']) && Arr::isAssoc($config['env'])) {
                 $config['env'] = parse_environment_variables($config['env']);

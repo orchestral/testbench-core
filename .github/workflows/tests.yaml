@@ -19,6 +19,7 @@ jobs:
           - '8.0'
           - 8.1
           - 8.2
+          - 8.3
         phpunit:
           - "9.x"
         dependencies:
@@ -27,7 +28,7 @@ jobs:
         experimental:
           - false
 
-    name: PHP:${{ matrix.php }} with PHPUnit:${{ matrix.phpunit }} on ${{ matrix.os }} (${{ matrix.dependencies }})
+    name: PHP:${{ matrix.php }} / PHPUnit:${{ matrix.phpunit }} / OS:${{ matrix.os }} ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
     steps:
       - name: Checkout code
