@@ -94,7 +94,7 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/app.php"));
 
 transform([
-    "'model' => App\Models\User::class" => "'model' => Illuminate\Foundation\Auth\User::class",
+    "'model' => App\Models\User::class" => "'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class)",
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
