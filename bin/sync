@@ -122,13 +122,6 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
-    line("'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',", 3) => line("'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),", 3),
-    line("'charset' => 'utf8',", 3) => line("'charset' => env('DB_CHARSET', 'utf8'),", 3),
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/database.php"));
-
-transform([
     line("'default' => env('CACHE_DRIVER', 'file'),", 1) => line("'default' => env('CACHE_DRIVER', 'array'),", 1),
     line("'connection' => null,", 3) => line("'connection' => env('DB_CACHE_CONNECTION'),", 3),
     line("'table' => 'cache',", 3) => line("'table' => env('DB_CACHE_TABLE', 'cache'),", 3),
@@ -141,6 +134,13 @@ transform([
             'connection' => env('REDIS_CACHE_CONNECTION', 'cache'),
             'lock_connection' => env('REDIS_CACHE_LOCK_CONNECTION', 'default'),", 2),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
+
+transform([
+    line("'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',", 3) => line("'charset' => env('DB_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),", 3),
+    line("'charset' => 'utf8',", 3) => line("'charset' => env('DB_CHARSET', 'utf8'),", 3),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/database.php"));
 
 transform([
     line("'driver' => 'bcrypt',", 1) => line("'driver' => env('HASH_DRIVER', 'bcrypt'),", 1),
