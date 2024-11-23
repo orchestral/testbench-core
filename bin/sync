@@ -90,30 +90,30 @@ Illuminate\Support\Collection::make([
 });
 
 transform([
-    line('APP_KEY=') => line('APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF'),
-    line('DB_CONNECTION=mysql') => line('DB_CONNECTION=sqlite'),
-    line('DB_HOST=') => line('# DB_HOST='),
-    line('DB_PORT=') => line('# DB_PORT='),
-    line('DB_DATABASE=') => line('# DB_DATABASE='),
-    line('DB_USERNAME=') => line('# DB_USERNAME='),
-    line('DB_PASSWORD=') => line('# DB_PASSWORD='),
+    line('APP_KEY=', 0) => line('APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', 0),
+    line('DB_CONNECTION=mysql', 0) => line('DB_CONNECTION=sqlite', 0),
+    line('DB_HOST=', 0) => line('# DB_HOST=', 0),
+    line('DB_PORT=', 0) => line('# DB_PORT=', 0),
+    line('DB_DATABASE=', 0) => line('# DB_DATABASE=', 0),
+    line('DB_USERNAME=', 0) => line('# DB_USERNAME=', 0),
+    line('DB_PASSWORD=', 0) => line('# DB_PASSWORD=', 0),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
 
 transform([
-    "env('APP_ENV', 'production')" => "env('APP_ENV', 'workbench')",
-    PHP_EOL.'        App\Providers' => PHP_EOL.'        // App\Providers',
+    line("'env' => env('APP_ENV', 'production'),", 1) => line("'env' => env('APP_ENV', 'workbench'),", 1),
+    line('App\Providers', 2) => line('// App\Providers', 2),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/app.php"));
 
 transform([
-    "'model' => App\Models\User::class" => "'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class)",
+    line("'model' => App\Models\User::class,", 3) => line("'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class),", 3),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
-    "env('CACHE_DRIVER', 'file')" => "env('CACHE_DRIVER', 'array')",
+    line("'default' => env('CACHE_DRIVER', 'file'),", 1) => line("'default' => env('CACHE_DRIVER', 'array'),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
 
 transform([
-    "env('SESSION_DRIVER', 'file')" => "env('SESSION_DRIVER', 'array')",
+    line("'driver' => env('SESSION_DRIVER', 'file'),", 1) => line("'driver' => env('SESSION_DRIVER', 'array'),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/session.php"));
 
 $files->copy("{$workingPath}/skeleton/database/factories/UserFactory.php", "{$workingPath}/src/Factories/UserFactory.php");
