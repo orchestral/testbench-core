@@ -12,6 +12,10 @@ $purgeSkeletonDirectories = static function () use ($files, $workingPath) {
     $files->deleteDirectory("{$workingPath}/breeze-skeleton");
 };
 
+function line(string $code, int $tab = 0): string {
+    return implode('', [PHP_EOL, str_repeat(' ', ($tab * 4)), $code]);
+}
+
 $files->delete("{$workingPath}/laravel/.env");
 
 $purgeSkeletonDirectories();
@@ -86,13 +90,13 @@ Illuminate\Support\Collection::make([
 });
 
 transform([
-    PHP_EOL.'APP_KEY=' => PHP_EOL.'APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
-    PHP_EOL.'DB_CONNECTION=mysql' => PHP_EOL.'DB_CONNECTION=sqlite',
-    PHP_EOL.'DB_HOST=' => PHP_EOL.'# DB_HOST=',
-    PHP_EOL.'DB_PORT=' => PHP_EOL.'# DB_PORT=',
-    PHP_EOL.'DB_DATABASE=' => PHP_EOL.'# DB_DATABASE=',
-    PHP_EOL.'DB_USERNAME=' => PHP_EOL.'# DB_USERNAME=',
-    PHP_EOL.'DB_PASSWORD=' => PHP_EOL.'# DB_PASSWORD=',
+    line('APP_KEY=') => line('APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF'),
+    line('DB_CONNECTION=mysql') => line('DB_CONNECTION=sqlite'),
+    line('DB_HOST=') => line('# DB_HOST='),
+    line('DB_PORT=') => line('# DB_PORT='),
+    line('DB_DATABASE=') => line('# DB_DATABASE='),
+    line('DB_USERNAME=') => line('# DB_USERNAME='),
+    line('DB_PASSWORD=') => line('# DB_PASSWORD='),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
 
 transform([

@@ -110,6 +110,11 @@
         "test": [
             "@php vendor/bin/phpunit --no-coverage --color -c ./"
         ],
+        "sync": [
+            "@clear",
+            "@php bin/sync",
+            "@lint"
+        ],
         "ci": [
             "@composer audit",
             "@post-autoload-dump",
