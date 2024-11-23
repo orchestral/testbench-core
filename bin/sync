@@ -108,6 +108,7 @@ transform([
     "        'passwords' => 'users'," => "        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),",
     "            'model' => App\Models\User::class," => "            'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class),",
     "            'table' => 'password_reset_tokens'," => "            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),",
+    "    'password_timeout' => 10800," => "    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),"
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
