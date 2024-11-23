@@ -8,15 +8,14 @@ require __DIR__.'/../vendor/autoload.php';
 $files = new Illuminate\Filesystem\Filesystem();
 
 $purgeSkeletonDirectories = static function () use ($files, $workingPath) {
+    $files->delete("{$workingPath}/laravel/.env");
+
     $files->deleteDirectory("{$workingPath}/skeleton");
-    $files->deleteDirectory("{$workingPath}/breeze-skeleton");
 };
 
 function line(string $code, int $tab = 0): string {
     return implode('', [PHP_EOL, str_repeat(' ', ($tab * 4)), $code]);
 }
-
-$files->delete("{$workingPath}/laravel/.env");
 
 $purgeSkeletonDirectories();
 
