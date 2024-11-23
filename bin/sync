@@ -105,6 +105,11 @@ transform([
     line("'timezone' => 'UTC',", 1) => line("'timezone' => env('APP_TIMEZONE', 'UTC'),", 1),
     line("'locale' => 'en',", 1) => line("'locale' => env('APP_LOCALE', 'en'),", 1),
     line("'fallback_locale' => 'en',", 1) => line("'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),", 1),
+    line("'maintenance' => [
+        'driver' => 'file',
+        // 'store' => 'redis',", 1) => line("'maintenance' => [
+        'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
+        // 'store' => env('APP_MAINTENANCE_STORE', 'database'),", 1),
     line('App\Providers', 2) => line('// App\Providers', 2),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/app.php"));
 
@@ -128,20 +133,31 @@ transform([
     line("'connection' => null,", 3) => line("'connection' => env('DB_CACHE_CONNECTION'),", 3),
     line("'table' => 'cache',", 3) => line("'table' => env('DB_CACHE_TABLE', 'cache'),", 3),
     line("'lock_connection' => null,", 3) => line("'lock_connection' => env('DB_CACHE_LOCK_CONNECTION'),", 3),
+    line("'redis' => [
+            'driver' => 'redis',
+            'connection' => 'cache',
+            'lock_connection' => 'default',", 2) => line("'redis' => [
+            'driver' => 'redis',
+            'connection' => env('REDIS_CACHE_CONNECTION', 'cache'),
+            'lock_connection' => env('REDIS_CACHE_LOCK_CONNECTION', 'default'),", 2),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
 
 transform([
     line("'driver' => 'bcrypt',", 1) => line("'driver' => env('HASH_DRIVER', 'bcrypt'),", 1),
+    line("'bcrypt' => [
+        'rounds' => env('BCRYPT_ROUNDS', 12),
+        'verify' => true,", 1) => line("'bcrypt' => [
+        'rounds' => env('BCRYPT_ROUNDS', 10),
+        'verify' => env('HASH_VERIFY', true),", 1),
     line("'argon' => [
         'memory' => 65536,
         'threads' => 1,
-        'time' => 4,", 1) => line("'argon' => [
+        'time' => 4,
+        'verify' => true,", 1) => line("'argon' => [
         'memory' => env('ARGON_MEMORY', 65536),
         'threads' => env('ARGON_THREADS', 1),
-        'time' => env('ARGON_TIME', 4),", 1),
-    line("'bcrypt' => [
-        'rounds' => env('BCRYPT_ROUNDS', 12),", 1) => line("'bcrypt' => [
-        'rounds' => env('BCRYPT_ROUNDS', 10),", 1),
+        'time' => env('ARGON_TIME', 4),
+        'verify' => env('HASH_VERIFY', true),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/hashing.php"));
 
 transform([
@@ -203,6 +219,7 @@ transform([
     line("'path' => '/',", 1) => line("'path' => env('SESSION_PATH', '/'),", 1),
     line("'http_only' => true,", 1) => line("'http_only' => env('SESSION_HTTP_ONLY', true),", 1),
     line("'same_site' => 'lax',", 1) => line("'same_site' => env('SESSION_SAME_SITE', 'lax'),", 1),
+    line("'partitioned' => false,", 1) => line("'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/session.php"));
 
 $files->copy("{$workingPath}/skeleton/database/factories/UserFactory.php", "{$workingPath}/src/Factories/UserFactory.php");
