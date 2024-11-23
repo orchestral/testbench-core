@@ -2,10 +2,14 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
+use Workbench\App\Models\User;
 
 use function Orchestra\Testbench\workbench_path;
 
@@ -28,6 +32,24 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
     {
         $this->usesWorkbenchConfigFile = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false)
             && is_dir(workbench_path('config'));
+    }
+
+    /** {@inheritDoc} */
+    #[\Override]
+    public function bootstrap(Application $app): void
+    {
+        parent::bootstrap($app);
+
+        /** @var class-string<\Illuminate\Foundation\Auth\User>|false $userModel */
+        $userModel = match (true) {
+            Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
+            class_exists(User::class) => User::class,
+            default => false,
+        };
+
+        if ($userModel !== false && is_a($userModel, Authenticatable::class, true)) {
+            $app->make('config')->set('auth.providers.users.model', $userModel);
+        }
     }
 
     /**

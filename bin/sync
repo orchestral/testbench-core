@@ -12,6 +12,10 @@ $purgeSkeletonDirectories = static function () use ($files, $workingPath) {
     $files->deleteDirectory("{$workingPath}/breeze-skeleton");
 };
 
+function line(string $code, int $tab = 0): string {
+    return implode('', [PHP_EOL, str_repeat(' ', ($tab * 4)), $code]);
+}
+
 $files->delete("{$workingPath}/laravel/.env");
 
 $purgeSkeletonDirectories();
@@ -86,37 +90,40 @@ Illuminate\Support\Collection::make([
 });
 
 transform([
-    PHP_EOL.'APP_KEY=' => PHP_EOL.'APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
-    PHP_EOL.'DB_CONNECTION=mysql' => PHP_EOL.'DB_CONNECTION=sqlite',
-    PHP_EOL.'DB_HOST=' => PHP_EOL.'# DB_HOST=',
-    PHP_EOL.'DB_PORT=' => PHP_EOL.'# DB_PORT=',
-    PHP_EOL.'DB_DATABASE=' => PHP_EOL.'# DB_DATABASE=',
-    PHP_EOL.'DB_USERNAME=' => PHP_EOL.'# DB_USERNAME=',
-    PHP_EOL.'DB_PASSWORD=' => PHP_EOL.'# DB_PASSWORD=',
+    line('APP_KEY=', 0) => line('APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', 0),
+    line('DB_CONNECTION=mysql', 0) => line('DB_CONNECTION=sqlite', 0),
+    line('DB_HOST=', 0) => line('# DB_HOST=', 0),
+    line('DB_PORT=', 0) => line('# DB_PORT=', 0),
+    line('DB_DATABASE=', 0) => line('# DB_DATABASE=', 0),
+    line('DB_USERNAME=', 0) => line('# DB_USERNAME=', 0),
+    line('DB_PASSWORD=', 0) => line('# DB_PASSWORD=', 0),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
 
 transform([
-    "    'env' => env('APP_ENV', 'production')" => "    'env' => env('APP_ENV', 'workbench')",
-    "    'timezone' => 'UTC'," => "    'timezone' => env('APP_TIMEZONE', 'UTC'),",
-    "    'locale' => 'en'," => "    'locale' => env('APP_LOCALE', 'en'),",
-    "    'fallback_locale' => 'en'," => "    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),",
-    PHP_EOL.'        App\Providers' => PHP_EOL.'        // App\Providers',
+    line("'env' => env('APP_ENV', 'production'),", 1) => line("'env' => env('APP_ENV', 'workbench'),", 1),
+    line("'timezone' => 'UTC',", 1) => line("'timezone' => env('APP_TIMEZONE', 'UTC'),", 1),
+    line("'locale' => 'en',", 1) => line("'locale' => env('APP_LOCALE', 'en'),", 1),
+    line("'fallback_locale' => 'en',", 1) => line("'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),", 1),
+    line('App\Providers', 2) => line('// App\Providers', 2),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/app.php"));
 
 transform([
-    "        'guard' => 'web'," => "        'guard' => env('AUTH_GUARD', 'web'),",
-    "        'passwords' => 'users'," => "        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),",
-    "            'model' => App\Models\User::class," => "            'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class),",
-    "            'table' => 'password_reset_tokens'," => "            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),",
-    "    'password_timeout' => 10800," => "    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),"
+    line("'guard' => 'web',", 2) => line("'guard' => env('AUTH_GUARD', 'web'),", 2),
+    line("'passwords' => 'users',", 2) => line("'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),", 2),
+    line("'model' => App\Models\User::class,", 3) => line("'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class),", 3),
+    // line("'table' => 'password_resets',", 3) => line("table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_resets'),", 3),
+    line("'password_timeout' => 10800,", 1) => line("'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
-    "env('CACHE_DRIVER', 'file')" => "env('CACHE_DRIVER', 'array')",
+    line("'default' => env('CACHE_DRIVER', 'file'),", 1) => line("'default' => env('CACHE_DRIVER', 'array'),", 1),
+    line("'connection' => null,", 3) => line("'connection' => env('DB_CACHE_CONNECTION'),", 3),
+    line("'table' => 'cache',", 3) => line("'table' => env('DB_CACHE_TABLE', 'cache'),", 3),
+    line("'lock_connection' => null,", 3) => line("'lock_connection' => env('DB_CACHE_LOCK_CONNECTION'),", 3),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
 
 transform([
-    "env('SESSION_DRIVER', 'file')" => "env('SESSION_DRIVER', 'array')",
+    line("'driver' => env('SESSION_DRIVER', 'file'),", 1) => line("'driver' => env('SESSION_DRIVER', 'array'),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/session.php"));
 
 $files->copy("{$workingPath}/skeleton/database/factories/UserFactory.php", "{$workingPath}/src/Factories/UserFactory.php");
