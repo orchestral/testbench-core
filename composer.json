@@ -90,11 +90,6 @@
             "@clear",
             "@prepare"
         ],
-        "sync": [
-            "@clear",
-            "@php bin/sync",
-            "@lint"
-        ],
         "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
         "serve": [
