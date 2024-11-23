@@ -11,6 +11,7 @@ parameters:
   ignoreErrors:
     - identifier: missingType.generics
     - identifier: missingType.iterableValue
+    - identifier: trait.unused
     - '#Unsafe usage of new static#'
 
   excludePaths:
