@@ -116,6 +116,13 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
+    line("'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',", 3) => line("'charset' => env('DB_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),", 3),
+    line("'charset' => 'utf8',", 3) => line("'charset' => env('DB_CHARSET', 'utf8'),", 3),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/database.php"));
+
+transform([
     line("'default' => env('CACHE_DRIVER', 'file'),", 1) => line("'default' => env('CACHE_DRIVER', 'array'),", 1),
     line("'connection' => null,", 3) => line("'connection' => env('DB_CACHE_CONNECTION'),", 3),
     line("'table' => 'cache',", 3) => line("'table' => env('DB_CACHE_TABLE', 'cache'),", 3),
@@ -123,20 +130,87 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
 
 transform([
+    line("'driver' => 'bcrypt',", 1) => line("'driver' => env('HASH_DRIVER', 'bcrypt'),", 1),
+    line("'argon' => [
+        'memory' => 65536,
+        'threads' => 1,
+        'time' => 4,", 1) => line("'argon' => [
+        'memory' => env('ARGON_MEMORY', 65536),
+        'threads' => env('ARGON_THREADS', 1),
+        'time' => env('ARGON_TIME', 4),", 1),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/hashing.php"));
+
+transform([
+    line("'deprecations' => [
+        'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
+        'trace' => false,", 1) => line("'deprecations' => [
+        'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
+        'trace' => env('LOG_DEPRECATIONS_TRACE', false),", 1),
+    line("'stack' => [
+            'driver' => 'stack',
+            'channels' => ['single'],", 2) => line("'stack' => [
+            'driver' => 'stack',
+            'channels' => explode(',', env('LOG_STACK', 'single')),", 2),
+    line("'daily' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,", 2) => line("'daily' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/laravel.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS', 14),", 2),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/logging.php"));
+
+transform([
+    // line("'default' => env('MAIL_MAILER', 'smtp'),", 1) => line("'default' => env('MAIL_MAILER', 'log'),", 1),
+    line("'markdown' => [
+        'theme' => 'default',", 1) => line("'markdown' => [
+        'theme' => env('MAIL_MARKDOWN_THEME', 'default'),", 1),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/mail.php"));
+
+transform([
+    line("'database' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'default',
+            'retry_after' => 90,", 2) => line("'database' => [
+            'driver' => 'database',
+            'connection' => env('DB_QUEUE_CONNECTION'),
+            'table' => env('DB_QUEUE_TABLE', 'jobs'),
+            'queue' => env('DB_QUEUE', 'default'),
+            'retry_after' => (int) env('DB_QUEUE_RETRY_AFTER', 90),", 2),
+    line("'beanstalkd' => [
+            'driver' => 'beanstalkd',
+            'host' => 'localhost',
+            'queue' => 'default',
+            'retry_after' => 90,", 2) => line("'beanstalkd' => [
+            'driver' => 'beanstalkd',
+            'host' => env('BEANSTALKD_QUEUE_HOST', 'localhost'),
+            'queue' => env('BEANSTALKD_QUEUE', 'default'),
+            'retry_after' => (int) env('BEANSTALKD_QUEUE_RETRY_AFTER', 90),", 2),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/queue.php"));
+
+transform([
     line("'driver' => env('SESSION_DRIVER', 'file'),", 1) => line("'driver' => env('SESSION_DRIVER', 'array'),", 1),
+    line("'expire_on_close' => false,", 1) => line("'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),", 1),
+    line("'encrypt' => false,", 1) => line("'encrypt' => env('SESSION_ENCRYPT', false),", 1),
+    line("'table' => 'sessions',", 1) => line("'table' => env('SESSION_TABLE', 'sessions'),", 1),
+    line("'path' => '/',", 1) => line("'path' => env('SESSION_PATH', '/'),", 1),
+    line("'http_only' => true,", 1) => line("'http_only' => env('SESSION_HTTP_ONLY', true),", 1),
+    line("'same_site' => 'lax',", 1) => line("'same_site' => env('SESSION_SAME_SITE', 'lax'),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/session.php"));
 
 $files->copy("{$workingPath}/skeleton/database/factories/UserFactory.php", "{$workingPath}/src/Factories/UserFactory.php");
 transform([
     'namespace Database\Factories;' => 'namespace Orchestra\Testbench\Factories;',
-    'use Illuminate\Database\Eloquent\Factories\Factory;' => 'use Illuminate\Database\Eloquent\Factories\Factory;'.PHP_EOL.'use Illuminate\Foundation\Auth\User;',
+    'use Illuminate\Database\Eloquent\Factories\Factory;' => 'use Illuminate\Database\Eloquent\Factories\Factory;'.line('use Illuminate\Foundation\Auth\User;'),
     ' * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>' => ' * @phpstan-type TModel \Illuminate\Foundation\Auth\User
  *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
  *
  * @property \Illuminate\Database\Eloquent\Model|TModel $model',
-    '    }
-}'.PHP_EOL => '    }
+    line('}'.PHP_EOL.'}'.PHP_EOL, 1) => line('}
 
     /**
      * Get the name of the model that is generated by the factory.
@@ -147,8 +221,7 @@ transform([
     {
         return $this->model ?? config(\'auth.providers.users.model\', User::class);
     }
-}
-',
+}'.PHP_EOL, 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Factories/UserFactory.php"));
 
 $purgeSkeletonDirectories();
