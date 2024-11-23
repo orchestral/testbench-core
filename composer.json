@@ -89,10 +89,15 @@
             "@clear",
             "@prepare"
         ],
+        "sync": [
+            "@clear",
+            "@php bin/sync",
+            "@lint"
+        ],
         "clear": "@php testbench package:purge-skeleton --ansi",
         "prepare": "@php testbench package:discover --ansi",
         "lint": [
-            "@php vendor/bin/pint",
+            "@php vendor/bin/pint --ansi",
             "@php vendor/bin/phpstan analyse --verbose"
         ],
         "test": [
