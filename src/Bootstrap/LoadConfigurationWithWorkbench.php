@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Env;
@@ -30,6 +32,24 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
     {
         $this->usesWorkbenchConfigFile = (Workbench::configuration()->getWorkbenchDiscoversAttributes()['config'] ?? false)
             && is_dir(workbench_path('config'));
+    }
+
+    /** {@inheritDoc} */
+    #[\Override]
+    public function bootstrap(Application $app): void
+    {
+        parent::bootstrap($app);
+
+        /** @var class-string<\Illuminate\Foundation\Auth\User>|false $userModel */
+        $userModel = match (true) {
+            Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
+            class_exists(User::class) => User::class,
+            default => false,
+        };
+
+        if ($userModel !== false && is_a($userModel, Authenticatable::class, true)) {
+            $app->make('config')->set('auth.providers.users.model', $userModel);
+        }
     }
 
     /**
@@ -71,17 +91,6 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
         })->each(static function ($path, $key) use ($configurations) {
             $configurations->put($key, $path);
         });
-
-        /** @var class-string<\Illuminate\Foundation\Auth\User>|false $userModel */
-        $userModel = match (true) {
-            Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
-            class_exists(User::class) => User::class,
-            default => false,
-        };
-
-        if ($userModel !== false && is_a($userModel, 'Illuminate\Foundation\Auth\User')) {
-            $configurations->put('auth.providers.users.model', $userModel);
-        }
 
         return $configurations;
     }
