@@ -11,9 +11,7 @@ class WithWorkbenchTest extends TestCase
 {
     use WithWorkbench;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_be_resolved()
     {
         $cachedConfig = Workbench::configuration();
@@ -30,9 +28,7 @@ class WithWorkbenchTest extends TestCase
         ], $cachedConfig->getExtraAttributes());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_be_manually_resolved()
     {
         $cachedConfig = static::cachedConfigurationForWorkbench();
@@ -44,5 +40,11 @@ class WithWorkbenchTest extends TestCase
         $this->assertInstanceOf(ConfigContract::class, $config);
 
         $this->assertSame($cachedConfig->toArray(), $config->toArray());
+    }
+
+    /** @test */
+    public function it_can_resolve_user_model_from_workbench()
+    {
+        $this->assertSame('Workbench\App\Models\User', config('auth.providers.users.model'));
     }
 }

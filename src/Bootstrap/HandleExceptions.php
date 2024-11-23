@@ -43,9 +43,11 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
             /** @var array{channel?: string, trace?: bool}|string|null $options */
             $options = $config->get('logging.deprecations');
+            $trace = Env::get('LOG_DEPRECATIONS_TRACE', false);
 
             if (\is_array($options)) {
                 $driver = $options['channel'] ?? 'null';
+                $trace = $options['trace'] ?? true;
             } else {
                 $driver = $options ?? 'null';
             }
@@ -60,7 +62,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
             $config->set('logging.deprecations', [
                 'channel' => 'deprecations',
-                'trace' => true,
+                'trace' => $trace,
             ]);
         });
     }

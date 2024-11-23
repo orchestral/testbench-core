@@ -95,11 +95,16 @@
             "@php testbench serve --ansi"
         ],
         "lint": [
-            "@php vendor/bin/pint",
+            "@php vendor/bin/pint --ansi",
             "@php vendor/bin/phpstan analyse --verbose"
         ],
         "test": [
             "@php vendor/bin/phpunit --no-coverage --no-configuration --dont-report-useless-tests --bootstrap vendor/autoload.php --exclude-group phpunit-configuration --color tests"
+        ],
+        "sync": [
+            "@clear",
+            "@php bin/sync",
+            "@lint"
         ],
         "ci": [
             "@composer audit",
