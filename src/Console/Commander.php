@@ -185,7 +185,7 @@ class Commander
      */
     public static function applicationBasePath()
     {
-        return static::$testbench::applicationBasePath();
+        return $_ENV['APP_BASE_PATH'] ?? static::$testbench::applicationBasePath();
     }
 
     /**
