@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Factories;
 
 use Carbon\CarbonInterface;
-use Illuminate\Foundation\Auth\User;
+use Workbench\App\Models\User;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\TestCase;
