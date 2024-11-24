@@ -3,11 +3,11 @@
 namespace Orchestra\Testbench\Tests\Factories;
 
 use Carbon\CarbonInterface;
-use Workbench\App\Models\User;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Workbench\App\Models\User;
 
 class UserFactoryTest extends TestCase
 {
