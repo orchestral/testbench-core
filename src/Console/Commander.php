@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Console;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\Concerns\InteractsWithSignals;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -10,7 +9,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
@@ -66,6 +65,22 @@ class Commander
     protected $environmentFile = '.env';
 
     /**
+     * The testbench implementation class.
+     *
+     * @var class-string<\Orchestra\Testbench\Foundation\Application>
+     */
+    protected static string $testbench = Testbench::class;
+
+    /**
+     * List of providers.
+     *
+     * @var array<int, class-string<\Illuminate\Support\ServiceProvider>>
+     */
+    protected array $providers = [
+        TestbenchServiceProvider::class,
+    ];
+
+    /**
      * Construct a new Commander.
      *
      * @param  \Orchestra\Testbench\Foundation\Config|array  $config
@@ -103,7 +118,7 @@ class Commander
         } finally {
             $this->handleTerminatingConsole();
             Workbench::flush();
-            Application::flushState();
+            static::$testbench::flushState();
 
             $this->untrap();
         }
@@ -123,7 +138,7 @@ class Commander
 
             $hasEnvironmentFile = fn () => file_exists(join_paths($laravelBasePath, '.env'));
 
-            tap(Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($hasEnvironmentFile) {
+            tap(static::$testbench::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($hasEnvironmentFile) {
                 $filesystem = new Filesystem;
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
@@ -133,25 +148,13 @@ class Commander
                 }
             });
 
-            $options = array_filter([
-                'load_environment_variables' => $hasEnvironmentFile(),
-                'extra' => $this->config->getExtraAttributes(),
-            ]);
-
-            $this->app = Application::create(
+            $this->app = static::$testbench::create(
                 basePath: $this->getBasePath(),
-                resolvingCallback: function ($app) {
-                    Workbench::startWithProviders($app, $this->config);
-                    Workbench::discoverRoutes($app, $this->config);
-
-                    (new LoadMigrationsFromArray(
-                        $this->config['migrations'] ?? [],
-                        $this->config['seeders'] ?? false,
-                    ))->bootstrap($app);
-
-                    \call_user_func($this->resolveApplicationCallback(), $app);
-                },
-                options: $options,
+                resolvingCallback: $this->resolveApplicationCallback(),
+                options: array_filter([
+                    'load_environment_variables' => $hasEnvironmentFile(),
+                    'extra' => $this->config->getExtraAttributes(),
+                ]),
             );
         }
 
@@ -165,8 +168,18 @@ class Commander
      */
     protected function resolveApplicationCallback()
     {
-        return static function ($app) {
-            $app->register(TestbenchServiceProvider::class);
+        return function ($app) {
+            Workbench::startWithProviders($app, $this->config);
+            Workbench::discoverRoutes($app, $this->config);
+
+            (new LoadMigrationsFromArray(
+                $this->config['migrations'] ?? [],
+                $this->config['seeders'] ?? false,
+            ))->bootstrap($app);
+
+            foreach ($this->providers as $provider) {
+                $app->register($provider);
+            }
         };
     }
 
@@ -195,7 +208,7 @@ class Commander
      */
     public static function applicationBasePath()
     {
-        return Application::applicationBasePath();
+        return static::$testbench::applicationBasePath();
     }
 
     /**
