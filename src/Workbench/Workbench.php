@@ -52,7 +52,9 @@ class Workbench
      */
     public static function start(ApplicationContract $app, ConfigContract $config): void
     {
-        $app->singleton(ConfigContract::class, static fn () => $config);
+        if (! $app->bound(ConfigContract::class)) {
+            $app->singleton(ConfigContract::class, static fn () => $config);
+        }
     }
 
     /**
