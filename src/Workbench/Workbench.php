@@ -15,8 +15,6 @@ use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Workbench\AuthServiceProvider;
-use Orchestra\Workbench\WorkbenchServiceProvider;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 use Throwable;
@@ -61,6 +59,7 @@ class Workbench
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Orchestra\Testbench\Contracts\Config  $config
+     * @param  array<int, class-string<\Illuminate\Support\ServiceProvider>>  $providers
      * @return void
      */
     public static function start(ApplicationContract $app, ConfigContract $config, array $providers = []): void
@@ -86,8 +85,8 @@ class Workbench
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
         static::start($app, $config, [
-            AuthServiceProvider::class, // @phpstan-ignore class.notFound
-            WorkbenchServiceProvider::class, // @phpstan-ignore class.notFound
+            'Orchestra\Workbench\AuthServiceProvider', // @phpstan-ignore class.notFound
+            'Orchestra\Workbench\WorkbenchServiceProvider', // @phpstan-ignore class.notFound
         ]);
     }
 
