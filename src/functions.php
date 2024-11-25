@@ -247,10 +247,6 @@ function default_skeleton_path(array|string $path = ''): string
 {
     $paths = Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path);
 
-    if (defined('TESTBENCH_DUSK') && function_exists('Orchestra\Testbench\Dusk\default_skeleton_path')) {
-        return \Orchestra\Testbench\Dusk\default_skeleton_path($paths); // @phpstan-ignore function.notFound
-    }
-    
     return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...$paths));
 }
 
