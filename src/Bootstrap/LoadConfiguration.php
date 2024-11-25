@@ -40,9 +40,7 @@ class LoadConfiguration
             ]);
         }
 
-        if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
-            $config->set('database.default', 'testing');
-        }
+        $this->configureDefaultDatabaseConnection($config);
 
         mb_internal_encoding('UTF-8');
     }
@@ -116,5 +114,31 @@ class LoadConfiguration
     protected function extendsLoadedConfiguration(Collection $configurations): Collection
     {
         return $configurations;
+    }
+
+    /**
+     * Configure the default database connection.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @return void
+     */
+    protected function configureDefaultDatabaseConnection(RepositoryContract $config): void
+    {
+        if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
+            $config->set('database.default', 'testing');
+        }
+    }
+
+    /**
+     * Get the application configuration path.
+     *
+     * @param  TLaravel  $app
+     * @return string
+     */
+    protected function getConfigurationPath(Application $app): string
+    {
+        return is_dir($app->basePath('config'))
+            ? $app->basePath('config')
+            : default_skeleton_path('config');
     }
 }
