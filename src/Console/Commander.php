@@ -150,7 +150,7 @@ class Commander
             );
 
             $this->app = static::$testbench::create(
-                basePath: $this->getBasePath(),
+                basePath: $APP_BASE_PATH,
                 resolvingCallback: $this->resolveApplicationCallback(),
                 options: array_filter([
                     'load_environment_variables' => $hasEnvironmentFile(),
