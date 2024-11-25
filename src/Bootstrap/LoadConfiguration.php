@@ -56,9 +56,7 @@ class LoadConfiguration
     {
         $this->extendsLoadedConfiguration(
             LazyCollection::make(function () use ($app) {
-                $path = is_dir($app->basePath('config'))
-                    ? $app->basePath('config')
-                    : default_skeleton_path('config');
+                $path = $this->getConfigurationPath($app);
 
                 if (\is_string($path)) {
                     foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
