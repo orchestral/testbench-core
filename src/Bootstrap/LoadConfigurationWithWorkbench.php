@@ -52,13 +52,7 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
         }
     }
 
-    /**
-     * Resolve the configuration file.
-     *
-     * @param  string  $path
-     * @param  string  $key
-     * @return string
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function resolveConfigurationFile(string $path, string $key): string
     {
@@ -67,12 +61,7 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
             : $path;
     }
 
-    /**
-     * Extend the loaded configuration.
-     *
-     * @param  \Illuminate\Support\Collection  $configurations
-     * @return \Illuminate\Support\Collection
-     */
+    /** {@inheritDoc} */
     #[\Override]
     protected function extendsLoadedConfiguration(Collection $configurations): Collection
     {
