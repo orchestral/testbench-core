@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests;
 use Carbon\CarbonInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Illuminate\Support\Facades\Date;
 use Orchestra\Testbench\Attributes\WithConfig;
@@ -71,5 +72,11 @@ class DefaultConfigurationTest extends TestCase
         $this->assertInstanceOf(CarbonInterface::class, $date);
         $this->assertInstanceOf(DateTimeInterface::class, $date);
         $this->assertNotInstanceOf(DateTimeImmutable::class, $date);
+    }
+
+    #[Test]
+    public function it_resolve_the_default_user_model()
+    {
+        $this->assertSame(User::class, $this->app['config']['auth.providers.users.model']);
     }
 }
