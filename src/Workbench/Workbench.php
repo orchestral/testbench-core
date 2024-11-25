@@ -59,7 +59,7 @@ class Workbench
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Orchestra\Testbench\Contracts\Config  $config
-     * @param  array<int, class-string<\Illuminate\Support\ServiceProvider>>  $providers
+     * @param  array<int, string|class-string<\Illuminate\Support\ServiceProvider>>  $providers
      * @return void
      */
     public static function start(ApplicationContract $app, ConfigContract $config, array $providers = []): void
@@ -85,8 +85,8 @@ class Workbench
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
         static::start($app, $config, [
-            'Orchestra\Workbench\AuthServiceProvider', // @phpstan-ignore class.notFound
-            'Orchestra\Workbench\WorkbenchServiceProvider', // @phpstan-ignore class.notFound
+            'Orchestra\Workbench\AuthServiceProvider',
+            'Orchestra\Workbench\WorkbenchServiceProvider',
         ]);
     }
 

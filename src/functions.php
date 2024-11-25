@@ -241,9 +241,7 @@ function transform_relative_path(string $path, string $workingPath): string
  */
 function default_skeleton_path(array|string $path = ''): string
 {
-    $paths = Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path);
-
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...$paths));
+    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
 /**
