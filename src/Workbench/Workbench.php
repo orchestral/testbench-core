@@ -8,12 +8,14 @@ use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
+use Orchestra\Workbench\AuthServiceProvider;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
@@ -54,9 +56,22 @@ class Workbench
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      * @return void
      */
-    public static function start(ApplicationContract $app, ConfigContract $config): void
+    public static function start(ApplicationContract $app, ConfigContract $config, array $providers = []): void
     {
-        $app->singleton(ConfigContract::class, static fn () => $config);
+        if (! $app->bound(ConfigContract::class)) {
+            $app->singleton(ConfigContract::class, static fn () => $config);
+        }
+
+        Collection::make($providers)
+            ->when(
+                Arr::get($config->getWorkbenchAttributes(), 'auth', false) === true,
+                static fn ($providers) => $providers->push(AuthServiceProvider::class) // @phpstan-ignore class.notFound
+            )
+            ->filter()
+            ->filter(static fn ($provider) => class_exists($provider))
+            ->each(static function ($provider) use ($app) {
+                $app->register($provider);
+            });
     }
 
     /**
@@ -68,11 +83,9 @@ class Workbench
      */
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
-        static::start($app, $config);
-
-        if (class_exists(WorkbenchServiceProvider::class)) {
-            $app->register(WorkbenchServiceProvider::class);
-        }
+        static::start($app, $config, [
+            WorkbenchServiceProvider::class, // @phpstan-ignore class.notFound
+        ]);
     }
 
     /**
