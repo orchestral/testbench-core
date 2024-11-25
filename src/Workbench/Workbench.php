@@ -40,7 +40,7 @@ class Workbench
     /**
      * The cached test case configuration.
      *
-     * @var class-string<\Illuminate\Foundation\Auth\User>|false
+     * @var class-string<\Illuminate\Foundation\Auth\User>|false|null
      */
     protected static string|false|null $cachedUserModel = null;
 
