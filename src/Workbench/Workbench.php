@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Workbench\AuthServiceProvider;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 use ReflectionClass;
@@ -37,6 +38,13 @@ class Workbench
      * @var \Orchestra\Testbench\Contracts\Config|null
      */
     protected static ?ConfigContract $cachedConfiguration = null;
+
+    /**
+     * The cached test case configuration.
+     *
+     * @var class-string<\Illuminate\Foundation\Auth\User>|false
+     */
+    protected static string|false|null $cachedUserModel = null;
 
     /**
      * The cached core workbench bindings.
@@ -324,6 +332,21 @@ class Workbench
     }
 
     /**
+     * Get application User Model
+     *
+     * @return class-string<\Illuminate\Foundation\Auth\User>|false
+     */
+    public static function applicationUserModel(): string|false
+    {
+        return static::$cachedUserModel ??= match (true) {
+            Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
+            class_exists('Workbench\App\Models\User') => 'Workbench\App\Models\User',
+            class_exists('App\Models\User') => 'App\Models\User',
+            default => false,
+        };
+    }
+
+    /**
      * Flush the cached configuration.
      *
      * @return void
@@ -333,6 +356,7 @@ class Workbench
     public static function flush(): void
     {
         static::$cachedConfiguration = null;
+        static::$cachedUserModel = null;
 
         static::$cachedCoreBindings = [
             'kernel' => [],
