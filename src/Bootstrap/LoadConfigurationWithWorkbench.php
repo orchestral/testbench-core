@@ -59,6 +59,7 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
      * @param  string  $key
      * @return string
      */
+    #[\Override]
     protected function resolveConfigurationFile(string $path, string $key): string
     {
         return $this->usesWorkbenchConfigFile === true && is_file(workbench_path('config', "{$key}.php"))
@@ -72,6 +73,7 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
      * @param  \Illuminate\Support\Collection  $configurations
      * @return \Illuminate\Support\Collection
      */
+    #[\Override]
     protected function extendsLoadedConfiguration(Collection $configurations): Collection
     {
         if ($this->usesWorkbenchConfigFile === false) {
