@@ -16,6 +16,7 @@ use Orchestra\Workbench\AuthServiceProvider;
 use Orchestra\Workbench\WorkbenchServiceProvider;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
+
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench_path;
@@ -60,7 +61,7 @@ class Workbench
         Collection::make($providers)
             ->when(
                 Arr::get($config->getWorkbenchAttributes(), 'auth', false) === true,
-                static fn ($providers) => $providers->push(AuthServiceProvider::class)
+                static fn ($providers) => $providers->push(AuthServiceProvider::class) // @phpstan-ignore class.notFound
             )
             ->filter()
             ->filter(static fn ($provider) => class_exists($provider))
@@ -79,7 +80,7 @@ class Workbench
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
         static::start($app, $config, [
-            WorkbenchServiceProvider::class,
+            WorkbenchServiceProvider::class, // @phpstan-ignore class.notFound
         ]);
     }
 
