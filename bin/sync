@@ -49,6 +49,10 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
 
 transform([
+    // line("'default' => env('MAIL_MAILER', 'smtp'),", 1) => line("'default' => env('MAIL_MAILER', 'log'),", 1),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/mail.php"));
+
+transform([
     line("'driver' => env('SESSION_DRIVER', 'file'),", 1) => line("'driver' => env('SESSION_DRIVER', 'array'),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/session.php"));
 

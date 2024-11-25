@@ -122,7 +122,6 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/logging.php"));
 
 transform([
-    // line("'default' => env('MAIL_MAILER', 'smtp'),", 1) => line("'default' => env('MAIL_MAILER', 'log'),", 1),
     line("'markdown' => [
         'theme' => 'default',", 1) => line("'markdown' => [
         'theme' => env('MAIL_MARKDOWN_THEME', 'default'),", 1),
