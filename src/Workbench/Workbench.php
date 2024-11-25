@@ -8,7 +8,6 @@ use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Events\DiagnosingHealth;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
@@ -63,12 +62,7 @@ class Workbench
         }
 
         Collection::make($providers)
-            ->when(
-                Arr::get($config->getWorkbenchAttributes(), 'auth', false) === true,
-                static fn ($providers) => $providers->push(AuthServiceProvider::class) // @phpstan-ignore class.notFound
-            )
-            ->filter()
-            ->filter(static fn ($provider) => class_exists($provider))
+            ->filter(static fn ($provider) => ! empty($provider) && class_exists($provider))
             ->each(static function ($provider) use ($app) {
                 $app->register($provider);
             });
@@ -84,6 +78,7 @@ class Workbench
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
         static::start($app, $config, [
+            AuthServiceProvider::class, // @phpstan-ignore class.notFound
             WorkbenchServiceProvider::class, // @phpstan-ignore class.notFound
         ]);
     }
