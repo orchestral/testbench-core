@@ -122,7 +122,7 @@ class LoadConfiguration
      */
     protected function configureDefaultDatabaseConnection(RepositoryContract $config): void
     {
-        if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
+        if ($config->get('database.default') === 'sqlite' && ! is_file($config->get('database.connections.sqlite.database'))) {
             $config->set('database.default', 'testing');
         }
     }

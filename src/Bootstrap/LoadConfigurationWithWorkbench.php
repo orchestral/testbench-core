@@ -41,7 +41,7 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
 
         $userModel = Workbench::applicationUserModel();
 
-        if (\is_null($userModel) && file_exists($app->basePath(join_paths('Models', 'User.php')))) {
+        if (\is_null($userModel) && is_file($app->basePath(join_paths('Models', 'User.php')))) {
             $userModel = 'App\Models\User';
         }
 

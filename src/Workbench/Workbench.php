@@ -67,9 +67,7 @@ class Workbench
      */
     public static function start(ApplicationContract $app, ConfigContract $config, array $providers = []): void
     {
-        if (! $app->bound(ConfigContract::class)) {
-            $app->singleton(ConfigContract::class, static fn () => $config);
-        }
+        $app->singleton(ConfigContract::class, static fn () => $config);
 
         Collection::make($providers)
             ->filter(static fn ($provider) => ! empty($provider) && class_exists($provider))
@@ -109,7 +107,7 @@ class Workbench
             tap($app->make('router'), static function (Router $router) use ($discoversConfig) {
                 foreach (['web', 'api'] as $group) {
                     if (($discoversConfig[$group] ?? false) === true) {
-                        if (file_exists($route = workbench_path('routes', "{$group}.php"))) {
+                        if (is_file($route = workbench_path('routes', "{$group}.php"))) {
                             $router->middleware($group)->group($route);
                         }
                     }
@@ -209,7 +207,7 @@ class Workbench
      */
     public static function discoverCommandsRoutes(ApplicationContract $app): void
     {
-        if (file_exists($console = workbench_path('routes', 'console.php'))) {
+        if (is_file($console = workbench_path('routes', 'console.php'))) {
             require $console;
         }
 
@@ -261,7 +259,7 @@ class Workbench
     public static function applicationConsoleKernel(): ?string
     {
         if (! isset(static::$cachedCoreBindings['kernel']['console'])) {
-            static::$cachedCoreBindings['kernel']['console'] = file_exists(workbench_path('app', 'Console', 'Kernel.php'))
+            static::$cachedCoreBindings['kernel']['console'] = is_file(workbench_path('app', 'Console', 'Kernel.php'))
                 ? \sprintf('%sConsole\Kernel', static::detectNamespace('app'))
                 : null;
         }
@@ -277,7 +275,7 @@ class Workbench
     public static function applicationHttpKernel(): ?string
     {
         if (! isset(static::$cachedCoreBindings['kernel']['http'])) {
-            static::$cachedCoreBindings['kernel']['http'] = file_exists(workbench_path('app', 'Http', 'Kernel.php'))
+            static::$cachedCoreBindings['kernel']['http'] = is_file(workbench_path('app', 'Http', 'Kernel.php'))
                 ? \sprintf('%sHttp\Kernel', static::detectNamespace('app'))
                 : null;
         }
@@ -293,7 +291,7 @@ class Workbench
     public static function applicationExceptionHandler(): ?string
     {
         if (! isset(static::$cachedCoreBindings['handler']['exception'])) {
-            static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path('app', 'Exceptions', 'Handler.php'))
+            static::$cachedCoreBindings['handler']['exception'] = is_file(workbench_path('app', 'Exceptions', 'Handler.php'))
                 ? \sprintf('%sExceptions\Handler', static::detectNamespace('app'))
                 : null;
         }
@@ -311,7 +309,7 @@ class Workbench
         if (! isset(static::$cachedUserModel)) {
             static::$cachedUserModel = match (true) {
                 Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
-                file_exists(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
+                is_file(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
                 default => false,
             };
         }
@@ -333,7 +331,7 @@ class Workbench
             $composer = json_decode((string) file_get_contents(package_path('composer.json')), true);
 
             $collection = $composer['autoload-dev']['psr-4'] ?? [];
-            
+
             $path = implode('/', ['workbench', $type]);
 
             foreach ((array) $collection as $namespace => $paths) {
