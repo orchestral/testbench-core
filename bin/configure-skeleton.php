@@ -1,5 +1,19 @@
 <?php
 
+if (! isset($workingPath)) {
+    throw new RuntimeException('Missing $workingPath variable');
+}
+
+$input = new Symfony\Component\Console\Input\ArgvInput;
+
+$version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '11.x-dev' : '^11.0';
+
+echo '> composer create-project "laravel/laravel:'.$version.'" skeleton --no-scripts --no-plugins --quiet --no-install'.PHP_EOL;
+
+Symfony\Component\Process\Process::fromShellCommandline(
+    'composer create-project "laravel/laravel:'.$version.'" skeleton --no-scripts --no-plugins --quiet --no-install', $workingPath
+)->mustRun();
+
 collect([
     'artisan',
     '.env.example',
