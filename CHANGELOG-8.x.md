@@ -15,7 +15,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Testbench Dusk integration improvements:
   - Refactor `Orchestra\Testbench\Bootstrap\LoadConfiguration` and `Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench` to allow being extended by Testbench Dusk.
   - Refactor `Orchestra\Testbench\Console\Commander`.
-* Add multiple environment variables to Laravel 9 skeleton's configuration files based on changes made for Laravel 11.
+* Add multiple environment variables to Laravel 10 skeleton's configuration files based on changes made for Laravel 11.
 * Add `$tty` parameter to `Orchestra\Testbench\remote()` function.
 
 ## 8.29.0
