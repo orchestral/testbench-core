@@ -5,13 +5,27 @@ $workingPath = getcwd();
 
 require __DIR__.'/../vendor/autoload.php';
 
-$input = new Symfony\Component\Console\Input\ArgvInput();
 $files = new Illuminate\Filesystem\Filesystem();
 
-$version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '11.x-dev' : '^11.0';
+$purgeSkeletonDirectories = static function () use ($files, $workingPath) {
+    $files->delete("{$workingPath}/laravel/.env");
+    $files->delete("{$workingPath}/laravel/config/sanctum.php");
 
-$files->delete("{$workingPath}/laravel/.env");
-$files->deleteDirectory("{$workingPath}/skeleton");
+    $files->deleteDirectory("{$workingPath}/skeleton");
+};
+
+function line(string $code, int $tab = 0): string {
+    return implode('', [PHP_EOL, str_repeat(' ', ($tab * 4)), $code]);
+}
+
+/**
+ * ----------------------------------------------------------------------
+ * Prepare skeleton folder
+ * ----------------------------------------------------------------------
+ */
+
+$purgeSkeletonDirectories();
+
 if ($files->isDirectory("{$workingPath}/laravel/migrations")) {
     $files->deleteDirectory("{$workingPath}/laravel/migrations");
 }
@@ -22,125 +36,59 @@ $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/notifications")
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/queue");
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/session");
 
+/**
+ * ----------------------------------------------------------------------
+ * Copy files from `laravel/laravel`
+ * ----------------------------------------------------------------------
+ */
+
+require Orchestra\Testbench\join_paths(__DIR__, 'configure-skeleton.php');
+
+transform([
+    line('App\Providers', 2) => line('// App\Providers', 2),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/app.php"));
+
+transform([
+    line("'default' => env('CACHE_STORE', 'database'),", 1) => line("'default' => env('CACHE_STORE', 'array'),", 1),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
+
+transform([
+    line("'default' => env('QUEUE_CONNECTION', 'database'),", 1) => line("'default' => env('QUEUE_CONNECTION', 'sync'),", 1),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/queue.php"));
+
+transform([
+    line("'driver' => env('SESSION_DRIVER', 'database'),", 1) => line("'driver' => env('SESSION_DRIVER', 'array'),", 1),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/session.php"));
+
+/**
+ * ----------------------------------------------------------------------
+ * Copy `server.php` file from `laravel/framework`
+ * ----------------------------------------------------------------------
+ */
+
 $files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php", "{$workingPath}/laravel/server.php");
 transform([
     "getcwd()" => "__DIR__.'/public'",
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
 
-Symfony\Component\Process\Process::fromShellCommandline(
-    'composer create-project "laravel/laravel:'.$version.'" skeleton --no-install --no-scripts --no-plugins --quiet', $workingPath
-)->mustRun();
 
-Illuminate\Support\Collection::make([
-    'artisan',
-    '.env.example',
-    'database/.gitignore',
-    'database/migrations/0001_01_01_000000_create_users_table.php',
-    'database/migrations/0001_01_01_000001_create_cache_table.php',
-    'database/migrations/0001_01_01_000002_create_jobs_table.php',
-    'resources/views/*',
-    'public/index.php',
-    // 'tests/CreatesApplication.php',
-])->transform(fn ($file) => "{$workingPath}/skeleton/{$file}")
-->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
-->flatten()
-->each(function ($file) use ($files, $workingPath) {
-    $files->copy($file, "{$workingPath}/laravel".Illuminate\Support\Str::after($file, "{$workingPath}/skeleton"));
-});
-$files->move("{$workingPath}/laravel/database/migrations/0001_01_01_000000_create_users_table.php", "{$workingPath}/laravel/migrations/0001_01_01_000000_testbench_create_users_table.php");
-$files->move("{$workingPath}/laravel/database/migrations/0001_01_01_000001_create_cache_table.php", "{$workingPath}/laravel/migrations/0001_01_01_000001_testbench_create_cache_table.php");
-$files->move("{$workingPath}/laravel/database/migrations/0001_01_01_000002_create_jobs_table.php", "{$workingPath}/laravel/migrations/0001_01_01_000002_testbench_create_jobs_table.php");
-
-Illuminate\Support\Collection::make([
-    // 'cache/0001_01_02_000000_testbench_create_cache_table' => 'Cache/Console/stubs/cache.stub',
-    'notifications/0001_01_02_000000_testbench_create_notifications_table' => 'Notifications/Console/stubs/notifications.stub',
-    // 'queue/0001_01_02_000000_testbench_create_jobs_table' => 'Queue/Console/stubs/jobs.stub',
-    // 'queue/0001_01_02_000000_testbench_create_job_batches_table' => 'Queue/Console/stubs/batches.stub',
-    // 'queue/0001_01_02_000000_testbench_create_failed_jobs_table' => 'Queue/Console/stubs/failed_jobs.stub',
-    // 'session/0001_01_02_000000_testbench_create_sessions_table' => 'Session/Console/stubs/database.stub',
-])->transform(fn ($file) => "{$workingPath}/vendor/laravel/framework/src/Illuminate/{$file}")
-->each(function ($from, $to) use ($files, $workingPath) {
-    $files->copy($from, "{$workingPath}/laravel/migrations/{$to}.php");
-})->keys()
-->push(...[
-    '0001_01_01_000000_testbench_create_users_table',
-    '0001_01_01_000001_testbench_create_cache_table',
-    '0001_01_01_000002_testbench_create_jobs_table',
-])->each(function ($migration) use ($files, $workingPath) {
-    $files->replaceInFile('class Create', 'class TestbenchCreate', "{$workingPath}/laravel/migrations/{$migration}.php");
-})->filter(fn ($migration) => str_starts_with($migration, 'queue'))
-->mapWithKeys(fn ($migration) => match ($migration) {
-    // 'queue/0001_01_02_000000_testbench_create_jobs_table' => [$migration => 'jobs'],
-    // 'queue/0001_01_02_000000_testbench_create_job_batches_table' => [$migration => 'job_batches'],
-    // 'queue/0001_01_02_000000_testbench_create_failed_jobs_table' => [$migration => 'failed_jobs'],
-})->each(function ($table, $migration) use ($files, $workingPath) {
-    $files->replaceInFile(['{{tableClassName}}', '{{table}}'], [Illuminate\Support\Str::studly($table), $table], "{$workingPath}/laravel/migrations/{$migration}.php");
-});
-
-transform([
-    PHP_EOL.'APP_KEY=' => PHP_EOL.'APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF',
-    // PHP_EOL.'APP_MAINTENANCE_DRIVER=file' => PHP_EOL.'APP_MAINTENANCE_DRIVER=file',
-    PHP_EOL.'DB_CONNECTION=mysql' => PHP_EOL.'DB_CONNECTION=sqlite',
-    PHP_EOL.'DB_HOST=' => PHP_EOL.'# DB_HOST=',
-    PHP_EOL.'DB_PORT=' => PHP_EOL.'# DB_PORT=',
-    PHP_EOL.'DB_DATABASE=' => PHP_EOL.'# DB_DATABASE=',
-    PHP_EOL.'DB_USERNAME=' => PHP_EOL.'# DB_USERNAME=',
-    PHP_EOL.'DB_PASSWORD=' => PHP_EOL.'# DB_PASSWORD=',
-    PHP_EOL.'SESSION_DRIVER=database' => PHP_EOL.'SESSION_DRIVER=cookie',
-    PHP_EOL.'PHP_CLI_SERVER_WORKERS=' => PHP_EOL.'# PHP_CLI_SERVER_WORKERS=',
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/.env.example"));
-
-Illuminate\Support\Collection::make([
-    'config/*.php',
-])->transform(fn ($file) => "{$workingPath}/vendor/laravel/framework/{$file}")
-->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
-->flatten()
-->each(function ($file) use ($files, $workingPath) {
-    $files->copy($file, "{$workingPath}/laravel".Illuminate\Support\Str::after($file, "{$workingPath}/vendor/laravel/framework"));
-});
-
-transform([
-    "env('APP_ENV', 'production')" => "env('APP_ENV', 'workbench')",
-    // "env('APP_MAINTENANCE_DRIVER', 'file')" => "env('APP_MAINTENANCE_DRIVER', 'file')",
-    PHP_EOL.'        App\Providers' => PHP_EOL.'        // App\Providers',
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/app.php"));
-
-transform([
-    "'model' => env('AUTH_MODEL', App\Models\User::class)" => "'model' => env('AUTH_MODEL', Illuminate\Foundation\Auth\User::class)",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
-
-transform([
-    "env('CACHE_STORE', 'database')" => "env('CACHE_STORE', 'array')",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
-
-transform([
-    "'collation' => env('DB_COLLATION', 'utf8mb4_0900_ai_ci')," => "'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),",
-    "'collation' => env('DB_COLLATION', 'utf8mb4_uca1400_ai_ci')," => "'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/database.php"));
-
-transform([
-    "env('BCRYPT_ROUNDS', 12)," => "env('BCRYPT_ROUNDS', 10),",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/hashing.php"));
-
-transform([
-    "env('QUEUE_CONNECTION', 'database')" => "env('QUEUE_CONNECTION', 'sync')",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/queue.php"));
-
-transform([
-    "env('SESSION_DRIVER', 'database')" => "env('SESSION_DRIVER', 'array')",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/session.php"));
+/**
+ * ----------------------------------------------------------------------
+ * Update `Orchestra\Testbench\Factories\UserFactory`
+ * ----------------------------------------------------------------------
+ */
 
 $files->copy("{$workingPath}/skeleton/database/factories/UserFactory.php", "{$workingPath}/src/Factories/UserFactory.php");
+
 transform([
     'namespace Database\Factories;' => 'namespace Orchestra\Testbench\Factories;',
-    'use Illuminate\Database\Eloquent\Factories\Factory;' => 'use Illuminate\Database\Eloquent\Factories\Factory;'.PHP_EOL.'use Illuminate\Foundation\Auth\User;',
+    'use Illuminate\Database\Eloquent\Factories\Factory;' => 'use Illuminate\Database\Eloquent\Factories\Factory;'.line('use Illuminate\Foundation\Auth\User;'),
     ' * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>' => ' * @phpstan-type TModel \Illuminate\Foundation\Auth\User
  *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
  *
  * @property \Illuminate\Database\Eloquent\Model|TModel $model',
-    '    }
-}'.PHP_EOL => '    }
+    line('}'.PHP_EOL.'}'.PHP_EOL, 1) => line('}
 
     /**
      * Get the name of the model that is generated by the factory.
@@ -151,9 +99,13 @@ transform([
     {
         return $this->model ?? config(\'auth.providers.users.model\') ?? env(\'AUTH_MODEL\', User::class);
     }
-}
-',
+}'.PHP_EOL, 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Factories/UserFactory.php"));
 
-$files->delete("{$workingPath}/laravel/config/sanctum.php");
-$files->deleteDirectory("{$workingPath}/skeleton");
+/**
+ * ----------------------------------------------------------------------
+ * Cleanup
+ * ----------------------------------------------------------------------
+ */
+
+$purgeSkeletonDirectories();
