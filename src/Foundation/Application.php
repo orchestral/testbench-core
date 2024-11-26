@@ -118,7 +118,7 @@ class Application
         $basePath = $config['laravel'] ?? static::applicationBasePath();
 
         return (new static($config['laravel'], $resolvingCallback))->configure(array_merge($options, [
-            'load_environment_variables' => file_exists("{$basePath}/.env"),
+            'load_environment_variables' => is_file("{$basePath}/.env"),
             'extra' => $config->getExtraAttributes(),
         ]));
     }
@@ -355,7 +355,7 @@ class Application
 
         $kernel = Workbench::applicationConsoleKernel() ?? 'Orchestra\Testbench\Console\Kernel';
 
-        if (file_exists($app->basePath(join_paths('app', 'Console', 'Kernel.php'))) && class_exists('App\Console\Kernel')) {
+        if (is_file($app->basePath(join_paths('app', 'Console', 'Kernel.php'))) && class_exists('App\Console\Kernel')) {
             $kernel = 'App\Console\Kernel';
         }
 
@@ -378,7 +378,7 @@ class Application
 
         $kernel = Workbench::applicationHttpKernel() ?? 'Orchestra\Testbench\Http\Kernel';
 
-        if (file_exists($app->basePath(join_paths('app', 'Http', 'Kernel.php'))) && class_exists('App\Http\Kernel')) {
+        if (is_file($app->basePath(join_paths('app', 'Http', 'Kernel.php'))) && class_exists('App\Http\Kernel')) {
             $kernel = 'App\Http\Kernel';
         }
 
