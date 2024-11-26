@@ -7,13 +7,11 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Workbench\AuthServiceProvider;
-use Orchestra\Workbench\WorkbenchServiceProvider;
+use Orchestra\Testbench\Foundation\Env;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
@@ -36,6 +34,13 @@ class Workbench
     protected static $cachedConfiguration;
 
     /**
+     * The cached test case configuration.
+     *
+     * @var class-string<\Illuminate\Foundation\Auth\User>|false|null
+     */
+    protected static $cachedUserModel = null;
+
+    /**
      * The cached core workbench bindings.
      *
      * @var array{kernel: array{console?: string|null, http?: string|null}, handler: array{exception?: string|null}}
@@ -50,6 +55,7 @@ class Workbench
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Orchestra\Testbench\Contracts\Config  $config
+     * @param  array<int, string|class-string<\Illuminate\Support\ServiceProvider>>  $providers
      * @return void
      */
     public static function start(ApplicationContract $app, ConfigContract $config, array $providers = []): void
@@ -59,12 +65,7 @@ class Workbench
         }
 
         Collection::make($providers)
-            ->when(
-                Arr::get($config->getWorkbenchAttributes(), 'auth', false) === true,
-                static fn ($providers) => $providers->push(AuthServiceProvider::class) // @phpstan-ignore class.notFound
-            )
-            ->filter()
-            ->filter(static fn ($provider) => class_exists($provider))
+            ->filter(static fn ($provider) => ! empty($provider) && class_exists($provider))
             ->each(static function ($provider) use ($app) {
                 $app->register($provider);
             });
@@ -80,7 +81,8 @@ class Workbench
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
         static::start($app, $config, [
-            WorkbenchServiceProvider::class, // @phpstan-ignore class.notFound
+            'Orchestra\Workbench\AuthServiceProvider',
+            'Orchestra\Workbench\WorkbenchServiceProvider',
         ]);
     }
 
@@ -290,6 +292,21 @@ class Workbench
         }
 
         return static::$cachedCoreBindings['handler']['exception'];
+    }
+
+    /**
+     * Get application User Model
+     *
+     * @return class-string<\Illuminate\Foundation\Auth\User>|false
+     */
+    public static function applicationUserModel(): string|false
+    {
+        return static::$cachedUserModel ??= match (true) {
+            Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
+            class_exists('Workbench\App\Models\User') => 'Workbench\App\Models\User',
+            class_exists('App\Models\User') => 'App\Models\User',
+            default => false,
+        };
     }
 
     /**
