@@ -94,9 +94,11 @@ class PackageManifest extends IlluminatePackageManifest
 
         $ignoreAll = \in_array('*', $ignore);
 
+        $requires = $this->requiredPackages;
+
         return Collection::make(parent::getManifest())
-            ->reject(function ($configuration, $package) use ($ignore, $ignoreAll) {
-                return ($ignoreAll && ! \in_array($package, $this->requiredPackages))
+            ->reject(static function ($configuration, $package) use ($ignore, $ignoreAll, $requires) {
+                return ($ignoreAll && ! \in_array($package, $requires))
                     || \in_array($package, $ignore);
             })->map(static function ($configuration, $key) {
                 foreach ($configuration['providers'] ?? [] as $provider) {

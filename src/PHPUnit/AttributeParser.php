@@ -110,7 +110,7 @@ class AttributeParser
      */
     protected static function resolveAttribute(ReflectionAttribute $attribute): array
     {
-        return rescue(function () use ($attribute) {
+        return rescue(static function () use ($attribute) {
             /** @var TTestingFeature|null $instance */
             $instance = isset(class_implements($attribute->getName())[ResolvableContract::class])
                 ? transform($attribute->newInstance(), static function ($instance) {
