@@ -308,11 +308,13 @@ class Workbench
      */
     public static function applicationUserModel(): ?string
     {
-        static::$cachedUserModel ??= match (true) {
-            Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
-            file_exists(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
-            default => false,
-        };
+        if (! isset(static::$cachedUserModel)) {
+            static::$cachedUserModel = match (true) {
+                Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
+                file_exists(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
+                default => false,
+            };
+        }
 
         return static::$cachedUserModel != false ? static::$cachedUserModel : null;
     }
@@ -323,7 +325,6 @@ class Workbench
     public static function detectNamespace(string $type): ?string
     {
         $type = trim($type, '/');
-        $path = implode('/', ['workbench', $type]);
 
         if (! isset(static::$cachedNamespaces[$type])) {
             static::$cachedNamespaces[$type] = null;
@@ -332,6 +333,8 @@ class Workbench
             $composer = json_decode((string) file_get_contents(package_path('composer.json')), true);
 
             $collection = $composer['autoload-dev']['psr-4'] ?? [];
+            
+            $path = implode('/', ['workbench', $type]);
 
             foreach ((array) $collection as $namespace => $paths) {
                 foreach ((array) $paths as $pathChoice) {
