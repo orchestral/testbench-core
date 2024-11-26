@@ -27,7 +27,7 @@ final class Kernel extends ConsoleKernel
     #[\Override]
     protected function commands()
     {
-        if (file_exists($console = base_path(join_paths('routes', 'console.php')))) {
+        if (is_file($console = base_path(join_paths('routes', 'console.php')))) {
             require $console;
         }
     }
