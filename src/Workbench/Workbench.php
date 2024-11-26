@@ -217,7 +217,7 @@ class Workbench
             return;
         }
 
-        $namespace = rtrim(static::detectNamespace('app'), '\\');
+        $namespace = rtrim((static::detectNamespace('app') ?? 'Workbench\App\\'), '\\');
 
         foreach ((new Finder)->in([workbench_path('app', 'Console', 'Commands')])->files() as $command) {
             $command = $namespace.str_replace(
@@ -342,7 +342,13 @@ class Workbench
             }
         }
 
-        return static::$cachedNamespaces[$type];
+        $defaults = [
+            'app' => 'Workbench\App\\',
+            'database/factories' => 'Workbench\Database\Factories\\',
+            'database/seeders' => 'Workbench\Database\Seeders\\',
+        ];
+
+        return static::$cachedNamespaces[$type] ?? $defaults[$type] ?? null;
     }
 
     /**
