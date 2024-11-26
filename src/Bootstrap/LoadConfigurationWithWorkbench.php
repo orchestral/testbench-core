@@ -9,6 +9,7 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
 
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -40,7 +41,11 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
 
         $userModel = Workbench::applicationUserModel();
 
-        if ($userModel !== false && is_a($userModel, Authenticatable::class, true)) {
+        if (\is_null($userModel) && file_exists($app->basePath(join_paths('Models', 'User.php')))) {
+            $userModel = 'App\Models\User';
+        }
+
+        if (! \is_null($userModel) && is_a($userModel, Authenticatable::class, true)) {
             $app->make('config')->set('auth.providers.users.model', $userModel);
         }
     }
@@ -70,11 +75,10 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
 
                 yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
             }
-        })->reject(static function ($path, $key) use ($configurations) {
-            return $configurations->has($key);
-        })->each(static function ($path, $key) use ($configurations) {
-            $configurations->put($key, $path);
-        });
+        })->reject(static fn ($path, $key) => $configurations->has($key))
+            ->each(static function ($path, $key) use ($configurations) {
+                $configurations->put($key, $path);
+            });
 
         return $configurations;
     }

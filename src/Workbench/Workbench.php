@@ -34,6 +34,13 @@ class Workbench
     protected static $cachedConfiguration;
 
     /**
+     * Cached namespace by path.
+     *
+     * @var array<string, string|null>
+     */
+    protected static array $cachedNamespaces = [];
+
+    /**
      * The cached test case configuration.
      *
      * @var class-string<\Illuminate\Foundation\Auth\User>|false|null
@@ -210,7 +217,7 @@ class Workbench
             return;
         }
 
-        $namespace = 'Workbench\App';
+        $namespace = rtrim(static::detectNamespace('app'), '\\');
 
         foreach ((new Finder)->in([workbench_path('app', 'Console', 'Commands')])->files() as $command) {
             $command = $namespace.str_replace(
@@ -255,7 +262,7 @@ class Workbench
     {
         if (! isset(static::$cachedCoreBindings['kernel']['console'])) {
             static::$cachedCoreBindings['kernel']['console'] = file_exists(workbench_path('app', 'Console', 'Kernel.php'))
-                ? 'Workbench\App\Console\Kernel'
+                ? \sprintf('%sConsole\Kernel', static::detectNamespace('app'))
                 : null;
         }
 
@@ -271,7 +278,7 @@ class Workbench
     {
         if (! isset(static::$cachedCoreBindings['kernel']['http'])) {
             static::$cachedCoreBindings['kernel']['http'] = file_exists(workbench_path('app', 'Http', 'Kernel.php'))
-                ? 'Workbench\App\Http\Kernel'
+                ? \sprintf('%sHttp\Kernel', static::detectNamespace('app'))
                 : null;
         }
 
@@ -287,7 +294,7 @@ class Workbench
     {
         if (! isset(static::$cachedCoreBindings['handler']['exception'])) {
             static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path('app', 'Exceptions', 'Handler.php'))
-                ? 'Workbench\App\Exceptions\Handler'
+                ? \sprintf('%sExceptions\Handler', static::detectNamespace('app'))
                 : null;
         }
 
@@ -297,16 +304,45 @@ class Workbench
     /**
      * Get application User Model
      *
-     * @return class-string<\Illuminate\Foundation\Auth\User>|false
+     * @return class-string<\Illuminate\Foundation\Auth\User>|null
      */
-    public static function applicationUserModel(): string|false
+    public static function applicationUserModel(): ?string
     {
-        return static::$cachedUserModel ??= match (true) {
+        static::$cachedUserModel ??= match (true) {
             Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
-            class_exists('Workbench\App\Models\User') => 'Workbench\App\Models\User',
-            class_exists('App\Models\User') => 'App\Models\User',
+            file_exists(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
             default => false,
         };
+
+        return static::$cachedUserModel != false ? static::$cachedUserModel : null;
+    }
+
+    /**
+     * Detect namespace by type.
+     */
+    public static function detectNamespace(string $type): ?string
+    {
+        $type = trim($type, '/');
+        $path = implode('/', ['workbench', $type]);
+
+        if (! isset(static::$cachedNamespaces[$type])) {
+            static::$cachedNamespaces[$type] = null;
+
+            /** @var array{'autoload-dev': array{'psr-4': array<string, array<int, string>|string>}} $composer */
+            $composer = json_decode((string) file_get_contents(package_path('composer.json')), true);
+
+            $collection = $composer['autoload-dev']['psr-4'] ?? [];
+
+            foreach ((array) $collection as $namespace => $paths) {
+                foreach ((array) $paths as $pathChoice) {
+                    if (trim($pathChoice, '/') === $path) {
+                        static::$cachedNamespaces[$type] = $namespace;
+                    }
+                }
+            }
+        }
+
+        return static::$cachedNamespaces[$type];
     }
 
     /**
