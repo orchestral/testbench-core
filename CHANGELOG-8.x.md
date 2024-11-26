@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.30.0 (Unreleased)
+
+### Added
+
+* Added ability to detect Workbench namespace via `Orchestra\Testbench\Workbench\Workbench::detectNamespace()` method.
+* Added ability to detect the default user model via `Orchestra\Testbench\Workbench\Workbench::applicationUserModel()` method.
+* Added support for authentication routes within Workbench by configurating `workbench.auth` config to `true`.
+
+### Changes
+
+* Testbench Dusk integration improvements:
+  - Refactor `Orchestra\Testbench\Bootstrap\LoadConfiguration` and `Orchestra\Testbench\Bootstrap\LoadConfigurationWithWorkbench` to allow being extended by Testbench Dusk.
+  - Refactor `Orchestra\Testbench\Console\Commander`.
+* Add multiple environment variables to Laravel 10 skeleton's configuration files based on changes made for Laravel 11.
+* Add `$tty` parameter to `Orchestra\Testbench\remote()` function.
+
 ## 8.29.0
 
 Released: 2024-11-18

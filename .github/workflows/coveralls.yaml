@@ -13,7 +13,7 @@ jobs:
         php: [8.3]
         phpunit: ["^11.0"]
 
-    name: PHP:${{ matrix.php }}/PHPUnit:${{ matrix.phpunit }} Code Coverage
+    name: PHP:${{ matrix.php }} / PHPUnit:${{ matrix.phpunit }} Code Coverage
 
     steps:
       - name: Checkout code

@@ -40,6 +40,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   user: string|int|null,
  *   guard: string|null,
  *   install: bool,
+ *   auth: bool,
  *   welcome: bool|null,
  *   health: bool|null,
  *   sync: array<int, array{from: string, to: string}>,
@@ -52,6 +53,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   user?: string|int|null,
  *   guard?: string|null,
  *   install?: bool,
+ *   auth?: bool,
  *   welcome?: bool|null,
  *   health?: bool|null,
  *   sync?: array<int, array{from: string, to: string}>,
@@ -145,6 +147,7 @@ class Config extends Fluent implements ConfigContract
         'user' => null,
         'guard' => null,
         'install' => true,
+        'auth' => false,
         'welcome' => null,
         'health' => null,
         'sync' => [],
@@ -202,7 +205,7 @@ class Config extends Fluent implements ConfigContract
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";
-        })->filter(static fn ($file) => file_exists(join_paths($workingPath, $file)))
+        })->filter(static fn ($file) => is_file(join_paths($workingPath, $file)))
             ->first();
 
         if (! \is_null($filename)) {
