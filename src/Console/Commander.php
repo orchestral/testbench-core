@@ -140,8 +140,7 @@ class Commander
                 if (! $hasEnvironmentFile()) {
                     $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
                 }
-            }
-            );
+            });
 
             $this->app = static::$testbench::create(
                 basePath: $APP_BASE_PATH,
