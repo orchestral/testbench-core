@@ -18,6 +18,12 @@ function line(string $code, int $tab = 0): string {
     return implode('', [PHP_EOL, str_repeat(' ', ($tab * 4)), $code]);
 }
 
+/**
+ * ----------------------------------------------------------------------
+ * Prepare skeleton folder
+ * ----------------------------------------------------------------------
+ */
+
 $purgeSkeletonDirectories();
 
 if ($files->isDirectory("{$workingPath}/laravel/migrations")) {
@@ -30,10 +36,11 @@ $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/notifications")
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/queue");
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/session");
 
-$files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php", "{$workingPath}/laravel/server.php");
-transform([
-    "getcwd()" => "__DIR__.'/public'",
-], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
+/**
+ * ----------------------------------------------------------------------
+ * Copy files from `laravel/laravel`
+ * ----------------------------------------------------------------------
+ */
 
 require Orchestra\Testbench\join_paths(__DIR__, 'configure-skeleton.php');
 
@@ -53,7 +60,26 @@ transform([
     line("'driver' => env('SESSION_DRIVER', 'database'),", 1) => line("'driver' => env('SESSION_DRIVER', 'array'),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/session.php"));
 
+/**
+ * ----------------------------------------------------------------------
+ * Copy `server.php` file from `laravel/framework`
+ * ----------------------------------------------------------------------
+ */
+
+$files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php", "{$workingPath}/laravel/server.php");
+transform([
+    "getcwd()" => "__DIR__.'/public'",
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/server.php"));
+
+
+/**
+ * ----------------------------------------------------------------------
+ * Update `Orchestra\Testbench\Factories\UserFactory`
+ * ----------------------------------------------------------------------
+ */
+
 $files->copy("{$workingPath}/skeleton/database/factories/UserFactory.php", "{$workingPath}/src/Factories/UserFactory.php");
+
 transform([
     'namespace Database\Factories;' => 'namespace Orchestra\Testbench\Factories;',
     'use Illuminate\Database\Eloquent\Factories\Factory;' => 'use Illuminate\Database\Eloquent\Factories\Factory;'.line('use Illuminate\Foundation\Auth\User;'),
@@ -75,5 +101,11 @@ transform([
     }
 }'.PHP_EOL, 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Factories/UserFactory.php"));
+
+/**
+ * ----------------------------------------------------------------------
+ * Cleanup
+ * ----------------------------------------------------------------------
+ */
 
 $purgeSkeletonDirectories();
