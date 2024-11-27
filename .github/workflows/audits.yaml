@@ -17,8 +17,6 @@ jobs:
           - 8.3
         experimental:
           - true
-        exclude:
-          - php: '8.0'
 
     name: PHP:${{ matrix.php }} Code Audit
 
