@@ -15,7 +15,7 @@ use function Orchestra\Testbench\join_paths;
  */
 $createApp = static function (string $workingPath) {
     $config = Config::loadFromYaml(
-        defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
+        defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : join_paths($workingPath, 'bootstrap', 'cache', 'testbench.yaml')
     );
 
     $hasEnvironmentFile = ! is_null($config['laravel'])

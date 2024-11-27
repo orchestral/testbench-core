@@ -30,26 +30,8 @@ trait CopyTestbenchFiles
             ->filter(static fn ($file) => $filesystem->exists($file))
             ->first();
 
-        $testbenchFile = $app->basePath('testbench.yaml');
-
-        if ($filesystem->exists($testbenchFile)) {
-            $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
-
-            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
-                if ($filesystem->exists("{$testbenchFile}.backup")) {
-                    $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
-                }
-            });
-        }
-
         if (! \is_null($configurationFile)) {
-            $filesystem->copy($configurationFile, $testbenchFile);
-
-            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
-                if ($filesystem->exists($testbenchFile)) {
-                    $filesystem->delete($testbenchFile);
-                }
-            });
+            $filesystem->copy($configurationFile, $app->basePath(join_paths('bootstrap', 'cache', 'testbench.yaml')));
         }
     }
 
