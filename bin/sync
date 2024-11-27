@@ -35,6 +35,8 @@ $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/notifications")
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/queue");
 $files->ensureDirectoryExists("{$workingPath}/laravel/migrations/session");
 
+$files->put("{$workingPath}/laravel/bootstrap/.testbench-default-skeleton", '@testbench'.PHP_EOL);
+
 /**
  * ----------------------------------------------------------------------
  * Copy files from `laravel/laravel`

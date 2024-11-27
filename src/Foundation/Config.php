@@ -202,7 +202,9 @@ class Config extends Fluent implements ConfigContract
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";
-        })->filter(static fn ($file) => is_file(join_paths($workingPath, $file)))
+        })->map(static function ($file) use ($workingPath) {
+            return str_contains($file, DIRECTORY_SEPARATOR) ? $file : join_paths($workingPath, $file);
+        })->filter(static fn ($file) => is_file($file))
             ->first();
 
         if (! \is_null($filename)) {
@@ -216,7 +218,7 @@ class Config extends Fluent implements ConfigContract
             $config['laravel'] = transform(Arr::get($config, 'laravel'), static function ($path) use ($workingPath) {
                 $laravel = match ($path) {
                     '@testbench' => \Orchestra\Testbench\default_skeleton_path(),
-                    '@testbench-dusk' => \Orchestra\Testbench\Dusk\default_skeleton_path(),
+                    '@testbench-dusk' => \Orchestra\Testbench\Dusk\default_skeleton_path(), // @phpstan-ignore function.notFound
                     default => $path,
                 };
 
