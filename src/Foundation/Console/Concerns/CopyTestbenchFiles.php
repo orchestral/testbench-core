@@ -31,6 +31,17 @@ trait CopyTestbenchFiles
             ->first();
 
         $testbenchFile = $app->basePath(join_paths('bootstrap', 'cache', 'testbench.yaml'));
+        $testbenchFileBackup = $app->basePath(join_paths('bootstrap', 'cache', "{$testbenchFile}.backup"));
+
+        if ($filesystem->isFile($testbenchFile)) {
+            $filesystem->copy($testbenchFile, $testbenchFileBackup);
+
+            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile, $testbenchFileBackup) {
+                if ($filesystem->isFile($testbenchFileBackup)) {
+                    $filesystem->move($testbenchFileBackup, $testbenchFile);
+                }
+            });
+        }
 
         if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $testbenchFile);
@@ -70,7 +81,7 @@ trait CopyTestbenchFiles
         }
 
         $environmentFile = $app->basePath('.env');
-        $environmentFileBackup = "{$this->environmentFile}.backup";
+        $environmentFileBackup = $app->basePath("{$this->environmentFile}.backup");
 
         if ($filesystem->isFile($environmentFile)) {
             $filesystem->copy($environmentFile, $environmentFileBackup);
