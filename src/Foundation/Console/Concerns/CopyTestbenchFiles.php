@@ -45,13 +45,13 @@ trait CopyTestbenchFiles
 
         if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $testbenchFile);
-        }
 
-        $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
-            if ($filesystem->exists($testbenchFile)) {
-                $filesystem->delete($testbenchFile);
-            }
-        });
+            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
+                if ($filesystem->isFile($testbenchFile)) {
+                    $filesystem->delete($testbenchFile);
+                }
+            });
+        }
     }
 
     /**
