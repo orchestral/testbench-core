@@ -216,9 +216,15 @@ class Config extends Fluent implements ConfigContract
              */
             $config = Yaml::parseFile(join_paths($workingPath, $filename));
 
-            $config['laravel'] = transform(
-                Arr::get($config, 'laravel'), static fn ($path) => transform_relative_path($path, $workingPath)
-            );
+            $config['laravel'] = transform(Arr::get($config, 'laravel'), static function ($path) {
+                $laravel = match ($path) {
+                    '@testbench' => \Orchestra\Testbench\default_skeleton_path(),
+                    '@testbench-dusk' => \Orchestra\Testbench\Dusk\default_skeleton_path(),
+                    default => $path,
+                };
+
+                return transform_relative_path($laravel, $workingPath);
+            });
 
             if (isset($config['env']) && \is_array($config['env']) && Arr::isAssoc($config['env'])) {
                 $config['env'] = parse_environment_variables($config['env']);
