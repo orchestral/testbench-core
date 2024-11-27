@@ -86,6 +86,8 @@ class Commander
         protected readonly string $workingPath
     ) {
         $this->config = $config instanceof Config ? $config : new Config($config);
+
+        $_ENV['TESTBENCH_ENVIRONMENT_FILE_USING'] = $this->environmentFile;
     }
 
     /**
