@@ -31,14 +31,13 @@ trait CopyTestbenchFiles
             ->first();
 
         $testbenchFile = $app->basePath(join_paths('bootstrap', 'cache', 'testbench.yaml'));
-        $testbenchFileBackup = $app->basePath(join_paths('bootstrap', 'cache', "{$testbenchFile}.backup"));
 
         if ($filesystem->isFile($testbenchFile)) {
-            $filesystem->copy($testbenchFile, $testbenchFileBackup);
+            $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
 
-            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile, $testbenchFileBackup) {
-                if ($filesystem->isFile($testbenchFileBackup)) {
-                    $filesystem->move($testbenchFileBackup, $testbenchFile);
+            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
+                if ($filesystem->isFile("{$testbenchFile}.backup")) {
+                    $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
                 }
             });
         }
