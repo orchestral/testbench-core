@@ -61,8 +61,8 @@ trait CopyTestbenchFiles
             $configurationFile = $app->basePath('.env.example');
         }
 
-        $environmentFile = $app->basePath("{$this->environmentFile}.workbench");
-        $environmentFileBackup = "{$this->environmentFile}.workbench.backup";
+        $environmentFile = $app->basePath('.env');
+        $environmentFileBackup = "{$this->environmentFile}.backup";
 
         if ($filesystem->isFile($environmentFile)) {
             $filesystem->copy($environmentFile, $environmentFileBackup);
