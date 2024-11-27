@@ -20,8 +20,8 @@ $createApp = static function (string $workingPath) {
     );
 
     $hasEnvironmentFile = ! is_null($config['laravel'])
-        ? file_exists(join_paths($config['laravel'], '.env'))
-        : file_exists(join_paths($workingPath, '.env'));
+        ? is_file(join_paths($config['laravel'], '.env'))
+        : is_file(join_paths($workingPath, 'workbench', '.env'));
 
     return Application::create(
         basePath: $config['laravel'],

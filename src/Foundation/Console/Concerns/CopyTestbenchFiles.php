@@ -54,17 +54,17 @@ trait CopyTestbenchFiles
             yield "{$this->environmentFile}.example";
             yield "{$this->environmentFile}.dist";
         })->map(static fn ($file) => join_paths($workingPath, $file))
-            ->filter(static fn ($file) => $filesystem->exists($file))
+            ->filter(static fn ($file) => $filesystem->isFile($file))
             ->first();
 
-        if (\is_null($configurationFile) && $filesystem->exists($app->basePath('.env.example'))) {
+        if (\is_null($configurationFile) && $filesystem->isFile($app->basePath('.env.example'))) {
             $configurationFile = $app->basePath('.env.example');
         }
 
-        $environmentFile = $app->basePath('.env');
-        $environmentFileBackup = "{$this->environmentFile}.backup";
+        $environmentFile = $app->basePath("{$this->environmentFile}.workbench");
+        $environmentFileBackup = "{$this->environmentFile}.workbench.backup";
 
-        if ($filesystem->exists($environmentFile)) {
+        if ($filesystem->isFile($environmentFile)) {
             $filesystem->copy($environmentFile, $environmentFileBackup);
 
             $this->beforeTerminating(static function () use ($filesystem, $environmentFile, $environmentFileBackup) {
@@ -72,7 +72,7 @@ trait CopyTestbenchFiles
             });
         }
 
-        if (! \is_null($configurationFile) && ! $filesystem->exists($environmentFile)) {
+        if (! \is_null($configurationFile) && ! $filesystem->isFile($environmentFile)) {
             $filesystem->copy($configurationFile, $environmentFile);
 
             $this->beforeTerminating(static function () use ($filesystem, $environmentFile) {
