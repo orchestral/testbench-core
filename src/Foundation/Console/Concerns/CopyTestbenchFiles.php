@@ -27,7 +27,7 @@ trait CopyTestbenchFiles
             yield 'testbench.yaml.example';
             yield 'testbench.yaml.dist';
         })->map(static fn ($file) => join_paths($workingPath, $file))
-            ->filter(static fn ($file) => $filesystem->exists($file))
+            ->filter(static fn ($file) => $filesystem->isFile($file))
             ->first();
 
         if (! \is_null($configurationFile)) {
