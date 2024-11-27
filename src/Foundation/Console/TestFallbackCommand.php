@@ -114,7 +114,7 @@ class TestFallbackCommand extends Command
     {
         $composerPath = package_path('composer.phar');
 
-        if (file_exists($composerPath)) {
+        if (is_file($composerPath)) {
             return implode(' ', [php_binary(true), $composerPath]);
         }
 

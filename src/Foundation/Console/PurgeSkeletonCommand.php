@@ -47,7 +47,7 @@ class PurgeSkeletonCommand extends Command
         ))->handle(
             Collection::make([
                 '.env',
-                'testbench.yaml',
+                join_paths('bootstrap', 'cache', 'testbench.yaml'),
             ])->map(fn ($file) => $this->laravel->basePath($file))
         );
 
