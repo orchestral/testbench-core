@@ -2,40 +2,37 @@
 
 namespace Orchestra\Testbench\Foundation\Console\Concerns;
 
-use Illuminate\Support\Collection;
+use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
 
+/**
+ * @deprecated
+ *
+ * @codeCoverageIgnore
+ */
 trait HandleTerminatingConsole
 {
-    /**
-     * The terminating callbacks.
-     *
-     * @var array<int, (callable():void)>
-     */
-    protected $beforeTerminatingCallbacks = [];
-
     /**
      * Register a callback to be run before terminating the command.
      *
      * @param  callable():void  $callback
      * @return void
+     *
+     * @deprecated Use `Orchestra\Testbench\Foundation\Console\TerminatingConsole::before()` instead.
      */
     protected function beforeTerminating(callable $callback): void
     {
-        array_unshift($this->beforeTerminatingCallbacks, $callback);
+        TerminatingConsole::before($callback);
     }
 
     /**
      * Handle terminating console.
      *
      * @return void
+     *
+     * @deprecated Use `Orchestra\Testbench\Foundation\Console\TerminatingConsole::handle()` instead.
      */
     protected function handleTerminatingConsole(): void
     {
-        Collection::make($this->beforeTerminatingCallbacks)
-            ->each(static function ($callback) {
-                \call_user_func($callback);
-            });
-
-        $this->beforeTerminatingCallbacks = [];
+        TerminatingConsole::handle();
     }
 }
