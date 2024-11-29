@@ -8,8 +8,6 @@ use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Workbench\Actions\AddAssetSymlinkFolders;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 use function Orchestra\Testbench\package_path;
 
@@ -30,13 +28,11 @@ class SyncSkeletonCommand extends Command
 
     /** {@inheritDoc} */
     #[\Override]
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function configure()
     {
         parent::configure();
 
-        if ($this->laravel->bound('TESTBENCH_COMMANDER')) {
-            $this->laravel->make('TESTBENCH_COMMANDER')->purgeTerminatingConsoleCallbacks();
-        }
+        TerminatingConsole::purge();
     }
 
     /**

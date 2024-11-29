@@ -5,14 +5,13 @@ namespace Orchestra\Testbench\Foundation\Console\Concerns;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
 use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\join_paths;
 
 trait CopyTestbenchFiles
 {
-    use HandleTerminatingConsole;
-
     /**
      * Copy the "testbench.yaml" file.
      *
@@ -42,7 +41,7 @@ trait CopyTestbenchFiles
         if ($backupExistingFile === true && $filesystem->isFile($testbenchFile)) {
             $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
 
-            $this->beforeTerminatingWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFile) {
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFile) {
                 if ($filesystem->isFile("{$testbenchFile}.backup")) {
                     $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
                 }
@@ -52,7 +51,7 @@ trait CopyTestbenchFiles
         if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $testbenchFile);
 
-            $this->beforeTerminatingWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFile) {
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFile) {
                 if ($filesystem->isFile($testbenchFile)) {
                     $filesystem->delete($testbenchFile);
                 }
@@ -99,7 +98,7 @@ trait CopyTestbenchFiles
         if ($backupExistingFile === true && $filesystem->isFile($environmentFile)) {
             $filesystem->copy($environmentFile, "{$environmentFile}.backup");
 
-            $this->beforeTerminatingWhen($resetOnTerminating, static function () use ($filesystem, $environmentFile) {
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $environmentFile) {
                 $filesystem->move("{$environmentFile}.backup", $environmentFile);
             });
         }
@@ -107,7 +106,7 @@ trait CopyTestbenchFiles
         if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $environmentFile);
 
-            $this->beforeTerminatingWhen($resetOnTerminating, static function () use ($filesystem, $environmentFile) {
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $environmentFile) {
                 $filesystem->delete($environmentFile);
             });
         }

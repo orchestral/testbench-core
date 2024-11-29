@@ -1,17 +1,17 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation\Console\Concerns;
+namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
 
-trait HandleTerminatingConsole
+final class TerminatingConsole
 {
     /**
      * The terminating callbacks.
      *
      * @var array<int, (callable():void)>
      */
-    protected $beforeTerminatingCallbacks = [];
+    protected static array $beforeTerminatingCallbacks = [];
 
     /**
      * Register a callback to be run before terminating the command.
@@ -19,9 +19,9 @@ trait HandleTerminatingConsole
      * @param  callable():void  $callback
      * @return void
      */
-    protected function beforeTerminating(callable $callback): void
+    public static function before(callable $callback): void
     {
-        array_unshift($this->beforeTerminatingCallbacks, $callback);
+        array_unshift(self::$beforeTerminatingCallbacks, $callback);
     }
 
     /**
@@ -31,10 +31,10 @@ trait HandleTerminatingConsole
      * @param  callable():void  $callback
      * @return void
      */
-    protected function beforeTerminatingWhen(bool $condition, callable $callback): void
+    public static function beforeWhen(bool $condition, callable $callback): void
     {
         if ($condition === true) {
-            $this->beforeTerminating($callback);
+            self::before($callback);
         }
     }
 
@@ -43,14 +43,14 @@ trait HandleTerminatingConsole
      *
      * @return void
      */
-    protected function handleTerminatingConsole(): void
+    public static function handle(): void
     {
-        Collection::make($this->beforeTerminatingCallbacks)
+        Collection::make(self::$beforeTerminatingCallbacks)
             ->each(static function ($callback) {
                 \call_user_func($callback);
             });
 
-        $this->purgeTerminatingConsoleCallbacks();
+        self::purge();
     }
 
     /**
@@ -58,8 +58,8 @@ trait HandleTerminatingConsole
      *
      * @return void
      */
-    public function purgeTerminatingConsoleCallbacks(): void
+    public static function purge(): void
     {
-        $this->beforeTerminatingCallbacks = [];
+        self::$beforeTerminatingCallbacks = [];
     }
 }
