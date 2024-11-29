@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Orchestra\Testbench\join_paths;
@@ -28,6 +29,7 @@ class PurgeSkeletonCommand extends Command
      * Execute the console command.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  \Orchestra\Testbench\Contracts\Config  $config
      * @return int
      */
     public function handle(Filesystem $filesystem, ConfigContract $config)
@@ -36,6 +38,8 @@ class PurgeSkeletonCommand extends Command
         $this->call('event:clear');
         $this->call('route:clear');
         $this->call('view:clear');
+
+        (new RemoveAssetSymlinkFolders($filesystem, $config))->handle();
 
         ['files' => $files, 'directories' => $directories] = $config->getPurgeAttributes();
 

@@ -15,7 +15,7 @@ use function Orchestra\Testbench\laravel_vendor_exists;
 final class CreateVendorSymlink
 {
     /**
-     * Construct a new Create Vendor Symlink bootstrapper.
+     * Construct a new action.
      *
      * @param  string  $workingPath
      */
