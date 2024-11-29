@@ -21,8 +21,8 @@ final class AddAssetSymlinkFolders
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      */
     public function __construct(
-        public Filesystem $files,
-        public ConfigContract $config
+        protected Filesystem $files,
+        protected ConfigContract $config
     ) {}
 
     /**
