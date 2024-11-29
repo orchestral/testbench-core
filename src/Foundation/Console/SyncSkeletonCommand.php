@@ -3,14 +3,12 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\LazyCollection;
-use Orchestra\Testbench\Foundation\Env;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Workbench\Actions\AddAssetSymlinkFolders;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Orchestra\Testbench\package_path;
 
@@ -55,7 +53,9 @@ class SyncSkeletonCommand extends Command
     public function handle(Filesystem $filesystem, ConfigContract $config)
     {
         $this->copyTestbenchConfigurationFile($this->laravel, $filesystem, package_path());
-        
+
         (new AddAssetSymlinkFolders($filesystem, $config))->handle();
+
+        return self::SUCCESS;
     }
 }

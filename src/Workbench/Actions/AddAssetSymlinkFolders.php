@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Workbench\Actions;
 
-use Illuminate\Support\Collection;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 
@@ -17,7 +17,7 @@ final class AddAssetSymlinkFolders
     /**
      * Construct a new action.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      */
     public function __construct(
@@ -27,10 +27,10 @@ final class AddAssetSymlinkFolders
 
     /**
      * Execute the command.
-     * 
+     *
      * @return void
      */
-    public function handle(): void 
+    public function handle(): void
     {
         /** @var array<int, array{from: string, to: string}> $sync */
         $sync = $this->config->getWorkbenchAttributes()['sync'] ?? [];

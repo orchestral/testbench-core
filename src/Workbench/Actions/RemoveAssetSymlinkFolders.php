@@ -2,9 +2,8 @@
 
 namespace Orchestra\Testbench\Workbench\Actions;
 
-use Closure;
-use Illuminate\Support\Collection;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 
 use function Orchestra\Testbench\package_path;
@@ -17,7 +16,7 @@ final class RemoveAssetSymlinkFolders
     /**
      * Construct a new action.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      */
     public function __construct(
@@ -27,10 +26,10 @@ final class RemoveAssetSymlinkFolders
 
     /**
      * Execute the command.
-     * 
+     *
      * @return void
      */
-    public function handle(): void 
+    public function handle(): void
     {
         /** @var array<int, array{from: string, to: string}> $sync */
         $sync = $this->config->getWorkbenchAttributes()['sync'] ?? [];
@@ -43,7 +42,6 @@ final class RemoveAssetSymlinkFolders
                 /** @var string $to */
                 $to = base_path($pair['to']);
 
-
                 if (windows_os() && is_dir($to) && readlink($to) !== $to) {
                     return [$to, static function ($to) {
                         @rmdir($to);
@@ -52,7 +50,7 @@ final class RemoveAssetSymlinkFolders
                     return [$to, static function ($to) {
                         @unlink($to);
                     }];
-                } 
+                }
 
                 return null;
             })->filter()
