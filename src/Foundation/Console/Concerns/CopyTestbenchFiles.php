@@ -10,6 +10,9 @@ use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\join_paths;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait CopyTestbenchFiles
 {
     /**
