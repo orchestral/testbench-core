@@ -54,7 +54,7 @@ final class RemoveAssetSymlinkFolders
 
                 return null;
             })->filter()
-            ->each(function ($payload) {
+            ->each(static function ($payload) {
                 /** @var array{0: string, 1: (\Closure(string):(void))} $payload */
                 value($payload[1], $payload[0]);
 
