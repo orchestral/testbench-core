@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -45,13 +46,17 @@ class PurgeSkeletonCommand extends Command
 
         $workingPath = $this->laravel->basePath();
 
+        $environmentFile = Env::get('TESTBENCH_ENVIRONMENT_FILE_USING', '.env');
+
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             workingPath: $workingPath,
         ))->handle(
             Collection::make([
-                '.env',
+                $environmentFile,
+                "{$environmentFile}.backup",
                 join_paths('bootstrap', 'cache', 'testbench.yaml'),
+                join_paths('bootstrap', 'cache', 'testbench.yaml.backup'),
             ])->map(fn ($file) => $this->laravel->basePath($file))
         );
 

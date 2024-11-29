@@ -50,15 +50,15 @@ trait HandleTerminatingConsole
                 \call_user_func($callback);
             });
 
-        $this->purgeTerminatingConsole();
+        $this->purgeTerminatingConsoleCallbacks();
     }
 
     /**
      * Purge terminating console callbacks.
-     * 
+     *
      * @return void
      */
-    public function purgeTerminatingConsole(): void 
+    public function purgeTerminatingConsoleCallbacks(): void
     {
         $this->beforeTerminatingCallbacks = [];
     }

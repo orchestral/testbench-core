@@ -158,6 +158,8 @@ class Commander
                     'extra' => $this->config->getExtraAttributes(),
                 ]),
             );
+
+            $this->app->instance('TESTBENCH_COMMANDER', $this);
         }
 
         return $this->app;
