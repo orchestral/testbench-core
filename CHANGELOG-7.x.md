@@ -9,6 +9,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 * Added ability to detect Workbench namespace via `Orchestra\Testbench\Workbench\Workbench::detectNamespace()` method.
 * Added ability to detect the default user model via `Orchestra\Testbench\Workbench\Workbench::applicationUserModel()` method.
 * Added support for authentication routes within Workbench by configurating `workbench.auth` config to `true`.
+* Added new `package:sync-skeleton` command.
 
 ### Changes
 
@@ -17,6 +18,14 @@ This changelog references the relevant changes (bug and security fixes) done to 
   - Refactor `Orchestra\Testbench\Console\Commander`.
 * Add multiple environment variables to Laravel 9 skeleton's configuration files based on changes made for Laravel 11.
 * Add `$tty` parameter to `Orchestra\Testbench\remote()` function.
+* Refactor `Orchestra\Testbench\Foundation\Bootstrap\CreateVendorSymlink` class and mark it as `@api`.
+* Add `$backupExistingFile` and `$resetOnTerminating` parameter to following methods in `Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles` trait:
+  - `copyTestbenchConfigurationFile()`
+  - `copyTestbenchDotEnvFile()`
+
+### Deprecated
+
+* Deprecate `Orchestra\Testbench\Foundation\Console\Concerns\HandleTerminatingConsole` trait, use `Orchestra\Testbench\Foundation\Console\TerminatingConsole` class instead.
 
 ## 7.48.0
 

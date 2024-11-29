@@ -5,23 +5,34 @@ namespace Orchestra\Testbench\Foundation\Console\Concerns;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
+use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\join_paths;
 
+/**
+ * @codeCoverageIgnore
+ */
 trait CopyTestbenchFiles
 {
-    use HandleTerminatingConsole;
-
     /**
      * Copy the "testbench.yaml" file.
+     *
+     * @internal
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  string  $workingPath
+     * @param  bool  $resetOnTerminating
      * @return void
      */
-    protected function copyTestbenchConfigurationFile(Application $app, Filesystem $filesystem, string $workingPath): void
-    {
+    protected function copyTestbenchConfigurationFile(
+        Application $app,
+        Filesystem $filesystem,
+        string $workingPath,
+        bool $backupExistingFile = true,
+        bool $resetOnTerminating = true
+    ): void {
         $configurationFile = LazyCollection::make(static function () {
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
@@ -32,10 +43,10 @@ trait CopyTestbenchFiles
 
         $testbenchFile = $app->basePath(join_paths('bootstrap', 'cache', 'testbench.yaml'));
 
-        if ($filesystem->isFile($testbenchFile)) {
+        if ($backupExistingFile === true && $filesystem->isFile($testbenchFile)) {
             $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
 
-            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFile) {
                 if ($filesystem->isFile("{$testbenchFile}.backup")) {
                     $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
                 }
@@ -45,7 +56,7 @@ trait CopyTestbenchFiles
         if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $testbenchFile);
 
-            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFile) {
                 if ($filesystem->isFile($testbenchFile)) {
                     $filesystem->delete($testbenchFile);
                 }
@@ -56,21 +67,31 @@ trait CopyTestbenchFiles
     /**
      * Copy the ".env" file.
      *
+     * @internal
+     *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  string  $workingPath
+     * @param  bool  $resetOnTerminating
      * @return void
      */
-    protected function copyTestbenchDotEnvFile(Application $app, Filesystem $filesystem, string $workingPath): void
-    {
+    protected function copyTestbenchDotEnvFile(
+        Application $app,
+        Filesystem $filesystem,
+        string $workingPath,
+        bool $backupExistingFile = true,
+        bool $resetOnTerminating = true
+    ): void {
         $workingPath = $filesystem->isDirectory(join_paths($workingPath, 'workbench'))
             ? join_paths($workingPath, 'workbench')
             : $workingPath;
 
-        $configurationFile = LazyCollection::make(function () {
-            yield $this->environmentFile;
-            yield "{$this->environmentFile}.example";
-            yield "{$this->environmentFile}.dist";
+        $testbenchEnvFilename = $this->testbenchEnvironmentFile();
+
+        $configurationFile = LazyCollection::make(static function () use ($testbenchEnvFilename) {
+            yield $testbenchEnvFilename;
+            yield "{$testbenchEnvFilename}.example";
+            yield "{$testbenchEnvFilename}.dist";
         })->map(static fn ($file) => join_paths($workingPath, $file))
             ->filter(static fn ($file) => $filesystem->isFile($file))
             ->first();
@@ -80,22 +101,39 @@ trait CopyTestbenchFiles
         }
 
         $environmentFile = $app->basePath('.env');
-        $environmentFileBackup = $app->basePath("{$this->environmentFile}.backup");
 
-        if ($filesystem->isFile($environmentFile)) {
-            $filesystem->copy($environmentFile, $environmentFileBackup);
+        if ($backupExistingFile === true && $filesystem->isFile($environmentFile)) {
+            $filesystem->copy($environmentFile, "{$environmentFile}.backup");
 
-            $this->beforeTerminating(static function () use ($filesystem, $environmentFile, $environmentFileBackup) {
-                $filesystem->move($environmentFileBackup, $environmentFile);
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $environmentFile) {
+                $filesystem->move("{$environmentFile}.backup", $environmentFile);
             });
         }
 
-        if (! \is_null($configurationFile) && ! $filesystem->isFile($environmentFile)) {
+        if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $environmentFile);
 
-            $this->beforeTerminating(static function () use ($filesystem, $environmentFile) {
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $environmentFile) {
                 $filesystem->delete($environmentFile);
             });
         }
+    }
+
+    /**
+     * Determine the Testbench's environment file.
+     *
+     * @internal
+     *
+     * @return string
+     */
+    protected function testbenchEnvironmentFile(): string
+    {
+        if (property_exists($this, 'environmentFile')) {
+            return $this->environmentFile;
+        } elseif (Env::has('TESTBENCH_ENVIRONMENT_FILE_USING')) {
+            return Env::get('TESTBENCH_ENVIRONMENT_FILE_USING');
+        }
+
+        return '.env';
     }
 }
