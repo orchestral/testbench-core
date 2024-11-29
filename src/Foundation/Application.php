@@ -130,7 +130,7 @@ class Application
     {
         $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
 
-        (new Bootstrap\CreateVendorSymlink($workingVendorPath))->bootstrap($app);
+        (new Actions\CreateVendorSymlink($workingVendorPath))->handle($app);
 
         return $app;
     }

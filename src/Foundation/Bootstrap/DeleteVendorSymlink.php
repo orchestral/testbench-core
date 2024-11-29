@@ -3,9 +3,14 @@
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
+use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink as Action;
 
 /**
  * @internal
+ *
+ * @deprecated
+ * 
+ * @codeCoverageIgnore
  */
 final class DeleteVendorSymlink
 {
@@ -17,14 +22,6 @@ final class DeleteVendorSymlink
      */
     public function bootstrap(Application $app): void
     {
-        tap($app->basePath('vendor'), static function ($appVendorPath) {
-            if (windows_os() && is_dir($appVendorPath) && readlink($appVendorPath) !== $appVendorPath) {
-                @rmdir($appVendorPath);
-            } elseif (is_link($appVendorPath)) {
-                @unlink($appVendorPath);
-            }
-
-            clearstatcache(false, \dirname($appVendorPath));
-        });
+        (new Action)->handle($app);
     }
 }
