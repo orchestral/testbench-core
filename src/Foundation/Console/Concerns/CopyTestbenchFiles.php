@@ -17,6 +17,8 @@ trait CopyTestbenchFiles
 {
     /**
      * Copy the "testbench.yaml" file.
+     * 
+     * @internal
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
@@ -65,6 +67,8 @@ trait CopyTestbenchFiles
     /**
      * Copy the ".env" file.
      *
+     * @internal
+     * 
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  string  $workingPath
@@ -117,6 +121,8 @@ trait CopyTestbenchFiles
 
     /**
      * Determine the Testbench's environment file.
+     * 
+     * @internal
      *
      * @return string
      */
