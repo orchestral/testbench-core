@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Tests\Foundation\Bootstrap;
 
 use Illuminate\Filesystem\Filesystem;
+use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink;
 use Orchestra\Testbench\Foundation\Bootstrap\CreateVendorSymlink;
-use Orchestra\Testbench\Foundation\Bootstrap\DeleteVendorSymlink;
 use Orchestra\Testbench\TestCase;
 
 use function Orchestra\Testbench\container;
@@ -23,7 +23,7 @@ class CreateVendorSymlinkTest extends TestCase
         $stub = (new CreateVendorSymlink($workingPath));
 
         if (laravel_vendor_exists($laravel, $workingPath)) {
-            (new DeleteVendorSymlink)->bootstrap($laravel);
+            (new DeleteVendorSymlink)->handle($laravel);
         }
 
         $stub->bootstrap($laravel);
