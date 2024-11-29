@@ -18,10 +18,15 @@ trait CopyTestbenchFiles
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  string  $workingPath
+     * @param  bool  $resetOnCompleted
      * @return void
      */
-    protected function copyTestbenchConfigurationFile(Application $app, Filesystem $filesystem, string $workingPath): void
-    {
+    protected function copyTestbenchConfigurationFile(
+        Application $app, 
+        Filesystem $filesystem, 
+        string $workingPath,
+        bool $resetOnCompleted = true
+    ): void {
         $configurationFile = LazyCollection::make(static function () {
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
@@ -35,7 +40,7 @@ trait CopyTestbenchFiles
         if ($filesystem->isFile($testbenchFile)) {
             $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
 
-            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
+            $this->beforeTerminatingWhen($resetOnCompleted, static function () use ($filesystem, $testbenchFile) {
                 if ($filesystem->isFile("{$testbenchFile}.backup")) {
                     $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
                 }
@@ -45,7 +50,7 @@ trait CopyTestbenchFiles
         if (! \is_null($configurationFile)) {
             $filesystem->copy($configurationFile, $testbenchFile);
 
-            $this->beforeTerminating(static function () use ($filesystem, $testbenchFile) {
+            $this->beforeTerminatingWhen($resetOnCompleted, static function () use ($filesystem, $testbenchFile) {
                 if ($filesystem->isFile($testbenchFile)) {
                     $filesystem->delete($testbenchFile);
                 }
@@ -59,13 +64,19 @@ trait CopyTestbenchFiles
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  string  $workingPath
+     * @param  bool  $resetOnCompleted
      * @return void
      */
-    protected function copyTestbenchDotEnvFile(Application $app, Filesystem $filesystem, string $workingPath): void
-    {
+    protected function copyTestbenchDotEnvFile(
+        Application $app, 
+        Filesystem $filesystem, 
+        string $workingPath,
+        bool $resetOnCompleted = true
+    ): void {
         $workingPath = $filesystem->isDirectory(join_paths($workingPath, 'workbench'))
             ? join_paths($workingPath, 'workbench')
             : $workingPath;
+            
         $configurationFile = LazyCollection::make(function () {
             yield $this->environmentFile;
             yield "{$this->environmentFile}.example";
@@ -84,7 +95,7 @@ trait CopyTestbenchFiles
         if ($filesystem->isFile($environmentFile)) {
             $filesystem->copy($environmentFile, $environmentFileBackup);
 
-            $this->beforeTerminating(static function () use ($filesystem, $environmentFile, $environmentFileBackup) {
+            $this->beforeTerminatingWhen($resetOnCompleted, static function () use ($filesystem, $environmentFile, $environmentFileBackup) {
                 $filesystem->move($environmentFileBackup, $environmentFile);
             });
         }
@@ -92,7 +103,7 @@ trait CopyTestbenchFiles
         if (! \is_null($configurationFile) && ! $filesystem->isFile($environmentFile)) {
             $filesystem->copy($configurationFile, $environmentFile);
 
-            $this->beforeTerminating(static function () use ($filesystem, $environmentFile) {
+            $this->beforeTerminatingWhen($resetOnCompleted, static function () use ($filesystem, $environmentFile) {
                 $filesystem->delete($environmentFile);
             });
         }

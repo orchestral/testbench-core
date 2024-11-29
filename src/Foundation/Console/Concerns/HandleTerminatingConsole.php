@@ -25,6 +25,20 @@ trait HandleTerminatingConsole
     }
 
     /**
+     * Register a callback to be run before terminating the command.
+     *
+     * @param  bool  $condition
+     * @param  callable():void  $callback
+     * @return void
+     */
+    protected function beforeTerminatingWhen(bool $condition, callable $callback): void
+    {
+        if ($condition === true) {
+            $this->beforeTerminating($callback);
+        }
+    }
+
+    /**
      * Handle terminating console.
      *
      * @return void
@@ -36,6 +50,16 @@ trait HandleTerminatingConsole
                 \call_user_func($callback);
             });
 
+        $this->purgeTerminatingConsole();
+    }
+
+    /**
+     * Purge terminating console callbacks.
+     * 
+     * @return void
+     */
+    public function purgeTerminatingConsole(): void 
+    {
         $this->beforeTerminatingCallbacks = [];
     }
 }

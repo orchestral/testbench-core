@@ -52,7 +52,7 @@ class SyncSkeletonCommand extends Command
      */
     public function handle(Filesystem $filesystem, ConfigContract $config)
     {
-        $this->copyTestbenchConfigurationFile($this->laravel, $filesystem, package_path());
+        $this->copyTestbenchConfigurationFile($this->laravel, $filesystem, package_path(), resetOnCompleted: false);
 
         (new AddAssetSymlinkFolders($filesystem, $config))->handle();
 
