@@ -28,22 +28,6 @@ class SyncSkeletonCommand extends Command
     protected $signature = 'package:sync-skeleton';
 
     /**
-     * The environment file name.
-     *
-     * @var string
-     */
-    protected $environmentFile = '.env';
-
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function configure()
-    {
-        $this->environmentFile = Env::get('TESTBENCH_ENVIRONMENT_FILE_USING') ?? $this->environmentFile;
-
-        parent::configure();
-    }
-
-    /**
      * Execute the console command.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
@@ -52,7 +36,8 @@ class SyncSkeletonCommand extends Command
      */
     public function handle(Filesystem $filesystem, ConfigContract $config)
     {
-        $this->copyTestbenchConfigurationFile($this->laravel, $filesystem, package_path(), resetOnCompleted: false);
+        $this->copyTestbenchConfigurationFile($this->laravel, $filesystem, package_path(), resetOnTerminating: false);
+        $this->copyTestbenchDotEnvFile($this->laravel, $filesystem, package_path(), resetOnTerminating: false);
 
         (new AddAssetSymlinkFolders($filesystem, $config))->handle();
 
