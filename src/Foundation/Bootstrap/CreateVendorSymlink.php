@@ -6,11 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Orchestra\Testbench\Foundation\Actions\CreateVendorSymlink as Action;
 
 /**
- * @internal
- *
- * @deprecated
- * 
- * @codeCoverageIgnore
+ * @api
  */
 final class CreateVendorSymlink
 {
