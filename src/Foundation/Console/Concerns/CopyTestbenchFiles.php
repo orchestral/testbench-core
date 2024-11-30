@@ -89,10 +89,17 @@ trait CopyTestbenchFiles
         $testbenchEnvFilename = $this->testbenchEnvironmentFile();
 
         $configurationFile = LazyCollection::make(static function () use ($testbenchEnvFilename) {
+            $defaultTestbenchEnvFilename = '.env';
+
             yield $testbenchEnvFilename;
             yield "{$testbenchEnvFilename}.example";
             yield "{$testbenchEnvFilename}.dist";
-        })->map(static fn ($file) => join_paths($workingPath, $file))
+
+            yield $defaultTestbenchEnvFilename;
+            yield "{$defaultTestbenchEnvFilename}.example";
+            yield "{$defaultTestbenchEnvFilename}.dist";
+        })->unique()
+            ->map(static fn ($file) => join_paths($workingPath, $file))
             ->filter(static fn ($file) => $filesystem->isFile($file))
             ->first();
 
