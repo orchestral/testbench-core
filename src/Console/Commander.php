@@ -14,6 +14,7 @@ use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\Console\Signals;
+use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -86,6 +87,8 @@ class Commander
         protected readonly string $workingPath
     ) {
         $this->config = $config instanceof Config ? $config : new Config($config);
+
+        $_ENV['TESTBENCH_ENVIRONMENT_FILE_USING'] = $this->environmentFile;
     }
 
     /**
@@ -110,7 +113,7 @@ class Commander
         } catch (Throwable $error) {
             $status = $this->handleException($output, $error);
         } finally {
-            $this->handleTerminatingConsole();
+            TerminatingConsole::handle();
             Workbench::flush();
             static::$testbench::flushState($this);
 
@@ -150,6 +153,8 @@ class Commander
                     'extra' => $this->config->getExtraAttributes(),
                 ]),
             );
+
+            $this->app->instance('TESTBENCH_COMMANDER', $this);
         }
 
         return $this->app;
@@ -241,7 +246,7 @@ class Commander
             Collection::make(Arr::wrap([SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT]))
                 ->each(
                     fn ($signal) => $this->signals->register($signal, function () use ($signal) {
-                        $this->handleTerminatingConsole();
+                        TerminatingConsole::handle();
                         Workbench::flush();
 
                         $status = match ($signal) {
@@ -262,7 +267,7 @@ class Commander
         }, function () {
             if (windows_os() && PHP_SAPI === 'cli' && \function_exists('sapi_windows_set_ctrl_handler')) {
                 sapi_windows_set_ctrl_handler(function ($event) {
-                    $this->handleTerminatingConsole();
+                    TerminatingConsole::handle();
                     Workbench::flush();
 
                     $status = match ($event) {

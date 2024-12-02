@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation\Bootstrap;
+namespace Orchestra\Testbench\Foundation\Actions;
 
 use Illuminate\Contracts\Foundation\Application;
 
@@ -10,12 +10,12 @@ use Illuminate\Contracts\Foundation\Application;
 final class DeleteVendorSymlink
 {
     /**
-     * Bootstrap the given application.
+     * Execute the command.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
      */
-    public function bootstrap(Application $app): void
+    public function handle(Application $app): void
     {
         tap($app->basePath('vendor'), static function ($appVendorPath) {
             if (windows_os() && is_dir($appVendorPath) && readlink($appVendorPath) !== $appVendorPath) {
