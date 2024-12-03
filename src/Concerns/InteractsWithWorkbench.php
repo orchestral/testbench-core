@@ -64,7 +64,7 @@ trait InteractsWithWorkbench
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array<int, class-string>|null
+     * @return array<int, class-string<\Illuminate\Support\ServiceProvider>>|null
      */
     protected function getPackageProvidersUsingWorkbench($app): ?array
     {
