@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Workbench\WorkbenchServiceProvider;
+use Orchestra\Testbench\Foundation\Env;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
@@ -34,6 +34,20 @@ class Workbench
     protected static $cachedConfiguration;
 
     /**
+     * Cached namespace by path.
+     *
+     * @var array<string, string|null>
+     */
+    protected static array $cachedNamespaces = [];
+
+    /**
+     * The cached test case configuration.
+     *
+     * @var class-string<\Illuminate\Foundation\Auth\User>|false|null
+     */
+    protected static $cachedUserModel = null;
+
+    /**
      * The cached core workbench bindings.
      *
      * @var array{kernel: array{console?: string|null, http?: string|null}, handler: array{exception?: string|null}}
@@ -48,11 +62,18 @@ class Workbench
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Orchestra\Testbench\Contracts\Config  $config
+     * @param  array<int, string|class-string<\Illuminate\Support\ServiceProvider>>  $providers
      * @return void
      */
-    public static function start(ApplicationContract $app, ConfigContract $config): void
+    public static function start(ApplicationContract $app, ConfigContract $config, array $providers = []): void
     {
         $app->singleton(ConfigContract::class, static fn () => $config);
+
+        Collection::make($providers)
+            ->filter(static fn ($provider) => ! empty($provider) && class_exists($provider))
+            ->each(static function ($provider) use ($app) {
+                $app->register($provider);
+            });
     }
 
     /**
@@ -64,11 +85,10 @@ class Workbench
      */
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
-        static::start($app, $config);
-
-        if (class_exists(WorkbenchServiceProvider::class)) {
-            $app->register(WorkbenchServiceProvider::class);
-        }
+        static::start($app, $config, [
+            'Orchestra\Workbench\AuthServiceProvider',
+            'Orchestra\Workbench\WorkbenchServiceProvider',
+        ]);
     }
 
     /**
@@ -87,7 +107,7 @@ class Workbench
             tap($app->make('router'), static function (Router $router) use ($discoversConfig) {
                 foreach (['web', 'api'] as $group) {
                     if (($discoversConfig[$group] ?? false) === true) {
-                        if (file_exists($route = workbench_path('routes', "{$group}.php"))) {
+                        if (is_file($route = workbench_path('routes', "{$group}.php"))) {
                             $router->middleware($group)->group($route);
                         }
                     }
@@ -187,7 +207,7 @@ class Workbench
      */
     public static function discoverCommandsRoutes(ApplicationContract $app): void
     {
-        if (file_exists($console = workbench_path('routes', 'console.php'))) {
+        if (is_file($console = workbench_path('routes', 'console.php'))) {
             require $console;
         }
 
@@ -195,7 +215,7 @@ class Workbench
             return;
         }
 
-        $namespace = 'Workbench\App';
+        $namespace = rtrim((static::detectNamespace('app') ?? 'Workbench\App\\'), '\\');
 
         foreach ((new Finder)->in([workbench_path('app', 'Console', 'Commands')])->files() as $command) {
             $command = $namespace.str_replace(
@@ -208,7 +228,7 @@ class Workbench
                 is_subclass_of($command, Command::class) &&
                 ! (new ReflectionClass($command))->isAbstract()
             ) {
-                Artisan::starting(function ($artisan) use ($command) {
+                Artisan::starting(static function ($artisan) use ($command) {
                     $artisan->resolve($command);
                 });
             }
@@ -239,8 +259,8 @@ class Workbench
     public static function applicationConsoleKernel(): ?string
     {
         if (! isset(static::$cachedCoreBindings['kernel']['console'])) {
-            static::$cachedCoreBindings['kernel']['console'] = file_exists(workbench_path('app', 'Console', 'Kernel.php'))
-                ? 'Workbench\App\Console\Kernel'
+            static::$cachedCoreBindings['kernel']['console'] = is_file(workbench_path('app', 'Console', 'Kernel.php'))
+                ? \sprintf('%sConsole\Kernel', static::detectNamespace('app'))
                 : null;
         }
 
@@ -255,8 +275,8 @@ class Workbench
     public static function applicationHttpKernel(): ?string
     {
         if (! isset(static::$cachedCoreBindings['kernel']['http'])) {
-            static::$cachedCoreBindings['kernel']['http'] = file_exists(workbench_path('app', 'Http', 'Kernel.php'))
-                ? 'Workbench\App\Http\Kernel'
+            static::$cachedCoreBindings['kernel']['http'] = is_file(workbench_path('app', 'Http', 'Kernel.php'))
+                ? \sprintf('%sHttp\Kernel', static::detectNamespace('app'))
                 : null;
         }
 
@@ -271,12 +291,65 @@ class Workbench
     public static function applicationExceptionHandler(): ?string
     {
         if (! isset(static::$cachedCoreBindings['handler']['exception'])) {
-            static::$cachedCoreBindings['handler']['exception'] = file_exists(workbench_path('app', 'Exceptions', 'Handler.php'))
-                ? 'Workbench\App\Exceptions\Handler'
+            static::$cachedCoreBindings['handler']['exception'] = is_file(workbench_path('app', 'Exceptions', 'Handler.php'))
+                ? \sprintf('%sExceptions\Handler', static::detectNamespace('app'))
                 : null;
         }
 
         return static::$cachedCoreBindings['handler']['exception'];
+    }
+
+    /**
+     * Get application User Model
+     *
+     * @return class-string<\Illuminate\Foundation\Auth\User>|null
+     */
+    public static function applicationUserModel(): ?string
+    {
+        if (! isset(static::$cachedUserModel)) {
+            static::$cachedUserModel = match (true) {
+                Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
+                is_file(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
+                default => false,
+            };
+        }
+
+        return static::$cachedUserModel != false ? static::$cachedUserModel : null;
+    }
+
+    /**
+     * Detect namespace by type.
+     */
+    public static function detectNamespace(string $type): ?string
+    {
+        $type = trim($type, '/');
+
+        if (! isset(static::$cachedNamespaces[$type])) {
+            static::$cachedNamespaces[$type] = null;
+
+            /** @var array{'autoload-dev': array{'psr-4': array<string, array<int, string>|string>}} $composer */
+            $composer = json_decode((string) file_get_contents(package_path('composer.json')), true);
+
+            $collection = $composer['autoload-dev']['psr-4'] ?? [];
+
+            $path = implode('/', ['workbench', $type]);
+
+            foreach ((array) $collection as $namespace => $paths) {
+                foreach ((array) $paths as $pathChoice) {
+                    if (trim($pathChoice, '/') === $path) {
+                        static::$cachedNamespaces[$type] = $namespace;
+                    }
+                }
+            }
+        }
+
+        $defaults = [
+            'app' => 'Workbench\App\\',
+            'database/factories' => 'Workbench\Database\Factories\\',
+            'database/seeders' => 'Workbench\Database\Seeders\\',
+        ];
+
+        return static::$cachedNamespaces[$type] ?? $defaults[$type] ?? null;
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Console;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\Concerns\InteractsWithSignals;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -10,11 +9,12 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Console\Concerns\CopyTestbenchFiles;
 use Orchestra\Testbench\Foundation\Console\Signals;
+use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -66,6 +66,22 @@ class Commander
     protected $environmentFile = '.env';
 
     /**
+     * The testbench implementation class.
+     *
+     * @var class-string<\Orchestra\Testbench\Foundation\Application>
+     */
+    protected static string $testbench = Testbench::class;
+
+    /**
+     * List of providers.
+     *
+     * @var array<int, class-string<\Illuminate\Support\ServiceProvider>>
+     */
+    protected array $providers = [
+        TestbenchServiceProvider::class,
+    ];
+
+    /**
      * Construct a new Commander.
      *
      * @param  \Orchestra\Testbench\Foundation\Config|array  $config
@@ -77,6 +93,8 @@ class Commander
     {
         $this->config = $config instanceof Config ? $config : new Config($config);
         $this->workingPath = $workingPath;
+
+        $_ENV['TESTBENCH_ENVIRONMENT_FILE_USING'] = $this->environmentFile;
     }
 
     /**
@@ -101,9 +119,9 @@ class Commander
         } catch (Throwable $error) {
             $status = $this->handleException($output, $error);
         } finally {
-            $this->handleTerminatingConsole();
+            TerminatingConsole::handle();
             Workbench::flush();
-            Application::flushState();
+            static::$testbench::flushState();
 
             $this->untrap();
         }
@@ -119,11 +137,11 @@ class Commander
     public function laravel()
     {
         if (! $this->app instanceof LaravelApplication) {
-            $laravelBasePath = $this->getBasePath();
+            $APP_BASE_PATH = $this->getBasePath();
 
-            $hasEnvironmentFile = fn () => file_exists(join_paths($laravelBasePath, '.env'));
+            $hasEnvironmentFile = fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
 
-            tap(Application::createVendorSymlink($laravelBasePath, join_paths($this->workingPath, 'vendor')), function ($app) use ($hasEnvironmentFile) {
+            tap(static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($hasEnvironmentFile) {
                 $filesystem = new Filesystem;
 
                 $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
@@ -133,26 +151,16 @@ class Commander
                 }
             });
 
-            $options = array_filter([
-                'load_environment_variables' => $hasEnvironmentFile(),
-                'extra' => $this->config->getExtraAttributes(),
-            ]);
-
-            $this->app = Application::create(
-                basePath: $this->getBasePath(),
-                resolvingCallback: function ($app) {
-                    Workbench::startWithProviders($app, $this->config);
-                    Workbench::discoverRoutes($app, $this->config);
-
-                    (new LoadMigrationsFromArray(
-                        $this->config['migrations'] ?? [],
-                        $this->config['seeders'] ?? false,
-                    ))->bootstrap($app);
-
-                    \call_user_func($this->resolveApplicationCallback(), $app);
-                },
-                options: $options,
+            $this->app = static::$testbench::create(
+                basePath: $APP_BASE_PATH,
+                resolvingCallback: $this->resolveApplicationCallback(),
+                options: array_filter([
+                    'load_environment_variables' => $hasEnvironmentFile(),
+                    'extra' => $this->config->getExtraAttributes(),
+                ]),
             );
+
+            $this->app->instance('TESTBENCH_COMMANDER', $this);
         }
 
         return $this->app;
@@ -165,8 +173,18 @@ class Commander
      */
     protected function resolveApplicationCallback()
     {
-        return static function ($app) {
-            $app->register(TestbenchServiceProvider::class);
+        return function ($app) {
+            Workbench::startWithProviders($app, $this->config);
+            Workbench::discoverRoutes($app, $this->config);
+
+            (new LoadMigrationsFromArray(
+                $this->config['migrations'] ?? [],
+                $this->config['seeders'] ?? false,
+            ))->bootstrap($app);
+
+            foreach ($this->providers as $provider) {
+                $app->register($provider);
+            }
         };
     }
 
@@ -195,7 +213,7 @@ class Commander
      */
     public static function applicationBasePath()
     {
-        return Application::applicationBasePath();
+        return static::$testbench::applicationBasePath();
     }
 
     /**
@@ -236,7 +254,7 @@ class Commander
             Collection::make(Arr::wrap([SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT]))
                 ->each(
                     fn ($signal) => $this->signals->register($signal, function () use ($signal) {
-                        $this->handleTerminatingConsole();
+                        TerminatingConsole::handle();
                         Workbench::flush();
 
                         $status = match ($signal) {
@@ -257,7 +275,7 @@ class Commander
         }, function () {
             if (windows_os() && PHP_SAPI === 'cli' && \function_exists('sapi_windows_set_ctrl_handler')) {
                 sapi_windows_set_ctrl_handler(function ($event) {
-                    $this->handleTerminatingConsole();
+                    TerminatingConsole::handle();
                     Workbench::flush();
 
                     $status = match ($event) {

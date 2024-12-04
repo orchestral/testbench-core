@@ -64,15 +64,24 @@ trait InteractsWithWorkbench
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array<int, class-string>|null
+     * @return array<int, class-string<\Illuminate\Support\ServiceProvider>>|null
      */
     protected function getPackageProvidersUsingWorkbench($app): ?array
     {
-        if (empty($providers = static::cachedConfigurationForWorkbench()?->getExtraAttributes()['providers'] ?? null)) {
+        $config = static::cachedConfigurationForWorkbench();
+
+        $hasAuthentication = $config?->getWorkbenchAttributes()['auth'] ?? false;
+        $providers = $config?->getExtraAttributes()['providers'] ?? [];
+
+        if ($hasAuthentication && class_exists('Orchestra\Workbench\AuthServiceProvider')) {
+            array_push($providers, 'Orchestra\Workbench\AuthServiceProvider');
+        }
+
+        if (empty($providers)) {
             return null;
         }
 
-        return static::usesTestingConcern(WithWorkbench::class)
+        return static::usesTestingConcern(WithWorkbench::class) || ! static::usesTestingConcern()
             ? Arr::wrap($providers)
             : [];
     }

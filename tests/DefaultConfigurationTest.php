@@ -75,6 +75,7 @@ class DefaultConfigurationTest extends TestCase
         $this->assertNotInstanceOf(DateTimeImmutable::class, $date);
     }
 
+    /** @test */
     public function it_resolve_the_default_user_model()
     {
         $this->assertSame(User::class, $this->app['config']['auth.providers.users.model']);

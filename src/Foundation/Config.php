@@ -202,9 +202,10 @@ class Config extends Fluent implements ConfigContract
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";
-        })->filter(static function ($file) use ($workingPath) {
-            return file_exists(join_paths($workingPath, $file));
-        })->first();
+        })->map(static function ($file) use ($workingPath) {
+            return str_contains($file, DIRECTORY_SEPARATOR) ? $file : join_paths($workingPath, $file);
+        })->filter(static fn ($file) => is_file($file))
+            ->first();
 
         if (! \is_null($filename)) {
             /**
@@ -212,11 +213,17 @@ class Config extends Fluent implements ConfigContract
              *
              * @phpstan-var TOptionalConfig $config
              */
-            $config = Yaml::parseFile(join_paths($workingPath, $filename));
+            $config = Yaml::parseFile($filename);
 
-            $config['laravel'] = transform(
-                Arr::get($config, 'laravel'), static fn ($path) => transform_relative_path($path, $workingPath)
-            );
+            $config['laravel'] = transform(Arr::get($config, 'laravel'), static function ($path) use ($workingPath) {
+                $laravel = match ($path) {
+                    '@testbench' => \Orchestra\Testbench\default_skeleton_path(),
+                    '@testbench-dusk' => \Orchestra\Testbench\Dusk\default_skeleton_path(), // @phpstan-ignore function.notFound
+                    default => $path,
+                };
+
+                return transform_relative_path($laravel, $workingPath);
+            });
 
             if (isset($config['env']) && \is_array($config['env']) && Arr::isAssoc($config['env'])) {
                 $config['env'] = parse_environment_variables($config['env']);
