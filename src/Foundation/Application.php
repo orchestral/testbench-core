@@ -36,6 +36,13 @@ class Application
     }
 
     /**
+     * The Illuminate application instance.
+     *
+     * @var \Illuminate\Foundation\Application|null
+     */
+    protected $app;
+
+    /**
      * The application base path.
      *
      * @var string|null
