@@ -258,7 +258,10 @@ trait CreatesApplication
      *
      * @param  string  $filename
      * @return string|false
+     *
+     * @deprecated
      */
+    #[\Deprecated('Removed unreliable method to determine default skeleton', since: '9.7.0')]
     protected function getDefaultApplicationBootstrapFile(string $filename): string|false
     {
         return realpath(default_skeleton_path(join_paths('bootstrap', $filename)));

@@ -15,12 +15,13 @@ use function Orchestra\Testbench\join_paths;
  */
 $createApp = static function (string $workingPath) {
     $config = Config::loadFromYaml(
-        defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath
+        workingPath: defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : $workingPath,
+        filename: defined('TESTBENCH_WORKING_PATH') ? 'testbench.yaml' : join_paths($workingPath, 'bootstrap', 'cache', 'testbench.yaml')
     );
 
     $hasEnvironmentFile = ! is_null($config['laravel'])
-        ? file_exists(join_paths($config['laravel'], '.env'))
-        : file_exists(join_paths($workingPath, '.env'));
+        ? is_file(join_paths($config['laravel'], '.env'))
+        : is_file(join_paths($workingPath, '.env'));
 
     return Application::create(
         basePath: $config['laravel'],

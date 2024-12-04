@@ -3,10 +3,12 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
+use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Runner\Version;
 
+use function Orchestra\Testbench\laravel_or_fail;
 use function Orchestra\Testbench\laravel_version_compare;
 use function Orchestra\Testbench\phpunit_version_compare;
 
@@ -28,5 +30,14 @@ class HelpersTest extends TestCase
 
         $this->assertSame(0, phpunit_version_compare($phpunit));
         $this->assertTrue(phpunit_version_compare($phpunit, '=='));
+    }
+
+    #[Test]
+    public function it_can_throw_application_not_available_application_when_app_is_not_laravel()
+    {
+        $this->expectException(ApplicationNotAvailableException::class);
+        $this->expectExceptionMessage(\sprintf('Application is not available to run [%s]', __METHOD__));
+
+        laravel_or_fail(null);
     }
 }

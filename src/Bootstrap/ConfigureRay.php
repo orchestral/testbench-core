@@ -28,7 +28,7 @@ final class ConfigureRay
             /** @var \Illuminate\Contracts\Config\Repository $config */
             $config = $app->make('config');
 
-            if ($config->get('database.default') === 'sqlite' && ! file_exists($config->get('database.connections.sqlite.database'))) {
+            if ($config->get('database.default') === 'sqlite' && ! is_file($config->get('database.connections.sqlite.database'))) {
                 $settings->send_queries_to_ray = false; /** @phpstan-ignore property.notFound */
                 $settings->send_duplicate_queries_to_ray = false; /** @phpstan-ignore property.notFound */
                 $settings->send_slow_queries_to_ray = false; /** @phpstan-ignore property.notFound */
