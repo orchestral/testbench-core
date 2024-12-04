@@ -7,8 +7,9 @@ use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\RequiresDatabase;
 use Orchestra\Testbench\Attributes\WithMigration;
-use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Features\TestingFeature;
+
+use function Orchestra\Testbench\laravel_or_fail;
 
 /**
  * @internal
@@ -24,9 +25,7 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        $app = laravel_or_fail($this->app);
 
         TestingFeature::run(
             testCase: $this,
@@ -81,9 +80,7 @@ trait HandlesDatabases
      */
     protected function usesSqliteInMemoryDatabaseConnection(?string $connection = null): bool
     {
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        $app = laravel_or_fail($this->app);
 
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $app->make('config');

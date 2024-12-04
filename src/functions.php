@@ -441,3 +441,34 @@ function join_paths(?string $basePath, string ...$paths): string
 
     return $basePath.implode('', $paths);
 }
+
+/**
+ * Ensure the provided `$app` return an instance of Laravel application or throw an exception.
+ *
+ * @internal
+ *
+ * @param  \Illuminate\Foundation\Application|null  $app
+ * @param  string|null  $caller
+ * @return \Illuminate\Foundation\Application
+ *
+ * @throws \Orchestra\Testbench\Exceptions\ApplicationNotAvailableException
+ */
+function laravel_or_fail($app, ?string $caller = null): Application
+{
+    if ($app instanceof Application) {
+        return $app;
+    }
+
+    if (\is_null($caller)) {
+        $caller = transform(debug_backtrace()[1], function ($debug) {
+            /** @phpstan-ignore isset.offset */
+            if (isset($debug['class']) && isset($debug['function'])) {
+                return \sprintf('%s::%s', $debug['class'], $debug['function']);
+            }
+
+            return $debug['function'];
+        });
+    }
+
+    throw Exceptions\ApplicationNotAvailableException::make($caller);
+}
