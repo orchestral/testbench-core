@@ -27,13 +27,13 @@ class HelpersTest extends TestCase
         $this->assertTrue(phpunit_version_compare(Version::id(), '=='));
     }
 
-    /** 
+    /**
      * @test
      */
     public function it_can_throw_application_not_available_application_when_app_is_not_laravel()
     {
         $this->expectException(ApplicationNotAvailableException::class);
-        $this->expectExceptionMessage(sprintf('Application is not available to run [%s]', __METHOD__));
+        $this->expectExceptionMessage(\sprintf('Application is not available to run [%s]', __METHOD__));
 
         laravel_or_fail(null);
     }

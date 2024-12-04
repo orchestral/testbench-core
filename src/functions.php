@@ -465,7 +465,7 @@ function laravel_or_fail($app, ?string $caller = null): Application
     if (\is_null($caller)) {
         $caller = transform(debug_backtrace()[1], function ($debug) {
             if (isset($debug['class']) && isset($debug['function'])) {
-                return sprintf('%s::%s', $debug['class'], $debug['function']);
+                return \sprintf('%s::%s', $debug['class'], $debug['function']);
             }
 
             return $debug['function'];
