@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Orchestra\Testbench\Attributes\ResetRefreshDatabaseState;
 use Orchestra\Testbench\Database\MigrateProcessor;
-use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 
 use function Orchestra\Testbench\default_migration_path;
 use function Orchestra\Testbench\laravel_or_fail;

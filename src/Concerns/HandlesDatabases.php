@@ -6,9 +6,7 @@ use Closure;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\WithMigration;
-use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\Features\TestingFeature;
-use Orchestra\Testbench\Foundation\Application;
 
 use function Orchestra\Testbench\laravel_or_fail;
 

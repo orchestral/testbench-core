@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Scheduling\ScheduleListCommand;
 use Illuminate\Console\Signals;
-use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Console\RouteListCommand;

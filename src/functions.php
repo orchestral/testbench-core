@@ -447,13 +447,13 @@ function join_paths(?string $basePath, string ...$paths): string
 
 /**
  * Ensure the provided `$app` return an instance of Laravel application or throw an exception.
- * 
- * @internal 
- * 
+ *
+ * @internal
+ *
  * @param  \Illuminate\Foundation\Application|null  $app
  * @param  string|null  $caller
  * @return \Illuminate\Foundation\Application
- * 
+ *
  * @throws \Orchestra\Testbench\Exceptions\ApplicationNotAvailableException
  */
 function laravel_or_fail($app, ?string $caller = null): Application

@@ -10,7 +10,6 @@ use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
-use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 
 use function Orchestra\Testbench\laravel_or_fail;
@@ -144,7 +143,7 @@ trait InteractsWithTestCase
     protected function tearDownTheTestEnvironmentUsingTestCase(): void
     {
         $app = laravel_or_fail($this->app);
-        
+
         $this->resolvePhpUnitAttributes()
             ->flatten()
             ->filter(static fn ($instance) => $instance instanceof AfterEachContract)
