@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-use Illuminate\Contracts\Foundation\Application;
 use RuntimeException;
 
 class ApplicationNotAvailableException extends RuntimeException
