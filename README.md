@@ -1,7 +1,7 @@
-Testing Helper for Laravel Development
+Testing Framework for Laravel Development
 ==============
 
-Testbench Component is a simple package that has been designed to help you write tests for your Laravel package.
+Testbench Core is a framework that has been designed to help you write tests and interacts with your Laravel package.
 
 [![tests](https://github.com/orchestral/testbench-core/workflows/tests/badge.svg?branch=9.x)](https://github.com/orchestral/testbench-core/actions?query=workflow%3Atests+branch%3A9.x)
 [![Latest Stable Version](https://poser.pugx.org/orchestra/testbench-core/v/stable)](https://packagist.org/packages/orchestra/testbench-core)
