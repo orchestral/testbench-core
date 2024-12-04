@@ -13,6 +13,8 @@ use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
 
+use function Orchestra\Testbench\laravel_or_fail;
+
 /**
  * @internal
  *
@@ -124,7 +126,7 @@ trait InteractsWithTestCase
      */
     protected function setUpTheTestEnvironmentUsingTestCase(): void
     {
-        ApplicationNotAvailableException::validate($app = $this->app, __METHOD__);
+        $app = laravel_or_fail($this->app);
 
         $this->resolvePhpUnitAttributes()
             ->flatten()
@@ -141,8 +143,8 @@ trait InteractsWithTestCase
      */
     protected function tearDownTheTestEnvironmentUsingTestCase(): void
     {
-        ApplicationNotAvailableException::validate($app = $this->app, __METHOD__);
-
+        $app = laravel_or_fail($this->app);
+        
         $this->resolvePhpUnitAttributes()
             ->flatten()
             ->filter(static fn ($instance) => $instance instanceof AfterEachContract)

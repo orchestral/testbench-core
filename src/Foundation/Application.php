@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Scheduling\ScheduleListCommand;
 use Illuminate\Console\Signals;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Console\RouteListCommand;
@@ -34,6 +35,13 @@ class Application
         resolveApplicationResolvingCallback as protected resolveApplicationResolvingCallbackFromTrait;
         resolveApplicationConfiguration as protected resolveApplicationConfigurationFromTrait;
     }
+
+    /**
+     * The Illuminate application instance.
+     *
+     * @var \Illuminate\Foundation\Application|null
+     */
+    protected $app;
 
     /**
      * The application base path.
