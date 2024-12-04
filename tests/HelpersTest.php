@@ -26,8 +26,10 @@ class HelpersTest extends TestCase
     #[Test]
     public function it_can_compare_phpunit_version()
     {
-        $this->assertSame(0, phpunit_version_compare(Version::id()));
-        $this->assertTrue(phpunit_version_compare(Version::id(), '=='));
+        $phpunit = Version::id() === '11.5-dev' ? '11.5.0' : Version::id();
+
+        $this->assertSame(0, phpunit_version_compare($phpunit));
+        $this->assertTrue(phpunit_version_compare($phpunit, '=='));
     }
 
     #[Test]
