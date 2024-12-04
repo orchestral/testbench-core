@@ -124,10 +124,7 @@ trait InteractsWithTestCase
      */
     protected function setUpTheTestEnvironmentUsingTestCase(): void
     {
-        /** @phpstan-ignore-next-line */
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        ApplicationNotAvailableException::validate($app = $this->app, __METHOD__);
 
         $this->resolvePhpUnitAttributes()
             ->flatten()
@@ -145,10 +142,7 @@ trait InteractsWithTestCase
      */
     protected function tearDownTheTestEnvironmentUsingTestCase(): void
     {
-        /** @phpstan-ignore-next-line */
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        ApplicationNotAvailableException::validate($app = $this->app, __METHOD__);
 
         $this->resolvePhpUnitAttributes()
             ->flatten()

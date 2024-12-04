@@ -25,9 +25,7 @@ trait WithFactories
      */
     protected function withFactories(string $path)
     {
-        if (\is_null($this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        ApplicationNotAvailableException::validate($this->app, __METHOD__);
 
         return $this->loadFactoriesUsing($this->app, $path);
     }

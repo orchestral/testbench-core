@@ -21,9 +21,7 @@ trait HandlesDatabases
      */
     protected function setUpDatabaseRequirements(Closure $callback): void
     {
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        ApplicationNotAvailableException::validate($app = $this->app, __METHOD__);
 
         $app['events']->listen(DatabaseRefreshed::class, function () {
             $this->defineDatabaseMigrationsAfterDatabaseRefreshed();
@@ -63,9 +61,7 @@ trait HandlesDatabases
      */
     protected function usesSqliteInMemoryDatabaseConnection(?string $connection = null): bool
     {
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        ApplicationNotAvailableException::validate($app = $this->app, __METHOD__);
 
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $app->make('config');
