@@ -10,8 +10,9 @@ use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
-use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
+
+use function Orchestra\Testbench\laravel_or_fail;
 
 /**
  * @internal
@@ -124,10 +125,7 @@ trait InteractsWithTestCase
      */
     protected function setUpTheTestEnvironmentUsingTestCase(): void
     {
-        /** @phpstan-ignore-next-line */
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        $app = laravel_or_fail($this->app);
 
         $this->resolvePhpUnitAttributes()
             ->flatten()
@@ -144,10 +142,7 @@ trait InteractsWithTestCase
      */
     protected function tearDownTheTestEnvironmentUsingTestCase(): void
     {
-        /** @phpstan-ignore-next-line */
-        if (\is_null($app = $this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
+        $app = laravel_or_fail($this->app);
 
         $this->resolvePhpUnitAttributes()
             ->flatten()
