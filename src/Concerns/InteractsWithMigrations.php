@@ -82,17 +82,13 @@ trait InteractsWithMigrations
             return;
         }
 
-        if (\is_null($this->app)) {
-            throw ApplicationNotAvailableException::make(__METHOD__);
-        }
-
         /** @var array<string, mixed>|string $paths */
         $migrator = new MigrateProcessor($this, $this->resolvePackageMigrationsOptions($paths));
         $migrator->up();
 
         array_unshift($this->cachedTestMigratorProcessors, $migrator);
 
-        $this->resetApplicationArtisanCommands($this->app);
+        $this->resetApplicationArtisanCommands($app);
     }
 
     /**
