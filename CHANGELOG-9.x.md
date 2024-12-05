@@ -4,6 +4,10 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 9.6.3 (Unreleased)
 
+### Changes
+
+* Add support for PHPUnit 11.5.
+
 ### Fixes
 
 * Fixes `usesSqliteInMemoryDatabaseConnection()` to be able to handled named in-memory SQLite connections.

@@ -4,6 +4,8 @@ namespace Orchestra\Testbench\Exceptions;
 
 use PHPUnit\Util\Filter;
 
+use function Orchestra\Testbench\phpunit_version_compare;
+
 /**
  * @codeCoverageIgnore
  */
@@ -16,6 +18,10 @@ class DeprecatedException extends PHPUnitErrorException
      */
     public function __toString(): string
     {
-        return \sprintf('%s'.PHP_EOL.PHP_EOL.'%s', $this->getMessage(), Filter::getFilteredStacktrace($this));
+        $stackTrace = phpunit_version_compare('11.5', '>=')
+            ? Filter::stackTraceFromThrowableAsString($this)
+            : Filter::getFilteredStacktrace($this);
+
+        return \sprintf('%s'.PHP_EOL.PHP_EOL.'%s', $this->getMessage(), $stackTrace);
     }
 }
