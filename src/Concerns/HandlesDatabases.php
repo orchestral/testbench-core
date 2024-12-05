@@ -94,7 +94,13 @@ trait HandlesDatabases
         /** @var array{driver: string, database: string}|null $database */
         $database = $config->get("database.connections.{$connection}");
 
-        return ! \is_null($database) && $database['driver'] === 'sqlite' && $database['database'] == ':memory:';
+        if (\is_null($database) || $database['driver'] !== 'sqlite') {
+            return false;
+        }
+
+        return $database['database'] == ':memory:'
+            || str_contains($database['database'], '?mode=memory')
+            || str_contains($database['database'], '&mode=memory');
     }
 
     /**
