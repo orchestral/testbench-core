@@ -91,7 +91,7 @@ trait HandlesDatabases
         /** @var array{driver: string, database: string}|null $database */
         $database = $config->get("database.connections.{$connection}");
 
-        if (is_null($database) || $database['driver'] !== 'sqlite') {
+        if (\is_null($database) || $database['driver'] !== 'sqlite') {
             return false;
         }
 
