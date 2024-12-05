@@ -2,6 +2,12 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.6.3 (Unreleased)
+
+### Fixes
+
+* Fixes `usesSqliteInMemoryDatabaseConnection()` to be able to handled named in-memory SQLite connections.
+
 ## 9.6.2
 
 Released: 2024-11-21
