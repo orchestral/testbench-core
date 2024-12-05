@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.7.1
+
+Released: 2024-12-05
+
+### Changes
+
+* Add support for PHPUnit 11.5.
+
+### Fixes
+
+* Fixes `usesSqliteInMemoryDatabaseConnection()` to be able to handled named in-memory SQLite connections.
+
 ## 9.7.0
 
 Released: 2024-12-01
@@ -28,6 +40,18 @@ Released: 2024-12-01
 ### Deprecated
 
 * Deprecate `Orchestra\Testbench\Foundation\Console\Concerns\HandleTerminatingConsole` trait, use `Orchestra\Testbench\Foundation\Console\TerminatingConsole` class instead.
+
+## 9.6.3
+
+Released: 2024-12-05
+
+### Changes
+
+* Add support for PHPUnit 11.5.
+
+### Fixes
+
+* Fixes `usesSqliteInMemoryDatabaseConnection()` to be able to handled named in-memory SQLite connections.
 
 ## 9.6.2
 
