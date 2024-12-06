@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.6.4
+
+Released: 2024-12-06
+
+### Fixes
+
+* Fixes `Orchestra\Testbench\phpunit_version_compare()` function on PHPUnit (dev).
+
 ## 9.6.3
 
 Released: 2024-12-05
