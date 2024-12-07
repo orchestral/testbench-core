@@ -48,6 +48,13 @@ class Application
     }
 
     /**
+     * The Illuminate application instance.
+     *
+     * @var \Illuminate\Foundation\Application|null
+     */
+    protected $app;
+
+    /**
      * List of configurations.
      *
      * @var array<string, mixed>

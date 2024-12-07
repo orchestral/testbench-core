@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Workbench\Workbench;
 use PHPUnit\Framework\Attributes\Test;
@@ -46,6 +47,7 @@ class WithWorkbenchTest extends TestCase
     #[Test]
     public function it_can_resolve_user_model_from_workbench()
     {
+        $this->assertFalse(Env::has('AUTH_MODEL'));
         $this->assertSame('Workbench\App\Models\User', config('auth.providers.users.model'));
     }
 }

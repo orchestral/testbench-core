@@ -373,8 +373,11 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  */
 function laravel_version_compare(string $version, ?string $operator = null): int|bool
 {
-    /** @phpstan-ignore identical.alwaysFalse */
-    $laravel = Application::VERSION === '11.x-dev' ? '11.0.0' : Application::VERSION;
+    /** @var string $laravel */
+    $laravel = transform(
+        Application::VERSION,
+        fn (string $version) => $version === '11.x-dev' ? '11.0.0' : $version, // @phpstan-ignore identical.alwaysFalse
+    );
 
     if (\is_null($operator)) {
         return version_compare($laravel, $version);
@@ -400,11 +403,17 @@ function phpunit_version_compare(string $version, ?string $operator = null): int
         throw new RuntimeException('Unable to verify PHPUnit version');
     }
 
+    /** @var string $phpunit */
+    $phpunit = transform(
+        Version::id(),
+        fn (string $version) => str_starts_with($version, '11.5-') ? '11.5.0' : $version,
+    );
+
     if (\is_null($operator)) {
-        return version_compare(Version::id(), $version);
+        return version_compare($phpunit, $version);
     }
 
-    return version_compare(Version::id(), $version, $operator);
+    return version_compare($phpunit, $version, $operator);
 }
 
 /**
@@ -440,4 +449,35 @@ function join_paths(?string $basePath, string ...$paths): string
     }
 
     return $basePath.implode('', $paths);
+}
+
+/**
+ * Ensure the provided `$app` return an instance of Laravel application or throw an exception.
+ *
+ * @internal
+ *
+ * @param  \Illuminate\Foundation\Application|null  $app
+ * @param  string|null  $caller
+ * @return \Illuminate\Foundation\Application
+ *
+ * @throws \Orchestra\Testbench\Exceptions\ApplicationNotAvailableException
+ */
+function laravel_or_fail($app, ?string $caller = null): Application
+{
+    if ($app instanceof Application) {
+        return $app;
+    }
+
+    if (\is_null($caller)) {
+        $caller = transform(debug_backtrace()[1], function ($debug) {
+            /** @phpstan-ignore isset.offset */
+            if (isset($debug['class']) && isset($debug['function'])) {
+                return \sprintf('%s::%s', $debug['class'], $debug['function']);
+            }
+
+            return $debug['function'];
+        });
+    }
+
+    throw Exceptions\ApplicationNotAvailableException::make($caller);
 }
