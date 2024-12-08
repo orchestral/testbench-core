@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 use Orchestra\Testbench\Features\ParallelRunner;
 use Orchestra\Testbench\Foundation\Env;
+
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\package_path;
 
@@ -97,8 +98,8 @@ class TestCommand extends Command
                 return str_starts_with($option, '--configuration=')
                     || str_starts_with($option, '--runner=');
             })->merge([
-                sprintf('--configuration=%s', $file),
-                sprintf('--runner=%s', ParallelRunner::class),
+                \sprintf('--configuration=%s', $file),
+                \sprintf('--runner=%s', ParallelRunner::class),
             ])->all();
     }
 
