@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation;
+namespace Orchestra\Testbench\Support;
 
 /**
  * @internal
