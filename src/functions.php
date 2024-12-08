@@ -102,10 +102,10 @@ function remote(array|string $command, array|string $env = [], ?bool $tty = null
  */
 function once($callback): Closure
 {
-    $response = new Foundation\UndefinedValue;
+    $response = new Support\UndefinedValue;
 
     return function () use ($callback, &$response) {
-        if ($response instanceof Foundation\UndefinedValue) {
+        if ($response instanceof Support\UndefinedValue) {
             $response = value($callback) ?? null;
         }
 
