@@ -2,7 +2,10 @@ name: coveralls
 
 on:
   push:
+    branches:
+      - '*.x'
   pull_request:
+  workflow_dispatch:
 
 jobs:
   tests:

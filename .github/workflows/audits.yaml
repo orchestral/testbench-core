@@ -2,6 +2,8 @@ name: audits
 
 on:
   push:
+    branches:
+      - '*.x'
   pull_request:
   workflow_dispatch:
 
