@@ -10,6 +10,9 @@ use RuntimeException;
 
 use function Orchestra\Testbench\package_path;
 
+/**
+ * @api
+ */
 class PackageManifest extends IlluminatePackageManifest
 {
     /**
