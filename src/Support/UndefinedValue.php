@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Support;
 /**
  * @internal
  */
-class UndefinedValue implements \JsonSerializable
+final class UndefinedValue implements \JsonSerializable
 {
     /**
      * Determine if value is equivalent to "undefined" or "null".
