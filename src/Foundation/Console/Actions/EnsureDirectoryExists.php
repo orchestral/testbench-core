@@ -8,6 +8,9 @@ use Illuminate\Support\LazyCollection;
 
 use function Orchestra\Testbench\join_paths;
 
+/**
+ * @api
+ */
 class EnsureDirectoryExists extends Action
 {
     /**

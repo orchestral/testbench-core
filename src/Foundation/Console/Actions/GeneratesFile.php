@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 
+/**
+ * @api
+ */
 class GeneratesFile extends Action
 {
     /**

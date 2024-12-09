@@ -6,6 +6,9 @@ use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\container;
 
+/**
+ * @internal
+ */
 class ParallelRunner extends \Illuminate\Testing\ParallelRunner
 {
     /**

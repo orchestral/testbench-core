@@ -6,6 +6,9 @@ use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
+/**
+ * @api
+ */
 class DeleteDirectories extends Action
 {
     /**
