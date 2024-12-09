@@ -8,6 +8,9 @@ use Illuminate\Support\LazyCollection;
 
 use function Laravel\Prompts\confirm;
 
+/**
+ * @api
+ */
 class DeleteDirectories extends Action
 {
     /**

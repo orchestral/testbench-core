@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 use function Orchestra\Testbench\package_path;
 
 /**
- * @internal
+ * @api
  */
 class PackageManifest extends IlluminatePackageManifest
 {
