@@ -1,4 +1,5 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "orchestra/testbench-core",
     "description": "Testing Helper for Laravel Development",
     "homepage": "https://packages.tools/testbench",

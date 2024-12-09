@@ -4,6 +4,9 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 
 use function Orchestra\Testbench\package_path;
 
+/**
+ * @api
+ */
 abstract class Action
 {
     /**

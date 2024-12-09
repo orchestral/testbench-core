@@ -9,6 +9,9 @@ use Illuminate\Support\LazyCollection;
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\join_paths;
 
+/**
+ * @api
+ */
 class EnsureDirectoryExists extends Action
 {
     /**

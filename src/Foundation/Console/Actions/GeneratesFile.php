@@ -8,6 +8,9 @@ use Illuminate\Filesystem\Filesystem;
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\join_paths;
 
+/**
+ * @api
+ */
 class GeneratesFile extends Action
 {
     /**
