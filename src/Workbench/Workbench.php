@@ -399,6 +399,7 @@ class Workbench
     {
         static::$cachedConfiguration = null;
         static::$cachedUserModel = null;
+        static::$cachedNamespaces = [];
 
         static::$cachedCoreBindings = [
             'kernel' => [],
