@@ -99,10 +99,10 @@ trait InteractsWithTestCase
         /** @var class-string<TTestingFeature> $name */
         $name = \get_class($attribute);
 
-        array_push(static::$testCaseTestingFeatures, [
+        static::$testCaseTestingFeatures[] = [
             'key' => $name,
             'instance' => $attribute,
-        ]);
+        ];
     }
 
     /**
