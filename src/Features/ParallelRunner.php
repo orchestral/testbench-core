@@ -1,9 +1,14 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation;
+namespace Orchestra\Testbench\Features;
+
+use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\container;
 
+/**
+ * @internal
+ */
 class ParallelRunner extends \Illuminate\Testing\ParallelRunner
 {
     /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation;
+namespace Orchestra\Testbench\Support;
 
 /**
  * @internal
  */
-readonly class UndefinedValue implements \JsonSerializable
+final readonly class UndefinedValue implements \JsonSerializable
 {
     /**
      * Determine if value is equivalent to "undefined" or "null".

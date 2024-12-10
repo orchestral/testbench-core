@@ -1,8 +1,8 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Foundation;
+namespace Orchestra\Testbench\Tests\Support;
 
-use Orchestra\Testbench\Foundation\UndefinedValue;
+use Orchestra\Testbench\Support\UndefinedValue;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

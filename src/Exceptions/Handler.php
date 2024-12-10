@@ -5,6 +5,9 @@ namespace Orchestra\Testbench\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+/**
+ * @internal
+ */
 class Handler extends ExceptionHandler
 {
     /** {@inheritDoc} */

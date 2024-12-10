@@ -2,6 +2,8 @@ name: analyse
 
 on:
   push:
+    branches:
+      - '*.x'
   pull_request:
   workflow_dispatch:
 
