@@ -7,6 +7,7 @@ use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Workbench\Workbench;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 class WithWorkbenchTest extends TestCase
@@ -45,6 +46,7 @@ class WithWorkbenchTest extends TestCase
     }
 
     #[Test]
+    #[Group('without-parallel')]
     public function it_can_resolve_user_model_from_workbench()
     {
         $this->assertFalse(Env::has('AUTH_MODEL'));
