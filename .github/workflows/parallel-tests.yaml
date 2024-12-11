@@ -49,7 +49,7 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations on PHPUnit 10)
+      - name: Execute tests
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
         env:
           RAY_ENABLED: false
@@ -92,7 +92,7 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations on PHPUnit 10)
+      - name: Execute test
         run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
         env:
           RAY_ENABLED: false
