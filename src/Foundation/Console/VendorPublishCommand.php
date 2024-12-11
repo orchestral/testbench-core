@@ -21,13 +21,11 @@ class VendorPublishCommand extends Command
         $pathLocation = function ($path) use ($laravelPath, $packagePath) {
             $path = (string) realpath($path);
 
-            if (str_starts_with($path, $laravelPath)) {
-                return str_replace("{$laravelPath}/", '@laravel/', $path);
-            } elseif (str_starts_with($path, $packagePath)) {
-                return str_replace("{$packagePath}/", './', $path);
-            }
-
-            return $path;
+            return match (true) {
+                str_starts_with($path, $laravelPath) => str_replace("{$laravelPath}/", '@laravel/', $path),
+                str_starts_with($path, $packagePath) => str_replace("{$packagePath}/", './', $path),
+                default => $path,
+            };
         };
 
         $fromLocation = $pathLocation($from);
