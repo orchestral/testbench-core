@@ -362,6 +362,8 @@ class Workbench
     public static function flush(): void
     {
         static::$cachedConfiguration = null;
+        static::$cachedUserModel = null;
+        static::$cachedNamespaces = [];
 
         static::$cachedCoreBindings = [
             'kernel' => [],

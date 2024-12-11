@@ -24,11 +24,24 @@ abstract class Action
      */
     protected function pathLocation(string $path): string
     {
+        $packagePath = package_path();
+
         if (! \is_null($this->workingPath)) {
             $path = str_replace(rtrim($this->workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, '', $path);
+
+            $prefix = match ($this->workingPath) {
+                app()->basePath() => '@laravel',
+                $packagePath => '.',
+                default => '@'
+            };
+
+            return implode('/', [$prefix, ltrim($path, '/')]);
         }
 
-        $path = str_replace(package_path(), '', $path);
+
+        if (str_starts_with($path, $packagePath)) {
+            return sprintf('./%s', ltrim(str_replace($packagePath, '', $path), '/'));
+        }
 
         return $path;
     }

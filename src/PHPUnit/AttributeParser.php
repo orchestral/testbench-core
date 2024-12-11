@@ -39,7 +39,7 @@ class AttributeParser
             [$name, $instance] = static::resolveAttribute($attribute);
 
             if (! \is_null($name) && ! \is_null($instance)) {
-                array_push($attributes, ['key' => $name, 'instance' => $instance]);
+                $attributes[] = ['key' => $name, 'instance' => $instance];
             }
         }
 
@@ -75,7 +75,7 @@ class AttributeParser
             [$name, $instance] = static::resolveAttribute($attribute);
 
             if (! \is_null($name) && ! \is_null($instance)) {
-                array_push($attributes, ['key' => $name, 'instance' => $instance]);
+                $attributes[] = ['key' => $name, 'instance' => $instance];
             }
         }
 
