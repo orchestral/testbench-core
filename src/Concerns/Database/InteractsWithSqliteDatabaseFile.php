@@ -36,7 +36,7 @@ trait InteractsWithSqliteDatabaseFile
         if ($filesystem->exists($database)) {
             $filesystem->move($database, $temporary = "{$database}.backup-{$time}");
 
-            array_push($this->files, $temporary);
+            $this->files[] = $temporary;
         }
 
         value($callback);

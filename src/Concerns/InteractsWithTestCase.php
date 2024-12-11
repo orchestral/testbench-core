@@ -37,9 +37,9 @@ trait InteractsWithTestCase
     /**
      * The method attributes for test case.
      *
-     * @var array<string, array<int, array{key: class-string, instance: object}>>
+     * @var  array<int, array{key: class-string, instance: object}>
      *
-     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
+     * @phpstan-var array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
      */
     protected static array $testCaseTestingFeatures = [];
 
@@ -110,10 +110,10 @@ trait InteractsWithTestCase
         /** @var class-string<TTestingFeature> $name */
         $name = \get_class($attribute);
 
-        array_push(static::$testCaseTestingFeatures, [
+        static::$testCaseTestingFeatures[] = [
             'key' => $name,
             'instance' => $attribute,
-        ]);
+        ];
     }
 
     /**

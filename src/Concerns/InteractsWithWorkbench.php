@@ -83,7 +83,7 @@ trait InteractsWithWorkbench
         $providers = $config?->getExtraAttributes()['providers'] ?? [];
 
         if ($hasAuthentication && class_exists('Orchestra\Workbench\AuthServiceProvider')) {
-            array_push($providers, 'Orchestra\Workbench\AuthServiceProvider');
+            $providers[] = 'Orchestra\Workbench\AuthServiceProvider';
         }
 
         if (empty($providers)) {
