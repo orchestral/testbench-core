@@ -48,5 +48,5 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations)
+      - name: Execute tests
         run: ./testbench package:test --parallel --exclude-group without-parallel,commander,database,session

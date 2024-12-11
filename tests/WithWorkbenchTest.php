@@ -42,7 +42,11 @@ class WithWorkbenchTest extends TestCase
         $this->assertSame($cachedConfig->toArray(), $config->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @group without-parallel
+     */
     public function it_can_resolve_user_model_from_workbench()
     {
         $this->assertSame('Workbench\App\Models\User', config('auth.providers.users.model'));
