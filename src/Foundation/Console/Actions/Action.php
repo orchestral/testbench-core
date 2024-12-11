@@ -38,9 +38,8 @@ abstract class Action
             return implode('/', [$prefix, ltrim($path, '/')]);
         }
 
-
         if (str_starts_with($path, $packagePath)) {
-            return sprintf('./%s', ltrim(str_replace($packagePath, '', $path), '/'));
+            return \sprintf('./%s', ltrim(str_replace($packagePath, '', $path), '/'));
         }
 
         return $path;

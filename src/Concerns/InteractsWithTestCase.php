@@ -37,7 +37,7 @@ trait InteractsWithTestCase
     /**
      * The method attributes for test case.
      *
-     * @var  array<int, array{key: class-string, instance: object}>
+     * @var array<int, array{key: class-string, instance: object}>
      *
      * @phpstan-var array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
      */
