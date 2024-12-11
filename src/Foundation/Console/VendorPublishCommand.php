@@ -32,9 +32,9 @@ class VendorPublishCommand extends Command
         $toLocation = $pathLocation($to);
 
         if (
+            $type === 'directory' &&
             $fromLocation === $toLocation &&
-            is_link($to) &&
-            $type === 'directory'
+            is_link($to)
         ) {
             $this->components->task('Synced directory');
 
