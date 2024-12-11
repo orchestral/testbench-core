@@ -15,15 +15,39 @@ class VendorPublishCommand extends Command
     #[\Override]
     protected function status($from, $to, $type)
     {
-        $from = str_replace(package_path().'/', '', (string) realpath($from));
+        $laravelPath = base_path();
+        $packagePath = package_path();
 
-        $to = str_replace(base_path().'/', '', (string) realpath($to));
+        $pathLocation = function ($path) use ($laravelPath, $packagePath) {
+            $path = (string) realpath($path);
+
+            if (str_starts_with($path, $laravelPath)) {
+                return str_replace("{$laravelPath}/", '@laravel/', $path);
+            } elseif (str_starts_with($path, $packagePath)) {
+                return str_replace("{$packagePath}/", './', $path);
+            }
+
+            return $path;
+        };
+
+        $fromLocation = $pathLocation($from);
+        $toLocation = $pathLocation($to);
+
+        if (
+            $fromLocation === $toLocation &&
+            is_link($to) &&
+            $type === 'directory'
+        ) {
+            $this->components->task('Synced directory');
+
+            return;
+        }
 
         $this->components->task(\sprintf(
             'Copying %s [%s] to [%s]',
             $type,
-            $from,
-            $to,
+            $fromLocation,
+            $toLocation,
         ));
     }
 }
