@@ -30,7 +30,7 @@ abstract class Action
             $path = str_replace(rtrim($this->workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, '', $path);
 
             $prefix = match ($this->workingPath) {
-                app()->basePath() => '@laravel',
+                base_path() => '@laravel',
                 $packagePath => '.',
                 default => '@'
             };
