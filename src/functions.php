@@ -231,7 +231,7 @@ function refresh_router_lookups(Router $router): void
 function transform_realpath_to_relative(string $path, ?string $workingPath = null, string $prefix = ''): string
 {
     if (! \is_null($workingPath)) {
-        return str_replace(rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, "{$prefix}/", $path);
+        return str_replace(rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $prefix.DIRECTORY_SEPARATOR, $path);
     }
 
     $laravelPath = base_path();
@@ -242,7 +242,7 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
         str_starts_with($path, $laravelPath) => str_replace("{$laravelPath}/", '@laravel/', $path),
         str_starts_with($path, $workbenchPath) => str_replace("{$workbenchPath}/", '@workbench/', $path),
         str_starts_with($path, $packagePath) => str_replace("{$packagePath}/", './', $path),
-        ! empty($prefix) => implode('/', [$prefix, ltrim($path, '/')]),
+        ! empty($prefix) => implode(DIRECTORY_SEPARATOR, [$prefix, ltrim($path, DIRECTORY_SEPARATOR)]),
         default => $path,
     };
 }

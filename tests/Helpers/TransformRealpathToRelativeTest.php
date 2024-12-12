@@ -16,17 +16,17 @@ class TransformRealpathToRelativeTest extends TestCase
         $this->assertSame('Testbench.php', transform_realpath_to_relative('Testbench.php'));
 
         $this->assertSame(
-            './src/TestCase.php',
+            join_paths('.', 'src', 'TestCase.php'),
             transform_realpath_to_relative(package_path('src', 'TestCase.php'))
         );
 
         $this->assertSame(
-            '@laravel/composer.json',
+            join_paths('@laravel', 'composer.json'),
             transform_realpath_to_relative(default_skeleton_path('composer.json'))
         );
 
         $this->assertSame(
-            '@workbench/app/Providers/WorkbenchServiceProvider.php',
+            join_paths('@workbench', 'app', 'Providers', 'WorkbenchServiceProvider.php'),
             transform_realpath_to_relative(package_path('workbench', 'app', 'Providers', 'WorkbenchServiceProvider.php'))
         );
     }
@@ -35,7 +35,7 @@ class TransformRealpathToRelativeTest extends TestCase
     public function it_can_use_transform_realpath_to_relative_using_custom_working_path()
     {
         $this->assertSame(
-            '@tests/Helpers/TransformRealpathToRelativeTest.php',
+            join_paths('@tests', 'Helpers', 'TransformRealpathToRelativeTest.php'),
             transform_realpath_to_relative(__FILE__, package_path('tests'), '@tests')
         );
     }
