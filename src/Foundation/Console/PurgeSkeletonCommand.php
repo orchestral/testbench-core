@@ -44,13 +44,10 @@ class PurgeSkeletonCommand extends Command
 
         ['files' => $files, 'directories' => $directories] = $config->getPurgeAttributes();
 
-        $workingPath = $this->laravel->basePath();
-
         $environmentFile = Env::get('TESTBENCH_ENVIRONMENT_FILE_USING', '.env');
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
-            workingPath: $workingPath,
         ))->handle(
             Collection::make([
                 $environmentFile,
@@ -62,7 +59,6 @@ class PurgeSkeletonCommand extends Command
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
-            workingPath: $workingPath,
         ))->handle(
             LazyCollection::make(function () use ($filesystem) {
                 yield $this->laravel->basePath(join_paths('database', 'database.sqlite'));
@@ -76,7 +72,6 @@ class PurgeSkeletonCommand extends Command
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             components: $this->components,
-            workingPath: $workingPath,
         ))->handle(
             LazyCollection::make($files)
                 ->map(fn ($file) => $this->laravel->basePath($file))
@@ -91,7 +86,6 @@ class PurgeSkeletonCommand extends Command
         (new Actions\DeleteDirectories(
             filesystem: $filesystem,
             components: $this->components,
-            workingPath: $workingPath,
         ))->handle(
             Collection::make($directories)
                 ->map(fn ($directory) => $this->laravel->basePath($directory))
