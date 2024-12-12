@@ -4,6 +4,9 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
 
+/**
+ * @internal
+ */
 final class TerminatingConsole
 {
     /**
