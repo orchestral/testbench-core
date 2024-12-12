@@ -8,6 +8,7 @@ use Illuminate\Support\LazyCollection;
 
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\join_paths;
+use function Orchestra\Testbench\transform_realpath_to_relative;
 
 /**
  * @api
@@ -25,11 +26,9 @@ class EnsureDirectoryExists extends Action
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
-        ?string $workingPath = null,
+        public ?string $workingPath = null,
         public bool $confirmation = false
-    ) {
-        $this->workingPath = $workingPath;
-    }
+    ) {}
 
     /**
      * Handle the action.
@@ -41,7 +40,7 @@ class EnsureDirectoryExists extends Action
     {
         LazyCollection::make($directories)
             ->each(function ($directory) {
-                $location = $this->pathLocation($directory);
+                $location = transform_realpath_to_relative($directory, $this->workingPath);
 
                 if ($this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(

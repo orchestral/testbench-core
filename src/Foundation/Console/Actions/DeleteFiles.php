@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
 use function Laravel\Prompts\confirm;
+use function Orchestra\Testbench\transform_realpath_to_relative;
 
 /**
  * @api
@@ -24,11 +25,9 @@ class DeleteFiles extends Action
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
-        ?string $workingPath = null,
+        public ?string $workingPath = null,
         public bool $confirmation = false
-    ) {
-        $this->workingPath = $workingPath;
-    }
+    ) {}
 
     /**
      * Handle the action.
@@ -41,7 +40,7 @@ class DeleteFiles extends Action
         LazyCollection::make($files)
             ->reject(static fn ($file) => str_ends_with($file, '.gitkeep') || str_ends_with($file, '.gitignore'))
             ->each(function ($file) {
-                $location = $this->pathLocation($file);
+                $location = transform_realpath_to_relative($file, $this->workingPath);
 
                 if (! $this->filesystem->exists($file)) {
                     $this->components?->twoColumnDetail(

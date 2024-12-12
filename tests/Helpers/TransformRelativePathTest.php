@@ -12,9 +12,6 @@ class TransformRelativePathTest extends TestCase
     /** @test */
     public function it_can_use_transform_relative_path()
     {
-        $this->assertSame(
-            realpath(join_paths(__DIR__, 'TransformRelativePathTest.php')),
-            transform_relative_path('./TransformRelativePathTest.php', realpath(__DIR__))
-        );
+        $this->assertSame(__FILE__, transform_relative_path('./TransformRelativePathTest.php', __DIR__));
     }
 }

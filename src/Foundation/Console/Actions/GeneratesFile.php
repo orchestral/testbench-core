@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\join_paths;
+use function Orchestra\Testbench\transform_realpath_to_relative;
 
 /**
  * @api
@@ -26,11 +27,9 @@ class GeneratesFile extends Action
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
         public bool $force = false,
-        ?string $workingPath = null,
+        public ?string $workingPath = null,
         public bool $confirmation = false
-    ) {
-        $this->workingPath = $workingPath;
-    }
+    ) {}
 
     /**
      * Handle the action.
@@ -47,14 +46,14 @@ class GeneratesFile extends Action
 
         if (! $this->filesystem->exists($from)) {
             $this->components?->twoColumnDetail(
-                \sprintf('Source file [%s] doesn\'t exists', $this->pathLocation($from)),
+                \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
 
             return;
         }
 
-        $location = $this->pathLocation($to);
+        $location = transform_realpath_to_relative($to, $this->workingPath);
 
         if (! $this->force && $this->filesystem->exists($to)) {
             $this->components?->twoColumnDetail(
