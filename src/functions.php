@@ -230,8 +230,10 @@ function refresh_router_lookups(Router $router): void
  */
 function transform_realpath_to_relative(string $path, ?string $workingPath = null, string $prefix = ''): string
 {
+    $separator = DIRECTORY_SEPARATOR;
+
     if (! \is_null($workingPath)) {
-        return str_replace(rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $prefix.DIRECTORY_SEPARATOR, $path);
+        return str_replace(rtrim($workingPath, $separator).$separator, $prefix.$separator, $path);
     }
 
     $laravelPath = base_path();
@@ -239,10 +241,10 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
     $packagePath = package_path();
 
     return match (true) {
-        str_starts_with($path, $laravelPath) => str_replace("{$laravelPath}/", '@laravel/', $path),
-        str_starts_with($path, $workbenchPath) => str_replace("{$workbenchPath}/", '@workbench/', $path),
-        str_starts_with($path, $packagePath) => str_replace("{$packagePath}/", './', $path),
-        ! empty($prefix) => implode(DIRECTORY_SEPARATOR, [$prefix, ltrim($path, DIRECTORY_SEPARATOR)]),
+        str_starts_with($path, $laravelPath) => str_replace($laravelPath.$separator, '@laravel'.$separator, $path),
+        str_starts_with($path, $workbenchPath) => str_replace($workbenchPath.$separator, '@workbench'.$separator, $path),
+        str_starts_with($path, $packagePath) => str_replace($packagePath.$separator, '.'.$separator, $path),
+        ! empty($prefix) => implode($separator, [$prefix, ltrim($path, $separator)]),
         default => $path,
     };
 }
