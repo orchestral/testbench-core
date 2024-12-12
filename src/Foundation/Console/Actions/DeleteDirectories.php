@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
 use function Laravel\Prompts\confirm;
+use function Orchestra\Testbench\transform_realpath_to_relative;
 
 /**
  * @api
@@ -24,11 +25,9 @@ class DeleteDirectories extends Action
     public function __construct(
         public readonly Filesystem $filesystem,
         public readonly ?ComponentsFactory $components = null,
-        ?string $workingPath = null,
+        public ?string $workingPath = null,
         public readonly bool $confirmation = false
-    ) {
-        $this->workingPath = $workingPath;
-    }
+    ) {}
 
     /**
      * Handle the action.
@@ -40,7 +39,7 @@ class DeleteDirectories extends Action
     {
         LazyCollection::make($directories)
             ->each(function ($directory) {
-                $location = $this->pathLocation($directory);
+                $location = transform_realpath_to_relative($directory, $this->workingPath);
 
                 if (! $this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
@@ -58,7 +57,7 @@ class DeleteDirectories extends Action
                 $this->filesystem->deleteDirectory($directory);
 
                 $this->components?->task(
-                    \sprintf('Directory [%s] has been deleted', $this->pathLocation($directory))
+                    \sprintf('Directory [%s] has been deleted', $location)
                 );
             });
     }
