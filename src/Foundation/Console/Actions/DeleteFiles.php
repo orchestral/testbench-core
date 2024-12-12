@@ -6,6 +6,8 @@ use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
+use function Orchestra\Testbench\transform_realpath_to_relative;
+
 /**
  * @api
  */
@@ -21,10 +23,8 @@ class DeleteFiles extends Action
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
-        ?string $workingPath = null
-    ) {
-        $this->workingPath = $workingPath;
-    }
+        public ?string $workingPath = null
+    ) {}
 
     /**
      * Handle the action.
@@ -39,7 +39,7 @@ class DeleteFiles extends Action
             ->each(function ($file) {
                 if (! $this->filesystem->exists($file)) {
                     $this->components?->twoColumnDetail(
-                        \sprintf('File [%s] doesn\'t exists', $this->pathLocation($file)),
+                        \sprintf('File [%s] doesn\'t exists', transform_realpath_to_relative($file, $this->workingPath)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
@@ -49,7 +49,7 @@ class DeleteFiles extends Action
                 $this->filesystem->delete($file);
 
                 $this->components?->task(
-                    \sprintf('File [%s] has been deleted', $this->pathLocation($file))
+                    \sprintf('File [%s] has been deleted', transform_realpath_to_relative($file, $this->workingPath))
                 );
             });
     }

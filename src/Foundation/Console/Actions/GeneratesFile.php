@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 
+use function Orchestra\Testbench\transform_realpath_to_relative;
+
 /**
  * @api
  */
@@ -22,10 +24,8 @@ class GeneratesFile extends Action
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
         public bool $force = false,
-        ?string $workingPath = null
-    ) {
-        $this->workingPath = $workingPath;
-    }
+        public ?string $workingPath = null
+    ) {}
 
     /**
      * Handle the action.
@@ -42,7 +42,7 @@ class GeneratesFile extends Action
 
         if (! $this->filesystem->exists($from)) {
             $this->components?->twoColumnDetail(
-                \sprintf('Source file [%s] doesn\'t exists', $this->pathLocation($from)),
+                \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
 
@@ -51,7 +51,7 @@ class GeneratesFile extends Action
 
         if (! $this->force && $this->filesystem->exists($to)) {
             $this->components?->twoColumnDetail(
-                \sprintf('File [%s] already exists', $this->pathLocation($to)),
+                \sprintf('File [%s] already exists', transform_realpath_to_relative($to, $this->workingPath)),
                 '<fg=yellow;options=bold>SKIPPED</>'
             );
 
@@ -67,7 +67,7 @@ class GeneratesFile extends Action
         }
 
         $this->components?->task(
-            \sprintf('File [%s] generated', $this->pathLocation($to))
+            \sprintf('File [%s] generated', transform_realpath_to_relative($to, $this->workingPath))
         );
     }
 }
