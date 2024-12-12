@@ -47,7 +47,6 @@ class CreateSqliteDbCommand extends Command
             filesystem: $filesystem,
             components: $this->components,
             force: $force,
-            workingPath: $workingPath,
         ))->handle($from, $to);
 
         return Command::SUCCESS;

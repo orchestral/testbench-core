@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
 
 use function Orchestra\Testbench\join_paths;
+use function Orchestra\Testbench\transform_realpath_to_relative;
 
 /**
  * @api
@@ -23,10 +24,8 @@ class EnsureDirectoryExists extends Action
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
-        ?string $workingPath = null
-    ) {
-        $this->workingPath = $workingPath;
-    }
+        public ?string $workingPath = null
+    ) {}
 
     /**
      * Handle the action.
@@ -40,7 +39,7 @@ class EnsureDirectoryExists extends Action
             ->each(function ($directory) {
                 if ($this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
-                        \sprintf('Directory [%s] already exists', $this->pathLocation($directory)),
+                        \sprintf('Directory [%s] already exists', transform_realpath_to_relative($directory, $this->workingPath)),
                         '<fg=yellow;options=bold>SKIPPED</>'
                     );
 
@@ -50,7 +49,7 @@ class EnsureDirectoryExists extends Action
                 $this->filesystem->ensureDirectoryExists($directory, 0755, true);
                 $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
 
-                $this->components?->task(\sprintf('Prepare [%s] directory', $this->pathLocation($directory)));
+                $this->components?->task(\sprintf('Prepare [%s] directory', transform_realpath_to_relative($directory, $this->workingPath)));
             });
     }
 }
