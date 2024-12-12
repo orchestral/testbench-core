@@ -14,9 +14,9 @@ abstract class Action
      *
      * @param  string  $path
      * @return string
-     * 
+     *
      * @deprecated
-     * 
+     *
      * @codeCoverageIgnore
      */
     protected function pathLocation(string $path): string

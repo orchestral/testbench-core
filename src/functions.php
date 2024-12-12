@@ -219,17 +219,16 @@ function refresh_router_lookups(Router $router): void
     $router->getRoutes()->refreshNameLookups();
 }
 
-
 /**
  * Transform realpath to alias path.
- * 
+ *
  * @api
- * 
+ *
  * @param  string  $path
  * @param  string|null  $workingPath
  * @return string
  */
-function transform_realpath_to_relative(string $path, ?string $workingPath = null, string $prefix = ''): string 
+function transform_realpath_to_relative(string $path, ?string $workingPath = null, string $prefix = ''): string
 {
     if (! \is_null($workingPath)) {
         return str_replace(rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR, $prefix, $path);
