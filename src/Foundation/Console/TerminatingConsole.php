@@ -50,7 +50,7 @@ final class TerminatingConsole
                 \call_user_func($callback);
             });
 
-        self::purge();
+        self::flush();
     }
 
     /**
@@ -58,7 +58,7 @@ final class TerminatingConsole
      *
      * @return void
      */
-    public static function purge(): void
+    public static function flush(): void
     {
         self::$beforeTerminatingCallbacks = [];
     }

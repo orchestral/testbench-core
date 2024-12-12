@@ -32,7 +32,7 @@ class SyncSkeletonCommand extends Command
     {
         parent::configure();
 
-        TerminatingConsole::purge();
+        TerminatingConsole::flush();
     }
 
     /**
