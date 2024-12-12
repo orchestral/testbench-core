@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Tests\Helpers;
 
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\join_paths;
@@ -11,7 +12,7 @@ use function Orchestra\Testbench\transform_realpath_to_relative;
 
 class TransformRealpathToRelativeTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_use_transform_realpath_to_relative()
     {
         $this->assertSame('Testbench.php', transform_realpath_to_relative('Testbench.php'));
@@ -32,7 +33,7 @@ class TransformRealpathToRelativeTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_use_transform_realpath_to_relative_using_custom_working_path()
     {
         $this->assertSame(

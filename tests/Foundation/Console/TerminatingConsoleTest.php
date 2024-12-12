@@ -3,11 +3,12 @@
 namespace Orchestra\Testbench\Tests\Foundation\Console;
 
 use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class TerminatingConsoleTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_handle_terminating_callbacks_on_terminal()
     {
         $this->assertFalse(isset($_SERVER['TerminatingConsole.before']));
