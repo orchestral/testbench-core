@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Tests\Helpers;
 use Orchestra\Testbench\TestCase;
 
 use function Orchestra\Testbench\default_skeleton_path;
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\transform_realpath_to_relative;
 
