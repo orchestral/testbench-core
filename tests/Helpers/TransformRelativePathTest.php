@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests\Helpers;
 
 use Orchestra\Testbench\TestCase;
 
-use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\transform_relative_path;
 
 class TransformRelativePathTest extends TestCase
