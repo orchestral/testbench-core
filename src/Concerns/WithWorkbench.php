@@ -59,7 +59,7 @@ trait WithWorkbench
      * Merge seeders for Workbench.
      *
      * @param  \Orchestra\Testbench\Contracts\Config  $config
-     * @return array|false
+     * @return array<int, class-string>|false
      */
     protected function mergeSeedersForWorkbench(ConfigContract $config): array|false
     {
