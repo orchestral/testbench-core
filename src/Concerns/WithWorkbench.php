@@ -71,12 +71,13 @@ trait WithWorkbench
 
         $testCaseSeeder = $this->seeder();
 
+        /** @var class-string $testCaseSeeder */
         $testCaseSeeder = $testCaseSeeder !== false
             ? $testCaseSeeder
             : \Database\Seeders\DatabaseSeeder::class;
 
         return Collection::make($seeders)
-            ->reject(static fn ($seeder) => $seeder == $testCaseSeeder)
+            ->reject(static fn ($seeder) => $seeder === $testCaseSeeder)
             ->values()
             ->all();
     }
