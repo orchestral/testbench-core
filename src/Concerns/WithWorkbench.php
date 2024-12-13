@@ -31,8 +31,23 @@ trait WithWorkbench
 
         $seeders = $config['seeders'] ?? false;
 
-        if (static::usesTestingConcern(CanConfigureMigrationCommands::class) && $this->shouldSeed() === false) {
-            $seeders = false;
+        if (static::usesTestingConcern(CanConfigureMigrationCommands::class)) {
+            if ($this->shouldSeed() === false) {
+                $seeders = false;
+            }
+
+            if ($seeders !== false) {
+                $testCaseSeeder = $this->seeder();
+
+                $testCaseSeeder = $testCaseSeeder !== false
+                    ? $testCaseSeeder
+                    : \Database\Seeders\DatabaseSeeder::class;
+
+                $seeders = Collection::make($seeders)
+                    ->reject(static fn ($seeder) => $seeder == $testCaseSeeder)
+                    ->values()
+                    ->all();
+            }
         }
 
         (new LoadMigrationsFromArray(
