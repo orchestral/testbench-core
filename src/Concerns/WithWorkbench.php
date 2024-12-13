@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Foundation\Testing\Traits\CanConfigureMigrationCommands;
+use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Workbench\Workbench;
 
@@ -31,24 +32,9 @@ trait WithWorkbench
 
         $seeders = $config['seeders'] ?? false;
 
-        if (static::usesTestingConcern(CanConfigureMigrationCommands::class)) {
-            if ($this->shouldSeed() === false) {
-                $seeders = false;
-            }
-
-            if ($seeders !== false) {
-                $testCaseSeeder = $this->seeder();
-
-                $testCaseSeeder = $testCaseSeeder !== false
-                    ? $testCaseSeeder
-                    : \Database\Seeders\DatabaseSeeder::class;
-
-                $seeders = Collection::make($seeders)
-                    ->reject(static fn ($seeder) => $seeder == $testCaseSeeder)
-                    ->values()
-                    ->all();
-            }
-        }
+        $seeders = static::usesTestingConcern(CanConfigureMigrationCommands::class)
+            ? $this->mergeSeedersForWorkbench($config)
+            : ($config['seeders'] ?? false);
 
         (new LoadMigrationsFromArray(
             $config['migrations'] ?? [], $seeders,
@@ -67,5 +53,31 @@ trait WithWorkbench
         $config = static::cachedConfigurationForWorkbench();
 
         Workbench::discoverRoutes($app, $config);
+    }
+
+    /**
+     * Merge seeders for Workbench.
+     *
+     * @param  \Orchestra\Testbench\Contracts\Config  $config
+     * @return array|false
+     */
+    protected function mergeSeedersForWorkbench(ConfigContract $config): array|false
+    {
+        $seeders = $config['seeders'] ?? false;
+
+        if ($this->shouldSeed() === false || $seeders === false) {
+            return false;
+        }
+
+        $testCaseSeeder = $this->seeder();
+
+        $testCaseSeeder = $testCaseSeeder !== false
+            ? $testCaseSeeder
+            : \Database\Seeders\DatabaseSeeder::class;
+
+        return Collection::make($seeders)
+            ->reject(static fn ($seeder) => $seeder == $testCaseSeeder)
+            ->values()
+            ->all();
     }
 }
