@@ -44,8 +44,6 @@ class PurgeSkeletonCommand extends Command
 
         ['files' => $files, 'directories' => $directories] = $config->getPurgeAttributes();
 
-        $workingPath = $this->laravel->basePath();
-
         $environmentFile = Env::get('TESTBENCH_ENVIRONMENT_FILE_USING', '.env');
 
         (new Actions\DeleteFiles(
