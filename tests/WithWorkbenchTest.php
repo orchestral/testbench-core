@@ -51,6 +51,7 @@ class WithWorkbenchTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider seedersDataProvider
      */
     public function it_can_merge_seeders_with_illuminate_database_refresh(
@@ -77,7 +78,8 @@ class WithWorkbenchTest extends TestCase
     }
 }
 
-class MergeSeedersTestStub {
+class MergeSeedersTestStub
+{
     use WithWorkbench;
 
     public function __construct(protected bool $seed, protected string|false $seeders) {}
