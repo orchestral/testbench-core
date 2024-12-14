@@ -355,7 +355,7 @@ class Workbench
 
     /**
      * Detect namespace by type.
-     * 
+     *
      * @param  string  $type
      * @param  bool  $force
      * @return string|null
