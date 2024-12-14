@@ -319,12 +319,16 @@ class Workbench
 
     /**
      * Detect namespace by type.
+     * 
+     * @param  string  $type
+     * @param  bool  $force
+     * @return string|null
      */
-    public static function detectNamespace(string $type): ?string
+    public static function detectNamespace(string $type, bool $force = false): ?string
     {
         $type = trim($type, '/');
 
-        if (! isset(static::$cachedNamespaces[$type])) {
+        if (! isset(static::$cachedNamespaces[$type]) || $force === true) {
             static::$cachedNamespaces[$type] = null;
 
             /** @var array{'autoload-dev': array{'psr-4': array<string, array<int, string>|string>}} $composer */
