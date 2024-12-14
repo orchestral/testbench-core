@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.7.3
+
+Released: 2024-12-14
+
+### Fixes
+
+* Fixes database seeding using `Orchestra\Testbench\Concerns\WithWorkbench` and `Illuminate\Foundation\Testing\RefreshDatabase`.
+
 ## 9.7.2
 
 Released: 2024-12-06
