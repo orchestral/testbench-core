@@ -15,6 +15,7 @@ use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Queue\Console\WorkCommand;
 use Illuminate\Queue\Queue;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Arr;
@@ -25,7 +26,6 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
-
 use function Orchestra\Testbench\join_paths;
 
 /**
@@ -209,6 +209,7 @@ class Application
         TrimStrings::flushState();
         TrustProxies::flushState();
         VerifyCsrfToken::flushState();
+        WorkCommand::flushState();
     }
 
     /**
