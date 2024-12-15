@@ -3,9 +3,9 @@
 namespace Orchestra\Testbench\Foundation;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Fluent;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Support\FluentDecorator;
 use Symfony\Component\Yaml\Yaml;
 
 use function Orchestra\Testbench\join_paths;
@@ -100,7 +100,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   workbench?: TOptionalWorkbenchConfig|null
  * }
  */
-class Config extends Fluent implements ConfigContract
+class Config extends FluentDecorator implements ConfigContract
 {
     /**
      * All of the attributes set on the fluent instance.
@@ -109,7 +109,7 @@ class Config extends Fluent implements ConfigContract
      *
      * @phpstan-var TConfig
      */
-    protected $attributes = [
+    protected $defaultAttributes = [
         'laravel' => null,
         'env' => [],
         'providers' => [],
@@ -186,6 +186,18 @@ class Config extends Fluent implements ConfigContract
     protected static $cachedConfiguration;
 
     /**
+     * Construct a new Config instance.
+     *
+     * @param  iterable<string, mixed>  $attributes
+     *
+     * @phpstan-param TOptionalConfig $attributes
+     */
+    public function __construct($attributes = [])
+    {
+        parent::__construct(array_replace($this->defaultAttributes, $attributes));
+    }
+
+    /**
      * Load configuration from Yaml file.
      *
      * @param  string  $workingPath
@@ -256,7 +268,7 @@ class Config extends Fluent implements ConfigContract
      */
     public function addProviders(array $providers)
     {
-        $this->attributes['providers'] = array_unique(array_merge($this->attributes['providers'], $providers));
+        $this->fluent['providers'] = array_unique(array_merge($this->fluent['providers'], $providers));
 
         return $this;
     }
@@ -270,11 +282,13 @@ class Config extends Fluent implements ConfigContract
      */
     public function getExtraAttributes(): array
     {
+        $attributes = $this->fluent->getAttributes();
+
         return [
-            'env' => Arr::get($this->attributes, 'env', []),
-            'bootstrappers' => Arr::get($this->attributes, 'bootstrappers', []),
-            'providers' => Arr::get($this->attributes, 'providers', []),
-            'dont-discover' => Arr::get($this->attributes, 'dont-discover', []),
+            'env' => Arr::get($attributes, 'env', []),
+            'bootstrappers' => Arr::get($attributes, 'bootstrappers', []),
+            'providers' => Arr::get($attributes, 'providers', []),
+            'dont-discover' => Arr::get($attributes, 'dont-discover', []),
         ];
     }
 
@@ -287,10 +301,13 @@ class Config extends Fluent implements ConfigContract
      */
     public function getPurgeAttributes(): array
     {
-        return array_merge(
+        $config = array_merge(
             $this->purgeConfig,
-            $this->attributes['purge'],
+            $this->fluent['purge'],
         );
+
+        /** @var TPurgeConfig $config */
+        return $config;
     }
 
     /**
@@ -302,14 +319,16 @@ class Config extends Fluent implements ConfigContract
      */
     public function getWorkbenchAttributes(): array
     {
+        $attributes = $this->fluent->getAttributes();
+
         $config = array_merge(
             $this->workbenchConfig,
-            $this->attributes['workbench'],
+            $attributes['workbench'],
         );
 
         $config['discovers'] = array_merge(
             $this->workbenchDiscoversConfig,
-            Arr::get($this->attributes, 'workbench.discovers', [])
+            Arr::get($attributes, 'workbench.discovers', [])
         );
 
         /** @var TWorkbenchConfig $config */
