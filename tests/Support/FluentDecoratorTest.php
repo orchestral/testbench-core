@@ -30,7 +30,7 @@ class FluentDecoratorTest extends TestCase
     public function it_can_utilise_fluent_as_object()
     {
         [$fluent] = $this->newFluent();
-            
+
         $this->assertFalse(isset($fluent->laravel));
         $this->assertFalse(isset($fluent->file));
         $this->assertNull($fluent->laravel);
@@ -49,11 +49,12 @@ class FluentDecoratorTest extends TestCase
         $this->assertTrue(isset($fluent->laravel));
         $this->assertFalse(isset($fluent->file));
     }
+
     /** @test */
     public function it_can_utilise_fluent_as_array()
     {
         [$fluent] = $this->newFluent();
-            
+
         $this->assertFalse(isset($fluent['laravel']));
         $this->assertFalse(isset($fluent['file']));
         $this->assertNull($fluent['laravel']);
@@ -89,7 +90,7 @@ class FluentDecoratorTest extends TestCase
 
     /**
      * Create new test stubs.
-     * 
+     *
      * @return array{0: \Orchestra\Testbench\Support\FluentDecorator, 1: array<array-key, mixed>}
      */
     protected function newFluent(): array
@@ -97,7 +98,8 @@ class FluentDecoratorTest extends TestCase
         $attributes = ['testbench' => true, 'class' => __CLASS__];
 
         return [
-            new class($attributes) extends FluentDecorator {
+            new class($attributes) extends FluentDecorator
+            {
                 // ...
             },
             $attributes,
