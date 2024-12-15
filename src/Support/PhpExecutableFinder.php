@@ -7,6 +7,9 @@ use Symfony\Component\Process\PhpExecutableFinder as SymfonyPhpExecutableFinder;
 
 use function Orchestra\Testbench\join_paths;
 
+/**
+ * @internal
+ */
 class PhpExecutableFinder extends SymfonyPhpExecutableFinder
 {
     /**
