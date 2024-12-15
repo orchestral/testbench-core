@@ -2,8 +2,9 @@
 
 namespace Orchestra\Testbench\Tests\Support;
 
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Support\FluentDecorator;
+use PHPUnit\Framework\TestCase;
 
 class FluentDecoratorTest extends TestCase
 {
@@ -27,5 +28,17 @@ class FluentDecoratorTest extends TestCase
         $this->assertSame($attributes, $fluent->toArray());
         $this->assertSame(json_encode($attributes), $fluent->toJson());
         $this->assertSame($attributes, $fluent->jsonSerialize());
+
+        $this->assertFalse(isset($fluent['laravel']));
+        $this->assertFalse(isset($fluent->laravel));
+        $this->assertNull($fluent['laravel']);
+        $this->assertNull($fluent->laravel);
+
+        $this->assertInstanceOf(FluentDecorator::class, $fluent->laravel(Application::VERSION));
+
+        $this->assertTrue(isset($fluent['laravel']));
+        $this->assertTrue(isset($fluent->laravel));
+        $this->assertSame(Application::VERSION, $fluent['laravel']);
+        $this->assertSame(Application::VERSION, $fluent->laravel);
     }
 }
