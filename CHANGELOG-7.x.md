@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.50.0
+
+Released: 2024-12-15
+
+### Added
+
+* Added `Orchestra\Testbench\transform_realpath_to_relative()` function.
+* Override Laravel's `vendor:publish` command.
+
+### Changes
+
+* Add `$force` parameter to `Orchestra\Testbench\Workbench\Workbench::detectNamespace()` method.
+
 ## 7.49.1
 
 Released: 2024-12-14
