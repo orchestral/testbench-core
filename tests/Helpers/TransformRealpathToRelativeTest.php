@@ -9,6 +9,9 @@ use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\transform_realpath_to_relative;
 
+/**
+ * @group core
+ */
 class TransformRealpathToRelativeTest extends TestCase
 {
     /** @test */
