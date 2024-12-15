@@ -15,6 +15,7 @@ use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Queue\Console\WorkCommand;
 use Illuminate\Queue\Queue;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Arr;
@@ -209,6 +210,7 @@ class Application
         TrimStrings::flushState();
         TrustProxies::flushState();
         VerifyCsrfToken::flushState();
+        WorkCommand::flushState();
     }
 
     /**

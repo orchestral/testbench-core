@@ -34,7 +34,6 @@ class DropSqliteDbCommand extends Command
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             components: $this->components,
-            workingPath: $this->laravel->basePath(),
         ))->handle(
             match ($this->option('all')) {
                 true => [...$filesystem->glob(join_paths($databasePath, '*.sqlite'))],

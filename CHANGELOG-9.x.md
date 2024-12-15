@@ -2,6 +2,27 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.8.0
+
+Released: 2024-12-15
+
+### Added
+
+* Added `Orchestra\Testbench\transform_realpath_to_relative()` function.
+* Override Laravel's `vendor:publish` command.
+
+### Changes
+
+* Add `$force` parameter to `Orchestra\Testbench\Workbench\Workbench::detectNamespace()` method.
+
+## 9.7.3
+
+Released: 2024-12-14
+
+### Fixes
+
+* Fixes database seeding using `Orchestra\Testbench\Concerns\WithWorkbench` and `Illuminate\Foundation\Testing\RefreshDatabase`.
+
 ## 9.7.2
 
 Released: 2024-12-06

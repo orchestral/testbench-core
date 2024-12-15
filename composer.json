@@ -49,6 +49,7 @@
         "mockery/mockery": "^1.6.10",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^10.5.35 || ^11.3.6",
+        "spatie/laravel-ray": "^1.39",
         "symfony/process": "^7.0.3",
         "symfony/yaml": "^7.0.3",
         "vlucas/phpdotenv": "^5.6.1"
