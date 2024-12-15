@@ -17,6 +17,7 @@ class FluentDecoratorTest extends TestCase
         };
 
         $this->assertTrue(isset($fluent['testbench']));
+        $this->assertTrue(isset($fluent['class']));
         $this->assertFalse(isset($fluent['workbench']));
 
         $this->assertTrue($fluent['testbench']);
@@ -28,16 +29,12 @@ class FluentDecoratorTest extends TestCase
         $this->assertSame($attributes, $fluent->jsonSerialize());
 
         $this->assertFalse(isset($fluent['laravel']));
-        $this->assertFalse(isset($fluent->laravel));
         $this->assertNull($fluent['laravel']);
-        $this->assertNull($fluent->laravel);
 
         $this->assertInstanceOf(FluentDecorator::class, $fluent->laravel(Application::VERSION));
 
         $this->assertTrue(isset($fluent['laravel']));
-        $this->assertTrue(isset($fluent->laravel));
         $this->assertSame(Application::VERSION, $fluent['laravel']);
-        $this->assertSame(Application::VERSION, $fluent->laravel);
 
         unset($fluent['class']);
 
@@ -45,5 +42,15 @@ class FluentDecoratorTest extends TestCase
         $this->assertFalse(isset($fluent->class));
         $this->assertNull($fluent['class']);
         $this->assertNull($fluent->class);
+
+        $this->assertFalse(isset($fluent->file));
+
+        $fluent->file = __FILE__;
+
+        $this->assertTrue(isset($fluent->file));
+
+        unset($fluent->file);
+
+        $this->assertFalse(isset($fluent->file));
     }
 }
