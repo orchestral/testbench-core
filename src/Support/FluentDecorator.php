@@ -130,7 +130,7 @@ abstract class FluentDecorator implements Arrayable, ArrayAccess, Jsonable, Json
      */
     public function __get($key)
     {
-        return $this->fluent->get($key);
+        return $this->fluent->value($key);
     }
 
     /**
