@@ -38,5 +38,12 @@ class FluentDecoratorTest extends TestCase
         $this->assertTrue(isset($fluent->laravel));
         $this->assertSame(Application::VERSION, $fluent['laravel']);
         $this->assertSame(Application::VERSION, $fluent->laravel);
+
+        unset($fluent['class']);
+
+        $this->assertFalse(isset($fluent['class']));
+        $this->assertFalse(isset($fluent->class));
+        $this->assertNull($fluent['class']);
+        $this->assertNull($fluent->class);
     }
 }
