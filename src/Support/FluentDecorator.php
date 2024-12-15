@@ -10,7 +10,7 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use JsonSerializable;
 
 /**
- * @api
+ * @internal
  *
  * @template TKey of array-key
  * @template TValue
