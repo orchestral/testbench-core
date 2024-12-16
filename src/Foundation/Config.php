@@ -42,7 +42,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   install: bool,
  *   auth: bool,
  *   welcome: bool|null,
- *   sync: array<int, array{from: string, to: string}>,
+ *   sync: array<int, array{from: string, to: string, reverse?: bool}>,
  *   build: array<int|string, array<string, mixed>|string>,
  *   assets: array<int, string>,
  *   discovers: TWorkbenchDiscoversConfig
@@ -54,7 +54,7 @@ use function Orchestra\Testbench\transform_relative_path;
  *   install?: bool,
  *   auth?: bool,
  *   welcome?: bool|null,
- *   sync?: array<int, array{from: string, to: string}>,
+ *   sync?: array<int, array{from: string, to: string, reverse?: bool}>,
  *   build?: array<int|string, array<string, mixed>|string>,
  *   assets?: array<int, string>,
  *   discovers?: TWorkbenchOptionalDiscoversConfig
