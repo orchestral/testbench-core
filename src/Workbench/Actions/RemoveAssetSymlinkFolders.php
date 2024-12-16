@@ -37,7 +37,7 @@ final class RemoveAssetSymlinkFolders
         Collection::make($sync)
             ->map(static function ($pair) {
                 /** @var bool $reverse */
-                $reverse = \is_bool($pair['reverse'] ?? null) ? $pair['reverse'] : false;
+                $reverse = isset($pair['reverse']) && \is_bool($pair['reverse']) ? $pair['reverse'] : false;
 
                 /** @var string $from */
                 $from = $reverse === false ? package_path($pair['from']) : base_path($pair['from']);
