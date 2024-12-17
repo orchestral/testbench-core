@@ -1,3 +1,5 @@
 .env
 .env.dist
 .env.example
+
+/storage
