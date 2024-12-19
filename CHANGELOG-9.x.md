@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.8.2
+
+Released: 2024-12-19
+
+### Changes
+
+* Add `Orchestra\Testbench\Workbench\Workbench::flushCachedClassAndNamespaces()` to flush cached namespaces and classes during installation.
+
 ## 9.8.1
 
 Released: 2024-12-18
