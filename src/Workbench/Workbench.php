@@ -366,6 +366,19 @@ class Workbench
     public static function flush(): void
     {
         static::$cachedConfiguration = null;
+
+        static::flushCachedClassAndNamespaces();
+    }
+
+    /**
+     * Flush the cached namespace configuration.
+     *
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    public static function flushCachedClassAndNamespaces(): void
+    {
         static::$cachedUserModel = null;
         static::$cachedNamespaces = [];
 
