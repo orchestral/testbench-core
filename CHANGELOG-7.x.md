@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.51.0
+
+Released: 2024-12-24
+
+### Added
+
+* Add ability to symlink directory in from skeleton to package.
+
+### Changes
+
+* Use `realpath()` on `vendor:publish` output.
+
 ## 7.50.1
 
 Released: 2024-12-19
