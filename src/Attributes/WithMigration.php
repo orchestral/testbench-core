@@ -21,6 +21,8 @@ final class WithMigration implements InvokableContract
 
     /**
      * Construct a new attribute.
+     *
+     * @no-named-arguments
      */
     public function __construct()
     {
