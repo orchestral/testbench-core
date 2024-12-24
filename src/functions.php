@@ -270,6 +270,8 @@ function transform_relative_path(string $path, string $workingPath): string
  *
  * @api
  *
+ * @no-named-arguments
+ *
  * @param  array|string  $path
  * @return string
  */
@@ -305,6 +307,8 @@ function default_migration_path(?string $type = null): string
  * Get the path to the package folder.
  *
  * @api
+ *
+ * @no-named-arguments
  *
  * @param  array|string  $path
  * @return string
@@ -349,6 +353,8 @@ function workbench(): array
  * Get the path to the workbench folder.
  *
  * @api
+ *
+ * @no-named-arguments
  *
  * @param  array|string  $path
  * @return string
