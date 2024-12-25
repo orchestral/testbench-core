@@ -16,8 +16,17 @@ class VendorPublishCommand extends Command
     protected function status($from, $to, $type)
     {
         $format = function ($path) use ($type) {
+            if ($type === 'directory' && is_link($path)) {
+                return $path;
+            }
+
+            $realpath = realpath($path);
+
+            if ($realpath !== false) {
+                $path = $realpath;
+            }
+
             return match (true) {
-                $type === 'directory' && is_link($path) => $path,
                 $this->files->exists($path) => $path,
                 default => (string) realpath($path),
             };
