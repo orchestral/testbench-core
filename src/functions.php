@@ -18,6 +18,7 @@ use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
 use RuntimeException;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -462,7 +463,7 @@ function phpunit_version_compare(string $version, ?string $operator = null): int
  */
 function php_binary(bool $escape = false): string
 {
-    $phpBinary = (new Support\PhpExecutableFinder)->find(false) ?: 'php';
+    $phpBinary = (new PhpExecutableFinder)->find(false) ?: 'php';
 
     return $escape === true ? ProcessUtils::escapeArgument((string) $phpBinary) : $phpBinary;
 }
