@@ -11,7 +11,6 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function Orchestra\Testbench\container;
-use function Orchestra\Testbench\phpunit_version_compare;
 
 class TestCaseTest extends TestCase
 {
@@ -25,9 +24,7 @@ class TestCaseTest extends TestCase
     #[Test]
     public function it_can_create_the_testcase()
     {
-        $methodName = phpunit_version_compare('10', '>=')
-            ? $this->name()
-            : $this->getName();
+        $methodName = $this->name();
 
         $testbench = new class($methodName) extends \Orchestra\Testbench\TestCase
         {
