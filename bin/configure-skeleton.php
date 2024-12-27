@@ -6,7 +6,7 @@ if (! isset($workingPath)) {
 
 $input = new Symfony\Component\Console\Input\ArgvInput;
 // $version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '12.x-dev' : '^12.0';
-$version = '11.x-dev';
+$version = 'dev-master';
 
 echo '> composer create-project "laravel/laravel:'.$version.'" skeleton --no-scripts --no-plugins --quiet --no-install'.PHP_EOL;
 
