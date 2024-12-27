@@ -272,7 +272,7 @@ function transform_relative_path(string $path, string $workingPath): string
  *
  * @no-named-arguments
  *
- * @param  array|string  $path
+ * @param  array<int, string|null>|string  ...$path
  * @return string
  */
 function default_skeleton_path(array|string $path = ''): string
@@ -310,7 +310,7 @@ function default_migration_path(?string $type = null): string
  *
  * @no-named-arguments
  *
- * @param  array|string  $path
+ * @param  array<int, string|null>|string  ...$path
  * @return string
  */
 function package_path(array|string $path = ''): string
@@ -356,7 +356,7 @@ function workbench(): array
  *
  * @no-named-arguments
  *
- * @param  array|string  $path
+ * @param  array<int, string|null>|string  ...$path
  * @return string
  */
 function workbench_path(array|string $path = ''): string
