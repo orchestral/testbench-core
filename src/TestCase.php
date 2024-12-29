@@ -148,7 +148,11 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
         static::tearDownAfterClassUsingPHPUnit();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @codeCoverageIgnore
+     */
     #[\Override]
     protected function onNotSuccessfulTest(Throwable $exception): void
     {
