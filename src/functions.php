@@ -413,6 +413,7 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  * @return int|bool
  *
  * @phpstan-param  TOperator  $operator
+ *
  * @phpstan-return (TOperator is null ? int : bool)
  */
 function laravel_version_compare(string $version, ?string $operator = null)
@@ -441,6 +442,7 @@ function laravel_version_compare(string $version, ?string $operator = null)
  * @throws \RuntimeException
  *
  * @phpstan-param  TOperator  $operator
+ *
  * @phpstan-return (TOperator is null ? int : bool)
  */
 function phpunit_version_compare(string $version, ?string $operator = null)
