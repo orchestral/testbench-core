@@ -27,7 +27,7 @@ abstract class FluentDecorator implements Arrayable, ArrayAccess, Jsonable, Json
      *
      * @var \Illuminate\Support\Fluent<TKey, TValue>
      */
-    public readonly Fluent $fluent;
+    protected readonly Fluent $fluent;
 
     /**
      * Create a new fluent instance.
