@@ -16,6 +16,7 @@ use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench_path;
 
@@ -310,6 +311,7 @@ class Workbench
             static::$cachedUserModel = match (true) {
                 Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
                 is_file(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
+                is_file(base_path(join_paths('Models', 'User.php'))) => 'App\Models\User',
                 default => false,
             };
         }
