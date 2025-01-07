@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.51.1
+
+Released: 2025-01-07
+
+### Fixes
+
+* Fix `Orchestra\Testbench\Workbench\Workbench::applicationUserModel()` to detect `App\Models\User`.
+* Fix authentication route registrations from being loaded with `auth: false` configuration when executed Testbench CLI.
+
 ## 7.51.0
 
 Released: 2024-12-24

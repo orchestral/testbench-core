@@ -9,7 +9,6 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Finder\Finder;
 
-use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\workbench_path;
 
 /**
@@ -40,10 +39,6 @@ class LoadConfigurationWithWorkbench extends LoadConfiguration
         parent::bootstrap($app);
 
         $userModel = Workbench::applicationUserModel();
-
-        if (\is_null($userModel) && is_file($app->basePath(join_paths('Models', 'User.php')))) {
-            $userModel = 'App\Models\User';
-        }
 
         if (! \is_null($userModel) && is_a($userModel, Authenticatable::class, true)) {
             $app->make('config')->set('auth.providers.users.model', $userModel);
