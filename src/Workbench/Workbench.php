@@ -86,10 +86,12 @@ class Workbench
      */
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
-        static::start($app, $config, [
-            'Orchestra\Workbench\AuthServiceProvider',
+        $hasAuthentication = $config?->getWorkbenchAttributes()['auth'] ?? false;
+
+        static::start($app, $config, array_filter([
+            $hasAuthentication === true && class_exists('Orchestra\Workbench\AuthServiceProvider') ? 'Orchestra\Workbench\AuthServiceProvider' : null,
             'Orchestra\Workbench\WorkbenchServiceProvider',
-        ]);
+        ]));
     }
 
     /**
