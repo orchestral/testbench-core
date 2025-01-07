@@ -82,7 +82,7 @@ trait InteractsWithWorkbench
         $hasAuthentication = $config?->getWorkbenchAttributes()['auth'] ?? false;
         $providers = $config?->getExtraAttributes()['providers'] ?? [];
 
-        if ($hasAuthentication && class_exists('Orchestra\Workbench\AuthServiceProvider')) {
+        if ($hasAuthentication === true && class_exists('Orchestra\Workbench\AuthServiceProvider')) {
             $providers[] = 'Orchestra\Workbench\AuthServiceProvider';
         }
 
