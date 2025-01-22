@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.9.2
+
+Released: 2025-01-22
+
+### Changes
+
+* Update `config/filesystems.php` configuration file.
+
 ## 9.9.1
 
 Released: 2025-01-07
