@@ -25,6 +25,9 @@ jobs:
           - "~12.0.0"
         experimental:
           - false
+        exclude:
+          - php: 8.2
+            phpunit: "~12.0.0"
 
     name: PHP${{ matrix.php }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
