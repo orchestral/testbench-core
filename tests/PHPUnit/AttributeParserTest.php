@@ -3,11 +3,12 @@
 namespace Orchestra\Testbench\Tests\PHPUnit;
 
 use Orchestra\Testbench\PHPUnit\AttributeParser;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class AttributeParserTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_validate_attribute()
     {
         $this->assertFalse(AttributeParser::validAttribute('TestCase::class'));
