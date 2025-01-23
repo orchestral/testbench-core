@@ -4,11 +4,12 @@ namespace Orchestra\Testbench\Tests\Support;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Support\FluentDecorator;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class FluentDecoratorTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_utilise_fluent_features()
     {
         [$fluent, $attributes] = $this->newFluent();
@@ -26,7 +27,7 @@ class FluentDecoratorTest extends TestCase
         $this->assertSame($attributes, $fluent->jsonSerialize());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_utilise_fluent_as_object()
     {
         [$fluent] = $this->newFluent();
@@ -50,7 +51,7 @@ class FluentDecoratorTest extends TestCase
         $this->assertFalse(isset($fluent->file));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_utilise_fluent_as_array()
     {
         [$fluent] = $this->newFluent();
@@ -74,7 +75,7 @@ class FluentDecoratorTest extends TestCase
         $this->assertFalse(isset($fluent['file']));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_fluent_attribute_using_method_call()
     {
         [$fluent] = $this->newFluent();
