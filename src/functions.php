@@ -269,7 +269,7 @@ function transform_relative_path(string $path, string $workingPath): string
  *
  * @no-named-arguments
  *
- * @param  array|string  $path
+ * @param  array<int, string|null>|string  ...$path
  * @return string
  */
 function default_skeleton_path(array|string $path = ''): string
@@ -307,7 +307,7 @@ function default_migration_path(?string $type = null): string
  *
  * @no-named-arguments
  *
- * @param  array|string  $path
+ * @param  array<int, string|null>|string  ...$path
  * @return string
  */
 function package_path(array|string $path = ''): string
@@ -353,7 +353,7 @@ function workbench(): array
  *
  * @no-named-arguments
  *
- * @param  array|string  $path
+ * @param  array<int, string|null>|string  ...$path
  * @return string
  */
 function workbench_path(array|string $path = ''): string
@@ -404,9 +404,15 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  *
  * @api
  *
+ * @template TOperator of string|null
+ *
  * @param  string  $version
  * @param  string|null  $operator
  * @return int|bool
+ *
+ * @phpstan-param  TOperator  $operator
+ *
+ * @phpstan-return (TOperator is null ? int : bool)
  */
 function laravel_version_compare(string $version, ?string $operator = null): int|bool
 {
@@ -428,11 +434,17 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  *
  * @api
  *
+ * @template TOperator of string|null
+ *
  * @param  string  $version
  * @param  string|null  $operator
  * @return int|bool
  *
  * @throws \RuntimeException
+ *
+ * @phpstan-param  TOperator  $operator
+ *
+ * @phpstan-return (TOperator is null ? int : bool)
  */
 function phpunit_version_compare(string $version, ?string $operator = null): int|bool
 {

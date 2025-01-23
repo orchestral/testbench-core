@@ -20,6 +20,7 @@ use Symfony\Component\Finder\Finder;
 use Throwable;
 
 use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench_path;
 
@@ -89,10 +90,12 @@ class Workbench
      */
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {
-        static::start($app, $config, [
-            'Orchestra\Workbench\AuthServiceProvider',
+        $hasAuthentication = $config->getWorkbenchAttributes()['auth'] ?? false;
+
+        static::start($app, $config, array_filter([
+            $hasAuthentication === true && class_exists('Orchestra\Workbench\AuthServiceProvider') ? 'Orchestra\Workbench\AuthServiceProvider' : null,
             'Orchestra\Workbench\WorkbenchServiceProvider',
-        ]);
+        ]));
     }
 
     /**
@@ -346,6 +349,7 @@ class Workbench
             static::$cachedUserModel = match (true) {
                 Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
                 is_file(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
+                is_file(base_path(join_paths('Models', 'User.php'))) => 'App\Models\User',
                 default => false,
             };
         }

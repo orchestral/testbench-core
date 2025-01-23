@@ -3,7 +3,7 @@ Testing Framework for Laravel Development
 
 Testbench Core is a framework designed to help you write tests and interact with your Laravel package.
 
-[![tests](https://github.com/orchestral/testbench-core/workflows/tests/badge.svg?branch=9.x)](https://github.com/orchestral/testbench-core/actions?query=workflow%3Atests+branch%3A9.x)
+[![tests](https://github.com/orchestral/testbench-core/actions/workflows/tests.yaml/badge.svg?branch=9.x)](https://github.com/orchestral/testbench-core/actions/workflows/tests.yaml)
 [![Latest Stable Version](https://poser.pugx.org/orchestra/testbench-core/v/stable)](https://packagist.org/packages/orchestra/testbench-core)
 [![Total Downloads](https://poser.pugx.org/orchestra/testbench-core/downloads)](https://packagist.org/packages/orchestra/testbench-core)
 [![Latest Unstable Version](https://poser.pugx.org/orchestra/testbench-core/v/unstable)](https://packagist.org/packages/orchestra/testbench-core)
