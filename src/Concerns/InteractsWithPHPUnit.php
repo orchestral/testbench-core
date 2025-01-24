@@ -77,7 +77,11 @@ trait InteractsWithPHPUnit
     {
         $instance = new ReflectionClass($this);
 
-        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+        if (
+            ! $this instanceof PHPUnitTestCase
+            || $instance->isAnonymous()
+            || ! class_exists(PHPUnitRegistry::class)
+        ) {
             return new Collection;
         }
 
@@ -221,11 +225,13 @@ trait InteractsWithPHPUnit
         static::$cachedTestCaseClassAttributes = [];
         static::$cachedTestCaseMethodAttributes = [];
 
-        $registry = PHPUnitRegistry::getInstance();
+        if (class_exists(PHPUnitRegistry::class)) {
+            $registry = PHPUnitRegistry::getInstance();
 
-        (function () {
-            $this->classDocBlocks = [];
-            $this->methodDocBlocks = [];
-        })->call($registry);
+            (function () {
+                $this->classDocBlocks = [];
+                $this->methodDocBlocks = [];
+            })->call($registry);
+        }
     }
 }
