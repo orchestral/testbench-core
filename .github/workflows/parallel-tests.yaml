@@ -26,7 +26,7 @@ jobs:
           - "~11.3.6"
           - "~11.4.0"
           - "~11.5.0"
-          #- "~12.0.0"
+          # - "~12.0.0"
         experimental:
           - false
         exclude:
@@ -34,8 +34,8 @@ jobs:
             phpunit: "~10.5.35"
           - php: 8.4
             phpunit: "~11.3.6"
-          - php: 8.2
-            phpunit: "~12.0.0"
+          # - php: 8.2
+          #   phpunit: "~12.0.0"
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
