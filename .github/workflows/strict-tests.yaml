@@ -2,6 +2,8 @@ name: strict-tests
 
 on:
   push:
+    branches:
+      - '*.x'
   pull_request:
   workflow_dispatch:
   schedule:

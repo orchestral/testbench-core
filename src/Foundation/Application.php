@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Scheduling\ScheduleListCommand;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
+use Illuminate\Console\Signals;
+use Illuminate\Database\Schema\Builder as SchemaBuilder;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Console\AboutCommand;
@@ -207,6 +209,9 @@ class Application
         ScheduleListCommand::resolveTerminalWidthUsing(null);
         Sleep::fake(false);
         ThrottleRequests::shouldHashKeys();
+        SchemaBuilder::$defaultStringLength = 255;
+        SchemaBuilder::$defaultMorphKeyType = 'int';
+        Signals::resolveAvailabilityUsing(null);
         TrimStrings::flushState();
         TrustProxies::flushState();
         VerifyCsrfToken::flushState();
