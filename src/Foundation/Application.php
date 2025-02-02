@@ -199,9 +199,9 @@ class Application
         Queue::createPayloadUsing(null);
         RouteListCommand::resolveTerminalWidthUsing(null);
         ScheduleListCommand::resolveTerminalWidthUsing(null);
-        Sleep::fake(false);
         SchemaBuilder::$defaultStringLength = 255;
         SchemaBuilder::$defaultMorphKeyType = 'int';
+        Sleep::fake(false);
         Signals::resolveAvailabilityUsing(null);
         TrimStrings::flushState();
     }
