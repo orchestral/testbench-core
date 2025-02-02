@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.9.3
+
+Released: 2025-02-02
+
+### Changes
+
+* Add support for PHPUnit 12.0.
+* Flush `Illuminate\Database\Schema\Builder` static properties state.
+
 ## 9.9.2
 
 Released: 2025-01-22
