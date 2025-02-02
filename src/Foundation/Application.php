@@ -207,11 +207,11 @@ class Application
         RegisterProviders::flushState();
         RouteListCommand::resolveTerminalWidthUsing(null);
         ScheduleListCommand::resolveTerminalWidthUsing(null);
-        Sleep::fake(false);
-        ThrottleRequests::shouldHashKeys();
         SchemaBuilder::$defaultStringLength = 255;
         SchemaBuilder::$defaultMorphKeyType = 'int';
         Signals::resolveAvailabilityUsing(null); // @phpstan-ignore argument.type
+        Sleep::fake(false);
+        ThrottleRequests::shouldHashKeys();
         TrimStrings::flushState();
         TrustProxies::flushState();
         VerifyCsrfToken::flushState();
