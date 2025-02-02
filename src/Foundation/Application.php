@@ -201,8 +201,8 @@ class Application
         ScheduleListCommand::resolveTerminalWidthUsing(null);
         SchemaBuilder::$defaultStringLength = 255;
         SchemaBuilder::$defaultMorphKeyType = 'int';
-        Sleep::fake(false);
         Signals::resolveAvailabilityUsing(null);
+        Sleep::fake(false);
         TrimStrings::flushState();
     }
 
