@@ -211,7 +211,7 @@ class Application
         ThrottleRequests::shouldHashKeys();
         SchemaBuilder::$defaultStringLength = 255;
         SchemaBuilder::$defaultMorphKeyType = 'int';
-        Signals::resolveAvailabilityUsing(null); // @phpstan-ignore argument-type
+        Signals::resolveAvailabilityUsing(null); // @phpstan-ignore argument.type
         TrimStrings::flushState();
         TrustProxies::flushState();
         VerifyCsrfToken::flushState();
