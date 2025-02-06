@@ -183,9 +183,10 @@ class Application
     /**
      * Flush the application states.
      *
+     * @param  \Orchestra\Testbench\Console\Commander|\Orchestra\Testbench\PHPUnit\TestCase|null  $instance
      * @return void
      */
-    public static function flushState(): void
+    public static function flushState(?object $instance = null): void
     {
         AboutCommand::flushState();
         Artisan::forgetBootstrappers();
