@@ -11,6 +11,8 @@ use function Orchestra\Testbench\package_path;
 
 /**
  * @internal
+ *
+ * @codeCoverageIgnore
  */
 final class AddAssetSymlinkFolders
 {
