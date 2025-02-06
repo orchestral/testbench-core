@@ -17,6 +17,10 @@ trait HandlesTestingFeature
      * @param  (\Closure():(void))|null  $annotation
      * @param  (\Closure():(mixed))|null  $attribute
      * @return \Illuminate\Support\Fluent
+     *
+     * @deprecated
+     *
+     * @codeCoverageIgnore
      */
     protected function resolveTestbenchTestingFeature(
         ?Closure $default = null,

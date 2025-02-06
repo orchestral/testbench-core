@@ -61,10 +61,14 @@ class Workbench
     /**
      * Start Workbench.
      *
+     * @internal
+     *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      * @param  array<int, string|class-string<\Illuminate\Support\ServiceProvider>>  $providers
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function start(ApplicationContract $app, ConfigContract $config, array $providers = []): void
     {
@@ -80,9 +84,13 @@ class Workbench
     /**
      * Start Workbench with providers.
      *
+     * @internal
+     *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public static function startWithProviders(ApplicationContract $app, ConfigContract $config): void
     {

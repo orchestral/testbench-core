@@ -13,13 +13,12 @@
          processIsolation="false"
          stopOnFailure="false"
          verbose="true">
-    <coverage includeUncoveredFiles="false">
+    <coverage>
         <include>
             <directory suffix=".php">src/</directory>
         </include>
         <exclude>
             <directory suffix=".php">src/Http/Middleware</directory>
-            <directory suffix=".php">src/Workbench</directory>
         </exclude>
     </coverage>
     <testsuites>
