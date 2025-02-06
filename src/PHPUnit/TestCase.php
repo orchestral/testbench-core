@@ -11,7 +11,7 @@ if (phpunit_version_compare('10.1', '>=')) {
     class TestCase extends \PHPUnit\Framework\TestCase
     {
         /**
-         * {@inheritdoc}
+         * {@inheritDoc}
          *
          * @codeCoverageIgnore
          */
@@ -32,7 +32,7 @@ if (phpunit_version_compare('10.1', '>=')) {
     class TestCase extends \PHPUnit\Framework\TestCase
     {
         /**
-         * {@inheritdoc}
+         * {@inheritDoc}
          *
          * @codeCoverageIgnore
          */
