@@ -12,6 +12,8 @@ if (phpunit_version_compare('10.1', '>=')) {
     {
         /**
          * {@inheritdoc}
+         *
+         * @codeCoverageIgnore
          */
         #[\Override]
         protected function transformException(Throwable $error): Throwable
@@ -31,6 +33,8 @@ if (phpunit_version_compare('10.1', '>=')) {
     {
         /**
          * {@inheritdoc}
+         *
+         * @codeCoverageIgnore
          */
         #[\Override]
         protected function runTest(): mixed

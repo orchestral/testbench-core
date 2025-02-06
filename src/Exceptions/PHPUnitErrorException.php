@@ -20,6 +20,8 @@ if (phpunit_version_compare('10', '>=')) {
          * Get serializable trace for PHPUnit.
          *
          * @return array
+         *
+         * @codeCoverageIgnore
          */
         public function getPHPUnitExceptionTrace(): array
         {
@@ -33,6 +35,8 @@ if (phpunit_version_compare('10', '>=')) {
          * Get serializable trace for PHPUnit.
          *
          * @return array
+         *
+         * @codeCoverageIgnore
          */
         public function getPHPUnitExceptionTrace(): array
         {
