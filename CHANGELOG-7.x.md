@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.51.3
+
+Released: 2025-02-06
+
+### Changes
+
+* Improves `Orchestra\Testbench\Foundation\Application::flushState()` to be forward compatible with Testbench 9.
+
 ## 7.51.2
 
 Released: 2025-02-02
