@@ -419,7 +419,7 @@ function laravel_version_compare(string $version, ?string $operator = null): int
     /** @var string $laravel */
     $laravel = transform(
         Application::VERSION,
-        fn (string $version) => $version === '11.x-dev' ? '11.0.0' : $version, // @phpstan-ignore identical.alwaysFalse
+        fn (string $version) => $version === '12.x-dev' ? '12.0.0' : $version, // @phpstan-ignore identical.alwaysFalse
     );
 
     if (\is_null($operator)) {
