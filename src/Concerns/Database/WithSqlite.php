@@ -11,6 +11,8 @@ use Illuminate\Support\Fluent;
 
 /**
  * @api
+ *
+ * @codeCoverageIgnore
  */
 trait WithSqlite
 {
