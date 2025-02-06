@@ -19,7 +19,6 @@
         </include>
         <exclude>
             <directory suffix=".php">src/Http/Middleware</directory>
-            <directory suffix=".php">src/Workbench</directory>
         </exclude>
     </coverage>
     <testsuites>
