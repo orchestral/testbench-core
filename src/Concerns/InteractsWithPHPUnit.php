@@ -72,6 +72,8 @@ trait InteractsWithPHPUnit
      * @return \Illuminate\Support\Collection<string, mixed>
      *
      * @deprecated
+     *
+     * @codeCoverageIgnore
      */
     protected function resolvePhpUnitAnnotations(): Collection
     {
