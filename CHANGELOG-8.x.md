@@ -2,6 +2,22 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.32.3
+
+Released: 2025-02-06
+
+### Changes
+
+* Improves `Orchestra\Testbench\Foundation\Application::flushState()` to be forward compatible with Testbench 9.
+
+## 8.32.2
+
+Released: 2025-02-02
+
+### Changes
+
+* Flush `Illuminate\Database\Schema\Builder` static properties state.
+
 ## 8.32.1
 
 Released: 2025-01-07

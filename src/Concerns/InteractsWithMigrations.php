@@ -75,7 +75,6 @@ trait InteractsWithMigrations
             && RefreshDatabaseState::$migrated === false
             && RefreshDatabaseState::$lazilyRefreshed === false
         ) {
-
             /** @var array<int, string>|string $paths */
             load_migration_paths($app, $paths);
 
