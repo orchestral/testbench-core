@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.9.4
+
+Released: 2025-02-07
+
+### Changes
+
+* Bump minimum support for PHPUnit 12 to `12.0.1`.
+
 ## 9.9.3
 
 Released: 2025-02-02
