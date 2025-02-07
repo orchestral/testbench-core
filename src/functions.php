@@ -455,7 +455,11 @@ function phpunit_version_compare(string $version, ?string $operator = null): int
     /** @var string $phpunit */
     $phpunit = transform(
         Version::id(),
-        fn (string $version) => str_starts_with($version, '11.5-') ? '11.5.0' : $version,
+        fn (string $version) => match (true) {
+            str_starts_with($version, '12.0-') => '12.0.0',
+            str_starts_with($version, '11.5-') => '11.5.0',
+            default => $version,
+        }
     );
 
     if (\is_null($operator)) {

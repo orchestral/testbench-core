@@ -7,7 +7,7 @@ use Throwable;
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     #[\Override]
     protected function transformException(Throwable $error): Throwable

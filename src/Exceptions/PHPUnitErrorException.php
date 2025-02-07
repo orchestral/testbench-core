@@ -17,6 +17,8 @@ class PHPUnitErrorException extends \PHPUnit\Framework\Exception
      * Get serializable trace for PHPUnit.
      *
      * @return array
+     *
+     * @codeCoverageIgnore
      */
     public function getPHPUnitExceptionTrace(): array
     {

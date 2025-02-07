@@ -8,6 +8,8 @@ use function Orchestra\Testbench\container;
 
 /**
  * @internal
+ *
+ * @codeCoverageIgnore
  */
 class ParallelRunner extends \Illuminate\Testing\ParallelRunner
 {

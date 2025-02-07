@@ -9,7 +9,7 @@
          stopOnFailure="false"
          cacheDirectory=".phpunit.cache"
          backupStaticProperties="false">
-    <coverage/>
+    <coverage />
     <testsuites>
         <testsuite name="Testbench Test Suite">
             <directory suffix="Test.php">./tests/</directory>
