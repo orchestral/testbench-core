@@ -45,7 +45,7 @@
         "laravel/framework": "^9.52.18",
         "laravel/pint": "^1.5",
         "mockery/mockery": "^1.5.1",
-        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ray": "^1.39",
         "symfony/process": "^6.0.9",
