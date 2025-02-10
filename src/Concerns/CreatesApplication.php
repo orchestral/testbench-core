@@ -238,6 +238,8 @@ trait CreatesApplication
     {
         $app = $this->resolveApplication();
 
+        $this->resolveApplicationFacades($app);
+
         $this->resolveApplicationResolvingCallback($app);
 
         $this->resolveApplicationBindings($app);
@@ -288,6 +290,18 @@ trait CreatesApplication
         );
 
         PackageManifest::swap($app, $this);
+    }
+
+    /**
+     * Resolve application facades implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationFacades($app)
+    {
+        Facade::clearResolvedInstances();
+        Facade::setFacadeApplication($app);
     }
 
     /**
@@ -373,9 +387,6 @@ trait CreatesApplication
      */
     protected function resolveApplicationCore($app)
     {
-        Facade::clearResolvedInstances();
-        Facade::setFacadeApplication($app);
-
         if ($this->isRunningTestCase()) {
             $app->detectEnvironment(static function () {
                 return 'testing';
