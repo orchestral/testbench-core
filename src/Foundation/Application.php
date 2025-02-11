@@ -324,13 +324,13 @@ class Application
     }
 
     /**
-     * Get base path.
+     * Resolve the application's base path.
      *
      * @internal
      *
      * @return string
      */
-    protected function getBasePath()
+    protected function resolveApplicationBasePath(): string
     {
         return $this->basePath ?? static::applicationBasePath();
     }
