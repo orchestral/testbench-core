@@ -140,7 +140,25 @@ class Application
     {
         $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
 
-        (new Bootstrap\CreateVendorSymlink($workingVendorPath))->bootstrap($app);
+        (new Actions\CreateVendorSymlink($workingVendorPath))->handle($app);
+
+        return $app;
+    }
+
+    /**
+     * Delete symlink to vendor path via new application instance.
+     *
+     * @param  string|null  $basePath
+     * @param  string  $workingVendorPath
+     * @return \Illuminate\Foundation\Application
+     *
+     * @codeCoverageIgnore
+     */
+    public static function deleteVendorSymlink(?string $basePath, string $workingVendorPath)
+    {
+        $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
+
+        (new Actions\DeleteVendorSymlink($workingVendorPath))->handle($app);
 
         return $app;
     }

@@ -119,6 +119,8 @@ class Commander
         } catch (Throwable $error) {
             $status = $this->handleException($output, $error);
         } finally {
+            static::$testbench::deleteVendorSymlink($this->getBasePath(), join_paths($this->workingPath, 'vendor'));
+
             TerminatingConsole::handle();
             Workbench::flush();
             static::$testbench::flushState();
