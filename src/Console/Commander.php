@@ -196,6 +196,8 @@ class Commander
     /**
      * Get Application base path.
      *
+     * @api
+     *
      * @return string
      */
     public static function applicationBasePath()
