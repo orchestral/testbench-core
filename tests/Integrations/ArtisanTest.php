@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Integrations;
 
+use Orchestra\Testbench\Attributes\UsesVendor;
 use Orchestra\Testbench\TestCase;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -9,6 +10,7 @@ use Symfony\Component\Process\Process;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\remote;
 
+#[UsesVendor]
 class ArtisanTest extends TestCase
 {
     /**
