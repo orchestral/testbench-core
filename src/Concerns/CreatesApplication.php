@@ -38,7 +38,7 @@ trait CreatesApplication
     use InteractsWithWorkbench;
 
     /**
-     * Get Application's base path.
+     * Get the application's base path.
      *
      * @return string
      */
@@ -58,7 +58,7 @@ trait CreatesApplication
     }
 
     /**
-     * Get application timezone.
+     * Get the application timezone.
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return string|null

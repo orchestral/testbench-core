@@ -130,7 +130,7 @@ class Commander
     }
 
     /**
-     * Create Laravel application.
+     * Create a Laravel application.
      *
      * @return \Illuminate\Foundation\Application
      */
@@ -218,7 +218,7 @@ class Commander
     }
 
     /**
-     * Get Application base path.
+     * Get the application's base path.
      *
      * @return string
      */
@@ -285,7 +285,7 @@ class Commander
                 );
         }, function () {
             if (windows_os() && PHP_SAPI === 'cli' && \function_exists('sapi_windows_set_ctrl_handler')) {
-                sapi_windows_set_ctrl_handler(function ($event) {
+                sapi_windows_set_ctrl_handler(static function ($event) {
                     TerminatingConsole::handle();
                     Workbench::flush();
 
