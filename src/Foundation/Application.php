@@ -149,16 +149,15 @@ class Application
      * Delete symlink to vendor path via new application instance.
      *
      * @param  string|null  $basePath
-     * @param  string  $workingVendorPath
      * @return \Illuminate\Foundation\Application
      *
      * @codeCoverageIgnore
      */
-    public static function deleteVendorSymlink(?string $basePath, string $workingVendorPath)
+    public static function deleteVendorSymlink(?string $basePath)
     {
         $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
 
-        (new Actions\DeleteVendorSymlink($workingVendorPath))->handle($app);
+        (new Actions\DeleteVendorSymlink)->handle($app);
 
         return $app;
     }

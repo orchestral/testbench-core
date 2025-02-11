@@ -119,8 +119,6 @@ class Commander
         } catch (Throwable $error) {
             $status = $this->handleException($output, $error);
         } finally {
-            static::$testbench::deleteVendorSymlink($this->getBasePath(), join_paths($this->workingPath, 'vendor'));
-
             TerminatingConsole::handle();
             Workbench::flush();
             static::$testbench::flushState();
@@ -140,18 +138,29 @@ class Commander
     {
         if (! $this->app instanceof LaravelApplication) {
             $APP_BASE_PATH = $this->getBasePath();
+            $VENDOR_PATH = join_paths($this->workingPath, 'vendor');
+
+            $filesystem = new Filesystem;
 
             $hasEnvironmentFile = fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
 
-            tap(static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($hasEnvironmentFile) {
-                $filesystem = new Filesystem;
-
-                $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
-
-                if (! $hasEnvironmentFile()) {
-                    $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+            TerminatingConsole::beforeWhen(
+                ! $filesystem->isFile(join_paths($VENDOR_PATH, 'autoload.php')),
+                static function () use ($APP_BASE_PATH) {
+                    static::$testbench::deleteVendorSymlink($APP_BASE_PATH);
                 }
-            });
+            );
+
+            tap(
+                static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')),
+                function ($app) use ($filesystem, $hasEnvironmentFile) {
+                    $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
+
+                    if (! $hasEnvironmentFile()) {
+                        $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+                    }
+                }
+            );
 
             $this->app = static::$testbench::create(
                 basePath: $APP_BASE_PATH,
