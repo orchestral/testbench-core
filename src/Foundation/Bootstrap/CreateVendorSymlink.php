@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Foundation\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
-use Orchestra\Testbench\Foundation\Actions\CreateVendorSymlink as Action;
+use Orchestra\Testbench\Foundation\Actions\CreateVendorSymlink as CreateVendorSymlinkAction;
 
 /**
  * @api
@@ -27,6 +27,6 @@ final class CreateVendorSymlink
      */
     public function bootstrap(Application $app): void
     {
-        (new Action($this->workingPath))->handle($app);
+        (new CreateVendorSymlinkAction($this->workingPath))->handle($app);
     }
 }

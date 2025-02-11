@@ -16,12 +16,14 @@ use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Middleware\TrustProxies;
+use Illuminate\Foundation\Vite;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Queue\Console\WorkCommand;
 use Illuminate\Queue\Queue;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Once;
+use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
 use Orchestra\Testbench\Concerns\CreatesApplication;
@@ -146,7 +148,24 @@ class Application
     {
         $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
 
-        (new Bootstrap\CreateVendorSymlink($workingVendorPath))->bootstrap($app);
+        (new Actions\CreateVendorSymlink($workingVendorPath))->handle($app);
+
+        return $app;
+    }
+
+    /**
+     * Delete symlink to vendor path via new application instance.
+     *
+     * @param  string|null  $basePath
+     * @return \Illuminate\Foundation\Application
+     *
+     * @codeCoverageIgnore
+     */
+    public static function deleteVendorSymlink(?string $basePath)
+    {
+        $app = static::create(basePath: $basePath, options: ['extra' => ['dont-discover' => ['*']]]);
+
+        (new Actions\DeleteVendorSymlink)->handle($app);
 
         return $app;
     }
@@ -196,6 +215,7 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
+        Facade::clearResolvedInstance(Vite::class);
 
         if (! $instance instanceof Commander) {
             HandleExceptions::flushState();
