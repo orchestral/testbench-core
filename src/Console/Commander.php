@@ -130,7 +130,7 @@ class Commander
     }
 
     /**
-     * Create Laravel application.
+     * Create a Laravel application.
      *
      * @return \Illuminate\Foundation\Application
      */
@@ -218,7 +218,7 @@ class Commander
     }
 
     /**
-     * Get the Application's base path.
+     * Get the application's base path.
      *
      * @return string
      */
