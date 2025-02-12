@@ -59,7 +59,7 @@ class Application
      *
      * @phpstan-var TExtraConfig
      */
-    protected $config = [
+    protected array $config = [
         'env' => [],
         'providers' => [],
         'dont-discover' => [],

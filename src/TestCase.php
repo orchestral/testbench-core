@@ -21,8 +21,6 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     /**
      * The base URL to use while testing the application.
      *
-     * @api
-     *
      * @var string
      */
     protected $baseUrl = 'http://localhost';
@@ -30,16 +28,12 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     /**
      * Automatically loads environment file if available.
      *
-     * @api
-     *
      * @var bool
      */
     protected $loadEnvironmentVariables = true;
 
     /**
      * Automatically enables package discoveries.
-     *
-     * @api
      *
      * @var bool
      */
