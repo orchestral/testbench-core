@@ -22,7 +22,7 @@ trait InteractsWithMigrations
      *
      * @var array<int, \Orchestra\Testbench\Database\MigrateProcessor>
      */
-    protected $cachedTestMigratorProcessors = [];
+    protected array $cachedTestMigratorProcessors = [];
 
     /**
      * Setup the test environment.

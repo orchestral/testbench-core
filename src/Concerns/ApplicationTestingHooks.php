@@ -30,21 +30,21 @@ trait ApplicationTestingHooks
      *
      * @var array<int, callable():void>
      */
-    protected $afterApplicationCreatedCallbacks = [];
+    protected array $afterApplicationCreatedCallbacks = [];
 
     /**
      * The callbacks that should be run after the application is refreshed.
      *
      * @var array<int, callable():void>
      */
-    protected $afterApplicationRefreshedCallbacks = [];
+    protected array $afterApplicationRefreshedCallbacks = [];
 
     /**
      * The callbacks that should be run before the application is destroyed.
      *
      * @var array<int, callable():void>
      */
-    protected $beforeApplicationDestroyedCallbacks = [];
+    protected array $beforeApplicationDestroyedCallbacks = [];
 
     /**
      * The exception thrown while running an application destruction callback.

@@ -66,7 +66,7 @@ class Application
      *
      * @phpstan-var TExtraConfig
      */
-    protected $config = [
+    protected array $config = [
         'env' => [],
         'providers' => [],
         'dont-discover' => [],
@@ -305,11 +305,13 @@ class Application
     }
 
     /**
-     * Get base path.
+     * Resolve the application's base path.
+     *
+     * @api
      *
      * @return string
      */
-    protected function getBasePath()
+    protected function getApplicationBasePath()
     {
         return $this->basePath ?? static::applicationBasePath();
     }

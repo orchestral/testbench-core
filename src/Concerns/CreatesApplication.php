@@ -39,7 +39,7 @@ trait CreatesApplication
     use InteractsWithWorkbench;
 
     /**
-     * Get Application's base path.
+     * Get the application's base path.
      *
      * @return string
      */
@@ -59,7 +59,7 @@ trait CreatesApplication
     }
 
     /**
-     * Get application timezone.
+     * Get the application timezone.
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return string|null
@@ -215,13 +215,17 @@ trait CreatesApplication
     }
 
     /**
-     * Get base path.
+     * Resolve the application's base path.
+     *
+     * @api
      *
      * @return string
      */
-    protected function getBasePath()
+    protected function getApplicationBasePath()
     {
-        return static::applicationBasePath();
+        return method_exists($this, 'getBasePath')
+            ? $this->getBasePath()
+            : static::applicationBasePath();
     }
 
     /**
@@ -258,7 +262,7 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        return new Application($this->getBasePath());
+        return new Application($this->getApplicationBasePath());
     }
 
     /**
@@ -327,7 +331,7 @@ trait CreatesApplication
         );
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
-            $this->beforeApplicationDestroyed(function () use ($attributeCallbacks) {
+            $this->beforeApplicationDestroyed(static function () use ($attributeCallbacks) {
                 $attributeCallbacks->handle();
             });
         }
