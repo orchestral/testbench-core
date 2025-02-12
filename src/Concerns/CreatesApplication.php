@@ -226,11 +226,9 @@ trait CreatesApplication
      */
     protected function getApplicationBasePath()
     {
-        if (method_exists($this, 'getBasePath')) {
-            return $this->getBasePath();
-        }
-
-        return static::applicationBasePath();
+        return method_exists($this, 'getBasePath')
+            ? $this->getBasePath()
+            : static::applicationBasePath();
     }
 
     /**
