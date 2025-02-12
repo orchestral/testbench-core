@@ -218,12 +218,18 @@ trait CreatesApplication
     }
 
     /**
-     * Get base path.
+     * Resolve the application's base path.
+     *
+     * @api
      *
      * @return string
      */
-    protected function getBasePath()
+    protected function getApplicationBasePath()
     {
+        if (method_exists($this, 'getBasePath')) {
+            return $this->getBasePath();
+        }
+
         return static::applicationBasePath();
     }
 
@@ -261,7 +267,7 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        return new Application($this->getBasePath());
+        return new Application($this->getApplicationBasePath());
     }
 
     /**
