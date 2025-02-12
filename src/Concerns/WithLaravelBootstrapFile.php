@@ -60,7 +60,7 @@ trait WithLaravelBootstrapFile
     /**
      * Get the application's base path.
      *
-     * @internal
+     * @api
      *
      * @return string
      */

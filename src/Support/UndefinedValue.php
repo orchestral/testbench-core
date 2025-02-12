@@ -13,7 +13,7 @@ final readonly class UndefinedValue implements \JsonSerializable
      * @param  mixed  $value
      * @return bool
      */
-    public static function equalsTo($value)
+    public static function equalsTo($value): bool
     {
         return $value instanceof UndefinedValue || \is_null($value);
     }

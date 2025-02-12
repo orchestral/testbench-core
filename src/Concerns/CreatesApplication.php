@@ -42,7 +42,7 @@ trait CreatesApplication
     use WithLaravelBootstrapFile;
 
     /**
-     * Get Application's base path.
+     * Get the application's base path.
      *
      * @api
      *
@@ -66,7 +66,7 @@ trait CreatesApplication
     }
 
     /**
-     * Get application timezone.
+     * Get the application timezone.
      *
      * @api
      *
@@ -242,13 +242,15 @@ trait CreatesApplication
     /**
      * Resolve the application's base path.
      *
-     * @internal
+     * @api
      *
      * @return string
      */
     protected function getApplicationBasePath()
     {
         if (method_exists($this, 'getBasePath')) {
+            trigger_deprecation('orchestra/testbench-core', '10.0', 'Using "%s" is deprecated, use "%s" instead.', 'getBasePath()', 'getApplicationBasePath()');
+
             return $this->getBasePath();
         }
 
@@ -396,7 +398,7 @@ trait CreatesApplication
         );
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
-            $this->beforeApplicationDestroyed(function () use ($attributeCallbacks) {
+            $this->beforeApplicationDestroyed(static function () use ($attributeCallbacks) {
                 $attributeCallbacks->handle();
             });
         }

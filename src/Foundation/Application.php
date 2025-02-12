@@ -326,7 +326,7 @@ class Application
     /**
      * Resolve the application's base path.
      *
-     * @internal
+     * @api
      *
      * @return string
      */
