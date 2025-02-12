@@ -653,11 +653,11 @@ trait CreatesApplication
      *
      * @param  \Illuminate\Foundation\Application  $app
      * @return void
+     *
+     * @deprecated 10.0 Use "defineEnvironment()" instead.
      */
     protected function getEnvironmentSetUp($app)
     {
-        trigger_deprecation(
-            'orchestra/testbench-core', '10.0', 'Using "%s" is deprecated, use "%s" instead.', 'getEnvironmentSetUp()', 'defineEnvironment()'
-        );
+        // Define your environment setup.
     }
 }
