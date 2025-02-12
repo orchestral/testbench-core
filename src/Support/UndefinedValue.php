@@ -24,7 +24,7 @@ final class UndefinedValue implements \JsonSerializable
      * @return null
      */
     #[\ReturnTypeWillChange]
-    public function jsonSerialize(): null
+    public function jsonSerialize()
     {
         return null;
     }
