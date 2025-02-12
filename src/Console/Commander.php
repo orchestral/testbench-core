@@ -212,7 +212,7 @@ class Commander
      *
      * @return string
      */
-    protected function getApplicationBasePath(): string
+    protected function getApplicationBasePath()
     {
         $path = $this->config['laravel'] ?? null;
 

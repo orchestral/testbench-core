@@ -330,7 +330,7 @@ class Application
      *
      * @return string
      */
-    protected function getApplicationBasePath(): string
+    protected function getApplicationBasePath()
     {
         return $this->basePath ?? static::applicationBasePath();
     }

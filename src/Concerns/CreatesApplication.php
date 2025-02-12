@@ -246,7 +246,7 @@ trait CreatesApplication
      *
      * @return string
      */
-    protected function getApplicationBasePath(): string
+    protected function getApplicationBasePath()
     {
         if (method_exists($this, 'getBasePath')) {
             return $this->getBasePath();
