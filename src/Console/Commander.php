@@ -131,7 +131,7 @@ class Commander
     public function laravel()
     {
         if (! $this->app instanceof LaravelApplication) {
-            $APP_BASE_PATH = $this->resolveApplicationBasePath();
+            $APP_BASE_PATH = $this->getApplicationBasePath();
             $VENDOR_PATH = join_paths($this->workingPath, 'vendor');
 
             $filesystem = new Filesystem;
@@ -212,7 +212,7 @@ class Commander
      *
      * @return string
      */
-    protected function resolveApplicationBasePath(): string
+    protected function getApplicationBasePath(): string
     {
         $path = $this->config['laravel'] ?? null;
 

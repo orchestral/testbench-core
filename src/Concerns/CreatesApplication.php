@@ -246,8 +246,12 @@ trait CreatesApplication
      *
      * @return string
      */
-    protected function resolveApplicationBasePath(): string
+    protected function getApplicationBasePath(): string
     {
+        if (method_exists($this, 'getBasePath')) {
+            return $this->getBasePath();
+        }
+
         return static::applicationBasePath();
     }
 
@@ -305,7 +309,7 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        return (new ApplicationBuilder(new Application($this->resolveApplicationBasePath())))
+        return (new ApplicationBuilder(new Application($this->getApplicationBasePath())))
             ->withProviders()
             ->withMiddleware(static function ($middleware) {
                 //
@@ -326,7 +330,7 @@ trait CreatesApplication
         static::$cacheApplicationBootstrapFile ??= $this->getApplicationBootstrapFile('app.php');
 
         if (\is_string(static::$cacheApplicationBootstrapFile)) {
-            $APP_BASE_PATH = $this->resolveApplicationBasePath();
+            $APP_BASE_PATH = $this->getApplicationBasePath();
 
             return require static::$cacheApplicationBootstrapFile;
         }
