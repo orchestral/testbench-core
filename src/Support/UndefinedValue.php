@@ -13,7 +13,7 @@ final class UndefinedValue implements \JsonSerializable
      * @param  mixed  $value
      * @return bool
      */
-    public static function equalsTo($value)
+    public static function equalsTo($value): bool
     {
         return $value instanceof UndefinedValue || \is_null($value);
     }
@@ -24,7 +24,7 @@ final class UndefinedValue implements \JsonSerializable
      * @return null
      */
     #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): null
     {
         return null;
     }
