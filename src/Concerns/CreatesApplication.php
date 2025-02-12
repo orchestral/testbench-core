@@ -558,7 +558,7 @@ trait CreatesApplication
 
                 if (method_exists($this, 'getEnvironmentSetUp')) {
                     trigger_deprecation(
-                        'orchestra/testbench-core', '11.0', 'Using "%s" is deprecated, use "%s" instead.', 'getEnvironmentSetUp()', 'defineEnvironment()'
+                        'orchestra/testbench-core', '10.0', 'Using "%s" is deprecated, use "%s" instead.', 'getEnvironmentSetUp()', 'defineEnvironment()'
                     );
 
                     $this->getEnvironmentSetUp($app);
