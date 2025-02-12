@@ -25,7 +25,7 @@ trait HandlesRoutes
      *
      * @var bool
      */
-    protected $requireApplicationCachedRoutesHasRun = false;
+    protected bool $requireApplicationCachedRoutesHasRun = false;
 
     /**
      * Setup routes requirements.

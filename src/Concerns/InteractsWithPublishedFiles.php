@@ -14,14 +14,14 @@ trait InteractsWithPublishedFiles
      *
      * @var bool
      */
-    protected $interactsWithPublishedFilesTeardownRegistered = false;
+    protected bool $interactsWithPublishedFilesTeardownRegistered = false;
 
     /**
      * List of existing migration files.
      *
      * @var array<int, string>|null
      */
-    protected $cachedExistingMigrationsFiles;
+    protected ?array $cachedExistingMigrationsFiles = null;
 
     /**
      * Setup Interacts with Published Files environment.
