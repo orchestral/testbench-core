@@ -656,6 +656,8 @@ trait CreatesApplication
      */
     protected function getEnvironmentSetUp($app)
     {
-        // Define your environment setup.
+        trigger_deprecation(
+            'orchestra/testbench-core', '10.0', 'Using "%s" is deprecated, use "%s" instead.', 'getEnvironmentSetUp()', 'defineEnvironment()'
+        );
     }
 }
