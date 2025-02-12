@@ -124,14 +124,14 @@ class Commander
     }
 
     /**
-     * Create Laravel application.
+     * Create a Laravel application.
      *
      * @return \Illuminate\Foundation\Application
      */
     public function laravel()
     {
         if (! $this->app instanceof LaravelApplication) {
-            $APP_BASE_PATH = $this->getBasePath();
+            $APP_BASE_PATH = $this->getApplicationBasePath();
             $VENDOR_PATH = join_paths($this->workingPath, 'vendor');
 
             $filesystem = new Filesystem;
@@ -194,21 +194,11 @@ class Commander
     }
 
     /**
-     * Get Application base path.
+     * Resolve the application's base path.
      *
      * @return string
      */
-    public static function applicationBasePath()
-    {
-        return static::$testbench::applicationBasePath();
-    }
-
-    /**
-     * Get base path.
-     *
-     * @return string
-     */
-    protected function getBasePath()
+    protected function getApplicationBasePath()
     {
         $path = $this->config['laravel'] ?? null;
 
@@ -219,6 +209,18 @@ class Commander
         }
 
         return static::applicationBasePath();
+    }
+
+    /**
+     * Get the application's base path.
+     *
+     * @api
+     *
+     * @return string
+     */
+    public static function applicationBasePath()
+    {
+        return static::$testbench::applicationBasePath();
     }
 
     /**
@@ -277,7 +279,7 @@ class Commander
                 );
         }, function () {
             if (windows_os() && PHP_SAPI === 'cli' && \function_exists('sapi_windows_set_ctrl_handler')) {
-                sapi_windows_set_ctrl_handler(function ($event) {
+                sapi_windows_set_ctrl_handler(static function ($event) {
                     TerminatingConsole::handle();
                     Workbench::flush();
 

@@ -23,7 +23,7 @@ trait InteractsWithPublishedFiles
      *
      * @var array<int, string>|null
      */
-    protected ?array $cachedExistingMigrationsFiles;
+    protected ?array $cachedExistingMigrationsFiles = null;
 
     /**
      * Setup Interacts with Published Files environment.

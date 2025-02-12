@@ -42,7 +42,7 @@ trait CreatesApplication
     use WithLaravelBootstrapFile;
 
     /**
-     * Get Application's base path.
+     * Get the application's base path.
      *
      * @api
      *
@@ -66,7 +66,7 @@ trait CreatesApplication
     }
 
     /**
-     * Get application timezone.
+     * Get the application timezone.
      *
      * @api
      *
@@ -240,15 +240,17 @@ trait CreatesApplication
     }
 
     /**
-     * Get base path.
+     * Resolve the application's base path.
      *
-     * @internal
+     * @api
      *
      * @return string
      */
-    protected function getBasePath()
+    protected function getApplicationBasePath()
     {
-        return static::applicationBasePath();
+        return method_exists($this, 'getBasePath')
+            ? $this->getBasePath()
+            : static::applicationBasePath();
     }
 
     /**
@@ -305,7 +307,7 @@ trait CreatesApplication
      */
     final protected function resolveDefaultApplication()
     {
-        return (new ApplicationBuilder(new Application($this->getBasePath())))
+        return (new ApplicationBuilder(new Application($this->getApplicationBasePath())))
             ->withProviders()
             ->withMiddleware(static function ($middleware) {
                 //
@@ -326,7 +328,7 @@ trait CreatesApplication
         static::$cacheApplicationBootstrapFile ??= $this->getApplicationBootstrapFile('app.php');
 
         if (\is_string(static::$cacheApplicationBootstrapFile)) {
-            $APP_BASE_PATH = $this->getBasePath();
+            $APP_BASE_PATH = $this->getApplicationBasePath();
 
             return require static::$cacheApplicationBootstrapFile;
         }
@@ -392,7 +394,7 @@ trait CreatesApplication
         );
 
         if ($this instanceof PHPUnitTestCase && method_exists($this, 'beforeApplicationDestroyed')) {
-            $this->beforeApplicationDestroyed(function () use ($attributeCallbacks) {
+            $this->beforeApplicationDestroyed(static function () use ($attributeCallbacks) {
                 $attributeCallbacks->handle();
             });
         }
