@@ -109,7 +109,7 @@ class Config extends FluentDecorator implements ConfigContract
      *
      * @phpstan-var TConfig
      */
-    protected $defaultAttributes = [
+    protected array $defaultAttributes = [
         'laravel' => null,
         'env' => [],
         'providers' => [],
