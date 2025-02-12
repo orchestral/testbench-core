@@ -248,9 +248,15 @@ trait CreatesApplication
      */
     protected function getApplicationBasePath()
     {
-        return method_exists($this, 'getBasePath')
-            ? $this->getBasePath()
-            : static::applicationBasePath();
+        if (method_exists($this, 'getBasePath')) {
+            trigger_deprecation(
+                'orchestra/testbench-core', '11.0', 'Using "%s" is deprecated, use "%s" instead.', 'getBasePath()', 'getApplicationBasePath()'
+            );
+
+            return $this->getBasePath();
+        }
+
+        return static::applicationBasePath();
     }
 
     /**
@@ -549,7 +555,14 @@ trait CreatesApplication
             testCase: $this,
             default: function () use ($app) {
                 $this->defineEnvironment($app);
-                $this->getEnvironmentSetUp($app);
+
+                if (method_exists($this, 'getEnvironmentSetUp')) {
+                    trigger_deprecation(
+                        'orchestra/testbench-core', '11.0', 'Using "%s" is deprecated, use "%s" instead.', 'getEnvironmentSetUp()', 'defineEnvironment()'
+                    );
+
+                    $this->getEnvironmentSetUp($app);
+                }
             },
             annotation: function () use ($app) {
                 $this->parseTestMethodAnnotations($app, 'environment-setup'); /** @phpstan-ignore method.notFound */
@@ -644,18 +657,5 @@ trait CreatesApplication
     protected function defineEnvironment($app)
     {
         // Define environment.
-    }
-
-    /**
-     * Define environment setup.
-     *
-     * @api
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
-    protected function getEnvironmentSetUp($app)
-    {
-        // Define your environment setup.
     }
 }
