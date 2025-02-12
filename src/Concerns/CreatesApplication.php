@@ -248,13 +248,9 @@ trait CreatesApplication
      */
     protected function getApplicationBasePath()
     {
-        if (method_exists($this, 'getBasePath')) {
-            trigger_deprecation('orchestra/testbench-core', '10.0', 'Using "%s" is deprecated, use "%s" instead.', 'getBasePath()', 'getApplicationBasePath()');
-
-            return $this->getBasePath();
-        }
-
-        return static::applicationBasePath();
+        return method_exists($this, 'getBasePath')
+            ? $this->getBasePath()
+            : static::applicationBasePath();
     }
 
     /**
