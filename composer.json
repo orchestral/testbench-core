@@ -90,6 +90,7 @@
         "serve": [
             "Composer\\Config::disableProcessTimeout",
             "@clear",
+            "@putenv PHP_CLI_SERVER_WORKERS=5",
             "@php testbench serve --ansi"
         ],
         "lint": [
