@@ -43,7 +43,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
-        "laravel/framework": "^11.35.0",
+        "laravel/framework": "dev-fixes-54574 as 11.999.999",
         "laravel/pint": "^1.20",
         "laravel/serializable-closure": "^1.3 || ^2.0",
         "mockery/mockery": "^1.6.10",
@@ -56,7 +56,6 @@
     },
     "conflict": {
         "brianium/paratest": "<7.3.0 || >=8.0.0",
-        "laravel/framework": "<11.35.0 || >=12.0.0",
         "laravel/serializable-closure": "<1.3.0 || >=3.0.0",
         "nunomaduro/collision": "<8.0.0 || >=9.0.0",
         "orchestra/testbench-dusk": "<9.10.0 || >=10.0.0",
@@ -91,7 +90,6 @@
         "serve": [
             "Composer\\Config::disableProcessTimeout",
             "@clear",
-            "@putenv PHP_CLI_SERVER_WORKERS=5",
             "@php testbench serve --ansi"
         ],
         "lint": [

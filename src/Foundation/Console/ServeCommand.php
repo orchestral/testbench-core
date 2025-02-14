@@ -28,10 +28,10 @@ class ServeCommand extends Command
             ComposerConfig::disableProcessTimeout();
         }
 
-        $workers = getenv('PHP_CLI_SERVER_WORKERS');
+        $serverWorkers = getenv('PHP_CLI_SERVER_WORKERS');
 
-        if (\is_string($workers) && filter_var($workers, FILTER_VALIDATE_INT) && ! isset($_ENV['PHP_CLI_SERVER_WORKERS'])) {
-            $_ENV['PHP_CLI_SERVER_WORKERS'] = (int) $workers;
+        if (\is_string($serverWorkers) && filter_var($serverWorkers, FILTER_VALIDATE_INT) && ! isset($_ENV['PHP_CLI_SERVER_WORKERS'])) {
+            $this->phpServerWorkers = transform((int) $serverWorkers, static fn ($workers) => $workers > 1 ? $workers : false);
         }
 
         $_ENV['TESTBENCH_WORKING_PATH'] = package_path();
