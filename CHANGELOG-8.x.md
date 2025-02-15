@@ -15,7 +15,7 @@ Released: 2025-02-15
 ### Changes
 
 * Dynamically resolve workbench namespace for `discover.factories`.
-*  Clear `vendor` symlink when terminating Testbench CLI.
+* Clear `vendor` symlink when terminating Testbench CLI.
 
 ## 8.32.3
 
