@@ -31,7 +31,13 @@ class ServeCommand extends Command
         $serverWorkers = getenv('PHP_CLI_SERVER_WORKERS');
 
         if (\is_string($serverWorkers) && filter_var($serverWorkers, FILTER_VALIDATE_INT) && ! isset($_ENV['PHP_CLI_SERVER_WORKERS'])) {
-            $this->phpServerWorkers = transform((int) $serverWorkers, static fn ($workers) => $workers > 1 ? $workers : false);
+            /** @var int<2, max>|false $workers */
+            $workers = transform(
+                $serverWorkers,
+                static fn (int $workers) => $workers > 1 ? $workers : false // @phpstan-ignore argument.type
+            );
+
+            $this->phpServerWorkers = $workers;
         }
 
         $_ENV['TESTBENCH_WORKING_PATH'] = package_path();
