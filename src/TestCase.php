@@ -15,6 +15,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
     use Testing\Concerns\InteractsWithExceptionHandling;
     use Testing\Concerns\InteractsWithSession;
     use Testing\Concerns\InteractsWithTime;
+    use Testing\Concerns\InteractsWithViews;
     use Testing\Concerns\MakesHttpRequests;
 
     /**
@@ -101,6 +102,7 @@ abstract class TestCase extends PHPUnit\TestCase implements Contracts\TestCase
             Concerns\InteractsWithPest::class,
             Concerns\InteractsWithPHPUnit::class,
             Concerns\InteractsWithTestCase::class,
+            Concerns\InteractsWithViews::class,
             Concerns\InteractsWithWorkbench::class,
             Concerns\Testing::class,
             Concerns\WithFactories::class,
