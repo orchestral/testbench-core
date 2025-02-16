@@ -82,11 +82,6 @@
         },
         "sort-packages": true
     },
-    "extra": {
-        "branch-alias": {
-            "10.x-dev": "10.0.x-dev"
-        }
-    },
     "scripts": {
         "post-autoload-dump": [
             "@clear",
