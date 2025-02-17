@@ -16,7 +16,6 @@ use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
-use RuntimeException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -251,6 +250,8 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
  * @param  string  $path
  * @param  string  $workingPath
  * @return string
+ *
+ * @deprecated 7.55.0 Use `Orchestra\Sidekick\transform_relative_path()` instead.
  */
 function transform_relative_path(string $path, string $workingPath): string
 {
