@@ -8,7 +8,7 @@ use Orchestra\Testbench\Concerns\HandlesAnnotations;
 use Orchestra\Testbench\Concerns\HandlesAttributes;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-use function Orchestra\Testbench\once;
+use function Orchestra\Sidekick\once;
 
 /**
  * @internal
