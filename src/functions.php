@@ -100,6 +100,8 @@ function remote(array|string $command, array|string $env = [], ?bool $tty = null
  * @return \Closure():mixed
  *
  * @deprecated 7.55.0 Use `Orchestra\Sidekick\once()` instead.
+ *
+ * @codeCoverageIgnore
  */
 function once($callback): Closure
 {
@@ -252,6 +254,8 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
  * @return string
  *
  * @deprecated 7.55.0 Use `Orchestra\Sidekick\transform_relative_path()` instead.
+ *
+ * @codeCoverageIgnore
  */
 function transform_relative_path(string $path, string $workingPath): string
 {
@@ -408,8 +412,6 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
- *
- * @deprecated 7.55.0 Use `Orchestra\Sidekick\laravel_version_compare()` instead.
  */
 function laravel_version_compare(string $version, ?string $operator = null)
 {
@@ -432,8 +434,6 @@ function laravel_version_compare(string $version, ?string $operator = null)
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
- *
- * @deprecated 7.55.0 Use `Orchestra\Sidekick\phpunit_version_compare()` instead.
  */
 function phpunit_version_compare(string $version, ?string $operator = null)
 {
@@ -461,8 +461,6 @@ function php_binary(bool $escape = false): string
  * @param  string|null  $basePath
  * @param  string  ...$paths
  * @return string
- *
- * @deprecated 7.55.0 Use `Orchestra\Sidekick\join_paths()` instead.
  */
 function join_paths(?string $basePath, string ...$paths): string
 {

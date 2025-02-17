@@ -7,9 +7,9 @@ use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Runner\Version;
 
-use function Orchestra\Testbench\laravel_or_fail;
 use function Orchestra\Testbench\laravel_version_compare;
 use function Orchestra\Testbench\phpunit_version_compare;
+use function Orchestra\Testbench\laravel_or_fail;
 
 class HelpersTest extends TestCase
 {
