@@ -10,9 +10,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\Env;
 
+use function Orchestra\Sidekick\transform_relative_path;
 use function Orchestra\Testbench\default_migration_path;
 use function Orchestra\Testbench\load_migration_paths;
-use function Orchestra\Testbench\transform_relative_path;
 use function Orchestra\Testbench\workbench;
 
 /**

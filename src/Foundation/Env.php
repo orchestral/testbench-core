@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Foundation;
 
-use Orchestra\Testbench\Support\UndefinedValue;
+use Orchestra\Sidekick\UndefinedValue;
 
 /**
  * @api
