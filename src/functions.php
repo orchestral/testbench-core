@@ -369,6 +369,8 @@ function workbench_path(array|string $path = ''): string
  * @throws \InvalidArgumentException
  *
  * @deprecated
+ *
+ * @codeCoverageIgnore
  */
 #[\Deprecated(message: 'Use `Orchestra\Testbench\default_migration_path()` instead', since: '9.5.1')]
 function laravel_migration_path(?string $type = null): string
@@ -410,6 +412,10 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
+ *
+ * @deprecated 10.0.0 Use `Orchestra\Sidekick\laravel_version_compare()` instead.
+ *
+ * @codeCoverageIgnore
  */
 function laravel_version_compare(string $version, ?string $operator = null): int|bool
 {
@@ -432,6 +438,10 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
+ *
+ * @deprecated 10.0.0 Use `Orchestra\Sidekick\phpunit_version_compare()` instead.
+ *
+ * @codeCoverageIgnore
  */
 function phpunit_version_compare(string $version, ?string $operator = null): int|bool
 {
@@ -459,7 +469,12 @@ function php_binary(bool $escape = false): string
  * @param  string|null  $basePath
  * @param  string  ...$paths
  * @return string
+ *
+ * @deprecated 10.0.0 Use `Orchestra\Sidekick\join_paths()` instead.
+ *
+ * @codeCoverageIgnore
  */
+#[\Deprecated(message: 'Use `Orchestra\Sidekick\join_paths()` instead', since: '10.0.0')]
 function join_paths(?string $basePath, string ...$paths): string
 {
     return \Orchestra\Sidekick\join_paths($basePath, ...$paths);
