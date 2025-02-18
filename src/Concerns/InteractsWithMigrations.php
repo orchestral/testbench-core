@@ -99,6 +99,8 @@ trait InteractsWithMigrations
      * @return void
      *
      * @deprecated
+     *
+     * @codeCoverageIgnore
      */
     #[\Deprecated(message: 'Use `loadMigrationsFrom()` instead', since: '9.0.7')]
     protected function loadMigrationsWithoutRollbackFrom(array|string $paths): void
@@ -169,6 +171,8 @@ trait InteractsWithMigrations
      * @return void
      *
      * @deprecated
+     *
+     * @codeCoverageIgnore
      */
     #[\Deprecated(message: 'Use `loadLaravelMigrations()` instead', since: '9.0.7')]
     protected function loadLaravelMigrationsWithoutRollback(array|string $database = []): void
@@ -205,6 +209,8 @@ trait InteractsWithMigrations
      * @return void
      *
      * @deprecated
+     *
+     * @codeCoverageIgnore
      */
     #[\Deprecated(message: 'Use `runLaravelMigrations()` method instead', since: '9.0.7')]
     protected function runLaravelMigrationsWithoutRollback(array|string $database = []): void

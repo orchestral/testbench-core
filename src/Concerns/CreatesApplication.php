@@ -262,6 +262,8 @@ trait CreatesApplication
      * @return string|false
      *
      * @deprecated
+     *
+     * @codeCoverageIgnore
      */
     #[\Deprecated('Removed unreliable method to determine default skeleton', since: '9.7.0')]
     protected function getDefaultApplicationBootstrapFile(string $filename): string|false
