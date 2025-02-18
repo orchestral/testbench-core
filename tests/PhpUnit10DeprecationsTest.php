@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Support\Facades\Log;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
-use Orchestra\Testbench\TestCase;
 
 /**
  * @group deprecations

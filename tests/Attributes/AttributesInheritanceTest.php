@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Attributes;
 
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 #[WithConfig('fake.parent_attribute', true)]
 #[WithConfig('fake.override_attribute', 'parent')]

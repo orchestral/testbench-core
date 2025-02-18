@@ -6,7 +6,7 @@ use Carbon\CarbonInterface;
 use Illuminate\Foundation\Auth\User;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Factories\UserFactory;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class UserFactoryTest extends TestCase
 {

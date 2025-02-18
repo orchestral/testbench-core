@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests\Foundation;
 
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 /**
  * @group phpunit-configuration

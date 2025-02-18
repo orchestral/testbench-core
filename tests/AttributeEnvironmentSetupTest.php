@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Attributes\Define;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
-use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 #[Define('env', 'classConfig')]

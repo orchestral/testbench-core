@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Foundation\Bootstrap;
 use Illuminate\Filesystem\Filesystem;
 use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink;
 use Orchestra\Testbench\Foundation\Bootstrap\CreateVendorSymlink;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 use function Orchestra\Testbench\container;
 use function Orchestra\Testbench\laravel_vendor_exists;

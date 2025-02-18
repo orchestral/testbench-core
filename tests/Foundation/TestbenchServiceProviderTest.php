@@ -7,7 +7,7 @@ use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as CollisionTestC
 use Orchestra\Testbench\Foundation\Console\TestCommand;
 use Orchestra\Testbench\Foundation\Console\TestFallbackCommand;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 /**
  * @covers \Orchestra\Testbench\Foundation\TestbenchServiceProvider

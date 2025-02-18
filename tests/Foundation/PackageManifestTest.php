@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests\Foundation;
 
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Foundation\PackageManifest;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class PackageManifestTest extends TestCase
 {

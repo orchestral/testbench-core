@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
-use Orchestra\Testbench\TestCase;
 
 use function Orchestra\Sidekick\laravel_version_compare;
 use function Orchestra\Testbench\remote;

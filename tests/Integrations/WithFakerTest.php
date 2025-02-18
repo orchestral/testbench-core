@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\WithFaker;
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class WithFakerTest extends TestCase
 {

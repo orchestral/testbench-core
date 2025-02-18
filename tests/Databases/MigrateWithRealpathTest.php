@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Databases;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 #[WithConfig('database.default', 'testing')]
 class MigrateWithRealpathTest extends TestCase

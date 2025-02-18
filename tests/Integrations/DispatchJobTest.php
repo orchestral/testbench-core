@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Support\Facades\Bus;
-use Orchestra\Testbench\TestCase;
 use Workbench\App\Jobs\RegisterUser;
 
 class DispatchJobTest extends TestCase

@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Support\Facades\Log;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class CacheRouteTest extends TestCase
 {

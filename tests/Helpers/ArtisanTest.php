@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Helpers;
 
 use Illuminate\Console\Command;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 use function Orchestra\Testbench\artisan;
 

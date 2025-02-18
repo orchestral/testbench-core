@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Exception;
 use Illuminate\Routing\Router;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use Workbench\App\Http\Controllers\ExampleController;
 
 class RouteTest extends TestCase

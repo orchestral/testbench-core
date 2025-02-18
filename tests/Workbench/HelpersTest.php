@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests\Workbench;
 
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\package_path;
