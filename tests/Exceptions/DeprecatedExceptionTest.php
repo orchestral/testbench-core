@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Exceptions;
 
 use Orchestra\Testbench\Exceptions\DeprecatedException;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class DeprecatedExceptionTest extends TestCase

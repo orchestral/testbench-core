@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Contracts\Bus\QueueingDispatcher;
 use Illuminate\Queue\Queue;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
-use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Jobs\CustomPayloadJob;

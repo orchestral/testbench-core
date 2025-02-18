@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Orchestra\Testbench\Attributes\ResolvesLaravel;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\package_path;
