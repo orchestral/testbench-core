@@ -38,7 +38,7 @@
     "require": {
         "php": "^8.2",
         "composer-runtime-api": "^2.2",
-        "orchestra/sidekick": "^1.0",
+        "orchestra/sidekick": "^1.0.2",
         "symfony/polyfill-php83": "^1.31",
         "symfony/polyfill-php84": "^1.31"
     },
@@ -71,8 +71,8 @@
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^8.0).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^9.0).",
         "phpunit/phpunit": "Allow using PHPUnit for testing (^10.5 || ^11.0 || ^12.0).",
-        "symfony/process": "Required to use Orchestra\\Testbench\\remote function (^7.0).",
-        "symfony/yaml": "Required for Testbench CLI (^7.0).",
+        "symfony/process": "Required to use Orchestra\\Testbench\\remote function (^7.2).",
+        "symfony/yaml": "Required for Testbench CLI (^7.2).",
         "vlucas/phpdotenv": "Required for Testbench CLI (^5.4.1)."
     },
     "config": {
