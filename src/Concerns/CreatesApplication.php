@@ -226,9 +226,21 @@ trait CreatesApplication
      */
     protected function getApplicationBasePath()
     {
-        return method_exists($this, 'getBasePath')
-            ? $this->getBasePath()
-            : static::applicationBasePath();
+        return $this->getBasePath() ?? static::applicationBasePath();
+    }
+
+    /**
+     * Resolve the application's base path (deprecated).
+     *
+     * @api
+     *
+     * @return string|null
+     *
+     * @deprecated 7.53.0 Use `getApplicationBasePath()` instead.
+     */
+    protected function getBasePath()
+    {
+        return null;
     }
 
     /**
