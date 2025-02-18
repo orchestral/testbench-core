@@ -11,7 +11,9 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ### Removed
 
-* Remove deprecated `getDefaultApplicationBootstrapFile()` method in `Orchestra\Testbench\Concerns\CreatesApplication` trait.
+* Remove deprecated methods in `Orchestra\Testbench\Concerns\CreatesApplication` trait:
+    - `getBasePath()`
+    - `getDefaultApplicationBootstrapFile()`
 * Remove deprecated methods in `Orchestra\Testbench\Concerns\InteractsWithMigrations` trait:
     - `loadMigrationsWithoutRollbackFrom()`
     - `loadLaravelMigrationsWithoutRollback()`
