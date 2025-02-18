@@ -9,8 +9,6 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Runner\Version;
 
 use function Orchestra\Testbench\laravel_or_fail;
-use function Orchestra\Testbench\laravel_version_compare;
-use function Orchestra\Testbench\phpunit_version_compare;
 
 class HelpersTest extends TestCase
 {
@@ -19,8 +17,8 @@ class HelpersTest extends TestCase
     {
         $laravel = Application::VERSION === '12.x-dev' ? '12.0.0' : Application::VERSION;
 
-        $this->assertSame(0, laravel_version_compare($laravel));
-        $this->assertTrue(laravel_version_compare($laravel, '=='));
+        $this->assertSame(0, \Orchestra\Testbench\laravel_version_compare($laravel));
+        $this->assertTrue(\Orchestra\Testbench\laravel_version_compare($laravel, '=='));
     }
 
     #[Test]
@@ -29,13 +27,12 @@ class HelpersTest extends TestCase
         $version = Version::id();
 
         $phpunit = match (true) {
-            str_starts_with($version, '12.0-') => '12.0.0',
-            str_starts_with($version, '11.5-') => '11.5.0',
+            str_starts_with($version, '12.1-') => '12.1.0',
             default => $version
         };
 
-        $this->assertSame(0, phpunit_version_compare($phpunit));
-        $this->assertTrue(phpunit_version_compare($phpunit, '=='));
+        $this->assertSame(0, \Orchestra\Testbench\phpunit_version_compare($phpunit));
+        $this->assertTrue(\Orchestra\Testbench\phpunit_version_compare($phpunit, '=='));
     }
 
     #[Test]

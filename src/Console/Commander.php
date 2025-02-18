@@ -24,8 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
-use function Orchestra\Testbench\join_paths;
-use function Orchestra\Testbench\transform_relative_path;
+use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\transform_relative_path;
 
 /**
  * @phpstan-import-type TConfig from \Orchestra\Testbench\Foundation\Config
