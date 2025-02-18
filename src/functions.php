@@ -474,7 +474,6 @@ function php_binary(bool $escape = false): string
  *
  * @codeCoverageIgnore
  */
-#[\Deprecated(message: 'Use `Orchestra\Sidekick\join_paths()` instead', since: '10.0.0')]
 function join_paths(?string $basePath, string ...$paths): string
 {
     return \Orchestra\Sidekick\join_paths($basePath, ...$paths);
