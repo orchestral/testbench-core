@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Integrations;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class CustomConfigurationTest extends TestCase
 {

@@ -6,7 +6,7 @@ use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Mockery as m;
 use Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class GeneratesFileTest extends TestCase
 {

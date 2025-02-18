@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Databases;
 
 use Illuminate\Support\Facades\DB;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class DatabaseTest extends TestCase
 {

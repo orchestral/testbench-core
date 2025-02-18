@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\TestCase;
 use Orchestra\Testbench\Workbench\Workbench;
 
 class WithWorkbenchTest extends TestCase

@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Helpers;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 use function Orchestra\Sidekick\join_paths;
 use function Orchestra\Testbench\default_skeleton_path;

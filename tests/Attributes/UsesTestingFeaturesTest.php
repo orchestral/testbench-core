@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Attributes;
 
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 abstract class UsesTestingFeaturesTestBaseTestCase extends TestCase
 {

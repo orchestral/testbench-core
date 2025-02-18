@@ -10,7 +10,6 @@ use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Illuminate\Support\Facades\Date;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\TestCase;
 
 #[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class DefaultConfigurationTest extends TestCase

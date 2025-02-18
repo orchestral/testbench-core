@@ -6,7 +6,7 @@ use Orchestra\Testbench\Attributes\Define;
 use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\DefineRoute;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class DefineTest extends TestCase
 {

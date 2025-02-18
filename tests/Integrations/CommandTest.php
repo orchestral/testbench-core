@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\Concerns\WithWorkbench;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class CommandTest extends TestCase
 {

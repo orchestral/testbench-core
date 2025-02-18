@@ -11,7 +11,7 @@ use Orchestra\Testbench\Attributes\DefineDatabase;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithLaravelMigrations;
 use Orchestra\Testbench\Concerns\WithWorkbench;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 #[WithConfig('database.default', 'testing')]
 class RefreshDatabaseTest extends TestCase

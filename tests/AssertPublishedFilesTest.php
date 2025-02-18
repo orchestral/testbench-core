@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests;
 
 use Orchestra\Testbench\Concerns\InteractsWithPublishedFiles;
-use Orchestra\Testbench\TestCase;
 
 class AssertPublishedFilesTest extends TestCase
 {

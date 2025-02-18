@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Helpers;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 use function Orchestra\Testbench\parse_environment_variables;
 

@@ -2,8 +2,6 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Orchestra\Testbench\TestCase;
-
 class AnnotationDefineEnvTest extends TestCase
 {
     /**

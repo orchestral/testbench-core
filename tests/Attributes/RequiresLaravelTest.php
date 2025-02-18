@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Attributes;
 
 use Orchestra\Testbench\Attributes\RequiresLaravel;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 class RequiresLaravelTest extends TestCase
 {

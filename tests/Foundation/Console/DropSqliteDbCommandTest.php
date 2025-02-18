@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests\Foundation\Console;
 
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 
 /**
  * @requires OS Linux|DAR
