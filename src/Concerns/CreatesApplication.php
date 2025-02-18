@@ -258,9 +258,8 @@ trait CreatesApplication
      *
      * @return string|null
      *
-     * @deprecated 7.53.0 Use `getApplicationBasePath()` instead.
+     * @deprecated 6.22.0 Use `getApplicationBasePath()` instead.
      */
-    #[\Deprecated('Use `getApplicationBasePath()` instead', since: '7.53.0')]
     protected function getBasePath()
     {
         return null;
