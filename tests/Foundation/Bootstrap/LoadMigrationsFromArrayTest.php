@@ -8,7 +8,7 @@ use Mockery as m;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Tests\TestCase;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Sidekick\join_paths;
 
 class LoadMigrationsFromArrayTest extends TestCase
 {

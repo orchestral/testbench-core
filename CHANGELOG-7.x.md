@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.53.0
+
+Released: 2025-02-19
+
+### Added
+
+* Use `orchestra/sidekick`.
+
+### Deprecated
+
+* Re-add deprecated `getBasePath()` method pending removal in Testbench 10.0.
+
 ## 7.52.0
 
 Released: 2025-02-15

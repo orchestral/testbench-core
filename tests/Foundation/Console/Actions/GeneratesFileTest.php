@@ -8,7 +8,7 @@ use Mockery as m;
 use Orchestra\Testbench\Foundation\Console\Actions\GeneratesFile;
 use Orchestra\Testbench\Tests\TestCase;
 
-use function Illuminate\Filesystem\join_paths;
+use function Orchestra\Sidekick\join_paths;
 
 class GeneratesFileTest extends TestCase
 {
