@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\PHPUnit;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Throwable;
 
-use function Orchestra\Testbench\phpunit_version_compare;
+use function Orchestra\Sidekick\phpunit_version_compare;
 
 if (phpunit_version_compare('10.1', '>=')) {
     class TestCase extends \PHPUnit\Framework\TestCase

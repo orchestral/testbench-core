@@ -17,7 +17,6 @@ use InvalidArgumentException;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
-use RuntimeException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -109,18 +108,14 @@ function remote(array|string $command, array|string $env = [], ?bool $tty = null
  *
  * @param  mixed  $callback
  * @return \Closure():mixed
+ *
+ * @deprecated 7.55.0 Use `Orchestra\Sidekick\once()` instead.
+ *
+ * @codeCoverageIgnore
  */
 function once($callback): Closure
 {
-    $response = new Support\UndefinedValue;
-
-    return function () use ($callback, &$response) {
-        if ($response instanceof Support\UndefinedValue) {
-            $response = value($callback) ?? null;
-        }
-
-        return $response;
-    };
+    return \Orchestra\Sidekick\once($callback);
 }
 
 /**
@@ -267,12 +262,14 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
  * @param  string  $path
  * @param  string  $workingPath
  * @return string
+ *
+ * @deprecated 7.55.0 Use `Orchestra\Sidekick\transform_relative_path()` instead.
+ *
+ * @codeCoverageIgnore
  */
 function transform_relative_path(string $path, string $workingPath): string
 {
-    return str_starts_with($path, './')
-        ? rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.mb_substr($path, 2)
-        : $path;
+    return \Orchestra\Sidekick\transform_relative_path($path, $workingPath);
 }
 
 /**
@@ -428,14 +425,7 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  */
 function laravel_version_compare(string $version, ?string $operator = null)
 {
-    /** @phpstan-ignore identical.alwaysFalse */
-    $laravel = Application::VERSION === '10.x-dev' ? '10.0.0' : Application::VERSION;
-
-    if (\is_null($operator)) {
-        return version_compare($laravel, $version);
-    }
-
-    return version_compare($laravel, $version, $operator);
+    return \Orchestra\Sidekick\laravel_version_compare($version, $operator);
 }
 
 /**
@@ -457,15 +447,7 @@ function laravel_version_compare(string $version, ?string $operator = null)
  */
 function phpunit_version_compare(string $version, ?string $operator = null)
 {
-    if (! class_exists(Version::class)) {
-        throw new RuntimeException('Unable to verify PHPUnit version');
-    }
-
-    if (\is_null($operator)) {
-        return version_compare(Version::id(), $version);
-    }
-
-    return version_compare(Version::id(), $version, $operator);
+    return \Orchestra\Sidekick\phpunit_version_compare($version, $operator);
 }
 
 /**
@@ -478,7 +460,7 @@ function phpunit_version_compare(string $version, ?string $operator = null)
  */
 function php_binary(bool $escape = false): string
 {
-    $phpBinary = (new Support\PhpExecutableFinder)->find(false) ?: 'php';
+    $phpBinary = \Orchestra\Sidekick\php_binary();
 
     return $escape === true ? ProcessUtils::escapeArgument((string) $phpBinary) : $phpBinary;
 }
@@ -492,15 +474,7 @@ function php_binary(bool $escape = false): string
  */
 function join_paths(?string $basePath, string ...$paths): string
 {
-    foreach ($paths as $index => $path) {
-        if (empty($path) && $path !== '0') {
-            unset($paths[$index]);
-        } else {
-            $paths[$index] = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
-        }
-    }
-
-    return $basePath.implode('', $paths);
+    return \Orchestra\Sidekick\join_paths($basePath, ...$paths);
 }
 
 /**

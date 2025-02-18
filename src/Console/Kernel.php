@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Console;
 use Orchestra\Testbench\Foundation\Console\Kernel as ConsoleKernel;
 use Throwable;
 
-use function Orchestra\Testbench\join_paths;
+use function Orchestra\Sidekick\join_paths;
 
 /**
  * @codeCoverageIgnore

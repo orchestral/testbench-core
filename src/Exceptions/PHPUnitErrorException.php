@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Exceptions;
 
-use function Orchestra\Testbench\phpunit_version_compare;
+use function Orchestra\Sidekick\phpunit_version_compare;
 
 if (phpunit_version_compare('10', '>=')) {
     class PHPUnitErrorException extends \PHPUnit\Framework\Exception

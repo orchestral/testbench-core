@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use Dotenv\Dotenv;
 use Orchestra\Testbench\Foundation\Env;
 
-use function Orchestra\Testbench\join_paths;
+use function Orchestra\Sidekick\join_paths;
 
 /**
  * @internal

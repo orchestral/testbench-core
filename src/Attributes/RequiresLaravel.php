@@ -6,7 +6,7 @@ use Attribute;
 use Closure;
 use Orchestra\Testbench\Contracts\Attributes\Actionable as ActionableContract;
 
-use function Orchestra\Testbench\laravel_version_compare;
+use function Orchestra\Sidekick\laravel_version_compare;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class RequiresLaravel implements ActionableContract

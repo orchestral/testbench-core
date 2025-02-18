@@ -9,7 +9,7 @@ use Orchestra\Testbench\Concerns\HandlesAttributes;
 use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-use function Orchestra\Testbench\once;
+use function Orchestra\Sidekick\once;
 
 /**
  * @internal

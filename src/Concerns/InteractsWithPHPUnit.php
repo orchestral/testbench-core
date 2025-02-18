@@ -10,7 +10,7 @@ use PHPUnit\Metadata\Annotation\Parser\Registry as PHPUnit10Registry;
 use PHPUnit\Util\Annotation\Registry as PHPUnit9Registry;
 use ReflectionClass;
 
-use function Orchestra\Testbench\phpunit_version_compare;
+use function Orchestra\Sidekick\phpunit_version_compare;
 
 /**
  * @internal

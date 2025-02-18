@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\TestCase;
 
-use function Orchestra\Testbench\laravel_version_compare;
+use function Orchestra\Sidekick\laravel_version_compare;
 use function Orchestra\Testbench\remote;
 
 /**
