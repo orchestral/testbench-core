@@ -15,14 +15,12 @@ use Illuminate\Foundation\Console\RouteListCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Foundation\Vite;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Queue\Console\WorkCommand;
 use Illuminate\Queue\Queue;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Once;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
@@ -31,7 +29,7 @@ use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
 
-use function Orchestra\Testbench\join_paths;
+use function Orchestra\Sidekick\join_paths;
 
 /**
  * @api
@@ -215,7 +213,6 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
-        Facade::clearResolvedInstance(Vite::class);
 
         if (! $instance instanceof Commander) {
             HandleExceptions::flushState();

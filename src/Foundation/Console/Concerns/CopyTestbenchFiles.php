@@ -8,7 +8,7 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
 use Orchestra\Testbench\Foundation\Env;
 
-use function Orchestra\Testbench\join_paths;
+use function Orchestra\Sidekick\join_paths;
 
 /**
  * @codeCoverageIgnore

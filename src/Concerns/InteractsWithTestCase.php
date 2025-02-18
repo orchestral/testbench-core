@@ -107,11 +107,8 @@ trait InteractsWithTestCase
             return;
         }
 
-        /** @var class-string<TTestingFeature> $name */
-        $name = \get_class($attribute);
-
         static::$testCaseTestingFeatures[] = [
-            'key' => $name,
+            'key' => $attribute::class,
             'instance' => $attribute,
         ];
     }

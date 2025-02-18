@@ -13,7 +13,7 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Pest\WithPest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-use function Orchestra\Testbench\once;
+use function Orchestra\Sidekick\once;
 
 /**
  * @api
