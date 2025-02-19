@@ -7,7 +7,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Date;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class WithImmutableDatesTest extends TestCase

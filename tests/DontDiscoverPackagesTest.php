@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class DontDiscoverPackagesTest extends TestCase

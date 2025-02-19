@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Helpers;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 

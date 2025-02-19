@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests\Attributes;
 
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Orchestra\Testbench\Attributes\ResolvesLaravel;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class ResolvesLaravelTest extends TestCase

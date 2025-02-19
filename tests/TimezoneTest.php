@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests;
 
 use Carbon\Carbon;
-use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class TimezoneTest extends TestCase

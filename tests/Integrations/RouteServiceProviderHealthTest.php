@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Integrations;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 use function Illuminate\Filesystem\join_paths;
