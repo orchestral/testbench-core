@@ -14,8 +14,8 @@ use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
-use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Sidekick;
+use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
 use Symfony\Component\Process\Process;
 
