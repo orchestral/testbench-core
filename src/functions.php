@@ -14,6 +14,7 @@ use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
+use Orchestra\Sidekick;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
 use Symfony\Component\Process\Process;
@@ -115,7 +116,7 @@ function remote(array|string $command, array|string $env = [], ?bool $tty = null
 #[\Deprecated(message: 'Use `Orchestra\Sidekick\once()` instead', since: '7.55.0')]
 function once($callback): Closure
 {
-    return \Orchestra\Sidekick\once($callback);
+    return Sidekick\once($callback);
 }
 
 /**
@@ -256,7 +257,7 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
 #[\Deprecated(message: 'Use `Orchestra\Sidekick\transform_relative_path()` instead', since: '7.55.0')]
 function transform_relative_path(string $path, string $workingPath): string
 {
-    return \Orchestra\Sidekick\transform_relative_path($path, $workingPath);
+    return Sidekick\transform_relative_path($path, $workingPath);
 }
 
 /**
@@ -415,7 +416,7 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  */
 function laravel_version_compare(string $version, ?string $operator = null): int|bool
 {
-    return \Orchestra\Sidekick\laravel_version_compare($version, $operator);
+    return Sidekick\laravel_version_compare($version, $operator);
 }
 
 /**
@@ -437,7 +438,7 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  */
 function phpunit_version_compare(string $version, ?string $operator = null): int|bool
 {
-    return \Orchestra\Sidekick\phpunit_version_compare($version, $operator);
+    return Sidekick\phpunit_version_compare($version, $operator);
 }
 
 /**
@@ -450,7 +451,7 @@ function phpunit_version_compare(string $version, ?string $operator = null): int
  */
 function php_binary(bool $escape = false): string
 {
-    $phpBinary = \Orchestra\Sidekick\php_binary();
+    $phpBinary = Sidekick\php_binary();
 
     return $escape === true ? ProcessUtils::escapeArgument((string) $phpBinary) : $phpBinary;
 }
@@ -464,7 +465,7 @@ function php_binary(bool $escape = false): string
  */
 function join_paths(?string $basePath, string ...$paths): string
 {
-    return \Orchestra\Sidekick\join_paths($basePath, ...$paths);
+    return Sidekick\join_paths($basePath, ...$paths);
 }
 
 /**
