@@ -9,6 +9,7 @@ Released: 2025-02-19
 ### Added
 
 * Use `orchestra/sidekick`.
+* Implements `Illuminate\Foundation\Testing\Concerns\InteractsWithViews`.
 
 ### Deprecated
 
