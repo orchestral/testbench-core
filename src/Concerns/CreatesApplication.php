@@ -255,20 +255,6 @@ trait CreatesApplication
     }
 
     /**
-     * Resolve the application's base path (deprecated).
-     *
-     * @api
-     *
-     * @return string|null
-     *
-     * @deprecated 6.22.0 Use `getApplicationBasePath()` instead.
-     */
-    protected function getBasePath()
-    {
-        return null;
-    }
-
-    /**
      * Creates the application.
      *
      * @internal
