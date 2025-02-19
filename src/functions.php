@@ -377,8 +377,6 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  *
  * @phpstan-return (TOperator is null ? int : bool)
  *
- * @deprecated 10.0.0 Use `Orchestra\Sidekick\laravel_version_compare()` instead.
- *
  * @codeCoverageIgnore
  */
 function laravel_version_compare(string $version, ?string $operator = null): int|bool
@@ -402,8 +400,6 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
- *
- * @deprecated 10.0.0 Use `Orchestra\Sidekick\phpunit_version_compare()` instead.
  *
  * @codeCoverageIgnore
  */
