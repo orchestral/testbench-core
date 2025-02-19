@@ -11,6 +11,9 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ### Removed
 
+* Remove deprecated functions:
+    - `Orchestra\Testbench\once()`
+    - `Orchestra\Testbench\transform_relative_path()`
 * Remove deprecated methods in `Orchestra\Testbench\Concerns\CreatesApplication` trait:
     - `getBasePath()`
     - `getDefaultApplicationBootstrapFile()`
