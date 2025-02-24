@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Factories;
 use Carbon\CarbonInterface;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Factories\UserFactory;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Models\User;
 

@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Foundation\Auth\User;
 use Orchestra\Testbench\Factories\UserFactory;
 use Orchestra\Testbench\Foundation\Env;
-use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 

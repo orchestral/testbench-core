@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Support\Facades\Log;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
-use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 

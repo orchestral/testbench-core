@@ -5,10 +5,10 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Mockery as m;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-use function Orchestra\Testbench\join_paths;
+use function Orchestra\Sidekick\join_paths;
 
 class EnsureDirectoryExistsTest extends TestCase
 {

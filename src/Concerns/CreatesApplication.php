@@ -27,7 +27,6 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-use function Illuminate\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
@@ -248,31 +247,7 @@ trait CreatesApplication
      */
     protected function getApplicationBasePath()
     {
-        if (method_exists($this, 'getBasePath')) {
-            trigger_deprecation(
-                'orchestra/testbench-core', '11.0', 'Using "%s" is deprecated, use "%s" instead.', 'getBasePath()', 'getApplicationBasePath()'
-            );
-
-            return $this->getBasePath();
-        }
-
         return static::applicationBasePath();
-    }
-
-    /**
-     * Get the default application bootstrap file path (if exists).
-     *
-     * @internal
-     *
-     * @param  string  $filename
-     * @return string|false
-     *
-     * @deprecated
-     */
-    #[\Deprecated('Removed unreliable method to determine default skeleton', since: '9.7.0')]
-    protected function getDefaultApplicationBootstrapFile(string $filename): string|false
-    {
-        return realpath(default_skeleton_path(join_paths('bootstrap', $filename)));
     }
 
     /**
@@ -555,14 +530,7 @@ trait CreatesApplication
             testCase: $this,
             default: function () use ($app) {
                 $this->defineEnvironment($app);
-
-                if (method_exists($this, 'getEnvironmentSetUp')) {
-                    trigger_deprecation(
-                        'orchestra/testbench-core', '10.0', 'Using "%s" is deprecated, use "%s" instead.', 'getEnvironmentSetUp()', 'defineEnvironment()'
-                    );
-
-                    $this->getEnvironmentSetUp($app);
-                }
+                $this->getEnvironmentSetUp($app);
             },
             annotation: function () use ($app) {
                 $this->parseTestMethodAnnotations($app, 'environment-setup'); /** @phpstan-ignore method.notFound */
@@ -657,5 +625,18 @@ trait CreatesApplication
     protected function defineEnvironment($app)
     {
         // Define environment.
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @api
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        // Define your environment setup.
     }
 }

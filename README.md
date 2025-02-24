@@ -19,6 +19,7 @@ Testbench Core is a framework designed to help you write tests and interact with
  9.x      | 7.x
  10.x     | 8.x
  11.x     | 9.x
+ 12.x     | 10.x
 
 ## Usage
 

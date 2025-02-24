@@ -14,11 +14,9 @@ use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
+use Orchestra\Sidekick;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
-use PHPUnit\Runner\Version;
-use RuntimeException;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -101,27 +99,6 @@ function remote(array|string $command, array|string $env = [], ?bool $tty = null
     }
 
     return $process;
-}
-
-/**
- * Run callback only once.
- *
- * @api
- *
- * @param  mixed  $callback
- * @return \Closure():mixed
- */
-function once($callback): Closure
-{
-    $response = new Support\UndefinedValue;
-
-    return function () use ($callback, &$response) {
-        if ($response instanceof Support\UndefinedValue) {
-            $response = value($callback) ?? null;
-        }
-
-        return $response;
-    };
 }
 
 /**
@@ -247,22 +224,6 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
 }
 
 /**
- * Transform relative path.
- *
- * @api
- *
- * @param  string  $path
- * @param  string  $workingPath
- * @return string
- */
-function transform_relative_path(string $path, string $workingPath): string
-{
-    return str_starts_with($path, './')
-        ? rtrim($workingPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.mb_substr($path, 2)
-        : $path;
-}
-
-/**
  * Get the default skeleton path.
  *
  * @api
@@ -274,7 +235,7 @@ function transform_relative_path(string $path, string $workingPath): string
  */
 function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
+    return (string) realpath(\Orchestra\Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
 /**
@@ -290,7 +251,7 @@ function default_skeleton_path(array|string $path = ''): string
 function default_migration_path(?string $type = null): string
 {
     $path = realpath(
-        \is_null($type) ? base_path('migrations') : base_path(join_paths('migrations', $type))
+        \is_null($type) ? base_path('migrations') : base_path(\Orchestra\Sidekick\join_paths('migrations', $type))
     );
 
     if ($path === false) {
@@ -322,11 +283,11 @@ function package_path(array|string $path = ''): string
         return transform_relative_path($path, $workingPath);
     }
 
-    $path = join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
+    $path = \Orchestra\Sidekick\join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
         ? transform_relative_path($path, $workingPath)
-        : join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
+        : \Orchestra\Sidekick\join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
@@ -372,6 +333,8 @@ function workbench_path(array|string $path = ''): string
  * @throws \InvalidArgumentException
  *
  * @deprecated
+ *
+ * @codeCoverageIgnore
  */
 #[\Deprecated(message: 'Use `Orchestra\Testbench\default_migration_path()` instead', since: '9.5.1')]
 function laravel_migration_path(?string $type = null): string
@@ -395,8 +358,8 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
     $appVendorPath = $app->basePath('vendor');
     $workingPath ??= package_path('vendor');
 
-    return $filesystem->isFile(join_paths($appVendorPath, 'autoload.php')) &&
-        $filesystem->hash(join_paths($appVendorPath, 'autoload.php')) === $filesystem->hash(join_paths($workingPath, 'autoload.php'));
+    return $filesystem->isFile(\Orchestra\Sidekick\join_paths($appVendorPath, 'autoload.php')) &&
+        $filesystem->hash(\Orchestra\Sidekick\join_paths($appVendorPath, 'autoload.php')) === $filesystem->hash(\Orchestra\Sidekick\join_paths($workingPath, 'autoload.php'));
 }
 
 /**
@@ -413,20 +376,14 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
+ *
+ * @deprecated 10.0.0 Use `Orchestra\Sidekick\laravel_version_compare()` instead.
+ *
+ * @codeCoverageIgnore
  */
 function laravel_version_compare(string $version, ?string $operator = null): int|bool
 {
-    /** @var string $laravel */
-    $laravel = transform(
-        Application::VERSION,
-        fn (string $version) => $version === '12.x-dev' ? '12.0.0' : $version, // @phpstan-ignore identical.alwaysTrue
-    );
-
-    if (\is_null($operator)) {
-        return version_compare($laravel, $version);
-    }
-
-    return version_compare($laravel, $version, $operator);
+    return Sidekick\laravel_version_compare($version, $operator);
 }
 
 /**
@@ -445,28 +402,14 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
+ *
+ * @deprecated 10.0.0 Use `Orchestra\Sidekick\phpunit_version_compare()` instead.
+ *
+ * @codeCoverageIgnore
  */
 function phpunit_version_compare(string $version, ?string $operator = null): int|bool
 {
-    if (! class_exists(Version::class)) {
-        throw new RuntimeException('Unable to verify PHPUnit version');
-    }
-
-    /** @var string $phpunit */
-    $phpunit = transform(
-        Version::id(),
-        fn (string $version) => match (true) {
-            str_starts_with($version, '12.0-') => '12.0.0',
-            str_starts_with($version, '11.5-') => '11.5.0',
-            default => $version,
-        }
-    );
-
-    if (\is_null($operator)) {
-        return version_compare($phpunit, $version);
-    }
-
-    return version_compare($phpunit, $version, $operator);
+    return Sidekick\phpunit_version_compare($version, $operator);
 }
 
 /**
@@ -479,7 +422,7 @@ function phpunit_version_compare(string $version, ?string $operator = null): int
  */
 function php_binary(bool $escape = false): string
 {
-    $phpBinary = (new PhpExecutableFinder)->find(false) ?: 'php';
+    $phpBinary = Sidekick\php_binary();
 
     return $escape === true ? ProcessUtils::escapeArgument((string) $phpBinary) : $phpBinary;
 }
@@ -490,18 +433,15 @@ function php_binary(bool $escape = false): string
  * @param  string|null  $basePath
  * @param  string  ...$paths
  * @return string
+ *
+ * @deprecated 10.0.0 Use `Orchestra\Sidekick\\Orchestra\Sidekick\join_paths()` instead.
+ *
+ * @codeCoverageIgnore
  */
+#[\Deprecated('Use `Orchestra\Sidekick\\Orchestra\Sidekick\join_paths()` instead', since: '10.0.0')]
 function join_paths(?string $basePath, string ...$paths): string
 {
-    foreach ($paths as $index => $path) {
-        if (empty($path) && $path !== '0') {
-            unset($paths[$index]);
-        } else {
-            $paths[$index] = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
-        }
-    }
-
-    return $basePath.implode('', $paths);
+    return Sidekick\join_paths($basePath, ...$paths);
 }
 
 /**
