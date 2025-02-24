@@ -2,7 +2,8 @@
 
 namespace Orchestra\Testbench\Tests\Integrations;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Attributes\UsesVendor;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Process\Process;
@@ -11,6 +12,7 @@ use function Illuminate\Support\php_binary;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\remote;
 
+#[UsesVendor]
 class ArtisanTest extends TestCase
 {
     #[Test]

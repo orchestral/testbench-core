@@ -21,7 +21,7 @@ trait WithLaravelBootstrapFile
      */
     protected function getApplicationBootstrapFile(string $filename): string|false
     {
-        $bootstrapFile = realpath(join_paths($this->getBasePath(), 'bootstrap', $filename));
+        $bootstrapFile = realpath(join_paths($this->getApplicationBasePath(), 'bootstrap', $filename));
 
         if ($this->usesTestbenchDefaultSkeleton()) {
             if (static::usesTestingConcern(WithWorkbench::class) || $this instanceof Testbench) {
@@ -54,17 +54,17 @@ trait WithLaravelBootstrapFile
      */
     protected function usesTestbenchDefaultSkeleton(): bool
     {
-        return realpath(join_paths($this->getBasePath(), 'bootstrap', '.testbench-default-skeleton')) !== false;
+        return realpath(join_paths($this->getApplicationBasePath(), 'bootstrap', '.testbench-default-skeleton')) !== false;
     }
 
     /**
-     * Get base path.
+     * Get the application's base path.
      *
-     * @internal
+     * @api
      *
      * @return string
      */
-    abstract protected function getBasePath();
+    abstract protected function getApplicationBasePath();
 
     /**
      * Get the default application bootstrap file path (if exists).

@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithWorkbench;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 

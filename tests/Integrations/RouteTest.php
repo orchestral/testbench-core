@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Integrations;
 use Exception;
 use Illuminate\Routing\Router;
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Http\Controllers\ExampleController;

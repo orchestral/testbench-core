@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Integrations;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class TranslationTest extends TestCase

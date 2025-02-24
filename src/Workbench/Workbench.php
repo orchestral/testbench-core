@@ -19,8 +19,8 @@ use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 use Throwable;
 
+use function Orchestra\Sidekick\join_paths;
 use function Orchestra\Testbench\after_resolving;
-use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench_path;
 
@@ -214,24 +214,26 @@ class Workbench
         if (($discoversConfig['factories'] ?? false) === true) {
             Factory::guessFactoryNamesUsing(static function ($modelName) {
                 /** @var class-string<\Illuminate\Database\Eloquent\Model> $modelName */
-                $workbenchNamespace = 'Workbench\\App\\';
+                $workbenchNamespace = static::detectNamespace('app') ?? 'Workbench\\App\\';
+                $factoryNamespace = static::detectNamespace('database/factories') ?? 'Workbench\\Database\\Factories\\';
 
                 $modelBasename = str_starts_with($modelName, $workbenchNamespace.'Models\\')
                     ? Str::after($modelName, $workbenchNamespace.'Models\\')
                     : Str::after($modelName, $workbenchNamespace);
 
                 /** @var class-string<\Illuminate\Database\Eloquent\Factories\Factory> $factoryName */
-                $factoryName = 'Workbench\\Database\\Factories\\'.$modelBasename.'Factory';
+                $factoryName = $factoryNamespace.$modelBasename.'Factory';
 
                 return $factoryName;
             });
 
             Factory::guessModelNamesUsing(static function ($factory) {
                 /** @var \Illuminate\Database\Eloquent\Factories\Factory $factory */
-                $workbenchNamespace = 'Workbench\\App\\';
+                $workbenchNamespace = static::detectNamespace('app') ?? 'Workbench\\App\\';
+                $factoryNamespace = static::detectNamespace('database/factories') ?? 'Workbench\\Database\\Factories\\';
 
                 $namespacedFactoryBasename = Str::replaceLast(
-                    'Factory', '', Str::replaceFirst('Workbench\\Database\\Factories\\', '', \get_class($factory))
+                    'Factory', '', Str::replaceFirst($factoryNamespace, '', $factory::class)
                 );
 
                 $factoryBasename = Str::replaceLast('Factory', '', class_basename($factory));

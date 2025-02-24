@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Collection;
 
-use function Orchestra\Testbench\join_paths;
+use function Orchestra\Sidekick\join_paths;
 
 /**
  * @internal
@@ -23,7 +23,7 @@ trait InteractsWithPublishedFiles
      *
      * @var array<int, string>|null
      */
-    protected ?array $cachedExistingMigrationsFiles;
+    protected ?array $cachedExistingMigrationsFiles = null;
 
     /**
      * Setup Interacts with Published Files environment.

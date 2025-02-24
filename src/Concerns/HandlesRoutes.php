@@ -10,7 +10,7 @@ use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 
-use function Orchestra\Testbench\join_paths;
+use function Orchestra\Sidekick\join_paths;
 use function Orchestra\Testbench\refresh_router_lookups;
 use function Orchestra\Testbench\remote;
 
@@ -21,7 +21,7 @@ trait HandlesRoutes
      *
      * @var bool
      */
-    protected $requireApplicationCachedRoutesHasRun = false;
+    protected bool $requireApplicationCachedRoutesHasRun = false;
 
     /**
      * Setup routes requirements.

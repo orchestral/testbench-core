@@ -2,12 +2,12 @@
 
 namespace Orchestra\Testbench\Tests\Helpers;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
+use function Orchestra\Sidekick\join_paths;
 use function Orchestra\Testbench\default_skeleton_path;
-use function Orchestra\Testbench\join_paths;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\transform_realpath_to_relative;
 

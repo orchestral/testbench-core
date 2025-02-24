@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Support\Facades\Bus;
-use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Jobs\RegisterUser;
 

@@ -60,6 +60,7 @@ jobs:
         php:
           - 8.2
           - 8.3
+          - 8.4
         experimental:
           - false
 

@@ -24,8 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
-use function Orchestra\Testbench\join_paths;
-use function Orchestra\Testbench\transform_relative_path;
+use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\transform_relative_path;
 
 /**
  * @phpstan-import-type TConfig from \Orchestra\Testbench\Foundation\Config
@@ -124,26 +124,37 @@ class Commander
     }
 
     /**
-     * Create Laravel application.
+     * Create a Laravel application.
      *
      * @return \Illuminate\Foundation\Application
      */
     public function laravel()
     {
         if (! $this->app instanceof LaravelApplication) {
-            $APP_BASE_PATH = $this->getBasePath();
+            $APP_BASE_PATH = $this->getApplicationBasePath();
+            $VENDOR_PATH = join_paths($this->workingPath, 'vendor');
+
+            $filesystem = new Filesystem;
 
             $hasEnvironmentFile = fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
 
-            tap(static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')), function ($app) use ($hasEnvironmentFile) {
-                $filesystem = new Filesystem;
-
-                $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
-
-                if (! $hasEnvironmentFile()) {
-                    $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+            TerminatingConsole::beforeWhen(
+                ! $filesystem->isFile(join_paths($VENDOR_PATH, 'autoload.php')),
+                static function () use ($APP_BASE_PATH) {
+                    static::$testbench::deleteVendorSymlink($APP_BASE_PATH);
                 }
-            });
+            );
+
+            tap(
+                static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')),
+                function ($app) use ($filesystem, $hasEnvironmentFile) {
+                    $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
+
+                    if (! $hasEnvironmentFile()) {
+                        $this->copyTestbenchDotEnvFile($app, $filesystem, $this->workingPath);
+                    }
+                }
+            );
 
             $this->app = static::$testbench::create(
                 basePath: $APP_BASE_PATH,
@@ -183,21 +194,11 @@ class Commander
     }
 
     /**
-     * Get Application base path.
+     * Resolve the application's base path.
      *
      * @return string
      */
-    public static function applicationBasePath()
-    {
-        return static::$testbench::applicationBasePath();
-    }
-
-    /**
-     * Get base path.
-     *
-     * @return string
-     */
-    protected function getBasePath()
+    protected function getApplicationBasePath()
     {
         $path = $this->config['laravel'] ?? null;
 
@@ -208,6 +209,18 @@ class Commander
         }
 
         return static::applicationBasePath();
+    }
+
+    /**
+     * Get the application's base path.
+     *
+     * @api
+     *
+     * @return string
+     */
+    public static function applicationBasePath()
+    {
+        return static::$testbench::applicationBasePath();
     }
 
     /**
@@ -266,7 +279,7 @@ class Commander
                 );
         }, function () {
             if (windows_os() && PHP_SAPI === 'cli' && \function_exists('sapi_windows_set_ctrl_handler')) {
-                sapi_windows_set_ctrl_handler(function ($event) {
+                sapi_windows_set_ctrl_handler(static function ($event) {
                     TerminatingConsole::handle();
                     Workbench::flush();
 
