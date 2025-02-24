@@ -112,6 +112,11 @@
             "@php bin/sync",
             "@lint"
         ],
+        "sync-dev": [
+            "@clear",
+            "@php bin/sync --dev",
+            "@lint"
+        ],
         "ci": [
             "@composer audit",
             "@post-autoload-dump",
