@@ -14,7 +14,7 @@ class HelpersTest extends TestCase
     #[Test]
     public function it_can_compare_laravel_version()
     {
-        $laravel = Application::VERSION === '12.x-dev' ? '12.0.0' : Application::VERSION;
+        $laravel = Application::VERSION === '13.x-dev' ? '13.0.0' : Application::VERSION;
 
         $this->assertSame(0, \Orchestra\Testbench\laravel_version_compare($laravel));
         $this->assertTrue(\Orchestra\Testbench\laravel_version_compare($laravel, '=='));
