@@ -235,7 +235,7 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
  */
 function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(\Orchestra\Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
+    return (string) realpath(Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
 }
 
 /**
@@ -251,7 +251,7 @@ function default_skeleton_path(array|string $path = ''): string
 function default_migration_path(?string $type = null): string
 {
     $path = realpath(
-        \is_null($type) ? base_path('migrations') : base_path(\Orchestra\Sidekick\join_paths('migrations', $type))
+        \is_null($type) ? base_path('migrations') : base_path(Sidekick\join_paths('migrations', $type))
     );
 
     if ($path === false) {
@@ -280,14 +280,14 @@ function package_path(array|string $path = ''): string
         : Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
     if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
-        return transform_relative_path($path, $workingPath);
+        return Sidekick\transform_relative_path($path, $workingPath);
     }
 
-    $path = \Orchestra\Sidekick\join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
+    $path = Sidekick\join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
-        ? transform_relative_path($path, $workingPath)
-        : \Orchestra\Sidekick\join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
+        ? Sidekick\transform_relative_path($path, $workingPath)
+        : Sidekick\join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
@@ -358,8 +358,8 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
     $appVendorPath = $app->basePath('vendor');
     $workingPath ??= package_path('vendor');
 
-    return $filesystem->isFile(\Orchestra\Sidekick\join_paths($appVendorPath, 'autoload.php')) &&
-        $filesystem->hash(\Orchestra\Sidekick\join_paths($appVendorPath, 'autoload.php')) === $filesystem->hash(\Orchestra\Sidekick\join_paths($workingPath, 'autoload.php'));
+    return $filesystem->isFile(Sidekick\join_paths($appVendorPath, 'autoload.php')) &&
+        $filesystem->hash(Sidekick\join_paths($appVendorPath, 'autoload.php')) === $filesystem->hash(Sidekick\join_paths($workingPath, 'autoload.php'));
 }
 
 /**
@@ -376,8 +376,6 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
- *
- * @deprecated 10.0.0 Use `Orchestra\Sidekick\laravel_version_compare()` instead.
  *
  * @codeCoverageIgnore
  */
@@ -402,8 +400,6 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  * @phpstan-param  TOperator  $operator
  *
  * @phpstan-return (TOperator is null ? int : bool)
- *
- * @deprecated 10.0.0 Use `Orchestra\Sidekick\phpunit_version_compare()` instead.
  *
  * @codeCoverageIgnore
  */
@@ -434,11 +430,11 @@ function php_binary(bool $escape = false): string
  * @param  string  ...$paths
  * @return string
  *
- * @deprecated 10.0.0 Use `Orchestra\Sidekick\\Orchestra\Sidekick\join_paths()` instead.
+ * @deprecated 10.0.0 Use `Orchestra\Sidekick\join_paths()` instead.
  *
  * @codeCoverageIgnore
  */
-#[\Deprecated('Use `Orchestra\Sidekick\\Orchestra\Sidekick\join_paths()` instead', since: '10.0.0')]
+#[\Deprecated('Use `Orchestra\Sidekick\join_paths()` instead', since: '10.0.0')]
 function join_paths(?string $basePath, string ...$paths): string
 {
     return Sidekick\join_paths($basePath, ...$paths);
