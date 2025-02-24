@@ -16,10 +16,5 @@
             "Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
-    },
     "minimum-stability": "dev"
 }
