@@ -40,9 +40,10 @@ class TestFallbackCommand extends Command
     protected $description = 'Run the package tests';
 
     /** {@inheritDoc} */
-    public function __construct()
+    #[\Override]
+    public function configure()
     {
-        parent::__construct();
+        parent::configure();
 
         if (! \defined('TESTBENCH_CORE')) {
             $this->setHidden(true);
