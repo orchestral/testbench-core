@@ -43,7 +43,7 @@ $files->put("{$workingPath}/laravel/bootstrap/.testbench-default-skeleton", '@te
  * ----------------------------------------------------------------------
  */
 
-require Orchestra\Testbench\join_paths(__DIR__, 'configure-skeleton.php');
+require Orchestra\Sidekick\join_paths(__DIR__, 'configure-skeleton.php');
 
 transform([
     line('App\Providers', 2) => line('// App\Providers', 2),
