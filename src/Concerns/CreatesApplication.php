@@ -220,7 +220,7 @@ trait CreatesApplication
     /**
      * Resolve the application's base path.
      *
-     * @api
+     * @internal
      *
      * @return string
      */
@@ -236,11 +236,11 @@ trait CreatesApplication
      *
      * @return string|null
      *
-     * @deprecated 6.22.0 Use `getApplicationBasePath()` instead.
+     * @deprecated 6.22.0 Use `applicationBasePath()` static method instead.
      */
     protected function getBasePath()
     {
-        trigger_deprecation('orchestra/testbench-core', '6.22.0', 'Use `%s` instead.', 'getApplicationBasePath()');
+        trigger_deprecation('orchestra/testbench-core', '6.22.0', 'Use `%s` static method instead.', 'getApplicationBasePath()');
 
         return static::applicationBasePath();
     }
