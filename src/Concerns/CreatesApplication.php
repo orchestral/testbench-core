@@ -223,7 +223,7 @@ trait CreatesApplication
      */
     protected function getApplicationBasePath()
     {
-        return $this->getBasePath() ?? static::applicationBasePath();
+        return static::applicationBasePath();
     }
 
     /**
@@ -237,7 +237,9 @@ trait CreatesApplication
      */
     protected function getBasePath()
     {
-        return null;
+        trigger_deprecation('orchestra/testbench-core', '6.22.0', 'Use `%s` instead.', 'getApplicationBasePath()');
+
+        return static::applicationBasePath();
     }
 
     /**
