@@ -240,7 +240,7 @@ trait CreatesApplication
      */
     protected function getBasePath()
     {
-        trigger_deprecation('orchestra/testbench-core', '6.22.0', 'Use `%s` static method instead.', 'getApplicationBasePath()');
+        trigger_deprecation('orchestra/testbench-core', '6.22.0', 'Use `%s` static method instead.', 'applicationBasePath()');
 
         return static::applicationBasePath();
     }
