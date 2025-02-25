@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.0.2
+
+Released: 2025-02-25
+
+### Changes
+
+* Revert `filesystems.disks.local.serve` default configuration value to `true`.
+
 ## 10.0.1
 
 Released: 2025-02-24
