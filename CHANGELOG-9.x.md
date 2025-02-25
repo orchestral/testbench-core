@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.11.1
+
+Released: 2025-02-25
+
+### Changes
+
+* Supports for Laravel Framework 11.44.0.
+
 ## 9.11.0
 
 Released: 2025-02-19
