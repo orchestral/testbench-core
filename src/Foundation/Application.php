@@ -21,6 +21,7 @@ use Illuminate\Queue\Console\WorkCommand;
 use Illuminate\Queue\Queue;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Arr;
+use Illuminate\Support\EncodedHtmlString;
 use Illuminate\Support\Once;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
@@ -213,6 +214,7 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
+        EncodedHtmlString::flushState();
 
         if (! $instance instanceof Commander) {
             HandleExceptions::flushState();
