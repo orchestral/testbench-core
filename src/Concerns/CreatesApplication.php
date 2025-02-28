@@ -241,7 +241,7 @@ trait CreatesApplication
     /**
      * Resolve the application's base path.
      *
-     * @api
+     * @internal
      *
      * @return string
      */
