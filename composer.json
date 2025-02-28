@@ -45,7 +45,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
-        "laravel/framework": "dev-markdown-string",
+        "laravel/framework": "dev-markdown-string as 11.999.999",
         "laravel/pint": "^1.20",
         "laravel/serializable-closure": "^1.3 || ^2.0",
         "mockery/mockery": "^1.6.10",
