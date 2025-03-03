@@ -150,9 +150,7 @@ class Commander
 
             $filesystem = new Filesystem;
 
-            $hasEnvironmentFile = function () use ($APP_BASE_PATH) {
-                return is_file(join_paths($APP_BASE_PATH, '.env'));
-            };
+            $hasEnvironmentFile = static fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
 
             tap(
                 static::$testbench::createVendorSymlink($APP_BASE_PATH, $VENDOR_PATH),
