@@ -2,11 +2,13 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Attribute;
 use Closure;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Laravel\SerializableClosure\SerializableClosure;
 use Orchestra\Testbench\Attributes\DefineRoute;
+use Orchestra\Testbench\Attributes\UsesVendor;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 
@@ -16,6 +18,9 @@ use function Orchestra\Testbench\remote;
 
 trait HandlesRoutes
 {
+    use InteractsWithPHPUnit;
+    use InteractsWithTestCase;
+
     /**
      * Indicates if we have made it through the requireApplicationCachedRoutes function.
      *
@@ -112,6 +117,16 @@ trait HandlesRoutes
      */
     protected function defineCacheRoutes(Closure|string $route, bool $cached = true): void
     {
+        static::usesTestingFeature($attribute = new UsesVendor, Attribute::TARGET_METHOD);
+
+        if (
+            $this->app instanceof LaravelApplication
+            && property_exists($this, 'setUpHasRun')
+            && $this->setUpHasRun === true
+        ) {
+            $attribute->beforeEach($this->app);
+        }
+
         $files = new Filesystem;
 
         $time = time();
