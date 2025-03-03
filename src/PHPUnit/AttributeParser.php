@@ -122,10 +122,7 @@ class AttributeParser
                 return [null, null];
             }
 
-            /** @var class-string<TTestingFeature> $name */
-            $name = \get_class($instance);
-
-            return [$name, $instance];
+            return [$instance::class, $instance];
         }, [null, null], false);
     }
 }

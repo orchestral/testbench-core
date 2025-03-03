@@ -107,9 +107,6 @@ trait InteractsWithTestCase
             return;
         }
 
-        /** @var class-string<TTestingFeature> $name */
-        $name = \get_class($attribute);
-
         if ($flag & Attribute::TARGET_CLASS) {
             static::$testCaseTestingFeatures[] = [
                 'key' => $attribute::class,
