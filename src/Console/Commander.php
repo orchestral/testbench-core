@@ -150,7 +150,7 @@ class Commander
 
             $filesystem = new Filesystem;
 
-            $hasEnvironmentFile = function () {
+            $hasEnvironmentFile = function () use ($APP_BASE_PATH) {
                 return is_file(join_paths($APP_BASE_PATH, '.env'));
             };
 
