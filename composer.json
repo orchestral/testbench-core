@@ -38,7 +38,7 @@
     "require": {
         "php": "^8.2",
         "composer-runtime-api": "^2.2",
-        "orchestra/sidekick": "^1.0.2",
+        "orchestra/sidekick": "^1.0.4",
         "symfony/polyfill-php83": "^1.31",
         "symfony/polyfill-php84": "^1.31"
     },
