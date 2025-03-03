@@ -143,7 +143,7 @@ class Commander
 
             $filesystem = new Filesystem;
 
-            $hasEnvironmentFile = static fn () => $filesystem->isFile(join_paths($APP_BASE_PATH, '.env'));
+            $hasEnvironmentFile = static fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
 
             TerminatingConsole::beforeWhen(
                 ! is_symlink(join_paths($APP_BASE_PATH, 'vendor')),
