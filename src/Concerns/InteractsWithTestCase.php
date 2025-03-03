@@ -12,6 +12,7 @@ use Orchestra\Testbench\Contracts\Attributes\BeforeAll as BeforeAllContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 use Orchestra\Testbench\Contracts\Attributes\Resolvable as ResolvableContract;
 use Orchestra\Testbench\PHPUnit\AttributeParser;
+
 use function Orchestra\Testbench\laravel_or_fail;
 
 /**
