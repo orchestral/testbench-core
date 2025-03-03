@@ -64,6 +64,14 @@ collect([
     });
 
 transform([
+    line("require __DIR__.'/vendor/autoload.php';") => line("require __DIR__.'/bootstrap/autoload.php';"),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/artisan"));
+
+transform([
+    line("require __DIR__.'/../vendor/autoload.php';") => line("require __DIR__.'/../bootstrap/autoload.php';"),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/public/index.php"));
+
+transform([
     line('APP_KEY=', 0) => line('APP_KEY=AckfSECXIvnK5r28GVIWUAxmbBSjTsmF', 0),
     line('DB_CONNECTION=mysql', 0) => line('DB_CONNECTION=sqlite', 0),
     line('DB_HOST=', 0) => line('# DB_HOST=', 0),
