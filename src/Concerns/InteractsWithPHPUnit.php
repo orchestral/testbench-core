@@ -67,11 +67,13 @@ trait InteractsWithPHPUnit
      *
      * @internal
      *
-     * @return string
+     * @return string|null
      */
-    public function resolvePhpUnitTestName(): string
+    public function resolvePhpUnitTestName(): ?string
     {
-        return $this->name();
+        return $this instanceof PHPUnitTestCase
+            ? $this->name()
+            : null;
     }
 
     /**

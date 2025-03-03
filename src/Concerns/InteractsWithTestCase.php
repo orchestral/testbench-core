@@ -46,9 +46,9 @@ trait InteractsWithTestCase
     /**
      * The method attributes for test case's method.
      *
-     * @var array<string, array<int, array{key: class-string, instance: object}>>
+     * @var array<int, array{key: class-string, instance: object}>
      *
-     * @phpstan-var array<string, array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>>
+     * @phpstan-var array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
      */
     protected static array $testCaseMethodTestingFeatures = [];
 

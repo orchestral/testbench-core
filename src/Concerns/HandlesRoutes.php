@@ -10,6 +10,7 @@ use Orchestra\Testbench\Attributes\DefineRoute;
 use Orchestra\Testbench\Attributes\UsesVendor;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
+
 use function Orchestra\Sidekick\join_paths;
 use function Orchestra\Testbench\refresh_router_lookups;
 use function Orchestra\Testbench\remote;
