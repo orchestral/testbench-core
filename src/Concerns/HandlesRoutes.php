@@ -16,6 +16,7 @@ use function Orchestra\Testbench\remote;
 
 trait HandlesRoutes
 {
+    use InteractsWithPHPUnit;
     use InteractsWithTestCase;
 
     /**
@@ -114,7 +115,11 @@ trait HandlesRoutes
      */
     protected function defineCacheRoutes(Closure|string $route, bool $cached = true): void
     {
-        static::usesTestingFeature(new UsesVendor);
+        static::usesTestingFeature($attribute = new UsesVendor, $this->resolvePhpUnitTestName());
+
+        if ($this->app instanceof LaravelApplication && property_exists($this, 'setUpHasRun') && $this->setUpHasRun === true) {
+            $attribute->beforeEach($this->app);
+        }
 
         $files = new Filesystem;
 

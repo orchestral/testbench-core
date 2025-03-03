@@ -63,6 +63,18 @@ trait InteractsWithPHPUnit
     }
 
     /**
+     * Resolve PHPUnit test name.
+     *
+     * @internal
+     *
+     * @return string
+     */
+    public function resolvePhpUnitTestName(): string
+    {
+        return $this->name();
+    }
+
+    /**
      * Resolve PHPUnit method annotations.
      *
      * @internal
@@ -87,7 +99,7 @@ trait InteractsWithPHPUnit
             return new Collection;
         }
 
-        [$registry, $methodName] = [PHPUnitRegistry::getInstance(), $this->name()];
+        [$registry, $methodName] = [PHPUnitRegistry::getInstance(), $this->resolvePhpUnitTestName()];
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
@@ -119,7 +131,7 @@ trait InteractsWithPHPUnit
         }
 
         $className = $instance->getName();
-        $methodName = $this->name();
+        $methodName = $this->resolvePhpUnitTestName();
 
         return static::resolvePhpUnitAttributesForMethod($className, $methodName);
     }
@@ -155,6 +167,7 @@ trait InteractsWithPHPUnit
         $attributes = Collection::make(array_merge(
             static::$testCaseTestingFeatures,
             static::$cachedTestCaseClassAttributes[$className],
+            static::$testCaseMethodTestingFeatures,
             ! \is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
         ))->groupBy('key')
             ->map(static function ($attributes) {
