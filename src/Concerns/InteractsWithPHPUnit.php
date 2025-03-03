@@ -64,6 +64,24 @@ trait InteractsWithPHPUnit
     }
 
     /**
+     * Resolve PHPUnit test name.
+     *
+     * @internal
+     *
+     * @return string|null
+     */
+    public function resolvePhpUnitTestName(): ?string
+    {
+        if (! $this instanceof PHPUnitTestCase) {
+            return null;
+        }
+
+        return phpunit_version_compare('10', '>=')
+            ? $this->name() // @phpstan-ignore-line
+            : $this->getName(false); // @phpstan-ignore-line
+    }
+
+    /**
      * Resolve PHPUnit method annotations.
      *
      * @phpunit-overrides
@@ -73,8 +91,9 @@ trait InteractsWithPHPUnit
     protected function resolvePhpUnitAnnotations(): Collection
     {
         $instance = new ReflectionClass($this);
+        $methodName = $this->resolvePhpUnitTestName();
 
-        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous() || \is_null($methodName)) {
             return new Collection;
         }
 
@@ -104,17 +123,13 @@ trait InteractsWithPHPUnit
     protected function resolvePhpUnitAttributes(): Collection
     {
         $instance = new ReflectionClass($this);
+        $methodName = $this->resolvePhpUnitTestName();
 
-        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous() || \is_null($methodName)) {
             return new Collection; /** @phpstan-ignore return.type */
         }
 
-        $className = $instance->getName();
-        $methodName = phpunit_version_compare('10', '>=')
-            ? $this->name() // @phpstan-ignore-line
-            : $this->getName(false); // @phpstan-ignore-line
-
-        return static::resolvePhpUnitAttributesForMethod($className, $methodName);
+        return static::resolvePhpUnitAttributesForMethod($instance->getName(), $methodName);
     }
 
     /**
