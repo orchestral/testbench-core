@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.0.3
+
+Released: 2025-03-03
+
+### Fixes
+
+* Fix `Orchestra\Testbench\Attributes\UsesVendor` causes IoC Container to be out of sync.
+
 ## 10.0.2
 
 Released: 2025-02-25
