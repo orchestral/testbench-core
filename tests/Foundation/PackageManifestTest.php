@@ -3,9 +3,11 @@
 namespace Orchestra\Testbench\Tests\Foundation;
 
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Attributes\UsesVendor;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use Orchestra\Testbench\Tests\TestCase;
 
+#[UsesVendor]
 class PackageManifestTest extends TestCase
 {
     /**
