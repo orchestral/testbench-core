@@ -63,6 +63,20 @@ trait InteractsWithPHPUnit
     }
 
     /**
+     * Resolve PHPUnit test name.
+     *
+     * @internal
+     *
+     * @return string|null
+     */
+    public function resolvePhpUnitTestName(): ?string
+    {
+        return $this instanceof PHPUnitTestCase
+            ? $this->name()
+            : null;
+    }
+
+    /**
      * Resolve PHPUnit method annotations.
      *
      * @internal
@@ -78,16 +92,18 @@ trait InteractsWithPHPUnit
     protected function resolvePhpUnitAnnotations(): Collection
     {
         $instance = new ReflectionClass($this);
+        $methodName = $this->resolvePhpUnitTestName();
 
         if (
             ! $this instanceof PHPUnitTestCase
             || $instance->isAnonymous()
             || ! class_exists(PHPUnitRegistry::class)
+            || \is_null($methodName)
         ) {
             return new Collection;
         }
 
-        [$registry, $methodName] = [PHPUnitRegistry::getInstance(), $this->name()];
+        $registry = PHPUnitRegistry::getInstance();
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
@@ -113,15 +129,13 @@ trait InteractsWithPHPUnit
     protected function resolvePhpUnitAttributes(): Collection
     {
         $instance = new ReflectionClass($this);
+        $methodName = $this->resolvePhpUnitTestName();
 
-        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous() || \is_null($methodName)) {
             return new Collection; /** @phpstan-ignore return.type */
         }
 
-        $className = $instance->getName();
-        $methodName = $this->name();
-
-        return static::resolvePhpUnitAttributesForMethod($className, $methodName);
+        return static::resolvePhpUnitAttributesForMethod($instance->getName(), $methodName);
     }
 
     /**
