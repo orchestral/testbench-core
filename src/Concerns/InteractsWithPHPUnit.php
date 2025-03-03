@@ -135,6 +135,7 @@ trait InteractsWithPHPUnit
         $attributes = Collection::make(array_merge(
             static::$testCaseTestingFeatures,
             static::$cachedTestCaseClassAttributes[$className],
+            static::$testCaseMethodTestingFeatures,
             ! \is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
         ))->groupBy('key')
             ->map(static function ($attributes) {
