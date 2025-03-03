@@ -46,5 +46,9 @@ class CreateVendorSymlinkTest extends TestCase
         (new CreateVendorSymlink($workingPath))->bootstrap($laravel);
 
         $this->assertFalse($laravel['TESTBENCH_VENDOR_SYMLINK']);
+
+        if (laravel_vendor_exists($laravel, $workingPath)) {
+            (new DeleteVendorSymlink)->handle($laravel);
+        }
     }
 }
