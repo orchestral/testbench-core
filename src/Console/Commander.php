@@ -142,17 +142,17 @@ class Commander
 
             $filesystem = new Filesystem;
 
-            $hasEnvironmentFile = fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
+            $hasEnvironmentFile = static fn () => $filesystem->isFile(join_paths($APP_BASE_PATH, '.env'));
 
             TerminatingConsole::beforeWhen(
-                ! $filesystem->isFile(join_paths($VENDOR_PATH, 'autoload.php')),
+                ! $filesystem->exists(join_paths($APP_BASE_PATH, 'vendor', 'autoload.php')),
                 static function () use ($APP_BASE_PATH) {
                     static::$testbench::deleteVendorSymlink($APP_BASE_PATH);
                 }
             );
 
             tap(
-                static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')),
+                static::$testbench::createVendorSymlink($APP_BASE_PATH, $VENDOR_PATH),
                 function ($app) use ($filesystem, $hasEnvironmentFile) {
                     $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
 
