@@ -24,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
+use function Orchestra\Sidekick\is_symlink;
 use function Orchestra\Sidekick\join_paths;
 use function Orchestra\Sidekick\transform_relative_path;
 
@@ -140,19 +141,19 @@ class Commander
             $APP_BASE_PATH = $this->getApplicationBasePath();
             $VENDOR_PATH = join_paths($this->workingPath, 'vendor');
 
-            $filesystem = new Filesystem;
-
-            $hasEnvironmentFile = fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
-
             TerminatingConsole::beforeWhen(
-                ! $filesystem->isFile(join_paths($VENDOR_PATH, 'autoload.php')),
+                ! is_symlink(join_paths($APP_BASE_PATH, 'vendor')),
                 static function () use ($APP_BASE_PATH) {
                     static::$testbench::deleteVendorSymlink($APP_BASE_PATH);
                 }
             );
 
+            $filesystem = new Filesystem;
+
+            $hasEnvironmentFile = static fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
+
             tap(
-                static::$testbench::createVendorSymlink($APP_BASE_PATH, join_paths($this->workingPath, 'vendor')),
+                static::$testbench::createVendorSymlink($APP_BASE_PATH, $VENDOR_PATH),
                 function ($app) use ($filesystem, $hasEnvironmentFile) {
                     $this->copyTestbenchConfigurationFile($app, $filesystem, $this->workingPath);
 
