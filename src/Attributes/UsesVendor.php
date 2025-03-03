@@ -3,10 +3,12 @@
 namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Facade;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink;
-use Orchestra\Testbench\Foundation\Application;
+use Orchestra\Testbench\Foundation\Application as Testbench;
 
 use function Orchestra\Testbench\package_path;
 
@@ -26,9 +28,14 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
      */
     public function beforeEach($app): void
     {
-        $laravel = Application::createVendorSymlink(base_path(), package_path('vendor'));
+        $laravel = Testbench::createVendorSymlink(base_path(), package_path('vendor'));
 
         $this->vendorSymlinkCreated = $laravel['TESTBENCH_VENDOR_SYMLINK'] ?? false;
+
+        Facade::clearResolvedInstances();
+        Facade::setFacadeApplication($app);
+
+        Application::setInstance($app);
     }
 
     /**
