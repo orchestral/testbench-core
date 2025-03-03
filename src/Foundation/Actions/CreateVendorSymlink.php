@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation\Actions;
 use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
-
+use Illuminate\Foundation\PackageManifest;
 use function Orchestra\Sidekick\join_paths;
 use function Orchestra\Testbench\laravel_vendor_exists;
 
@@ -46,6 +46,8 @@ final class CreateVendorSymlink
 
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
+
+                $app[PackageManifest::class]->build();
 
                 $vendorLinkCreated = true;
             } catch (ErrorException $e) {
