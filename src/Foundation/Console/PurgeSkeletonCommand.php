@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
+use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -90,6 +91,10 @@ class PurgeSkeletonCommand extends Command
                 ->flatten()
                 ->reject(static fn ($directory) => str_contains($directory, '*'))
         );
+
+        TerminatingConsole::before(function () {
+            (new DeleteVendorSymlink)->handle($this->laravel);
+        });
 
         return Command::SUCCESS;
     }
