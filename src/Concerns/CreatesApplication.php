@@ -242,13 +242,13 @@ trait CreatesApplication
     /**
      * Resolve the application's base path.
      *
-     * @api
+     * @internal
      *
      * @return string
      */
     protected function getApplicationBasePath()
     {
-        return $this->getBasePath() ?? static::applicationBasePath();
+        return static::applicationBasePath();
     }
 
     /**
@@ -258,11 +258,13 @@ trait CreatesApplication
      *
      * @return string|null
      *
-     * @deprecated 6.22.0 Use `getApplicationBasePath()` instead.
+     * @deprecated 6.22.0 Use `applicationBasePath()` static method instead.
      */
     protected function getBasePath()
     {
-        return null;
+        trigger_deprecation('orchestra/testbench-core', '6.22.0', 'Use `%s` static method instead.', 'applicationBasePath()');
+
+        return static::applicationBasePath();
     }
 
     /**

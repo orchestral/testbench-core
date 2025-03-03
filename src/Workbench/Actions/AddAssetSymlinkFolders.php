@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 
+use function Orchestra\Sidekick\is_symlink;
 use function Orchestra\Testbench\package_path;
 
 /**
@@ -61,8 +62,8 @@ final class AddAssetSymlinkFolders
                 /** @var string $to */
                 $to = $pair['to'];
 
-                if (is_link($to)) {
-                    $this->files->delete($to);
+                if (is_symlink($to)) {
+                    windows_os() ? $this->files->deleteDirectory($to) : $this->files->delete($to);
                 } elseif ($this->files->isDirectory($to)) {
                     $this->files->deleteDirectory($to);
                 }
