@@ -33,10 +33,6 @@ $createApp = static function (string $workingPath) {
     );
 };
 
-if (! defined('TESTBENCH_WORKING_PATH') && is_string(getenv('TESTBENCH_WORKING_PATH'))) {
-    define('TESTBENCH_WORKING_PATH', getenv('TESTBENCH_WORKING_PATH'));
-}
-
 $app = $createApp(realpath(join_paths(__DIR__, '..')));
 
 unset($createApp);
