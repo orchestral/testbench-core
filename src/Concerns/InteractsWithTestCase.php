@@ -101,12 +101,12 @@ trait InteractsWithTestCase
      * @api
      *
      * @param  object  $attribute
-     * @param  string  $method
+     * @param  int  $flag
      * @return void
      *
      * @phpstan-param TAttributes $attribute
      */
-    public static function usesTestingFeature($attribute, string $mode = Attribute::TARGET_CLASS): void
+    public static function usesTestingFeature($attribute, int $flag = Attribute::TARGET_CLASS): void
     {
         if (! AttributeParser::validAttribute($attribute)) {
             return;
@@ -118,12 +118,12 @@ trait InteractsWithTestCase
             return;
         }
 
-        if ($mode & Attribute::TARGET_CLASS) {
+        if ($flag & Attribute::TARGET_CLASS) {
             static::$testCaseTestingFeatures[] = [
                 'key' => $attribute::class,
                 'instance' => $attribute,
             ];
-        } elseif ($mode & Attribute::TARGET_METHOD) {
+        } elseif ($flag & Attribute::TARGET_METHOD) {
             static::$testCaseMethodTestingFeatures[] = [
                 'key' => $attribute::class,
                 'instance' => $attribute,
