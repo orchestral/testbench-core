@@ -54,9 +54,9 @@ transform([
     line("'default' => env('CACHE_STORE', 'database'),", 1) => line("'default' => env('CACHE_STORE', 'array'),", 1),
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/cache.php"));
 
-// transform([
-//     line("'serve' => true,", 3) => line("'serve' => false,", 3),
-// ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/filesystems.php"));
+transform([
+    line("'serve' => true,", 3) => line("'serve' => false,", 3),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/filesystems.php"));
 
 transform([
     line("'default' => env('QUEUE_CONNECTION', 'database'),", 1) => line("'default' => env('QUEUE_CONNECTION', 'sync'),", 1),
