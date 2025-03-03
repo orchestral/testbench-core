@@ -141,16 +141,16 @@ class Commander
             $APP_BASE_PATH = $this->getApplicationBasePath();
             $VENDOR_PATH = join_paths($this->workingPath, 'vendor');
 
-            $filesystem = new Filesystem;
-
-            $hasEnvironmentFile = static fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
-
             TerminatingConsole::beforeWhen(
                 ! is_symlink(join_paths($APP_BASE_PATH, 'vendor')),
                 static function () use ($APP_BASE_PATH) {
                     static::$testbench::deleteVendorSymlink($APP_BASE_PATH);
                 }
             );
+
+            $filesystem = new Filesystem;
+
+            $hasEnvironmentFile = static fn () => is_file(join_paths($APP_BASE_PATH, '.env'));
 
             tap(
                 static::$testbench::createVendorSymlink($APP_BASE_PATH, $VENDOR_PATH),
