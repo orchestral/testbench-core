@@ -24,8 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SignalRegistry\SignalRegistry;
 use Throwable;
 
+use function Orchestra\Sidekick\is_symlink;
 use function Orchestra\Sidekick\join_paths;
-use function Orchestra\Sidekick\is_link;
 use function Orchestra\Sidekick\transform_relative_path;
 
 /**
@@ -146,7 +146,7 @@ class Commander
             $hasEnvironmentFile = static fn () => $filesystem->isFile(join_paths($APP_BASE_PATH, '.env'));
 
             TerminatingConsole::beforeWhen(
-                ! is_link(join_paths($APP_BASE_PATH, 'vendor')),
+                ! is_symlink(join_paths($APP_BASE_PATH, 'vendor')),
                 static function () use ($APP_BASE_PATH) {
                     static::$testbench::deleteVendorSymlink($APP_BASE_PATH);
                 }

@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Foundation\Console\VendorPublishCommand as Command;
 
+use function Orchestra\Sidekick\is_symlink;
 use function Orchestra\Testbench\transform_realpath_to_relative;
 
 /**
@@ -16,7 +17,7 @@ class VendorPublishCommand extends Command
     protected function status($from, $to, $type)
     {
         $format = function ($path) use ($type) {
-            if ($type === 'directory' && is_link($path)) {
+            if ($type === 'directory' && is_symlink($path)) {
                 return $path;
             }
 
