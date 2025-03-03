@@ -142,7 +142,7 @@ class Commander
             $VENDOR_PATH = join_paths($this->workingPath, 'vendor');
 
             TerminatingConsole::beforeWhen(
-                ! is_symlink(join_paths($APP_BASE_PATH, 'vendor')),
+                ! is_link(join_paths($APP_BASE_PATH, 'vendor')),
                 static function () use ($APP_BASE_PATH) {
                     static::$testbench::deleteVendorSymlink($APP_BASE_PATH);
                 }
