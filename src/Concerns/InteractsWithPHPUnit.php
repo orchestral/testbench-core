@@ -46,6 +46,20 @@ trait InteractsWithPHPUnit
     }
 
     /**
+     * Resolve PHPUnit test name.
+     *
+     * @internal
+     *
+     * @return string|null
+     */
+    public function resolvePhpUnitTestName(): ?string
+    {
+        return $this instanceof PHPUnitTestCase
+            ? $this->getName(false)
+            : null;
+    }
+
+    /**
      * Resolve PHPUnit method annotations.
      *
      * @phpunit-overrides
@@ -62,7 +76,7 @@ trait InteractsWithPHPUnit
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
-            fn () => PHPUnit9Registry::getInstance()->forMethod($instance->getName(), $this->getName(false))->symbolAnnotations(),
+            fn () => PHPUnit9Registry::getInstance()->forMethod($instance->getName(), $this->resolvePhpUnitTestName())->symbolAnnotations(),
             [],
             false
         );
@@ -88,7 +102,7 @@ trait InteractsWithPHPUnit
         }
 
         $className = $instance->getName();
-        $methodName = $this->getName(false);
+        $methodName = $this->resolvePhpUnitTestName();
 
         return static::resolvePhpUnitAttributesForMethod($className, $methodName);
     }
