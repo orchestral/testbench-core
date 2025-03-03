@@ -48,7 +48,7 @@ final class CreateVendorSymlink
             try {
                 $filesystem->link($this->workingPath, $appVendorPath);
 
-                $app[PackageManifest::class]->build();
+                $app->make(PackageManifest::class)->build();
 
                 $vendorLinkCreated = true;
             } catch (ErrorException $e) {
