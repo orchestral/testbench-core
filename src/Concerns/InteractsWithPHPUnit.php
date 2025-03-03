@@ -69,14 +69,15 @@ trait InteractsWithPHPUnit
     protected function resolvePhpUnitAnnotations(): Collection
     {
         $instance = new ReflectionClass($this);
+        $methodName = $this->resolvePhpUnitTestName();
 
-        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous() || \is_null($methodName)) {
             return new Collection;
         }
 
         /** @var array<string, mixed> $annotations */
         $annotations = rescue(
-            fn () => PHPUnit9Registry::getInstance()->forMethod($instance->getName(), $this->resolvePhpUnitTestName())->symbolAnnotations(),
+            fn () => PHPUnit9Registry::getInstance()->forMethod($instance->getName(), $methodName)->symbolAnnotations(),
             [],
             false
         );
@@ -96,15 +97,13 @@ trait InteractsWithPHPUnit
     protected function resolvePhpUnitAttributes(): Collection
     {
         $instance = new ReflectionClass($this);
+        $methodName = $this->resolvePhpUnitTestName();
 
-        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous()) {
+        if (! $this instanceof PHPUnitTestCase || $instance->isAnonymous() || \is_null($methodName)) {
             return new Collection; /** @phpstan-ignore return.type */
         }
 
-        $className = $instance->getName();
-        $methodName = $this->resolvePhpUnitTestName();
-
-        return static::resolvePhpUnitAttributesForMethod($className, $methodName);
+        return static::resolvePhpUnitAttributesForMethod($instance->getName(), $methodName);
     }
 
     /**
