@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Attribute;
 use Closure;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application as LaravelApplication;
@@ -116,7 +117,7 @@ trait HandlesRoutes
      */
     protected function defineCacheRoutes(Closure|string $route, bool $cached = true): void
     {
-        static::usesTestingFeature($attribute = new UsesVendor, $this->resolvePhpUnitTestName());
+        static::usesTestingFeature($attribute = new UsesVendor, Attribute::TARGET_METHOD);
 
         if ($this->app instanceof LaravelApplication && property_exists($this, 'setUpHasRun') && $this->setUpHasRun === true) {
             $attribute->beforeEach($this->app);

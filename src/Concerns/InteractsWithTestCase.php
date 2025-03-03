@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Attribute;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
@@ -100,12 +101,12 @@ trait InteractsWithTestCase
      * @api
      *
      * @param  object  $attribute
-     * @param  string|null  $method
+     * @param  string  $method
      * @return void
      *
      * @phpstan-param TAttributes $attribute
      */
-    public static function usesTestingFeature($attribute, ?string $method = null): void
+    public static function usesTestingFeature($attribute, string $mode = Attribute::TARGET_CLASS): void
     {
         if (! AttributeParser::validAttribute($attribute)) {
             return;
@@ -117,13 +118,13 @@ trait InteractsWithTestCase
             return;
         }
 
-        if (! empty($method)) {
-            static::$testCaseMethodTestingFeatures[] = [
+        if ($mode & Attribute::TARGET_CLASS) {
+            static::$testCaseTestingFeatures[] = [
                 'key' => $attribute::class,
                 'instance' => $attribute,
             ];
-        } else {
-            static::$testCaseTestingFeatures[] = [
+        } elseif ($mode & Attribute::TARGET_METHOD) {
+            static::$testCaseMethodTestingFeatures[] = [
                 'key' => $attribute::class,
                 'instance' => $attribute,
             ];
