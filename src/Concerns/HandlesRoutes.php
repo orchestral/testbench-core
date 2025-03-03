@@ -119,7 +119,11 @@ trait HandlesRoutes
     {
         static::usesTestingFeature($attribute = new UsesVendor, Attribute::TARGET_METHOD);
 
-        if ($this->app instanceof LaravelApplication && property_exists($this, 'setUpHasRun') && $this->setUpHasRun === true) {
+        if (
+            $this->app instanceof LaravelApplication
+            && property_exists($this, 'setUpHasRun')
+            && $this->setUpHasRun === true
+        ) {
             $attribute->beforeEach($this->app);
         }
 
