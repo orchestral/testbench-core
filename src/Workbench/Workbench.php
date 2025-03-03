@@ -197,7 +197,7 @@ class Workbench
                 $factoryNamespace = static::detectNamespace('database/factories') ?? 'Workbench\\Database\\Factories\\';
 
                 $namespacedFactoryBasename = Str::replaceLast(
-                    'Factory', '', Str::replaceFirst($factoryNamespace, '', \get_class($factory))
+                    'Factory', '', Str::replaceFirst($factoryNamespace, '', $factory::class)
                 );
 
                 $factoryBasename = Str::replaceLast('Factory', '', class_basename($factory));

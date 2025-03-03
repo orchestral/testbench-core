@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Attribute;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
@@ -37,6 +38,15 @@ trait InteractsWithTestCase
      * @phpstan-var array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
      */
     protected static array $testCaseTestingFeatures = [];
+
+    /**
+     * The method attributes for test case's method.
+     *
+     * @var array<int, array{key: class-string, instance: object}>
+     *
+     * @phpstan-var array<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}>
+     */
+    protected static array $testCaseMethodTestingFeatures = [];
 
     /**
      * Determine if the trait is using given trait (or default to \Orchestra\Testbench\Concerns\Testing trait).
@@ -80,11 +90,12 @@ trait InteractsWithTestCase
      * Uses testing feature (attribute) on the current test.
      *
      * @param  object  $attribute
+     * @param  int  $flag
      * @return void
      *
      * @phpstan-param TAttributes $attribute
      */
-    public static function usesTestingFeature($attribute): void
+    public static function usesTestingFeature($attribute, int $flag = Attribute::TARGET_CLASS): void
     {
         if (! AttributeParser::validAttribute($attribute)) {
             return;
@@ -96,13 +107,17 @@ trait InteractsWithTestCase
             return;
         }
 
-        /** @var class-string<TTestingFeature> $name */
-        $name = \get_class($attribute);
-
-        static::$testCaseTestingFeatures[] = [
-            'key' => $name,
-            'instance' => $attribute,
-        ];
+        if ($flag & Attribute::TARGET_CLASS) {
+            static::$testCaseTestingFeatures[] = [
+                'key' => $attribute::class,
+                'instance' => $attribute,
+            ];
+        } elseif ($flag & Attribute::TARGET_METHOD) {
+            static::$testCaseMethodTestingFeatures[] = [
+                'key' => $attribute::class,
+                'instance' => $attribute,
+            ];
+        }
     }
 
     /**
@@ -150,6 +165,8 @@ trait InteractsWithTestCase
             ->map(static function ($instance) use ($app) {
                 $instance->afterEach($app);
             });
+
+        static::$testCaseMethodTestingFeatures = [];
     }
 
     /**
