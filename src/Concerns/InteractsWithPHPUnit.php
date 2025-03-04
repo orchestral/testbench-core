@@ -51,6 +51,8 @@ trait InteractsWithPHPUnit
      * @internal
      *
      * @return class-string|null
+     *
+     * @codeCoverageIgnore
      */
     public function resolvePhpUnitTestClassName(): ?string
     {
@@ -69,6 +71,8 @@ trait InteractsWithPHPUnit
      * @internal
      *
      * @return string|null
+     *
+     * @codeCoverageIgnore
      */
     public function resolvePhpUnitTestMethodName(): ?string
     {
