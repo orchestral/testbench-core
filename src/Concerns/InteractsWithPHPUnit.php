@@ -123,7 +123,7 @@ trait InteractsWithPHPUnit
         $className = $this->resolvePhpUnitTestClassName();
         $methodName = $this->resolvePhpUnitTestMethodName();
 
-        if (\is_null($className) || \is_null($methodName)) {
+        if (\is_null($className)) {
             return new Collection; /** @phpstan-ignore return.type */
         }
 
