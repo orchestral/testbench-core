@@ -1,0 +1,50 @@
+name: audits
+
+on:
+  push:
+    branches:
+      - '*.x'
+      - '!7.x'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  audit-dependencies:
+    runs-on: "ubuntu-latest"
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        php:
+          - '8.0'
+          - 8.1
+          - 8.2
+          - 8.3
+        experimental:
+          - true
+        exclude:
+          - php: '8.0'
+
+    name: PHP:${{ matrix.php }} Code Audit
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
+          coverage: none
+
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v3"
+        with:
+          dependency-versions: "highest"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
+
+      - name: Installed dependencies
+        run: composer show -D
+
+      - name: Audit dependencies
+        run: composer audit
