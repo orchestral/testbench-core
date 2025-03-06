@@ -317,13 +317,13 @@ function package_path(array|string $path = ''): string
         : Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
     if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
-        return transform_relative_path($path, $workingPath);
+        return Sidekick\transform_relative_path($path, $workingPath);
     }
 
     $path = join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
-        ? transform_relative_path($path, $workingPath)
+        ? Sidekick\transform_relative_path($path, $workingPath)
         : join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
