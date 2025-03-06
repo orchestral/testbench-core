@@ -2,6 +2,34 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Added `resolvePhpUnitTestClassName()` and `resolvePhpUnitTestMethodName()` to `Orchestra\Testbench\Concerns\InteractsWithPHPUnit` trait.
+
+### Changes
+
+* Allows `usesTestingFeature()` to register attribute directly on test method.
+* Improves `vendor` detection on the default skeleton.
+* Utilise `Orchestra\Sidekick\is_symlink()` function instead of `is_link()` to improves support on Windows.
+* Use `::class` instead of `get_class()`.
+* Delete `vendor` symlink via `package:purge-skeleton` command.
+
+### Fixes
+
+* Fix static variable via `Orchestra\Testbench\Attributes\UsesVendor::beforeEach()` method.
+
+### Deprecate
+
+* Deprecate following PHPUnit annotations:
+  - `@environment-setup`
+  - `@define-env`
+  - `@define-database`
+  - `@define-route`
+
+Changelog: [v9.11.2...9.x](https://github.com/orchestral/testbench-core/compare/v9.11.2...9.x)
+
 ## 9.11.2
 
 Released: 2025-03-03
