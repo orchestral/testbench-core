@@ -323,26 +323,6 @@ function workbench_path(array|string $path = ''): string
 }
 
 /**
- * Get the migration path by type.
- *
- * @api
- *
- * @param  string|null  $type
- * @return string
- *
- * @throws \InvalidArgumentException
- *
- * @deprecated
- *
- * @codeCoverageIgnore
- */
-#[\Deprecated(message: 'Use `Orchestra\Testbench\default_migration_path()` instead', since: '9.5.1')]
-function laravel_migration_path(?string $type = null): string
-{
-    return default_migration_path($type);
-}
-
-/**
  * Determine if vendor symlink exists on the laravel application.
  *
  * @api
