@@ -2,7 +2,9 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 10.1.0
+
+Released: 2025-03-06
 
 ### Added
 
@@ -27,8 +29,6 @@ This changelog references the relevant changes (bug and security fixes) done to 
   - `@define-env`
   - `@define-database`
   - `@define-route`
-
-Changelog: [v10.0.3...10.x](https://github.com/orchestral/testbench-core/compare/v10.0.3...10.x)
 
 ## 10.0.3
 
