@@ -52,9 +52,6 @@ trait HandlesRoutes
                 $router->middleware('web')
                     ->group(fn ($router) => $this->defineWebRoutes($router));
             },
-            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-route', function ($method) use ($router) {
-                $this->{$method}($router);
-            }),
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineRoute::class),
             pest: function () use ($router) {
                 $this->defineRoutesUsingPest($router); // @phpstan-ignore method.notFound

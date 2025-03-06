@@ -21,7 +21,6 @@ final class TestingFeature
      *
      * @param  object  $testCase
      * @param  (\Closure():(void))|null  $default
-     * @param  (\Closure():(void))|null  $annotation
      * @param  (\Closure():(mixed))|null  $attribute
      * @param  (\Closure(\Closure|null):(mixed))|null  $pest
      * @return \Illuminate\Support\Fluent<array-key, mixed>
@@ -29,7 +28,6 @@ final class TestingFeature
     public static function run(
         object $testCase,
         ?Closure $default = null,
-        ?Closure $annotation = null,
         ?Closure $attribute = null,
         ?Closure $pest = null
     ): Fluent {
@@ -39,11 +37,6 @@ final class TestingFeature
         $defaultResolver = once($default);
 
         if ($testCase instanceof PHPUnitTestCase) {
-            /** @phpstan-ignore staticMethod.notFound */
-            if ($testCase::usesTestingConcern(HandlesAnnotations::class)) {
-                value($annotation, $defaultResolver);
-            }
-
             /** @phpstan-ignore staticMethod.notFound */
             if ($testCase::usesTestingConcern(HandlesAttributes::class)) {
                 $result['attribute'] = value($attribute, $defaultResolver);

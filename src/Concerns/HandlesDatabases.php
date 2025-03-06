@@ -51,7 +51,6 @@ trait HandlesDatabases
                 $this->defineDatabaseMigrations();
                 $this->beforeApplicationDestroyed(fn () => $this->destroyDatabaseMigrations());
             },
-            annotation: fn () => $this->parseTestMethodAnnotations($app, 'define-db'),
             attribute: fn () => $this->parseTestMethodAttributes($app, DefineDatabase::class),
             pest: function () {
                 $this->defineDatabaseMigrationsUsingPest(); /** @phpstan-ignore method.notFound */
