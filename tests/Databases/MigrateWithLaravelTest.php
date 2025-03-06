@@ -11,7 +11,7 @@ use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\after_resolving;
-use function Orchestra\Testbench\laravel_migration_path;
+use function Orchestra\Testbench\default_migration_path;
 
 #[WithConfig('database.default', 'testing')]
 class MigrateWithLaravelTest extends TestCase
@@ -64,7 +64,7 @@ class MigrateWithLaravelTest extends TestCase
     public function runApplicationMigrations()
     {
         after_resolving($this->app, 'migrator', function ($migrator) {
-            $migrator->path(laravel_migration_path());
+            $migrator->path(default_migration_path());
         });
 
         $this->runLaravelMigrations(['--database' => 'testing']);
