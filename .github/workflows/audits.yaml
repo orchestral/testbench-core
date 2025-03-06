@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - '*.x'
+      - '!7.x'
+      - '!8.x'
   pull_request:
   workflow_dispatch:
 
