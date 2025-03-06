@@ -6,4 +6,4 @@ if (! defined('TESTBENCH_WORKING_PATH') && is_string(getenv('TESTBENCH_WORKING_P
 
 $workingPath = defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : realpath(__DIR__.'/../');
 
-require_once $workingPath.'/vendor/autoload.php';
+require $workingPath.'/vendor/autoload.php';
