@@ -22,8 +22,6 @@ Released: 2025-03-06
 
 * Fix static variable via `Orchestra\Testbench\Attributes\UsesVendor::beforeEach()` method.
 
-Changelog: [v8.34.0...8.x](https://github.com/orchestral/testbench-core/compare/v8.34.0...8.x)
-
 ## 8.34.0
 
 Released: 2025-02-19
