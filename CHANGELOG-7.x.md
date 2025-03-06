@@ -2,6 +2,26 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Added `resolvePhpUnitTestClassName()` and `resolvePhpUnitTestMethodName()` to `Orchestra\Testbench\Concerns\InteractsWithPHPUnit` trait.
+
+### Changes
+
+* Allows `usesTestingFeature()` to register attribute directly on test method.
+* Improves `vendor` detection on the default skeleton.
+* Utilise `Orchestra\Sidekick\is_symlink()` function instead of `is_link()` to improves support on Windows.
+* Use `::class` instead of `get_class()`.
+* Delete `vendor` symlink via `package:purge-skeleton` command.
+
+### Fixes
+
+* Fix static variable via `Orchestra\Testbench\Attributes\UsesVendor::beforeEach()` method.
+
+Changelog: [v7.53.0...7.x](https://github.com/orchestral/testbench-core/compare/v7.53.0...7.x)
+
 ## 7.53.0
 
 Released: 2025-02-19
