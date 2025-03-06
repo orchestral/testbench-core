@@ -25,6 +25,7 @@ trait HandlesAnnotations
      */
     protected function parseTestMethodAnnotations($app, string $name, ?Closure $callback = null): void
     {
+        /** @phpstan-ignore match.unhandled */
         $attribute = match ($name) {
             'environment-setup' => Attributes\DefineEnvironment::class,
             'define-env' => Attributes\DefineEnvironment::class,
