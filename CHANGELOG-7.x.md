@@ -2,7 +2,9 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 7.54.0
+
+Released: 2025-03-06
 
 ### Added
 
@@ -19,8 +21,6 @@ This changelog references the relevant changes (bug and security fixes) done to 
 ### Fixes
 
 * Fix static variable via `Orchestra\Testbench\Attributes\UsesVendor::beforeEach()` method.
-
-Changelog: [v7.53.0...7.x](https://github.com/orchestral/testbench-core/compare/v7.53.0...7.x)
 
 ## 7.53.0
 
