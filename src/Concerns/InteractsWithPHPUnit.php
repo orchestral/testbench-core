@@ -101,40 +101,6 @@ trait InteractsWithPHPUnit
     }
 
     /**
-     * Resolve PHPUnit method annotations.
-     *
-     * @internal
-     *
-     * @phpunit-overrides
-     *
-     * @return \Illuminate\Support\Collection<string, mixed>
-     *
-     * @deprecated
-     *
-     * @codeCoverageIgnore
-     */
-    protected function resolvePhpUnitAnnotations(): Collection
-    {
-        $className = $this->resolvePhpUnitTestClassName();
-        $methodName = $this->resolvePhpUnitTestMethodName();
-
-        if (! class_exists(PHPUnitRegistry::class) || \is_null($className) || \is_null($methodName)) {
-            return new Collection;
-        }
-
-        $registry = PHPUnitRegistry::getInstance();
-
-        /** @var array<string, mixed> $annotations */
-        $annotations = rescue(
-            fn () => $registry->forMethod($className, $methodName)->symbolAnnotations(),
-            [],
-            false
-        );
-
-        return Collection::make($annotations);
-    }
-
-    /**
      * Resolve PHPUnit method attributes.
      *
      * @internal

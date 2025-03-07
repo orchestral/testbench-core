@@ -532,10 +532,6 @@ trait CreatesApplication
                 $this->defineEnvironment($app);
                 $this->getEnvironmentSetUp($app);
             },
-            annotation: function () use ($app) {
-                $this->parseTestMethodAnnotations($app, 'environment-setup'); /** @phpstan-ignore method.notFound */
-                $this->parseTestMethodAnnotations($app, 'define-env'); /** @phpstan-ignore method.notFound */
-            },
             attribute: function () use ($app) {
                 $this->parseTestMethodAttributes($app, WithImmutableDates::class); /** @phpstan-ignore method.notFound */
                 $this->parseTestMethodAttributes($app, DefineEnvironment::class); /** @phpstan-ignore method.notFound */
