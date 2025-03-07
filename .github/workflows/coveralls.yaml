@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         php: [8.3]
-        phpunit: ["^11.0"]
+        phpunit: ["^12.0.1"]
 
     name: PHP:${{ matrix.php }} / PHPUnit:${{ matrix.phpunit }} Code Coverage
 
