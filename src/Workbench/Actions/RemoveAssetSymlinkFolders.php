@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 
+use function Orchestra\Sidekick\is_symlink;
 use function Orchestra\Testbench\package_path;
 
 /**
@@ -37,7 +38,7 @@ final class RemoveAssetSymlinkFolders
         $sync = $this->config->getWorkbenchAttributes()['sync'] ?? [];
 
         Collection::make($sync)
-            ->map(static function ($pair) {
+            ->map(function ($pair) {
                 /** @var bool $reverse */
                 $reverse = isset($pair['reverse']) && \is_bool($pair['reverse']) ? $pair['reverse'] : false;
 
@@ -47,13 +48,9 @@ final class RemoveAssetSymlinkFolders
                 /** @var string $to */
                 $to = $reverse === false ? base_path($pair['to']) : package_path($pair['to']);
 
-                if (windows_os() && is_dir($to) && readlink($to) !== $to) {
-                    return [$to, static function ($to) {
-                        @rmdir($to);
-                    }];
-                } elseif (is_link($to)) {
-                    return [$to, static function ($to) {
-                        @unlink($to);
+                if (is_symlink($to)) {
+                    return [$to, function ($to) {
+                        windows_os() ? $this->files->deleteDirectory($to) : $this->files->delete($to);
                     }];
                 }
 
