@@ -67,9 +67,17 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  */
 function remote(array|string $command, array|string $env = [], ?bool $tty = null): Process
 {
-    $remote = new Foundation\Actions\RemoteCommand($command, $env, $tty);
+    $remote = new Foundation\Actions\RemoteCommand(
+        package_path(), $env, $tty
+    );
 
-    return $remote();
+    $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
+
+    $commander = is_file($vendorBinary = package_path('vendor', 'bin', $binary))
+        ? $vendorBinary
+        : $binary;
+
+    return $remote->handle($commander, $command);
 }
 
 /**
