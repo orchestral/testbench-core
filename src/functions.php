@@ -67,29 +67,17 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  */
 function remote(array|string $command, array|string $env = [], ?bool $tty = null): Process
 {
-    $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
-
-    $commander = is_file($vendorBin = package_path('vendor', 'bin', $binary))
-        ? ProcessUtils::escapeArgument((string) $vendorBin)
-        : $binary;
-
-    if (\is_string($env)) {
-        $env = ['APP_ENV' => $env];
-    }
-
-    Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
-
-    $process = Process::fromShellCommandline(
-        command: Arr::join([php_binary(true), $commander, ...Arr::wrap($command)], ' '),
-        cwd: package_path(),
-        env: array_merge(defined_environment_variables(), $env)
+    $remote = new Foundation\Actions\RemoteCommand(
+        package_path(), $env, $tty
     );
 
-    if (\is_bool($tty)) {
-        $process->setTty($tty);
-    }
+    $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
-    return $process;
+    $commander = is_file($vendorBinary = package_path('vendor', 'bin', $binary))
+        ? $vendorBinary
+        : $binary;
+
+    return $remote->handle($commander, $command);
 }
 
 /**
