@@ -29,10 +29,10 @@ class RemoteCommand
     /**
      * Execute the command.
      *
-     * @param  array<int, string>|string  $command
+     * @param  (\Closure():(mixed))|array<int, string>|string  $command
      * @return \Symfony\Component\Process\Process
      */
-    public function handle(string $commander, \Closure|array|string $command): Process
+    public function handle(string $commander, Closure|array|string $command): Process
     {
         $env = \is_string($this->env) ? ['APP_ENV' => $this->env] : $this->env;
 
