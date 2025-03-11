@@ -46,6 +46,6 @@ class RemoteCommand
             $process->setTty($this->tty);
         }
 
-        return new ProcessDecorator($process);
+        return new ProcessDecorator($process, $command);
     }
 }
