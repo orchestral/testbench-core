@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Tests\Foundation\Actions;
 
-use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
