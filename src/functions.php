@@ -15,9 +15,7 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Sidekick;
-use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\Version;
-use Symfony\Component\Process\Process;
 
 /**
  * Create Laravel application instance.
@@ -63,11 +61,11 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  * @param  array<int, string>|string  $command
  * @param  array<string, mixed>|string  $env
  * @param  bool|null  $tty
- * @return \Symfony\Component\Process\Process
+ * @return \Orchestra\Testbench\Foundation\Process\ProcessDecorator
  */
-function remote(array|string $command, array|string $env = [], ?bool $tty = null): Process
+function remote(array|string $command, array|string $env = [], ?bool $tty = null): Foundation\Process\ProcessDecorator
 {
-    $remote = new Foundation\Actions\RemoteCommand(
+    $remote = new Foundation\Process\RemoteCommand(
         package_path(), $env, $tty
     );
 
@@ -160,9 +158,9 @@ function defined_environment_variables(): array
 {
     return Collection::make(array_merge($_SERVER, $_ENV))
         ->keys()
-        ->mapWithKeys(static fn (string $key) => [$key => Env::forward($key)])
+        ->mapWithKeys(static fn (string $key) => [$key => Foundation\Env::forward($key)])
         ->unless(
-            Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
+            Foundation\Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
         )->all();
 }
 
@@ -305,7 +303,7 @@ function package_path(array|string $path = ''): string
 
     $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
-        : Env::get('TESTBENCH_WORKING_PATH', getcwd());
+        : Foundation\Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
     if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
         return transform_relative_path($path, $workingPath);
