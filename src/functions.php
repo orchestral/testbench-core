@@ -69,12 +69,12 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  *
  * @api
  *
- * @param  array<int, string>|string  $command
+ * @param  (\Closure():(mixed))|array<int, string>|string  $command
  * @param  array<string, mixed>|string  $env
  * @param  bool|null  $tty
  * @return \Symfony\Component\Process\Process
  */
-function remote(array|string $command, array|string $env = [], ?bool $tty = null): Process
+function remote(Closure|array|string $command, array|string $env = [], ?bool $tty = null): Process
 {
     $remote = new Foundation\Actions\RemoteCommand(
         package_path(), $env, $tty
