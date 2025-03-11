@@ -2,8 +2,10 @@
 
 namespace Orchestra\Testbench\Foundation\Actions;
 
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ProcessUtils;
+use Laravel\SerializableClosure\SerializableClosure;
 use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\defined_environment_variables;
@@ -30,11 +32,17 @@ class RemoteCommand
      * @param  array<int, string>|string  $command
      * @return \Symfony\Component\Process\Process
      */
-    public function handle(string $commander, array|string $command): Process
+    public function handle(string $commander, \Closure|array|string $command): Process
     {
         $env = \is_string($this->env) ? ['APP_ENV' => $this->env] : $this->env;
 
         Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
+
+        if ($command instanceof Closure) {
+            $env['LARAVEL_INVOKABLE_CLOSURE'] = serialize(new SerializableClosure($command));
+            $env['APP_KEY'] = $env['APP_KEY'] ?? config('app.key') ?? false;
+            $command = 'invoke-serialized-closure';
+        }
 
         $process = Process::fromShellCommandline(
             command: Arr::join([php_binary(true), ProcessUtils::escapeArgument($commander), ...Arr::wrap($command)], ' '),
