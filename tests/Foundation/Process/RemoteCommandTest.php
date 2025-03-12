@@ -21,7 +21,7 @@ class RemoteCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
 
-    /** @test */
+    #[Test]
     public function it_can_call_remote_and_get_current_version()
     {
         $this->withoutSqliteDatabase(function () {
