@@ -46,6 +46,7 @@ class ProcessResult extends \Illuminate\Process\ProcessResult
             return $output;
         }
 
+        /** @var array{successful: bool, result: string, exception: \Throwable, parameters: array, message: string} $result */
         $result = json_decode($output, true);
 
         if (! $result['successful']) {
