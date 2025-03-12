@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation\Actions;
+namespace Orchestra\Testbench\Foundation\Process;
 
 use Closure;
 use Illuminate\Support\Arr;
@@ -30,9 +30,9 @@ class RemoteCommand
      * Execute the command.
      *
      * @param  (\Closure():(mixed))|array<int, string>|string  $command
-     * @return \Symfony\Component\Process\Process
+     * @return \Orchestra\Testbench\Foundation\Process\ProcessDecorator
      */
-    public function handle(string $commander, Closure|array|string $command): Process
+    public function handle(string $commander, Closure|array|string $command): ProcessDecorator
     {
         $env = \is_string($this->env) ? ['APP_ENV' => $this->env] : $this->env;
 
@@ -41,11 +41,13 @@ class RemoteCommand
         if ($command instanceof Closure) {
             $env['LARAVEL_INVOKABLE_CLOSURE'] = serialize(new SerializableClosure($command));
             $env['APP_KEY'] = $env['APP_KEY'] ?? config('app.key') ?? false;
-            $command = 'invoke-serialized-closure';
+            $commands = ['invoke-serialized-closure'];
+        } else {
+            $commands = Arr::wrap($command);
         }
 
         $process = Process::fromShellCommandline(
-            command: Arr::join([php_binary(true), ProcessUtils::escapeArgument($commander), ...Arr::wrap($command)], ' '),
+            command: Arr::join([php_binary(true), ProcessUtils::escapeArgument($commander), ...$commands], ' '),
             cwd: $this->workingPath,
             env: array_merge(defined_environment_variables(), $env)
         );
@@ -54,6 +56,6 @@ class RemoteCommand
             $process->setTty($this->tty);
         }
 
-        return $process;
+        return new ProcessDecorator($process, $command);
     }
 }
