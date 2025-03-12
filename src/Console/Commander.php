@@ -95,7 +95,7 @@ class Commander
         $this->config = $config instanceof Config ? $config : new Config($config);
         $this->workingPath = $workingPath;
 
-        $_ENV['TESTBENCH_ENVIRONMENT_FILE_USING'] = $this->environmentFile;
+        $_ENV['TESTBENCH_ENVIRONMENT_FILENAME'] = $this->environmentFile;
     }
 
     /**

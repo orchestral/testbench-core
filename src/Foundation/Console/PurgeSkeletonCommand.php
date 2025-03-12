@@ -45,7 +45,7 @@ class PurgeSkeletonCommand extends Command
 
         ['files' => $files, 'directories' => $directories] = $config->getPurgeAttributes();
 
-        $environmentFile = Env::get('TESTBENCH_ENVIRONMENT_FILE_USING', '.env');
+        $environmentFile = Env::get('TESTBENCH_ENVIRONMENT_FILENAME', '.env');
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
