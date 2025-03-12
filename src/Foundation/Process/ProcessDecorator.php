@@ -7,6 +7,8 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Symfony\Component\Process\Process;
 
 /**
+ * @internal
+ *
  * @mixin \Symfony\Component\Process\Process
  */
 final class ProcessDecorator

@@ -6,7 +6,10 @@ use Closure;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Symfony\Component\Process\Process;
 
-class ProcessResult extends \Illuminate\Process\ProcessResult
+/**
+ * @internal
+ */
+final class ProcessResult extends \Illuminate\Process\ProcessResult
 {
     use ForwardsCalls;
 
@@ -72,7 +75,7 @@ class ProcessResult extends \Illuminate\Process\ProcessResult
     public function __call($method, $parameters)
     {
         if (! \in_array($method, $this->passthru)) {
-            static::throwBadMethodCallException($method);
+            self::throwBadMethodCallException($method);
         }
 
         return $this->forwardDecoratedCallTo($this->process, $method, $parameters);
