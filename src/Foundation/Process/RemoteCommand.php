@@ -9,7 +9,10 @@ use Symfony\Component\Process\Process;
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\php_binary;
 
-class RemoteCommand
+/**
+ * @internal
+ */
+final class RemoteCommand
 {
     /**
      * Construct a new action.
