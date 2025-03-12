@@ -70,7 +70,7 @@ class ProcessResult extends \Illuminate\Process\ProcessResult
      */
     public function __call($method, $parameters)
     {
-        if (! in_array($method, $this->passthru)) {
+        if (! \in_array($method, $this->passthru)) {
             static::throwBadMethodCallException($method);
         }
 
