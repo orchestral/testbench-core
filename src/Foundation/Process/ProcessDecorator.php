@@ -34,13 +34,8 @@ class ProcessDecorator
     {
         $response = $this->forwardDecoratedCallTo($this->process, $method, $parameters);
 
-        if (
-            $response instanceof Process
-            && ! $response->isStarted()
-            && ! $response->isRunning()
-            && $response->isTerminated()
-        ) {
-            return new ProcessResult($response);
+        if ($response instanceof self && $response->isTerminated()) {
+            return new ProcessResult($this->process, $this->command);
         }
 
         return $response;
