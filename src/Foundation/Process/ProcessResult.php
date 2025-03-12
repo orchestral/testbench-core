@@ -5,7 +5,10 @@ namespace Orchestra\Testbench\Foundation\Process;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Symfony\Component\Process\Process;
 
-class ProcessResult
+/**
+ * @internal
+ */
+final class ProcessResult
 {
     use ForwardsCalls;
 
@@ -116,7 +119,7 @@ class ProcessResult
     public function __call($method, $parameters)
     {
         if (! \in_array($method, $this->passthru)) {
-            static::throwBadMethodCallException($method);
+            self::throwBadMethodCallException($method);
         }
 
         return $this->forwardDecoratedCallTo($this->process, $method, $parameters);

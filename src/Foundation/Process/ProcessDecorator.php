@@ -6,9 +6,11 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Symfony\Component\Process\Process;
 
 /**
+ * @internal
+ *
  * @mixin \Symfony\Component\Process\Process
  */
-class ProcessDecorator
+final class ProcessDecorator
 {
     use ForwardsCalls;
 
