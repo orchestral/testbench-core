@@ -13,12 +13,14 @@ class ProcessDecorator
     use ForwardsCalls;
 
     /**
-     * Construct a new Process decorator.
+     * Create a new process decorator instance.
      *
      * @param  \Symfony\Component\Process\Process  $process
+     * @param  array<int, string>|string  $command
      */
     public function __construct(
-        protected Process $process
+        protected Process $process,
+        protected array|string $command,
     ) {}
 
     /**
@@ -26,10 +28,16 @@ class ProcessDecorator
      *
      * @param  string  $method
      * @param  array<int, mixed>  $parameters
-     * @return $this
+     * @return $this|\Orchestra\Testbench\Foundation\Process\ProcessResult
      */
     public function __call($method, $parameters)
     {
-        return $this->forwardDecoratedCallTo($this->process, $method, $parameters);
+        $response = $this->forwardDecoratedCallTo($this->process, $method, $parameters);
+
+        if ($response instanceof self && $response->isTerminated()) {
+            return new ProcessResult($this->process, $this->command);
+        }
+
+        return $response;
     }
 }
