@@ -15,9 +15,6 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Sidekick;
-use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
-use Symfony\Component\Process\Process;
 
 /**
  * Create Laravel application instance.
@@ -34,9 +31,9 @@ function container(
     ?string $basePath = null,
     ?callable $resolvingCallback = null,
     array $options = [],
-    ?Config $config = null
+    ?Foundation\Config $config = null
 ): Foundation\Application {
-    if ($config instanceof Config) {
+    if ($config instanceof Foundation\Config) {
         return Foundation\Application::makeFromConfig($config, $resolvingCallback, $options);
     }
 
@@ -69,36 +66,24 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
  *
  * @api
  *
- * @param  array<int, string>|string  $command
+ * @param  (\Closure():(mixed))|array<int, string>|string  $command
  * @param  array<string, mixed>|string  $env
  * @param  bool|null  $tty
- * @return \Symfony\Component\Process\Process
+ * @return \Orchestra\Testbench\Foundation\Process\ProcessDecorator
  */
-function remote(array|string $command, array|string $env = [], ?bool $tty = null): Process
+function remote(Closure|array|string $command, array|string $env = [], ?bool $tty = null): Foundation\Process\ProcessDecorator
 {
-    $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
-
-    $commander = is_file($vendorBin = package_path('vendor', 'bin', $binary))
-        ? ProcessUtils::escapeArgument((string) $vendorBin)
-        : $binary;
-
-    if (\is_string($env)) {
-        $env = ['APP_ENV' => $env];
-    }
-
-    Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
-
-    $process = Process::fromShellCommandline(
-        command: Arr::join([php_binary(true), $commander, ...Arr::wrap($command)], ' '),
-        cwd: package_path(),
-        env: array_merge(defined_environment_variables(), $env)
+    $remote = new Foundation\Process\RemoteCommand(
+        package_path(), $env, $tty
     );
 
-    if (\is_bool($tty)) {
-        $process->setTty($tty);
-    }
+    $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
 
-    return $process;
+    $commander = is_file($vendorBinary = package_path('vendor', 'bin', $binary))
+        ? $vendorBinary
+        : $binary;
+
+    return $remote->handle($commander, $command);
 }
 
 /**
@@ -168,9 +153,9 @@ function defined_environment_variables(): array
 {
     return Collection::make(array_merge($_SERVER, $_ENV))
         ->keys()
-        ->mapWithKeys(static fn (string $key) => [$key => Env::forward($key)])
+        ->mapWithKeys(static fn (string $key) => [$key => Foundation\Env::forward($key)])
         ->unless(
-            Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
+            Foundation\Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
         )->all();
 }
 
@@ -314,16 +299,16 @@ function package_path(array|string $path = ''): string
 
     $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
-        : Env::get('TESTBENCH_WORKING_PATH', getcwd());
+        : Foundation\Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
     if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
-        return transform_relative_path($path, $workingPath);
+        return Sidekick\transform_relative_path($path, $workingPath);
     }
 
     $path = join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
-        ? transform_relative_path($path, $workingPath)
+        ? Sidekick\transform_relative_path($path, $workingPath)
         : join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
