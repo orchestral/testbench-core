@@ -2,6 +2,17 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## Unreleased
+
+### Added
+
+* Add ability to pass `Closure` to `Orchestra\Testbench\remote()` function.
+
+### Changes
+
+* Refactor `Orchestra\Testbench\remote()` function to use `Orchestra\Testbench\Foundation\Process\RemoteCommand`.
+* Rename `TESTBENCH_ENVIRONMENT_FILE_USING` to `TESTBENCH_ENVIRONMENT_FILE_USING` (internal environment variable).
+
 ## 9.12.0
 
 Released: 2025-03-06
