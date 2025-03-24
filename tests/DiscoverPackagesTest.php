@@ -11,6 +11,7 @@ class DiscoverPackagesTest extends TestCase
     {
         $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();
 
-        $this->assertTrue(\in_array('Carbon\Laravel\ServiceProvider', $loadedProviders));
+        $this->assertContains('Carbon\Laravel\ServiceProvider', $loadedProviders);
+        $this->assertContains('Workbench\App\Providers\AppServiceProvider', $loadedProviders);
     }
 }
