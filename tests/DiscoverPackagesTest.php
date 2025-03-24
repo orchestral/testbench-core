@@ -2,12 +2,8 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Orchestra\Testbench\Concerns\WithWorkbench;
-
 class DiscoverPackagesTest extends TestCase
 {
-    use WithWorkbench;
-
     protected $enablesPackageDiscoveries = true;
 
     /** @test */
@@ -16,6 +12,6 @@ class DiscoverPackagesTest extends TestCase
         $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();
 
         $this->assertContains('Carbon\Laravel\ServiceProvider', $loadedProviders);
-        $this->assertContains('Workbench\App\Providers\AppServiceProvider', $loadedProviders);
+        $this->assertNotContains('Workbench\App\Providers\AppServiceProvider', $loadedProviders);
     }
 }

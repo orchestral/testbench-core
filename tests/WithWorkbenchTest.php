@@ -42,6 +42,15 @@ class WithWorkbenchTest extends TestCase
         $this->assertSame($cachedConfig->toArray(), $config->toArray());
     }
 
+
+    /** @test */
+    public function it_can_auto_detect_packages_via_bootstrap_providers_file()
+    {
+        $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();
+
+        $this->assertContains('Workbench\App\Providers\AppServiceProvider', $loadedProviders);
+    }
+
     /**
      * @test
      *

@@ -2,12 +2,8 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Orchestra\Testbench\Concerns\WithWorkbench;
-
 class DontDiscoverPackagesTest extends TestCase
 {
-    use WithWorkbench;
-
     /**
      * Ignore package discovery from.
      *
@@ -25,6 +21,6 @@ class DontDiscoverPackagesTest extends TestCase
 
         $this->assertNotContains('Spatie\LaravelRay\RayServiceProvider', $loadedProviders);
         $this->assertNotContains('Carbon\Laravel\ServiceProvider', $loadedProviders);
-        $this->assertContains('Workbench\App\Providers\AppServiceProvider', $loadedProviders);
+        $this->assertNotContains('Workbench\App\Providers\AppServiceProvider', $loadedProviders);
     }
 }
