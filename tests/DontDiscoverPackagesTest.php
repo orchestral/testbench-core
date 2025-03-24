@@ -19,7 +19,8 @@ class DontDiscoverPackagesTest extends TestCase
     {
         $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();
 
-        $this->assertFalse(\in_array('Spatie\LaravelRay\RayServiceProvider', $loadedProviders));
-        $this->assertFalse(\in_array('Carbon\Laravel\ServiceProvider', $loadedProviders));
+        $this->assertNotContains('Spatie\LaravelRay\RayServiceProvider', $loadedProviders);
+        $this->assertNotContains('Carbon\Laravel\ServiceProvider', $loadedProviders);
+        $this->assertNotContains('Workbench\App\Providers\AppServiceProvider', $loadedProviders);
     }
 }

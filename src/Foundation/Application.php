@@ -18,6 +18,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Sleep;
 use Illuminate\View\Component;
 use Orchestra\Testbench\Bootstrap\HandleExceptions;
+use Orchestra\Testbench\Bootstrap\RegisterProviders;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
@@ -215,6 +216,7 @@ class Application
         HandleExceptions::forgetApp();
         JsonResource::wrap('data');
         Queue::createPayloadUsing(null);
+        RegisterProviders::flushState();
         RouteListCommand::resolveTerminalWidthUsing(null);
         ScheduleListCommand::resolveTerminalWidthUsing(null);
         SchemaBuilder::$defaultStringLength = 255;
