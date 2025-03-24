@@ -9,12 +9,16 @@ class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProvide
     /**
      * The service providers that should be merged before registration.
      *
+     * @laravel-overrides
+     *
      * @var array
      */
     protected static $merge = [];
 
     /**
      * The path to the bootstrap provider configuration file.
+     *
+     * @laravel-overrides
      *
      * @var string|null
      */
@@ -30,7 +34,44 @@ class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProvide
     }
 
     /**
+     * Merge additional providers for Testbench.
+     *
+     * @internal
+     *
+     * @template TProviders of array<int, class-string>
+     *
+     * @param  TProviders  $providers
+     * @return TProviders
+     */
+    public static function mergeAdditionalProvidersForTestbench(array $providers): array
+    {
+        if (
+            static::$bootstrapProviderPath &&
+            file_exists(static::$bootstrapProviderPath)
+        ) {
+            $packageProviders = require static::$bootstrapProviderPath;
+
+            foreach ($packageProviders as $index => $provider) {
+                if (! class_exists($provider)) {
+                    unset($packageProviders[$index]);
+                }
+            }
+        }
+
+        /** @phpstan-ignore return.type */
+        return tap(
+            array_merge($providers, static::$merge, array_values($packageProviders ?? [])),
+            static function ($providers) {
+                static::$merge = [];
+                static::$bootstrapProviderPath = null;
+            }
+        );
+    }
+
+    /**
      * Merge the additional configured providers into the configuration.
+     *
+     * @laravel-overrides
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      */
@@ -60,6 +101,8 @@ class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProvide
     /**
      * Merge the given providers into the provider configuration before registration.
      *
+     * @laravel-overrides
+     *
      * @param  array  $providers
      * @param  string|null  $bootstrapProviderPath
      * @return void
@@ -75,6 +118,8 @@ class RegisterProviders extends \Illuminate\Foundation\Bootstrap\RegisterProvide
 
     /**
      * Flush the bootstrapper's global state.
+     *
+     * @laravel-overrides
      *
      * @return void
      */
