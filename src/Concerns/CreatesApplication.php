@@ -19,6 +19,7 @@ use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
+use Orchestra\Testbench\Bootstrap\RegisterProviders;
 use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
@@ -36,6 +37,7 @@ use function Orchestra\Testbench\refresh_router_lookups;
 trait CreatesApplication
 {
     use InteractsWithWorkbench;
+    use WithLaravelBootstrapFile;
 
     /**
      * Get the application's base path.
@@ -385,6 +387,10 @@ trait CreatesApplication
                 });
             }
 
+            if (\is_string($bootstrapProviderPath = $this->getApplicationBootstrapFile('providers.php'))) {
+                RegisterProviders::merge([], $bootstrapProviderPath);
+            }
+
             $config->set([
                 'app.aliases' => $this->resolveApplicationAliases($app),
                 'app.providers' => $this->resolveApplicationProviders($app),
@@ -461,7 +467,7 @@ trait CreatesApplication
 
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
-        $app->make('Illuminate\Foundation\Bootstrap\RegisterProviders')->bootstrap($app);
+        $app->make(RegisterProviders::class)->bootstrap($app);
 
         if (class_exists('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider')) {
             $app->register('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider');
