@@ -2,8 +2,12 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Orchestra\Testbench\Concerns\WithWorkbench;
+
 class DontDiscoverPackagesTest extends TestCase
 {
+    use WithWorkbench;
+
     /**
      * Ignore package discovery from.
      *

@@ -2,8 +2,12 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Orchestra\Testbench\Concerns\WithWorkbench;
+
 class DiscoverPackagesTest extends TestCase
 {
+    use WithWorkbench;
+
     protected $enablesPackageDiscoveries = true;
 
     /** @test */
