@@ -9,8 +9,8 @@ use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Framework\TestCase;
 
+use function Orchestra\Sidekick\phpunit_version_compare;
 use function Orchestra\Testbench\container;
-use function Orchestra\Testbench\phpunit_version_compare;
 
 class TestCaseTest extends TestCase
 {
