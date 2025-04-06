@@ -8,7 +8,6 @@ use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
 
 use function Laravel\Prompts\confirm;
-use function Orchestra\Sidekick\phpunit_version_compare;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\php_binary;
 
