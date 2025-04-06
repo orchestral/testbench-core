@@ -269,7 +269,9 @@ function transform_relative_path(string $path, string $workingPath): string
  */
 function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
+    return (string) realpath(
+        Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
+    );
 }
 
 /**
@@ -285,7 +287,7 @@ function default_skeleton_path(array|string $path = ''): string
 function default_migration_path(?string $type = null): string
 {
     $path = realpath(
-        \is_null($type) ? base_path('migrations') : base_path(join_paths('migrations', $type))
+        \is_null($type) ? base_path('migrations') : base_path(Sidekick\join_paths('migrations', $type))
     );
 
     if ($path === false) {
@@ -317,11 +319,11 @@ function package_path(array|string $path = ''): string
         return transform_relative_path($path, $workingPath);
     }
 
-    $path = join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
+    $path = Sidekick\join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
         ? transform_relative_path($path, $workingPath)
-        : join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
+        : Sidekick\join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
@@ -456,6 +458,8 @@ function php_binary(bool $escape = false): string
  * @param  string|null  $basePath
  * @param  string  ...$paths
  * @return string
+ *
+ * @codeCoverageIgnore
  */
 function join_paths(?string $basePath, string ...$paths): string
 {
