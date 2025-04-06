@@ -10,6 +10,7 @@ use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+use function Orchestra\Sidekick\phpunit_version_compare;
 use function Orchestra\Testbench\container;
 
 class TestCaseTest extends TestCase
