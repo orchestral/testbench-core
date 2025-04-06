@@ -220,7 +220,9 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
  */
 function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
+    return (string) realpath(
+        Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
+    );
 }
 
 /**
