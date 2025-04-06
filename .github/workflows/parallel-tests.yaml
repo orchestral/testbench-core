@@ -21,10 +21,16 @@ jobs:
         paratest:
           - "^7.3"
         phpunit:
-          - "~11.5.3"
-          # - "~12.0.0"
+          - "~11.5.11"
+          - "~12.0.0"
+          - "~12.1.0"
         experimental:
           - false
+        exclude:
+          - php: 8.2
+            phpunit: "~12.0.0"
+          - php: 8.2
+            phpunit: "~12.1.0"
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 

@@ -220,7 +220,9 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
  */
 function default_skeleton_path(array|string $path = ''): string
 {
-    return (string) realpath(Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path)));
+    return (string) realpath(
+        Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
+    );
 }
 
 /**
@@ -395,11 +397,8 @@ function php_binary(bool $escape = false): string
  * @param  string  ...$paths
  * @return string
  *
- * @deprecated 10.0.0 Use `Orchestra\Sidekick\join_paths()` instead.
- *
  * @codeCoverageIgnore
  */
-#[\Deprecated('Use `Orchestra\Sidekick\join_paths()` instead', since: '10.0.0')]
 function join_paths(?string $basePath, string ...$paths): string
 {
     return Sidekick\join_paths($basePath, ...$paths);
