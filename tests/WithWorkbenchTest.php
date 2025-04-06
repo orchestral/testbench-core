@@ -42,7 +42,6 @@ class WithWorkbenchTest extends TestCase
         $this->assertSame($cachedConfig->toArray(), $config->toArray());
     }
 
-
     /** @test */
     public function it_can_auto_detect_packages_via_bootstrap_providers_file()
     {
