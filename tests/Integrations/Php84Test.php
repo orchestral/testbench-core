@@ -4,6 +4,8 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+
+use function Orchestra\Testbench\default_migration_path;
 use function Orchestra\Testbench\laravel_migration_path;
 
 class Php84Test extends TestCase
@@ -12,5 +14,7 @@ class Php84Test extends TestCase
     public function it_can_run_deprecated_function()
     {
         $path = laravel_migration_path();
+
+        $this->assertSame(default_migration_path(), $path);
     }
 }
