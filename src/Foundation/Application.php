@@ -214,10 +214,7 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
-
-        if (class_exists(EncodedHtmlString::class)) {
-            EncodedHtmlString::flushState();
-        }
+        EncodedHtmlString::flushState();
 
         if (! $instance instanceof Commander) {
             HandleExceptions::flushState();
