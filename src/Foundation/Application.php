@@ -5,6 +5,8 @@ namespace Orchestra\Testbench\Foundation;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Scheduling\ScheduleListCommand;
 use Illuminate\Console\Signals;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Database\Schema\Builder as SchemaBuilder;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
@@ -13,10 +15,13 @@ use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Console\ChannelListCommand;
 use Illuminate\Foundation\Console\RouteListCommand;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Illuminate\Http\Middleware\TrustHosts;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Mail\Markdown;
 use Illuminate\Queue\Console\WorkCommand;
 use Illuminate\Queue\Queue;
 use Illuminate\Routing\Middleware\ThrottleRequests;
@@ -219,12 +224,21 @@ class Application
             EncodedHtmlString::flushState();
         }
 
+        Factory::flushState();
+
         if (! $instance instanceof Commander) {
             HandleExceptions::flushState();
         }
 
         JsonResource::wrap('data');
+
+        if (method_exists(Markdown::class, 'flushState')) {
+            Markdown::flushState();
+        }
+
+        Migrator::withoutMigrations([]);
         Once::flush();
+        PreventRequestsDuringMaintenance::flushState();
         Queue::createPayloadUsing(null);
         RegisterProviders::flushState();
         RouteListCommand::resolveTerminalWidthUsing(null);
@@ -236,7 +250,8 @@ class Application
         ThrottleRequests::shouldHashKeys();
         TrimStrings::flushState();
         TrustProxies::flushState();
-        VerifyCsrfToken::flushState();
+        TrustHosts::flushState();
+        ValidateCsrfToken::flushState();
         WorkCommand::flushState();
     }
 
