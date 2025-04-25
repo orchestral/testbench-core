@@ -35,6 +35,7 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
+
 use function Orchestra\Sidekick\join_paths;
 
 /**
