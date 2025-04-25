@@ -6,6 +6,7 @@ use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Scheduling\ScheduleListCommand;
 use Illuminate\Console\Signals;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Database\Schema\Builder as SchemaBuilder;
 use Illuminate\Foundation\Bootstrap\HandleExceptions;
@@ -237,6 +238,12 @@ class Application
         }
 
         Migrator::withoutMigrations([]);
+        Model::handleDiscardedAttributeViolationUsing(null);
+        Model::handleLazyLoadingViolationUsing(null);
+        Model::handleMissingAttributeViolationUsing(null);
+        Model::preventAccessingMissingAttributes(false);
+        Model::preventLazyLoading(false);
+        Model::preventSilentlyDiscardingAttributes(false);
         Once::flush();
         PreventRequestsDuringMaintenance::flushState();
         Queue::createPayloadUsing(null);
