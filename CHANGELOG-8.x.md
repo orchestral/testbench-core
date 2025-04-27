@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.36.1
+
+Released: 2025-04-27
+
+### Changes
+
+* Flush `Illuminate\Database\Eloquent\Model` states between tests.
+
 ## 8.36.0
 
 Released: 2025-04-06
