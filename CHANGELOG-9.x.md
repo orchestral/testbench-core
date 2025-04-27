@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.13.3
+
+Released: 2025-04-27
+
+### Changes
+
+* Supports for Laravel Framework 11.44.7.
+* Flush `Illuminate\Database\Eloquent\Model` states between tests.
+
 ## 9.13.2
 
 Released: 2025-02-24
