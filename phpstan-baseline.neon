@@ -1,2 +1,13 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: '#^Method Orchestra\\Testbench\\Foundation\\Application\:\:cachedUsesForTestCase\(\) should return array\<class\-string, class\-string\> but returns array\<class\-string, class\-string\>\|null\.$#'
+			identifier: return.type
+			count: 5
+			path: src/Foundation/Application.php
+
+		-
+			message: '#^Method Orchestra\\Testbench\\TestCase\:\:cachedUsesForTestCase\(\) should return array\<class\-string, class\-string\> but returns array\<class\-string, class\-string\>\|null\.$#'
+			identifier: return.type
+			count: 11
+			path: src/TestCase.php
