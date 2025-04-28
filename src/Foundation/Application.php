@@ -241,6 +241,7 @@ class Application
         Model::handleDiscardedAttributeViolationUsing(null);
         Model::handleLazyLoadingViolationUsing(null);
         Model::handleMissingAttributeViolationUsing(null);
+        Model::automaticallyEagerLoadRelationships(false);
         Model::preventAccessingMissingAttributes(false);
         Model::preventLazyLoading(false);
         Model::preventSilentlyDiscardingAttributes(false);
