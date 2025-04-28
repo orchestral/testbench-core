@@ -257,11 +257,7 @@ class Workbench
      */
     public static function configuration(): ConfigContract
     {
-        if (\is_null(static::$cachedConfiguration)) {
-            static::$cachedConfiguration = Config::cacheFromYaml(package_path());
-        }
-
-        return static::$cachedConfiguration;
+        return static::$cachedConfiguration ??= Config::cacheFromYaml(package_path());
     }
 
     /**
