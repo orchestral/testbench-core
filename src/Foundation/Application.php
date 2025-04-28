@@ -241,7 +241,11 @@ class Application
         Model::handleDiscardedAttributeViolationUsing(null);
         Model::handleLazyLoadingViolationUsing(null);
         Model::handleMissingAttributeViolationUsing(null);
-        Model::automaticallyEagerLoadRelationships(false);
+
+        if (method_exists(Model::class, 'automaticallyEagerLoadRelationships')) {
+            Model::automaticallyEagerLoadRelationships(false); // Requires `laravel/framework:>=12.8.0`.
+        }
+
         Model::preventAccessingMissingAttributes(false);
         Model::preventLazyLoading(false);
         Model::preventSilentlyDiscardingAttributes(false);
