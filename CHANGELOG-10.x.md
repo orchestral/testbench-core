@@ -2,7 +2,25 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 10.2.2
+
+Released: 2025-04-27
+
+### Changes
+
+* Flush `Illuminate\Database\Eloquent\Model` states between tests.
+
+## 10.2.1
+
+Released: 2025-04-13
+
+### Changes
+
+* Remove `symfony/polyfill-php84`.
+
+## 10.2.0
+
+Released: 2025-04-06
 
 ### Added
 
@@ -10,6 +28,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ### Changes
 
+* Add support for PHPUnit 12.1.
 * Refactor `Orchestra\Testbench\remote()` function to use `Orchestra\Testbench\Foundation\Process\RemoteCommand`.
 * Rename `TESTBENCH_ENVIRONMENT_FILE_USING` to `TESTBENCH_ENVIRONMENT_FILE_USING` (internal environment variable).
 

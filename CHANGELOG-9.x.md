@@ -2,7 +2,34 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
-## Unreleased
+## 9.13.3
+
+Released: 2025-04-27
+
+### Changes
+
+* Supports for Laravel Framework 11.44.7.
+* Flush `Illuminate\Database\Eloquent\Model` states between tests.
+
+## 9.13.2
+
+Released: 2025-02-24
+
+### Changes
+
+* Supports for Laravel Framework 11.44.5.
+
+## 9.13.1
+
+Released: 2025-02-24
+
+### Changes
+
+* Supports for Laravel Framework 11.44.3.
+
+## 9.13.0
+
+Released: 2025-04-06
 
 ### Added
 
@@ -10,6 +37,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ### Changes
 
+* Add support for PHPUnit 12.1.
 * Refactor `Orchestra\Testbench\remote()` function to use `Orchestra\Testbench\Foundation\Process\RemoteCommand`.
 * Rename `TESTBENCH_ENVIRONMENT_FILE_USING` to `TESTBENCH_ENVIRONMENT_FILE_USING` (internal environment variable).
 
