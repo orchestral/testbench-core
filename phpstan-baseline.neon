@@ -1,13 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Method Orchestra\\Testbench\\Foundation\\Application\:\:cachedUsesForTestCase\(\) should return array\<class\-string, class\-string\> but returns array\<class\-string, class\-string\>\|null\.$#'
+			message: '#^Method Orchestra\\Testbench\\Workbench\\Workbench\:\:applicationUserModel\(\) should return class\-string\<Illuminate\\Foundation\\Auth\\User\>\|null but returns string\|null\.$#'
 			identifier: return.type
-			count: 5
-			path: src/Foundation/Application.php
-
-		-
-			message: '#^Method Orchestra\\Testbench\\TestCase\:\:cachedUsesForTestCase\(\) should return array\<class\-string, class\-string\> but returns array\<class\-string, class\-string\>\|null\.$#'
-			identifier: return.type
-			count: 11
-			path: src/TestCase.php
+			count: 1
+			path: src/Workbench/Workbench.php
