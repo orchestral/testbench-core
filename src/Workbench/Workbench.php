@@ -351,7 +351,7 @@ class Workbench
      */
     public static function applicationUserModel(): ?string
     {
-        if (! isset(static::$cachedUserModel)) {
+        if (\is_null(static::$cachedUserModel)) {
             static::$cachedUserModel = match (true) {
                 Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
                 is_file(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
