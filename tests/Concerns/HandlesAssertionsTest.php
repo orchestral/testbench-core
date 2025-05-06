@@ -2,14 +2,11 @@
 
 namespace Orchestra\Testbench\Tests\Concerns;
 
-use Orchestra\Testbench\Concerns\HandlesAssertions;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class HandlesAssertionsTest extends TestCase
 {
-    use HandlesAssertions;
-
     #[Test]
     public function it_should_mark_the_tests_as_skipped_when_condition_is_true()
     {
