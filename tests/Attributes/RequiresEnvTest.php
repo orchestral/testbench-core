@@ -5,18 +5,11 @@ namespace Orchestra\Testbench\Tests\Attributes;
 use Illuminate\Foundation\Application;
 use Mockery as m;
 use Orchestra\Testbench\Attributes\RequiresEnv;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class RequiresEnvTest extends TestCase
 {
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function tearDown(): void
-    {
-        m::close();
-    }
-
     #[Test]
     public function it_should_run_the_test_when_env_variable_is_missing()
     {

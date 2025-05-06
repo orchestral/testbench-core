@@ -6,18 +6,11 @@ use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
 use Mockery as m;
 use Orchestra\Testbench\Attributes\DefineRoute;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class DefineRouteTest extends TestCase
 {
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function tearDown(): void
-    {
-        m::close();
-    }
-
     #[Test]
     public function it_can_resolve_definition()
     {

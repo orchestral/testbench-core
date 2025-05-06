@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Tests\Foundation\Console;
 
 use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class TerminatingConsoleTest extends TestCase
 {
