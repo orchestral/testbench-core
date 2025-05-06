@@ -319,7 +319,7 @@ class Workbench
      */
     public static function applicationUserModel(): ?string
     {
-        if (! isset(static::$cachedUserModel)) {
+        if (\is_null(static::$cachedUserModel)) {
             /** @var class-string<\Illuminate\Foundation\Auth\User>|false $userModel */
             $userModel = match (true) {
                 Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
