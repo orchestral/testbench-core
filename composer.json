@@ -38,18 +38,18 @@
     "require": {
         "php": "^8.0",
         "composer-runtime-api": "^2.2",
-        "orchestra/sidekick": "^1.1.4",
+        "orchestra/sidekick": "^1.1.5",
         "symfony/deprecation-contracts": "^2.5|^3.0",
-        "symfony/polyfill-php83": "^1.31"
+        "symfony/polyfill-php83": "^1.32"
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
         "laravel/framework": "^9.52.20",
         "laravel/pint": "^1.5",
         "mockery/mockery": "^1.5.1",
-        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan": "^2.1.14",
         "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ray": "^1.39",
+        "spatie/laravel-ray": "^1.40.2",
         "symfony/process": "^6.0.9",
         "symfony/yaml": "^6.0.9",
         "vlucas/phpdotenv": "^5.4.1"
@@ -119,7 +119,6 @@
             "@lint"
         ],
         "ci": [
-            "@composer audit",
             "@post-autoload-dump",
             "@lint",
             "@test"

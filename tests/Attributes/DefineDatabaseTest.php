@@ -6,18 +6,10 @@ use Closure;
 use Illuminate\Foundation\Application;
 use Mockery as m;
 use Orchestra\Testbench\Attributes\DefineDatabase;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\PHPUnit\TestCase;
 
 class DefineDatabaseTest extends TestCase
 {
-    /**
-     * Teardown the test environment.
-     */
-    protected function tearDown(): void
-    {
-        m::close();
-    }
-
     /** @test */
     public function it_can_resolve_definition()
     {
