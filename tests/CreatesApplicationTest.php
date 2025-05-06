@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Concerns\CreatesApplication;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\PHPUnit\TestCase;
 
 class CreatesApplicationTest extends TestCase
 {

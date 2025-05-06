@@ -4,22 +4,12 @@ namespace Orchestra\Testbench\Tests\Foundation\Concerns;
 
 use Illuminate\Contracts\Config\Repository;
 use Mockery as m;
-use Orchestra\Testbench\Concerns\InteractsWithMockery;
 use Orchestra\Testbench\Foundation\Concerns\HandlesDatabaseConnections;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\PHPUnit\TestCase;
 
 class HandlesDatabaseConnectionsTest extends TestCase
 {
     use HandlesDatabaseConnections;
-    use InteractsWithMockery;
-
-    /**
-     * Teardown the test environment.
-     */
-    protected function tearDown(): void
-    {
-        $this->tearDownTheTestEnvironmentUsingMockery();
-    }
 
     /** @test */
     public function it_can_build_mysql_connection()
