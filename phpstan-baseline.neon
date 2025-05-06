@@ -1,7 +1,2 @@
 parameters:
-	ignoreErrors:
-		-
-			message: '#^Method Orchestra\\Testbench\\Workbench\\Workbench\:\:applicationUserModel\(\) should return class\-string\<Illuminate\\Foundation\\Auth\\User\>\|null but returns string\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Workbench/Workbench.php
+	ignoreErrors: []
