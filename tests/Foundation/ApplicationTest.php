@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Tests\Foundation;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\PHPUnit\TestCase;
 
 class ApplicationTest extends TestCase
 {

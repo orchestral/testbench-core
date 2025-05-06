@@ -5,18 +5,19 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Foundation\Application as Testbench;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\PHPUnit\TestCase;
 
 class CreatesApplicationTest extends TestCase
 {
     use CreatesApplication;
 
-    /**
-     * Teardown the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function tearDown(): void
     {
         Testbench::flushState();
+
+        parent::tearDown();
     }
 
     /** @test */

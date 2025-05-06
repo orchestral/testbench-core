@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Tests\Foundation\Console;
 
 use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\PHPUnit\TestCase;
 
 class TerminatingConsoleTest extends TestCase
 {
