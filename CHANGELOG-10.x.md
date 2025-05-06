@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.2.3
+
+Released: 2025-05-07
+
+### Changes
+
+* Flush `Illuminate\Database\Eloquent\Model::automaticallyEagerLoadRelationships()` state between tests if the method exists.
+
 ## 10.2.2
 
 Released: 2025-04-27
