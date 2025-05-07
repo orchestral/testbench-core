@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Tests\PHPUnit;
 
 use Orchestra\Testbench\PHPUnit\AttributeParser;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class AttributeParserTest extends TestCase
 {

@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Tests\Foundation;
 
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
