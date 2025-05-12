@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Log\LogManager;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Orchestra\Testbench\Foundation\Env;
-use Throwable;
 
 use function Orchestra\Sidekick\join_paths;
 
