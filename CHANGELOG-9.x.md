@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.14.0
+
+Released: 2025-05-12
+
+### Changes
+
+* `Orchestra\Testbench\PHPUnit\TestCase` now implements `Orchestra\Testbench\Concerns\InteractsWithMockery`.
+
+### Fixes
+
+* Fix handling deprecations logging when logger is not not available when running tests.
+
 ## 9.13.3
 
 Released: 2025-04-27
