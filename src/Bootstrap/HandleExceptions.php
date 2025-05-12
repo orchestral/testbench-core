@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Bootstrap;
 use Illuminate\Log\LogManager;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
 use Orchestra\Testbench\Foundation\Env;
+use Throwable;
 
 use function Orchestra\Sidekick\join_paths;
 
@@ -21,9 +22,15 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     #[\Override]
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
-        parent::handleDeprecationError($message, $file, $line, $level);
+        try {
+            parent::handleDeprecationError($message, $file, $line, $level);
+        } catch (Throwable $e) {
+            throw new DeprecatedException($message, $level, $file, $line);
+        }
 
-        $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS', false);
+        $testbenchConvertDeprecationsToExceptions = (bool) Env::get(
+            'TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS', false
+        );
 
         if ($testbenchConvertDeprecationsToExceptions === true) {
             throw new DeprecatedException($message, $level, $file, $line);
