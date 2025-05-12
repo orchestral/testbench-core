@@ -22,18 +22,16 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     #[\Override]
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
-        try {
+        rescue(function () use ($message, $file, $line, $level) {
             parent::handleDeprecationError($message, $file, $line, $level);
-        } catch (Throwable) {
-            //
-        } finally {
-            $testbenchConvertDeprecationsToExceptions = (bool) Env::get(
-                'TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS', false
-            );
+        }, null, false);
 
-            if ($testbenchConvertDeprecationsToExceptions === true) {
-                throw new DeprecatedException($message, $level, $file, $line);
-            }
+        $testbenchConvertDeprecationsToExceptions = (bool) Env::get(
+            'TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS', false
+        );
+
+        if ($testbenchConvertDeprecationsToExceptions === true) {
+            throw new DeprecatedException($message, $level, $file, $line);
         }
     }
 
