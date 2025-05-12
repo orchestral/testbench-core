@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Attributes;
 
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class WithMigrationTest extends TestCase
 {

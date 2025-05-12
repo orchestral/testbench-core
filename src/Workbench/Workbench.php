@@ -293,11 +293,7 @@ class Workbench
      */
     public static function configuration(): ConfigContract
     {
-        if (\is_null(static::$cachedConfiguration)) {
-            static::$cachedConfiguration = Config::cacheFromYaml(package_path());
-        }
-
-        return static::$cachedConfiguration;
+        return static::$cachedConfiguration ??= Config::cacheFromYaml(package_path());
     }
 
     /**
@@ -355,13 +351,16 @@ class Workbench
      */
     public static function applicationUserModel(): ?string
     {
-        if (! isset(static::$cachedUserModel)) {
-            static::$cachedUserModel = match (true) {
+        if (\is_null(static::$cachedUserModel)) {
+            /** @var class-string<\Illuminate\Foundation\Auth\User>|false $userModel */
+            $userModel = match (true) {
                 Env::has('AUTH_MODEL') => Env::get('AUTH_MODEL'),
                 is_file(workbench_path('app', 'Models', 'User.php')) => \sprintf('%sModels\User', static::detectNamespace('app')),
                 is_file(base_path(join_paths('Models', 'User.php'))) => 'App\Models\User',
                 default => false,
             };
+
+            static::$cachedUserModel = $userModel;
         }
 
         return static::$cachedUserModel != false ? static::$cachedUserModel : null;

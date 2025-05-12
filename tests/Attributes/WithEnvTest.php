@@ -6,20 +6,11 @@ use Illuminate\Foundation\Application;
 use Mockery as m;
 use Orchestra\Testbench\Attributes\WithEnv;
 use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class WithEnvTest extends TestCase
 {
-    /**
-     * Teardown the test environment.
-     */
-    #[\Override]
-    protected function tearDown(): void
-    {
-        m::close();
-    }
-
     #[Test]
     public function it_can_resolve_defined_env_variables()
     {

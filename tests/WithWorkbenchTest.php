@@ -47,6 +47,7 @@ class WithWorkbenchTest extends TestCase
     }
 
     #[Test]
+    #[Group('without-parallel')]
     public function it_can_auto_detect_packages_via_bootstrap_providers_file()
     {
         $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();

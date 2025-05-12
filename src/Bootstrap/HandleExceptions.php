@@ -21,9 +21,13 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     #[\Override]
     public function handleDeprecationError($message, $file, $line, $level = E_DEPRECATED)
     {
-        parent::handleDeprecationError($message, $file, $line, $level);
+        rescue(function () use ($message, $file, $line, $level) {
+            parent::handleDeprecationError($message, $file, $line, $level);
+        }, null, false);
 
-        $testbenchConvertDeprecationsToExceptions = Env::get('TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS', false);
+        $testbenchConvertDeprecationsToExceptions = (bool) Env::get(
+            'TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS', false
+        );
 
         if ($testbenchConvertDeprecationsToExceptions === true) {
             throw new DeprecatedException($message, $level, $file, $line);
@@ -72,6 +76,6 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     {
         return ! class_exists(LogManager::class)
             || ! self::$app->hasBeenBootstrapped()
-            || ! Env::get('LOG_DEPRECATIONS_WHILE_TESTING', true);
+            || ! (bool) Env::get('LOG_DEPRECATIONS_WHILE_TESTING', true);
     }
 }

@@ -5,9 +5,9 @@ namespace Orchestra\Testbench\Tests\Foundation;
 use Orchestra\Testbench\Foundation\Application;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 class ApplicationTest extends TestCase
 {
@@ -16,6 +16,8 @@ class ApplicationTest extends TestCase
     protected function tearDown(): void
     {
         Application::flushState($this);
+
+        parent::tearDown();
     }
 
     #[Test]

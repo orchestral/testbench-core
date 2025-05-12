@@ -25,7 +25,7 @@ trait WithLaravelBootstrapFile
 
         if ($this->usesTestbenchDefaultSkeleton()) {
             if (static::usesTestingConcern(WithWorkbench::class) || $this instanceof Testbench) {
-                return is_file($workbenchFile = workbench_path(join_paths('bootstrap', $filename))) ? (string) realpath($workbenchFile) : false;
+                return is_file($workbenchFile = workbench_path('bootstrap', $filename)) ? (string) realpath($workbenchFile) : false;
             }
 
             return false;

@@ -7,8 +7,8 @@ use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use Orchestra\Testbench\Foundation\Application as Testbench;
 use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 use function Orchestra\Testbench\container;
 
@@ -19,6 +19,8 @@ class TestCaseTest extends TestCase
     protected function tearDown(): void
     {
         Testbench::flushState($this);
+
+        parent::tearDown();
     }
 
     #[Test]
