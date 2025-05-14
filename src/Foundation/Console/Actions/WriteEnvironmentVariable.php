@@ -61,8 +61,6 @@ class WriteEnvironmentVariable
      */
     protected function writeVariables(array $variables, string $filename, bool $overwrite = false): void
     {
-        $filesystem = new Filesystem;
-
         if ($this->filesystem->missing($filename)) {
             throw new RuntimeException("The file [{$filename}] does not exist.");
         }
