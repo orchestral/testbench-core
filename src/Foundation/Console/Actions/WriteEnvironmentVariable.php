@@ -7,9 +7,9 @@ use Illuminate\Filesystem\Filesystem;
 use RuntimeException;
 
 /**
- * @internal
+ * @api
  */
-final class WriteEnvironmentVariable
+class WriteEnvironmentVariable
 {
     /**
      * Construct a new action instance.
@@ -30,7 +30,7 @@ final class WriteEnvironmentVariable
      * Handle the action.
      *
      * @param  array<string, mixed>  $variables
-     * @param  string|false|null  $file
+     * @param  string|false|null  $filename
      * @param  bool  $overwrite
      * @return void
      *
@@ -39,7 +39,7 @@ final class WriteEnvironmentVariable
      */
     public function handle(array $variables, string|false|null $filename, bool $overwrite = false): void
     {
-        if (! \is_string($file)) {
+        if (! \is_string($filename)) {
             return;
         }
 
@@ -52,28 +52,28 @@ final class WriteEnvironmentVariable
      * @laravel-overrides
      *
      * @param  array<string, mixed>  $variables
-     * @param  string|false|null  $file
+     * @param  string  $filename
      * @param  bool  $overwrite
      * @return void
      *
      * @throws \RuntimeException
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function writeVariables(array $variables, string $pathToFile, bool $overwrite = false): void
+    protected function writeVariables(array $variables, string $filename, bool $overwrite = false): void
     {
         $filesystem = new Filesystem;
 
-        if ($this->filesystem->missing($pathToFile)) {
-            throw new RuntimeException("The file [{$pathToFile}] does not exist.");
+        if ($this->filesystem->missing($filename)) {
+            throw new RuntimeException("The file [{$filename}] does not exist.");
         }
 
-        $lines = explode(PHP_EOL, $this->filesystem->get($pathToFile));
+        $lines = explode(PHP_EOL, $this->filesystem->get($filename));
 
         foreach ($variables as $key => $value) {
             $lines = $this->addVariableToEnvContents($key, $value, $lines, $overwrite);
         }
 
-        $this->filesystem->put($pathToFile, implode(PHP_EOL, $lines));
+        $this->filesystem->put($filename, implode(PHP_EOL, $lines));
     }
 
     /**
@@ -83,25 +83,25 @@ final class WriteEnvironmentVariable
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @param  string  $pathToFile
+     * @param  string  $filename
      * @param  bool  $overwrite
      * @return void
      *
      * @throws \RuntimeException
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function writeVariable(string $key, mixed $value, string $pathToFile, bool $overwrite = false): void
+    protected function writeVariable(string $key, mixed $value, string $filename, bool $overwrite = false): void
     {
-        if ($this->filesystem->missing($pathToFile)) {
-            throw new RuntimeException("The file [{$pathToFile}] does not exist.");
+        if ($this->filesystem->missing($filename)) {
+            throw new RuntimeException("The file [{$filename}] does not exist.");
         }
 
-        $envContent = $this->filesystem->get($pathToFile);
+        $envContent = $this->filesystem->get($filename);
 
         $lines = explode(PHP_EOL, $envContent);
         $lines = $this->addVariableToEnvContents($key, $value, $lines, $overwrite);
 
-        $this->filesystem->put($pathToFile, implode(PHP_EOL, $lines));
+        $this->filesystem->put($filename, implode(PHP_EOL, $lines));
     }
 
     /**
