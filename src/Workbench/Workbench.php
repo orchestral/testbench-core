@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 

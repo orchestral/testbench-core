@@ -8,7 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Events\DatabaseRefreshed;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Sidekick\Env;
 
 use function Orchestra\Sidekick\transform_relative_path;
 use function Orchestra\Testbench\default_migration_path;
