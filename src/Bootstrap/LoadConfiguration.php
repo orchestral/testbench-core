@@ -7,7 +7,7 @@ use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
-use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Sidekick\Env;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
