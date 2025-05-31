@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Log\LogManager;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
-use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Runner\ErrorHandler;
 
 use function Orchestra\Sidekick\join_paths;

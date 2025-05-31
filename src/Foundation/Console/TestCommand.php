@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Foundation\Console;
 
 use Illuminate\Support\Collection;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Features\ParallelRunner;
-use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\package_path;

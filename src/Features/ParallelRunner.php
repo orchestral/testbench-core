@@ -2,7 +2,7 @@
 
 namespace Orchestra\Testbench\Features;
 
-use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Sidekick\Env;
 
 use function Orchestra\Testbench\container;
 
