@@ -135,9 +135,9 @@ function defined_environment_variables(): array
 {
     return Collection::make(array_merge($_SERVER, $_ENV))
         ->keys()
-        ->mapWithKeys(static fn (string $key) => [$key => Foundation\Env::forward($key)])
+        ->mapWithKeys(static fn (string $key) => [$key => Sidekick\Env::forward($key)])
         ->unless(
-            Foundation\Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
+            Sidekick\Env::has('TESTBENCH_WORKING_PATH'), static fn ($env) => $env->put('TESTBENCH_WORKING_PATH', package_path())
         )->all();
 }
 
@@ -264,7 +264,7 @@ function package_path(array|string $path = ''): string
 
     $workingPath = \defined('TESTBENCH_WORKING_PATH')
         ? TESTBENCH_WORKING_PATH
-        : Foundation\Env::get('TESTBENCH_WORKING_PATH', getcwd());
+        : Sidekick\Env::get('TESTBENCH_WORKING_PATH', getcwd());
 
     if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
         return Sidekick\transform_relative_path($path, $workingPath);
