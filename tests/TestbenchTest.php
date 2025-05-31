@@ -19,7 +19,6 @@ class TestbenchTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('customQueuePayloadDataProvider')]
     #[DefineEnvironment('registerCustomQueuePayload')]
     public function it_can_handle_custom_queue_payload()
     {
@@ -41,11 +40,5 @@ class TestbenchTest extends TestCase
 
             return ['password' => $password];
         });
-    }
-
-    public static function customQueuePayloadDataProvider()
-    {
-        yield ['laravel.com'];
-        yield ['blog.laravel.com'];
     }
 }
