@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.38.0
+
+Released: 2025-06-08
+
+### Changes
+
+* `Orchestra\Foundation\Env` now extends `Orchestra\Sidekick\Env`.
+
 ## 8.37.0
 
 Released: 2025-05-12
