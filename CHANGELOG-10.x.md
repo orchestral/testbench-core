@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.4.0
+
+Released: 2025-06-08
+
+### Changes
+
+* Supports PHPUnit 12.2.
+* `Orchestra\Foundation\Env` now extends `Orchestra\Sidekick\Env`.
+* Update skeleton's configuration.
+
 ## 10.3.0
 
 Released: 2025-05-12

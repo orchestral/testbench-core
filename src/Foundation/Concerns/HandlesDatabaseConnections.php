@@ -6,7 +6,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Sidekick\Env;
 
 trait HandlesDatabaseConnections
 {

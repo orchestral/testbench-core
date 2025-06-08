@@ -3,7 +3,7 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Dotenv\Dotenv;
-use Orchestra\Testbench\Foundation\Env;
+use Orchestra\Sidekick\Env;
 
 use function Orchestra\Sidekick\join_paths;
 

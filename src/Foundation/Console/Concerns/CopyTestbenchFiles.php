@@ -5,8 +5,8 @@ namespace Orchestra\Testbench\Foundation\Console\Concerns;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
-use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Sidekick\join_paths;
 

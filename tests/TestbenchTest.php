@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests;
 use Illuminate\Contracts\Bus\QueueingDispatcher;
 use Illuminate\Queue\Queue;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Workbench\App\Jobs\CustomPayloadJob;
 
@@ -19,7 +18,6 @@ class TestbenchTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('customQueuePayloadDataProvider')]
     #[DefineEnvironment('registerCustomQueuePayload')]
     public function it_can_handle_custom_queue_payload()
     {
@@ -41,11 +39,5 @@ class TestbenchTest extends TestCase
 
             return ['password' => $password];
         });
-    }
-
-    public static function customQueuePayloadDataProvider()
-    {
-        yield ['laravel.com'];
-        yield ['blog.laravel.com'];
     }
 }
