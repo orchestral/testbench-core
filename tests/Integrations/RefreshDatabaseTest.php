@@ -15,9 +15,9 @@ class RefreshDatabaseTest extends TestCase
     {
         $userId = 123;
         $message = 'Test message';
-        $expectedId = $userId . '-' . md5($message);
+        $expectedId = $userId.'-'.md5($message);
 
         // Test the logic without instantiating the class
-        $this->assertEquals($expectedId, $userId . '-' . md5($message));
+        $this->assertEquals($expectedId, $userId.'-'.md5($message));
     }
 }
