@@ -99,7 +99,7 @@ class PackageManifest extends IlluminatePackageManifest
 
         $requires = $this->requiredPackages;
 
-        return Collection::make(parent::getManifest())
+        return (new Collection(parent::getManifest()))
             ->reject(static fn ($configuration, $package) => ($ignoreAll && ! \in_array($package, $requires)) || \in_array($package, $ignore))
             ->map(static function ($configuration, $package) {
                 foreach ($configuration['providers'] ?? [] as $provider) {
@@ -153,7 +153,7 @@ class PackageManifest extends IlluminatePackageManifest
     protected function write(array $manifest)
     {
         parent::write(
-            Collection::make($manifest)->merge($this->providersFromRoot())->filter()->all()
+            (new Collection($manifest))->merge($this->providersFromRoot())->filter()->all()
         );
     }
 }

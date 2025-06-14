@@ -34,7 +34,7 @@ class DeleteDirectories extends Action
      */
     public function handle(iterable $directories): void
     {
-        LazyCollection::make($directories)
+        (new LazyCollection($directories))
             ->each(function ($directory) {
                 if (! $this->filesystem->isDirectory($directory)) {
                     $this->components?->twoColumnDetail(
