@@ -141,11 +141,11 @@ trait Testing
             $this->setUpFaker(); /** @phpstan-ignore method.notFound */
         }
 
-        LazyCollection::make(static function () use ($uses) {
+        (new LazyCollection(static function () use ($uses) {
             foreach ($uses as $use) {
                 yield $use;
             }
-        })
+        }))
             ->reject(function ($use) {
                 /** @var class-string $use */
                 return $this->setUpTheTestEnvironmentTraitToBeIgnored($use);
