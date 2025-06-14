@@ -86,7 +86,7 @@ trait InteractsWithSqliteDatabaseFile
         $filesystem = new Filesystem;
 
         $filesystem->delete(
-            Collection::make($filesystem->glob(database_path('database.sqlite.backup-*')))
+            (new Collection($filesystem->glob(database_path('database.sqlite.backup-*'))))
                 ->filter(static function ($file) use ($filesystem) {
                     return $filesystem->exists($file);
                 })->all()

@@ -50,31 +50,31 @@ class PurgeSkeletonCommand extends Command
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
         ))->handle(
-            Collection::make([
+            (new Collection([
                 $environmentFile,
                 "{$environmentFile}.backup",
                 join_paths('bootstrap', 'cache', 'testbench.yaml'),
                 join_paths('bootstrap', 'cache', 'testbench.yaml.backup'),
-            ])->map(fn ($file) => $this->laravel->basePath($file))
+            ]))->map(fn ($file) => $this->laravel->basePath($file))
         );
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
         ))->handle(
-            LazyCollection::make(function () use ($filesystem) {
+            (new LazyCollection(function () use ($filesystem) {
                 yield $this->laravel->basePath(join_paths('database', 'database.sqlite'));
                 yield $filesystem->glob($this->laravel->basePath(join_paths('routes', 'testbench-*.php')));
                 yield $filesystem->glob($this->laravel->basePath(join_paths('storage', 'app', 'public', '*')));
                 yield $filesystem->glob($this->laravel->basePath(join_paths('storage', 'app', '*')));
                 yield $filesystem->glob($this->laravel->basePath(join_paths('storage', 'framework', 'sessions', '*')));
-            })->flatten()
+            }))->flatten()
         );
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             components: $this->components,
         ))->handle(
-            LazyCollection::make($files)
+            (new LazyCollection($files))
                 ->map(fn ($file) => $this->laravel->basePath($file))
                 ->map(static function ($file) use ($filesystem) {
                     return str_contains($file, '*')
@@ -88,7 +88,7 @@ class PurgeSkeletonCommand extends Command
             filesystem: $filesystem,
             components: $this->components,
         ))->handle(
-            Collection::make($directories)
+            (new Collection($directories))
                 ->map(fn ($directory) => $this->laravel->basePath($directory))
                 ->map(static function ($directory) use ($filesystem) {
                     return str_contains($directory, '*')
