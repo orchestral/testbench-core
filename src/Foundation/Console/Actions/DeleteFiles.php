@@ -37,7 +37,7 @@ class DeleteFiles extends Action
      */
     public function handle(iterable $files): void
     {
-        LazyCollection::make($files)
+        (new LazyCollection($files))
             ->reject(static fn ($file) => str_ends_with($file, '.gitkeep') || str_ends_with($file, '.gitignore'))
             ->each(function ($file) {
                 $location = transform_realpath_to_relative($file, $this->workingPath);

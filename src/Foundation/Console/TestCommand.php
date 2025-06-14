@@ -70,10 +70,10 @@ class TestCommand extends Command
     {
         $configurationFile = str_replace('./', '', $this->option('configuration') ?? 'phpunit.xml');
 
-        return Collection::make([
+        return (new Collection([
             package_path($configurationFile),
             package_path("{$configurationFile}.dist"),
-        ])->transform(static fn ($path) => DIRECTORY_SEPARATOR.$path)
+        ]))->transform(static fn ($path) => DIRECTORY_SEPARATOR.$path)
             ->filter(static fn ($path) => is_file($path))
             ->first() ?? './';
     }
@@ -84,7 +84,7 @@ class TestCommand extends Command
     {
         $file = $this->phpUnitConfigurationFile();
 
-        return Collection::make(parent::phpunitArguments($options))
+        return (new Collection(parent::phpunitArguments($options)))
             ->reject(static fn ($option) => str_starts_with($option, '--configuration='))
             ->merge(["--configuration={$file}"])
             ->all();
@@ -96,7 +96,7 @@ class TestCommand extends Command
     {
         $file = $this->phpUnitConfigurationFile();
 
-        return Collection::make(parent::paratestArguments($options))
+        return (new Collection(parent::paratestArguments($options)))
             ->reject(static fn (string $option) => str_starts_with($option, '--configuration=') || str_starts_with($option, '--runner='))
             ->merge([
                 \sprintf('--configuration=%s', $file),
@@ -108,7 +108,7 @@ class TestCommand extends Command
     #[\Override]
     protected function phpunitEnvironmentVariables()
     {
-        return Collection::make(defined_environment_variables())
+        return (new Collection(defined_environment_variables()))
             ->merge([
                 'APP_ENV' => 'testing',
                 'TESTBENCH_PACKAGE_TESTER' => '(true)',
@@ -122,7 +122,7 @@ class TestCommand extends Command
     #[\Override]
     protected function paratestEnvironmentVariables()
     {
-        return Collection::make(defined_environment_variables())
+        return (new Collection(defined_environment_variables()))
             ->merge([
                 'APP_ENV' => 'testing',
                 'TESTBENCH_PACKAGE_TESTER' => '(true)',

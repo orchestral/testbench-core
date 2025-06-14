@@ -55,7 +55,7 @@ class LoadConfiguration
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
         $this->extendsLoadedConfiguration(
-            LazyCollection::make(function () use ($app) {
+            (new LazyCollection(function () use ($app) {
                 $path = $this->getConfigurationPath($app);
 
                 if (\is_string($path)) {
@@ -65,7 +65,7 @@ class LoadConfiguration
                         yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
                     }
                 }
-            })
+            }))
                 ->collect()
                 ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {

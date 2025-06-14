@@ -27,11 +27,11 @@ final class EnsuresDefaultConfiguration
         $config = $app->make('config');
 
         $config->set([
-            Collection::make([
+            (new Collection([
                 'APP_KEY' => ['app.key' => 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF'],
                 'APP_DEBUG' => ['app.debug' => true],
                 'DB_CONNECTION' => \defined('TESTBENCH_DUSK') ? ['database.default' => 'testing'] : null,
-            ])->filter()
+            ]))->filter()
                 ->reject(static fn ($config, $key) => Env::has($key))
                 ->values()
                 ->all(),

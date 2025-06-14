@@ -164,7 +164,7 @@ function default_environment_variables(): array
  */
 function defined_environment_variables(): array
 {
-    return Collection::make(array_merge($_SERVER, $_ENV))
+    return (new Collection(array_merge($_SERVER, $_ENV)))
         ->keys()
         ->mapWithKeys(static fn (string $key) => [$key => Sidekick\Env::forward($key)])
         ->unless(
@@ -182,7 +182,7 @@ function defined_environment_variables(): array
  */
 function parse_environment_variables($variables): array
 {
-    return Collection::make($variables)
+    return (new Collection($variables))
         ->transform(static function ($value, $key) {
             if (\is_bool($value) || \in_array($value, ['true', 'false'])) {
                 $value = \in_array($value, [true, 'true']) ? '(true)' : '(false)';

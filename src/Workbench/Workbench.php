@@ -74,7 +74,7 @@ class Workbench
     {
         $app->singleton(ConfigContract::class, static fn () => $config);
 
-        Collection::make($providers)
+        (new Collection($providers))
             ->filter(static fn ($provider) => ! empty($provider) && class_exists($provider))
             ->each(static function ($provider) use ($app) {
                 $app->register($provider);
@@ -132,10 +132,10 @@ class Workbench
 
         after_resolving($app, 'translator', static function ($translator) {
             /** @var \Illuminate\Contracts\Translation\Loader $translator */
-            $path = Collection::make([
+            $path = (new Collection([
                 workbench_path('lang'),
                 workbench_path('resources', 'lang'),
-            ])->filter(static fn ($path) => is_dir($path))
+            ]))->filter(static fn ($path) => is_dir($path))
                 ->first();
 
             if (\is_null($path)) {
