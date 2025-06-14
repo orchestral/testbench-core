@@ -213,11 +213,11 @@ class Config extends FluentDecorator implements ConfigContract
         $filename = $filename ?? 'testbench.yaml';
         $config = $defaults;
 
-        $filename = LazyCollection::make(static function () use ($filename) {
+        $filename = (new LazyCollection(static function () use ($filename) {
             yield $filename;
             yield "{$filename}.example";
             yield "{$filename}.dist";
-        })->map(static function ($file) use ($workingPath) {
+        }))->map(static function ($file) use ($workingPath) {
             return str_contains($file, DIRECTORY_SEPARATOR) ? $file : join_paths($workingPath, $file);
         })->filter(static fn ($file) => is_file($file))
             ->first();

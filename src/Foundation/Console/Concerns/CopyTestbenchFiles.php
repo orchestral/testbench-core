@@ -33,11 +33,11 @@ trait CopyTestbenchFiles
         bool $backupExistingFile = true,
         bool $resetOnTerminating = true
     ): void {
-        $configurationFile = LazyCollection::make(static function () {
+        $configurationFile = (new LazyCollection(static function () {
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
             yield 'testbench.yaml.dist';
-        })->map(static fn ($file) => join_paths($workingPath, $file))
+        }))->map(static fn ($file) => join_paths($workingPath, $file))
             ->filter(static fn ($file) => $filesystem->isFile($file))
             ->first();
 
@@ -88,7 +88,7 @@ trait CopyTestbenchFiles
 
         $testbenchEnvFilename = $this->testbenchEnvironmentFile();
 
-        $configurationFile = LazyCollection::make(static function () use ($testbenchEnvFilename) {
+        $configurationFile = (new LazyCollection(static function () use ($testbenchEnvFilename) {
             $defaultTestbenchEnvFilename = '.env';
 
             yield $testbenchEnvFilename;
@@ -98,7 +98,7 @@ trait CopyTestbenchFiles
             yield $defaultTestbenchEnvFilename;
             yield "{$defaultTestbenchEnvFilename}.example";
             yield "{$defaultTestbenchEnvFilename}.dist";
-        })->unique()
+        }))->unique()
             ->map(static fn ($file) => join_paths($workingPath, $file))
             ->filter(static fn ($file) => $filesystem->isFile($file))
             ->first();

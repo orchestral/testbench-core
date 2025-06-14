@@ -64,7 +64,7 @@ final class LoadMigrationsFromArray
                     return;
                 }
 
-                Collection::make(Arr::wrap($this->seeders))
+                (new Collection(Arr::wrap($this->seeders)))
                     ->flatten()
                     ->filter(static fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
                     ->each(static function ($seederClass) use ($app) {
@@ -83,9 +83,9 @@ final class LoadMigrationsFromArray
      */
     protected function bootstrapMigrations(Application $app): void
     {
-        $paths = Collection::make(
+        $paths = (new Collection(
             ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
-        )->when(
+        ))->when(
             $this->includesDefaultMigrations($app),
             static fn ($migrations) => $migrations->push(default_migration_path()),
         )->filter(static fn ($migration) => \is_string($migration))

@@ -38,7 +38,7 @@ class EnsureDirectoryExists extends Action
      */
     public function handle(iterable $directories): void
     {
-        LazyCollection::make($directories)
+        (new LazyCollection($directories))
             ->each(function ($directory) {
                 $location = transform_realpath_to_relative($directory, $this->workingPath);
 

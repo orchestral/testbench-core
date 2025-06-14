@@ -131,7 +131,7 @@ trait InteractsWithPHPUnit
             false
         );
 
-        return Collection::make($annotations);
+        return new Collection($annotations);
     }
 
     /**
@@ -185,12 +185,12 @@ trait InteractsWithPHPUnit
         }
 
         /** @var \Illuminate\Support\Collection<class-string<TTestingFeature>, array<int, TTestingFeature>> $attributes */
-        $attributes = Collection::make(array_merge(
+        $attributes = (new Collection(array_merge(
             static::$testCaseTestingFeatures,
             static::$cachedTestCaseClassAttributes[$className],
             static::$testCaseMethodTestingFeatures,
             ! \is_null($methodName) ? static::$cachedTestCaseMethodAttributes["{$className}:{$methodName}"] : [],
-        ))->groupBy('key')
+        )))->groupBy('key')
             ->map(static function ($attributes) {
                 /** @var \Illuminate\Support\Collection<int, array{key: class-string<TTestingFeature>, instance: TTestingFeature}> $attributes */
                 return $attributes->map(static function ($attribute) {

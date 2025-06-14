@@ -66,9 +66,9 @@ final class RequiresDatabase implements ActionableContract
             return;
         }
 
-        $drivers = Collection::make(
+        $drivers = (new Collection(
             Arr::wrap($this->driver)
-        )->filter(fn ($driver) => $driver === $connection->getDriverName());
+        ))->filter(fn ($driver) => $driver === $connection->getDriverName());
 
         if ($drivers->isEmpty()) {
             \call_user_func(

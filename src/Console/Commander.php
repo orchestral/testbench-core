@@ -257,7 +257,7 @@ class Commander
         Signals::whenAvailable(function () {
             $this->signals ??= new Signals(new SignalRegistry);
 
-            Collection::make(Arr::wrap([SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT]))
+            (new Collection(Arr::wrap([SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT])))
                 ->each(
                     fn ($signal) => $this->signals->register($signal, function () use ($signal) {
                         TerminatingConsole::handle();
