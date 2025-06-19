@@ -21,7 +21,7 @@ class SyncTestbenchCachedRoutes
         $router = $app->make('router');
 
         /** @phpstan-ignore argument.type */
-        Collection::make(glob($app->basePath(join_paths('routes', 'testbench-*.php'))))
+        (new Collection(glob($app->basePath(join_paths('routes', 'testbench-*.php')))))
             ->each(static function ($routeFile) use ($app, $router) { // @phpstan-ignore closure.unusedUse, closure.unusedUse
                 require $routeFile;
             });

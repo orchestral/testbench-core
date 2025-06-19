@@ -38,7 +38,7 @@ final class AddAssetSymlinkFolders
         /** @var array<int, array{from: string, to: string, reverse?: bool}> $sync */
         $sync = $this->config->getWorkbenchAttributes()['sync'] ?? [];
 
-        Collection::make($sync)
+        (new Collection($sync))
             ->map(function ($pair) {
                 /** @var bool $reverse */
                 $reverse = isset($pair['reverse']) && \is_bool($pair['reverse']) ? $pair['reverse'] : false;

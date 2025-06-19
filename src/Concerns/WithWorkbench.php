@@ -78,7 +78,7 @@ trait WithWorkbench
             ? $testCaseSeeder
             : \Database\Seeders\DatabaseSeeder::class;
 
-        $seeders = Collection::make($seeders)
+        $seeders = (new Collection($seeders))
             ->reject(static fn ($seeder) => $seeder === $testCaseSeeder)
             ->values();
 

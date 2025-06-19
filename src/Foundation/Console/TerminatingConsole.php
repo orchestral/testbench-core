@@ -48,7 +48,7 @@ final class TerminatingConsole
      */
     public static function handle(): void
     {
-        Collection::make(self::$beforeTerminatingCallbacks)
+        (new Collection(self::$beforeTerminatingCallbacks))
             ->each(static function ($callback) {
                 \call_user_func($callback);
             });

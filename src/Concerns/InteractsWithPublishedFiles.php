@@ -66,9 +66,9 @@ trait InteractsWithPublishedFiles
      */
     protected function cacheExistingMigrationsFiles()
     {
-        $this->cachedExistingMigrationsFiles ??= Collection::make(
+        $this->cachedExistingMigrationsFiles ??= (new Collection(
             $this->app['files']->files($this->app->databasePath('migrations'))
-        )->filter(static fn ($file) => str_ends_with($file, '.php'))
+        ))->filter(static fn ($file) => str_ends_with($file, '.php'))
             ->all();
     }
 
@@ -281,7 +281,7 @@ trait InteractsWithPublishedFiles
     protected function cleanUpPublishedFiles(): void
     {
         $this->app['files']->delete(
-            Collection::make($this->files ?? [])
+            (new Collection($this->files ?? []))
                 ->transform(fn ($file) => $this->app->basePath($file))
                 ->map(fn ($file) => str_contains($file, '*') ? [...$this->app['files']->glob($file)] : $file)
                 ->flatten()
@@ -319,7 +319,7 @@ trait InteractsWithPublishedFiles
     protected function cleanUpPublishedMigrationFiles(): void
     {
         $this->app['files']->delete(
-            Collection::make($this->app['files']->files($this->app->databasePath('migrations')))
+            (new Collection($this->app['files']->files($this->app->databasePath('migrations'))))
                 ->reject(fn ($file) => \in_array($file, $this->cachedExistingMigrationsFiles))
                 ->filter(static fn ($file) => str_ends_with($file, '.php'))
                 ->all()
