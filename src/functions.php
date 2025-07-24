@@ -358,9 +358,10 @@ function laravel_vendor_exists(ApplicationContract $app, ?string $workingPath = 
  *
  * @param  string  $version
  * @param  string|null  $operator
- * @return int|bool
  *
  * @phpstan-param  TOperator  $operator
+ *
+ * @return int|bool
  *
  * @phpstan-return (TOperator is null ? int : bool)
  *
@@ -380,15 +381,16 @@ function laravel_version_compare(string $version, ?string $operator = null): int
  *
  * @param  string  $version
  * @param  string|null  $operator
- * @return int|bool
- *
- * @throws \RuntimeException
  *
  * @phpstan-param  TOperator  $operator
+ *
+ * @return int|bool
  *
  * @phpstan-return (TOperator is null ? int : bool)
  *
  * @codeCoverageIgnore
+ *
+ * @throws \RuntimeException
  */
 function phpunit_version_compare(string $version, ?string $operator = null): int|bool
 {

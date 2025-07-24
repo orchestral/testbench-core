@@ -102,9 +102,10 @@ trait InteractsWithTestCase
      *
      * @param  object  $attribute
      * @param  int  $flag
-     * @return void
      *
      * @phpstan-param TAttributes $attribute
+     *
+     * @return void
      */
     public static function usesTestingFeature($attribute, int $flag = Attribute::TARGET_CLASS): void
     {
