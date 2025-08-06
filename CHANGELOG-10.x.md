@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.5.0
+
+Released: 2025-08-07
+
+### Changes
+
+* Supports PHPUnit 12.3.
+* Remove temporary SQLite database files available via `journal_mode` configuration.
+* Convert `Collection::make()` to `new Collection()`.
+
 ## 10.4.0
 
 Released: 2025-06-08
