@@ -228,7 +228,7 @@ class Application
         EncodedHtmlString::flushState();
 
         if (! $instance instanceof Commander) {
-            HandleExceptions::flushState();
+            HandleExceptions::flushState($instance);
         }
 
         JsonResource::wrap('data');
