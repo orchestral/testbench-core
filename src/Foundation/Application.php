@@ -37,6 +37,7 @@ use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
 
 use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\laravel_version_compare;
 
 /**
  * @api
@@ -232,7 +233,11 @@ class Application
         Factory::flushState();
 
         if (! $instance instanceof Commander) {
-            HandleExceptions::flushState();
+            if (laravel_version_compare('12.23.1', '<=')) {
+                HandleExceptions::flushState();
+            } else {
+                HandleExceptions::flushState($instance);
+            }
         }
 
         JsonResource::wrap('data');
