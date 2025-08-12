@@ -229,7 +229,7 @@ class Application
         EncodedHtmlString::flushState();
 
         if (! $instance instanceof Commander) {
-            if (laravel_version_compare('11.44.1', '<=')) {
+            if (laravel_version_compare('11.45.1', '<=')) {
                 HandleExceptions::flushState();
             } else {
                 HandleExceptions::flushState($instance);
