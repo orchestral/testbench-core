@@ -8,7 +8,7 @@ Released: 2025-08-12
 
 ### Changes
 
-* Supports for Laravel Framework 11.45.1.
+* Supports for Laravel Framework 11.45.2 or above (fixed integration with PHPUnit 12.3.4).
 * Supports PHPUnit 12.2 and 12.3.
 * Remove temporary SQLite database files available via `journal_mode` configuration.
 * Convert `Collection::make()` to `new Collection()`.
