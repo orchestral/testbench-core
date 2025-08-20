@@ -2,6 +2,17 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.16.0
+
+Released: 2025-08-12
+
+### Changes
+
+* Supports for Laravel Framework 11.45.2 or above (fixed integration with PHPUnit 12.3.4).
+* Supports PHPUnit 12.2 and 12.3.
+* Remove temporary SQLite database files available via `journal_mode` configuration.
+* Convert `Collection::make()` to `new Collection()`.
+
 ## 9.15.0
 
 Released: 2025-06-08

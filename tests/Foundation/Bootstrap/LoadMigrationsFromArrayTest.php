@@ -8,6 +8,7 @@ use Mockery as m;
 use Orchestra\Testbench\Foundation\Bootstrap\LoadMigrationsFromArray;
 use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Workbench\Database\Seeders\TestbenchDatabaseSeeder;
 
 use function Orchestra\Sidekick\join_paths;
 
@@ -40,10 +41,10 @@ class LoadMigrationsFromArrayTest extends TestCase
     public function it_can_seed_database_after_refreshed()
     {
         (new LoadMigrationsFromArray(false, [
-            'seeders' => ['\TestbenchDatabaseSeeder'],
+            'seeders' => [TestbenchDatabaseSeeder::class],
         ]))->bootstrap($this->app);
 
-        $this->instance('\TestbenchDatabaseSeeder', $seeder = m::mock('TestbenchDatabaseSeeder'));
+        $this->instance(TestbenchDatabaseSeeder::class, $seeder = m::mock(TestbenchDatabaseSeeder::class));
 
         $seeder->shouldReceive('setContainer')->once()->with($this->app)->andReturnSelf()
             ->shouldReceive('setCommand')->once()->andReturnSelf()
@@ -57,7 +58,7 @@ class LoadMigrationsFromArrayTest extends TestCase
     {
         (new LoadMigrationsFromArray(false, false))->bootstrap($this->app);
 
-        $this->instance('\TestbenchDatabaseSeeder', $seeder = m::mock('TestbenchDatabaseSeeder'));
+        $this->instance(TestbenchDatabaseSeeder::class, $seeder = m::mock(TestbenchDatabaseSeeder::class));
 
         $seeder->shouldNotReceive('setContainer')->with($this->app)
             ->shouldNotReceive('setCommand')
