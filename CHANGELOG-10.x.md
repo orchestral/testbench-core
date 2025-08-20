@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.6.1
+
+Released: 2025-08-20
+
+### Changes
+
+* Revert minimum supported Laravel Framework version to 12.8.0 and above.
+
 ## 10.6.0
 
 Released: 2025-08-12
