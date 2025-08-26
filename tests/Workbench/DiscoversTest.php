@@ -41,7 +41,7 @@ class DiscoversTest extends TestCase
         $this->get('/hello-world')
             ->assertOk()
             ->assertSee('Hello world')
-            ->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
+            ->assertHeader('Content-Type', 'text/plain; charset=utf-8');
     }
 
     #[Test]
