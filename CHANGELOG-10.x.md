@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.6.2
+
+Released: 2025-08-27
+
+### Changes
+
+* Update skeleton's configuration.
+
+### Fixes
+
+* Fix `Orchestra\Testbench\remote()` with serializable closure usage.
+
 ## 10.6.1
 
 Released: 2025-08-20
