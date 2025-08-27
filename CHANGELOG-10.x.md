@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.6.3
+
+Released: 2025-08-28
+
+### Added
+
+* Added `Orchestra\Testbench\terminate()` function to allow using `exit()` on `pnctl` enabled tests.
+
 ## 10.6.2
 
 Released: 2025-08-27
