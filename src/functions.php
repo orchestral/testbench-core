@@ -15,6 +15,8 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Sidekick;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Runner\ShutdownHandler;
 
 /**
  * Create Laravel application instance.
@@ -59,6 +61,22 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
     $command = $context->artisan($command, $parameters);
 
     return $command instanceof PendingCommand ? $command->run() : $command;
+}
+
+/**
+ * Emit an exit event within a test.
+ *
+ * @param  \Orchestra\Testbench\Contracts\TestCase|\PHPUnit\Framework\TestCase  $testCase
+ * @param  string|int  $status
+ * @return never
+ */
+function terminate(Contracts\TestCase|PHPUnitTestCase $testCase, string|int $status = 0): never
+{
+    if (Sidekick\phpunit_version_compare('12.3.5', '>=')) {
+        ShutdownHandler::resetMessage();
+    }
+
+    exit($status);
 }
 
 /**
