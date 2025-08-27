@@ -33,7 +33,10 @@ class RemoteCommandTest extends TestCase
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $process->getOutput());
             $this->assertSame('Laravel Framework '.Application::VERSION.PHP_EOL, $result->output());
 
-            $process = remote(fn () => 1 + 1);
+            $process = remote(function () {
+                return 1 + 1;
+            });
+
             $result = $process->mustRun();
 
             $this->assertInstanceOf(ProcessDecorator::class, $process);
