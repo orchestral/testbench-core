@@ -2,12 +2,14 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Sidekick\Env;
+use RuntimeException;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
@@ -59,13 +61,16 @@ class LoadConfiguration
                 $path = $this->getConfigurationPath($app);
 
                 if (\is_string($path)) {
-                    foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-                        $directory = $this->getNestedDirectory($file, $path);
-
-                        yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
-                    }
+                    yield from $this->getConfigurationsFromPath($path);
                 }
             }))
+                ->tap(function ($configurations) {
+                    $keys = $configurations->keys();
+
+                    ray($keys);
+
+                    return $configurations;
+                })
                 ->collect()
                 ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {
@@ -132,11 +137,34 @@ class LoadConfiguration
      *
      * @param  TLaravel  $app
      * @return string
+     *
+     * @throws \RuntimeException
      */
     protected function getConfigurationPath(Application $app): string
     {
-        return is_dir($app->basePath('config'))
+        $configurationPath = is_dir($app->basePath('config'))
             ? $app->basePath('config')
             : default_skeleton_path('config');
+
+        if ($configurationPath === false) {
+            throw new RuntimeException('Unable to locate configuration path');
+        }
+
+        return $configurationPath;
+    }
+
+    /**
+     * Get the configurations from path.
+     *
+     * @param  string  $path
+     * @return \Generator
+     */
+    protected function getConfigurationsFromPath(string $path): Generator
+    {
+        foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
+            $directory = $this->getNestedDirectory($file, $path);
+
+            yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
+        }
     }
 }

@@ -234,11 +234,11 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
  * @no-named-arguments
  *
  * @param  array<int, string|null>|string  ...$path
- * @return string
+ * @return ($path is '' ? string : string|false)
  */
-function default_skeleton_path(array|string $path = ''): string
+function default_skeleton_path(array|string $path = ''): string|false
 {
-    return (string) realpath(
+    return realpath(
         Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
     );
 }
