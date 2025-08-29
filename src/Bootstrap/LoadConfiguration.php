@@ -14,6 +14,7 @@ use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\default_skeleton_path;
+use function Orchestra\Testbench\package_path;
 
 /**
  * @internal
@@ -64,14 +65,10 @@ class LoadConfiguration
                     yield from $this->getConfigurationsFromPath($path);
                 }
             }))
-                ->tap(function ($configurations) {
-                    $keys = $configurations->keys();
-
-                    ray($keys);
-
-                    return $configurations;
-                })
                 ->collect()
+                ->tap(fn ($configurations) => $configurations->merge(
+                    $this->getFrameworkDefaultConfigurations(excepts: $configurations->keys()->all())
+                ))
                 ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
@@ -151,6 +148,14 @@ class LoadConfiguration
         }
 
         return $configurationPath;
+    }
+
+    protected function getFrameworkDefaultConfigurations(array $includes = [], array $excepts = []): array
+    {
+        return (new LazyCollection(function () use ($includes, $excepts) {
+            yield from $this->getConfigurationsFromPath(package_path(['vendor', 'laravel', 'framework', 'config']));
+        }))->reject(fn ($file, $name) => in_array($name, $excepts) && ! in_array($name, $includes))
+        ->all();
     }
 
     /**
