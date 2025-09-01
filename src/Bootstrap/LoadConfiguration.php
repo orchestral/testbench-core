@@ -6,13 +6,13 @@ use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Sidekick\Env;
 use RuntimeException;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
-
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\package_path;
 
@@ -23,6 +23,13 @@ use function Orchestra\Testbench\package_path;
  */
 class LoadConfiguration
 {
+    /**
+     * Cached Laravel Framework default configuration.
+     *
+     * @var \Illuminate\Contracts\Config\Repository|null
+     */
+    protected static ?RepositoryContract $cachedFrameworkConfigurations = null;
+
     /**
      * Bootstrap the given application.
      *
@@ -61,7 +68,11 @@ class LoadConfiguration
             ? $app->shouldMergeFrameworkConfiguration()
             : true;
 
-        $frameworkConfigurations = new Repository($this->getFrameworkDefaultConfigurations());
+        static::$cachedFrameworkConfigurations ??= new Repository(
+            (new Collection($this->getFrameworkDefaultConfigurations()))
+                ->transform(fn ($path, $key) => require $path)
+                ->all()
+        );
 
         $this->extendsLoadedConfiguration(
             (new LazyCollection(function () use ($app) {
@@ -72,23 +83,23 @@ class LoadConfiguration
                 }
             }))
                 ->collect()
-                ->when($shouldMerge === true, static function ($configurations) use ($frameworkConfigurations) {
-                    $excludes = $configurations->keys()->all();
+                ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
+        )->each(static function ($data, $key) use ($config) {
+            $config->set($key, require $data);
+        })->when($shouldMerge === true, function ($configurations) use ($config) {
+            $excludes = $configurations->keys()->all();
 
-                    return $configurations->merge(
-                        (new Collection($frameworkConfigurations->all()))->reject(
-                            fn ($file, $name) => \in_array($name, $excludes)
-                        )
-                    );
-                })->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
-        )->each(static function ($path, $key) use ($config) {
-            $config->set($key, require $path);
-        })->when($shouldMerge === true, function ($configurations) use ($config, $frameworkConfigurations) {
-            return $configurations->each(function ($data, $key) use ($config, $frameworkConfigurations) {
+            (new Collection(static::$cachedFrameworkConfigurations->all()))->reject(
+                fn ($data, $key) => \in_array($key, $excludes)
+            )->each(function ($data, $key) use ($config) {
+                $config->set($key, $data);
+            });
+
+            return $configurations->each(function ($data, $key) use ($config) {
                 foreach ($this->mergeableOptions($key) as $option) {
                     $name = "{$key}.{$option}";
 
-                    $config->set($name, array_merge($frameworkConfigurations->get($name, []), $config->get($name)));
+                    $config->set($name, array_merge((static::$cachedFrameworkConfigurations->get($name) ?? []), ($config->get($name) ?? [])));
                 }
             });
         });
