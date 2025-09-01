@@ -84,22 +84,26 @@ class LoadConfiguration
             }))
                 ->collect()
                 ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
-        )->each(static function ($data, $key) use ($config) {
-            $config->set($key, require $data);
+        )->each(static function ($path, $key) use ($config) {
+            $config->set($key, require $path);
         })->when($shouldMerge === true, function ($configurations) use ($config) {
+            /** @var \Illuminate\Contracts\Config\Repository $baseConfigurations */
+            $baseConfigurations = static::$cachedFrameworkConfigurations;
+
+            /** @var array<int, string> $excludes */
             $excludes = $configurations->keys()->all();
 
-            (new Collection(static::$cachedFrameworkConfigurations->all()))->reject(
+            (new Collection($baseConfigurations->all()))->reject(
                 fn ($data, $key) => \in_array($key, $excludes)
             )->each(function ($data, $key) use ($config) {
                 $config->set($key, $data);
             });
 
-            return $configurations->each(function ($data, $key) use ($config) {
+            return $configurations->each(function ($data, $key) use ($config, $baseConfigurations) {
                 foreach ($this->mergeableOptions($key) as $option) {
                     $name = "{$key}.{$option}";
 
-                    $config->set($name, array_merge((static::$cachedFrameworkConfigurations->get($name) ?? []), ($config->get($name) ?? [])));
+                    $config->set($name, array_merge(($baseConfigurations->get($name) ?? []), ($config->get($name) ?? [])));
                 }
             });
         });
