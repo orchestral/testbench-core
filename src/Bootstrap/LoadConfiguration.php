@@ -66,10 +66,14 @@ class LoadConfiguration
                 }
             }))
                 ->collect()
-                ->tap(fn ($configurations) => $configurations->merge(
-                    $this->getFrameworkDefaultConfigurations(excepts: $configurations->keys()->all())
-                ))
-                ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
+                ->tap(function ($configurations) {
+                    $excludes = $configurations->keys()->all();
+
+                    return $configurations->merge(
+                        (new Collection($this->getFrameworkDefaultConfigurations()))
+                            ->reject(fn ($file, $name) => in_array($name, $excludes))
+                    );
+                })->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
         });
@@ -150,12 +154,16 @@ class LoadConfiguration
         return $configurationPath;
     }
 
-    protected function getFrameworkDefaultConfigurations(array $includes = [], array $excepts = []): array
+    /**
+     * Get the framework default configurations.
+     *
+     * @return array<string, string>
+     */
+    protected function getFrameworkDefaultConfigurations(): array
     {
-        return (new LazyCollection(function () use ($includes, $excepts) {
+        return (new LazyCollection(function () {
             yield from $this->getConfigurationsFromPath(package_path(['vendor', 'laravel', 'framework', 'config']));
-        }))->reject(fn ($file, $name) => in_array($name, $excepts) && ! in_array($name, $includes))
-        ->all();
+        }))->all();
     }
 
     /**
