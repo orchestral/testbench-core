@@ -6,13 +6,13 @@ use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Sidekick\Env;
 use RuntimeException;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
+
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\package_path;
 
