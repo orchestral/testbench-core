@@ -30,12 +30,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\EncodedHtmlString;
 use Illuminate\Support\Once;
 use Illuminate\Support\Sleep;
+use Illuminate\Validation\Validator;
 use Illuminate\View\Component;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
-
 use function Orchestra\Sidekick\join_paths;
 
 /**
@@ -254,6 +254,7 @@ class Application
         TrimStrings::flushState();
         TrustProxies::flushState();
         TrustHosts::flushState();
+        Validator::flushState();
         ValidateCsrfToken::flushState();
         WorkCommand::flushState();
     }
