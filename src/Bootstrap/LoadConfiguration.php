@@ -57,6 +57,12 @@ class LoadConfiguration
      */
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
+        $shouldMerge = method_exists($app, 'shouldMergeFrameworkConfiguration')
+            ? $app->shouldMergeFrameworkConfiguration()
+            : true;
+
+        $frameworkConfigurations = new Repository($this->getFrameworkDefaultConfigurations());
+
         $this->extendsLoadedConfiguration(
             (new LazyCollection(function () use ($app) {
                 $path = $this->getConfigurationPath($app);
@@ -66,16 +72,25 @@ class LoadConfiguration
                 }
             }))
                 ->collect()
-                ->tap(function ($configurations) {
+                ->when($shouldMerge === true, static function ($configurations) use ($frameworkConfigurations) {
                     $excludes = $configurations->keys()->all();
 
                     return $configurations->merge(
-                        (new Collection($this->getFrameworkDefaultConfigurations()))
-                            ->reject(fn ($file, $name) => in_array($name, $excludes))
+                        (new Collection($frameworkConfigurations->all()))->reject(
+                            fn ($file, $name) => \in_array($name, $excludes)
+                        )
                     );
                 })->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
+        })->when($shouldMerge === true, function ($configurations) use ($config, $frameworkConfigurations) {
+            return $configurations->each(function ($data, $key) use ($config, $frameworkConfigurations) {
+                foreach ($this->mergeableOptions($key) as $option) {
+                    $name = "{$key}.{$option}";
+
+                    $config->set($name, array_merge($frameworkConfigurations->get($name, []), $config->get($name)));
+                }
+            });
         });
     }
 
@@ -179,5 +194,25 @@ class LoadConfiguration
 
             yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
         }
+    }
+
+    /**
+     * Get the options within the configuration file that should be merged again.
+     *
+     * @param  string  $name
+     * @return array<int, string>
+     */
+    protected function mergeableOptions(string $name): array
+    {
+        return [
+            'auth' => ['guards', 'providers', 'passwords'],
+            'broadcasting' => ['connections'],
+            'cache' => ['stores'],
+            'database' => ['connections'],
+            'filesystems' => ['disks'],
+            'logging' => ['channels'],
+            'mail' => ['mailers'],
+            'queue' => ['connections'],
+        ][$name] ?? [];
     }
 }
