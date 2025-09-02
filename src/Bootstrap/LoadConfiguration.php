@@ -86,7 +86,7 @@ class LoadConfiguration
                 ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
-        })->when($shouldMerge === true, function ($configurations) use ($config) {
+        })->when($shouldMerge === true, static function ($configurations) use ($config) {
             /** @var \Illuminate\Contracts\Config\Repository $baseConfigurations */
             $baseConfigurations = static::$cachedFrameworkConfigurations;
 
@@ -99,8 +99,8 @@ class LoadConfiguration
                 $config->set($key, $data);
             });
 
-            return $configurations->each(function ($data, $key) use ($config, $baseConfigurations) {
-                foreach ($this->mergeableOptions($key) as $option) {
+            return $configurations->each(static function ($data, $key) use ($config, $baseConfigurations) {
+                foreach (static::mergeableOptions($key) as $option) {
                     $name = "{$key}.{$option}";
 
                     $config->set($name, array_merge(($baseConfigurations->get($name) ?? []), ($config->get($name) ?? [])));
@@ -217,7 +217,7 @@ class LoadConfiguration
      * @param  string  $name
      * @return array<int, string>
      */
-    protected function mergeableOptions(string $name): array
+    public static function mergeableOptions(string $name): array
     {
         return [
             'auth' => ['guards', 'providers', 'passwords'],
