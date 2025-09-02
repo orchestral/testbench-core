@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.16.2
+
+Released: 2025-09-03
+
+### Added
+
+* Added `Orchestra\Testbench\bail()` function to allow using `exit()` on `pnctl` enabled tests.
+
+### Changes
+
+* Ability to merge Framework configurations when using custom skeleton.
+
 ## 9.16.1
 
 Released: 2025-09-01
