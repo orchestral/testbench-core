@@ -66,17 +66,29 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
 /**
  * Emit an exit event within a test.
  *
- * @param  \Orchestra\Testbench\Contracts\TestCase|\PHPUnit\Framework\TestCase  $testCase
+ * @param  \PHPUnit\Framework\TestCase|object|null  $testCase
  * @param  string|int  $status
  * @return never
  */
-function terminate(Contracts\TestCase|PHPUnitTestCase $testCase, string|int $status = 0): never
+function bail(?object $testCase, string|int $status = 0): never
 {
-    if (Sidekick\phpunit_version_compare('12.3.5', '>=')) {
+    if ($testCase instanceof PHPUnitTestCase && Sidekick\phpunit_version_compare('12.3.5', '>=')) {
         ShutdownHandler::resetMessage();
     }
 
     exit($status);
+}
+
+/**
+ * Emit an exit event within a test.
+ *
+ * @param  \PHPUnit\Framework\TestCase|object|null  $testCase
+ * @param  string|int  $status
+ * @return never
+ */
+function terminate(?object $testCase, string|int $status = 0): never
+{
+    bail($testCase, $status);
 }
 
 /**
