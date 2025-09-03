@@ -269,7 +269,11 @@ class Application
         TrimStrings::flushState();
         TrustProxies::flushState();
         TrustHosts::flushState();
-        Validator::flushState();
+
+        if (method_exists(Validator::class, 'flushState')) {
+            Validator::flushState();
+        }
+
         ValidateCsrfToken::flushState();
         WorkCommand::flushState();
     }
