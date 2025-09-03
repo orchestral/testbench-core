@@ -55,7 +55,7 @@ trait WithLaravelBootstrapFile
      */
     protected function usesTestbenchDefaultSkeleton(): bool
     {
-        return uses_default_skeleton();
+        return uses_default_skeleton($this->getApplicationBasePath());
     }
 
     /**

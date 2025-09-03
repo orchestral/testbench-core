@@ -70,7 +70,7 @@ class LoadConfiguration
             : true;
 
         static::$cachedFrameworkConfigurations ??= new Repository(
-            (new Collection(uses_default_skeleton() ? [] : $this->getFrameworkDefaultConfigurations()))
+            (new Collection(uses_default_skeleton($app->basePath()) ? [] : $this->getFrameworkDefaultConfigurations()))
                 ->transform(fn ($path, $key) => require $path)
                 ->all()
         );
