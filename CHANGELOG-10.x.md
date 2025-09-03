@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.6.5
+
+Released: 2025-09-03
+
+### Added
+
+* Add `Orchestra\Testbench\uses_default_skeleton()` function.
+* Supports flushing `Illuminate\Validator\Validator` state.
+
+### Fixes
+
+* fix loading framework configuration for `laravel/framework` repository.
+
 ## 10.6.4
 
 Released: 2025-09-03
