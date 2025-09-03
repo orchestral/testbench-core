@@ -15,6 +15,7 @@ use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\package_path;
+use function Orchestra\Testbench\uses_default_skeleton;
 
 /**
  * @internal
@@ -69,7 +70,7 @@ class LoadConfiguration
             : true;
 
         static::$cachedFrameworkConfigurations ??= new Repository(
-            (new Collection($this->getFrameworkDefaultConfigurations()))
+            (new Collection(uses_default_skeleton($app->basePath()) ? [] : $this->getFrameworkDefaultConfigurations()))
                 ->transform(fn ($path, $key) => require $path)
                 ->all()
         );
