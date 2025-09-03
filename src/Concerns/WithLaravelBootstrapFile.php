@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Concerns;
 use Orchestra\Testbench\Foundation\Application as Testbench;
 
 use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Testbench\uses_default_skeleton;
 use function Orchestra\Testbench\workbench_path;
 
 trait WithLaravelBootstrapFile
@@ -54,7 +55,7 @@ trait WithLaravelBootstrapFile
      */
     protected function usesTestbenchDefaultSkeleton(): bool
     {
-        return realpath(join_paths($this->getApplicationBasePath(), 'bootstrap', '.testbench-default-skeleton')) !== false;
+        return uses_default_skeleton($this->getApplicationBasePath());
     }
 
     /**
