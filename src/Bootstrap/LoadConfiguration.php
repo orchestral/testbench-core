@@ -15,6 +15,7 @@ use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\package_path;
+use function Orchestra\Testbench\uses_default_skeleton;
 
 /**
  * @internal
@@ -191,6 +192,10 @@ class LoadConfiguration
      */
     protected function getFrameworkDefaultConfigurations(): array
     {
+        if (uses_default_skeleton()) {
+            return [];
+        }
+
         return (new LazyCollection(function () {
             yield from $this->getConfigurationsFromPath(package_path(['vendor', 'laravel', 'framework', 'config']));
         }))->all();

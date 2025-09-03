@@ -244,6 +244,16 @@ function default_skeleton_path(array|string $path = ''): string|false
 }
 
 /**
+ * Determine if application is bootstrapped using Testbench's default skeleton.
+ *
+ * @return bool
+ */
+function uses_default_skeleton(): bool
+{
+    return realpath(Sidekick\join_paths(base_path(), 'bootstrap', '.testbench-default-skeleton')) !== false;
+}
+
+/**
  * Get the migration path by type.
  *
  * @api
