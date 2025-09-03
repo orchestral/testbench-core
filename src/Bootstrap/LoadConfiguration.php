@@ -70,7 +70,7 @@ class LoadConfiguration
             : true;
 
         static::$cachedFrameworkConfigurations ??= new Repository(
-            (new Collection($this->getFrameworkDefaultConfigurations()))
+            (new Collection(uses_default_skeleton() ? [] : $this->getFrameworkDefaultConfigurations()))
                 ->transform(fn ($path, $key) => require $path)
                 ->all()
         );
@@ -192,10 +192,6 @@ class LoadConfiguration
      */
     protected function getFrameworkDefaultConfigurations(): array
     {
-        if (uses_default_skeleton()) {
-            return [];
-        }
-
         return (new LazyCollection(function () {
             yield from $this->getConfigurationsFromPath(package_path(['vendor', 'laravel', 'framework', 'config']));
         }))->all();
