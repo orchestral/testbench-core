@@ -189,6 +189,8 @@ class LoadConfiguration
      * Get the framework default configurations.
      *
      * @return array<string, string>
+     *
+     * @codeCoverageIgnore
      */
     protected function getFrameworkDefaultConfigurations(): array
     {
