@@ -15,6 +15,8 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Sidekick;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Runner\ShutdownHandler;
 
 /**
  * Create Laravel application instance.
@@ -59,6 +61,34 @@ function artisan(Contracts\TestCase|ApplicationContract $context, string $comman
     $command = $context->artisan($command, $parameters);
 
     return $command instanceof PendingCommand ? $command->run() : $command;
+}
+
+/**
+ * Emit an exit event within a test.
+ *
+ * @param  \PHPUnit\Framework\TestCase|object|null  $testCase
+ * @param  string|int  $status
+ * @return never
+ */
+function bail(?object $testCase, string|int $status = 0): never
+{
+    if ($testCase instanceof PHPUnitTestCase && Sidekick\phpunit_version_compare('12.3.5', '>=')) {
+        ShutdownHandler::resetMessage();
+    }
+
+    exit($status);
+}
+
+/**
+ * Emit an exit event within a test.
+ *
+ * @param  \PHPUnit\Framework\TestCase|object|null  $testCase
+ * @param  string|int  $status
+ * @return never
+ */
+function terminate(?object $testCase, string|int $status = 0): never
+{
+    bail($testCase, $status);
 }
 
 /**
@@ -216,13 +246,26 @@ function transform_realpath_to_relative(string $path, ?string $workingPath = nul
  * @no-named-arguments
  *
  * @param  array<int, string|null>|string  ...$path
- * @return string
+ * @return ($path is '' ? string : string|false)
  */
-function default_skeleton_path(array|string $path = ''): string
+function default_skeleton_path(array|string $path = ''): string|false
 {
-    return (string) realpath(
+    return realpath(
         Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
     );
+}
+
+/**
+ * Determine if application is bootstrapped using Testbench's default skeleton.
+ *
+ * @param  string|null  $basePath
+ * @return bool
+ */
+function uses_default_skeleton(?string $basePath = null): bool
+{
+    $basePath ??= base_path();
+
+    return realpath(Sidekick\join_paths($basePath, 'bootstrap', '.testbench-default-skeleton')) !== false;
 }
 
 /**

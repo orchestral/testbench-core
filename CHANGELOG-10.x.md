@@ -2,6 +2,51 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.6.5
+
+Released: 2025-09-03
+
+### Added
+
+* Add `Orchestra\Testbench\uses_default_skeleton()` function.
+* Supports flushing `Illuminate\Validator\Validator` state.
+
+### Fixes
+
+* fix loading framework configuration for `laravel/framework` repository.
+
+## 10.6.4
+
+Released: 2025-09-03
+
+### Added
+
+* Added `Orchestra\Testbench\bail()` function to allow using `exit()` on `pnctl` enabled tests.
+
+### Changes
+
+* Ability to merge Framework configurations when using custom skeleton.
+
+## 10.6.3
+
+Released: 2025-08-28
+
+### Added
+
+* Added `Orchestra\Testbench\terminate()` function to allow using `exit()` on `pnctl` enabled tests.
+
+## 10.6.2
+
+Released: 2025-08-27
+
+### Changes
+
+* Update skeleton's configuration.
+
+### Fixes
+
+* Fix `Orchestra\Testbench\remote()` with serializable closure usage.
+
 ## 10.6.1
 
 Released: 2025-08-20

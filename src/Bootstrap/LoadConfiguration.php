@@ -2,16 +2,20 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Generator;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Sidekick\Env;
+use RuntimeException;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 use function Orchestra\Testbench\default_skeleton_path;
+use function Orchestra\Testbench\package_path;
+use function Orchestra\Testbench\uses_default_skeleton;
 
 /**
  * @internal
@@ -20,6 +24,13 @@ use function Orchestra\Testbench\default_skeleton_path;
  */
 class LoadConfiguration
 {
+    /**
+     * Cached Laravel Framework default configuration.
+     *
+     * @var \Illuminate\Contracts\Config\Repository|null
+     */
+    protected static ?RepositoryContract $cachedFrameworkConfigurations = null;
+
     /**
      * Bootstrap the given application.
      *
@@ -54,22 +65,48 @@ class LoadConfiguration
      */
     private function loadConfigurationFiles(Application $app, RepositoryContract $config): void
     {
+        $shouldMerge = method_exists($app, 'shouldMergeFrameworkConfiguration')
+            ? $app->shouldMergeFrameworkConfiguration()
+            : true;
+
+        static::$cachedFrameworkConfigurations ??= new Repository(
+            (new Collection(uses_default_skeleton($app->basePath()) ? [] : $this->getFrameworkDefaultConfigurations()))
+                ->transform(fn ($path, $key) => require $path)
+                ->all()
+        );
+
         $this->extendsLoadedConfiguration(
             (new LazyCollection(function () use ($app) {
                 $path = $this->getConfigurationPath($app);
 
                 if (\is_string($path)) {
-                    foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
-                        $directory = $this->getNestedDirectory($file, $path);
-
-                        yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
-                    }
+                    yield from $this->getConfigurationsFromPath($path);
                 }
             }))
                 ->collect()
                 ->transform(fn ($path, $key) => $this->resolveConfigurationFile($path, $key))
         )->each(static function ($path, $key) use ($config) {
             $config->set($key, require $path);
+        })->when($shouldMerge === true, static function ($configurations) use ($config) {
+            /** @var \Illuminate\Contracts\Config\Repository $baseConfigurations */
+            $baseConfigurations = static::$cachedFrameworkConfigurations;
+
+            /** @var array<int, string> $excludes */
+            $excludes = $configurations->keys()->all();
+
+            (new Collection($baseConfigurations->all()))->reject(
+                fn ($data, $key) => \in_array($key, $excludes)
+            )->each(function ($data, $key) use ($config) {
+                $config->set($key, $data);
+            });
+
+            return $configurations->each(static function ($data, $key) use ($config, $baseConfigurations) {
+                foreach (static::mergeableOptions($key) as $option) {
+                    $name = "{$key}.{$option}";
+
+                    $config->set($name, array_merge(($baseConfigurations->get($name) ?? []), ($config->get($name) ?? [])));
+                }
+            });
         });
     }
 
@@ -132,11 +169,68 @@ class LoadConfiguration
      *
      * @param  TLaravel  $app
      * @return string
+     *
+     * @throws \RuntimeException
      */
     protected function getConfigurationPath(Application $app): string
     {
-        return is_dir($app->basePath('config'))
+        $configurationPath = is_dir($app->basePath('config'))
             ? $app->basePath('config')
             : default_skeleton_path('config');
+
+        if ($configurationPath === false) {
+            throw new RuntimeException('Unable to locate configuration path');
+        }
+
+        return $configurationPath;
+    }
+
+    /**
+     * Get the framework default configurations.
+     *
+     * @return array<string, string>
+     *
+     * @codeCoverageIgnore
+     */
+    protected function getFrameworkDefaultConfigurations(): array
+    {
+        return (new LazyCollection(function () {
+            yield from $this->getConfigurationsFromPath(package_path(['vendor', 'laravel', 'framework', 'config']));
+        }))->all();
+    }
+
+    /**
+     * Get the configurations from path.
+     *
+     * @param  string  $path
+     * @return \Generator
+     */
+    protected function getConfigurationsFromPath(string $path): Generator
+    {
+        foreach (Finder::create()->files()->name('*.php')->in($path) as $file) {
+            $directory = $this->getNestedDirectory($file, $path);
+
+            yield $directory.basename($file->getRealPath(), '.php') => $file->getRealPath();
+        }
+    }
+
+    /**
+     * Get the options within the configuration file that should be merged again.
+     *
+     * @param  string  $name
+     * @return array<int, string>
+     */
+    public static function mergeableOptions(string $name): array
+    {
+        return [
+            'auth' => ['guards', 'providers', 'passwords'],
+            'broadcasting' => ['connections'],
+            'cache' => ['stores'],
+            'database' => ['connections'],
+            'filesystems' => ['disks'],
+            'logging' => ['channels'],
+            'mail' => ['mailers'],
+            'queue' => ['connections'],
+        ][$name] ?? [];
     }
 }

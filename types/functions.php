@@ -8,9 +8,9 @@ use function Orchestra\Testbench\workbench_path;
 use function PHPStan\Testing\assertType;
 
 assertType('string', default_skeleton_path());
-assertType('string', default_skeleton_path('app'));
-assertType('string', default_skeleton_path('app', '.gitkeep'));
-assertType('string', default_skeleton_path(['app', '.gitkeep']));
+assertType('string|false', default_skeleton_path('app'));
+assertType('string|false', default_skeleton_path('app', '.gitkeep'));
+assertType('string|false', default_skeleton_path(['app', '.gitkeep']));
 
 assertType('string', package_path());
 assertType('string', package_path('laravel'));
