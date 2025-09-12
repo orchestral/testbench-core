@@ -17,6 +17,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Sleep;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Orchestra\Testbench\Bootstrap\HandleExceptions;
 use Orchestra\Testbench\Bootstrap\RegisterProviders;
@@ -105,9 +106,10 @@ class Application
      * @param  string|null  $basePath
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      * @param  array<string, mixed>  $options
-     * @return static
      *
      * @phpstan-param TConfig  $options
+     *
+     * @return static
      */
     public static function make(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
     {
@@ -120,9 +122,10 @@ class Application
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      * @param  array<string, mixed>  $options
-     * @return static
      *
      * @phpstan-param TConfig  $options
+     *
+     * @return static
      */
     public static function makeFromConfig(ConfigContract $config, ?callable $resolvingCallback = null, array $options = [])
     {
@@ -175,9 +178,10 @@ class Application
      * @param  string|null  $basePath
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      * @param  array<string, mixed>  $options
-     * @return \Illuminate\Foundation\Application
      *
      * @phpstan-param TConfig  $options
+     *
+     * @return \Illuminate\Foundation\Application
      */
     public static function create(?string $basePath = null, ?callable $resolvingCallback = null, array $options = [])
     {
@@ -190,9 +194,10 @@ class Application
      * @param  \Orchestra\Testbench\Contracts\Config  $config
      * @param  (callable(\Illuminate\Foundation\Application):(void))|null  $resolvingCallback
      * @param  array<string, mixed>  $options
-     * @return \Illuminate\Foundation\Application
      *
      * @phpstan-param TConfig  $options
+     *
+     * @return \Illuminate\Foundation\Application
      */
     public static function createFromConfig(ConfigContract $config, ?callable $resolvingCallback = null, array $options = [])
     {
@@ -230,6 +235,8 @@ class Application
         SchemaBuilder::$defaultMorphKeyType = 'int';
         Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
+        Str::createRandomStringsNormally();
+        Str::createUuidsNormally();
         TrimStrings::flushState();
     }
 
@@ -237,9 +244,10 @@ class Application
      * Configure the application options.
      *
      * @param  array<string, mixed>  $options
-     * @return $this
      *
      * @phpstan-param TConfig  $options
+     *
+     * @return $this
      */
     public function configure(array $options)
     {
