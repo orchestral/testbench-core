@@ -12,6 +12,7 @@ use Illuminate\Foundation\Console\RouteListCommand;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Queue\Queue;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Orchestra\Testbench\Bootstrap\RegisterProviders;
 use Orchestra\Testbench\Concerns\CreatesApplication;
@@ -212,6 +213,8 @@ class Application
         SchemaBuilder::$defaultStringLength = 255;
         SchemaBuilder::$defaultMorphKeyType = 'int';
         Signals::resolveAvailabilityUsing(null);
+        Str::createRandomStringsNormally();
+        Str::createUuidsNormally();
     }
 
     /**
