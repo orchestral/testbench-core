@@ -111,7 +111,7 @@ trait CreatesApplication
      * Override application aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array<string, class-string>
+     * @return array<string, class-string|false>
      */
     protected function overrideApplicationAliases($app)
     {
@@ -133,8 +133,11 @@ trait CreatesApplication
         ))->merge($this->getPackageAliases($app));
 
         if (! empty($overrides = $this->overrideApplicationAliases($app))) {
+            /** @phpstan-ignore argument.type */
             $aliases->transform(static function ($alias, $name) use ($overrides) {
-                return $overrides[$name] ?? $alias;
+                return with($overrides[$name] ?? $alias, static function ($alias) {
+                    return $alias !== false ? $alias : null;
+                });
             });
         }
 
@@ -178,7 +181,7 @@ trait CreatesApplication
      * Override application aliases.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     * @return array<class-string, class-string>
+     * @return array<class-string, class-string|false>
      */
     protected function overrideApplicationProviders($app)
     {
@@ -200,9 +203,13 @@ trait CreatesApplication
         ))->merge($this->getPackageProviders($app));
 
         if (! empty($overrides = $this->overrideApplicationProviders($app))) {
-            $providers->transform(static function ($provider) use ($overrides) {
-                return $overrides[$provider] ?? $provider;
+            /** @phpstan-ignore argument.type */
+            $providers->transform(static function (string $provider) use ($overrides) {
+                return with($overrides[$provider] ?? $provider, static function ($provider) {
+                    return $provider !== false ? $provider : null;
+                });
             });
+
         }
 
         return $providers->filter()->values()->all();
