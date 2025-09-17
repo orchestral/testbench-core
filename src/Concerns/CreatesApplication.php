@@ -209,7 +209,6 @@ trait CreatesApplication
                     return $provider !== false ? $provider : null;
                 });
             });
-
         }
 
         return $providers->filter()->values()->all();
