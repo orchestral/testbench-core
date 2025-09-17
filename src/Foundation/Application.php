@@ -253,6 +253,7 @@ class Application
         Signals::resolveAvailabilityUsing(null); // @phpstan-ignore argument.type
         Sleep::fake(false);
         Str::createRandomStringsNormally();
+        Str::createUuidsNormally();
         ThrottleRequests::shouldHashKeys();
         TrimStrings::flushState();
         TrustProxies::flushState();
