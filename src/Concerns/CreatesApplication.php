@@ -154,6 +154,7 @@ trait CreatesApplication
             });
         }
 
+        /** @phpstan-ignore return.type */
         return $aliases->filter()->all();
     }
 
@@ -232,6 +233,7 @@ trait CreatesApplication
             });
         }
 
+        /** @phpstan-ignore return.type */
         return $providers->filter()->values()->all();
     }
 
