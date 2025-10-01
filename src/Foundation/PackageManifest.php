@@ -140,9 +140,11 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromTestbenchOrLaravel()
     {
-        if (is_file(working_path('composer.json'))) {
+        $composerFile = working_path('composer.json');
+
+        if (is_file($composerFile)) {
             /** @var array{name: string, extra?: array{laravel?: array}} $composer */
-            $composer = $this->files->json(working_path('composer.json'));
+            $composer = $this->files->json($composerFile);
 
             return $composer;
         }
