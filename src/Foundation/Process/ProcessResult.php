@@ -79,7 +79,7 @@ final class ProcessResult
     /**
      * Get the standard output of the process.
      *
-     * @return string
+     * @return mixed
      */
     public function output()
     {
