@@ -139,9 +139,11 @@ function once($callback): Closure
  *
  * @api
  *
- * @param  \Illuminate\Contracts\Foundation\Application  $app
- * @param  string  $name
- * @param  (\Closure(object, \Illuminate\Contracts\Foundation\Application):(mixed))|null  $callback
+ * @template TLaravel of \Illuminate\Contracts\Foundation\Application
+ *
+ * @param  TLaravel  $app
+ * @param  class-string|string  $name
+ * @param  (\Closure(object, TLaravel):(mixed))|null  $callback
  * @return void
  */
 function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
