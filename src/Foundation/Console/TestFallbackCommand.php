@@ -7,6 +7,7 @@ use RuntimeException;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Symfony\Component\Process\Process;
 
+use function Orchestra\Sidekick\is_testbench_cli;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\php_binary;
 
@@ -45,7 +46,7 @@ class TestFallbackCommand extends Command
     {
         parent::configure();
 
-        if (! \defined('TESTBENCH_CORE')) {
+        if (! is_testbench_cli()) {
             $this->setHidden(true);
         }
     }

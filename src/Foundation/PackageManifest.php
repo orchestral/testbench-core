@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use RuntimeException;
 
+use function Orchestra\Sidekick\is_testbench_cli;
 use function Orchestra\Testbench\package_path;
 
 /**
@@ -131,7 +132,7 @@ class PackageManifest extends IlluminatePackageManifest
     {
         $composerFile = package_path('composer.json');
 
-        if (! \defined('TESTBENCH_CORE') || ! is_file($composerFile)) {
+        if (! is_testbench_cli() || ! is_file($composerFile)) {
             return [];
         }
 
