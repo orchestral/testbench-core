@@ -7,7 +7,8 @@ use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-use function Orchestra\Sidekick\working_path;
+use function Orchestra\Sidekick\is_testbench_cli;
+use function Orchestra\Testbench\package_path;
 
 /**
  * @api
@@ -126,7 +127,7 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromRoot(): array
     {
-        $package = $this->providersFromTestbenchOrLaravel();
+        $package = $this->providersFromTestbench();
 
         return \is_array($package) ? [
             $this->format($package['name']) => $package['extra']['laravel'] ?? [],
@@ -138,11 +139,9 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @return array{name: string, extra?: array{laravel?: array}}|null
      */
-    protected function providersFromTestbenchOrLaravel(): ?array
+    protected function providersFromTestbench(): ?array
     {
-        $composerFile = working_path('composer.json');
-
-        if (is_file($composerFile)) {
+        if (is_testbench_cli() && is_file($composerFile = package_path('composer.json'))) {
             /** @var array{name: string, extra?: array{laravel?: array}} $composer */
             $composer = $this->files->json($composerFile);
 
