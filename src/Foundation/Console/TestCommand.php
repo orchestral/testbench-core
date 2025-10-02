@@ -7,6 +7,7 @@ use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Features\ParallelRunner;
 
+use function Orchestra\Sidekick\is_testbench_cli;
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\package_path;
 
@@ -47,7 +48,7 @@ class TestCommand extends Command
     {
         parent::configure();
 
-        if (! \defined('TESTBENCH_CORE')) {
+        if (! is_testbench_cli()) {
             $this->setHidden(true);
         }
     }
