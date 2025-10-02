@@ -127,7 +127,7 @@ class PackageManifest extends IlluminatePackageManifest
      */
     protected function providersFromRoot()
     {
-        $package = $this->providersFromTestbenchOrLaravel();
+        $package = $this->providersFromTestbench();
 
         return \is_array($package) ? [
             $this->format($package['name']) => $package['extra']['laravel'] ?? [],
@@ -139,7 +139,7 @@ class PackageManifest extends IlluminatePackageManifest
      *
      * @return array{name: string, extra?: array{laravel?: array}}|null
      */
-    protected function providersFromTestbenchOrLaravel()
+    protected function providersFromTestbench()
     {
         if (is_testbench_cli() && is_file($composerFile = package_path('composer.json'))) {
             /** @var array{name: string, extra?: array{laravel?: array}} $composer */
