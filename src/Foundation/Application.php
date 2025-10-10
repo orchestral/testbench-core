@@ -30,6 +30,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\EncodedHtmlString;
 use Illuminate\Support\Once;
 use Illuminate\Support\Sleep;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 use Illuminate\View\Component;
 use Orchestra\Testbench\Concerns\CreatesApplication;
@@ -38,7 +39,6 @@ use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
 
 use function Orchestra\Sidekick\join_paths;
-use function Orchestra\Sidekick\laravel_version_compare;
 
 /**
  * @api
@@ -226,27 +226,15 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
-
-        if (class_exists(EncodedHtmlString::class)) {
-            EncodedHtmlString::flushState();
-        }
-
+        EncodedHtmlString::flushState();
         Factory::flushState();
 
         if (! $instance instanceof Commander) {
-            if (laravel_version_compare('12.24.0', '<')) {
-                HandleExceptions::flushState();
-            } else {
-                HandleExceptions::flushState($instance);
-            }
+            HandleExceptions::flushState($instance);
         }
 
         JsonResource::wrap('data');
-
-        if (method_exists(Markdown::class, 'flushState')) {
-            Markdown::flushState();
-        }
-
+        Markdown::flushState();
         Migrator::withoutMigrations([]);
         Model::handleDiscardedAttributeViolationUsing(null);
         Model::handleLazyLoadingViolationUsing(null);
@@ -265,15 +253,12 @@ class Application
         SchemaBuilder::$defaultMorphKeyType = 'int';
         Signals::resolveAvailabilityUsing(null); // @phpstan-ignore argument.type
         Sleep::fake(false);
+        Str::resetFactoryState();
         ThrottleRequests::shouldHashKeys();
         TrimStrings::flushState();
         TrustProxies::flushState();
         TrustHosts::flushState();
-
-        if (method_exists(Validator::class, 'flushState')) {
-            Validator::flushState();
-        }
-
+        Validator::flushState();
         ValidateCsrfToken::flushState();
         WorkCommand::flushState();
     }
