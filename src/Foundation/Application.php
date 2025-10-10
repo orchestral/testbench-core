@@ -236,6 +236,7 @@ class Application
         Signals::resolveAvailabilityUsing(null);
         Sleep::fake(false);
         Str::createRandomStringsNormally();
+        Str::createUlidsNormally();
         Str::createUuidsNormally();
         TrimStrings::flushState();
     }
