@@ -9,6 +9,7 @@ Released: 2025-10-14
 ### Changes
 
 * Supports for Laravel Framework 12.28.0 or above.
+* Supports PHPUnit 12.4.
 * Support disabling Laravel default service providers.
 * Flush `Illuminate\Support\Str` states via during test teardown.
 
