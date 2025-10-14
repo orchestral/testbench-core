@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.17.0
+
+Released: 2025-10-14
+
+### Changes
+
+* Support disabling Laravel default service providers.
+* Flush `Illuminate\Support\Str` states via during test teardown.
+
 ## 9.16.3
 
 Released: 2025-09-03
