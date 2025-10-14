@@ -107,7 +107,7 @@ function remote(Closure|array|string $command, array|string $env = [], ?bool $tt
         package_path(), $env, $tty
     );
 
-    $binary = \defined('TESTBENCH_DUSK') ? 'testbench-dusk' : 'testbench';
+    $binary = Sidekick\is_testbench_cli(dusk: true) ? 'testbench-dusk' : 'testbench';
 
     $commander = is_file($vendorBinary = package_path('vendor', 'bin', $binary))
         ? $vendorBinary

@@ -101,7 +101,7 @@ class Workbench
         $hasAuthentication = $config->getWorkbenchAttributes()['auth'] ?? false;
 
         static::start($app, $config, array_filter([
-            $hasAuthentication === true && class_exists('Orchestra\Workbench\AuthServiceProvider') ? 'Orchestra\Workbench\AuthServiceProvider' : null,
+            $hasAuthentication === true ? 'Orchestra\Workbench\AuthServiceProvider' : null,
             'Orchestra\Workbench\WorkbenchServiceProvider',
         ]));
     }
