@@ -235,7 +235,7 @@ class Application
         }
 
         if (class_exists(JsonApiResource::class)) {
-            JsonResource::flushState();
+            JsonResource::flushState(); // @phpstan-ignore staticMethod.notFound
             JsonApiResource::flushState();
         } else {
             JsonResource::wrap('data');
