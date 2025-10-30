@@ -22,6 +22,7 @@ use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Http\Middleware\TrustHosts;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\JsonApi\JsonApiResource;
 use Illuminate\Mail\Markdown;
 use Illuminate\Queue\Console\WorkCommand;
 use Illuminate\Queue\Queue;
@@ -233,7 +234,13 @@ class Application
             HandleExceptions::flushState($instance);
         }
 
-        JsonResource::wrap('data');
+        if (class_exists(JsonApiResource::class)) {
+            JsonResource::flushState();
+            JsonApiResource::flushState();
+        } else {
+            JsonResource::wrap('data');
+        }
+
         Markdown::flushState();
         Migrator::withoutMigrations([]);
         Model::handleDiscardedAttributeViolationUsing(null);
