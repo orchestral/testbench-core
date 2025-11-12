@@ -50,7 +50,7 @@ final class RemoveAssetSymlinkFolders
 
                 if (is_symlink($to)) {
                     return [$to, function ($to) {
-                        windows_os() ? $this->files->deleteDirectory($to) : $this->files->delete($to);
+                        windows_os() ? @rmdir($to) : $this->files->delete($to);
                     }];
                 }
 
