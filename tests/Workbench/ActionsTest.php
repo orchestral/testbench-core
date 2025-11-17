@@ -10,6 +10,7 @@ use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
 use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Sidekick\is_symlink;
+use function Orchestra\Sidekick\join_paths;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\workbench_path;
 
@@ -20,46 +21,46 @@ class ActionsTest extends TestCase
     #[\Override]
     protected function setUp(): void
     {
+        $this->filesystem = new Filesystem;
+        $skeletonPath = default_skeleton_path();
+
+        $this->afterApplicationCreated(function () use ($skeletonPath) {
+            $this->filesystem->copyDirectory(join_paths($skeletonPath, 'storage'), join_paths($skeletonPath, 'storage.bak'));
+            $this->ensureSymlinkExists();
+        });
+
+        $this->beforeApplicationDestroyed(function () use ($skeletonPath) {
+            if (! default_skeleton_path('storage', 'framework')) {
+                $this->filesystem->moveDirectory(join_paths($path, 'storage.bak'), join_paths($path, 'storage'), true);
+            } else {
+                $this->filesystem->deleteDirectory(join_paths($path, 'storage.bak'));
+            }
+        });
+        
         parent::setUp();
 
-        $this->filesystem = new Filesystem;
-
-        $path = default_skeleton_path();
-        $this->filesystem->copyDirectory($path.'/storage', $path.'/storage.bak');
-        $this->ensureSymlinkExists();
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        $path = default_skeleton_path();
-        if (! default_skeleton_path('storage/framework')) {
-            $this->filesystem->moveDirectory($path.'/storage.bak', $path.'/storage', true);
-        } else {
-            $this->filesystem->deleteDirectory($path.'/storage.bak');
-        }
     }
 
     #[Test]
     public function it_does_not_wipe_target_directory_while_recreating_asset_symlink()
     {
         (new AddAssetSymlinkFolders($this->filesystem, $this->getConfig()))->handle();
-        $this->assertDirectoryExists(default_skeleton_path().'/storage/framework');
+
+        $this->assertDirectoryExists(default_skeleton_path('storage', 'framework'));
     }
 
     #[Test]
     public function it_does_not_wipe_target_directory_while_removing_asset_symlink()
     {
         (new RemoveAssetSymlinkFolders($this->filesystem, $this->getConfig()))->handle();
-        $this->assertDirectoryExists(default_skeleton_path().'/storage/framework');
+
+        $this->assertDirectoryExists(default_skeleton_path('storage', 'framework'));
     }
 
     protected function ensureSymlinkExists(): void
     {
-        if (! is_symlink(workbench_path().'/storage')) {
-            $this->filesystem->link(default_skeleton_path().'/storage', workbench_path().'/storage');
+        if (! is_symlink(workbench_path('storage'))) {
+            $this->filesystem->link(default_skeleton_path('storage'), workbench_path('storage'));
         }
     }
 
