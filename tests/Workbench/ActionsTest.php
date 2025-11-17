@@ -31,9 +31,9 @@ class ActionsTest extends TestCase
 
         $this->beforeApplicationDestroyed(function () use ($skeletonPath) {
             if (! default_skeleton_path('storage', 'framework')) {
-                $this->filesystem->moveDirectory(join_paths($path, 'storage.bak'), join_paths($path, 'storage'), true);
+                $this->filesystem->moveDirectory(join_paths($skeletonPath, 'storage.bak'), join_paths($skeletonPath, 'storage'), true);
             } else {
-                $this->filesystem->deleteDirectory(join_paths($path, 'storage.bak'));
+                $this->filesystem->deleteDirectory(join_paths($skeletonPath, 'storage.bak'));
             }
         });
         
