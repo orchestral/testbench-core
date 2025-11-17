@@ -79,6 +79,9 @@
         "vlucas/phpdotenv": "Required for Testbench CLI (^5.4.1)."
     },
     "config": {
+        "audit": {
+            "block-insecure": false
+        },
         "preferred-install": {
             "*": "auto"
         },
