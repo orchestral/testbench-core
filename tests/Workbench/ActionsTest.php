@@ -43,7 +43,7 @@ class ActionsTest extends TestCase
     #[Test]
     public function it_does_not_wipe_target_directory_while_recreating_asset_symlink()
     {
-        (new AddAssetSymlinkFolders($this->filesystem, $this->getConfig()))->handle();
+        (new AddAssetSymlinkFolders($this->filesystem, static::cachedConfigurationForWorkbench()))->handle();
 
         $this->assertDirectoryExists(join_paths(default_skeleton_path(), 'storage', 'framework'));
     }
@@ -51,11 +51,16 @@ class ActionsTest extends TestCase
     #[Test]
     public function it_does_not_wipe_target_directory_while_removing_asset_symlink()
     {
-        (new RemoveAssetSymlinkFolders($this->filesystem, $this->getConfig()))->handle();
+        (new RemoveAssetSymlinkFolders($this->filesystem, static::cachedConfigurationForWorkbench()))->handle();
 
         $this->assertDirectoryExists(join_paths(default_skeleton_path(), 'storage', 'framework'));
     }
 
+    /**
+     * Ensure symlink directory exists for the test.
+     *
+     * @return void
+     */
     protected function ensureSymlinkExists(): void
     {
         if (! is_symlink(workbench_path('storage'))) {
@@ -63,7 +68,12 @@ class ActionsTest extends TestCase
         }
     }
 
-    protected function getConfig(): Config
+    /**
+     * Define or get the cached uses for test case.
+     *
+     * @return \Orchestra\Testbench\Contracts\Config
+     */
+    public static function cachedConfigurationForWorkbench()
     {
         return new Config([
             'workbench' => [
