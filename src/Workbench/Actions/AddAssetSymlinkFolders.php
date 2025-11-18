@@ -63,7 +63,7 @@ final class AddAssetSymlinkFolders
                 $to = $pair['to'];
 
                 if (is_symlink($to)) {
-                    windows_os() ? $this->files->deleteDirectory($to) : $this->files->delete($to);
+                    windows_os() ? @rmdir($to) : $this->files->delete($to);
                 } elseif ($this->files->isDirectory($to)) {
                     $this->files->deleteDirectory($to);
                 }
