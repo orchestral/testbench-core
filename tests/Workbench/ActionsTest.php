@@ -16,8 +16,14 @@ use function Orchestra\Testbench\workbench_path;
 
 class ActionsTest extends TestCase
 {
+    /**
+     * The filesystem instance.
+     *
+     * @var \Illuminate\Filesystem\Filesystem
+     */
     protected Filesystem $filesystem;
 
+    /** {@inheritDoc} */
     #[\Override]
     protected function setUp(): void
     {
