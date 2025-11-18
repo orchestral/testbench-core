@@ -38,7 +38,6 @@ class ActionsTest extends TestCase
         });
 
         parent::setUp();
-
     }
 
     #[Test]
