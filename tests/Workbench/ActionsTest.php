@@ -45,7 +45,7 @@ class ActionsTest extends TestCase
     {
         (new AddAssetSymlinkFolders($this->filesystem, $this->getConfig()))->handle();
 
-        $this->assertDirectoryExists(default_skeleton_path('storage', 'framework'));
+        $this->assertDirectoryExists(join_paths(default_skeleton_path(), 'storage', 'framework'));
     }
 
     #[Test]
@@ -53,7 +53,7 @@ class ActionsTest extends TestCase
     {
         (new RemoveAssetSymlinkFolders($this->filesystem, $this->getConfig()))->handle();
 
-        $this->assertDirectoryExists(default_skeleton_path('storage', 'framework'));
+        $this->assertDirectoryExists(join_paths(default_skeleton_path(), 'storage', 'framework'));
     }
 
     protected function ensureSymlinkExists(): void
