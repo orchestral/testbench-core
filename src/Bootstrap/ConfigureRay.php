@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Contracts\Foundation\Application;
+use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Ray\Settings\Settings;
 
 use function Orchestra\Testbench\after_resolving;
@@ -22,6 +23,10 @@ final class ConfigureRay
      */
     public function bootstrap(Application $app): void
     {
+        if (! $app->providerIsLoaded(RayServiceProvider::class)) {
+            return;
+        }
+
         after_resolving($app, Settings::class, static function ($settings, $app) {
             /** @var \Illuminate\Contracts\Foundation\Application $app */
             /** @var \Spatie\Ray\Settings\Settings $settings */
