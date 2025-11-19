@@ -61,11 +61,6 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
           coverage: none
 
-      - name: Prepare PHP 8.5 dependencies
-        run: |
-          composer remove --dev "spatie/laravel-ray"
-        if: matrix.php >= 8.5
-
       - name: Install dependencies
         uses: "ramsey/composer-install@v3"
         with:
