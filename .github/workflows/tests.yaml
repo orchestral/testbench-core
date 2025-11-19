@@ -75,11 +75,11 @@ jobs:
         run: vendor/bin/phpunit --display-deprecations ${{ matrix.dependencies == 'highest' && '--fail-on-deprecation' || '' }}
         env:
           RAY_ENABLED: false
-        if: matrix.os != 'windows-latest' && matrix.php < 8.5
+        if: matrix.os != 'windows-latest'
 
       - name: Execute tests (without deprecations)
         run: vendor/bin/phpunit --exclude-group deprecations
         env:
           RAY_ENABLED: false
           TESTBENCH_CONVERT_DEPRECATIONS_TO_EXCEPTIONS: false
-        if: matrix.os == 'windows-latest' || matrix.php >= 8.5
+        if: matrix.os == 'windows-latest'
