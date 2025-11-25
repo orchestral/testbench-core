@@ -17,7 +17,6 @@ jobs:
           - 8.2
           - 8.3
           - 8.4
-          - 8.5
         collision:
           - "^8.0"
         paratest:
@@ -31,6 +30,19 @@ jobs:
           - "~12.4.0"
         experimental:
           - false
+        include:
+          - php: 8.5
+            collision: "^8.0"
+            paratest: "^7.10"
+            phpunit: "~12.3.0"
+          - php: 8.5
+            collision: "^8.0"
+            paratest: "^7.10"
+            phpunit: "~12.4.0"
+          - php: 8.5
+            collision: "^8.0"
+            paratest: "^7.10"
+            phpunit: "~12.3.0"
         exclude:
           - php: 8.2
             phpunit: "~12.0.0"
