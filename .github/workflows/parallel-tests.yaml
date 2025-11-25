@@ -35,7 +35,7 @@ jobs:
           - php: 8.5
             phpunit: "~12.1.0"
           - php: 8.5
-            phpunit: "~12.1.0"
+            phpunit: "~12.2.0"
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
