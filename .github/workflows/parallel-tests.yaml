@@ -29,8 +29,6 @@ jobs:
           - "~12.4.0"
         experimental:
           - false
-<<<<<<< HEAD
-=======
         exclude:
           - php: 8.5
             phpunit: "~12.0.0"
@@ -89,7 +87,6 @@ jobs:
           - "~11.5.11"
         experimental:
           - false
->>>>>>> 10.x
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
