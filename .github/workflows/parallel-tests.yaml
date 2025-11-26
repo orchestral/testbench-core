@@ -8,12 +8,77 @@ on:
   workflow_dispatch:
 
 jobs:
-  tests:
+  tests-on-phpunit12:
     runs-on: "ubuntu-latest"
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         php:
+          - 8.3
+          - 8.4
+          - 8.5
+        collision:
+          - "^8.0"
+        paratest:
+          - "^7.3"
+        phpunit:
+          - "~12.0.0"
+          - "~12.1.0"
+          - "~12.2.0"
+          - "~12.3.0"
+          - "~12.4.0"
+        experimental:
+          - false
+<<<<<<< HEAD
+=======
+        exclude:
+          - php: 8.5
+            phpunit: "~12.0.0"
+          - php: 8.5
+            phpunit: "~12.1.0"
+          - php: 8.5
+            phpunit: "~12.2.0"
+
+    name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
+          coverage: none
+
+      - name: Install Paratest
+        run: |
+          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
+
+      - name: Install dependencies
+        uses: "ramsey/composer-install@v3"
+        with:
+          dependency-versions: "highest"
+          composer-options: "--prefer-dist --no-cache --with=phpunit/phpunit:${{ matrix.phpunit }}"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
+
+      - name: Execute tests
+        run: php testbench package:test --parallel ${{ matrix.phpunit == '~10.5.35' && '--exclude-group commander,without-parallel,database,session --no-coverage' || '--exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage' }}
+        env:
+          RAY_ENABLED: false
+        if: matrix.phpunit != '~10.5.35'
+
+  tests-on-phpunit11:
+    runs-on: "ubuntu-latest"
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        php:
+          - 8.2
           - 8.3
           - 8.4
         collision:
@@ -22,13 +87,9 @@ jobs:
           - "^7.3"
         phpunit:
           - "~11.5.11"
-          - "~12.0.0"
-          - "~12.1.0"
-          - "~12.2.0"
-          - "~12.3.0"
-          - "~12.4.0"
         experimental:
           - false
+>>>>>>> 10.x
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 

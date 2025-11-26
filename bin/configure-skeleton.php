@@ -97,6 +97,10 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
+    line("PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),", 4) => line("(PHP_VERSION_ID >= 80500 ? Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),", 4),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/database.php"));
+
+transform([
     line("'bcrypt' => [
         'rounds' => env('BCRYPT_ROUNDS', 12),", 1) => line("'bcrypt' => [
         'rounds' => env('BCRYPT_ROUNDS', 10),", 1),
