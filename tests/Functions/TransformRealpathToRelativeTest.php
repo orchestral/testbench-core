@@ -39,7 +39,7 @@ class TransformRealpathToRelativeTest extends TestCase
     public function it_can_use_transform_realpath_to_relative_using_custom_working_path()
     {
         $this->assertSame(
-            join_paths('@tests', 'Helpers', 'TransformRealpathToRelativeTest.php'),
+            join_paths('@tests', 'Functions', 'TransformRealpathToRelativeTest.php'),
             transform_realpath_to_relative(__FILE__, package_path('tests'), '@tests')
         );
     }

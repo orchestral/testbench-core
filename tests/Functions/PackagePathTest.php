@@ -32,13 +32,13 @@ class PackagePathTest extends TestCase
 
     public static function pathDataProvider()
     {
-        yield [package_path('tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
-        yield [package_path('./tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
-        yield [package_path(DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
+        yield [package_path('tests'.DIRECTORY_SEPARATOR.'Functions'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
+        yield [package_path('./tests'.DIRECTORY_SEPARATOR.'Functions'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
+        yield [package_path(DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Functions'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
 
-        yield [package_path('tests', 'Helpers', 'PackagePathTest.php')];
-        yield [package_path(['tests', 'Helpers', 'PackagePathTest.php'])];
-        yield [package_path('./tests', 'Helpers', 'PackagePathTest.php')];
-        yield [package_path(['./tests', 'Helpers', 'PackagePathTest.php'])];
+        yield [package_path('tests', 'Functions', 'PackagePathTest.php')];
+        yield [package_path(['tests', 'Functions', 'PackagePathTest.php'])];
+        yield [package_path('./tests', 'Functions', 'PackagePathTest.php')];
+        yield [package_path(['./tests', 'Functions', 'PackagePathTest.php'])];
     }
 }
