@@ -425,6 +425,7 @@ function laravel_version_compare(string $version, ?string $operator = null)
  *
  * @template TOperator of string|null
  *
+ * @param  string  $package
  * @param  string  $version
  * @param  string|null  $operator
  *
@@ -437,9 +438,9 @@ function laravel_version_compare(string $version, ?string $operator = null)
  * @throws \OutOfBoundsException
  * @throws \RuntimeException
  */
-function package_version_compare(string $version, ?string $operator = null)
+function package_version_compare(string $package, string $version, ?string $operator = null)
 {
-    return Sidekick\package_version_compare($version, $operator);
+    return Sidekick\package_version_compare($package, $version, $operator);
 }
 
 /**
