@@ -419,6 +419,30 @@ function laravel_version_compare(string $version, ?string $operator = null)
 }
 
 /**
+ * Package version compare.
+ *
+ * @api
+ *
+ * @template TOperator of string|null
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ *
+ * @phpstan-param  TOperator  $operator
+ *
+ * @return int|bool
+ *
+ * @phpstan-return (TOperator is null ? int : bool)
+ *
+ * @throws \OutOfBoundsException
+ * @throws \RuntimeException
+ */
+function package_version_compare(string $version, ?string $operator = null)
+{
+    return Sidekick\package_version_compare($version, $operator);
+}
+
+/**
  * PHPUnit version compare.
  *
  * @api
@@ -434,6 +458,7 @@ function laravel_version_compare(string $version, ?string $operator = null)
  *
  * @phpstan-return (TOperator is null ? int : bool)
  *
+ * @throws \OutOfBoundsException
  * @throws \RuntimeException
  */
 function phpunit_version_compare(string $version, ?string $operator = null)
