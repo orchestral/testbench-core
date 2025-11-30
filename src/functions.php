@@ -15,7 +15,6 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
 use InvalidArgumentException;
 use Orchestra\Sidekick;
-use PHPUnit\Runner\Version;
 
 /**
  * Create Laravel application instance.
