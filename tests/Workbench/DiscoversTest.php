@@ -11,6 +11,8 @@ use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 
+use function Orchestra\Testbench\package_version_compare;
+
 #[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class DiscoversTest extends TestCase
 {
@@ -38,10 +40,14 @@ class DiscoversTest extends TestCase
     #[Test]
     public function it_can_resolve_web_routes_using_macro_from_discovers()
     {
+        $contentType = package_version_compare('symfony/http-foundation', '7.4.0', '>=')
+            ? 'text/plain; charset=utf-8'
+            : 'text/plain; charset=UTF-8';
+
         $this->get('/hello-world')
             ->assertOk()
             ->assertSee('Hello world')
-            ->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
+            ->assertHeader('Content-Type', $contentType);
     }
 
     #[Test]

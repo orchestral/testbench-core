@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Helpers;
+namespace Orchestra\Testbench\Tests\Functions;
 
 use Illuminate\Console\Command;
 use Orchestra\Testbench\Tests\TestCase;

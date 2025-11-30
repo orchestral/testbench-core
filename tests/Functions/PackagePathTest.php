@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Tests\Helpers;
+namespace Orchestra\Testbench\Tests\Functions;
 
 use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -26,34 +26,34 @@ class PackagePathTest extends TestCase
     {
         $this->assertSame(
             realpath(join_paths(__DIR__, 'PackagePathTest.php')),
-            package_path(join_paths('./tests', 'Helpers', 'PackagePathTest.php'))
+            package_path(join_paths('./tests', 'Functions', 'PackagePathTest.php'))
         );
 
         $this->assertSame(
             realpath(join_paths(__DIR__, 'PackagePathTest.php')),
-            package_path(join_paths('tests', 'Helpers', 'PackagePathTest.php'))
+            package_path(join_paths('tests', 'Functions', 'PackagePathTest.php'))
         );
 
         $this->assertSame(
             realpath(join_paths(__DIR__, 'PackagePathTest.php')),
-            package_path(DIRECTORY_SEPARATOR.join_paths('tests', 'Helpers', 'PackagePathTest.php'))
+            package_path(DIRECTORY_SEPARATOR.join_paths('tests', 'Functions', 'PackagePathTest.php'))
         );
 
         $this->assertSame(
             realpath(join_paths(__DIR__, 'PackagePathTest.php')),
-            package_path(join_paths('tests', 'Helpers', 'PackagePathTest.php'))
+            package_path(join_paths('tests', 'Functions', 'PackagePathTest.php'))
         );
     }
 
     public static function pathDataProvider()
     {
-        yield [package_path('tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
-        yield [package_path('./tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
-        yield [package_path(DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Helpers'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
+        yield [package_path('tests'.DIRECTORY_SEPARATOR.'Functions'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
+        yield [package_path('./tests'.DIRECTORY_SEPARATOR.'Functions'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
+        yield [package_path(DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'Functions'.DIRECTORY_SEPARATOR.'PackagePathTest.php')];
 
-        yield [package_path('tests', 'Helpers', 'PackagePathTest.php')];
-        yield [package_path(['tests', 'Helpers', 'PackagePathTest.php'])];
-        yield [package_path('./tests', 'Helpers', 'PackagePathTest.php')];
-        yield [package_path(['./tests', 'Helpers', 'PackagePathTest.php'])];
+        yield [package_path('tests', 'Functions', 'PackagePathTest.php')];
+        yield [package_path(['tests', 'Functions', 'PackagePathTest.php'])];
+        yield [package_path('./tests', 'Functions', 'PackagePathTest.php')];
+        yield [package_path(['./tests', 'Functions', 'PackagePathTest.php'])];
     }
 }
