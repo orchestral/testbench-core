@@ -25,7 +25,7 @@ class UsesVendorTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     #[UsesVendor]
     public function it_can_uses_config_from_attribute()
     {
