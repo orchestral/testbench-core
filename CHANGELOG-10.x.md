@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+
+## 10.8.1
+
+Released: 2025-12-08
+
+### Changes
+
+* Supports PHPUnit 12.5.
+
 ## 10.8.0
 
 Released: 2025-11-24
