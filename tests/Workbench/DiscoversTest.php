@@ -11,7 +11,11 @@ use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 
+<<<<<<< HEAD
 use function Orchestra\Testbench\package_version_compare;
+=======
+use function Orchestra\Sidekick\package_version_compare;
+>>>>>>> 10.8.x
 
 #[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class DiscoversTest extends TestCase
