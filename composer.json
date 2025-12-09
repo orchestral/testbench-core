@@ -80,6 +80,7 @@
             "block-insecure": false
         },
         "preferred-install": {
+            "laravel/framework": "source",
             "*": "auto"
         },
         "sort-packages": true
