@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Attributes;
 
+use Illuminate\Contracts\Config\Repository as ConfigRepositoryContract;
 use Illuminate\Filesystem\Filesystem;
 use Orchestra\Testbench\Attributes\UsesVendor;
 use Orchestra\Testbench\Tests\TestCase;
@@ -22,5 +23,14 @@ class UsesVendorTest extends TestCase
             $filesystem->hash(base_path(join_paths('vendor', 'autoload.php'))),
             $filesystem->hash(package_path('vendor', 'autoload.php'))
         );
+    }
+
+    #[Test]
+    #[UsesVendor]
+    public function it_can_uses_config_from_attribute()
+    {
+        tap($this->app->make('config'), function ($repository) {
+            $this->assertInstanceOf(ConfigRepositoryContract::class, $repository);
+        });
     }
 }

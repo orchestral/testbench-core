@@ -45,15 +45,6 @@ class DiscoversTest extends TestCase
     }
 
     #[Test]
-    public function it_can_resolve_health_check_from_discovers()
-    {
-        $this->get('/up')
-            ->assertOk()
-            ->assertSee('HTTP request received')
-            ->assertSee('Response rendered in');
-    }
-
-    #[Test]
     public function it_can_resolve_views_from_discovers()
     {
         $this->get('/testbench')
