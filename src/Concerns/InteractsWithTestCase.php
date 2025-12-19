@@ -180,6 +180,7 @@ trait InteractsWithTestCase
     public static function setUpBeforeClassUsingTestCase(): void
     {
         if (static::usesTestingConcern(WithFixtures::class)) {
+            /** @phpstan-ignore-next-line */
             static::setupWithFixturesForTestingEnvironment();
         }
 
