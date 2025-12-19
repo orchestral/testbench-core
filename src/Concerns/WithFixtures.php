@@ -7,6 +7,8 @@ use ReflectionClass;
 
 /**
  * @api
+ *
+ * @codeCoverageIgnore
  */
 trait WithFixtures
 {
