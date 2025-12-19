@@ -5,8 +5,16 @@ namespace Orchestra\Testbench\Concerns;
 use Illuminate\Support\Str;
 use ReflectionClass;
 
+/**
+ * @api
+ */
 trait WithFixtures
 {
+    /**
+     * Setup test case to include fixture file using ".fixtures.php" suffix if it's available.
+     *
+     * @return void
+     */
     protected static function setupWithFixturesForTestingEnvironment(): void
     {
         $reflection = new ReflectionClass(static::class);
