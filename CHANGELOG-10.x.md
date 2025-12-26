@@ -2,6 +2,13 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.8.2
+
+Released: 2025-12-26
+
+### Changes
+
+* Supports flushing `JsonResource` and `JsonApiResource` states.
 
 ## 10.8.1
 
