@@ -16,7 +16,6 @@ trait InteractsWithPest
      */
     public function isRunningTestCaseUsingPest(): bool
     {
-        /** @phpstan-ignore-next-line */
         return $this->isRunningTestCase() && static::isRunningViaPestPrinter($this);
     }
 
@@ -27,6 +26,7 @@ trait InteractsWithPest
      */
     protected static function isRunningViaPestPrinter(object|string $object): bool
     {
+        /** @phpstan-ignore-next-line */
         return isset(class_implements($object, false)[HasPrintableTestCaseName::class]);
     }
 }
