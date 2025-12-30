@@ -17,6 +17,16 @@ trait InteractsWithPest
     public function isRunningTestCaseUsingPest(): bool
     {
         /** @phpstan-ignore-next-line */
-        return $this->isRunningTestCase() && isset(class_implements($this, false)[HasPrintableTestCaseName::class]);
+        return $this->isRunningTestCase() && static::isRunningViaPestPrinter($this);
+    }
+
+    /**
+     * Determine if the object implements Pest test runner.
+     *
+     * @return bool
+     */
+    protected static function isRunningViaPestPrinter(object|string $object): bool
+    {
+        return isset(class_implements($object, false)[HasPrintableTestCaseName::class]);
     }
 }
