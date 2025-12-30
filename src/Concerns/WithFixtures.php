@@ -3,7 +3,8 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Str;
-use ReflectionClass;
+
+use function Orchestra\Sidekick\Filesystem\filename_from_classname;
 
 /**
  * @api
@@ -19,9 +20,9 @@ trait WithFixtures
      */
     protected static function setupWithFixturesForTestingEnvironment(): void
     {
-        $reflection = new ReflectionClass(static::class);
+        $classFileName = filename_from_classname(static::class);
 
-        if (! is_file($classFileName = $reflection->getFileName()) && ! str_ends_with($classFileName, '.php')) {
+        if ($classFileName === false) {
             return;
         }
 
