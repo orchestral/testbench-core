@@ -148,11 +148,7 @@ function once($callback): Closure
  */
 function after_resolving(ApplicationContract $app, string $name, ?Closure $callback = null): void
 {
-    $app->afterResolving($name, $callback);
-
-    if ($app->resolved($name)) {
-        value($callback, $app->make($name), $app);
-    }
+    Sidekick\after_resolving($app, $name, $callback);
 }
 
 /**

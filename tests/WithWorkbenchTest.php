@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Orchestra\Testbench\Concerns\WithFixtures;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
@@ -13,6 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 class WithWorkbenchTest extends TestCase
 {
+    use WithFixtures;
     use WithWorkbench;
 
     #[Test]
@@ -71,7 +73,7 @@ class WithWorkbenchTest extends TestCase
         array|false $workbenchSeeders,
         array|false $expected
     ) {
-        $stub = new MergeSeedersTestStub($seed, $seeder);
+        $stub = new WithWorkbenchTest\MergeSeedersTestStub($seed, $seeder);
 
         $config = new Config(['seeders' => $workbenchSeeders]);
 
@@ -86,27 +88,5 @@ class WithWorkbenchTest extends TestCase
         yield [false, 'Database\Seeders\DatabaseSeeder', ['Workbench\Database\Seeders\DatabaseSeeder'], false];
         yield [true, 'Database\Seeders\DatabaseSeeder', ['Database\Seeders\DatabaseSeeder', 'Workbench\Database\Seeders\DatabaseSeeder'], ['Workbench\Database\Seeders\DatabaseSeeder']];
         yield [true, 'Workbench\Database\Seeders\DatabaseSeeder', ['Workbench\Database\Seeders\DatabaseSeeder'], false];
-    }
-}
-
-class MergeSeedersTestStub
-{
-    use WithWorkbench;
-
-    public function __construct(protected bool $seed, protected string|false $seeders) {}
-
-    public function __invoke(ConfigContract $config)
-    {
-        return $this->mergeSeedersForWorkbench($config);
-    }
-
-    public function shouldSeed(): bool
-    {
-        return $this->seed;
-    }
-
-    public function seeder(): string|false
-    {
-        return $this->seeders;
     }
 }
