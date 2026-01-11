@@ -1,5 +1,7 @@
 <?php
 
+use Composer\InstalledVersions;
+
 if (! defined('TESTBENCH_WORKING_PATH') && is_string(getenv('TESTBENCH_WORKING_PATH'))) {
     define('TESTBENCH_WORKING_PATH', getenv('TESTBENCH_WORKING_PATH'));
 }
@@ -7,3 +9,7 @@ if (! defined('TESTBENCH_WORKING_PATH') && is_string(getenv('TESTBENCH_WORKING_P
 $workingPath = defined('TESTBENCH_WORKING_PATH') ? TESTBENCH_WORKING_PATH : realpath(__DIR__.'/../');
 
 require $workingPath.'/vendor/autoload.php';
+
+if ( ! defined('TESTBENCH_WORKING_PATH')) {
+    define('TESTBENCH_WORKING_PATH', realpath(InstalledVersions::getRootPackage()['install_path']));
+}
