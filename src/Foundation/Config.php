@@ -8,7 +8,7 @@ use Orchestra\Sidekick\FluentDecorator;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Symfony\Component\Yaml\Yaml;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Sidekick\transform_relative_path;
 use function Orchestra\Testbench\parse_environment_variables;
 

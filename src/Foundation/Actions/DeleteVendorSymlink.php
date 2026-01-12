@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Foundation\Actions;
 
 use Illuminate\Contracts\Foundation\Application;
 
-use function Orchestra\Sidekick\is_symlink;
+use function Orchestra\Sidekick\Filesystem\is_symlink;
 
 /**
  * @internal

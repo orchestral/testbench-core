@@ -15,7 +15,7 @@ use Orchestra\Testbench\Foundation\Config;
 use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\workbench_path;
