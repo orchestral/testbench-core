@@ -300,19 +300,15 @@ function package_path(array|string $path = ''): string
 {
     $argumentCount = \func_num_args();
 
-    $workingPath = \defined('TESTBENCH_WORKING_PATH')
-        ? TESTBENCH_WORKING_PATH
-        : Sidekick\Env::get('TESTBENCH_WORKING_PATH', getcwd());
-
     if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
-        return transform_relative_path($path, $workingPath);
+        return Sidekick\transform_relative_path($path, Sidekick\package_path());
     }
 
     $path = Sidekick\join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
-        ? transform_relative_path($path, $workingPath)
-        : Sidekick\join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
+        ? Sidekick\transform_relative_path($path, Sidekick\package_path())
+        : Sidekick\package_path($path);
 }
 
 /**
