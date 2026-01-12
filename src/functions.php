@@ -300,15 +300,17 @@ function package_path(array|string $path = ''): string
 {
     $argumentCount = \func_num_args();
 
+    $workingPath = Sidekick\package_path();
+
     if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
-        return Sidekick\transform_relative_path($path, Sidekick\package_path());
+        return Sidekick\transform_relative_path($path, $workingPath);
     }
 
     $path = Sidekick\join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
-        ? Sidekick\transform_relative_path($path, Sidekick\package_path())
-        : Sidekick\package_path($path);
+        ? Sidekick\transform_relative_path($path, $workingPath)
+        : Sidekick\join_paths($workingPath, $path);
 }
 
 /**
