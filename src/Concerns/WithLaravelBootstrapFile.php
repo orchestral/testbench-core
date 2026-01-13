@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Orchestra\Testbench\Foundation\Application as Testbench;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\uses_default_skeleton;
 use function Orchestra\Testbench\workbench_path;
 

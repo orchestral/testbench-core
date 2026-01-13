@@ -12,7 +12,7 @@ use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink;
 use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 
 /**
  * @codeCoverageIgnore

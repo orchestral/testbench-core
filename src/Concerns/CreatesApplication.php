@@ -27,8 +27,8 @@ use Orchestra\Testbench\Features\TestingFeature;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-use function Orchestra\Sidekick\join_paths;
-use function Orchestra\Testbench\after_resolving;
+use function Orchestra\Sidekick\after_resolving;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
 
