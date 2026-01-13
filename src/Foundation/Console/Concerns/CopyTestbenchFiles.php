@@ -8,7 +8,7 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 
 /**
  * @codeCoverageIgnore

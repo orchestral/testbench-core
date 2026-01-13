@@ -5,7 +5,7 @@ namespace Orchestra\Testbench\Foundation\Bootstrap;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 
 class SyncTestbenchCachedRoutes
 {
