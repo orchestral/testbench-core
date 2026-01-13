@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 
-use function Orchestra\Sidekick\is_symlink;
+use function Orchestra\Sidekick\Filesystem\is_symlink;
 use function Orchestra\Testbench\package_path;
 
 /**

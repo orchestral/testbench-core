@@ -279,7 +279,7 @@ function uses_default_skeleton(?string $basePath = null): bool
 function default_migration_path(?string $type = null): string
 {
     $path = realpath(
-        \is_null($type) ? base_path('migrations') : base_path(Sidekick\join_paths('migrations', $type))
+        \is_null($type) ? base_path('migrations') : base_path(Sidekick\Filesystem\join_paths('migrations', $type))
     );
 
     if ($path === false) {
@@ -303,19 +303,17 @@ function package_path(array|string $path = ''): string
 {
     $argumentCount = \func_num_args();
 
-    $workingPath = \defined('TESTBENCH_WORKING_PATH')
-        ? TESTBENCH_WORKING_PATH
-        : Sidekick\Env::get('TESTBENCH_WORKING_PATH', getcwd());
+    $workingPath = Sidekick\package_path();
 
     if ($argumentCount === 1 && \is_string($path) && str_starts_with($path, './')) {
         return Sidekick\transform_relative_path($path, $workingPath);
     }
 
-    $path = Sidekick\join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
+    $path = Sidekick\Filesystem\join_paths(...Arr::wrap($argumentCount > 1 ? \func_get_args() : $path));
 
     return str_starts_with($path, './')
         ? Sidekick\transform_relative_path($path, $workingPath)
-        : Sidekick\join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
+        : Sidekick\Filesystem\join_paths(rtrim($workingPath, DIRECTORY_SEPARATOR), $path);
 }
 
 /**
@@ -472,7 +470,7 @@ function php_binary(bool $escape = false): string
  */
 function join_paths(?string $basePath, string ...$paths): string
 {
-    return Sidekick\join_paths($basePath, ...$paths);
+    return Sidekick\Filesystem\join_paths($basePath, ...$paths);
 }
 
 /**
