@@ -8,7 +8,7 @@ use Orchestra\Testbench\Attributes\UsesVendor;
 use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\package_path;
 
 class UsesVendorTest extends TestCase

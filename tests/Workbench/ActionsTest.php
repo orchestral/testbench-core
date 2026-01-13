@@ -9,8 +9,8 @@ use Orchestra\Testbench\Workbench\Actions\AddAssetSymlinkFolders;
 use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
 use PHPUnit\Framework\Attributes\Test;
 
-use function Orchestra\Sidekick\is_symlink;
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\is_symlink;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\workbench_path;
 

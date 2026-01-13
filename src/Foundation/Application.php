@@ -39,7 +39,7 @@ use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Workbench\Workbench;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 
 /**
  * @api
@@ -235,7 +235,7 @@ class Application
         }
 
         if (class_exists(JsonApiResource::class)) {
-            JsonResource::flushState(); // @phpstan-ignore staticMethod.notFound
+            JsonResource::flushState();
             JsonApiResource::flushState();
         } else {
             JsonResource::wrap('data');
