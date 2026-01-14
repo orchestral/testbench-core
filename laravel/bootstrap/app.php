@@ -5,7 +5,7 @@ use Orchestra\Testbench\Foundation\Bootstrap\SyncTestbenchCachedRoutes;
 use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Workbench\Workbench;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 
 /**
  * Create Laravel application.
