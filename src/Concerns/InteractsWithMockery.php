@@ -16,7 +16,10 @@ trait InteractsWithMockery
     {
         if (class_exists(Mockery::class) && $this instanceof PHPUnitTestCase) {
             if ($container = Mockery::getContainer()) {
-                $this->addToAssertionCount($container->mockery_getExpectationCount());
+                /** @var int<0, max> $expectationCount */
+                $expectationCount = $container->mockery_getExpectationCount();
+
+                $this->addToAssertionCount($expectationCount);
             }
 
             Mockery::close();
