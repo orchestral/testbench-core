@@ -31,6 +31,8 @@ jobs:
           - "~12.1.0"
           - "~12.2.0"
           - "~12.3.0"
+          - "~12.4.0"
+          - "~12.5.0"
         dependencies:
           - "highest"
           - "lowest"
@@ -45,6 +47,10 @@ jobs:
             phpunit: "~12.2.0"
           - php: 8.2
             phpunit: "~12.3.0"
+          - php: 8.2
+            phpunit: "~12.4.0"
+          - php: 8.2
+            phpunit: "~12.5.0"
 
     name: PHP:${{ matrix.php }} / PHPUnit:${{ matrix.phpunit }} / OS:${{ matrix.os }} ${{ matrix.dependencies == 'highest' && '⬆️' || '⬇️' }}
 
