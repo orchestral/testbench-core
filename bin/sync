@@ -89,7 +89,7 @@ transform([
  *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
  *
- * @property \Illuminate\Database\Eloquent\Model|TModel $model',
+ * @property class-string<\Illuminate\Database\Eloquent\Model|TModel>|null $model',
     line('}'.PHP_EOL.'}'.PHP_EOL, 1) => line('}
 
     /**
