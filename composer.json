@@ -80,6 +80,7 @@
     "config": {
         "audit": {
             "ignore": [
+                "CVE-2024-50345",
                 "CVE-2024-51736",
                 "CVE-2025-64500",
                 "GHSA-78fx-h6xr-vch4"
