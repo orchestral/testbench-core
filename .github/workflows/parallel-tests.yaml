@@ -22,20 +22,9 @@ jobs:
         paratest:
           - "^7.3"
         phpunit:
-          - "~12.0.0"
-          - "~12.1.0"
-          - "~12.2.0"
-          - "~12.3.0"
-          - "~12.4.0"
+          - "~12.5.8"
         experimental:
           - false
-        exclude:
-          - php: 8.5
-            phpunit: "~12.0.0"
-          - php: 8.5
-            phpunit: "~12.1.0"
-          - php: 8.5
-            phpunit: "~12.2.0"
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
@@ -84,7 +73,7 @@ jobs:
         paratest:
           - "^7.3"
         phpunit:
-          - "~11.5.11"
+          - "~11.5.50"
         experimental:
           - false
 
@@ -116,7 +105,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: php testbench package:test --parallel ${{ matrix.phpunit == '~10.5.35' && '--exclude-group commander,without-parallel,database,session --no-coverage' || '--exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage' }}
+        run: php testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
         env:
           RAY_ENABLED: false
         if: matrix.phpunit != '~10.5.35'
