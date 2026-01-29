@@ -81,7 +81,7 @@
     "config": {
         "audit": {
             "ignore": [
-                "GHSA-78fx-h6xr-vch4"
+                "GHSA-vvj3-c3rp-c85p"
             ]
         },
         "preferred-install": {
