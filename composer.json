@@ -75,7 +75,10 @@
     },
     "config": {
         "audit": {
-            "block-insecure": false
+            "ignore": [
+                "CVE-2025-64500",
+                "GHSA-vvj3-c3rp-c85p"
+            ]
         },
         "preferred-install": {
             "*": "auto"
