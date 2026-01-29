@@ -80,7 +80,9 @@
     },
     "config": {
         "audit": {
-            "block-insecure": false
+            "ignore": [
+                "GHSA-78fx-h6xr-vch4"
+            ]
         },
         "preferred-install": {
             "*": "auto"
