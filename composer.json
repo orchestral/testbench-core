@@ -77,7 +77,9 @@
     },
     "config": {
         "audit": {
-            "block-insecure": false
+            "ignore": [
+                "GHSA-vvj3-c3rp-c85p"
+            ]
         },
         "preferred-install": {
             "*": "auto"
