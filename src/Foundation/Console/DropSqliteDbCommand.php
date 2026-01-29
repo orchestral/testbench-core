@@ -7,7 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 
 #[AsCommand(name: 'package:drop-sqlite-db', description: 'Drop sqlite database file')]
 class DropSqliteDbCommand extends Command

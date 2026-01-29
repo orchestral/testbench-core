@@ -10,7 +10,7 @@ use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Workbench\Database\Seeders\TestbenchDatabaseSeeder;
 
-use function Orchestra\Sidekick\join_paths;
+use function Orchestra\Sidekick\Filesystem\join_paths;
 
 class LoadMigrationsFromArrayTest extends TestCase
 {
