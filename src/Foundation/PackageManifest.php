@@ -83,7 +83,7 @@ class PackageManifest extends IlluminatePackageManifest
      */
     public function requires(...$packages)
     {
-        $this->requiredPackages = array_merge($this->requiredPackages, Arr::wrap($packages));
+        $this->requiredPackages = array_merge($this->requiredPackages, Arr::wrap($packages)); // @phpstan-ignore assign.propertyType
 
         return $this;
     }
