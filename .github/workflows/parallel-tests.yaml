@@ -65,7 +65,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: php testbench package:test --parallel ${{ matrix.phpunit == '~10.5.35' && '--exclude-group commander,without-parallel,database,session --no-coverage' || '--exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage' }}
+        run: php testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
         env:
           RAY_ENABLED: false
         if: matrix.phpunit != '~10.5.35'
@@ -116,7 +116,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: php testbench package:test --parallel ${{ matrix.phpunit == '~10.5.35' && '--exclude-group commander,without-parallel,database,session --no-coverage' || '--exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage' }}
+        run: php testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
         env:
           RAY_ENABLED: false
         if: matrix.phpunit != '~10.5.35'

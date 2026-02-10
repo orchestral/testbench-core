@@ -48,7 +48,7 @@ jobs:
         run: |
           composer show -D
 
-      - name: Execute tests (with deprecations on PHPUnit 10)
+      - name: Execute tests (with deprecations)
         run: php testbench package:test --exclude-group commander
         env:
           RAY_ENABLED: false
