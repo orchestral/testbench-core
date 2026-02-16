@@ -64,7 +64,8 @@ final class LoadMigrationsFromArray
                     return;
                 }
 
-                (new Collection(Arr::wrap($this->seeders)))
+                /** @phpstan-ignore argument.type */
+                Collection::wrap($this->seeders)
                     ->flatten()
                     ->filter(static fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
                     ->each(static function ($seederClass) use ($app) {
