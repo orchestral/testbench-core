@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Orchestra\Testbench\Attributes\UsesVendor;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -42,6 +43,7 @@ class UsesVendorTest extends TestCase
     #[Test]
     #[UsesVendor]
     #[WithMigration]
+    #[WithConfig('database.default', 'testing')]
     public function it_can_resolve_config_from_container()
     {
         $user = User::query()->count();
