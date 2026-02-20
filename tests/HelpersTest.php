@@ -26,7 +26,7 @@ class HelpersTest extends TestCase
         $version = Version::id();
 
         $phpunit = match (true) {
-            str_starts_with($version, '12.2-') => '12.2.0',
+            str_starts_with($version, '13.0-') => '13.0.0',
             default => $version
         };
 
