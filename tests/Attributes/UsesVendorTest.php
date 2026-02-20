@@ -4,7 +4,10 @@ namespace Orchestra\Testbench\Tests\Attributes;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepositoryContract;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Orchestra\Testbench\Attributes\UsesVendor;
+use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Tests\TestCase;
 
 use function Orchestra\Sidekick\Filesystem\join_paths;
@@ -12,6 +15,8 @@ use function Orchestra\Testbench\package_path;
 
 class UsesVendorTest extends TestCase
 {
+    use LazilyRefreshDatabase;
+
     /** @test */
     #[UsesVendor]
     public function it_can_uses_vendor_attribute()
@@ -31,5 +36,15 @@ class UsesVendorTest extends TestCase
         tap($this->app->make('config'), function ($repository) {
             $this->assertInstanceOf(ConfigRepositoryContract::class, $repository);
         });
+    }
+
+    /** @test */
+    #[UsesVendor]
+    #[WithMigration]
+    public function it_can_resolve_config_from_container()
+    {
+        $user = User::query()->count();
+
+        $this->assertSame(0, $user);
     }
 }
