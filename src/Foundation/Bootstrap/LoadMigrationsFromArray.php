@@ -6,7 +6,6 @@ use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Events\DatabaseRefreshed;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Orchestra\Sidekick\Env;
 
@@ -72,12 +71,16 @@ final class LoadMigrationsFromArray
     protected function bootstrapSeeders(Application $app): void
     {
         $app->make(EventDispatcher::class)
-            ->listen(DatabaseRefreshed::class, function () use ($app) {
-                if (\is_bool($this->seeders) && $this->seeders === false) {
+            ->listen(DatabaseRefreshed::class, function (DatabaseRefreshed $event) use ($app) {
+                if (\is_bool($this->seeders)) {
+                    if ($this->seeders === true) {
+                        $app->make(ConsoleKernel::class)->call('db:seed');
+                    }
+
                     return;
                 }
 
-                (new Collection(Arr::wrap($this->seeders)))
+                Collection::wrap($this->seeders)
                     ->flatten()
                     ->filter(static fn ($seederClass) => ! \is_null($seederClass) && class_exists($seederClass))
                     ->each(static function ($seederClass) use ($app) {
@@ -96,9 +99,9 @@ final class LoadMigrationsFromArray
      */
     protected function bootstrapMigrations(Application $app): void
     {
-        $paths = (new Collection(
-            ! \is_bool($this->migrations) ? Arr::wrap($this->migrations) : []
-        ))->when(
+        $paths = Collection::wrap(
+            ! \is_bool($this->migrations) ? $this->migrations : []
+        )->when(
             $this->includesDefaultMigrations($app),
             static fn ($migrations) => $migrations->push(default_migration_path()),
         )->filter(static fn ($migration) => \is_string($migration))
