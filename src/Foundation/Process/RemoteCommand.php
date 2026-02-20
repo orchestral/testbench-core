@@ -8,7 +8,6 @@ use Illuminate\Support\ProcessUtils;
 use Laravel\SerializableClosure\SerializableClosure;
 use Symfony\Component\Process\Process;
 
-use function Orchestra\Sidekick\laravel_version_compare;
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\php_binary;
 
@@ -44,9 +43,7 @@ final class RemoteCommand
 
         if ($command instanceof Closure) {
             $env['LARAVEL_INVOKABLE_CLOSURE'] = transform(serialize(new SerializableClosure($command)), function ($invokableClosure) {
-                return laravel_version_compare('12.26.0', '<')
-                    ? $invokableClosure
-                    : base64_encode($invokableClosure);
+                return base64_encode($invokableClosure);
             });
 
             $env['APP_KEY'] = $env['APP_KEY'] ?? config('app.key') ?? false;
