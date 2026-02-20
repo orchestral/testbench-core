@@ -45,7 +45,7 @@ class TestFallbackCommand extends Command
 
     /** {@inheritDoc} */
     #[\Override]
-    public function configure()
+    public function configure(): void
     {
         parent::configure();
 
