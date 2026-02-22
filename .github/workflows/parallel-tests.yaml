@@ -57,7 +57,6 @@ jobs:
         run: php testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
         env:
           RAY_ENABLED: false
-        if: matrix.phpunit != '~10.5.35'
 
   tests-on-phpunit11:
     runs-on: "ubuntu-latest"
@@ -108,4 +107,3 @@ jobs:
         run: php testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
         env:
           RAY_ENABLED: false
-        if: matrix.phpunit != '~10.5.35'
