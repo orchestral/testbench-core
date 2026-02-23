@@ -35,6 +35,6 @@ trait WithFixtures
             return;
         }
 
-        require_once $fixtureFileName;
+        require $fixtureFileName;
     }
 }
