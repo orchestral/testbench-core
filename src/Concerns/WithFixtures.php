@@ -24,7 +24,7 @@ trait WithFixtures
     protected static function setupWithFixturesForTestingEnvironment(): void
     {
         $classFileName = static::isRunningViaPestPrinter(static::class)
-            ? Backtrace::testFile()
+            ? static::$__filename
             : filename_from_classname(static::class);
 
         if ($classFileName === false) {
