@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Str;
-use Pest\Support\Backtrace;
 
 use function Orchestra\Sidekick\Filesystem\filename_from_classname;
 
