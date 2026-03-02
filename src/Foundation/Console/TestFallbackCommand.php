@@ -77,7 +77,7 @@ class TestFallbackCommand extends Command
      */
     protected function installCollisionDependencies(): void
     {
-        $version = '8.0';
+        $version = '8.9';
 
         $command = \sprintf('%s require "nunomaduro/collision:^%s" --dev', $this->findComposer(), $version);
 
