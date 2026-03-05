@@ -2,11 +2,11 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Concerns\WithFixtures;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Config;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Workbench\Workbench;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
