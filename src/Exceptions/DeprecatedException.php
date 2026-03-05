@@ -4,8 +4,6 @@ namespace Orchestra\Testbench\Exceptions;
 
 use PHPUnit\Util\Filter;
 
-use function Orchestra\Testbench\phpunit_version_compare;
-
 /**
  * @internal
  *
