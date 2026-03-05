@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Str;
-use Pest\Support\Backtrace;
 
 use function Orchestra\Sidekick\Filesystem\filename_from_classname;
 
@@ -24,7 +23,7 @@ trait WithFixtures
     protected static function setupWithFixturesForTestingEnvironment(): void
     {
         $classFileName = static::isRunningViaPestPrinter(static::class)
-            ? Backtrace::testFile()
+            ? static::$__filename
             : filename_from_classname(static::class);
 
         if ($classFileName === false) {
@@ -35,6 +34,6 @@ trait WithFixtures
             return;
         }
 
-        require $fixtureFileName;
+        require_once $fixtureFileName;
     }
 }
