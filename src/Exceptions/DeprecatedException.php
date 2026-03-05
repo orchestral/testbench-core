@@ -20,9 +20,7 @@ class DeprecatedException extends PHPUnitErrorException
      */
     public function __toString(): string
     {
-        $stackTrace = phpunit_version_compare('11.5', '>=')
-            ? Filter::stackTraceFromThrowableAsString($this)
-            : Filter::getFilteredStacktrace($this);
+        $stackTrace = Filter::stackTraceFromThrowableAsString($this);
 
         return \sprintf('%s'.PHP_EOL.PHP_EOL.'%s', $this->getMessage(), $stackTrace);
     }
