@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Tests\Attributes;
 
 use Illuminate\Foundation\Application;
 use Mockery as m;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Attributes\WithEnv;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
