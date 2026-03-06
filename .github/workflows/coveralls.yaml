@@ -13,8 +13,8 @@ jobs:
     continue-on-error: false
     strategy:
       matrix:
-        php: [8.3]
-        phpunit: ["^12.5.8"]
+        php: [8.4]
+        phpunit: ["^13.0.0"]
 
     name: PHP:${{ matrix.php }} / PHPUnit:${{ matrix.phpunit }} Code Coverage
 
