@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Auth\User;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Factories\UserFactory;
-use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 

@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Tests\Attributes;
 
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Attributes\UsesFrameworkConfiguration;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 

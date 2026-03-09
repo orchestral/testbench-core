@@ -8,8 +8,8 @@ use DateTimeInterface;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Bootstrap\LoadConfiguration;
 use Illuminate\Support\Facades\Date;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\Foundation\Env;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 

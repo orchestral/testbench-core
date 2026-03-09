@@ -4,9 +4,9 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Foundation\Application;
+use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use Orchestra\Testbench\Foundation\Application as Testbench;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\PHPUnit\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
