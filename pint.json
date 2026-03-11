@@ -1,6 +1,7 @@
 {
     "preset": "laravel",
     "rules": {
+        "fully_qualified_strict_types": false,
         "native_function_invocation": {
             "include": ["@compiler_optimized"],
             "scope": "namespaced",

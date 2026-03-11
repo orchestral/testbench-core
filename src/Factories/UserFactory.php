@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
  *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
  *
- * @property class-string<\Illuminate\Database\Eloquent\Model|TModel>|null $model
+ * @property \Illuminate\Database\Eloquent\Model|TModel|null $model
  */
 class UserFactory extends Factory
 {
