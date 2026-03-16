@@ -37,7 +37,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        uses: "ramsey/composer-install@v3"
+        uses: ramsey/composer-install@v4
         with:
           dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
