@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -38,7 +38,7 @@ jobs:
           composer require "nunomaduro/collision:^8.0" --dev --no-interaction --no-update
 
       - name: Install dependencies
-        uses: "ramsey/composer-install@v3"
+        uses: ramsey/composer-install@v4
         with:
           dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
@@ -68,7 +68,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -82,7 +82,7 @@ jobs:
           composer require "nunomaduro/collision:^8.0" --dev --no-interaction --no-update
 
       - name: Install dependencies
-        uses: "ramsey/composer-install@v3"
+        uses: ramsey/composer-install@v4
         with:
           dependency-versions: "highest"
           composer-options: "--prefer-dist --prefer-stable --no-cache"
