@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.60.0
+
+Released: 2026-03-16
+
+### Changes
+
+* Run seeder when `testbench.yaml` configured with `seeders: true`.
+
+### Fixes
+
+* Fix `#[UsesVendor]` attribute fails due to unbooted application, causing `BindingResolutionException` to be thrown.
+
 ## 7.59.0
 
 Released: 2026-01-12
