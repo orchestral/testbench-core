@@ -50,7 +50,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -64,7 +64,7 @@ jobs:
           composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
 
       - name: Install dependencies
-        uses: "ramsey/composer-install@v3"
+        uses: ramsey/composer-install@v4
         with:
           dependency-versions: "highest"
           composer-options: "--prefer-dist --no-cache --with=phpunit/phpunit:${{ matrix.phpunit }}"
@@ -74,7 +74,54 @@ jobs:
           composer show -D
 
       - name: Execute tests
+<<<<<<< HEAD
         run: php testbench package:test --parallel ${{ matrix.phpunit == '~10.5.35' && '--exclude-group commander,without-parallel,database,session --no-coverage' || '--exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage' }}
+=======
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
+        env:
+          RAY_ENABLED: false
+
+  tests-on-php-81:
+    runs-on: "ubuntu-latest"
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        collision: ["^7.4"]
+        paratest: [">=7.1.0 <7.4.0"]
+        experimental:
+          - false
+
+    name: PHP:8.1 / Paratest:${{ matrix.paratest }} ⬆️
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
+          coverage: none
+
+      - name: Install Paratest
+        run: |
+          composer require "phpunit/phpunit:<10.5.32" --dev --no-interaction --no-update
+          composer require "nunomaduro/collision:${{ matrix.collision }}" "brianium/paratest:${{ matrix.paratest }}" --dev --no-interaction --no-update
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v4
+        with:
+          dependency-versions: "highest"
+          composer-options: "--prefer-dist --prefer-stable --no-cache"
+
+      - name: Installed dependencies
+        run: |
+          composer show -D
+
+      - name: Execute test
+        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
+>>>>>>> 8.x
         env:
           RAY_ENABLED: false
         if: matrix.phpunit != '~10.5.35'
