@@ -2,6 +2,19 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 9.19.0
+
+Released: 2026-03-16
+
+### Changes
+
+* Run seeder when `testbench.yaml` configured with `seeders: true`.
+* Use predefined `$__filename` to resolve original PestPHP's testCase file.
+
+### Fixes
+
+* Fix `#[UsesVendor]` attribute fails due to unbooted application, causing `BindingResolutionException` to be thrown.
+
 ## 9.18.1
 
 Released: 2026-01-28
