@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Str;
+use Orchestra\Sidekick\Env;
 
 use function Orchestra\Sidekick\Filesystem\filename_from_classname;
 
@@ -30,6 +31,10 @@ trait WithFixtures
             return;
         }
 
-        require_once $fixtureFileName;
+        if (Env::has('TEST_TOKEN')) {
+            require $fixtureFileName;
+        } else {
+            require_once $fixtureFileName;
+        }
     }
 }
