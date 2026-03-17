@@ -28,6 +28,8 @@ class PackageManifestTest extends TestCase
 
         $packageManifest->build();
 
+        clearstatcache(true, $manifestPath);
+
         $packages = Collection::make(require $manifestPath);
 
         $installedPackages = [
