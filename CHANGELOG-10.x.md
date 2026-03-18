@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.11.0
+
+Released: 2026-03-18
+
+### Changes
+
+* Supports for Laravel Framework 12.55.0.
+
+### Fixes
+
+* Fix `--parallel` compatibility with `WithFixtures` trait.
+
 ## 10.10.0
 
 Released: 2026-03-16
