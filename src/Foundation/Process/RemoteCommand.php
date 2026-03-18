@@ -8,7 +8,6 @@ use Illuminate\Support\ProcessUtils;
 use Laravel\SerializableClosure\SerializableClosure;
 use Symfony\Component\Process\Process;
 
-use function Orchestra\Sidekick\laravel_version_compare;
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\php_binary;
 
