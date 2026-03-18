@@ -9,8 +9,7 @@ if (! isset($workingPath)) {
 }
 
 $input = new ArgvInput;
-$version = '13.x-dev';
-// $version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '13.x-dev' : '^13.0';
+$version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '13.x-dev' : '^13.0';
 
 echo '> composer create-project "laravel/laravel:'.$version.'" skeleton --no-scripts --no-plugins --quiet --no-install'.PHP_EOL;
 
