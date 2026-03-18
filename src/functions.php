@@ -286,7 +286,7 @@ function transform_relative_path(string $path, string $workingPath): string
 function default_skeleton_path(array|string $path = ''): string|false
 {
     return realpath(
-        Sidekick\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
+        Sidekick\Filesystem\join_paths(__DIR__, '..', 'laravel', ...Arr::wrap(\func_num_args() > 1 ? \func_get_args() : $path))
     );
 }
 
@@ -300,7 +300,7 @@ function uses_default_skeleton(?string $basePath = null): bool
 {
     $basePath ??= base_path();
 
-    return realpath(Sidekick\join_paths($basePath, 'bootstrap', '.testbench-default-skeleton')) !== false;
+    return realpath(Sidekick\Filesystem\join_paths($basePath, 'bootstrap', '.testbench-default-skeleton')) !== false;
 }
 
 /**
