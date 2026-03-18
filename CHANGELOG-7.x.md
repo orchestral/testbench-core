@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 7.60.1
+
+Released: 2026-03-18
+
+### Fixes
+
+* Fix `--parallel` compatibility with `WithFixtures` trait.
+
 ## 7.60.0
 
 Released: 2026-03-16
