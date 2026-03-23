@@ -65,14 +65,10 @@ class ServeCommand extends Command
     protected function startProcess($hasEnvironment)
     {
         return tap(parent::startProcess($hasEnvironment), function (Process $process) {
-            $this->untrap();
-
-            Signals::whenAvailable(function () use ($process) {
-                $this->trap([SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT], function ($signal) use ($process) {
-                    if ($process->isRunning()) {
-                        $process->stop(10, $signal);
-                    }
-                });
+            TerminatingConsole::before(static function ($signal) use ($process) {
+                if ($process->isRunning()) {
+                    $process->stop(10, $signal);
+                }
             });
         });
     }
