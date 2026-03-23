@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Foundation\Console;
 
-use Closure;
 use Illuminate\Support\Collection;
 
 /**
@@ -23,7 +22,7 @@ final class TerminatingConsole
      * @param  callable(?int):void  $callback
      * @return void
      */
-    public static function before(Closure|callable $callback): void
+    public static function before(callable $callback): void
     {
         array_unshift(self::$beforeTerminatingCallbacks, $callback);
     }
