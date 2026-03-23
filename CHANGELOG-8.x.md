@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.42.0
+
+Released: 2026-03-24
+
+### Changes
+
+* Add `TESTBENCH_USER_MODEL` environment variable when running `serve` command.
+* Utilise `Orchestra\Testbench\Foundation\Console\TerminatingConsole` when running `serve`.
+
 ## 8.41.1
 
 Released: 2026-03-18
