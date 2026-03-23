@@ -48,7 +48,7 @@ class ServeCommand extends Command
 
     /**
      * Add an environment variable that should be passed through to the server process.
-     * 
+     *
      * @param  string  $name
      * @param  mixed  $value
      * @return void
