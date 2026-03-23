@@ -260,7 +260,7 @@ class Commander
             (new Collection(Arr::wrap([SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT])))
                 ->each(
                     fn ($signal) => $this->signals->register($signal, function () use ($signal) {
-                        TerminatingConsole::handle();
+                        TerminatingConsole::handle($signal);
                         Workbench::flush();
 
                         $status = match ($signal) {
