@@ -3,9 +3,11 @@
 namespace Orchestra\Testbench\Foundation\Console;
 
 use Composer\Config as ComposerConfig;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Console\ServeCommand as Command;
 use Orchestra\Testbench\Foundation\Events\ServeCommandEnded;
 use Orchestra\Testbench\Foundation\Events\ServeCommandStarted;
+use Orchestra\Testbench\Workbench\Workbench;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
@@ -40,9 +42,8 @@ class ServeCommand extends Command
             $this->phpServerWorkers = $workers;
         }
 
-        $_ENV['TESTBENCH_WORKING_PATH'] = package_path();
-
-        static::$passthroughVariables[] = 'TESTBENCH_WORKING_PATH';
+        $this->addPassThroughEnvironmentVariable('TESTBENCH_WORKING_PATH', package_path());
+        $this->addPassThroughEnvironmentVariable('TESTBENCH_USER_MODEL', Workbench::applicationUserModel() ?? User::class);
 
         event(new ServeCommandStarted($input, $output, $this->components));
 
@@ -51,14 +52,26 @@ class ServeCommand extends Command
         });
     }
 
+    /**
+     * Add an environment variable that should be passed through to the server process.
+     *
+     * @param  string  $name
+     * @param  mixed  $value
+     * @return void
+     */
+    protected function addPassThroughEnvironmentVariable(string $name, mixed $value): void
+    {
+        $_ENV[$name] = $value;
+
+        static::$passthroughVariables[] = $name;
+    }
+
     /** {@inheritDoc} */
     #[\Override]
     protected function startProcess($hasEnvironment)
     {
         return tap(parent::startProcess($hasEnvironment), function (Process $process) {
-            $this->untrap();
-
-            $this->trap(fn () => [SIGTERM, SIGINT, SIGHUP, SIGUSR1, SIGUSR2, SIGQUIT], function ($signal) use ($process) {
+            TerminatingConsole::before(static function ($signal) use ($process) {
                 if ($process->isRunning()) {
                     $process->stop(10, $signal);
                 }

@@ -2,6 +2,41 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.12.0
+
+Released: 2026-03-24
+
+### Changes
+
+* Add `TESTBENCH_USER_MODEL` environment variable when running `serve` command.
+* Utilise `Orchestra\Testbench\Foundation\Console\TerminatingConsole` when running `serve`.
+
+## 10.11.0
+
+Released: 2026-03-18
+
+### Changes
+
+* Supports for Laravel Framework 12.55.0.
+
+### Fixes
+
+* Fix `--parallel` compatibility with `WithFixtures` trait.
+
+## 10.10.0
+
+Released: 2026-03-16
+
+### Changes
+
+* Run seeder when `testbench.yaml` configured with `seeders: true`.
+* Use predefined `$__filename` to resolve original PestPHP's testCase file.
+* Update skeleton.
+
+### Fixes
+
+* Fix `#[UsesVendor]` attribute fails due to unbooted application, causing `BindingResolutionException` to be thrown.
+
 ## 10.9.0
 
 Released: 2026-01-12

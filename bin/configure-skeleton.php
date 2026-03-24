@@ -1,15 +1,19 @@
 <?php
 
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Process\Process;
+
 if (! isset($workingPath)) {
     throw new RuntimeException('Missing $workingPath variable');
 }
 
-$input = new Symfony\Component\Console\Input\ArgvInput;
-$version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '12.x-dev' : '^12.0';
+$input = new ArgvInput;
+$version = ($input->hasParameterOption('--dev') && $input->hasParameterOption('--stable') === false) ? '13.x-dev' : '^13.0';
 
 echo '> composer create-project "laravel/laravel:'.$version.'" skeleton --no-scripts --no-plugins --quiet --no-install'.PHP_EOL;
 
-Symfony\Component\Process\Process::fromShellCommandline(
+Process::fromShellCommandline(
     'composer create-project "laravel/laravel:'.$version.'" skeleton --no-scripts --no-plugins --quiet --no-install', $workingPath
 )->mustRun();
 
@@ -27,7 +31,7 @@ collect([
     ->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
     ->flatten()
     ->each(function ($file) use ($files, $workingPath) {
-        $files->copy($file, "{$workingPath}/laravel".Illuminate\Support\Str::after($file, "{$workingPath}/skeleton"));
+        $files->copy($file, "{$workingPath}/laravel".Str::after($file, "{$workingPath}/skeleton"));
     });
 $files->move("{$workingPath}/laravel/database/migrations/0001_01_01_000000_create_users_table.php", "{$workingPath}/laravel/migrations/0001_01_01_000000_testbench_create_users_table.php");
 $files->move("{$workingPath}/laravel/database/migrations/0001_01_01_000001_create_cache_table.php", "{$workingPath}/laravel/migrations/0001_01_01_000001_testbench_create_cache_table.php");
@@ -56,7 +60,7 @@ collect([
         // 'queue/0001_01_02_000000_testbench_create_job_batches_table' => [$migration => 'job_batches'],
         // 'queue/0001_01_02_000000_testbench_create_failed_jobs_table' => [$migration => 'failed_jobs'],
     })->each(function ($table, $migration) use ($files, $workingPath) {
-        $files->replaceInFile(['{{tableClassName}}', '{{table}}'], [Illuminate\Support\Str::studly($table), $table], "{$workingPath}/laravel/migrations/{$migration}.php");
+        $files->replaceInFile(['{{tableClassName}}', '{{table}}'], [Str::studly($table), $table], "{$workingPath}/laravel/migrations/{$migration}.php");
     });
 
 transform([
@@ -85,7 +89,7 @@ collect([
     ->map(fn ($file) => str_contains($file, '*') ? [...$files->glob($file)] : $file)
     ->flatten()
     ->each(function ($file) use ($files, $workingPath) {
-        $files->copy($file, "{$workingPath}/laravel".Illuminate\Support\Str::after($file, "{$workingPath}/vendor/laravel/framework"));
+        $files->copy($file, "{$workingPath}/laravel".Str::after($file, "{$workingPath}/vendor/laravel/framework"));
     });
 
 transform([
