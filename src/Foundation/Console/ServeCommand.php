@@ -64,13 +64,15 @@ class ServeCommand extends Command
     #[\Override]
     protected function startProcess($hasEnvironment)
     {
-        return tap(parent::startProcess($hasEnvironment), function (Process $process) {
-            TerminatingConsole::before(static function ($signal) use ($process) {
-                if ($process->isRunning()) {
-                    $process->stop(10, $signal);
-                }
-            });
-        });
+        return parent::startProcess($hasEnvironment);
+    }
+
+    /** {@inhertiDoc} */
+    #[\Override]
+    public function trap($signals, $callback)
+    {
+        /** @phpstan-ignore argument.type */
+        TerminatingConsole::before($callback);
     }
 
     /** {@inheritDoc} */
