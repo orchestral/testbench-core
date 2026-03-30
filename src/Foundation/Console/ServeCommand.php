@@ -71,6 +71,7 @@ class ServeCommand extends Command
     #[\Override]
     public function trap($signals, $callback)
     {
+        /** @phpstan-ignore argument.type */
         TerminatingConsole::before($callback);
     }
 
