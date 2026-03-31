@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.42.1
+
+Released: 2026-03-31
+
+### Changes
+
+* Overrides `ServeCommand::trap()` method to use `TerminatingConsole`.
+
 ## 8.42.0
 
 Released: 2026-03-24
