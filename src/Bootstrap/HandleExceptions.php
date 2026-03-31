@@ -126,6 +126,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
         if (class_exists(ErrorHandler::class)) {
             $instance = ErrorHandler::instance();
 
+            /** @phpstan-ignore nullCoalesce.property */
             if ((fn () => $this->enabled ?? false)->call($instance)) {
                 $instance->disable();
                 $instance->enable();
