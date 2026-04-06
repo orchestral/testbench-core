@@ -511,14 +511,10 @@ function laravel_or_fail($app, ?string $caller = null): Application
     }
 
     if (\is_null($caller)) {
-        $caller = transform(debug_backtrace()[1] ?? null, function ($debug) {
-            /** @phpstan-ignore isset.offset */
-            if (isset($debug['class']) && isset($debug['function'])) {
-                return \sprintf('%s::%s', $debug['class'], $debug['function']);
-            }
-
-            /** @phpstan-ignore offsetAccess.notFound */
-            return $debug['function'];
+        $caller = transform(debug_backtrace()[1] ?? null, static fn ($debug) => match (true) {
+            ! \is_array($debug) => null,
+            isset($debug['class']) => \sprintf('%s::%s', $debug['class'], $debug['function']),
+            default => $debug['function'],
         });
     }
 
