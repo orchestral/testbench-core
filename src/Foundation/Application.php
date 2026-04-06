@@ -234,13 +234,8 @@ class Application
             HandleExceptions::flushState($instance);
         }
 
-        if (class_exists(JsonApiResource::class)) {
-            JsonResource::flushState();
-            JsonApiResource::flushState();
-        } else {
-            JsonResource::wrap('data');
-        }
-
+        JsonResource::flushState();
+        JsonApiResource::flushState();
         Markdown::flushState();
         Migrator::withoutMigrations([]);
         Model::handleDiscardedAttributeViolationUsing(null);
