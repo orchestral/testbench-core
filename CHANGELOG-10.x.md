@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.13.0
+
+Released: 2026-04-07
+
+### Changes
+
+* Supports PHPUnit 13.1.
+* Removed no longer relevants `method_exists()` and `class_exists()` usage.
+
 ## 10.12.1
 
 Released: 2026-03-31
