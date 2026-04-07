@@ -1,2 +1,7 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: '#^Parameter \#1 \$argument of static method Illuminate\\Support\\ProcessUtils\:\:escapeArgument\(\) expects string, array\|float\|int\<min, \-1\>\|int\<1, max\>\|string\|true given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Foundation/Console/ScheduleWorkCommand.php

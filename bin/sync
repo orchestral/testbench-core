@@ -110,6 +110,20 @@ transform([
 
 /**
  * ----------------------------------------------------------------------
+ * Overrides `schedule:work` command
+ * ----------------------------------------------------------------------
+ */
+
+$files->copy("{$workingPath}/vendor/laravel/framework/src/Illuminate/Console/Scheduling/ScheduleWorkCommand.php", "{$workingPath}/src/Foundation/Console/ScheduleWorkCommand.php");
+
+transform([
+    'namespace Illuminate\Console\Scheduling;' => 'namespace Orchestra\Testbench\Foundation\Console;',
+    "#[AsCommand(name: 'schedule:work')]" => 'use function Orchestra\Sidekick\working_path;'.PHP_EOL.PHP_EOL."#[AsCommand(name: 'schedule:work')]",
+    line('$executions[] = $execution = Process::fromShellCommandline($command, base_path());', 4) => line('$executions[] = $execution = Process::fromShellCommandline($command, working_path());', 4),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/src/Foundation/Console/ScheduleWorkCommand.php"));
+
+/**
+ * ----------------------------------------------------------------------
  * Cleanup
  * ----------------------------------------------------------------------
  */
