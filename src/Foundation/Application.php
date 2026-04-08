@@ -15,6 +15,7 @@ use Illuminate\Foundation\Bootstrap\RegisterProviders;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Foundation\Console\ChannelListCommand;
 use Illuminate\Foundation\Console\RouteListCommand;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -230,6 +231,7 @@ class Application
         ConvertEmptyStringsToNull::flushState();
         EncodedHtmlString::flushState();
         Factory::flushState();
+        FormRequest::flushState();
 
         if (! $instance instanceof Commander) {
             HandleExceptions::flushState($instance);
