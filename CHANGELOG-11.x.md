@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 11.2.1
+
+Released: 2026-04-09
+
+### Changes
+
+* Add `flushState()` to `FormRequest` to reset global strict mode between tests.
+
 ## 11.2.0
 
 Released: 2026-04-07
