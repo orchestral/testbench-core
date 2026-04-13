@@ -87,8 +87,8 @@ $files->copy("{$workingPath}/skeleton/database/factories/UserFactory.php", "{$wo
 
 transform([
     'namespace Database\Factories;' => 'namespace Orchestra\Testbench\Factories;',
-    'use App\Models\User;' => '',
-    'use Illuminate\Database\Eloquent\Factories\Factory;' => 'use Illuminate\Database\Eloquent\Factories\Factory;'.line('use Illuminate\Foundation\Auth\User;'),
+    'use App\Models\User;' => 'use Illuminate\Foundation\Auth\User;',
+    'use Illuminate\Database\Eloquent\Factories\Factory;' => 'use Illuminate\Database\Eloquent\Factories\Factory;',
     ' * @extends Factory<User>' => ' * @phpstan-type TModel \Illuminate\Foundation\Auth\User
  *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<TModel>
