@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
 use Orchestra\Testbench\Contracts\Attributes\Invokable as InvokableContract;
-use Illuminate\Contracts\Config\Repository;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 final class WithConfig implements InvokableContract
@@ -28,9 +27,9 @@ final class WithConfig implements InvokableContract
      */
     public function __invoke($app): void
     {
-        // This ensures all configuration keys are loaded before adding the values.
-        $app->afterResolving('config', function (Repository $config) {
-            $config->set($this->key, $this->value);
-        });
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app->make('config');
+
+        $config->set($this->key, $this->value);
     }
 }
