@@ -39,6 +39,8 @@ trait WithFixtures
 
         if (! Env::has('TEST_TOKEN')) {
             require_once $fixtureFileName;
+
+            return;
         }
 
         if (phpunit_version_compare('12.0.1', '>=')) {
