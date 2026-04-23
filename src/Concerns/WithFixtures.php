@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Str;
 use Orchestra\Sidekick\Env;
+use PHPUnit\Framework\Assert;
 
 use function Orchestra\Sidekick\Filesystem\filename_from_classname;
 use function Orchestra\Sidekick\phpunit_version_compare;
@@ -41,7 +42,7 @@ trait WithFixtures
         }
 
         if (phpunit_version_compare('12.0.1', '>=')) {
-            $this->markTestSkipped('Unable to use separated fixtures using Parallel testing.');
+            Assert::markTestSkipped('Unable to use separated fixtures using Parallel testing.');
         } else {
             require $fixtureFileName;
         }
