@@ -2,7 +2,6 @@
 
 namespace Orchestra\Testbench\Tests\Attributes;
 
-use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithFixtures;
 use Orchestra\Testbench\Tests\TestCase;
