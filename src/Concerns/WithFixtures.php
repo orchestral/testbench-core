@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Orchestra\Sidekick\Env;
 
 use function Orchestra\Sidekick\Filesystem\filename_from_classname;
+use function Orchestra\Sidekick\phpunit_version_compare;
 
 /**
  * @api
@@ -35,10 +36,14 @@ trait WithFixtures
             return;
         }
 
-        if (Env::has('TEST_TOKEN')) {
-            require $fixtureFileName;
-        } else {
+        if (! Env::has('TEST_TOKEN')) {
             require_once $fixtureFileName;
+        }
+
+        if (phpunit_version_compare('12.0.1', '>=')) {
+            $this->markTestSkipped('Unable to use separated fixtures using Parallel testing.');
+        } else {
+            require $fixtureFileName;
         }
     }
 }
