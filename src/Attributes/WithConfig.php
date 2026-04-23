@@ -13,10 +13,12 @@ final class WithConfig implements InvokableContract
      *
      * @param  string  $key
      * @param  mixed  $value
+     * @param  bool  $defer
      */
     public function __construct(
         public readonly string $key,
-        public readonly mixed $value
+        public readonly mixed $value,
+        public readonly bool $defer = true
     ) {}
 
     /**
@@ -30,6 +32,14 @@ final class WithConfig implements InvokableContract
         /** @var \Illuminate\Contracts\Config\Repository $config */
         $config = $app->make('config');
 
-        $config->set($this->key, $this->value);
+        $action = function () use ($config) {
+            $config->set($this->key, $this->value);
+        };
+
+        if ($this->defer === true) {
+            $app->booted($action);
+        } else {
+            value($action);
+        }
     }
 }
