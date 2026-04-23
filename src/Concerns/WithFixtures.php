@@ -43,7 +43,7 @@ trait WithFixtures
             return;
         }
 
-        if (phpunit_version_compare('12.0.1', '>=')) {
+        if (phpunit_version_compare('12.0.1', '<')) {
             Assert::markTestSkipped('Unable to use separated fixtures using Parallel testing.');
         } else {
             require $fixtureFileName;
