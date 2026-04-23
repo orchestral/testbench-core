@@ -16,7 +16,7 @@ use function Orchestra\Testbench\remote;
 
 #[Group('commander')]
 #[RequiresOperatingSystem('Linux|DAR')]
-#[WithConfig('app.key', 'SECXIvnK5r28GVIWUAxmbBSjTsmF')]
+#[WithConfig('app.key', 'SECXIvnK5r28GVIWUAxmbBSjTsmF', defer: false)]
 class RemoteCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
