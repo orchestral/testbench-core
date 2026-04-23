@@ -39,14 +39,12 @@ trait WithFixtures
 
         if (! Env::has('TEST_TOKEN')) {
             require_once $fixtureFileName;
-
-            return;
-        }
-
-        if (phpunit_version_compare('12.0.1', '<')) {
-            Assert::markTestSkipped('Unable to use separated fixtures using Parallel testing.');
         } else {
-            require $fixtureFileName;
+            if (phpunit_version_compare('12.0.1', '<')) {
+                Assert::markTestSkipped('Unable to use separated fixtures using Parallel testing.');
+            } else {
+                require $fixtureFileName;
+            }
         }
     }
 }
