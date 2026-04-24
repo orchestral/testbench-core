@@ -2,6 +2,52 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 11.3.1
+
+Released: 2026-04-24
+
+### Fixes
+
+* Fix `Orchestra\Testbench\Attributes\WithConfig` shouldn't defer setting up framework configuration.
+
+## 11.3.0
+
+Released: 2026-04-23
+
+### Changes
+
+* Loads `Orchestra\Testbench\Attributes\WithConfig` after application has been booted to allow merging configuration via Service Provider by default. Use `defer: false` parameter to disable this.
+* Update skeleton.
+
+### Fixes
+
+* Fix missing `--without-cache` option when using `package:test` command with `nunomaduro/collision` version `8.9.4+`.
+
+## 11.2.1
+
+Released: 2026-04-09
+
+### Changes
+
+* Add `flushState()` to `FormRequest` to reset global strict mode between tests.
+
+## 11.2.0
+
+Released: 2026-04-07
+
+### Changes
+
+* Supports PHPUnit 13.1.
+* Removed no longer relevants `method_exists()` and `class_exists()` usage.
+
+## 11.1.1
+
+Released: 2026-03-31
+
+### Changes
+
+* Overrides `ServeCommand::trap()` method to use `TerminatingConsole`.
+
 ## 11.1.0
 
 Released: 2026-03-24

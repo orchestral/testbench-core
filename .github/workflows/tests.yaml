@@ -25,6 +25,7 @@ jobs:
           - "~11.5.50"
           - "~12.5.8"
           - "~13.0.0"
+          - "~13.1.0"
         dependencies:
           - "highest"
           - "lowest"

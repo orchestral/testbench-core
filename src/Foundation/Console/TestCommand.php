@@ -6,8 +6,10 @@ use Illuminate\Support\Collection;
 use NunoMaduro\Collision\Adapters\Laravel\Commands\TestCommand as Command;
 use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Features\ParallelRunner;
+use Symfony\Component\Console\Input\InputOption;
 
 use function Orchestra\Sidekick\is_testbench_cli;
+use function Orchestra\Sidekick\package_version_compare;
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\package_path;
 
@@ -50,6 +52,14 @@ class TestCommand extends Command
 
         if (! is_testbench_cli()) {
             $this->setHidden(true);
+        }
+
+        if (package_version_compare('nunomaduro/collision', '8.9.4', '>=')) {
+            $this->addOption(
+                name: 'without-cache',
+                mode: InputOption::VALUE_NONE,
+                description: 'Indicates if cache configuration should be performed',
+            );
         }
     }
 

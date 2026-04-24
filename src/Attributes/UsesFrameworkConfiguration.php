@@ -23,8 +23,6 @@ final class UsesFrameworkConfiguration implements InvokableContract
 
         $app->useConfigPath(package_path(['vendor', 'laravel', 'framework', 'config']));
 
-        if (method_exists($app, 'dontMergeFrameworkConfiguration')) {
-            $app->dontMergeFrameworkConfiguration();
-        }
+        $app->dontMergeFrameworkConfiguration();
     }
 }
