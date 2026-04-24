@@ -71,11 +71,11 @@ final class WithConfig implements InvokableContract
     /**
      * Determine if the given configuration key is a Laravel default configuration.
      *
-     * @param  string  $key
+     * @param  string  $configKey
      * @return bool
      */
-    protected function isLaravelConfiguration(string $key): bool
+    protected function isLaravelConfiguration(string $configKey): bool
     {
-        return Str::startsWith($key, self::$defaultLaravelConfiguration);
+        return Str::startsWith($configKey, self::$defaultLaravelConfiguration);
     }
 }
