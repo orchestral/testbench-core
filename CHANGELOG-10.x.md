@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.14.1
+
+Released: 2026-04-24
+
+### Fixes
+
+* Fix `Orchestra\Testbench\Attributes\WithConfig` shouldn't defer setting up framework configuration.
+
 ## 10.14.0
 
 Released: 2026-04-23
