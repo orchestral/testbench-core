@@ -14,7 +14,7 @@ final class WithConfig implements InvokableContract
      *
      * @var array<int, string>
      */
-    protected static array $defaultLaravelConfiguration = [
+    protected static array $defaultLaravelConfigurations = [
         'app.',
         'auth.',
         'broadcasting.',
@@ -76,6 +76,6 @@ final class WithConfig implements InvokableContract
      */
     protected function isLaravelConfiguration(string $configKey): bool
     {
-        return Str::startsWith($configKey, self::$defaultLaravelConfiguration);
+        return Str::startsWith($configKey, self::$defaultLaravelConfigurations);
     }
 }
