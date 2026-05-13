@@ -50,6 +50,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, intl, fileinfo, :php-psr
           coverage: none
+          tool: composer:2.9.7
 
       - name: Install dependencies
         uses: ramsey/composer-install@v4
