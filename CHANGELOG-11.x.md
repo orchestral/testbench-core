@@ -2,6 +2,15 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 11.3.3
+
+Released: 2026-05-14
+
+### Changes
+
+* Supports for Laravel Framework 13.9.0.
+* Update skeleton.
+
 ## 11.3.2
 
 Released: 2026-05-06
