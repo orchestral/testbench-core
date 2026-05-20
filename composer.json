@@ -49,7 +49,7 @@
         "laravel/serializable-closure": "^2.0.10",
         "mockery/mockery": "^1.6.10",
         "phpstan/phpstan": "^2.1.38",
-        "phpunit/phpunit": "^11.5.50|^12.5.8|^13.0.0",
+        "phpunit/phpunit": "^11.5.50|^12.5.8|^13.10.0",
         "spatie/laravel-ray": "^1.43.6",
         "symfony/process": "^7.4.5|^8.0.5",
         "symfony/yaml": "^7.4.0|^8.0.0",
@@ -57,7 +57,7 @@
     },
     "conflict": {
         "brianium/paratest": "<7.3.0|>=8.0.0",
-        "laravel/framework": "<13.9.0|>=14.0.0",
+        "laravel/framework": "<13.10.0|>=14.0.0",
         "laravel/serializable-closure": ">=2.0.0 <2.0.10|>=3.0.0",
         "nunomaduro/collision": "<8.9.0|>=9.0.0",
         "phpunit/phpunit": "<11.5.50|>=12.0.0 <12.5.8|>=13.2.0"
