@@ -3,6 +3,9 @@ name: "update-skeleton"
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update:
     name: Update Skeleton
