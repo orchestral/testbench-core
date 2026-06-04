@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Bootstrap;
 
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Log\LogManager;
 use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
@@ -36,38 +37,35 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
     /** {@inheritDoc} */
     #[\Override]
-    protected function ensureDeprecationLoggerIsConfigured()
+    protected function ensureDeprecationLoggerIsConfigured(ConfigRepository $config)
     {
-        with(self::$app->make('config'), static function ($config) {
-            /** @var \Illuminate\Contracts\Config\Repository $config */
-            if ($config->get('logging.channels.deprecations')) {
-                return;
-            }
+        if ($config->get('logging.channels.deprecations')) {
+            return;
+        }
 
-            /** @var array{channel?: string, trace?: bool}|string|null $options */
-            $options = $config->get('logging.deprecations');
-            $trace = Env::get('LOG_DEPRECATIONS_TRACE', false);
+        /** @var array{channel?: string, trace?: bool}|string|null $options */
+        $options = $config->get('logging.deprecations');
+        $trace = Env::get('LOG_DEPRECATIONS_TRACE', false);
 
-            if (\is_array($options)) {
-                $driver = $options['channel'] ?? 'null';
-                $trace = $options['trace'] ?? true;
-            } else {
-                $driver = $options ?? 'null';
-            }
+        if (\is_array($options)) {
+            $driver = $options['channel'] ?? 'null';
+            $trace = $options['trace'] ?? true;
+        } else {
+            $driver = $options ?? 'null';
+        }
 
-            if ($driver === 'single') {
-                $config->set('logging.channels.deprecations', array_merge($config->get('logging.channels.single'), [
-                    'path' => self::$app->storagePath(join_paths('logs', 'deprecations.log')),
-                ]));
-            } else {
-                $config->set('logging.channels.deprecations', $config->get("logging.channels.{$driver}"));
-            }
+        if ($driver === 'single') {
+            $config->set('logging.channels.deprecations', array_merge($config->get('logging.channels.single'), [
+                'path' => self::$app->storagePath(join_paths('logs', 'deprecations.log')),
+            ]));
+        } else {
+            $config->set('logging.channels.deprecations', $config->get("logging.channels.{$driver}"));
+        }
 
-            $config->set('logging.deprecations', [
-                'channel' => 'deprecations',
-                'trace' => $trace,
-            ]);
-        });
+        $config->set('logging.deprecations', [
+            'channel' => 'deprecations',
+            'trace' => $trace,
+        ]);
     }
 
     /** {@inheritDoc} */
