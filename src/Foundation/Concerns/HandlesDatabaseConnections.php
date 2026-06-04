@@ -38,7 +38,7 @@ trait HandlesDatabaseConnections
                     $configuration = (new Collection(Arr::wrap($options['env'])))
                         ->transform(static fn ($value) => Env::get("{$keyword}_{$value}"))
                         ->first(
-                            $options['rules'] ?? static fn ($value) => ! empty($value) && $value !== false && \is_string($value) // @phpstan-ignore notIdentical.alwaysTrue
+                            $options['rules'] ?? static fn ($value) => ! empty($value) && $value !== false && \is_string($value)
                         ) ?? $config->get($name);
 
                     return [

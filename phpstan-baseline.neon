@@ -1,2 +1,7 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: '#^Strict comparison using \!\=\= between mixed and false will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: src/Foundation/Bootstrap/SyncDatabaseEnvironmentVariables.php
