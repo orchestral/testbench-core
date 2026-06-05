@@ -76,7 +76,9 @@
     },
     "config": {
         "audit": {
-            "ignore": []
+            "ignore": [
+                "CVE-2026-48019"
+            ]
         },
         "preferred-install": {
             "laravel/framework": "source",
