@@ -101,6 +101,10 @@ transform([
 ], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/auth.php"));
 
 transform([
+    line("PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),", 4) => line("(PHP_VERSION_ID >= 80500 ? Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),", 4),
+], fn ($changes) => $files->replaceInFile(array_keys($changes), array_values($changes), "{$workingPath}/laravel/config/database.php"));
+
+transform([
     line("'connection' => null,", 3) => line("'connection' => env('DB_CACHE_CONNECTION'),", 3),
     line("'table' => 'cache',", 3) => line("'table' => env('DB_CACHE_TABLE', 'cache'),", 3),
     line("'lock_connection' => null,", 3) => line("'lock_connection' => env('DB_CACHE_LOCK_CONNECTION'),", 3),
