@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 11.3.5
+
+Released: 2026-06-23
+
+### Changes
+
+* Supports for PHPUnit 13.2.0.
+
 ## 11.3.4
 
 Released: 2026-05-20
