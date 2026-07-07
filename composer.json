@@ -48,7 +48,7 @@
         "laravel/pint": "^1.24",
         "laravel/serializable-closure": "^2.0.10",
         "mockery/mockery": "^1.6.10",
-        "phpstan/phpstan": "^2.1.38",
+        "phpstan/phpstan": "~2.2.5",
         "phpunit/phpunit": "^11.5.50|^12.5.8|^13.0.0",
         "spatie/laravel-ray": "^1.43.6",
         "symfony/process": "^7.4.5|^8.0.5",
