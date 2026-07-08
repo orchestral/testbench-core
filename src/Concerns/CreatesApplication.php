@@ -603,7 +603,7 @@ trait CreatesApplication
         $app->make('Illuminate\Foundation\Bootstrap\BootProviders')->bootstrap($app);
 
         foreach ($this->getPackageBootstrappers($app) as $bootstrap) {
-            $app->make($bootstrap)->bootstrap($app);
+            $app->make($bootstrap)->bootstrap($app); /** @phpstan-ignore method.notFound */
         }
 
         $app->make(ConsoleKernelContract::class)->bootstrap();
