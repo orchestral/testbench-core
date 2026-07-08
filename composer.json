@@ -47,7 +47,7 @@
         "laravel/framework": "^9.52.21",
         "laravel/pint": "^1.5",
         "mockery/mockery": "^1.5.1",
-        "phpstan/phpstan": "^2.1.33",
+        "phpstan/phpstan": "~2.2.5",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ray": "^1.40.2",
         "symfony/process": "^6.0.9",
@@ -83,7 +83,10 @@
                 "CVE-2024-50345",
                 "CVE-2024-51736",
                 "CVE-2025-64500",
-                "GHSA-78fx-h6xr-vch4"
+                "PKSA-m5cs-t1y6-qpcs",
+                "PKSA-3r5d-mb8f-1qw9",
+                "PKSA-mdq4-51ck-6kdq",
+                "PKSA-8qx3-n5y5-vvnd"
             ]
         },
         "preferred-install": {
