@@ -66,7 +66,7 @@
         "ext-pcntl": "Required to use all features of the console signal trapping.",
         "brianium/paratest": "Allow using parallel testing (^7.3).",
         "fakerphp/faker": "Allow using Faker for testing (^1.23).",
-        "laravel/framework": "Required for testing (^13.9.0).",
+        "laravel/framework": "Required for testing (^13.10.0).",
         "mockery/mockery": "Allow using Mockery for testing (^1.6).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^8.9).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^11.0).",
@@ -77,7 +77,9 @@
     },
     "config": {
         "audit": {
-            "ignore": []
+            "ignore": [
+                "PKSA-m5cs-t1y6-qpcs"
+            ]
         },
         "preferred-install": {
             "laravel/framework": "source",
