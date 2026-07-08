@@ -79,21 +79,7 @@
     },
     "config": {
         "audit": {
-            "ignore": [
-                "CVE-2024-50345",
-                "CVE-2024-51736",
-                "CVE-2025-64500",
-                "PKSA-v5yj-8nmz-sk2q",
-                "PKSA-ft77-7h5f-p3r6",
-                "PKSA-b14r-zh1d-vdrc",
-                "PKSA-m5cs-t1y6-qpcs",
-                "PKSA-3r5d-mb8f-1qw9",
-                "PKSA-mdq4-51ck-6kdq",
-                "PKSA-8qx3-n5y5-vvnd",
-                "PKSA-28rh-rzzn-djk4",
-                "PKSA-wtxr-p26d-nn42",
-                "PKSA-2n2k-66v2-bwg3"
-            ]
+            "block-insecure": false
         },
         "preferred-install": {
             "*": "auto"
