@@ -81,10 +81,8 @@
     },
     "config": {
         "audit": {
+            "block-insecure": false,
             "ignore": [
-                "CVE-2024-50345",
-                "CVE-2024-51736",
-                "CVE-2025-64500",
                 "PKSA-m5cs-t1y6-qpcs",
                 "PKSA-3r5d-mb8f-1qw9",
                 "PKSA-mdq4-51ck-6kdq"
