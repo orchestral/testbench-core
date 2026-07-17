@@ -26,7 +26,7 @@ final class Kernel extends ConsoleKernel
      * @throws \Throwable
      */
     #[\Override]
-    protected function reportException(Throwable $e)
+    protected function reportException(Throwable $e, array $context = [])
     {
         throw $e;
     }
