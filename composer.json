@@ -48,7 +48,7 @@
         "laravel/pint": "^1.24",
         "laravel/serializable-closure": "^2.0.10",
         "mockery/mockery": "^1.6.10",
-        "phpstan/phpstan": "~2.2.5",
+        "phpstan/phpstan": "~2.2.7",
         "phpunit/phpunit": "^11.5.50|^12.5.8|^13.0.0",
         "spatie/laravel-ray": "^1.43.6",
         "symfony/process": "^7.4.5|^8.0.5",
@@ -57,7 +57,7 @@
     },
     "conflict": {
         "brianium/paratest": "<7.3.0|>=8.0.0",
-        "laravel/framework": "<13.10.0|>=14.0.0",
+        "laravel/framework": "<13.20.0|>=14.0.0",
         "laravel/serializable-closure": ">=2.0.0 <2.0.10|>=3.0.0",
         "nunomaduro/collision": "<8.9.0|>=9.0.0",
         "phpunit/phpunit": "<11.5.50|>=12.0.0 <12.5.8|>=13.4.0"
@@ -66,7 +66,7 @@
         "ext-pcntl": "Required to use all features of the console signal trapping.",
         "brianium/paratest": "Allow using parallel testing (^7.3).",
         "fakerphp/faker": "Allow using Faker for testing (^1.23).",
-        "laravel/framework": "Required for testing (^13.10.0).",
+        "laravel/framework": "Required for testing (^13.20.0).",
         "mockery/mockery": "Allow using Mockery for testing (^1.6).",
         "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^8.9).",
         "orchestra/testbench-dusk": "Allow using Laravel Dusk for testing (^11.0).",
@@ -78,9 +78,7 @@
     "config": {
         "audit": {
             "block-insecure": true,
-            "ignore": [
-                "PKSA-m5cs-t1y6-qpcs"
-            ]
+            "ignore": []
         },
         "preferred-install": {
             "laravel/framework": "source",
