@@ -78,9 +78,7 @@
     "config": {
         "audit": {
             "block-insecure": true,
-            "ignore": [
-                "PKSA-m5cs-t1y6-qpcs"
-            ]
+            "ignore": []
         },
         "preferred-install": {
             "laravel/framework": "source",
