@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 11.3.6
+
+Released: 2026-08-05
+
+### Changes
+
+* Update skeleton.
+
 ## 11.3.5
 
 Released: 2026-06-23
