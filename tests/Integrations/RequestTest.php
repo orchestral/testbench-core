@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 #[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
+#[WithConfig('app.url', 'http://localhost:8000')]
 class RequestTest extends TestCase
 {
     /** {@inheritDoc} */
