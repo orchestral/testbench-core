@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 #[WithConfig('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF')]
+#[WithConfig('app.url', 'http://localhost:8000')]
 class RequestTest extends TestCase
 {
     /** {@inheritDoc} */
@@ -38,8 +39,8 @@ class RequestTest extends TestCase
     {
         $this->call('GET', 'hello?foo=bar');
 
-        $this->assertSame('http://localhost/hello?foo=bar', url()->full());
-        $this->assertSame('http://localhost/hello', url()->current());
+        $this->assertSame('http://localhost:8000/hello?foo=bar', url()->full());
+        $this->assertSame('http://localhost:8000/hello', url()->current());
         $this->assertSame(['foo' => 'bar'], request()->all());
     }
 
