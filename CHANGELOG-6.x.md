@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 6.54.0
+
+Released: 2026-08-27
+
+### Changes
+
+* Allows to defer `WithConfig` and eager loads Laravel's default configuration.
+
 ## 6.53.1
 
 Released: 2024-10-06
