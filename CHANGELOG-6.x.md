@@ -8,7 +8,7 @@ Released: 2026-08-27
 
 ### Changes
 
-* Allows to defer `WithConfig` and eager loads Laravel's default configuration.
+* Allows deferring `WithConfig` and eager loads Laravel's default configuration.
 
 ## 6.53.1
 
