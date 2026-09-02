@@ -25,7 +25,7 @@ class SyncTestbenchCachedRoutes
 
         /** @phpstan-ignore argument.type */
         (new Collection(glob($app->basePath(join_paths('routes', 'testbench-*.php')))))
-            ->each(static function ($routeFile) use ($app, $router) { // @phpstan-ignore closure.unusedUse, closure.unusedUse
+            ->each(static function ($routeFile) use ($app, $router) {
                 require $routeFile;
             });
     }

@@ -2,6 +2,31 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 11.4.0
+
+Released: 2026-08-07
+
+### Changes
+
+* Supports for Laravel Framework 13.23.0.
+* Supports for PHPUnit 13.3.0.
+
+## 11.3.6
+
+Released: 2026-08-05
+
+### Changes
+
+* Update skeleton.
+
+## 11.3.5
+
+Released: 2026-06-23
+
+### Changes
+
+* Supports for PHPUnit 13.2.0.
+
 ## 11.3.4
 
 Released: 2026-05-20

@@ -38,7 +38,7 @@
     "require": {
         "php": "^8.4",
         "composer-runtime-api": "^2.2",
-        "orchestra/sidekick": "~1.1.23|~1.2.20",
+        "orchestra/sidekick": "~1.1.23|~1.2.20|~1.3.0",
         "symfony/deprecation-contracts": "^2.5|^3.0"
     },
     "require-dev": {
@@ -47,7 +47,7 @@
         "laravel/pint": "^1.24",
         "laravel/serializable-closure": "^2.0.10",
         "mockery/mockery": "^1.6.10",
-        "phpstan/phpstan": "^2.1.38",
+        "phpstan/phpstan": "~2.2.7",
         "phpunit/phpunit": "^11.5.50|^12.5.8|^13.0.0",
         "spatie/laravel-ray": "^1.43.6",
         "symfony/process": "^8.0.5",
@@ -59,7 +59,7 @@
         "laravel/framework": "<13.0.0|>=15.0.0",
         "laravel/serializable-closure": ">=2.0.0 <2.0.10|>=3.0.0",
         "nunomaduro/collision": "<8.9.0|>=9.0.0",
-        "phpunit/phpunit": "<11.5.50|>=12.0.0 <12.5.8|>=13.2.0"
+        "phpunit/phpunit": "<11.5.50|>=12.0.0 <12.5.8|>=13.4.0"
     },
     "suggest": {
         "ext-pcntl": "Required to use all features of the console signal trapping.",
@@ -76,9 +76,8 @@
     },
     "config": {
         "audit": {
-            "ignore": [
-                "CVE-2026-48019"
-            ]
+            "block-insecure": true,
+            "ignore": []
         },
         "preferred-install": {
             "laravel/framework": "source",
