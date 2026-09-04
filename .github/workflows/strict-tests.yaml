@@ -19,7 +19,6 @@ jobs:
           - 8.3
           - 8.4
           - 8.5
-          - 8.6
         phpunit:
           - "~11.5.50"
           - "~12.5.8"
@@ -29,6 +28,10 @@ jobs:
           - "~13.3.0"
         experimental:
           - false
+        include:
+          - php: 8.6
+            phpunit: "~13.3.0"
+            experimental: true
         exclude:
           - php: 8.3
             phpunit: "~13.0.0"
@@ -58,7 +61,7 @@ jobs:
         uses: ramsey/composer-install@v4
         with:
           dependency-versions: "highest"
-          composer-options: "--prefer-dist --no-cache --with=phpunit/phpunit:${{ matrix.phpunit }}"
+          composer-options: "--prefer-dist --no-cache --with=phpunit/phpunit:${{ matrix.phpunit }} ${{ matrix.experimental == true && '--ignore-platform-reqs' || '' }}"
 
       - name: Installed dependencies
         run: |
