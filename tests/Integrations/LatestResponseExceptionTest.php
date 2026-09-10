@@ -65,6 +65,7 @@ class LatestResponseExceptionTest extends TestCase
 
         $session->start();
 
+        $this->app->instance('session', $session);
         $this->app->instance('session.store', $session);
     }
 
