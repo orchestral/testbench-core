@@ -50,6 +50,6 @@ class RequestTest extends TestCase
     {
         $this->call('GET', 'web/hello');
 
-        $this->assertEquals('test-old-value', old('name'));
+        $this->assertEquals('test-old-value', session()->getOldInput('name'));
     }
 }
