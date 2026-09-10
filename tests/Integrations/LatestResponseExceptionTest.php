@@ -173,7 +173,7 @@ class LatestResponseExceptionTest extends TestCase
         $defaultDriver = $session->getDefaultDriver();
         $storeResolved = $this->app->resolved('session.store');
         $originalStore = $storeResolved ? $this->app->make('session.store') : null;
-        $driver = sprintf('php86-safe-%s', bin2hex(random_bytes(4)));
+        $driver = 'php86-safe';
 
         $session->extend($driver, static fn () => $handler);
         $session->setDefaultDriver($driver);
@@ -189,6 +189,15 @@ class LatestResponseExceptionTest extends TestCase
         } finally {
             $session->setDefaultDriver($defaultDriver);
             $session->forgetDrivers();
+            $property = new \ReflectionProperty($session, 'customCreators');
+            $property->setAccessible(true);
+
+            /** @var array<string, callable> $creators */
+            $creators = $property->getValue($session);
+
+            unset($creators[$driver]);
+
+            $property->setValue($session, $creators);
 
             if ($storeResolved && $originalStore !== null) {
                 $this->app->instance('session.store', $originalStore);
