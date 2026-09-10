@@ -9,6 +9,7 @@ use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Tests\TestCase;
 
 #[WithConfig('app.debug', false)]
+#[WithConfig('session.driver', 'cookie')]
 class LatestResponseExceptionTest extends TestCase
 {
     public function testItRendersAuthorizationExceptions()
