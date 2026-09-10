@@ -12,6 +12,59 @@ use SessionHandlerInterface;
 #[WithConfig('app.debug', false)]
 class LatestResponseExceptionTest extends TestCase
 {
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->app['session']->extend('php86-safe', static function () {
+            return new class implements SessionHandlerInterface
+            {
+                protected array $storage = [];
+
+                public function open(string $path, string $name): bool
+                {
+                    return true;
+                }
+
+                public function close(): bool
+                {
+                    return true;
+                }
+
+                public function read(string $id): string
+                {
+                    return $this->storage[$id] ?? '';
+                }
+
+                public function write(string $id, string $data): bool
+                {
+                    $this->storage[$id] = $data;
+
+                    return true;
+                }
+
+                public function destroy(string $id): bool
+                {
+                    unset($this->storage[$id]);
+
+                    return true;
+                }
+
+                public function gc(int $max_lifetime): int|false
+                {
+                    return 0;
+                }
+
+                public function create_sid(): string
+                {
+                    return bin2hex(random_bytes(20));
+                }
+            };
+        });
+    }
+
     public function testItRendersAuthorizationExceptions()
     {
         Route::get('test-route', fn () => Response::deny('expected message', 321)->authorize());
@@ -125,57 +178,12 @@ class LatestResponseExceptionTest extends TestCase
 
     protected function usingSafeSessionDriver(callable $callback): void
     {
-        $handler = new class implements SessionHandlerInterface
-        {
-            protected array $storage = [];
-
-            public function open(string $path, string $name): bool
-            {
-                return true;
-            }
-
-            public function close(): bool
-            {
-                return true;
-            }
-
-            public function read(string $id): string
-            {
-                return $this->storage[$id] ?? '';
-            }
-
-            public function write(string $id, string $data): bool
-            {
-                $this->storage[$id] = $data;
-
-                return true;
-            }
-
-            public function destroy(string $id): bool
-            {
-                unset($this->storage[$id]);
-
-                return true;
-            }
-
-            public function gc(int $max_lifetime): int|false
-            {
-                return 0;
-            }
-
-            public function create_sid(): string
-            {
-                return bin2hex(random_bytes(20));
-            }
-        };
-
         $session = $this->app['session'];
         $defaultDriver = $session->getDefaultDriver();
         $storeResolved = $this->app->resolved('session.store');
         $originalStore = $storeResolved ? $this->app->make('session.store') : null;
         $driver = 'php86-safe';
 
-        $session->extend($driver, static fn () => $handler);
         $session->setDefaultDriver($driver);
         $session->forgetDrivers();
 
@@ -189,15 +197,6 @@ class LatestResponseExceptionTest extends TestCase
         } finally {
             $session->setDefaultDriver($defaultDriver);
             $session->forgetDrivers();
-            $property = new \ReflectionProperty($session, 'customCreators');
-            $property->setAccessible(true);
-
-            /** @var array<string, callable> $creators */
-            $creators = $property->getValue($session);
-
-            unset($creators[$driver]);
-
-            $property->setValue($session, $creators);
 
             if ($storeResolved && $originalStore !== null) {
                 $this->app->instance('session.store', $originalStore);
