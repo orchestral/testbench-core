@@ -65,7 +65,25 @@ class LatestResponseExceptionTest extends TestCase
 
         $session->start();
 
-        $this->app->instance('session', $session);
+        $this->app->instance('session', new class($session)
+        {
+            public function __construct(protected SessionStore $store) {}
+
+            public function driver(?string $driver = null): SessionStore
+            {
+                return $this->store;
+            }
+
+            public function getDefaultDriver(): string
+            {
+                return 'array';
+            }
+
+            public function __call(string $method, array $parameters)
+            {
+                return $this->store->{$method}(...$parameters);
+            }
+        });
         $this->app->instance('session.store', $session);
     }
 
