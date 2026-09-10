@@ -165,7 +165,7 @@ class LatestResponseExceptionTest extends TestCase
 
             public function create_sid(): string
             {
-                return str_repeat('a', 40);
+                return bin2hex(random_bytes(20));
             }
         };
 
