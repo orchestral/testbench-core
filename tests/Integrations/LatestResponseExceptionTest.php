@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Session\Store as SessionStore;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Tests\TestCase;
@@ -19,7 +18,7 @@ class LatestResponseExceptionTest extends TestCase
     {
         parent::setUp();
 
-        $session = new SessionStore('testbench', new class implements SessionHandlerInterface
+        $handler = new class implements SessionHandlerInterface
         {
             protected array $storage = [];
 
@@ -61,30 +60,18 @@ class LatestResponseExceptionTest extends TestCase
             {
                 return str_repeat('a', 40);
             }
-        });
+        };
 
-        $session->start();
+        $session = $this->app['session'];
 
-        $this->app->instance('session', new class($session)
-        {
-            public function __construct(protected SessionStore $store) {}
+        $session->extend('php86-safe', static fn () => $handler);
+        $session->setDefaultDriver('php86-safe');
+        $session->forgetDrivers();
 
-            public function driver(?string $driver = null): SessionStore
-            {
-                return $this->store;
-            }
+        $store = $session->driver();
+        $store->start();
 
-            public function getDefaultDriver(): string
-            {
-                return 'array';
-            }
-
-            public function __call(string $method, array $parameters)
-            {
-                return $this->store->{$method}(...$parameters);
-            }
-        });
-        $this->app->instance('session.store', $session);
+        $this->app->instance('session.store', $store);
     }
 
     public function testItRendersAuthorizationExceptions()
