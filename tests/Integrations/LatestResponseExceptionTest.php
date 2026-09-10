@@ -171,6 +171,8 @@ class LatestResponseExceptionTest extends TestCase
 
         $session = $this->app['session'];
         $defaultDriver = $session->getDefaultDriver();
+        $storeResolved = $this->app->resolved('session.store');
+        $originalStore = $storeResolved ? $this->app->make('session.store') : null;
 
         $session->extend('php86-safe', static fn () => $handler);
         $session->setDefaultDriver('php86-safe');
@@ -186,7 +188,12 @@ class LatestResponseExceptionTest extends TestCase
         } finally {
             $session->setDefaultDriver($defaultDriver);
             $session->forgetDrivers();
-            $this->app->forgetInstance('session.store');
+
+            if ($storeResolved && $originalStore !== null) {
+                $this->app->instance('session.store', $originalStore);
+            } else {
+                $this->app->forgetInstance('session.store');
+            }
         }
     }
 }
