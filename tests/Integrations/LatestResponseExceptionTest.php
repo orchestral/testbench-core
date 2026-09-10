@@ -173,9 +173,10 @@ class LatestResponseExceptionTest extends TestCase
         $defaultDriver = $session->getDefaultDriver();
         $storeResolved = $this->app->resolved('session.store');
         $originalStore = $storeResolved ? $this->app->make('session.store') : null;
+        $driver = sprintf('php86-safe-%s', bin2hex(random_bytes(4)));
 
-        $session->extend('php86-safe', static fn () => $handler);
-        $session->setDefaultDriver('php86-safe');
+        $session->extend($driver, static fn () => $handler);
+        $session->setDefaultDriver($driver);
         $session->forgetDrivers();
 
         $store = $session->driver();
