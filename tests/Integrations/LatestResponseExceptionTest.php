@@ -4,14 +4,70 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Session\Store as SessionStore;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Tests\TestCase;
+use SessionHandlerInterface;
 
 #[WithConfig('app.debug', false)]
-#[WithConfig('session.driver', 'cookie')]
 class LatestResponseExceptionTest extends TestCase
 {
+    /** {@inheritDoc} */
+    #[\Override]
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $session = new SessionStore('testbench', new class implements SessionHandlerInterface
+        {
+            protected array $storage = [];
+
+            public function open(string $path, string $name): bool
+            {
+                return true;
+            }
+
+            public function close(): bool
+            {
+                return true;
+            }
+
+            public function read(string $id): string
+            {
+                return $this->storage[$id] ?? '';
+            }
+
+            public function write(string $id, string $data): bool
+            {
+                $this->storage[$id] = $data;
+
+                return true;
+            }
+
+            public function destroy(string $id): bool
+            {
+                unset($this->storage[$id]);
+
+                return true;
+            }
+
+            public function gc(int $max_lifetime): int|false
+            {
+                return 0;
+            }
+
+            public function create_sid(): string
+            {
+                return str_repeat('a', 40);
+            }
+        });
+
+        $session->start();
+
+        $this->app->instance('session.store', $session);
+    }
+
     public function testItRendersAuthorizationExceptions()
     {
         Route::get('test-route', fn () => Response::deny('expected message', 321)->authorize());
