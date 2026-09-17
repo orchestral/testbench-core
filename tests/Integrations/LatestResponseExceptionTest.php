@@ -13,17 +13,6 @@ use SessionHandlerInterface;
 #[WithConfig('app.debug', false)]
 class LatestResponseExceptionTest extends TestCase
 {
-    /** {@inheritDoc} */
-    #[\Override]
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->app['session']->extend('php86-safe', static function () {
-            return new Php86SafeSessionHandler;
-        });
-    }
-
     #[Group('without-parallel')]
     public function testItRendersAuthorizationExceptions()
     {
@@ -168,49 +157,5 @@ class LatestResponseExceptionTest extends TestCase
                 $this->app->forgetInstance('session.store');
             }
         }
-    }
-}
-
-final class Php86SafeSessionHandler implements SessionHandlerInterface
-{
-    protected array $storage = [];
-
-    public function open(string $path, string $name): bool
-    {
-        return true;
-    }
-
-    public function close(): bool
-    {
-        return true;
-    }
-
-    public function read(string $id): string
-    {
-        return $this->storage[$id] ?? '';
-    }
-
-    public function write(string $id, string $data): bool
-    {
-        $this->storage[$id] = $data;
-
-        return true;
-    }
-
-    public function destroy(string $id): bool
-    {
-        unset($this->storage[$id]);
-
-        return true;
-    }
-
-    public function gc(int $max_lifetime): int|false
-    {
-        return 0;
-    }
-
-    public function create_sid(): string
-    {
-        return bin2hex(random_bytes(20));
     }
 }
