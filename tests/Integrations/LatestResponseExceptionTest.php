@@ -7,10 +7,12 @@ use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 #[WithConfig('app.debug', false)]
 class LatestResponseExceptionTest extends TestCase
 {
+    #[Group('without-parallel')]
     public function testItRendersAuthorizationExceptions()
     {
         Route::get('test-route', fn () => Response::deny('expected message', 321)->authorize());
@@ -28,6 +30,7 @@ class LatestResponseExceptionTest extends TestCase
             ]);
     }
 
+    #[Group('without-parallel')]
     public function testItRendersAuthorizationExceptionsWithCustomStatusCode()
     {
         Route::get('test-route', fn () => Response::deny('expected message', 321)->withStatus(404)->authorize());
@@ -45,6 +48,7 @@ class LatestResponseExceptionTest extends TestCase
             ]);
     }
 
+    #[Group('without-parallel')]
     public function testItRendersAuthorizationExceptionsWithStatusCodeTextWhenNoMessageIsSet()
     {
         Route::get('test-route', fn () => Response::denyWithStatus(404)->authorize());
@@ -76,6 +80,7 @@ class LatestResponseExceptionTest extends TestCase
             ]);
     }
 
+    #[Group('without-parallel')]
     public function testItRendersAuthorizationExceptionsWithStatusButWithoutResponse()
     {
         Route::get('test-route', fn () => throw (new AuthorizationException)->withStatus(418));
@@ -93,6 +98,7 @@ class LatestResponseExceptionTest extends TestCase
             ]);
     }
 
+    #[Group('without-parallel')]
     public function testItHasFallbackErrorMessageForUnknownStatusCodes()
     {
         Route::get('test-route', fn () => throw (new AuthorizationException)->withStatus(399));
