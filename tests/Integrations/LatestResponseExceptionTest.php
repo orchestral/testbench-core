@@ -19,11 +19,9 @@ class LatestResponseExceptionTest extends TestCase
         Route::get('test-route', fn () => Response::deny('expected message', 321)->authorize());
 
         // HTTP request...
-        $this->usingSafeSessionDriver(function () {
-            $this->get('test-route')
-                ->assertStatus(403)
-                ->assertSeeText('expected message');
-        });
+        $this->get('test-route')
+            ->assertStatus(403)
+            ->assertSeeText('expected message');
 
         // JSON request...
         $this->getJson('test-route')
@@ -39,11 +37,9 @@ class LatestResponseExceptionTest extends TestCase
         Route::get('test-route', fn () => Response::deny('expected message', 321)->withStatus(404)->authorize());
 
         // HTTP request...
-        $this->usingSafeSessionDriver(function () {
-            $this->get('test-route')
-                ->assertStatus(404)
-                ->assertSeeText('Not Found');
-        });
+        $this->get('test-route')
+            ->assertStatus(404)
+            ->assertSeeText('Not Found');
 
         // JSON request...
         $this->getJson('test-route')
@@ -59,11 +55,9 @@ class LatestResponseExceptionTest extends TestCase
         Route::get('test-route', fn () => Response::denyWithStatus(404)->authorize());
 
         // HTTP request...
-        $this->usingSafeSessionDriver(function () {
-            $this->get('test-route')
-                ->assertStatus(404)
-                ->assertSeeText('Not Found');
-        });
+        $this->get('test-route')
+            ->assertStatus(404)
+            ->assertSeeText('Not Found');
 
         // JSON request...
         $this->getJson('test-route')
@@ -75,11 +69,9 @@ class LatestResponseExceptionTest extends TestCase
         Route::get('test-route', fn () => Response::denyWithStatus(418)->authorize());
 
         // HTTP request...
-        $this->usingSafeSessionDriver(function () {
-            $this->get('test-route')
-                ->assertStatus(418)
-                ->assertSeeText("I'm a teapot", false);
-        });
+        $this->get('test-route')
+            ->assertStatus(418)
+            ->assertSeeText("I'm a teapot", false);
 
         // JSON request...
         $this->getJson('test-route')
@@ -95,11 +87,9 @@ class LatestResponseExceptionTest extends TestCase
         Route::get('test-route', fn () => throw (new AuthorizationException)->withStatus(418));
 
         // HTTP request...
-        $this->usingSafeSessionDriver(function () {
-            $this->get('test-route')
-                ->assertStatus(418)
-                ->assertSeeText("I'm a teapot", false);
-        });
+        $this->get('test-route')
+            ->assertStatus(418)
+            ->assertSeeText("I'm a teapot", false);
 
         // JSON request...
         $this->getJson('test-route')
@@ -115,11 +105,9 @@ class LatestResponseExceptionTest extends TestCase
         Route::get('test-route', fn () => throw (new AuthorizationException)->withStatus(399));
 
         // HTTP request...
-        $this->usingSafeSessionDriver(function () {
-            $this->get('test-route')
-                ->assertStatus(399)
-                ->assertSeeText('Whoops, looks like something went wrong.');
-        });
+        $this->get('test-route')
+            ->assertStatus(399)
+            ->assertSeeText('Whoops, looks like something went wrong.');
 
         // JSON request...
         $this->getJson('test-route')
@@ -127,35 +115,5 @@ class LatestResponseExceptionTest extends TestCase
             ->assertExactJson([
                 'message' => 'Whoops, looks like something went wrong.',
             ]);
-    }
-
-    protected function usingSafeSessionDriver(callable $callback): void
-    {
-        $session = $this->app['session'];
-        $defaultDriver = $session->getDefaultDriver();
-        $storeResolved = $this->app->resolved('session.store');
-        $originalStore = $storeResolved ? $this->app->make('session.store') : null;
-        $driver = 'php86-safe';
-
-        $session->setDefaultDriver($driver);
-        $session->forgetDrivers();
-
-        $store = $session->driver();
-        $store->start();
-
-        $this->app->instance('session.store', $store);
-
-        try {
-            $callback();
-        } finally {
-            $session->setDefaultDriver($defaultDriver);
-            $session->forgetDrivers();
-
-            if ($storeResolved && $originalStore !== null) {
-                $this->app->instance('session.store', $originalStore);
-            } else {
-                $this->app->forgetInstance('session.store');
-            }
-        }
     }
 }
