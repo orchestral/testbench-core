@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Group;
-use SessionHandlerInterface;
 
 #[WithConfig('app.debug', false)]
 class LatestResponseExceptionTest extends TestCase
