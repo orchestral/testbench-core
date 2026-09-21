@@ -19,7 +19,8 @@ class DropSqliteDbCommand extends Command
      */
     protected $signature = 'package:drop-sqlite-db
                                 {--database=database.sqlite : Set the database name}
-                                {--all : Delete all SQLite databases}';
+                                {--all : Delete all SQLite databases}
+                                {--pretend : Outputs the operations but will not execute anything}';
 
     /**
      * Execute the console command.
@@ -29,11 +30,15 @@ class DropSqliteDbCommand extends Command
      */
     public function handle(Filesystem $filesystem)
     {
+        /** @var bool $pretending */
+        $pretending = $this->option('pretend');
+
         $databasePath = $this->laravel->databasePath();
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             components: $this->components,
+            pretending: $pretending,
         ))->handle(
             match ($this->option('all')) {
                 true => [...$filesystem->glob(join_paths($databasePath, '*.sqlite'))],
