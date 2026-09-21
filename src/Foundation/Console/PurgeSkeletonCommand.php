@@ -9,7 +9,6 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink;
-use Orchestra\Testbench\Foundation\Console\Actions\Task;
 use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -41,27 +40,16 @@ class PurgeSkeletonCommand extends Command
         /** @var bool $pretending */
         $pretending = $this->option('pretend');
 
-        $runCommand = function ($name) use ($pretending) {
-            (new Task(
-                action: function () use ($name) {
-                    $this->call($name);
+        $runCommand = new Actions\RunCommand(
+            console: $this,
+            components: $this->components,
+            pretending: $pretending
+        );
 
-                    return true;
-                },
-                response: function ($action, $pretending) use ($name) {
-                    if ($pretending) {
-                        $this->components?->task(
-                            \sprintf('Command [%s] executed', $name)
-                        );
-                    }
-                }
-            ))($pretending);
-        };
-
-        $runCommand('config:clear');
-        $runCommand('event:clear');
-        $runCommand('route:clear');
-        $runCommand('view:clear');
+        $runCommand->handle('config:clear');
+        $runCommand->handle('event:clear');
+        $runCommand->handle('route:clear');
+        $runCommand->handle('view:clear');
 
         (new RemoveAssetSymlinkFolders($filesystem, $config))->handle();
 
