@@ -19,7 +19,6 @@ class Task
         protected Closure $requirement,
         protected Closure $action,
         protected Closure $response,
-        protected bool $pretending = false,
     ) {
         // ...
     }
