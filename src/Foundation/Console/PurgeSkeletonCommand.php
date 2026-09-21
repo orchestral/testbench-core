@@ -9,6 +9,7 @@ use Illuminate\Support\LazyCollection;
 use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
 use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink;
+use Orchestra\Testbench\Foundation\Console\Actions\Task;
 use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -25,7 +26,8 @@ class PurgeSkeletonCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'package:purge-skeleton';
+    protected $signature = 'package:purge-skeleton
+                                {--pretend : Outputs the operations but will not execute anything}';
 
     /**
      * Execute the console command.
@@ -36,10 +38,30 @@ class PurgeSkeletonCommand extends Command
      */
     public function handle(Filesystem $filesystem, ConfigContract $config)
     {
-        $this->call('config:clear');
-        $this->call('event:clear');
-        $this->call('route:clear');
-        $this->call('view:clear');
+        /** @var bool $pretending */
+        $pretending = $this->option('pretend');
+
+        $runCommand = function ($name) use ($pretending) {
+            (new Task(
+                action: function () use ($name) {
+                    $this->call($name);
+
+                    return true;
+                },
+                response: function ($action, $pretending) use ($name) {
+                    if ($pretending) {
+                        $this->components?->task(
+                            \sprintf('Command [%s] executed', $name)
+                        );
+                    }
+                }
+            ))($pretending);
+        };
+
+        $runCommand('config:clear');
+        $runCommand('event:clear');
+        $runCommand('route:clear');
+        $runCommand('view:clear');
 
         (new RemoveAssetSymlinkFolders($filesystem, $config))->handle();
 
@@ -49,6 +71,7 @@ class PurgeSkeletonCommand extends Command
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
+            pretending: $pretending,
         ))->handle(
             (new Collection([
                 $environmentFile,
@@ -60,6 +83,7 @@ class PurgeSkeletonCommand extends Command
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
+            pretending: $pretending,
         ))->handle(
             (new LazyCollection(function () use ($filesystem) {
                 yield $this->laravel->basePath(join_paths('database', 'database.sqlite'));
@@ -73,6 +97,7 @@ class PurgeSkeletonCommand extends Command
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             components: $this->components,
+            pretending: $pretending,
         ))->handle(
             (new LazyCollection($files))
                 ->map(fn ($file) => $this->laravel->basePath($file))
@@ -87,6 +112,7 @@ class PurgeSkeletonCommand extends Command
         (new Actions\DeleteDirectories(
             filesystem: $filesystem,
             components: $this->components,
+            pretending: $pretending,
         ))->handle(
             (new Collection($directories))
                 ->map(fn ($directory) => $this->laravel->basePath($directory))

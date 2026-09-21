@@ -11,14 +11,14 @@ class Task
      *
      * @template TActionResponse of bool
      *
-     * @param  \Closure():(bool)  $requirement
      * @param  \Closure():(TActionResponse)  $action
-     * @param  \Closure(TActionResponse):(void)  $response
+     * @param  (\Closure(TActionResponse, bool):(void))|null  $response
+     * @param  (\Closure():(bool))|bool  $requirement
      */
     public function __construct(
-        protected Closure $requirement,
         protected Closure $action,
-        protected Closure $response,
+        protected ?Closure $response = null,
+        protected Closure|bool $requirement = true,
     ) {
         // ...
     }
@@ -28,17 +28,16 @@ class Task
      */
     public function __invoke(bool $pretending = false): void
     {
-        if (\call_user_func($this->requirement) === false) {
+        if (value($this->requirement) === false) {
             return;
         }
 
         if ($pretending === true) {
-            \call_user_func($this->response, true);
+            value($this->response, true, $pretending);
 
             return;
         }
 
-        \call_user_func($this->response, \call_user_func($this->action));
-
+        value($this->response, \call_user_func($this->action), $pretending);
     }
 }
