@@ -10,6 +10,11 @@ use function Orchestra\Testbench\transform_realpath_to_relative;
 abstract class Action
 {
     /**
+     * Determine if action should only be pretended.
+     */
+    protected bool $pretending = false;
+
+    /**
      * Normalise file location.
      *
      * @param  string  $path
