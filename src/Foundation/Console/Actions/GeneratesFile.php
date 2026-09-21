@@ -19,13 +19,17 @@ class GeneratesFile extends Action
      * @param  \Illuminate\Console\View\Components\Factory|null  $components
      * @param  bool  $force
      * @param  string|null  $workingPath
+     * @param  bool  $pretending
      */
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
         public bool $force = false,
-        public ?string $workingPath = null
-    ) {}
+        public ?string $workingPath = null,
+        bool $pretending = false,
+    ) {
+        $this->pretending = $pretending;
+    }
 
     /**
      * Handle the action.
@@ -40,34 +44,46 @@ class GeneratesFile extends Action
             return;
         }
 
-        if (! $this->filesystem->exists($from)) {
-            $this->components?->twoColumnDetail(
-                \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
+        $task = new Task(
+            requirement: function () use ($from, $to) {
+                if (! $this->filesystem->exists($from)) {
+                    $this->components?->twoColumnDetail(
+                        \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
+                        '<fg=yellow;options=bold>SKIPPED</>'
+                    );
 
-            return;
-        }
+                    return false;
+                }
 
-        if (! $this->force && $this->filesystem->exists($to)) {
-            $this->components?->twoColumnDetail(
-                \sprintf('File [%s] already exists', transform_realpath_to_relative($to, $this->workingPath)),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
+                if (! $this->force && $this->filesystem->exists($to)) {
+                    $this->components?->twoColumnDetail(
+                        \sprintf('File [%s] already exists', transform_realpath_to_relative($to, $this->workingPath)),
+                        '<fg=yellow;options=bold>SKIPPED</>'
+                    );
 
-            return;
-        }
+                    return false;
+                }
 
-        $this->filesystem->copy($from, $to);
+                return true;
+            },
+            action: function () use ($from, $to) {
+                $copied = $this->filesystem->copy($from, $to);
 
-        $gitKeepFile = \sprintf('%s/.gitkeep', \dirname($to));
+                $gitKeepFile = \sprintf('%s/.gitkeep', \dirname($to));
 
-        if ($this->filesystem->exists($gitKeepFile)) {
-            $this->filesystem->delete($gitKeepFile);
-        }
+                if ($this->filesystem->exists($gitKeepFile)) {
+                    $this->filesystem->delete($gitKeepFile);
+                }
 
-        $this->components?->task(
-            \sprintf('File [%s] generated', transform_realpath_to_relative($to, $this->workingPath))
+                return $copied;
+            },
+            response: function () use ($to) {
+                $this->components?->task(
+                    \sprintf('File [%s] generated', transform_realpath_to_relative($to, $this->workingPath))
+                );
+            },
         );
+
+        $task($this->pretending);
     }
 }

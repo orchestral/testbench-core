@@ -20,12 +20,16 @@ class EnsureDirectoryExists extends Action
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  \Illuminate\Console\View\Components\Factory|null  $components
      * @param  string|null  $workingPath
+     * @param  bool  $pretending
      */
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
-        public ?string $workingPath = null
-    ) {}
+        public ?string $workingPath = null,
+        bool $pretending = false,
+    ) {
+        $this->pretending = $pretending;
+    }
 
     /**
      * Handle the action.
@@ -37,19 +41,31 @@ class EnsureDirectoryExists extends Action
     {
         (new LazyCollection($directories))
             ->each(function ($directory) {
-                if ($this->filesystem->isDirectory($directory)) {
-                    $this->components?->twoColumnDetail(
-                        \sprintf('Directory [%s] already exists', transform_realpath_to_relative($directory, $this->workingPath)),
-                        '<fg=yellow;options=bold>SKIPPED</>'
-                    );
+                $task = new Task(
+                    requirement: function () use ($directory) {
+                        if ($this->filesystem->isDirectory($directory)) {
+                            $this->components?->twoColumnDetail(
+                                \sprintf('Directory [%s] already exists', transform_realpath_to_relative($directory, $this->workingPath)),
+                                '<fg=yellow;options=bold>SKIPPED</>'
+                            );
 
-                    return;
-                }
+                            return false;
+                        }
 
-                $this->filesystem->ensureDirectoryExists($directory, 0755, true);
-                $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
+                        return true;
+                    },
+                    action: function () use ($directory) {
+                        $this->filesystem->ensureDirectoryExists($directory, 0755, true);
+                        $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
 
-                $this->components?->task(\sprintf('Prepare [%s] directory', transform_realpath_to_relative($directory, $this->workingPath)));
+                        return true;
+                    },
+                    response: function () use ($directory) {
+                        $this->components?->task(\sprintf('Prepare [%s] directory', transform_realpath_to_relative($directory, $this->workingPath)));
+                    },
+                );
+
+                $task($this->pretending);
             });
     }
 }

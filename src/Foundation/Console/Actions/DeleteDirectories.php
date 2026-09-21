@@ -19,12 +19,16 @@ class DeleteDirectories extends Action
      * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      * @param  \Illuminate\Console\View\Components\Factory  $components
      * @param  string|null  $workingPath
+     * @param  bool  $pretending
      */
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
-        public ?string $workingPath = null
-    ) {}
+        public ?string $workingPath = null,
+        bool $pretending = false,
+    ) {
+        $this->pretending = $pretending;
+    }
 
     /**
      * Handle the action.
@@ -36,20 +40,28 @@ class DeleteDirectories extends Action
     {
         (new LazyCollection($directories))
             ->each(function ($directory) {
-                if (! $this->filesystem->isDirectory($directory)) {
-                    $this->components?->twoColumnDetail(
-                        \sprintf('Directory [%s] doesn\'t exists', transform_realpath_to_relative($directory, $this->workingPath)),
-                        '<fg=yellow;options=bold>SKIPPED</>'
-                    );
+                $task = new Task(
+                    requirement: function () use ($directory) {
+                        if (! $this->filesystem->isDirectory($directory)) {
+                            $this->components?->twoColumnDetail(
+                                \sprintf('Directory [%s] doesn\'t exists', transform_realpath_to_relative($directory, $this->workingPath)),
+                                '<fg=yellow;options=bold>SKIPPED</>'
+                            );
 
-                    return;
-                }
+                            return false;
+                        }
 
-                $this->filesystem->deleteDirectory($directory);
-
-                $this->components?->task(
-                    \sprintf('Directory [%s] has been deleted', transform_realpath_to_relative($directory, $this->workingPath))
+                        return true;
+                    },
+                    action: fn () => $this->filesystem->deleteDirectory($directory),
+                    response: function () use ($directory) {
+                        $this->components?->task(
+                            \sprintf('Directory [%s] has been deleted', transform_realpath_to_relative($directory, $this->workingPath))
+                        );
+                    },
                 );
+
+                $task($this->pretending);
             });
     }
 }
