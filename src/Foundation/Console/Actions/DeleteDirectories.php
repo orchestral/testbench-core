@@ -21,13 +21,17 @@ class DeleteDirectories extends Action
      * @param  \Illuminate\Console\View\Components\Factory  $components
      * @param  string|null  $workingPath
      * @param  bool  $confirmation
+     * @param  bool  $pretending
      */
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
         public ?string $workingPath = null,
-        public bool $confirmation = false
-    ) {}
+        public bool $confirmation = false,
+        bool $pretending = false,
+    ) {
+        $this->pretending = $pretending;
+    }
 
     /**
      * Handle the action.
@@ -41,24 +45,32 @@ class DeleteDirectories extends Action
             ->each(function ($directory) {
                 $location = transform_realpath_to_relative($directory, $this->workingPath);
 
-                if (! $this->filesystem->isDirectory($directory)) {
-                    $this->components?->twoColumnDetail(
-                        \sprintf('Directory [%s] doesn\'t exists', $location),
-                        '<fg=yellow;options=bold>SKIPPED</>'
-                    );
+                $task = new Task(
+                    requirement: function () use ($directory, $location) {
+                        if (! $this->filesystem->isDirectory($directory)) {
+                            $this->components?->twoColumnDetail(
+                                \sprintf('Directory [%s] doesn\'t exists', $location),
+                                '<fg=yellow;options=bold>SKIPPED</>'
+                            );
 
-                    return;
-                }
+                            return false;
+                        }
 
-                if ($this->confirmation === true && confirm(\sprintf('Delete [%s] directory?', $location)) === false) {
-                    return;
-                }
+                        if ($this->confirmation === true && confirm(\sprintf('Delete [%s] directory?', $location)) === false) {
+                            return false;
+                        }
 
-                $this->filesystem->deleteDirectory($directory);
-
-                $this->components?->task(
-                    \sprintf('Directory [%s] has been deleted', $location)
+                        return true;
+                    },
+                    action: fn () => $this->filesystem->deleteDirectory($directory),
+                    response: function () use ($location) {
+                        $this->components?->task(
+                            \sprintf('Directory [%s] has been deleted', $location)
+                        );
+                    },
                 );
+
+                $task($this->pretending);
             });
     }
 }

@@ -21,13 +21,17 @@ class DeleteFiles extends Action
      * @param  \Illuminate\Console\View\Components\Factory  $components
      * @param  string|null  $workingPath
      * @param  bool  $confirmation
+     * @param  bool  $pretending
      */
     public function __construct(
         public Filesystem $filesystem,
         public ?ComponentsFactory $components = null,
         public ?string $workingPath = null,
-        public bool $confirmation = false
-    ) {}
+        public bool $confirmation = false,
+        bool $pretending = false,
+    ) {
+        $this->pretending = $pretending;
+    }
 
     /**
      * Handle the action.
@@ -42,24 +46,32 @@ class DeleteFiles extends Action
             ->each(function ($file) {
                 $location = transform_realpath_to_relative($file, $this->workingPath);
 
-                if (! $this->filesystem->exists($file)) {
-                    $this->components?->twoColumnDetail(
-                        \sprintf('File [%s] doesn\'t exists', $location),
-                        '<fg=yellow;options=bold>SKIPPED</>'
-                    );
+                $task = new Task(
+                    requirement: function () use ($file, $location) {
+                        if (! $this->filesystem->exists($file)) {
+                            $this->components?->twoColumnDetail(
+                                \sprintf('File [%s] doesn\'t exists', $location),
+                                '<fg=yellow;options=bold>SKIPPED</>'
+                            );
 
-                    return;
-                }
+                            return false;
+                        }
 
-                if ($this->confirmation === true && confirm(\sprintf('Delete [%s] file?', $location)) === false) {
-                    return;
-                }
+                        if ($this->confirmation === true && confirm(\sprintf('Delete [%s] file?', $location)) === false) {
+                            return false;
+                        }
 
-                $this->filesystem->delete($file);
-
-                $this->components?->task(
-                    \sprintf('File [%s] has been deleted', $location)
+                        return true;
+                    },
+                    action: fn () => $this->filesystem->delete($file),
+                    response: function () use ($location) {
+                        $this->components?->task(
+                            \sprintf('File [%s] has been deleted', $location)
+                        );
+                    },
                 );
+
+                $task($this->pretending);
             });
     }
 }
