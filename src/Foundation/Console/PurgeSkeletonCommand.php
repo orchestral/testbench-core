@@ -25,7 +25,8 @@ class PurgeSkeletonCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'package:purge-skeleton';
+    protected $signature = 'package:purge-skeleton
+                                {--pretend : Outputs the operations but will not execute anything}';
 
     /**
      * Execute the console command.
@@ -36,10 +37,19 @@ class PurgeSkeletonCommand extends Command
      */
     public function handle(Filesystem $filesystem, ConfigContract $config)
     {
-        $this->call('config:clear');
-        $this->call('event:clear');
-        $this->call('route:clear');
-        $this->call('view:clear');
+        /** @var bool $pretending */
+        $pretending = $this->option('pretend');
+
+        $runCommand = new Actions\RunCommand(
+            console: $this,
+            components: $this->components,
+            pretending: $pretending
+        );
+
+        $runCommand->handle('config:clear');
+        $runCommand->handle('event:clear');
+        $runCommand->handle('route:clear');
+        $runCommand->handle('view:clear');
 
         (new RemoveAssetSymlinkFolders($filesystem, $config))->handle();
 
@@ -49,6 +59,7 @@ class PurgeSkeletonCommand extends Command
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
+            pretending: $pretending,
         ))->handle(
             (new Collection([
                 $environmentFile,
@@ -60,6 +71,7 @@ class PurgeSkeletonCommand extends Command
 
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
+            pretending: $pretending,
         ))->handle(
             (new LazyCollection(function () use ($filesystem) {
                 yield $this->laravel->databasePath('database.sqlite');
@@ -73,6 +85,7 @@ class PurgeSkeletonCommand extends Command
         (new Actions\DeleteFiles(
             filesystem: $filesystem,
             components: $this->components,
+            pretending: $pretending,
         ))->handle(
             (new LazyCollection($files))
                 ->map(fn ($file) => $this->laravel->basePath($file))
@@ -84,6 +97,7 @@ class PurgeSkeletonCommand extends Command
         (new Actions\DeleteDirectories(
             filesystem: $filesystem,
             components: $this->components,
+            pretending: $pretending,
         ))->handle(
             (new Collection($directories))
                 ->map(fn ($directory) => $this->laravel->basePath($directory))
