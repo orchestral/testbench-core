@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests\Integrations;
 
+use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -11,11 +12,9 @@ class StashRouteTest extends TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $this->defineStashRoutes(<<<'PHP'
-<?php
-
-Route::get('stubs-controller', 'Workbench\App\Http\Controllers\ExampleController@index');
-PHP);
+        $this->defineStashRoutes(function () {
+            Route::get('stubs-controller', 'Workbench\App\Http\Controllers\ExampleController@index');
+        });
 
         parent::setUp();
     }
