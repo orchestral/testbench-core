@@ -16,6 +16,5 @@ class Env extends \Orchestra\Sidekick\Env
     {
         static::$putenv = true;
         static::$repository = null;
-        static::$customAdapters = [];
     }
 }
