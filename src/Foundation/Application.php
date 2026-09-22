@@ -208,6 +208,7 @@ class Application
         Component::flushCache();
         Component::forgetComponentsResolver();
         Component::forgetFactory();
+        Env::flushState();
         HandleExceptions::forgetApp();
         JsonResource::wrap('data');
         Queue::createPayloadUsing(null);
