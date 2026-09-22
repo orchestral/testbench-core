@@ -41,11 +41,17 @@ class DeleteFiles extends Action
         (new LazyCollection($files))
             ->reject(static fn ($file) => str_ends_with($file, '.gitkeep') || str_ends_with($file, '.gitignore'))
             ->each(function ($file) {
-                $task = new Task(
-                    requirement: function () use ($file) {
+                $location = transform_realpath_to_relative($file, $this->workingPath);
+
+                Task::action(fn () => $this->filesystem->delete($file))
+                    ->response(function () use ($location) {
+                        $this->components?->task(
+                            \sprintf('File [%s] has been deleted', $location)
+                        );
+                    })->requirements(function () use ($file, $location) {
                         if (! $this->filesystem->exists($file)) {
                             $this->components?->twoColumnDetail(
-                                \sprintf('File [%s] doesn\'t exists', transform_realpath_to_relative($file, $this->workingPath)),
+                                \sprintf('File [%s] doesn\'t exists', $location),
                                 '<fg=yellow;options=bold>SKIPPED</>'
                             );
 
@@ -53,16 +59,7 @@ class DeleteFiles extends Action
                         }
 
                         return true;
-                    },
-                    action: fn () => $this->filesystem->delete($file),
-                    response: function () use ($file) {
-                        $this->components?->task(
-                            \sprintf('File [%s] has been deleted', transform_realpath_to_relative($file, $this->workingPath))
-                        );
-                    },
-                );
-
-                $task($this->pretending);
+                    })->dispatch($this->pretending);
             });
     }
 }

@@ -40,11 +40,17 @@ class DeleteDirectories extends Action
     {
         (new LazyCollection($directories))
             ->each(function ($directory) {
-                $task = new Task(
-                    requirement: function () use ($directory) {
+                $location = transform_realpath_to_relative($directory, $this->workingPath);
+
+                Task::action(fn () => $this->filesystem->deleteDirectory($directory))
+                    ->response(function () use ($location) {
+                        $this->components?->task(
+                            \sprintf('Directory [%s] has been deleted', $location)
+                        );
+                    })->requirements(function () use ($directory, $location) {
                         if (! $this->filesystem->isDirectory($directory)) {
                             $this->components?->twoColumnDetail(
-                                \sprintf('Directory [%s] doesn\'t exists', transform_realpath_to_relative($directory, $this->workingPath)),
+                                \sprintf('Directory [%s] doesn\'t exists', $location),
                                 '<fg=yellow;options=bold>SKIPPED</>'
                             );
 
@@ -52,16 +58,7 @@ class DeleteDirectories extends Action
                         }
 
                         return true;
-                    },
-                    action: fn () => $this->filesystem->deleteDirectory($directory),
-                    response: function () use ($directory) {
-                        $this->components?->task(
-                            \sprintf('Directory [%s] has been deleted', transform_realpath_to_relative($directory, $this->workingPath))
-                        );
-                    },
-                );
-
-                $task($this->pretending);
+                    })->dispatch($this->pretending);
             });
     }
 }

@@ -44,46 +44,42 @@ class GeneratesFile extends Action
             return;
         }
 
-        $task = new Task(
-            requirement: function () use ($from, $to) {
-                if (! $this->filesystem->exists($from)) {
-                    $this->components?->twoColumnDetail(
-                        \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
-                        '<fg=yellow;options=bold>SKIPPED</>'
-                    );
+        $location = transform_realpath_to_relative($to, $this->workingPath);
 
-                    return false;
-                }
+        Task::action(function () use ($from, $to) {
+            $copied = $this->filesystem->copy($from, $to);
 
-                if (! $this->force && $this->filesystem->exists($to)) {
-                    $this->components?->twoColumnDetail(
-                        \sprintf('File [%s] already exists', transform_realpath_to_relative($to, $this->workingPath)),
-                        '<fg=yellow;options=bold>SKIPPED</>'
-                    );
+            $gitKeepFile = \sprintf('%s/.gitkeep', \dirname($to));
 
-                    return false;
-                }
+            if ($this->filesystem->exists($gitKeepFile)) {
+                $this->filesystem->delete($gitKeepFile);
+            }
 
-                return true;
-            },
-            action: function () use ($from, $to) {
-                $copied = $this->filesystem->copy($from, $to);
-
-                $gitKeepFile = \sprintf('%s/.gitkeep', \dirname($to));
-
-                if ($this->filesystem->exists($gitKeepFile)) {
-                    $this->filesystem->delete($gitKeepFile);
-                }
-
-                return $copied;
-            },
-            response: function () use ($to) {
-                $this->components?->task(
-                    \sprintf('File [%s] generated', transform_realpath_to_relative($to, $this->workingPath))
+            return $copied;
+        })->response(function () use ($location) {
+            $this->components?->task(
+                \sprintf('File [%s] generated', $location)
+            );
+        })->requirements(function () use ($from, $to, $location) {
+            if (! $this->filesystem->exists($from)) {
+                $this->components?->twoColumnDetail(
+                    \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
+                    '<fg=yellow;options=bold>SKIPPED</>'
                 );
-            },
-        );
 
-        $task($this->pretending);
+                return false;
+            }
+
+            if (! $this->force && $this->filesystem->exists($to)) {
+                $this->components?->twoColumnDetail(
+                    \sprintf('File [%s] already exists', $location),
+                    '<fg=yellow;options=bold>SKIPPED</>'
+                );
+
+                return false;
+            }
+
+            return true;
+        })->dispatch($this->pretending);
     }
 }

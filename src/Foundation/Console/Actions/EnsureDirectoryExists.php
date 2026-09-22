@@ -41,31 +41,27 @@ class EnsureDirectoryExists extends Action
     {
         (new LazyCollection($directories))
             ->each(function ($directory) {
-                $task = new Task(
-                    requirement: function () use ($directory) {
-                        if ($this->filesystem->isDirectory($directory)) {
-                            $this->components?->twoColumnDetail(
-                                \sprintf('Directory [%s] already exists', transform_realpath_to_relative($directory, $this->workingPath)),
-                                '<fg=yellow;options=bold>SKIPPED</>'
-                            );
+                $location = transform_realpath_to_relative($directory, $this->workingPath);
 
-                            return false;
-                        }
+                Task::action(function () use ($directory) {
+                    $this->filesystem->ensureDirectoryExists($directory, 0755, true);
+                    $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
 
-                        return true;
-                    },
-                    action: function () use ($directory) {
-                        $this->filesystem->ensureDirectoryExists($directory, 0755, true);
-                        $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
+                    return true;
+                })->response(function () use ($location) {
+                    $this->components?->task(\sprintf('Prepare [%s] directory', $location));
+                })->requirements(function () use ($directory, $location) {
+                    if ($this->filesystem->isDirectory($directory)) {
+                        $this->components?->twoColumnDetail(
+                            \sprintf('Directory [%s] already exists', $location),
+                            '<fg=yellow;options=bold>SKIPPED</>'
+                        );
 
-                        return true;
-                    },
-                    response: function () use ($directory) {
-                        $this->components?->task(\sprintf('Prepare [%s] directory', transform_realpath_to_relative($directory, $this->workingPath)));
-                    },
-                );
+                        return false;
+                    }
 
-                $task($this->pretending);
+                    return true;
+                })->dispatch($this->pretending);
             });
     }
 }
