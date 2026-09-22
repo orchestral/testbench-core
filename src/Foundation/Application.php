@@ -219,6 +219,7 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
+        Env::flushState();
         HandleExceptions::forgetApp();
         JsonResource::wrap('data');
         Model::handleDiscardedAttributeViolationUsing(null);
