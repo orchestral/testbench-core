@@ -45,8 +45,12 @@ class DeleteDirectories extends Action
             ->each(function ($directory) {
                 $location = transform_realpath_to_relative($directory, $this->workingPath);
 
-                $task = new Task(
-                    requirement: function () use ($directory, $location) {
+                Task::action(fn () => $this->filesystem->deleteDirectory($directory))
+                    ->response(function () use ($location) {
+                        $this->components?->task(
+                            \sprintf('Directory [%s] has been deleted', $location)
+                        );
+                    })->requirements(function () use ($directory, $location) {
                         if (! $this->filesystem->isDirectory($directory)) {
                             $this->components?->twoColumnDetail(
                                 \sprintf('Directory [%s] doesn\'t exists', $location),
@@ -61,16 +65,7 @@ class DeleteDirectories extends Action
                         }
 
                         return true;
-                    },
-                    action: fn () => $this->filesystem->deleteDirectory($directory),
-                    response: function () use ($location) {
-                        $this->components?->task(
-                            \sprintf('Directory [%s] has been deleted', $location)
-                        );
-                    },
-                );
-
-                $task($this->pretending);
+                    })->dispatch($this->pretending);
             });
     }
 }

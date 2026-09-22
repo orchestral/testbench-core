@@ -46,35 +46,29 @@ class EnsureDirectoryExists extends Action
             ->each(function ($directory) {
                 $location = transform_realpath_to_relative($directory, $this->workingPath);
 
-                $task = new Task(
-                    requirement: function () use ($directory, $location) {
-                        if ($this->filesystem->isDirectory($directory)) {
-                            $this->components?->twoColumnDetail(
-                                \sprintf('Directory [%s] already exists', $location),
-                                '<fg=yellow;options=bold>SKIPPED</>'
-                            );
+                Task::action(function () use ($directory) {
+                    $this->filesystem->ensureDirectoryExists($directory, 0755, true);
+                    $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
 
-                            return false;
-                        }
+                    return true;
+                })->response(function () use ($location) {
+                    $this->components?->task(\sprintf('Prepare [%s] directory', $location));
+                })->requirements(function () use ($directory, $location) {
+                    if ($this->filesystem->isDirectory($directory)) {
+                        $this->components?->twoColumnDetail(
+                            \sprintf('Directory [%s] already exists', $location),
+                            '<fg=yellow;options=bold>SKIPPED</>'
+                        );
 
-                        if ($this->confirmation === true && confirm(\sprintf('Ensure [%s] directory exists?', $location)) === false) {
-                            return false;
-                        }
+                        return false;
+                    }
 
-                        return true;
-                    },
-                    action: function () use ($directory) {
-                        $this->filesystem->ensureDirectoryExists($directory, 0755, true);
-                        $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
+                    if ($this->confirmation === true && confirm(\sprintf('Ensure [%s] directory exists?', $location)) === false) {
+                        return false;
+                    }
 
-                        return true;
-                    },
-                    response: function () use ($location) {
-                        $this->components?->task(\sprintf('Prepare [%s] directory', $location));
-                    },
-                );
-
-                $task($this->pretending);
+                    return true;
+                })->dispatch($this->pretending);
             });
     }
 }
