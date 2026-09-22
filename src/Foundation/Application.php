@@ -226,6 +226,7 @@ class Application
         Component::forgetComponentsResolver();
         Component::forgetFactory();
         ConvertEmptyStringsToNull::flushState();
+        Env::flushState();
         Factory::flushState();
         EncodedHtmlString::flushState();
 
