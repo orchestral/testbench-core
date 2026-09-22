@@ -41,17 +41,19 @@ class EnsureDirectoryExists extends Action
     {
         (new LazyCollection($directories))
             ->each(function ($directory) {
+                $location = transform_realpath_to_relative($directory, $this->workingPath);
+
                 Task::action(function () use ($directory) {
                     $this->filesystem->ensureDirectoryExists($directory, 0755, true);
                     $this->filesystem->copy((string) realpath(join_paths(__DIR__, 'stubs', '.gitkeep')), join_paths($directory, '.gitkeep'));
 
                     return true;
-                })->response(function () use ($directory) {
-                    $this->components?->task(\sprintf('Prepare [%s] directory', transform_realpath_to_relative($directory, $this->workingPath)));
-                })->requirements(function () use ($directory) {
+                })->response(function () use ($location) {
+                    $this->components?->task(\sprintf('Prepare [%s] directory', $location));
+                })->requirements(function () use ($directory, $location) {
                     if ($this->filesystem->isDirectory($directory)) {
                         $this->components?->twoColumnDetail(
-                            \sprintf('Directory [%s] already exists', transform_realpath_to_relative($directory, $this->workingPath)),
+                            \sprintf('Directory [%s] already exists', $location),
                             '<fg=yellow;options=bold>SKIPPED</>'
                         );
 

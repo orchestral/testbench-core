@@ -44,6 +44,8 @@ class GeneratesFile extends Action
             return;
         }
 
+        $location = transform_realpath_to_relative($to, $this->workingPath);
+
         Task::action(function () use ($from, $to) {
             $copied = $this->filesystem->copy($from, $to);
 
@@ -54,11 +56,11 @@ class GeneratesFile extends Action
             }
 
             return $copied;
-        })->response(function () use ($to) {
+        })->response(function () use ($location) {
             $this->components?->task(
-                \sprintf('File [%s] generated', transform_realpath_to_relative($to, $this->workingPath))
+                \sprintf('File [%s] generated', $location)
             );
-        })->requirements(function () use ($from, $to) {
+        })->requirements(function () use ($from, $to, $location) {
             if (! $this->filesystem->exists($from)) {
                 $this->components?->twoColumnDetail(
                     \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
@@ -70,7 +72,7 @@ class GeneratesFile extends Action
 
             if (! $this->force && $this->filesystem->exists($to)) {
                 $this->components?->twoColumnDetail(
-                    \sprintf('File [%s] already exists', transform_realpath_to_relative($to, $this->workingPath)),
+                    \sprintf('File [%s] already exists', $location),
                     '<fg=yellow;options=bold>SKIPPED</>'
                 );
 
