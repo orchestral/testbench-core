@@ -30,19 +30,16 @@ class RunCommand extends Action
      */
     public function handle(string $name, array $parameters = []): void
     {
-        (new Task(
-            action: function () use ($name, $parameters) {
-                $this->console->call($name, $parameters);
+        Task::action(function () use ($name, $parameters) {
+            $this->console->call($name, $parameters);
 
-                return true;
-            },
-            response: function ($action, $pretending) use ($name) {
-                if ($pretending === true) {
-                    $this->components?->task(
-                        \sprintf('Command [%s] executed', $name)
-                    );
-                }
+            return true;
+        })->response(function ($action, $pretending) use ($name) {
+            if ($pretending === true) {
+                $this->components?->task(
+                    \sprintf('Command [%s] executed', $name)
+                );
             }
-        ))($this->pretending);
+        })->dispatch($this->pretending);
     }
 }
