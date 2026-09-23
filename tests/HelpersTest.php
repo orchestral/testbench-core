@@ -2,9 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
-use PHPUnit\Runner\Version;
 
 use function Orchestra\Testbench\laravel_or_fail;
 

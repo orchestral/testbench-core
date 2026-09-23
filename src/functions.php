@@ -449,7 +449,6 @@ function php_version_compare(string $version, ?string $operator = null)
     return Sidekick\php_version_compare($version, $operator);
 }
 
-
 /**
  * PHPUnit version compare.
  *
