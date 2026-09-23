@@ -2,9 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
-use Illuminate\Foundation\Application;
 use Orchestra\Testbench\Exceptions\ApplicationNotAvailableException;
-use PHPUnit\Runner\Version;
 
 use function Orchestra\Testbench\laravel_or_fail;
 
@@ -13,15 +11,28 @@ class HelpersTest extends TestCase
     /** @test */
     public function it_can_compare_laravel_version()
     {
-        $this->assertSame(0, \Orchestra\Testbench\laravel_version_compare(Application::VERSION));
-        $this->assertTrue(\Orchestra\Testbench\laravel_version_compare(Application::VERSION, '=='));
+        $laravelVersion = \Orchestra\Sidekick\laravel_normalize_version();
+
+        $this->assertSame(0, \Orchestra\Testbench\laravel_version_compare($laravelVersion));
+        $this->assertTrue(\Orchestra\Testbench\laravel_version_compare($laravelVersion, '=='));
+    }
+
+    /** @test */
+    public function it_can_compare_php_version()
+    {
+        $phpVersion = \Orchestra\Sidekick\php_normalize_version();
+
+        $this->assertSame(0, \Orchestra\Testbench\php_version_compare($phpVersion));
+        $this->assertTrue(\Orchestra\Testbench\php_version_compare($phpVersion, '=='));
     }
 
     /** @test */
     public function it_can_compare_phpunit_version()
     {
-        $this->assertSame(0, \Orchestra\Testbench\phpunit_version_compare(Version::id()));
-        $this->assertTrue(\Orchestra\Testbench\phpunit_version_compare(Version::id(), '=='));
+        $phpunitVersion = \Orchestra\Sidekick\phpunit_normalize_version();
+
+        $this->assertSame(0, \Orchestra\Testbench\phpunit_version_compare($phpunitVersion));
+        $this->assertTrue(\Orchestra\Testbench\phpunit_version_compare($phpunitVersion, '=='));
     }
 
     /** @test */

@@ -438,6 +438,27 @@ function package_version_compare(string $package, string $version, ?string $oper
 }
 
 /**
+ * PHP version compare.
+ *
+ * @api
+ *
+ * @template TOperator of string|null
+ *
+ * @param  string  $version
+ * @param  string|null  $operator
+ *
+ * @phpstan-param  TOperator  $operator
+ *
+ * @return int|bool
+ *
+ * @phpstan-return (TOperator is null ? int : bool)
+ */
+function php_version_compare(string $version, ?string $operator = null)
+{
+    return Sidekick\php_version_compare($version, $operator);
+}
+
+/**
  * PHPUnit version compare.
  *
  * @api
