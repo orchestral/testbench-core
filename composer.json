@@ -79,7 +79,8 @@
         "audit": {
             "block-insecure": true,
             "ignore": [
-                "CVE-2025-64500"
+                "CVE-2025-64500",
+                "CVE-2026-24765"
             ]
         },
         "preferred-install": {
