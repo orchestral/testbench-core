@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.44.0
+
+Released: 2026-09-23
+
+### Added
+
+* Add `Orchestra\Testbench\Foundation\Env::flushState()` method and revert class deprecation.
+* Add `Orchestra\Testbench\php_version_compare()` function.
+* Allow `--pretend` options on relevant commands.
+
 ## 8.43.1
 
 Released: 2026-04-24

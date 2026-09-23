@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\Application as ConsoleApplication;
 use Illuminate\Console\Command;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
+use Orchestra\Sidekick\Console\Task;
 
 class RunCommand extends Action
 {
