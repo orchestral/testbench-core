@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
+use Orchestra\Sidekick\Console\Task;
 
 use function Orchestra\Testbench\transform_realpath_to_relative;
 
