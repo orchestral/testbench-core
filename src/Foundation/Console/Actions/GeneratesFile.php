@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
+use Orchestra\Sidekick\Console\Task;
 
 use function Laravel\Prompts\confirm;
 use function Orchestra\Sidekick\Filesystem\join_paths;
@@ -22,14 +23,18 @@ class GeneratesFile extends Action
      * @param  bool  $force
      * @param  string|null  $workingPath
      * @param  bool  $confirmation
+     * @param  bool  $pretending
      */
     public function __construct(
         public readonly Filesystem $filesystem,
         public readonly ?ComponentsFactory $components = null,
         public readonly bool $force = false,
         public ?string $workingPath = null,
-        public readonly bool $confirmation = false
-    ) {}
+        public bool $confirmation = false,
+        bool $pretending = false,
+    ) {
+        $this->pretending = $pretending;
+    }
 
     /**
      * Handle the action.
@@ -44,40 +49,46 @@ class GeneratesFile extends Action
             return;
         }
 
-        if (! $this->filesystem->exists($from)) {
-            $this->components?->twoColumnDetail(
-                \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
-                '<fg=yellow;options=bold>SKIPPED</>'
-            );
-
-            return;
-        }
-
         $location = transform_realpath_to_relative($to, $this->workingPath);
 
-        if (! $this->force && $this->filesystem->exists($to)) {
-            $this->components?->twoColumnDetail(
-                \sprintf('File [%s] already exists', $location),
-                '<fg=yellow;options=bold>SKIPPED</>'
+        Task::action(function () use ($from, $to) {
+            $copied = $this->filesystem->copy($from, $to);
+
+            $gitKeepFile = join_paths(\dirname($to), '.gitkeep');
+
+            if ($this->filesystem->exists($gitKeepFile)) {
+                $this->filesystem->delete($gitKeepFile);
+            }
+
+            return $copied;
+        })->response(function () use ($location) {
+            $this->components?->task(
+                \sprintf('File [%s] generated', $location)
             );
+        })->requirements(function () use ($from, $to, $location) {
+            if (! $this->filesystem->exists($from)) {
+                $this->components?->twoColumnDetail(
+                    \sprintf('Source file [%s] doesn\'t exists', transform_realpath_to_relative($from, $this->workingPath)),
+                    '<fg=yellow;options=bold>SKIPPED</>'
+                );
 
-            return;
-        }
+                return false;
+            }
 
-        if ($this->confirmation === true && confirm(\sprintf('Generate [%s] file?', $location)) === false) {
-            return;
-        }
+            if (! $this->force && $this->filesystem->exists($to)) {
+                $this->components?->twoColumnDetail(
+                    \sprintf('File [%s] already exists', $location),
+                    '<fg=yellow;options=bold>SKIPPED</>'
+                );
 
-        $this->filesystem->copy($from, $to);
+                return false;
+            }
 
-        $gitKeepFile = join_paths(\dirname($to), '.gitkeep');
+            if ($this->confirmation === true && confirm(\sprintf('Generate [%s] file?', $location)) === false) {
+                return false;
+            }
 
-        if ($this->filesystem->exists($gitKeepFile)) {
-            $this->filesystem->delete($gitKeepFile);
-        }
-
-        $this->components?->task(
-            \sprintf('File [%s] generated', $location)
-        );
+            return true;
+        })->dispatch($this->pretending);
     }
 }

@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation\Console\Actions;
 use Illuminate\Console\View\Components\Factory as ComponentsFactory;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\LazyCollection;
+use Orchestra\Sidekick\Console\Task;
 
 use function Laravel\Prompts\confirm;
 use function Orchestra\Testbench\transform_realpath_to_relative;
@@ -21,13 +22,17 @@ class DeleteFiles extends Action
      * @param  \Illuminate\Console\View\Components\Factory  $components
      * @param  string|null  $workingPath
      * @param  bool  $confirmation
+     * @param  bool  $pretending
      */
     public function __construct(
         public readonly Filesystem $filesystem,
         public readonly ?ComponentsFactory $components = null,
         public ?string $workingPath = null,
-        public readonly bool $confirmation = false
-    ) {}
+        public bool $confirmation = false,
+        bool $pretending = false,
+    ) {
+        $this->pretending = $pretending;
+    }
 
     /**
      * Handle the action.
@@ -42,24 +47,27 @@ class DeleteFiles extends Action
             ->each(function ($file) {
                 $location = transform_realpath_to_relative($file, $this->workingPath);
 
-                if (! $this->filesystem->exists($file)) {
-                    $this->components?->twoColumnDetail(
-                        \sprintf('File [%s] doesn\'t exists', $location),
-                        '<fg=yellow;options=bold>SKIPPED</>'
-                    );
+                Task::action(fn () => $this->filesystem->delete($file))
+                    ->response(function () use ($location) {
+                        $this->components?->task(
+                            \sprintf('File [%s] has been deleted', $location)
+                        );
+                    })->requirements(function () use ($file, $location) {
+                        if (! $this->filesystem->exists($file)) {
+                            $this->components?->twoColumnDetail(
+                                \sprintf('File [%s] doesn\'t exists', $location),
+                                '<fg=yellow;options=bold>SKIPPED</>'
+                            );
 
-                    return;
-                }
+                            return false;
+                        }
 
-                if ($this->confirmation === true && confirm(\sprintf('Delete [%s] file?', $location)) === false) {
-                    return;
-                }
+                        if ($this->confirmation === true && confirm(\sprintf('Delete [%s] file?', $location)) === false) {
+                            return false;
+                        }
 
-                $this->filesystem->delete($file);
-
-                $this->components?->task(
-                    \sprintf('File [%s] has been deleted', $location)
-                );
+                        return true;
+                    })->dispatch($this->pretending);
             });
     }
 }
