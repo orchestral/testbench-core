@@ -12,9 +12,9 @@ class Handler extends ExceptionHandler
 {
     /** {@inheritDoc} */
     #[\Override]
-    public function report(Throwable $e, array $context = [])
+    public function report(Throwable $e, array $context = [], ?string $level = null)
     {
-        parent::report($e, $context);
+        parent::report($e, $context, $level);
     }
 
     /** {@inheritDoc} */
