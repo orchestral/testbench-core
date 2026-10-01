@@ -28,7 +28,7 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
             }
         };
 
-        if (isset($_SERVER['TEST_TOKEN'])) {
+        if (! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && ParallelTesting::token()) {
             ParallelTesting::setUpTestCase($callback);
 
             return;
