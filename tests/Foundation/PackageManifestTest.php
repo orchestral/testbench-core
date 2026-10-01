@@ -7,6 +7,8 @@ use Orchestra\Testbench\Attributes\UsesVendor;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use Orchestra\Testbench\Tests\TestCase;
 
+use function Orchestra\Sidekick\Filesystem\join_paths;
+
 #[UsesVendor]
 class PackageManifestTest extends TestCase
 {
@@ -22,7 +24,7 @@ class PackageManifestTest extends TestCase
         }
 
         $packageManifest = new PackageManifest(
-            $this->app['files'], $this->app->basePath(), realpath(__DIR__.'/tmp').'/manifest.php', $this
+            $this->app['files'], $this->app->basePath(), join_paths(realpath(__DIR__), 'tmp', 'manifest.php'), $this
         );
 
         $manifestPath = $packageManifest->getManifestPath();
@@ -42,6 +44,6 @@ class PackageManifestTest extends TestCase
             $this->assertTrue(\in_array($installedPackage, $packages->keys()->all()), "Unable to discover {$installedPackage}");
         }
 
-        $this->app['files']->delete($manifestPath);
+        // $this->app['files']->delete($manifestPath);
     }
 }
