@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
+use Illuminate\Support\Facades\ParallelTesting;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 
@@ -19,11 +20,21 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
      */
     public function beforeEach($app): void
     {
-        artisan($app, 'view:cache');
+        $callback = function () use ($app) {
+            artisan($app, 'view:cache');
 
-        if ($app->bound('view')) {
-            $app->make('view')->flushFinderCache();
+            if ($app->bound('view')) {
+                $app->make('view')->flushFinderCache();
+            }
+        };
+
+        if (isset($_SERVER['TEST_TOKEN'])) {
+            ParallelTesting::setUpTestCase($callback);
+
+            return;
         }
+
+        value($callback);
     }
 
     /**
