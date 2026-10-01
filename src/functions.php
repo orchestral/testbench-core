@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ProcessUtils;
 use Illuminate\Support\Str;
 use Illuminate\Testing\PendingCommand;
@@ -530,4 +531,9 @@ function laravel_or_fail($app, ?string $caller = null): Application
     }
 
     throw Exceptions\ApplicationNotAvailableException::make($caller);
+}
+
+function in_parallel_testing(): bool
+{
+    return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && $token = ParallelTesting::token();
 }

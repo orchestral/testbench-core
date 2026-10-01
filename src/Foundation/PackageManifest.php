@@ -11,6 +11,7 @@ use RuntimeException;
 
 use function Orchestra\Sidekick\is_testbench_cli;
 use function Orchestra\Testbench\package_path;
+use function Orchestra\Testbench\in_parallel_testing;
 
 /**
  * @api
@@ -40,7 +41,7 @@ class PackageManifest extends IlluminatePackageManifest
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
     {
-        if ($testbench instanceof TestCaseContract && ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && $token = ParallelTesting::token()) {
+        if ($testbench instanceof TestCaseContract && in_parallel_testing()) {
             $manifestPath = sprintf('%stest_%d', $manifestPath, $token);
 
             return;
