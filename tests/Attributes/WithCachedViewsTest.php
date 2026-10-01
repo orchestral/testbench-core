@@ -35,6 +35,7 @@ class WithCachedViewsTest extends TestCase
     }
 
     #[Test]
+    #[Depends('it_can_cached_views')]
     public function it_does_not_persist_cache_after_test()
     {
         $compiledPath = $this->getCompiledPathForView('testbench');
