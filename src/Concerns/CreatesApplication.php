@@ -440,12 +440,12 @@ trait CreatesApplication
             );
 
             if ($this instanceof PHPUnitTestCase) {
-                $compiledPath = $config->get('view.compiled');
+                // $compiledPath = $config->get('view.compiled');
 
-                /** @phpstan-ignore staticMethod.notFound, argument.type */
-                ParallelTesting::setUpProcess(function (int $token) use ($config, $compiledPath) {
-                    $config->set('view.compiled', join_paths($compiledPath, "test-{$token}"));
-                });
+                // /** @phpstan-ignore staticMethod.notFound, argument.type */
+                // ParallelTesting::setUpProcess(function (int $token) use ($config, $compiledPath) {
+                //     $config->set('view.compiled', join_paths($compiledPath, "test-{$token}"));
+                // });
             }
         });
     }

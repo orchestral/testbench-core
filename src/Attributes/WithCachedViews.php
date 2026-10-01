@@ -26,10 +26,6 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
         if ($app->bound('view')) {
             $app->make('view')->flushFinderCache();
         }
-
-        tap($app->make('config'), function (ConfigRepository $config) {
-            clearstatcache(false, $config->get('view.compiled'));
-        });
     }
 
     /**
