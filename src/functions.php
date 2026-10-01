@@ -533,6 +533,11 @@ function laravel_or_fail($app, ?string $caller = null): Application
     throw Exceptions\ApplicationNotAvailableException::make($caller);
 }
 
+/**
+ * Determine if current test is handled via parallel testing.
+ *
+ * @return bool
+ */
 function in_parallel_testing(): bool
 {
     return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && $token = ParallelTesting::token();
