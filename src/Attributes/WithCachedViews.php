@@ -13,6 +13,11 @@ use function Orchestra\Testbench\artisan;
 final class WithCachedViews implements AfterEachContract, BeforeEachContract
 {
     /**
+     * The original compiled views path.
+     */
+    protected ?string $originalCompiledPath = null;
+
+    /**
      * Handle the attribute.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -20,9 +25,18 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
      */
     public function beforeEach($app): void
     {
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app->make('config');
+        $this->originalCompiledPath = $config->get('view.compiled');
+
+        $config->set('view.compiled', join_paths(
+            $app->storagePath(join_paths('framework', 'views')),
+            'testbench-'.bin2hex(random_bytes(16))
+        ));
+
         artisan($app, 'view:cache');
 
-        clearstatcache(false, $app->storagePath(join_paths('framework', 'views')));
+        clearstatcache(false, $config->get('view.compiled'));
 
         if ($app->bound('view')) {
             $app->make('view')->flushFinderCache();
@@ -38,5 +52,9 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
     public function afterEach($app): void
     {
         artisan($app, 'view:clear');
+
+        /** @var \Illuminate\Contracts\Config\Repository $config */
+        $config = $app->make('config');
+        $config->set('view.compiled', $this->originalCompiledPath);
     }
 }

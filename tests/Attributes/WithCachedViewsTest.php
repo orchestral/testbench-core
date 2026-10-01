@@ -6,22 +6,23 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Orchestra\Testbench\Attributes\WithCachedViews;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\workbench_path;
 
-#[Group('without-parallel')]
 class WithCachedViewsTest extends TestCase
 {
     use WithWorkbench;
+
+    protected string $compiledPath;
 
     /** {@inheritDoc} */
     protected function defineEnvironment($app): void
     {
         tap($app->make('config'), function (ConfigRepository $config) {
             $config->set('view.paths', [workbench_path('resources', 'views')]);
+            $this->compiledPath = $config->get('view.compiled');
         });
     }
 
@@ -38,6 +39,8 @@ class WithCachedViewsTest extends TestCase
     #[Depends('it_can_cached_views')]
     public function it_does_not_persist_cache_after_test()
     {
+        $this->assertSame($this->compiledPath, config('view.compiled'));
+
         $compiledPath = $this->getCompiledPathForView('testbench');
 
         $this->assertFileDoesNotExist($compiledPath);
@@ -48,12 +51,9 @@ class WithCachedViewsTest extends TestCase
      */
     protected function getCompiledPathForView(string $name): string
     {
-        return storage_path(
-            join_paths(...[
-                'framework',
-                'views',
-                hash('xxh128', 'v2'.view($name)->getPath()).'.php',
-            ])
+        return join_paths(
+            config('view.compiled'),
+            hash('xxh128', 'v2'.view($name)->getPath()).'.php',
         );
     }
 }
