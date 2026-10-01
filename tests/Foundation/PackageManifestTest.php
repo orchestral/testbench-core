@@ -55,12 +55,8 @@ class PackageManifestTest extends TestCase
      */
     public function it_can_build_manifest_without_root_composer_file()
     {
-        $packageManifest = new class(
-            $this->app['files'],
-            $this->app->basePath(),
-            join_paths(realpath(__DIR__), 'tmp', 'manifest.php'),
-            $this
-        ) extends PackageManifest {
+        $packageManifest = new class($this->app['files'], $this->app->basePath(), join_paths(realpath(__DIR__), 'tmp', 'manifest.php'), $this) extends PackageManifest
+        {
             protected function providersFromTestbench()
             {
                 return null;
@@ -93,12 +89,8 @@ class PackageManifestTest extends TestCase
      */
     public function it_can_build_manifest_without_any_discovery()
     {
-        $packageManifest = new class(
-            $this->app['files'],
-            $this->app->basePath(),
-            join_paths(realpath(__DIR__), 'tmp', 'manifest.php'),
-            $this
-        ) extends PackageManifest {
+        $packageManifest = new class($this->app['files'], $this->app->basePath(), join_paths(realpath(__DIR__), 'tmp', 'manifest.php'), $this) extends PackageManifest
+        {
             protected function providersFromTestbench()
             {
                 return [
