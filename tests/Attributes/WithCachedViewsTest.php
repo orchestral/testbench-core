@@ -9,7 +9,6 @@ use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
-use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\workbench_path;
 
 #[Group('without-parallel')]
@@ -48,12 +47,6 @@ class WithCachedViewsTest extends TestCase
      */
     protected function getCompiledPathForView(string $name): string
     {
-        return storage_path(
-            join_paths(...[
-                'framework',
-                'views',
-                hash('xxh128', 'v2'.view($name)->getPath()).'.php',
-            ])
-        );
+        return $this->app->make('blade.compiler')->getCompiledPath(view($name)->getPath());
     }
 }
