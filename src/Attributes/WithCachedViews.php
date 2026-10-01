@@ -1,0 +1,42 @@
+<?php
+
+namespace Orchestra\Testbench\Attributes;
+
+use Attribute;
+use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
+use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
+
+use function Orchestra\Sidekick\Filesystem\join_paths;
+use function Orchestra\Testbench\artisan;
+
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
+final class WithCachedViews implements AfterEachContract, BeforeEachContract
+{
+    /**
+     * Handle the attribute.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    public function beforeEach($app): void
+    {
+        artisan($app, 'view:cache');
+
+        clearstatcache(false, $app->storagePath(join_paths('framework', 'views')));
+
+        if ($app->bound('view')) {
+            $app->make('view')->flushFinderCache();
+        }
+    }
+
+    /**
+     * Handle the attribute.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    public function afterEach($app): void
+    {
+        artisan($app, 'view:clear');
+    }
+}
