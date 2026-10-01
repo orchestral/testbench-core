@@ -441,7 +441,7 @@ trait CreatesApplication
 
             if ($this instanceof PHPUnitTestCase) {
                 /** @phpstan-ignore staticMethod.notFound, argument.type */
-                ParallelTesting::setUpTestCase(function (int $token, PHPUnitTestCase $testCase) {
+                ParallelTesting::setUpTestCase(function (int $token, PHPUnitTestCase $testCase) use ($config) {
                     $compiledPath = $config->get('view.compiled');
                     $config->set('view.compiled', join_paths($compiledPath, "test-{$token}"));
                 });
