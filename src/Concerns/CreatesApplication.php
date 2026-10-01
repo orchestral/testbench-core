@@ -438,15 +438,6 @@ trait CreatesApplication
                 testCase: $this,
                 attribute: fn () => $this->parseTestMethodAttributes($app, WithConfig::class), /** @phpstan-ignore method.notFound */
             );
-
-            if ($this instanceof PHPUnitTestCase) {
-                // $compiledPath = $config->get('view.compiled');
-
-                // /** @phpstan-ignore staticMethod.notFound, argument.type */
-                // ParallelTesting::setUpProcess(function (int $token) use ($config, $compiledPath) {
-                //     $config->set('view.compiled', join_paths($compiledPath, "test-{$token}"));
-                // });
-            }
         });
     }
 
