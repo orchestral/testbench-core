@@ -12,8 +12,8 @@ use RuntimeException;
 
 use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Sidekick\is_testbench_cli;
-use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\in_parallel_testing;
+use function Orchestra\Testbench\package_path;
 
 /**
  * @api
@@ -99,9 +99,9 @@ class PackageManifest extends IlluminatePackageManifest
     /**
      * Get the manifest path.
      *
-     * @return string
+     * @return string|null
      */
-    public function getManifestPath(): string
+    public function getManifestPath()
     {
         return $this->manifestPath;
     }
