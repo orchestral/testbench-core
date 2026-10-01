@@ -55,15 +55,19 @@ class PackageManifestTest extends TestCase
      */
     public function it_can_build_manifest_without_root_composer_file()
     {
-        $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
-
-        $packageManifest = new class($this->app['files'], $this->app->basePath(), $manifestPath, $this) extends PackageManifest
-        {
+        $packageManifest = new class(
+            $this->app['files'],
+            $this->app->basePath(),
+            join_paths(realpath(__DIR__), 'tmp', 'manifest.php'),
+            $this
+        ) extends PackageManifest {
             protected function providersFromTestbench()
             {
                 return null;
             }
         };
+
+        $manifestPath = $packageManifest->getManifestPath();
 
         $packageManifest->build();
 
