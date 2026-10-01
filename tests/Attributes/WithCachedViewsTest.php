@@ -6,12 +6,10 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Orchestra\Testbench\Attributes\WithCachedViews;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\workbench_path;
 
-#[Group('without-parallel')]
 class WithCachedViewsTest extends TestCase
 {
     use WithWorkbench;
