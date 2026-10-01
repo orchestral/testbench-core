@@ -10,6 +10,7 @@ use Orchestra\Testbench\Tests\TestCase;
  * @requires OS Linux|DAR
  *
  * @group database
+ * @group without-parallel
  */
 class DropSqliteDbCommandTest extends TestCase
 {
