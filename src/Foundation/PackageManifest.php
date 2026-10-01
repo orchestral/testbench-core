@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use RuntimeException;
 
 use function Orchestra\Sidekick\is_testbench_cli;
@@ -39,6 +40,12 @@ class PackageManifest extends IlluminatePackageManifest
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
     {
+        if ($testbench instanceof TestCaseContract && ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && $token = ParallelTesting::token()) {
+            $manifestPath = sprintf('%stest_%d', $manifestPath, $token);
+
+            return;
+        }
+
         parent::__construct($files, $basePath, $manifestPath);
 
         $this->setTestbench($testbench);
