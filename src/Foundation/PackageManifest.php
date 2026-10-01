@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\ParallelTesting;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use RuntimeException;
 
@@ -42,7 +43,7 @@ class PackageManifest extends IlluminatePackageManifest
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
     {
         if ($testbench instanceof TestCaseContract && in_parallel_testing()) {
-            $manifestPath = sprintf('%stest_%d', $manifestPath, $token);
+            $manifestPath = sprintf('%stest_%d', $manifestPath, ParallelTesting::token());
 
             return;
         }

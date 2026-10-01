@@ -540,5 +540,5 @@ function laravel_or_fail($app, ?string $caller = null): Application
  */
 function in_parallel_testing(): bool
 {
-    return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && $token = ParallelTesting::token();
+    return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && ParallelTesting::token();
 }
