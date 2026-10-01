@@ -8,6 +8,7 @@ use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 
 use function Orchestra\Testbench\artisan;
+use function Orchestra\Testbench\in_parallel_testing;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
 final class WithCachedViews implements AfterEachContract, BeforeEachContract
@@ -28,7 +29,7 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
             }
         };
 
-        if (! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && ParallelTesting::token()) {
+        if (in_parallel_testing()) {
             ParallelTesting::setUpTestCase($callback);
 
             return;
