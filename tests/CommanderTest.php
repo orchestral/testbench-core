@@ -4,6 +4,7 @@ namespace Orchestra\Testbench\Tests;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 
 use function Orchestra\Testbench\remote;
