@@ -26,8 +26,9 @@ class WithCachedViewsTest extends TestCase
     #[WithCachedViews]
     public function it_can_cached_views()
     {
-        $compiledPath = $this->getCompiledPathForView('testbench');
+        $compiledPath = realpath($this->getCompiledPathForView('testbench'));
 
+        $this->assertNotFalse($compiledPath);
         $this->assertFileExists($compiledPath);
     }
 
@@ -35,8 +36,9 @@ class WithCachedViewsTest extends TestCase
     #[Depends('it_can_cached_views')]
     public function it_does_not_persist_cache_after_test()
     {
-        $compiledPath = $this->getCompiledPathForView('testbench');
+        $compiledPath = realpath($this->getCompiledPathForView('testbench'));
 
+        $this->assertFalse($compiledPath);
         $this->assertFileDoesNotExist($compiledPath);
     }
 
