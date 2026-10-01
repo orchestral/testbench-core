@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 #[RequiresOperatingSystem('Linux|DAR')]
 #[Group('database')]
+#[Group('without-parallel')]
 class DropSqliteDbCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;

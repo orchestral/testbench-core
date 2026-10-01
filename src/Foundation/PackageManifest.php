@@ -6,8 +6,12 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\PackageManifest as IlluminatePackageManifest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\ParallelTesting;
+use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Sidekick\is_testbench_cli;
+use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Testbench\package_path;
 
 /**
@@ -39,6 +43,10 @@ class PackageManifest extends IlluminatePackageManifest
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
     {
+        if ($testbench instanceof TestCaseContract && in_parallel_testing()) {
+            $manifestPath = join_paths(\dirname($manifestPath), 'test_'.ParallelTesting::token().'_packages.php');
+        }
+
         parent::__construct($files, $basePath, $manifestPath);
 
         $this->setTestbench($testbench);
@@ -86,6 +94,16 @@ class PackageManifest extends IlluminatePackageManifest
         $this->requiredPackages = array_merge($this->requiredPackages, Arr::wrap($packages));
 
         return $this;
+    }
+
+    /**
+     * Get the manifest path.
+     *
+     * @return string|null
+     */
+    public function getManifestPath()
+    {
+        return $this->manifestPath;
     }
 
     /** {@inheritDoc} */
