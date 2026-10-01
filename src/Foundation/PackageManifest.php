@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\ParallelTesting;
 use Orchestra\Testbench\Contracts\TestCase as TestCaseContract;
 use RuntimeException;
 
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Sidekick\is_testbench_cli;
 use function Orchestra\Testbench\package_path;
 use function Orchestra\Testbench\in_parallel_testing;
@@ -43,9 +44,7 @@ class PackageManifest extends IlluminatePackageManifest
     public function __construct(Filesystem $files, $basePath, $manifestPath, $testbench = null)
     {
         if ($testbench instanceof TestCaseContract && in_parallel_testing()) {
-            $manifestPath = sprintf('%stest_%d', $manifestPath, ParallelTesting::token());
-
-            return;
+            $manifestPath = join_paths(\dirname($manifestPath), 'test_'.ParallelTesting::token().'_packages.php');
         }
 
         parent::__construct($files, $basePath, $manifestPath);
@@ -95,6 +94,16 @@ class PackageManifest extends IlluminatePackageManifest
         $this->requiredPackages = array_merge($this->requiredPackages, Arr::wrap($packages));
 
         return $this;
+    }
+
+    /**
+     * Get the manifest path.
+     *
+     * @return string
+     */
+    public function getManifestPath(): string
+    {
+        return $this->manifestPath;
     }
 
     /** {@inheritDoc} */

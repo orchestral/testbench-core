@@ -21,11 +21,11 @@ class PackageManifestTest extends TestCase
             \define('TESTBENCH_WORKING_PATH', realpath(__DIR__.'/../../'));
         }
 
-        $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
-
         $packageManifest = new PackageManifest(
-            $this->app['files'], $this->app->basePath(), $manifestPath, $this
+            $this->app['files'], $this->app->basePath(), realpath(__DIR__.'/tmp').'/manifest.php', $this
         );
+
+        $manifestPath = $packageManifest->getManifestPath();
 
         $packageManifest->build();
 
