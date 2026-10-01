@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\Test;
 use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\package_path;
 
+#[WithConfig('database.default', 'testing')]
 class UsesVendorTest extends TestCase
 {
     use LazilyRefreshDatabase;
@@ -43,7 +44,6 @@ class UsesVendorTest extends TestCase
     #[Test]
     #[UsesVendor]
     #[WithMigration]
-    #[WithConfig('database.default', 'testing')]
     public function it_can_resolve_config_from_container()
     {
         $user = User::query()->count();

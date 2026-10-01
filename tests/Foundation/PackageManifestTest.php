@@ -9,6 +9,8 @@ use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
+use function Orchestra\Sidekick\Filesystem\join_paths;
+
 #[UsesVendor]
 class PackageManifestTest extends TestCase
 {
@@ -20,11 +22,11 @@ class PackageManifestTest extends TestCase
             \define('TESTBENCH_WORKING_PATH', realpath(__DIR__.'/../../'));
         }
 
-        $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
-
         $packageManifest = new PackageManifest(
-            $this->app['files'], $this->app->basePath(), $manifestPath, $this
+            $this->app['files'], $this->app->basePath(), join_paths(realpath(__DIR__), 'tmp', 'manifest.php'), $this
         );
+
+        $manifestPath = $packageManifest->getManifestPath();
 
         $packageManifest->build();
 
