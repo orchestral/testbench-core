@@ -11,7 +11,6 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
@@ -29,7 +28,6 @@ use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 use function Orchestra\Sidekick\after_resolving;
-use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\refresh_router_lookups;
 
