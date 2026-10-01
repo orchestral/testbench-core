@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Attributes;
 
 use Attribute;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 
@@ -22,11 +23,13 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
     {
         artisan($app, 'view:cache');
 
-        clearstatcache(false, $app->storagePath(join_paths('framework', 'views')));
-
         if ($app->bound('view')) {
             $app->make('view')->flushFinderCache();
         }
+
+        tap($app->make('config'), function (ConfigRepository $config) {
+            clearstatcache(false, $config->get('view.compiled'));
+        });
     }
 
     /**
