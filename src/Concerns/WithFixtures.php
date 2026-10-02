@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Orchestra\Sidekick\Env;
 
 use function Orchestra\Sidekick\Filesystem\filename_from_classname;
-
+use function Orchestra\Testbench\in_parallel_testing;
 /**
  * @api
  *
@@ -31,7 +31,7 @@ trait WithFixtures
             return;
         }
 
-        if (Env::has('TEST_TOKEN')) {
+        if (in_parallel_testing()) {
             require $fixtureFileName;
         } else {
             require_once $fixtureFileName;
