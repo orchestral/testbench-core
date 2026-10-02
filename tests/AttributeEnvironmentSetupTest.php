@@ -109,12 +109,7 @@ class AttributeEnvironmentSetupTest extends TestCase
         $app['config']->set('testbench.two', 'testbench');
     }
 
-    /**
-     * Define environment setup.
-     *
-     * @param  Illuminate\Foundation\Application  $app
-     * @return void
-     */
+    /** {@inheritDoc} */
     protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testbench');
