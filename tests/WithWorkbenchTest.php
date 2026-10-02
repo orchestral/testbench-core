@@ -64,8 +64,6 @@ class WithWorkbenchTest extends TestCase
      * @test
      *
      * @dataProvider seedersDataProvider
-     *
-     * @group without-parallel
      */
     public function it_can_merge_seeders_with_illuminate_database_refresh(
         bool $seed,
