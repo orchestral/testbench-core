@@ -8,9 +8,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 class StashRouteTest extends TestCase
 {
-    /**
-     * Setup the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function setUp(): void
     {
         $this->defineStashRoutes(function () {

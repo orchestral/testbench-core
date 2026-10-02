@@ -53,7 +53,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
+        run: ./testbench package:test --parallel --exclude-group without-parallel --no-coverage
         env:
           RAY_ENABLED: false
 
@@ -96,6 +96,6 @@ jobs:
           composer show -D
 
       - name: Execute test
-        run: ./testbench package:test --parallel --exclude-group commander,without-parallel,database,session --no-coverage
+        run: ./testbench package:test --parallel --exclude-group without-parallel --no-coverage
         env:
           RAY_ENABLED: false
