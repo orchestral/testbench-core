@@ -42,7 +42,7 @@ jobs:
             phpunit: "~13.3.0"
             os: "ubuntu-latest"
             dependencies: "highest"
-            experimental: true
+            experimental: false
         exclude:
           - php: 8.3
             phpunit: "~13.0.0"
