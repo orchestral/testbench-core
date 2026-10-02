@@ -29,7 +29,6 @@ PHP);
     }
 
     #[Test]
-    #[Group('without-parallel')]
     public function it_can_cache_route()
     {
         $this->get('stubs-controller')
@@ -38,7 +37,6 @@ PHP);
     }
 
     #[Test]
-    #[Group('without-parallel')]
     public function it_can_cache_closure_route()
     {
         Log::spy()->shouldReceive('info')->with('hello');
