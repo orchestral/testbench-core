@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 
+use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Testbench\remote;
 
 /**
@@ -14,6 +15,14 @@ use function Orchestra\Testbench\remote;
 class CommanderTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
+
+    /** {@inheritDoc} */
+    protected function defineEnvironment($app)
+    {
+        $this->markTestSkippedWhen(in_parallel_testing(), 'Testbench CLI uses `.env` from skeleton instead of environment variables from PHPUnit');
+
+        parent::defineEnvironment($app);
+    }
 
     /**
      * @test

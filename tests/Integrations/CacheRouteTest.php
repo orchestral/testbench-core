@@ -6,9 +6,8 @@ use Orchestra\Testbench\Tests\TestCase;
 
 class CacheRouteTest extends TestCase
 {
-    /**
-     * Setup the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function setUp(): void
     {
         $this->defineCacheRoutes(<<<PHP
@@ -20,11 +19,7 @@ PHP);
         parent::setUp();
     }
 
-    /**
-     * @test
-     *
-     * @group without-parallel
-     */
+    /** @test */
     public function it_can_cache_route()
     {
         $this->get('stubs-controller')

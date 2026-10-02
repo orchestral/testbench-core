@@ -30,11 +30,7 @@ class WithConfigTest extends TestCase
         $this->assertSame(true, config('testbench.attribute'));
     }
 
-    /**
-     * @test
-     *
-     * @group without-parallel
-     */
+    /** @test */
     #[WithConfig('testbench.session.attribute', true)]
     public function it_can_deferred_resolve_defined_configuration()
     {
@@ -43,11 +39,7 @@ class WithConfigTest extends TestCase
         $this->assertSame(1, config('testbench.api'));
     }
 
-    /**
-     * @test
-     *
-     * @group without-parallel
-     */
+    /** @test */
     #[WithConfig('testbench.session.attribute', true, defer: false)]
     public function it_can_eagerly_resolve_defined_configuration()
     {
