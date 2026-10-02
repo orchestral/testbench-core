@@ -109,12 +109,14 @@ trait CopyTestbenchFiles
             $configurationFile = $app->basePath('.env.example');
         }
 
+        $environmentFilename = '.env';
+
         if (in_parallel_testing()) {
-            $environmentFile = $app->basePath('.env_test_'.ParallelTesting::token());
+            $environmentFilename = sprintf('.env_test_%d', ParallelTesting::token());
             $backupExistingFile = false;
-        } else {
-            $environmentFile = $app->basePath('.env');
         }
+
+        $environmentFile = $app->basePath($environmentFilename);
 
         if ($backupExistingFile === true && $filesystem->isFile($environmentFile)) {
             $filesystem->copy($environmentFile, "{$environmentFile}.backup");
