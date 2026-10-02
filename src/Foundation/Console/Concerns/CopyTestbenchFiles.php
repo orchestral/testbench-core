@@ -35,7 +35,7 @@ trait CopyTestbenchFiles
         bool $backupExistingFile = true,
         bool $resetOnTerminating = true
     ): void {
-        $configurationFile = (new LazyCollection(static function () {
+        $configurationFilePath = (new LazyCollection(static function () {
             yield 'testbench.yaml';
             yield 'testbench.yaml.example';
             yield 'testbench.yaml.dist';
@@ -43,24 +43,24 @@ trait CopyTestbenchFiles
             ->filter(static fn ($file) => $filesystem->isFile($file))
             ->first();
 
-        $testbenchFile = $app->basePath(join_paths('bootstrap', 'cache', 'testbench.yaml'));
+        $testbenchFilePath = $app->basePath(join_paths('bootstrap', 'cache', 'testbench.yaml'));
 
-        if ($backupExistingFile === true && $filesystem->isFile($testbenchFile)) {
-            $filesystem->copy($testbenchFile, "{$testbenchFile}.backup");
+        if ($backupExistingFile === true && $filesystem->isFile($testbenchFilePath)) {
+            $filesystem->copy($testbenchFilePath, "{$testbenchFilePath}.backup");
 
-            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFile) {
-                if ($filesystem->isFile("{$testbenchFile}.backup")) {
-                    $filesystem->move("{$testbenchFile}.backup", $testbenchFile);
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFilePath) {
+                if ($filesystem->isFile("{$testbenchFilePath}.backup")) {
+                    $filesystem->move("{$testbenchFilePath}.backup", $testbenchFilePath);
                 }
             });
         }
 
-        if (! \is_null($configurationFile)) {
-            $filesystem->copy($configurationFile, $testbenchFile);
+        if (! \is_null($configurationFilePath)) {
+            $filesystem->copy($configurationFilePath, $testbenchFilePath);
 
-            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFile) {
-                if ($filesystem->isFile($testbenchFile)) {
-                    $filesystem->delete($testbenchFile);
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $testbenchFilePath) {
+                if ($filesystem->isFile($testbenchFilePath)) {
+                    $filesystem->delete($testbenchFilePath);
                 }
             });
         }
@@ -88,47 +88,49 @@ trait CopyTestbenchFiles
             ? join_paths($workingPath, 'workbench')
             : $workingPath;
 
-        $testbenchEnvFilename = $this->testbenchEnvironmentFile();
+        $testbenchEnvFile = $this->testbenchEnvironmentFile();
 
-        $configurationFile = (new LazyCollection(static function () use ($testbenchEnvFilename) {
-            $defaultTestbenchEnvFilename = '.env';
+        $configurationFilePath = (new LazyCollection(static function () use ($testbenchEnvFile) {
+            $defaultTestbenchEnvFile = '.env';
 
-            yield $testbenchEnvFilename;
-            yield "{$testbenchEnvFilename}.example";
-            yield "{$testbenchEnvFilename}.dist";
+            yield $testbenchEnvFile;
+            yield "{$testbenchEnvFile}.example";
+            yield "{$testbenchEnvFile}.dist";
 
-            yield $defaultTestbenchEnvFilename;
-            yield "{$defaultTestbenchEnvFilename}.example";
-            yield "{$defaultTestbenchEnvFilename}.dist";
+            yield $defaultTestbenchEnvFile;
+            yield "{$defaultTestbenchEnvFile}.example";
+            yield "{$defaultTestbenchEnvFile}.dist";
         }))->unique()
             ->map(static fn ($file) => join_paths($workingPath, $file))
             ->filter(static fn ($file) => $filesystem->isFile($file))
             ->first();
 
-        if (\is_null($configurationFile) && $filesystem->isFile($app->basePath('.env.example'))) {
-            $configurationFile = $app->basePath('.env.example');
+        if (\is_null($configurationFilePath) && $filesystem->isFile($app->basePath('.env.example'))) {
+            $configurationFilePath = $app->basePath('.env.example');
         }
+
+        $environmentFile = '.env';
 
         if (in_parallel_testing()) {
-            $environmentFile = $app->basePath('.env_test_'.ParallelTesting::token());
+            $environmentFile = \sprintf('.env_test_%d', ParallelTesting::token());
             $backupExistingFile = false;
-        } else {
-            $environmentFile = $app->basePath('.env');
         }
 
-        if ($backupExistingFile === true && $filesystem->isFile($environmentFile)) {
-            $filesystem->copy($environmentFile, "{$environmentFile}.backup");
+        $environmentFilePath = $app->basePath($environmentFile);
 
-            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $environmentFile) {
-                $filesystem->move("{$environmentFile}.backup", $environmentFile);
+        if ($backupExistingFile === true && $filesystem->isFile($environmentFilePath)) {
+            $filesystem->copy($environmentFilePath, "{$environmentFilePath}.backup");
+
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $environmentFilePath) {
+                $filesystem->move("{$environmentFilePath}.backup", $environmentFilePath);
             });
         }
 
-        if (! \is_null($configurationFile)) {
-            $filesystem->copy($configurationFile, $environmentFile);
+        if (! \is_null($configurationFilePath)) {
+            $filesystem->copy($configurationFilePath, $environmentFilePath);
 
-            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $environmentFile) {
-                $filesystem->delete($environmentFile);
+            TerminatingConsole::beforeWhen($resetOnTerminating, static function () use ($filesystem, $environmentFilePath) {
+                $filesystem->delete($environmentFilePath);
             });
         }
     }

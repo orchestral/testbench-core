@@ -580,11 +580,13 @@ function laravel_or_fail($app, ?string $caller = null): Application
 /**
  * Determine if current test is handled via parallel testing.
  *
+ * @api
+ *
  * @return bool
  */
 function in_parallel_testing(): bool
 {
-    /** @var string|false $token */
+    /** @var string|null $token */
     $token = rescue(fn () => ParallelTesting::token(), $_SERVER['TEST_TOKEN'] ?? null, false);
 
     return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && ! \is_null($token);
