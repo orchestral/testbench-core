@@ -112,7 +112,7 @@ trait CopyTestbenchFiles
         $environmentFilename = '.env';
 
         if (in_parallel_testing()) {
-            $environmentFilename = sprintf('.env_test_%d', ParallelTesting::token());
+            $environmentFilename = \sprintf('.env_test_%d', ParallelTesting::token());
             $backupExistingFile = false;
         }
 

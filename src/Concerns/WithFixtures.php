@@ -3,7 +3,6 @@
 namespace Orchestra\Testbench\Concerns;
 
 use Illuminate\Support\Str;
-use Orchestra\Sidekick\Env;
 
 use function Orchestra\Sidekick\Filesystem\filename_from_classname;
 use function Orchestra\Testbench\in_parallel_testing;
