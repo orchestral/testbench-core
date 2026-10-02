@@ -18,7 +18,7 @@ final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\Lo
     #[\Override]
     protected function createDotenv($app)
     {
-        $environmentFile = implode('', array_filter([
+        $environmentFile = implode('_', array_filter([
             $app->environmentFile(),
             in_parallel_testing() ? 'test_'.ParallelTesting::token() : null,
         ]));
