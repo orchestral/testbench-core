@@ -16,7 +16,7 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
     /**
      * Handle the attribute.
      *
-     * @param  \\Illuminate\Foundation\Application  $app
+     * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
     public function beforeEach($app): void
@@ -41,7 +41,7 @@ final class WithCachedViews implements AfterEachContract, BeforeEachContract
     /**
      * Handle the attribute.
      *
-     * @param  \\Illuminate\Foundation\Application  $app
+     * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
     public function afterEach($app): void

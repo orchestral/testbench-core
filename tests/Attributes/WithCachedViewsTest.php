@@ -33,6 +33,7 @@ class WithCachedViewsTest extends TestCase
 
     /**
      * @test
+     *
      * @depends it_can_cached_views
      */
     public function it_does_not_persist_cache_after_test()
