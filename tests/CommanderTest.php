@@ -9,12 +9,21 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
 use PHPUnit\Framework\Attributes\Test;
 
+use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Testbench\remote;
 
 #[RequiresOperatingSystem('Linux|DAR')]
 class CommanderTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
+
+    /** {@inheritDoc} */
+    protected function defineEnvironment($app)
+    {
+        $this->markTestSkippedWhen(in_parallel_testing(), 'Testbench CLI uses `.env` from skeleton instead of environment variables from PHPUnit');
+
+        parent::defineEnvironment($app);
+    }
 
     #[Test]
     #[Group('commander')]

@@ -5,7 +5,6 @@ namespace Orchestra\Testbench\Tests\Attributes;
 use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\WithFixtures;
 use Orchestra\Testbench\Tests\TestCase;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 class WithConfigTest extends TestCase
@@ -33,7 +32,6 @@ class WithConfigTest extends TestCase
     }
 
     #[Test]
-    #[Group('without-parallel')]
     #[WithConfig('testbench.session.attribute', true)]
     public function it_can_deferred_resolve_defined_configuration()
     {
@@ -43,7 +41,6 @@ class WithConfigTest extends TestCase
     }
 
     #[Test]
-    #[Group('without-parallel')]
     #[WithConfig('testbench.session.attribute', true, defer: false)]
     public function it_can_eagerly_resolve_defined_configuration()
     {

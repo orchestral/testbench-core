@@ -9,9 +9,9 @@ use Orchestra\Testbench\Foundation\Process\ProcessDecorator;
 use Orchestra\Testbench\Foundation\Process\ProcessResult;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
 use PHPUnit\Framework\Attributes\Test;
 
+use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Testbench\remote;
 
 #[Group('commander')]
@@ -20,6 +20,14 @@ use function Orchestra\Testbench\remote;
 class RemoteCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
+
+    /** {@inheritDoc} */
+    protected function defineEnvironment($app)
+    {
+        $this->markTestSkippedWhen(in_parallel_testing(), 'Testbench CLI uses `.env` from skeleton instead of environment variables from PHPUnit');
+
+        parent::defineEnvironment($app);
+    }
 
     #[Test]
     public function it_can_call_remote_and_get_current_version()
