@@ -19,11 +19,11 @@ final class LoadEnvironmentVariables extends \Illuminate\Foundation\Bootstrap\Lo
     protected function createDotenv($app)
     {
         $environmentFile = implode('_', array_filter([
-            $app->environmentFile(),
+            $app->environmentFile(), /** @phpstan-ignore method.notFound */
             in_parallel_testing() ? 'test_'.ParallelTesting::token() : null,
         ]));
 
-        /** @phpstan-ignore method.notFound, method.notFound */
+        /** @phpstan-ignore method.notFound */
         if (! is_file(join_paths($app->environmentPath(), $environmentFile))) {
             return Dotenv::create(
                 Env::getRepository(), (string) realpath(join_paths(__DIR__, 'stubs')), '.env.testbench'

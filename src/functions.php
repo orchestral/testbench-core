@@ -587,5 +587,5 @@ function in_parallel_testing(): bool
     /** @var string|false $token */
     $token = rescue(fn () => ParallelTesting::token(), $_SERVER['TEST_TOKEN'] ?? null, false);
 
-    return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && ! is_null($token);
+    return ! empty($_SERVER['LARAVEL_PARALLEL_TESTING']) && ! \is_null($token);
 }

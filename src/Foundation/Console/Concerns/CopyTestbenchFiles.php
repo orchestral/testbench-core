@@ -3,14 +3,14 @@
 namespace Orchestra\Testbench\Foundation\Console\Concerns;
 
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\LazyCollection;
 use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Foundation\Console\TerminatingConsole;
 
-use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Sidekick\Filesystem\join_paths;
+use function Orchestra\Testbench\in_parallel_testing;
 
 /**
  * @codeCoverageIgnore
