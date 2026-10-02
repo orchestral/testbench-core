@@ -54,8 +54,6 @@ class WithWorkbenchTest extends TestCase
 
     /**
      * @test
-     *
-     * @group without-parallel
      */
     public function it_can_resolve_user_model_from_workbench()
     {

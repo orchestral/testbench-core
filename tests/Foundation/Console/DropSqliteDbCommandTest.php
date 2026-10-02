@@ -6,15 +6,24 @@ use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\TestbenchServiceProvider;
 use Orchestra\Testbench\Tests\TestCase;
 
+use function Orchestra\Testbench\in_parallel_testing;
+
 /**
  * @requires OS Linux|DAR
  *
  * @group database
- * @group without-parallel
  */
 class DropSqliteDbCommandTest extends TestCase
 {
     use InteractsWithSqliteDatabaseFile;
+
+    /** {@inheritDoc} */
+    protected function defineEnvironment($app)
+    {
+        $this->markTestSkippedWhen(in_parallel_testing(), 'Testbench CLI uses `.env` from skeleton instead of environment variables from PHPUnit');
+
+        parent::defineEnvironment($app);
+    }
 
     /**
      * Get package providers.

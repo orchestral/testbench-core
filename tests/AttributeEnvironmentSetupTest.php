@@ -9,9 +9,8 @@ use PHPUnit\Framework\Attributes\Test;
 #[Define('env', 'classConfig')]
 class AttributeEnvironmentSetupTest extends TestCase
 {
-    /**
-     * Setup the test environment.
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function setUp(): void
     {
         static::usesTestingFeature(new Define('env', 'globalConfig'));

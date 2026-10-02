@@ -6,12 +6,8 @@ use Orchestra\Testbench\Tests\TestCase;
 
 class ConfigTest extends TestCase
 {
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return void
-     */
+    /** {@inheritDoc} */
+    #[\Override]
     protected function defineEnvironment($app)
     {
         $app['config']->set('database.default', 'testbench');
