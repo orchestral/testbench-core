@@ -33,7 +33,6 @@ class WithConfigTest extends TestCase
     }
 
     #[Test]
-    #[Group('without-parallel')]
     #[WithConfig('testbench.session.attribute', true)]
     public function it_can_deferred_resolve_defined_configuration()
     {
@@ -43,7 +42,6 @@ class WithConfigTest extends TestCase
     }
 
     #[Test]
-    #[Group('without-parallel')]
     #[WithConfig('testbench.session.attribute', true, defer: false)]
     public function it_can_eagerly_resolve_defined_configuration()
     {

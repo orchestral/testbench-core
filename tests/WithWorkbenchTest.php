@@ -58,7 +58,6 @@ class WithWorkbenchTest extends TestCase
     }
 
     #[Test]
-    #[Group('without-parallel')]
     public function it_can_resolve_user_model_from_workbench()
     {
         $this->assertFalse(Env::has('AUTH_MODEL'));
@@ -67,7 +66,6 @@ class WithWorkbenchTest extends TestCase
 
     #[Test]
     #[DataProvider('seedersDataProvider')]
-    #[Group('without-parallel')]
     public function it_can_merge_seeders_with_illuminate_database_refresh(
         bool $seed,
         string|false $seeder,
