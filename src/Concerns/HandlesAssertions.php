@@ -7,7 +7,7 @@ trait HandlesAssertions
     /**
      * Mark the test as skipped when condition is not equivalent to true.
      *
-     * @param  (\Closure($this): bool)|bool|null  $condition
+     * @param  (\Closure(): bool)|bool|null  $condition
      * @param  string  $message
      * @return void
      *
@@ -23,7 +23,7 @@ trait HandlesAssertions
     /**
      * Mark the test as skipped when condition is equivalent to true.
      *
-     * @param  (\Closure($this): bool)|bool|null  $condition
+     * @param  (\Closure(): bool)|bool|null  $condition
      * @param  string  $message
      * @return void
      *
