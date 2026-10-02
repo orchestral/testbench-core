@@ -44,7 +44,11 @@ class WithWorkbenchTest extends TestCase
         $this->assertSame($cachedConfig->toArray(), $config->toArray());
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @group without-parallel
+     */
     public function it_can_auto_detect_packages_via_bootstrap_providers_file()
     {
         $loadedProviders = collect($this->app->getLoadedProviders())->keys()->all();
@@ -54,6 +58,8 @@ class WithWorkbenchTest extends TestCase
 
     /**
      * @test
+     *
+     * @group without-parallel
      */
     public function it_can_resolve_user_model_from_workbench()
     {
@@ -62,6 +68,8 @@ class WithWorkbenchTest extends TestCase
 
     /**
      * @test
+     *
+     * @group without-parallel
      *
      * @dataProvider seedersDataProvider
      */
