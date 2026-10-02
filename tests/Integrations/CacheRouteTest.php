@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Support\Facades\Log;
 use Orchestra\Testbench\Tests\TestCase;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 class CacheRouteTest extends TestCase

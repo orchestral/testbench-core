@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
 use PHPUnit\Framework\Attributes\Test;
 
-use function Orchestra\Sidekick\laravel_version_compare;
 use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Testbench\remote;
 
