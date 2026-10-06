@@ -6,6 +6,8 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Orchestra\Testbench\Attributes\WithCachedViews;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Testbench\workbench_path;
 
@@ -21,7 +23,7 @@ class WithCachedViewsTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     #[WithCachedViews]
     public function it_can_cached_views()
     {
@@ -31,11 +33,8 @@ class WithCachedViewsTest extends TestCase
         $this->assertFileExists($compiledPath);
     }
 
-    /**
-     * @test
-     *
-     * @depends it_can_cached_views
-     */
+    #[Test]
+    #[Depend('it_can_cached_vews')]
     public function it_does_not_persist_cache_after_test()
     {
         $compiledPath = realpath($this->getCompiledPathForView('testbench'));
