@@ -34,6 +34,7 @@ use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 use Illuminate\View\Component;
+use Laravel\Prompts\Prompt;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 use Orchestra\Testbench\Console\Commander;
 use Orchestra\Testbench\Contracts\Config as ConfigContract;
@@ -246,6 +247,11 @@ class Application
         Model::preventLazyLoading(false);
         Model::preventSilentlyDiscardingAttributes(false);
         Once::flush();
+
+        if (method_exists(Prompt::class, 'flushState')) {
+            Prompt::flushState();
+        }
+
         PreventRequestsDuringMaintenance::flushState();
         Queue::createPayloadUsing(null);
         RegisterProviders::flushState();
