@@ -17,7 +17,7 @@ trait HandlesAssertions
      */
     protected function markTestSkippedUnless($condition, string $message): void
     {
-        Assert::markTestSkippedUnless(value($condition), $message);
+        Assert::markTestSkippedUnless((value($condition) ?? false), $message);
     }
 
     /**
@@ -31,6 +31,6 @@ trait HandlesAssertions
      */
     protected function markTestSkippedWhen($condition, string $message): void
     {
-        Assert::markTestSkippedWhen(value($condition), $message);
+        Assert::markTestSkippedWhen((value($condition) ?? false), $message);
     }
 }
