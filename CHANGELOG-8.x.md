@@ -2,6 +2,20 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 8.45.0
+
+Released: 2026-10-08
+
+### Added
+
+* Add `Orchestra\Testbench\Attributes\WithCachedViews` attribute.
+* Add `Orchestra\Testbench\PHPUnit\Assert` class.
+* Add `Orchestra\Testbench\in_parallel_testing` function.
+
+### Changes
+
+* Multiple parallel testing improvements.
+
 ## 8.44.0
 
 Released: 2026-09-23
