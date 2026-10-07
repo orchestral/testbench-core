@@ -2,6 +2,24 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.16.0
+
+Released: 2026-10-08
+
+### Added
+
+* Add `Orchestra\Testbench\Attributes\WithCachedViews` attribute.
+* Add `Orchestra\Testbench\PHPUnit\Assert` class.
+* Add `Orchestra\Testbench\in_parallel_testing` function.
+
+### Changes
+
+* Multiple parallel testing improvements.
+
+### Fixes
+
+* Fix memory leak in test suites caused by `laravel/prompts`.
+
 ## 10.15.0
 
 Released: 2026-09-23
