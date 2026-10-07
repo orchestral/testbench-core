@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 use function Orchestra\Sidekick\Filesystem\join_paths;
 
 #[UsesVendor]
+#[Group('without-parallel')]
 class PackageManifestTest extends TestCase
 {
     #[Test]
