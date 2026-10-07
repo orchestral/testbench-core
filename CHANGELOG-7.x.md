@@ -4,7 +4,7 @@ This changelog references the relevant changes (bug and security fixes) done to 
 
 ## 7.64.0
 
-Released: 2026-10-07
+Released: 2026-10-08
 
 ### Added
 
