@@ -7,7 +7,9 @@ use Orchestra\Testbench\Contracts\Attributes\AfterEach as AfterEachContract;
 use Orchestra\Testbench\Contracts\Attributes\BeforeEach as BeforeEachContract;
 use Orchestra\Testbench\Foundation\Actions\CreateVendorSymlink;
 use Orchestra\Testbench\Foundation\Actions\DeleteVendorSymlink;
+use PHPUnit\Framework\Assert;
 
+use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Testbench\package_path;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
@@ -26,6 +28,12 @@ final class UsesVendor implements AfterEachContract, BeforeEachContract
      */
     public function beforeEach($app): void
     {
+        if (in_parallel_testing()) {
+            Assert::markTestSkipped(
+                sprintf('Unable to use parallel testing with `#[%s]` attribute.', self::class)
+            );
+        }
+
         $laravel = clone $app;
 
         (new CreateVendorSymlink(package_path('vendor')))->handle($laravel);
