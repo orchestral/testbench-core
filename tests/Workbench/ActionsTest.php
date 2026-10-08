@@ -7,6 +7,7 @@ use Orchestra\Testbench\Foundation\Config;
 use Orchestra\Testbench\Tests\TestCase;
 use Orchestra\Testbench\Workbench\Actions\AddAssetSymlinkFolders;
 use Orchestra\Testbench\Workbench\Actions\RemoveAssetSymlinkFolders;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 use function Orchestra\Sidekick\Filesystem\is_symlink;
@@ -47,6 +48,7 @@ class ActionsTest extends TestCase
     }
 
     #[Test]
+    #[Group('without-parallel')]
     public function it_does_not_wipe_target_directory_while_recreating_asset_symlink()
     {
         (new AddAssetSymlinkFolders($this->filesystem, static::cachedConfigurationForWorkbench()))->handle();
@@ -55,6 +57,7 @@ class ActionsTest extends TestCase
     }
 
     #[Test]
+    #[Group('without-parallel')]
     public function it_does_not_wipe_target_directory_while_removing_asset_symlink()
     {
         (new RemoveAssetSymlinkFolders($this->filesystem, static::cachedConfigurationForWorkbench()))->handle();

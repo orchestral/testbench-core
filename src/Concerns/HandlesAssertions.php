@@ -2,6 +2,8 @@
 
 namespace Orchestra\Testbench\Concerns;
 
+use Orchestra\Testbench\PHPUnit\Assert;
+
 trait HandlesAssertions
 {
     /**
@@ -15,9 +17,7 @@ trait HandlesAssertions
      */
     protected function markTestSkippedUnless($condition, string $message): void
     {
-        if (! value($condition)) {
-            $this->markTestSkipped($message);
-        }
+        Assert::markTestSkippedUnless((value($condition ?? false)), $message);
     }
 
     /**
@@ -31,9 +31,6 @@ trait HandlesAssertions
      */
     protected function markTestSkippedWhen($condition, string $message): void
     {
-        /** @phpstan-ignore argument.type */
-        if (value($condition)) {
-            $this->markTestSkipped($message);
-        }
+        Assert::markTestSkippedWhen((value($condition ?? false)), $message);
     }
 }

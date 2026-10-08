@@ -3,13 +3,11 @@
 namespace Orchestra\Testbench\Tests\Integrations;
 
 use Orchestra\Testbench\Tests\TestCase;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 class InlineCacheRouteTest extends TestCase
 {
     #[Test]
-    #[Group('without-parallel')]
     public function it_can_cache_route()
     {
         $this->assertFalse($this->app->routesAreCached());

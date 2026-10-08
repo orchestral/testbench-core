@@ -4,8 +4,8 @@ namespace Orchestra\Testbench\Bootstrap;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Log\LogManager;
-use Orchestra\Sidekick\Env;
 use Orchestra\Testbench\Exceptions\DeprecatedException;
+use Orchestra\Testbench\Foundation\Env;
 
 use function Orchestra\Sidekick\Filesystem\join_paths;
 

@@ -58,7 +58,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: php testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
+        run: php testbench package:test --parallel --no-coverage --exclude-group without-parallel
         env:
           RAY_ENABLED: false
 
@@ -107,7 +107,7 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: php testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
+        run: php testbench package:test --parallel --no-coverage --exclude-group without-parallel
         env:
           RAY_ENABLED: false
 
@@ -155,6 +155,6 @@ jobs:
           composer show -D
 
       - name: Execute tests
-        run: php testbench package:test --parallel --exclude-group commander --exclude-group without-parallel --exclude-group database --exclude-group session --no-coverage
+        run: php testbench package:test --parallel --no-coverage --exclude-group without-parallel
         env:
           RAY_ENABLED: false

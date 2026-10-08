@@ -9,6 +9,8 @@ use Orchestra\Testbench\Tests\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
+use function Orchestra\Sidekick\Filesystem\join_paths;
+
 #[UsesVendor]
 class PackageManifestTest extends TestCase
 {
@@ -20,15 +22,13 @@ class PackageManifestTest extends TestCase
             \define('TESTBENCH_WORKING_PATH', realpath(__DIR__.'/../../'));
         }
 
-        $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
-
         $packageManifest = new PackageManifest(
-            $this->app['files'], $this->app->basePath(), $manifestPath, $this
+            $this->app['files'], $this->app->basePath(), join_paths(realpath(__DIR__), 'tmp', 'manifest.php'), $this
         );
 
-        $packageManifest->build();
+        $manifestPath = $packageManifest->getManifestPath();
 
-        clearstatcache(true, $manifestPath);
+        $packageManifest->build();
 
         $packages = Collection::make(require $manifestPath);
 
@@ -49,15 +49,15 @@ class PackageManifestTest extends TestCase
     #[Group('core')]
     public function it_can_build_manifest_without_root_composer_file()
     {
-        $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
-
-        $packageManifest = new class($this->app['files'], $this->app->basePath(), $manifestPath, $this) extends PackageManifest
+        $packageManifest = new class($this->app['files'], $this->app->basePath(), join_paths(realpath(__DIR__), 'tmp', 'manifest.php'), $this) extends PackageManifest
         {
             protected function providersFromTestbench(): ?array
             {
                 return null;
             }
         };
+
+        $manifestPath = $packageManifest->getManifestPath();
 
         $packageManifest->build();
 
@@ -80,9 +80,7 @@ class PackageManifestTest extends TestCase
     #[Group('core')]
     public function it_can_build_manifest_without_any_discovery()
     {
-        $manifestPath = realpath(__DIR__.'/tmp').'/manifest.php';
-
-        $packageManifest = new class($this->app['files'], $this->app->basePath(), $manifestPath, $this) extends PackageManifest
+        $packageManifest = new class($this->app['files'], $this->app->basePath(), join_paths(realpath(__DIR__), 'tmp', 'manifest.php'), $this) extends PackageManifest
         {
             protected function providersFromTestbench(): ?array
             {
@@ -96,6 +94,8 @@ class PackageManifestTest extends TestCase
                 ];
             }
         };
+
+        $manifestPath = $packageManifest->getManifestPath();
 
         $packageManifest->build();
 

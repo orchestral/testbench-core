@@ -9,6 +9,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
 use PHPUnit\Framework\Attributes\Test;
 
+use function Orchestra\Testbench\in_parallel_testing;
+
 #[RequiresOperatingSystem('Linux|DAR')]
 #[Group('database')]
 class DropSqliteDbCommandTest extends TestCase
@@ -16,7 +18,14 @@ class DropSqliteDbCommandTest extends TestCase
     use InteractsWithSqliteDatabaseFile;
 
     /** {@inheritDoc} */
-    #[\Override]
+    protected function defineEnvironment($app)
+    {
+        $this->markTestSkippedWhen(in_parallel_testing(), 'Testbench CLI uses `.env` from skeleton instead of environment variables from PHPUnit');
+
+        parent::defineEnvironment($app);
+    }
+
+    /** {@inheritDoc} */
     protected function getPackageProviders($app)
     {
         return [

@@ -2,6 +2,26 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 11.6.0
+
+Released: 2026-10-08
+
+### Added
+
+* Add `Orchestra\Testbench\Attributes\WithCachedViews` attribute.
+* Add `Orchestra\Testbench\PHPUnit\Assert` class.
+* Add `Orchestra\Testbench\in_parallel_testing` function.
+
+### Changes
+
+* Supports for Laravel Framework 13.35.0.
+* Supports for PHPUnit 13.4.0.
+* Multiple parallel testing improvements.
+
+### Fixes
+
+* Fix memory leak in test suites caused by `laravel/prompts`.
+
 ## 11.5.0
 
 Released: 2026-09-23

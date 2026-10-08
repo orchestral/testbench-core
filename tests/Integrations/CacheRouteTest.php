@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests\Integrations;
 
 use Illuminate\Support\Facades\Log;
 use Orchestra\Testbench\Tests\TestCase;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 
 class CacheRouteTest extends TestCase
@@ -29,7 +28,6 @@ PHP);
     }
 
     #[Test]
-    #[Group('without-parallel')]
     public function it_can_cache_route()
     {
         $this->get('stubs-controller')
@@ -38,7 +36,6 @@ PHP);
     }
 
     #[Test]
-    #[Group('without-parallel')]
     public function it_can_cache_closure_route()
     {
         Log::spy()->shouldReceive('info')->with('hello');
