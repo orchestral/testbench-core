@@ -12,7 +12,7 @@ on:
 jobs:
   strict-tests:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
     strategy:
       matrix:
         php:
@@ -27,8 +27,6 @@ jobs:
           - "~13.2.0"
           - "~13.3.0"
           - "~13.4.0"
-        experimental:
-          - false
         include:
           - php: 8.6
             phpunit: "~13.3.0"
@@ -36,8 +34,6 @@ jobs:
         exclude:
           - php: 8.3
             phpunit: "~13.0.0"
-          - php: 8.2
-            phpunit: "~13.1.0"
           - php: 8.3
             phpunit: "~13.1.0"
           - php: 8.3

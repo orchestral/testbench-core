@@ -13,7 +13,7 @@ permissions:
 jobs:
   tests-on-phpunit13:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
     strategy:
       matrix:
         php:
@@ -27,8 +27,6 @@ jobs:
           - "~13.0.0"
           - "~13.1.0"
           - "~13.2.0"
-        experimental:
-          - false
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
@@ -64,7 +62,7 @@ jobs:
 
   tests-on-phpunit12:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
     strategy:
       matrix:
         php:
@@ -77,8 +75,6 @@ jobs:
           - "^7.3"
         phpunit:
           - "~12.5.8"
-        experimental:
-          - false
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
@@ -114,7 +110,7 @@ jobs:
 
   tests-on-phpunit11:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
     strategy:
       matrix:
         php:
@@ -126,8 +122,6 @@ jobs:
           - "^7.3"
         phpunit:
           - "~11.5.50"
-        experimental:
-          - false
 
     name: PHP:${{ matrix.php }} / Paratest:${{ matrix.paratest }} / PHPUnit:${{ matrix.phpunit }} ⬆️
 
