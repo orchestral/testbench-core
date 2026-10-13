@@ -15,7 +15,7 @@ permissions:
 jobs:
   tests:
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       matrix:
         os:
@@ -36,8 +36,6 @@ jobs:
         dependencies:
           - "highest"
           - "lowest"
-        experimental:
-          - false
         include:
           - php: 8.6
             phpunit: "~13.3.0"
