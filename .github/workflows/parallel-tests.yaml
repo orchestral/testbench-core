@@ -13,7 +13,7 @@ permissions:
 jobs:
   tests-on-phpunit13:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       matrix:
         php:
@@ -62,7 +62,7 @@ jobs:
 
   tests-on-phpunit12:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       matrix:
         php:
@@ -110,7 +110,7 @@ jobs:
 
   tests-on-phpunit11:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       matrix:
         php:

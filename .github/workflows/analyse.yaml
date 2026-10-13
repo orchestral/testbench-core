@@ -45,7 +45,7 @@ jobs:
 
   lint:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       matrix:
         php:

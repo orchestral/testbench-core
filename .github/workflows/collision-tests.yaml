@@ -13,7 +13,7 @@ permissions:
 jobs:
   tests:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       matrix:
         php:
@@ -55,7 +55,7 @@ jobs:
 
   tests-with-coverage:
     runs-on: "ubuntu-latest"
-    continue-on-error: ${{ fromJSON(toJSON(matrix)).experimental || false }}
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       matrix:
         php:
