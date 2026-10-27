@@ -77,6 +77,13 @@ class RemoteWebServer
         $this->stop();
         $this->clearOutput();
 
+        $deadline = hrtime(true) + self::STARTUP_TIMEOUT * 1_000_000_000;
+        $processHasStopped = ! $this->process->isRunning();
+
+        do {
+            $processHasStopped = ! $this->process->isRunning();
+        } while (hrtime(true) < $deadline && ! $processHasStopped);
+
         $this->handle();
     }
 
