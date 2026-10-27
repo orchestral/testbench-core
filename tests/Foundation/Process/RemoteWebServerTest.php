@@ -2,8 +2,8 @@
 
 namespace Orchestra\Testbench\Tests\Foundation\Process;
 
-use Orchestra\Testbench\Attributes\WithConfig;
 use Illuminate\Filesystem\Filesystem;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\Process\ProcessDecorator;
 use Orchestra\Testbench\Foundation\Process\RemoteWebServer;
@@ -36,7 +36,7 @@ class RemoteWebServerTest extends TestCase
     protected function setUp(): void
     {
         $filesystem = new Filesystem;
-        
+
         if (! $filesystem->exists(default_skeleton_path('.env'))) {
             $this->beforeApplicationDestroyed(function () use ($filesystem) {
                 $filesystem->delete(default_skeleton_path('.env'));
