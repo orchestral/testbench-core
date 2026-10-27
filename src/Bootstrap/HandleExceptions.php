@@ -38,7 +38,10 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     #[\Override]
     protected function ensureDeprecationLoggerIsConfigured()
     {
-        with(self::$app->make('config'), static function ($config) {
+        /** @var \Illuminate\Contracts\Foundation\Application&\Illuminate\Foundation\Application $app */
+        $app = self::$app;
+
+        with($app->make('config'), static function ($config) use ($app) {
             /** @var \Illuminate\Contracts\Config\Repository $config */
             if ($config->get('logging.channels.deprecations')) {
                 return;
@@ -57,7 +60,7 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
 
             if ($driver === 'single') {
                 $config->set('logging.channels.deprecations', array_merge($config->get('logging.channels.single'), [
-                    'path' => self::$app->storagePath(join_paths('logs', 'deprecations.log')),
+                    'path' => $app->storagePath(join_paths('logs', 'deprecations.log')),
                 ]));
             } else {
                 $config->set('logging.channels.deprecations', $config->get("logging.channels.{$driver}"));
@@ -74,8 +77,11 @@ final class HandleExceptions extends \Illuminate\Foundation\Bootstrap\HandleExce
     #[\Override]
     protected function shouldIgnoreDeprecationErrors()
     {
+        /** @var \Illuminate\Contracts\Foundation\Application&\Illuminate\Foundation\Application $app */
+        $app = self::$app;
+
         return ! class_exists(LogManager::class)
-            || ! self::$app->hasBeenBootstrapped()
+            || ! $app->hasBeenBootstrapped()
             || ! (bool) Env::get('LOG_DEPRECATIONS_WHILE_TESTING', true);
     }
 }
