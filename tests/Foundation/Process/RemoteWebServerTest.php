@@ -55,7 +55,7 @@ class RemoteWebServerTest extends TestCase
     }
 
     #[Test]
-    public function it_can_start_restart_and_stop_a_remote_web_server()
+    public function it_can_start_and_stop_a_remote_web_server()
     {
         $port = $this->getAvailablePort();
         $server = new RemoteWebServer(port: $port);
@@ -67,15 +67,6 @@ class RemoteWebServerTest extends TestCase
 
             $this->assertInstanceOf(ProcessDecorator::class, $process);
             $this->assertTrue($process->isRunning());
-            $this->assertSame('Hello world', file_get_contents("http://127.0.0.1:{$port}/hello-world"));
-
-            $server->restart();
-
-            $restartedProcess = $server->getProcess();
-
-            $this->assertInstanceOf(ProcessDecorator::class, $restartedProcess);
-            $this->assertNotSame($process, $restartedProcess);
-            $this->assertTrue($restartedProcess->isRunning());
             $this->assertSame('Hello world', file_get_contents("http://127.0.0.1:{$port}/hello-world"));
         } finally {
             $server->stop();

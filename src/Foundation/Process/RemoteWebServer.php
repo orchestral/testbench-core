@@ -68,29 +68,6 @@ class RemoteWebServer
     }
 
     /**
-     * Restart the php server.
-     *
-     * @return void
-     */
-    public function restart(): void
-    {
-        $this->stop();
-        $this->clearOutput();
-
-        $deadline = hrtime(true) + self::START_STOP_TIMEOUT * 1_000_000_000;
-
-        if (! \is_null($this->process)) {
-            $processHasStopped = ! $this->process->isRunning();
-
-            do {
-                $processHasStopped = ! $this->process->isRunning();
-            } while (hrtime(true) < $deadline && ! $processHasStopped);
-        }
-
-        $this->handle();
-    }
-
-    /**
      * Handle the web server startup process.
      *
      * @return void
