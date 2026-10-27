@@ -61,7 +61,7 @@ class RemoteWebServer
      */
     public function stop(): void
     {
-        if (is_null($this->process)) {
+        if (\is_null($this->process)) {
             return;
         }
 
@@ -79,7 +79,10 @@ class RemoteWebServer
 
         $this->process = $this->createWebServerProcess();
 
+        $this->process->disableOutput();
         $this->process->start();
+
+        $this->waitUntilWebserverIsRunning();
     }
 
     /**
@@ -117,10 +120,49 @@ class RemoteWebServer
      */
     protected function createWebServerProcess(): Process
     {
-        return remote("serve --host={$this->host} --port={$this->port}")
-            ->setTimeout($this->timeout)
-            ->disableOutput()
-            ->process;
+        $remote = remote("serve --host={$this->host} --port={$this->port}");
+
+        $remote->setTimeout($this->timeout);
+
+        return $remote->process;
+    }
+
+    /**
+     * Wait until the web server is accepting connections.
+     */
+    protected function waitUntilWebserverIsRunning(): void
+    {
+        $deadline = hrtime(true) + self::START_STOP_TIMEOUT * 1_000_000_000;
+
+        do {
+            $socket = @fsockopen($this->host, $this->port, $errorNumber, $errorString, 0.1);
+
+            if ($socket !== false) {
+                fclose($socket);
+
+                return;
+            }
+
+            if (\is_null($this->process) || ! $this->process->isRunning()) {
+                $output = trim($this->process?->getErrorOutput().$this->process?->getOutput());
+
+                throw new RuntimeException(\sprintf(
+                    'Unable to start web server on %s:%d.%s',
+                    $this->host,
+                    $this->port,
+                    $output === '' ? '' : "\n{$output}",
+                ));
+            }
+
+            usleep(50_000);
+        } while (hrtime(true) < $deadline);
+
+        throw new RuntimeException(\sprintf(
+            'Timed out waiting for web server on %s:%d after %d seconds.',
+            $this->host,
+            $this->port,
+            self::START_STOP_TIMEOUT,
+        ));
     }
 
     /**

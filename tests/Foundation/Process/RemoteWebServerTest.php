@@ -4,13 +4,13 @@ namespace Orchestra\Testbench\Tests\Foundation\Process;
 
 use Illuminate\Filesystem\Filesystem;
 use Orchestra\Testbench\Attributes\WithConfig;
-use Symfony\Component\Process\Process;
 use Orchestra\Testbench\Foundation\Process\RemoteWebServer;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RequiresOperatingSystem;
 use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\default_skeleton_path;
 use function Orchestra\Testbench\in_parallel_testing;
@@ -54,8 +54,7 @@ class RemoteWebServerTest extends TestCase
     #[Test]
     public function it_can_start_and_stop_a_remote_web_server()
     {
-        $port = $this->getAvailablePort();
-        $server = new RemoteWebServer(port: $port);
+        $server = new RemoteWebServer(port: $this->getAvailablePort());
 
         try {
             $server->start();
@@ -64,7 +63,7 @@ class RemoteWebServerTest extends TestCase
 
             $this->assertInstanceOf(Process::class, $process);
             $this->assertTrue($process->isRunning());
-            $this->assertSame('Hello world', file_get_contents("http://127.0.0.1:{$port}/hello-world"));
+            $this->assertSame('Hello world', file_get_contents("http://{$server->host}:{$server->port}/hello-world"));
         } finally {
             $server->stop();
         }
