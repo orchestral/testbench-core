@@ -60,7 +60,7 @@ class RemoteWebServer
      */
     public function stop(): void
     {
-        if (\is_null($this->process)) {
+        if (! $this->process instanceof ProcessDecorator) {
             return;
         }
 
@@ -78,11 +78,14 @@ class RemoteWebServer
         $this->clearOutput();
 
         $deadline = hrtime(true) + self::START_STOP_TIMEOUT * 1_000_000_000;
-        $processHasStopped = ! $this->process->isRunning();
 
-        do {
+        if (! \is_null($this->process)) {
             $processHasStopped = ! $this->process->isRunning();
-        } while (hrtime(true) < $deadline && ! $processHasStopped);
+
+            do {
+                $processHasStopped = ! $this->process->isRunning();
+            } while (hrtime(true) < $deadline && ! $processHasStopped);
+        }
 
         $this->handle();
     }
@@ -159,7 +162,7 @@ class RemoteWebServer
                 return;
             }
 
-            if (! $this->process?->isRunning()) {
+            if (\is_null($this->process) || ! $this->process->isRunning()) {
                 $output = trim($this->process?->getErrorOutput().$this->process?->getOutput());
 
                 throw new RuntimeException(\sprintf(
