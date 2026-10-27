@@ -116,9 +116,9 @@ class RemoteWebServer
      */
     protected function createWebServerProcess(): void
     {
-        $this->process = remote("serve --host={$this->host} --port={$this->port}");
-
-        $this->process->setTimeout($this->timeout);
+        $this->process = remote("serve --host={$this->host} --port={$this->port}"
+            ->setTimeout($this->timeout)
+            ->disableOutput();
 
         $this->process->start();
     }
