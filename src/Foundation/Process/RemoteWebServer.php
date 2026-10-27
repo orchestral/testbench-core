@@ -32,7 +32,7 @@ class RemoteWebServer
      */
     public function __construct(
         public readonly string $host = '127.0.0.1',
-        public readonly int $port = 8000,
+        public readonly int $port = 8001,
         public readonly int $timeout = 6000,
     ) {}
 
