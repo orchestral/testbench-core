@@ -106,6 +106,11 @@ class RemoteWebServerTest extends TestCase
         }
     }
 
+    /**
+     * Get an available TCP port on the local machine.
+     *
+     * @return int
+     */
     private function getAvailablePort(): int
     {
         $socket = stream_socket_server('tcp://127.0.0.1:0', $errorNumber, $errorString);
