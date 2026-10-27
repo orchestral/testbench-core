@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Tests\Foundation\Process;
 
 use Illuminate\Filesystem\Filesystem;
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\Process\ProcessDecorator;
 use Orchestra\Testbench\Foundation\Process\RemoteWebServer;
 use Orchestra\Testbench\TestCase;
@@ -22,8 +21,6 @@ use function Orchestra\Testbench\phpunit_version_compare;
 #[WithConfig('app.key', 'SECXIvnK5r28GVIWUAxmbBSjTsmF')]
 class RemoteWebServerTest extends TestCase
 {
-    use InteractsWithSqliteDatabaseFile;
-
     /**
      * Indicates whether the test has an environment file.
      *
