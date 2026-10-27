@@ -14,7 +14,7 @@ class RemoteWebServer
      *
      * @var int
      */
-    private const int START_STOP_TIMEOUT = 10;
+    private const int STARTUP_TIMEOUT = 10;
 
     /**
      * The process decorator instance.
@@ -132,7 +132,7 @@ class RemoteWebServer
      */
     protected function waitUntilWebserverIsRunning(): void
     {
-        $deadline = hrtime(true) + self::START_STOP_TIMEOUT * 1_000_000_000;
+        $deadline = hrtime(true) + self::STARTUP_TIMEOUT * 1_000_000_000;
 
         do {
             $socket = @fsockopen($this->host, $this->port, $errorNumber, $errorString, 0.1);
@@ -161,7 +161,7 @@ class RemoteWebServer
             'Timed out waiting for web server on %s:%d after %d seconds.',
             $this->host,
             $this->port,
-            self::START_STOP_TIMEOUT,
+            self::STARTUP_TIMEOUT,
         ));
     }
 
