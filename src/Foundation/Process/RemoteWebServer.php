@@ -9,11 +9,11 @@ use function Orchestra\Testbench\remote;
 class RemoteWebServer
 {
     /**
-     * The startup timeout for the remote web server in seconds.
+     * The start/stop timeout for the remote web server in seconds.
      *
      * @var int
      */
-    private const int STARTUP_TIMEOUT = 10;
+    private const int START_STOP_TIMEOUT = 10;
 
     /**
      * The process decorator instance.
@@ -77,7 +77,7 @@ class RemoteWebServer
         $this->stop();
         $this->clearOutput();
 
-        $deadline = hrtime(true) + self::STARTUP_TIMEOUT * 1_000_000_000;
+        $deadline = hrtime(true) + self::START_STOP_TIMEOUT * 1_000_000_000;
         $processHasStopped = ! $this->process->isRunning();
 
         do {
@@ -148,7 +148,7 @@ class RemoteWebServer
      */
     protected function waitUntilWebserverIsRunning(): void
     {
-        $deadline = hrtime(true) + self::STARTUP_TIMEOUT * 1_000_000_000;
+        $deadline = hrtime(true) + self::START_STOP_TIMEOUT * 1_000_000_000;
 
         do {
             $socket = @fsockopen($this->host, $this->port, $errorNumber, $errorString, 0.1);
@@ -177,7 +177,7 @@ class RemoteWebServer
             'Timed out waiting for web server on %s:%d after %d seconds.',
             $this->host,
             $this->port,
-            self::STARTUP_TIMEOUT,
+            self::START_STOP_TIMEOUT,
         ));
     }
 
