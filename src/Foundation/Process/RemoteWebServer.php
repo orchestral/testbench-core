@@ -129,6 +129,8 @@ class RemoteWebServer
 
     /**
      * Wait until the web server is accepting connections.
+     *
+     * @return void
      */
     protected function waitUntilWebserverIsRunning(): void
     {
@@ -169,6 +171,8 @@ class RemoteWebServer
      * Verify that there isn't an existing server on the host and port
      * that we want to use.  Sometimes a server can be left oped when
      * PHP drops out, or the user may have another service running.
+     *
+     * @return void
      *
      * @throws \RuntimeException
      */
