@@ -4,7 +4,7 @@ namespace Orchestra\Testbench\Tests\Foundation\Process;
 
 use Illuminate\Filesystem\Filesystem;
 use Orchestra\Testbench\Attributes\WithConfig;
-use Orchestra\Testbench\Foundation\Process\ProcessDecorator;
+use Symfony\Component\Process\Process;
 use Orchestra\Testbench\Foundation\Process\RemoteWebServer;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
@@ -62,7 +62,7 @@ class RemoteWebServerTest extends TestCase
 
             $process = $server->getProcess();
 
-            $this->assertInstanceOf(ProcessDecorator::class, $process);
+            $this->assertInstanceOf(Process::class, $process);
             $this->assertTrue($process->isRunning());
             $this->assertSame('Hello world', file_get_contents("http://127.0.0.1:{$port}/hello-world"));
         } finally {
@@ -71,7 +71,7 @@ class RemoteWebServerTest extends TestCase
 
         $stoppedProcess = $server->getProcess();
 
-        $this->assertInstanceOf(ProcessDecorator::class, $stoppedProcess);
+        $this->assertInstanceOf(Process::class, $stoppedProcess);
         $this->assertFalse($stoppedProcess->isRunning());
     }
 

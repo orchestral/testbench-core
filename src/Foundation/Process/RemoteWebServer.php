@@ -3,6 +3,7 @@
 namespace Orchestra\Testbench\Foundation\Process;
 
 use RuntimeException;
+use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\remote;
 
@@ -18,9 +19,9 @@ class RemoteWebServer
     /**
      * The process decorator instance.
      *
-     * @var \Orchestra\Testbench\Foundation\Process\ProcessDecorator|null
+     * @var \Symfony\Component\Process\Process|null
      */
-    protected ?ProcessDecorator $process = null;
+    protected ?Process $process = null;
 
     /**
      * Construct a new web server.
@@ -60,7 +61,7 @@ class RemoteWebServer
      */
     public function stop(): void
     {
-        if (! $this->process instanceof ProcessDecorator) {
+        if (is_null($this->process)) {
             return;
         }
 
@@ -102,9 +103,9 @@ class RemoteWebServer
     /**
      * Get the current process.
      *
-     * @return \Orchestra\Testbench\Foundation\Process\ProcessDecorator|null
+     * @return \Symfony\Component\Process\Process|null
      */
-    public function getProcess(): ?ProcessDecorator
+    public function getProcess(): ?Process
     {
         return $this->process;
     }
@@ -116,9 +117,10 @@ class RemoteWebServer
      */
     protected function createWebServerProcess(): void
     {
-        $this->process = remote("serve --host={$this->host} --port={$this->port}"
+        $this->process = remote("serve --host={$this->host} --port={$this->port}")
             ->setTimeout($this->timeout)
-            ->disableOutput();
+            ->disableOutput()
+            ->process;
 
         $this->process->start();
     }
