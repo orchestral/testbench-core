@@ -22,7 +22,7 @@ final class ProcessDecorator
      * @param  (\Closure():(mixed))|array<int, string>|string  $command
      */
     public function __construct(
-        protected Process $process,
+        public readonly Process $process,
         protected Closure|array|string $command,
     ) {}
 
