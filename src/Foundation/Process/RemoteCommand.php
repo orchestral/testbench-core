@@ -10,6 +10,7 @@ use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\defined_environment_variables;
 use function Orchestra\Testbench\php_binary;
+use function Orchestra\Testbench\laravel_version_compare;
 
 /**
  * @internal
@@ -40,6 +41,10 @@ final class RemoteCommand
         $env = \is_string($this->env) ? ['APP_ENV' => $this->env] : $this->env;
 
         Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
+
+        if (laravel_version_compare('13.40.0', '>=')) {
+            $env['LARAVEL_CONCURRENCY_HMAC_KEY'] = bin2hex(random_bytes(32));
+        }
 
         if ($command instanceof Closure) {
             $env['LARAVEL_INVOKABLE_CLOSURE'] = transform(serialize(new SerializableClosure($command)), function ($invokableClosure) {
