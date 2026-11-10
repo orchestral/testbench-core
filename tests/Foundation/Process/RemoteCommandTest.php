@@ -3,8 +3,8 @@
 namespace Orchestra\Testbench\Tests\Foundation\Process;
 
 use Illuminate\Foundation\Application;
-use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Attributes\RequiresLaravel;
+use Orchestra\Testbench\Attributes\WithConfig;
 use Orchestra\Testbench\Concerns\Database\InteractsWithSqliteDatabaseFile;
 use Orchestra\Testbench\Foundation\Process\ProcessDecorator;
 use Orchestra\Testbench\Foundation\Process\ProcessResult;
@@ -14,8 +14,8 @@ use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\in_parallel_testing;
-use function Orchestra\Testbench\remote;
 use function Orchestra\Testbench\laravel_version_compare;
+use function Orchestra\Testbench\remote;
 
 #[Group('commander')]
 #[RequiresOperatingSystem('Linux|DAR')]

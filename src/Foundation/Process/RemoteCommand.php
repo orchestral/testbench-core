@@ -9,8 +9,8 @@ use Laravel\SerializableClosure\SerializableClosure;
 use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\defined_environment_variables;
-use function Orchestra\Testbench\php_binary;
 use function Orchestra\Testbench\laravel_version_compare;
+use function Orchestra\Testbench\php_binary;
 
 /**
  * @internal

@@ -2,10 +2,10 @@
 
 namespace Orchestra\Testbench\Foundation\Process;
 
-use RuntimeException;
 use Illuminate\Support\Str;
+use RuntimeException;
 
-/** 
+/**
  * @api
  */
 final class ConcurrencyEnvolope
@@ -17,12 +17,12 @@ final class ConcurrencyEnvolope
 
     /**
      * Create a new process envelope instance.
-     * 
-     * @param  string  $algorithm The hashing algorithm to use for the HMAC signature.
+     *
+     * @param  string  $algorithm  The hashing algorithm to use for the HMAC signature.
      */
     public function __construct(
         public readonly string $algorithm = 'sha256',
-    ) { }
+    ) {}
 
     /**
      * Encrypt the given payload with the provided key.
@@ -46,23 +46,23 @@ final class ConcurrencyEnvolope
      * @param  string  $envelope
      * @param  string  $key
      * @return array
-     * 
+     *
      * @throws \RuntimeException if the envelope is invalid or cannot be decrypted.
      */
     public function decrypt(string $envelope, string $key): array
     {
         $marker = $this->getMarker();
-        $length = strlen($envelope);
+        $length = \strlen($envelope);
         $position = strrpos($envelope, $marker);
 
         while ($position !== false) {
-            if (preg_match('/\G([A-Za-z0-9+\/=]+)@@([0-9a-f]{64})@@/', $envelope, $matches, 0, $position + strlen($marker)) &&
+            if (preg_match('/\G([A-Za-z0-9+\/=]+)@@([0-9a-f]{64})@@/', $envelope, $matches, 0, $position + \strlen($marker)) &&
                 hash_equals(hash_hmac($this->algorithm, $matches[1], $key), $matches[2])) {
                 $payload = base64_decode($matches[1], true);
 
-                $result = is_string($payload) ? json_decode($payload, true) : null;
+                $result = \is_string($payload) ? json_decode($payload, true) : null;
 
-                if (is_array($result) && array_key_exists('successful', $result)) {
+                if (\is_array($result) && \array_key_exists('successful', $result)) {
                     return $result;
                 }
             }
@@ -80,6 +80,6 @@ final class ConcurrencyEnvolope
      */
     protected function getMarker(): string
     {
-        return sprintf('@@%s@@', self::MARKER);
+        return \sprintf('@@%s@@', self::MARKER);
     }
 }

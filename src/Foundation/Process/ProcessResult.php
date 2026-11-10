@@ -4,7 +4,6 @@ namespace Orchestra\Testbench\Foundation\Process;
 
 use Closure;
 use Illuminate\Concurrency\Console\InvokeSerializedClosureCommand;
-use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use RuntimeException;
 use Symfony\Component\Process\Process;
