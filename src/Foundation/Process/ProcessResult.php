@@ -61,11 +61,7 @@ final class ProcessResult extends \Illuminate\Process\ProcessResult
                 throw new RuntimeException('The remote process did not return a valid result envelope.');
             }
 
-            try {
-                $result = (new ConcurrencyEnvelope)->decrypt($output, $key);
-            } catch (RuntimeException $exception) {
-                throw $exception;
-            }
+            $result = (new ConcurrencyEnvelope)->decrypt($output, $key);
         } else {
             $result = json_decode($output, true);
         }
