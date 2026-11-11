@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchestra\Testbench\Foundation\Process;
+namespace Orchestra\Testbench\Foundation\Process\RemoteCommand;
 
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -8,7 +8,7 @@ use RuntimeException;
 /**
  * @api
  */
-final class ConcurrencyEnvolope
+final class ConcurrencyEnvelope
 {
     /**
      * The marker string for the envelope.

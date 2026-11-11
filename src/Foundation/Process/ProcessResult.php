@@ -5,6 +5,7 @@ namespace Orchestra\Testbench\Foundation\Process;
 use Closure;
 use Illuminate\Concurrency\Console\InvokeSerializedClosureCommand;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Orchestra\Testbench\Foundation\Process\RemoteCommand\ConcurrencyEnvelope;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 
@@ -61,7 +62,7 @@ final class ProcessResult extends \Illuminate\Process\ProcessResult
             }
 
             try {
-                $result = (new ConcurrencyEnvolope)->decrypt($output, $key);
+                $result = (new ConcurrencyEnvelope)->decrypt($output, $key);
             } catch (RuntimeException $exception) {
                 if (method_exists(InvokeSerializedClosureCommand::class, 'frameEnvelope')) {
                     throw $exception;

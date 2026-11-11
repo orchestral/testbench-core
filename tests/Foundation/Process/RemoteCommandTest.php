@@ -11,10 +11,12 @@ use Orchestra\Testbench\Foundation\Process\ProcessResult;
 use Orchestra\Testbench\TestCase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+use RuntimeException;
 use Symfony\Component\Process\Process;
 
 use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Testbench\laravel_version_compare;
+use function Orchestra\Testbench\php_binary;
 use function Orchestra\Testbench\remote;
 
 #[Group('commander')]
@@ -75,7 +77,7 @@ class RemoteCommandTest extends TestCase
         $signature = hash_hmac('sha256', $encoded, $key);
         $output = "\n@@LARAVEL-CONCURRENCY-V1@@{$encoded}@@{$signature}@@\n";
         $process = new Process([
-            PHP_BINARY,
+            php_binary(),
             '-r',
             'echo base64_decode($argv[1]);',
             base64_encode($output),
@@ -98,7 +100,7 @@ class RemoteCommandTest extends TestCase
         ]));
         $output = "\n@@LARAVEL-CONCURRENCY-V1@@{$encoded}@@".str_repeat('0', 64)."@@\n";
         $process = new Process([
-            PHP_BINARY,
+            php_binary(),
             '-r',
             'echo base64_decode($argv[1]);',
             base64_encode($output),
@@ -106,7 +108,7 @@ class RemoteCommandTest extends TestCase
         $process->run();
         $result = new ProcessResult($process, fn () => null);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $result->output();
     }
