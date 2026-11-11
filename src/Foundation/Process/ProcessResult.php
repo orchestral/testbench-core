@@ -4,7 +4,11 @@ namespace Orchestra\Testbench\Foundation\Process;
 
 use Closure;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Orchestra\Testbench\Foundation\Process\RemoteCommand\ConcurrencyEnvelope;
+use RuntimeException;
 use Symfony\Component\Process\Process;
+
+use function Orchestra\Testbench\laravel_version_compare;
 
 /**
  * @internal
@@ -49,9 +53,19 @@ final class ProcessResult extends \Illuminate\Process\ProcessResult
             return $output;
         }
 
-        /** @var array{successful: bool, result: string, exception: \Throwable, parameters: array, message: string} $result */
-        $result = json_decode($output, true);
+        if (laravel_version_compare('12.71.0', '>=')) {
+            $key = $this->process->getEnv()['LARAVEL_CONCURRENCY_HMAC_KEY'] ?? null;
 
+            if (! \is_string($key) || $key === '') {
+                throw new RuntimeException('The remote process did not return a valid result envelope.');
+            }
+
+            $result = (new ConcurrencyEnvelope)->decrypt($output, $key);
+        } else {
+            $result = json_decode($output, true);
+        }
+
+        /** @var array{successful: bool, result: string, exception: \Throwable, parameters: array, message: string} $result */
         if (! $result['successful']) {
             throw new $result['exception'](
                 ...(! empty(array_filter($result['parameters']))
