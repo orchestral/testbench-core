@@ -66,7 +66,7 @@ class RemoteCommandTest extends TestCase
     }
 
     #[Test]
-    #[RequiresLaravel('>=13.40.0')]
+    #[RequiresLaravel('>=12.71.0')]
     public function it_can_read_an_authenticated_result_envelope()
     {
         $key = bin2hex(random_bytes(32));
@@ -90,7 +90,7 @@ class RemoteCommandTest extends TestCase
     }
 
     #[Test]
-    #[RequiresLaravel('>=13.40.0')]
+    #[RequiresLaravel('>=12.71.0')]
     public function it_rejects_an_unauthenticated_result_envelope()
     {
         $key = bin2hex(random_bytes(32));
