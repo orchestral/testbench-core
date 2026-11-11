@@ -13,7 +13,7 @@ final class ConcurrencyEnvelope
     /**
      * The marker string for the envelope.
      */
-    const string MARKER = 'LARAVEL-CONCURRENCY-V1';
+    const MARKER = 'LARAVEL-CONCURRENCY-V1';
 
     /**
      * Create a new process envelope instance.
