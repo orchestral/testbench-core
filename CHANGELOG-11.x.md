@@ -8,7 +8,7 @@ Released: 2026-11-11
 
 ### Changes
 
-* Supports authenticating concurrency process result envelope to prevent task output injection introduced in Laravel Framework 12.71.0.
+* Supports authenticating concurrency process result envelope to prevent task output injection introduced in Laravel Framework 13.40.0.
 
 ## 11.6.0
 
