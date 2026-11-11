@@ -64,15 +64,7 @@ final class ProcessResult extends \Illuminate\Process\ProcessResult
             try {
                 $result = (new ConcurrencyEnvelope)->decrypt($output, $key);
             } catch (RuntimeException $exception) {
-                if (method_exists(InvokeSerializedClosureCommand::class, 'frameEnvelope')) {
-                    throw $exception;
-                }
-
-                $result = json_decode($output, true);
-
-                if (! \is_array($result) || ! \array_key_exists('successful', $result)) {
-                    throw $exception;
-                }
+                throw $exception;
             }
         } else {
             $result = json_decode($output, true);
