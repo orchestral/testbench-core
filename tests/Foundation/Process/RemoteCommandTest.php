@@ -55,7 +55,7 @@ class RemoteCommandTest extends TestCase
             $this->assertInstanceOf(ProcessDecorator::class, $process);
             $this->assertInstanceOf(ProcessResult::class, $result);
 
-            if (laravel_version_compare('12.71.0', '>=')) {
+            if (laravel_version_compare('13.40.0', '>=')) {
                 $this->assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $process->process->getEnv()['LARAVEL_CONCURRENCY_HMAC_KEY']);
             } else {
                 $this->assertSame('{"successful":true,"result":"i:2;"}', $process->getOutput());
@@ -66,7 +66,7 @@ class RemoteCommandTest extends TestCase
     }
 
     #[Test]
-    #[RequiresLaravel('>=12.71.0')]
+    #[RequiresLaravel('>=13.40.0')]
     public function it_can_read_an_authenticated_result_envelope()
     {
         $key = bin2hex(random_bytes(32));
@@ -90,7 +90,7 @@ class RemoteCommandTest extends TestCase
     }
 
     #[Test]
-    #[RequiresLaravel('>=12.71.0')]
+    #[RequiresLaravel('>=13.40.0')]
     public function it_rejects_an_unauthenticated_result_envelope()
     {
         $key = bin2hex(random_bytes(32));

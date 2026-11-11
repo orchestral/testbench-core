@@ -53,7 +53,7 @@ final class ProcessResult extends \Illuminate\Process\ProcessResult
             return $output;
         }
 
-        if (laravel_version_compare('12.71.0', '>=')) {
+        if (laravel_version_compare('13.40.0', '>=')) {
             $key = $this->process->getEnv()['LARAVEL_CONCURRENCY_HMAC_KEY'] ?? null;
 
             if (! \is_string($key) || $key === '') {

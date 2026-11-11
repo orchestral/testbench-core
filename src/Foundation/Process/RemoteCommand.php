@@ -42,7 +42,7 @@ final class RemoteCommand
 
         Arr::add($env, 'TESTBENCH_PACKAGE_REMOTE', '(true)');
 
-        if (laravel_version_compare('12.71.0', '>=')) {
+        if (laravel_version_compare('13.40.0', '>=')) {
             $env['LARAVEL_CONCURRENCY_HMAC_KEY'] = bin2hex(random_bytes(32));
         }
 
