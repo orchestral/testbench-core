@@ -2,6 +2,14 @@
 
 This changelog references the relevant changes (bug and security fixes) done to `orchestra/testbench-core`.
 
+## 10.16.1
+
+Released: 2026-11-11
+
+### Changes
+
+* Supports authenticating concurrency process result envelope to prevent task output injection introduced in Laravel Framework 12.71.0.
+
 ## 10.16.0
 
 Released: 2026-10-08
