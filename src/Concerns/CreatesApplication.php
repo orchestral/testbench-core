@@ -10,7 +10,9 @@ use Illuminate\Foundation\Configuration\ApplicationBuilder;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
@@ -344,6 +346,36 @@ trait CreatesApplication
         );
 
         PackageManifest::swap($app, $this);
+
+        $this->resolveApplicationServicesManifest();
+    }
+
+    /**
+     * Give each parallel testing worker its own cached services manifest.
+     *
+     * Workers boot the same skeleton, so they would otherwise write the same
+     * `bootstrap/cache/services.php`, as `PackageManifest` already avoids for
+     * `packages.php`. The worker is identified by its token alone: Pest and
+     * ParaTest set `TEST_TOKEN` for a package's workers, but only set
+     * `LARAVEL_PARALLEL_TESTING` for a Laravel application, so
+     * `in_parallel_testing()` is false for them. The path stays relative to the
+     * skeleton, serial runs keep the default, and an explicit
+     * `APP_SERVICES_CACHE` is left untouched.
+     *
+     * @internal
+     *
+     * @return void
+     */
+    protected function resolveApplicationServicesManifest(): void
+    {
+        /** @var string|int|false|null $token */
+        $token = rescue(static fn () => ParallelTesting::token(), $_SERVER['TEST_TOKEN'] ?? null, false);
+
+        if (! (\is_string($token) || \is_int($token)) || ! \is_null(Env::get('APP_SERVICES_CACHE'))) {
+            return;
+        }
+
+        Env::getRepository()->set('APP_SERVICES_CACHE', 'bootstrap/cache/test_'.$token.'_services.php');
     }
 
     /**
