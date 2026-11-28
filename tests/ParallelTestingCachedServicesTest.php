@@ -2,6 +2,7 @@
 
 namespace Orchestra\Testbench\Tests;
 
+use LogicException;
 use Orchestra\Sidekick\UndefinedValue;
 use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\TestCase;
@@ -101,5 +102,92 @@ class ParallelTestingCachedServicesTest extends TestCase
         );
 
         $this->assertFileExists($this->app->getCachedServicesPath());
+    }
+
+    /** @test */
+    public function it_reuses_the_worker_services_cache_when_refreshing_the_application()
+    {
+        $cachePath = $this->app->getCachedServicesPath();
+
+        $this->refreshApplication();
+
+        $this->assertSame($cachePath, $this->app->getCachedServicesPath());
+    }
+
+    /** @test */
+    public function it_clears_the_worker_services_cache_environment_after_the_test()
+    {
+        $this->tearDownTheTestEnvironment();
+
+        $this->assertFalse(Env::has('APP_SERVICES_CACHE'));
+
+        $this->setUpTheTestEnvironment();
+
+        $this->assertFileExists($this->app->getCachedServicesPath());
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider cachedServicesEnvironmentSources
+     */
+    public function it_rejects_a_predefined_services_cache_in_parallel_testing(string $source, string $value)
+    {
+        $this->setCachedServicesEnvironmentVariable($source, $value);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('APP_SERVICES_CACHE cannot be defined when running tests in parallel.');
+
+        try {
+            $this->createApplication();
+        } finally {
+            $this->resolveApplicationFacades($this->app);
+        }
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider cachedServicesEnvironmentSources
+     */
+    public function it_allows_a_predefined_services_cache_outside_parallel_testing(string $source, string $value)
+    {
+        unset($_SERVER['LARAVEL_PARALLEL_TESTING']);
+
+        $this->setCachedServicesEnvironmentVariable($source, $value);
+
+        $this->resolveApplicationCachedServicesPathForParallelTesting();
+
+        $this->assertSame($value, Env::get('APP_SERVICES_CACHE'));
+        $this->assertSame($this->app->basePath($value), $this->app->getCachedServicesPath());
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function cachedServicesEnvironmentSources(): array
+    {
+        return [
+            'server' => ['server', 'bootstrap/cache/custom_services.php'],
+            'env' => ['env', 'bootstrap/cache/custom_services.php'],
+            'putenv' => ['putenv', 'bootstrap/cache/custom_services.php'],
+            'empty' => ['server', ''],
+        ];
+    }
+
+    /**
+     * Set "APP_SERVICES_CACHE" in the given environment source.
+     */
+    protected function setCachedServicesEnvironmentVariable(string $source, string $value): void
+    {
+        $this->forgetCachedServicesEnvironmentVariable();
+
+        if ($source === 'server') {
+            $_SERVER['APP_SERVICES_CACHE'] = $value;
+        } elseif ($source === 'env') {
+            $_ENV['APP_SERVICES_CACHE'] = $value;
+        } else {
+            putenv("APP_SERVICES_CACHE={$value}");
+        }
     }
 }

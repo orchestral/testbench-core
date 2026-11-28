@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Facades\RateLimiter;
+use LogicException;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
 use Orchestra\Testbench\Attributes\RequiresLaravel;
@@ -42,6 +43,11 @@ trait CreatesApplication
 {
     use InteractsWithWorkbench;
     use WithLaravelBootstrapFile;
+
+    /**
+     * The services cache path assigned by this test case.
+     */
+    protected ?string $parallelTestingServicesCachePath = null;
 
     /**
      * Get the application's base path.
@@ -535,11 +541,29 @@ trait CreatesApplication
      */
     final protected function resolveApplicationCachedServicesPathForParallelTesting(): void
     {
-        if (! $this->isRunningTestCase() || ! in_parallel_testing() || Env::has('APP_SERVICES_CACHE')) {
+        if (! $this->isRunningTestCase() || ! in_parallel_testing()) {
             return;
         }
 
-        Env::set('APP_SERVICES_CACHE', join_paths('bootstrap', 'cache', 'test_'.ParallelTesting::token().'_services.php'));
+        if (Env::has('APP_SERVICES_CACHE')) {
+            if ($this->parallelTestingServicesCachePath !== null && Env::get('APP_SERVICES_CACHE') === $this->parallelTestingServicesCachePath) {
+                return;
+            }
+
+            throw new LogicException('APP_SERVICES_CACHE cannot be defined when running tests in parallel.');
+        }
+
+        $this->parallelTestingServicesCachePath = join_paths('bootstrap', 'cache', 'test_'.ParallelTesting::token().'_services.php');
+
+        Env::set('APP_SERVICES_CACHE', $this->parallelTestingServicesCachePath);
+
+        if (method_exists($this, 'beforeApplicationDestroyed')) {
+            $this->beforeApplicationDestroyed(function () {
+                Env::forget('APP_SERVICES_CACHE');
+
+                $this->parallelTestingServicesCachePath = null;
+            });
+        }
     }
 
     /**
