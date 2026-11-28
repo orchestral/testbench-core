@@ -544,7 +544,7 @@ trait CreatesApplication
             return;
         }
 
-        if (array_key_exists('APP_SERVICES_CACHE', $_SERVER)) {
+        if (\array_key_exists('APP_SERVICES_CACHE', $_SERVER)) {
             if ($this->parallelTestingServicesCachePath !== null && $_SERVER['APP_SERVICES_CACHE'] === $this->parallelTestingServicesCachePath) {
                 return;
             }
