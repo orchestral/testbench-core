@@ -8,6 +8,9 @@ use Orchestra\Testbench\TestCase;
 
 use function Orchestra\Sidekick\Filesystem\join_paths;
 
+/**
+ * @group without-parallel
+ */
 class ParallelTestingCachedServicesTest extends TestCase
 {
     /**
