@@ -23,7 +23,6 @@ use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Bootstrap\RegisterProviders;
 use Orchestra\Testbench\Features\TestingFeature;
-use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
@@ -545,8 +544,8 @@ trait CreatesApplication
             return;
         }
 
-        if (Env::has('APP_SERVICES_CACHE')) {
-            if ($this->parallelTestingServicesCachePath !== null && Env::get('APP_SERVICES_CACHE') === $this->parallelTestingServicesCachePath) {
+        if (array_key_exists('APP_SERVICES_CACHE', $_SERVER)) {
+            if ($this->parallelTestingServicesCachePath !== null && $_SERVER['APP_SERVICES_CACHE'] === $this->parallelTestingServicesCachePath) {
                 return;
             }
 
@@ -555,11 +554,11 @@ trait CreatesApplication
 
         $this->parallelTestingServicesCachePath = join_paths('bootstrap', 'cache', 'test_'.ParallelTesting::token().'_services.php');
 
-        Env::set('APP_SERVICES_CACHE', $this->parallelTestingServicesCachePath);
+        $_SERVER['APP_SERVICES_CACHE'] = $this->parallelTestingServicesCachePath;
 
         if (method_exists($this, 'beforeApplicationDestroyed')) {
             $this->beforeApplicationDestroyed(function () {
-                Env::forget('APP_SERVICES_CACHE');
+                unset($_SERVER['APP_SERVICES_CACHE']);
 
                 $this->parallelTestingServicesCachePath = null;
             });
