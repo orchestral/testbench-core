@@ -163,6 +163,70 @@ class ParallelTestingCachedServicesTest extends TestCase
     }
 
     /**
+     * @test
+     *
+     * @dataProvider parallelTestingStates
+     */
+    public function it_ignores_a_process_only_services_cache_when_putenv_is_disabled(bool $parallel)
+    {
+        if (! $parallel) {
+            unset($_SERVER['LARAVEL_PARALLEL_TESTING']);
+        }
+
+        $this->setCachedServicesEnvironmentVariable('putenv', 'bootstrap/cache/custom_services.php');
+
+        $this->assertFalse(Env::has('APP_SERVICES_CACHE'));
+
+        $this->resolveApplicationCachedServicesPathForParallelTesting();
+
+        $this->assertSame(
+            $this->app->basePath(join_paths('bootstrap', 'cache', $parallel ? 'test_9999_services.php' : 'services.php')),
+            $this->app->getCachedServicesPath()
+        );
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider parallelTestingStates
+     */
+    public function it_handles_a_process_only_services_cache_when_putenv_is_enabled(bool $parallel)
+    {
+        if (! $parallel) {
+            unset($_SERVER['LARAVEL_PARALLEL_TESTING']);
+        }
+
+        $value = 'bootstrap/cache/custom_services.php';
+        $this->setCachedServicesEnvironmentVariable('putenv', $value);
+        Env::enablePutenv();
+
+        try {
+            if ($parallel) {
+                $this->expectException(LogicException::class);
+                $this->expectExceptionMessage('APP_SERVICES_CACHE cannot be defined when running tests in parallel.');
+            }
+
+            $this->resolveApplicationCachedServicesPathForParallelTesting();
+
+            $this->assertSame($value, Env::get('APP_SERVICES_CACHE'));
+            $this->assertSame($this->app->basePath($value), $this->app->getCachedServicesPath());
+        } finally {
+            Env::disablePutenv();
+        }
+    }
+
+    /**
+     * @return array<string, array{bool}>
+     */
+    public static function parallelTestingStates(): array
+    {
+        return [
+            'parallel' => [true],
+            'serial' => [false],
+        ];
+    }
+
+    /**
      * @return array<string, array{string, string}>
      */
     public static function cachedServicesEnvironmentSources(): array
@@ -170,7 +234,6 @@ class ParallelTestingCachedServicesTest extends TestCase
         return [
             'server' => ['server', 'bootstrap/cache/custom_services.php'],
             'env' => ['env', 'bootstrap/cache/custom_services.php'],
-            'putenv' => ['putenv', 'bootstrap/cache/custom_services.php'],
             'empty' => ['server', ''],
         ];
     }
