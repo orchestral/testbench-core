@@ -552,7 +552,7 @@ trait CreatesApplication
             throw new LogicException('APP_SERVICES_CACHE cannot be defined when running tests in parallel.');
         }
 
-        $this->parallelTestingServicesCachePath = join_paths('bootstrap', 'cache', 'test_'.ParallelTesting::token().'_services.php');
+        $this->parallelTestingServicesCachePath = join_paths('bootstrap', 'cache', sprintf('test_%s_services.php', ParallelTesting::token()));
 
         $_SERVER['APP_SERVICES_CACHE'] = $this->parallelTestingServicesCachePath;
 
