@@ -9,6 +9,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\Facades\RateLimiter;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 use Orchestra\Testbench\Attributes\RequiresEnv;
@@ -21,11 +22,14 @@ use Orchestra\Testbench\Attributes\WithImmutableDates;
 use Orchestra\Testbench\Bootstrap\LoadEnvironmentVariables;
 use Orchestra\Testbench\Bootstrap\RegisterProviders;
 use Orchestra\Testbench\Features\TestingFeature;
+use Orchestra\Testbench\Foundation\Env;
 use Orchestra\Testbench\Foundation\PackageManifest;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
+use function Orchestra\Sidekick\Filesystem\join_paths;
 use function Orchestra\Testbench\after_resolving;
 use function Orchestra\Testbench\default_skeleton_path;
+use function Orchestra\Testbench\in_parallel_testing;
 use function Orchestra\Testbench\refresh_router_lookups;
 
 /**
@@ -473,6 +477,9 @@ trait CreatesApplication
 
         $app->make('Illuminate\Foundation\Bootstrap\RegisterFacades')->bootstrap($app);
         $app->make('Illuminate\Foundation\Bootstrap\SetRequestForConsole')->bootstrap($app);
+
+        $this->resolveApplicationCachedServicesPathForParallelTesting();
+
         $app->make(RegisterProviders::class)->bootstrap($app);
 
         if (class_exists('Illuminate\Database\Eloquent\LegacyFactoryServiceProvider')) {
@@ -516,6 +523,23 @@ trait CreatesApplication
         $app->make(ConsoleKernelContract::class)->bootstrap();
 
         $this->refreshApplicationRouteNameLookups($app);
+    }
+
+    /**
+     * Resolve the cached services path when running tests in parallel.
+     *
+     * Parallel workers share the same Laravel skeleton, so each worker needs its own cached services
+     * manifest to avoid replacing "bootstrap/cache/services.php" at the same time, which fails on Windows.
+     *
+     * @internal
+     */
+    final protected function resolveApplicationCachedServicesPathForParallelTesting(): void
+    {
+        if (! $this->isRunningTestCase() || ! in_parallel_testing() || Env::has('APP_SERVICES_CACHE')) {
+            return;
+        }
+
+        Env::set('APP_SERVICES_CACHE', join_paths('bootstrap', 'cache', 'test_'.ParallelTesting::token().'_services.php'));
     }
 
     /**
