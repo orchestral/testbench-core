@@ -44,11 +44,6 @@ trait CreatesApplication
     use WithLaravelBootstrapFile;
 
     /**
-     * The services cache path assigned by this test case.
-     */
-    protected ?string $parallelTestingServicesCachePath = null;
-
-    /**
      * Get the application's base path.
      *
      * @return string
@@ -544,23 +539,17 @@ trait CreatesApplication
             return;
         }
 
-        if (\array_key_exists('APP_SERVICES_CACHE', $_SERVER)) {
-            if ($this->parallelTestingServicesCachePath !== null && $_SERVER['APP_SERVICES_CACHE'] === $this->parallelTestingServicesCachePath) {
-                return;
-            }
+        $cachePath = join_paths('bootstrap', 'cache', \sprintf('test_%s_services.php', ParallelTesting::token()));
 
+        if (\array_key_exists('APP_SERVICES_CACHE', $_SERVER) && $_SERVER['APP_SERVICES_CACHE'] !== $cachePath) {
             throw new LogicException('APP_SERVICES_CACHE cannot be defined when running tests in parallel.');
         }
 
-        $this->parallelTestingServicesCachePath = join_paths('bootstrap', 'cache', \sprintf('test_%s_services.php', ParallelTesting::token()));
-
-        $_SERVER['APP_SERVICES_CACHE'] = $this->parallelTestingServicesCachePath;
+        $_SERVER['APP_SERVICES_CACHE'] = $cachePath;
 
         if (method_exists($this, 'beforeApplicationDestroyed')) {
             $this->beforeApplicationDestroyed(function () {
                 unset($_SERVER['APP_SERVICES_CACHE']);
-
-                $this->parallelTestingServicesCachePath = null;
             });
         }
     }
