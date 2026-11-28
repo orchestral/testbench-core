@@ -24,13 +24,17 @@ class ParallelTestingCachedServicesTest extends TestCase
         $this->originalParallelTestingState = [
             'LARAVEL_PARALLEL_TESTING' => $_SERVER['LARAVEL_PARALLEL_TESTING'] ?? new UndefinedValue,
             'TEST_TOKEN' => $_SERVER['TEST_TOKEN'] ?? new UndefinedValue,
-            'APP_SERVICES_CACHE' => Env::get('APP_SERVICES_CACHE', new UndefinedValue),
+            'APP_SERVICES_CACHE' => [
+                'server' => $_SERVER['APP_SERVICES_CACHE'] ?? new UndefinedValue,
+                'env' => $_ENV['APP_SERVICES_CACHE'] ?? new UndefinedValue,
+                'putenv' => getenv('APP_SERVICES_CACHE'),
+            ],
         ];
 
         $_SERVER['LARAVEL_PARALLEL_TESTING'] = 1;
         $_SERVER['TEST_TOKEN'] = '9999';
 
-        Env::forget('APP_SERVICES_CACHE');
+        $this->forgetCachedServicesEnvironmentVariable();
 
         parent::setUp();
     }
@@ -57,11 +61,35 @@ class ParallelTestingCachedServicesTest extends TestCase
             }
         }
 
+        $this->forgetCachedServicesEnvironmentVariable();
+
+        ['server' => $server, 'env' => $env, 'putenv' => $putenv] = $this->originalParallelTestingState['APP_SERVICES_CACHE'];
+
+        if (! $server instanceof UndefinedValue) {
+            $_SERVER['APP_SERVICES_CACHE'] = $server;
+        }
+
+        if (! $env instanceof UndefinedValue) {
+            $_ENV['APP_SERVICES_CACHE'] = $env;
+        }
+
+        if ($putenv !== false) {
+            putenv("APP_SERVICES_CACHE={$putenv}");
+        }
+    }
+
+    /**
+     * Forget "APP_SERVICES_CACHE" from every environment source.
+     *
+     * The environment repository is immutable, so it can't clear values it didn't set itself
+     * (e.g. one set by an earlier test in the same parallel worker before the repository was flushed).
+     */
+    protected function forgetCachedServicesEnvironmentVariable(): void
+    {
         Env::forget('APP_SERVICES_CACHE');
 
-        if (! $this->originalParallelTestingState['APP_SERVICES_CACHE'] instanceof UndefinedValue) {
-            Env::set('APP_SERVICES_CACHE', $this->originalParallelTestingState['APP_SERVICES_CACHE']);
-        }
+        unset($_SERVER['APP_SERVICES_CACHE'], $_ENV['APP_SERVICES_CACHE']);
+        putenv('APP_SERVICES_CACHE');
     }
 
     /** @test */
